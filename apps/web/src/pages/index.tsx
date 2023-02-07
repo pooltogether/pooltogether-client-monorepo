@@ -1,6 +1,9 @@
 import Head from "next/head";
 import { NavBar } from "ui";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { sum } from "client-js";
+
+sum(1, 2);
 
 export default function Home() {
   return (

@@ -23,6 +23,7 @@ Requires [pnpm](https://pnpm.io/)
 - `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `ecosystem` applications
 - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- `client-js`: A js wrapper of the protocol for easy access to interacting with on chain data
 
 Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
 
@@ -51,14 +52,3 @@ This Turborepo has some additional tools already setup for you:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx degit vercel/turbo/examples/with-tailwind with-tailwind
-cd with-tailwind
-pnpm install
-git init . && git add . && git commit -m "Init"
-```
