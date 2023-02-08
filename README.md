@@ -16,16 +16,19 @@ Requires [pnpm](https://pnpm.io/)
 
 ---
 
-### Apps and Packages
+### Apps
 
 - `ecosystem`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
 - `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
+
+### Packages
+
 - `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `ecosystem` applications
 - `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `tsconfig`: `tsconfig.json`s used throughout the monorepo
 - `client-js`: A js wrapper of the protocol for easy access to interacting with on chain data
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+Each package/app above is 100% [TypeScript](https://www.typescriptlang.org/).
 
 ### Building packages/ui
 
@@ -46,7 +49,7 @@ For example, in [tailwind.config.js](packages/tailwind-config/tailwind.config.js
 
 ### Utilities
 
-This Turborepo has some additional tools already setup for you:
+This Turborepo has some additional tools already setup:
 
 - [Tailwind CSS](https://tailwindcss.com/) for styles
 - [TypeScript](https://www.typescriptlang.org/) for static type checking

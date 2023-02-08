@@ -48,14 +48,14 @@
   "dependencies": {
     "typescript": "^4.9.5"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@size-limit/preset-small-lib": "^8.1.2",
+    "@types/node": "^17.0.12",
     "husky": "^8.0.3",
     "size-limit": "^8.1.2",
+    "tsconfig": "workspace:*",
     "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
-    "tsconfig": "workspace:*",
     "typescript": "^4.9.5"
   }
 }
