@@ -1,12 +1,10 @@
 # PoolTogether Client Monorepo
 
-This repo uses `pnpm`
-`web` and `ecosystem` are Next.js apps that import the shared UI kit `ui`
-https://flowbite-react.com/
+This monorepo includes many of PoolTogether's apps and packages in order to facilitate code sharing and maintainabiliy.
 
 ### Installation
 
-Requires [pnpm](https://pnpm.io/)
+Make sure you have [pnpm](https://pnpm.io/) installed, as it is the package manager used throughout this monorepo.
 
 `pnpm install`
 
@@ -14,21 +12,32 @@ Requires [pnpm](https://pnpm.io/)
 
 `pnpm dev`
 
+Each app is already setup with its own port through its `package.json` dev script.
+
 ---
 
 ### Apps
 
-- `ecosystem`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
+- `app`: App w/ core PoolTogether Hyperstructure functionality.
+- `ecosystem`: App to highlight parts of the PoolTogether ecosystem.
+- `landing-page`: PoolTogether's landing page.
+- `tools`: App for extra PoolTogether tooling.
+
+All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https://tailwindcss.com/) support, written in [TypeScript](https://www.typescriptlang.org/).
 
 ### Packages
 
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `ecosystem` applications
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-- `client-js`: A js wrapper of the protocol for easy access to interacting with on chain data
+- `eslint-config-custom`: Shared `eslint` configs, including `eslint-config-next` and `eslint-config-prettier`.
+- `pt-client-js`: Protocol-specific functions to easily interact with on-chain data.
+- `pt-components`: More complex React component library utilizing some components from `pt-ui`.
+- `pt-hooks`: Shared React hooks.
+- `pt-types`: Shared Typescript types.
+- `pt-ui`: Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
+- `pt-utilities`: Shared Typescript utilities.
+- `tailwind-config`: Shared `tailwind` configs.
+- `tsconfig`: Shared `tsconfig.json` setups.
 
-Each package/app above is 100% [TypeScript](https://www.typescriptlang.org/).
+All packages above are written in [TypeScript](https://www.typescriptlang.org/).
 
 ### Building packages/ui
 
@@ -55,3 +64,7 @@ This Turborepo has some additional tools already setup:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
+
+### Known Issues / Fixes
+
+When adding/updating apps and/or packages, duplicate dependencies may be created, creating versioning issues. This can be resolved through running `pnpm up -r` as described [here](https://github.com/pnpm/pnpm/issues/2443).

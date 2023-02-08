@@ -18,7 +18,7 @@ const { chains, provider } = configureChains(
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 );
 const { connectors } = getDefaultWallets({
-  appName: "PoolTogether Ecosystem App",
+  appName: "PoolTogether App",
   chains,
 });
 const wagmiClient = createClient({
