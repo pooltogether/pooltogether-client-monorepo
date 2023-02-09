@@ -1,3 +1,5 @@
-import { Card as FlowbiteCard, CardProps } from "flowbite-react";
+import { Card as FlowbiteCard, CardProps } from 'flowbite-react'
 
-export const Card = (props: CardProps) => <FlowbiteCard {...props} />;
+export const Card = (props: CardProps) => {
+  return <FlowbiteCard {...props} />
+}
