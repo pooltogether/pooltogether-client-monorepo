@@ -7,11 +7,17 @@
     ".": "./dist"
   },
   "license": "MIT",
+  "scripts": {
+    "build": "tsdx build",
+    "prepare": "tsdx build",
+    "clean": "rm -rf dist"
+  },
   "devDependencies": {
     "@types/node": "^17.0.12",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
+    "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   }

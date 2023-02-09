@@ -1,4 +1,1 @@
-export interface Token {
-  name: string
-  symbol: string
-}
+export * from './time'
