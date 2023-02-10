@@ -272,6 +272,7 @@ importers:
       '@types/node': ^17.0.12
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
+      ethers: ^5.7.2
       tsconfig: workspace:*
       tsdx: ^0.14.1
       tslib: ^2.5.0
@@ -280,6 +281,7 @@ importers:
       '@types/node': 17.0.45
       eslint: 7.32.0
       eslint-config-custom: link:../eslint-config-custom
+      ethers: 5.7.2
       tsconfig: link:../tsconfig
       tsdx: 0.14.1_@types+node@17.0.45
       tslib: 2.5.0
