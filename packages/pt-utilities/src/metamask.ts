@@ -36,10 +36,9 @@ export const addTokenToMetaMask = async (token: {
  * @returns
  */
 export const addPoolTokenToMetaMask = async (chainId: number) => {
-  const poolTokenAddress: string | undefined = POOL_TOKEN_ADDRESSES[chainId]
-  if (!!poolTokenAddress) {
+  if (chainId in POOL_TOKEN_ADDRESSES) {
     return addTokenToMetaMask({
-      address: poolTokenAddress,
+      address: POOL_TOKEN_ADDRESSES[chainId as keyof typeof POOL_TOKEN_ADDRESSES],
       symbol: 'POOL',
       decimals: 18,
       image: 'https://app.pooltogether.com/pooltogether-token-logo@2x.png'
