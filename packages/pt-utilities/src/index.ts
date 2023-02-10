@@ -1,4 +1,7 @@
 export * from './addresses'
+export * from './formatting'
+export * from './math'
 export * from './metamask'
 export * from './networks'
 export * from './time'
+export * from './web'
