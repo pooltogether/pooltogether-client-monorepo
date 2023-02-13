@@ -5,5 +5,5 @@
   "compilerOptions": {
     "lib": ["dom", "esnext"],
     "rootDir": "./src"
-  },
+  }
 }
