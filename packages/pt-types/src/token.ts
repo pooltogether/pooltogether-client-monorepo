@@ -13,3 +13,7 @@ export interface TokenWithUsdPrice extends Token {
 export interface TokenWithImage extends Token {
   image: string
 }
+
+export interface TokenWithSupply extends Token {
+  totalSupply: string
+}
