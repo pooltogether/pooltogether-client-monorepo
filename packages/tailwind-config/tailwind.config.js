@@ -1,21 +1,48 @@
-const colors = require("tailwindcss/colors");
-
 module.exports = {
   content: [
-    "./node_modules/flowbite-react/**/*.js",
-    "src/**/*.{js,ts,jsx,tsx}",
+    'src/**/*.{js,ts,jsx,tsx}'
     // include packages if not transpiling
-    // "../../packages/**/*.{js,ts,jsx,tsx}",
+    // '../../packages/**/*.{js,ts,jsx,tsx}'
   ],
-  darkMode: "class",
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        primary: colors.purple[500],
-        secondary: colors.cyan[500],
-        tertiary: colors.indigo[500],
-      },
-    },
-  },
-  plugins: [require("flowbite/plugin")],
-};
+        pt: {
+          purple: {
+            50: '#F5F0FF',
+            100: '#DECEFF',
+            200: '#C8ADFF',
+            300: '#B18CFF',
+            400: '#9B6AFF',
+            500: '#8050E3',
+            600: '#6538C1',
+            700: '#4C249F',
+            800: '#36147D',
+            900: '#24095B',
+            DEFAULT: '#8050E3'
+          },
+          teal: {
+            light: '#35F0D0',
+            dark: '#0DC5A5',
+            DEFAULT: '#35F0D0'
+          },
+          bg: {
+            purple: {
+              light: '#5D3A97',
+              dark: '#2D0C66',
+              darker: '#21064E',
+              DEFAULT: '#2D0C66'
+            }
+          },
+          warning: {
+            light: '#FFB6B6',
+            dark: '#8B0000',
+            DEFAULT: '#8B0000'
+          },
+          transparent: '#F5F0FF1A'
+        }
+      }
+    }
+  }
+}
