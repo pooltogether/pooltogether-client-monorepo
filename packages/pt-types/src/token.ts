@@ -17,3 +17,7 @@ export interface TokenWithImage extends Token {
 export interface TokenWithSupply extends Token {
   totalSupply: string
 }
+
+export interface TokenWithBalance extends Token {
+  balance: string
+}

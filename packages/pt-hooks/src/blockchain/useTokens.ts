@@ -2,7 +2,7 @@ import { getTokenInfo } from 'pt-utilities'
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { useProvider } from 'wagmi'
 import { TokenWithSupply } from 'pt-types'
-import { NO_REFETCH } from '../constants'
+import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
@@ -26,7 +26,7 @@ export const useTokens = (
     !!chainId &&
     !!readProvider
 
-  const queryKey = ['tokens', chainId, tokenAddresses]
+  const queryKey = [QUERY_KEYS.tokens, chainId, tokenAddresses]
 
   return useQuery(queryKey, async () => await getTokenInfo(readProvider, tokenAddresses), {
     enabled,
