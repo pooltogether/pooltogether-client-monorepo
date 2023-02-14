@@ -2,8 +2,8 @@ import { getTokenInfo } from 'pt-utilities'
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { useProvider } from 'wagmi'
 import { TokenWithSupply } from 'pt-types'
-import { NO_REFETCH } from './constants'
-import { populateCachePerId } from './utils'
+import { NO_REFETCH } from '../constants'
+import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns a dictionary keyed by the token addresses with basic token data.

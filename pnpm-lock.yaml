@@ -248,6 +248,7 @@ importers:
       concurrently: ^7.2.2
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
+      ethers: ^5.7.2
       pt-types: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
@@ -259,6 +260,7 @@ importers:
       typescript: ^4.5.2
       wagmi: ^0.9.4
     dependencies:
+      ethers: 5.7.2
       pt-utilities: link:../pt-utilities
       wagmi: 0.9.4_fowuuqwfrj2lg2bk2d2z7q2ne4
     devDependencies:
@@ -2939,7 +2941,7 @@ packages:
       '@tanstack/react-query': 4.20.4
     dependencies:
       '@tanstack/query-persist-client-core': 4.20.4_yfxhplab6ibzeoxkk4xh5zjcde
-      '@tanstack/react-query': 4.20.4_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.20.4_react@18.2.0
     transitivePeerDependencies:
       - '@tanstack/query-core'
     dev: false

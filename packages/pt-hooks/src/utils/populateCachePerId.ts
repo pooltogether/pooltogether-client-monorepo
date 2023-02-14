@@ -3,7 +3,7 @@ import { QueryClient } from 'react-query'
 /**
  * Generic function for populating individual caches
  * when querying for lists of data.
- * Ex. Populating the cache for a users token balances for indiviudal
+ * Ex. Populating the cache for a user's token balances for indiviudal
  * tokens after querying for a list of tokens.
  * @param queryClient
  * @param getCacheKey
