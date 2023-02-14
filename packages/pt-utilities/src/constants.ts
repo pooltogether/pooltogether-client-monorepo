@@ -100,3 +100,8 @@ export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK_ID, string> = Object.fre
   [NETWORK.arbitrum]: 'ethereum',
   [NETWORK['arbitrum-goerli']]: 'ethereum'
 })
+
+/**
+ * PoolTogether API URL
+ */
+export const POOLTOGETHER_API_URL = 'https://pooltogether-api.com'
