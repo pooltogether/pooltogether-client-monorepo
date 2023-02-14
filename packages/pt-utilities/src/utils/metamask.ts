@@ -1,4 +1,4 @@
-import { POOL_TOKEN_ADDRESSES } from './addresses'
+import { POOL_TOKEN_ADDRESSES } from '../constants'
 
 /**
  * Adds any token to the currently connected MetaMask wallet

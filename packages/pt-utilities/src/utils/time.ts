@@ -1,19 +1,12 @@
 import { BigNumber } from 'ethers'
 import { TimeUnit } from 'pt-types'
-
-/**
- * Second constants
- */
-export const SECONDS_PER_MINUTE = 60
-export const SECONDS_PER_HOUR = 3600
-export const SECONDS_PER_DAY = 86400
-export const SECONDS_PER_YEAR = 31536000
-
-/**
- * Minute constants
- */
-export const MINUTES_PER_HOUR = 60
-export const MINUTES_PER_DAY = 1440
+import {
+  MINUTES_PER_DAY,
+  SECONDS_PER_DAY,
+  SECONDS_PER_HOUR,
+  SECONDS_PER_MINUTE,
+  SECONDS_PER_YEAR
+} from '../constants'
 
 /**
  * Breaks down a number of seconds into years, months, days, hours, minutes, seconds

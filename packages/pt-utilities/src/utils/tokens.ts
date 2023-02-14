@@ -2,7 +2,7 @@ import { ContractCallContext, ContractCallResults, Multicall } from 'ethereum-mu
 import { CallContext } from 'ethereum-multicall/dist/esm/models'
 import { BigNumber, providers } from 'ethers'
 import { TokenWithBalance, TokenWithSupply } from 'pt-types'
-import { erc20 as erc20Abi } from './abis/erc20'
+import { erc20 as erc20Abi } from '../abis/erc20'
 import { getMulticallContractByChainId } from './networks'
 
 /**
