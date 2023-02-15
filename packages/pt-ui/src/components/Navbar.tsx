@@ -4,21 +4,29 @@ import { ReactNode } from 'react'
 import { Logo } from './Logo'
 
 export interface NavbarProps {
-  children: ReactNode
+  walletConnectionButton?: ReactNode
+  className?: string
+  dropdownClassName?: string
+  linkClassName?: string
 }
 
 export const Navbar = (props: NavbarProps) => {
   return (
-    <FlowbiteNavbar fluid={true}>
+    <FlowbiteNavbar fluid={true} className={props.className}>
       {/* Left Side Branding */}
       <FlowbiteNavbar.Brand href='/'>
         <Logo />
       </FlowbiteNavbar.Brand>
 
       {/* Right Side Content & Dropdown */}
-      <div className='flex md:order-2'>
-        {props.children}
-        <FlowbiteDropdown arrowIcon={false} inline={true} label={<Bars3Icon className='h6' />}>
+      <div className='flex md:order-2 space-x-2 items-center'>
+        {props.walletConnectionButton}
+        <FlowbiteDropdown
+          arrowIcon={false}
+          inline={true}
+          label={<Bars3Icon className='h-6 w-6 text-gray-500' />}
+          className={props.dropdownClassName}
+        >
           <FlowbiteDropdown.Item>Settings</FlowbiteDropdown.Item>
         </FlowbiteDropdown>
         <FlowbiteNavbar.Toggle />
@@ -26,19 +34,31 @@ export const Navbar = (props: NavbarProps) => {
 
       {/* Middle Collapsable Content */}
       <FlowbiteNavbar.Collapse>
-        <NavbarLinks />
+        <NavbarLinks className={props.linkClassName} />
       </FlowbiteNavbar.Collapse>
     </FlowbiteNavbar>
   )
 }
 
-const NavbarLinks = () => {
+export interface NavbarLinksProps {
+  className?: string
+}
+
+const NavbarLinks = (props: NavbarLinksProps) => {
   return (
     <>
-      <FlowbiteNavbar.Link href='/prizes'>Prizes</FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/deposit'>Deposit</FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/account'>Account</FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/extensions'>Extensions</FlowbiteNavbar.Link>
+      <FlowbiteNavbar.Link href='/prizes' className={props.className}>
+        Prizes
+      </FlowbiteNavbar.Link>
+      <FlowbiteNavbar.Link href='/deposit' className={props.className}>
+        Deposit
+      </FlowbiteNavbar.Link>
+      <FlowbiteNavbar.Link href='/account' className={props.className}>
+        Account
+      </FlowbiteNavbar.Link>
+      <FlowbiteNavbar.Link href='/extensions' className={props.className}>
+        Extensions
+      </FlowbiteNavbar.Link>
     </>
   )
 }

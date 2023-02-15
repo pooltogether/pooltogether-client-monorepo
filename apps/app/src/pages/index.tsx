@@ -11,7 +11,7 @@ export default function Home() {
       </Head>
 
       <Navbar
-        children={
+        walletConnectionButton={
           <ConnectButton
             showBalance={false}
             chainStatus='icon'
