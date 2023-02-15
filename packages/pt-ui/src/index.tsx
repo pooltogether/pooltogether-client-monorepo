@@ -1,4 +1,12 @@
+/**
+ * Flowbite
+ */
 export { Flowbite } from 'flowbite-react'
-export * from './Button'
-export * from './NavBar'
-export * from './Card'
+
+/**
+ * Components
+ */
+export * from './components/Button'
+export * from './components/Card'
+export * from './components/Logo'
+export * from './components/Navbar'
