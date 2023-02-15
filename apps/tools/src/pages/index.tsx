@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { NavBar } from 'pt-ui'
+import { Navbar } from 'pt-ui'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 export default function Home() {
@@ -10,8 +10,8 @@ export default function Home() {
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <NavBar
-        children={
+      <Navbar
+        walletConnectionButton={
           <ConnectButton
             showBalance={false}
             chainStatus='icon'
