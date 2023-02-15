@@ -6,6 +6,7 @@ export const QUERY_KEYS = Object.freeze({
   coingeckoSimpleTokenPrices: 'coingeckoSimpleTokenPrices',
   coingeckoTokenData: 'coingeckoTokenData',
   coingeckoTokenPrices: 'coingeckoTokenPrices',
+  gasPrices: 'gasPrices',
   tokenAllowances: 'tokenAllowances',
   tokenBalances: 'tokenBalances',
   tokens: 'tokens'
