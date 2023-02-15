@@ -1,1 +1,1 @@
-// export * from "./ApprovalGate";
+export {}
