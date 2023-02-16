@@ -1,15 +1,55 @@
 import { Version } from './contracts'
-import { TokenWithImage } from './token'
 
+/**
+ * This interface is compatible with Uniswap's token lists (https://tokenlists.org/)
+ */
 export interface VaultList {
-  name: string
-  keywords: string[]
-  version: Version
-  timestamp: string
-  vaults: VaultData[]
+  readonly name: string
+  readonly version: Version
+  readonly timestamp: string
+  readonly tokens: VaultInfo[]
+  readonly keywords?: string[]
+  readonly tags?: VaultListTags
+  readonly logoURI?: string
 }
 
-export interface VaultData extends TokenWithImage {
-  yieldSource: string
-  underlyingAsset: TokenWithImage
+export interface VaultInfo {
+  readonly chainId: number
+  readonly address: string
+  readonly name: string
+  readonly decimals: number
+  readonly symbol: string
+  readonly extensions: VaultExtensions
+  readonly tags?: string[]
+  readonly logoURI?: string
+}
+
+export interface VaultExtensions {
+  readonly yieldSource: string
+  readonly underlyingAsset: {
+    readonly chainId: number
+    readonly address: string
+    readonly symbol: string
+    readonly name: string
+    readonly decimals: string
+    readonly logoURI: string
+  }
+  readonly [key: string]:
+    | {
+        [key: string]:
+          | {
+              [key: string]: VaultExtensionValue
+            }
+          | VaultExtensionValue
+      }
+    | VaultExtensionValue
+}
+
+export type VaultExtensionValue = string | number | boolean | null | undefined
+
+export interface VaultListTags {
+  readonly [tagId: string]: {
+    readonly name: string
+    readonly description: string
+  }
 }

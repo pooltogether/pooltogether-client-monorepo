@@ -10,8 +10,8 @@ export interface TokenWithUsdPrice extends Token {
   usdPrice: number
 }
 
-export interface TokenWithImage extends Token {
-  image: string
+export interface TokenWithLogo extends Token {
+  logoURI: string
 }
 
 export interface TokenWithSupply extends Token {
