@@ -39,6 +39,8 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 All packages above are written in [TypeScript](https://www.typescriptlang.org/).
 
+When making changes to packages, running `pnpm i` will run the `prepare` scripts on each one, properly building them for use in the apps.
+
 ### Utilities
 
 This Turborepo has some additional tools already setup:
