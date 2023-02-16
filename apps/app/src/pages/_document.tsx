@@ -16,7 +16,7 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html className='bg-zinc-900 dark'>
+      <Html className='bg-pt-bg-purple-darker dark'>
         <Head />
         <body>
           <Main />

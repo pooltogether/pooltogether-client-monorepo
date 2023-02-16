@@ -9,7 +9,6 @@ export default function AccountPage() {
             <span className='inline-block bg-gradient-to-r from-pt-purple to-pt-teal-dark bg-clip-text text-transparent'>
               Account Page
             </span>
-            <br className='hidden lg:block' />
           </h1>
         </main>
       </div>

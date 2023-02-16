@@ -2,6 +2,7 @@ import { Navbar as FlowbiteNavbar, Dropdown as FlowbiteDropdown } from 'flowbite
 import { Bars3Icon } from '@heroicons/react/24/outline'
 import { ReactNode } from 'react'
 import { Logo } from './Logo'
+import classNames from 'classnames'
 
 export interface NavbarProps {
   activePage: string
@@ -13,7 +14,10 @@ export interface NavbarProps {
 
 export const Navbar = (props: NavbarProps) => {
   return (
-    <FlowbiteNavbar fluid={true} className={props.className}>
+    <FlowbiteNavbar
+      fluid={true}
+      className={classNames('dark:bg-pt-bg-purple-darker dark:text-pt-purple-50', props.className)}
+    >
       {/* Left Side Branding */}
       <FlowbiteNavbar.Brand href='/'>
         <Logo />

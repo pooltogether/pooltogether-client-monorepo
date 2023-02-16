@@ -9,7 +9,6 @@ export default function DepositPage() {
             <span className='inline-block bg-gradient-to-r from-pt-purple to-pt-teal-dark bg-clip-text text-transparent'>
               Deposit Page
             </span>
-            <br className='hidden lg:block' />
           </h1>
         </main>
       </div>

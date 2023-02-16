@@ -9,7 +9,7 @@ export default function IndexPage() {
             <span className='inline-block bg-gradient-to-r from-pt-purple to-pt-teal-dark bg-clip-text text-transparent'>
               PoolTogether Hyperstructure
             </span>
-            App <br className='hidden lg:block' />
+            App
           </h1>
         </main>
       </div>

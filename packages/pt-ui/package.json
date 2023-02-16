@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.15",
+    "classnames": "^2.3.2",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7"
   }

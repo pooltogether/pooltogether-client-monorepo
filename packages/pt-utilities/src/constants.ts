@@ -1,25 +1,24 @@
 /**
  * Network IDs
  */
-export const NETWORK = Object.freeze({
-  'mainnet': 1,
-  'goerli': 5,
-  'bsc': 56,
-  'bsc-testnet': 97,
-  'xdai': 100,
-  'polygon': 137,
-  'mumbai': 80001,
-  'optimism': 10,
-  'optimism-goerli': 420,
-  'avalanche': 43114,
-  'fuji': 43113,
-  'celo': 42220,
-  'celo-testnet': 44787,
-  'arbitrum': 42161,
-  'arbitrum-goerli': 421613
-})
+export enum NETWORK {
+  'mainnet' = 1,
+  'goerli' = 5,
+  'bsc' = 56,
+  'bsc-testnet' = 97,
+  'xdai' = 100,
+  'polygon' = 137,
+  'mumbai' = 80001,
+  'optimism' = 10,
+  'optimism-goerli' = 420,
+  'avalanche' = 43114,
+  'fuji' = 43113,
+  'celo' = 42220,
+  'celo-testnet' = 44787,
+  'arbitrum' = 42161,
+  'arbitrum-goerli' = 421613
+}
 export type NETWORK_NAME = keyof typeof NETWORK
-export type NETWORK_ID = typeof NETWORK[NETWORK_NAME]
 
 /**
  * Multicall contract addresses
@@ -83,7 +82,7 @@ export type COINGECKO_PLATFORM = keyof typeof COINGECKO_PLATFORMS
 /**
  * CoinGecko native token IDs
  */
-export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK_ID, string> = Object.freeze({
+export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK, string> = Object.freeze({
   [NETWORK.mainnet]: 'ethereum',
   [NETWORK.goerli]: 'ethereum',
   [NETWORK.bsc]: 'binancecoin',
