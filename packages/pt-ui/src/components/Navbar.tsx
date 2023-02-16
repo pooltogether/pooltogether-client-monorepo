@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 import { Logo } from './Logo'
 
 export interface NavbarProps {
+  activePage: string
   walletConnectionButton?: ReactNode
   className?: string
   dropdownClassName?: string
@@ -34,31 +35,38 @@ export const Navbar = (props: NavbarProps) => {
 
       {/* Middle Collapsable Content */}
       <FlowbiteNavbar.Collapse>
-        <NavbarLinks className={props.linkClassName} />
+        <NavbarLinks activePage={props.activePage} className={props.linkClassName} />
       </FlowbiteNavbar.Collapse>
     </FlowbiteNavbar>
   )
 }
 
 export interface NavbarLinksProps {
+  activePage: string
   className?: string
 }
 
 const NavbarLinks = (props: NavbarLinksProps) => {
+  const links: { href: string; name: string }[] = [
+    { href: '/prizes', name: 'Prizes' },
+    { href: '/deposit', name: 'Deposit' },
+    { href: '/account', name: 'Account' },
+    { href: '/extensions', name: 'Extensions' }
+  ]
   return (
     <>
-      <FlowbiteNavbar.Link href='/prizes' className={props.className}>
-        Prizes
-      </FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/deposit' className={props.className}>
-        Deposit
-      </FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/account' className={props.className}>
-        Account
-      </FlowbiteNavbar.Link>
-      <FlowbiteNavbar.Link href='/extensions' className={props.className}>
-        Extensions
-      </FlowbiteNavbar.Link>
+      {links.map((link, i) => {
+        return (
+          <FlowbiteNavbar.Link
+            href={link.href}
+            className={props.className}
+            active={link.href === props.activePage}
+            key={`nav-${i}-${link.name.toLowerCase()}`}
+          >
+            {link.name}
+          </FlowbiteNavbar.Link>
+        )
+      })}
     </>
   )
 }

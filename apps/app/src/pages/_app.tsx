@@ -13,15 +13,8 @@ const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum],
   [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
 )
-const { connectors } = getDefaultWallets({
-  appName: 'PoolTogether App',
-  chains
-})
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors,
-  provider
-})
+const { connectors } = getDefaultWallets({ appName: 'PoolTogether App', chains })
+const wagmiClient = createClient({ autoConnect: true, connectors, provider })
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
