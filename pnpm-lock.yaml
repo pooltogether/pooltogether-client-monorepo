@@ -28,6 +28,7 @@ importers:
       jotai: ^1.12.0
       next: latest
       postcss: ^8.4.4
+      pt-types: workspace:*
       pt-ui: workspace:*
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -52,6 +53,7 @@ importers:
       autoprefixer: 10.4.13_postcss@8.4.19
       eslint-config-custom: link:../../packages/eslint-config-custom
       postcss: 8.4.19
+      pt-types: link:../../packages/pt-types
       tailwind-config: link:../../packages/tailwind-config
       tailwindcss: 3.2.4_postcss@8.4.19
       tsconfig: link:../../packages/tsconfig
