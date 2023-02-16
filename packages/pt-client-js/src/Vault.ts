@@ -1,4 +1,4 @@
-import { BigNumber, Contract, providers, Signer, utils } from 'ethers'
+import { BigNumber, Contract, providers, Signer } from 'ethers'
 import { TokenWithBalance, TokenWithSupply } from 'pt-types'
 import {
   erc20 as erc20Abi,
@@ -11,8 +11,7 @@ import {
 } from 'pt-utilities'
 
 /**
- * Vault
- * This class provides read-only functions to fetch on-chain data from a vault.
+ * This class provides read-only functions to fetch on-chain data from a vault
  */
 export class Vault {
   readonly vaultContract: Contract
@@ -20,7 +19,7 @@ export class Vault {
   tokenContract: Contract | undefined
 
   /**
-   * Creates an instance of a Vault with a given signer or provider to query on-chain data with.
+   * Creates an instance of a Vault with a given signer or provider to query on-chain data with
    * @param chainId the vault's chain ID
    * @param address the vault's address
    * @param signerOrProvider a Signer or Provider for the network the vault is deployed on
@@ -35,7 +34,7 @@ export class Vault {
     this.tokenContract = undefined
   }
 
-  /////////////////////////////////// Read Functions ///////////////////////////////////
+  /* ============================== Read Functions ============================== */
 
   /**
    * Returns basic data about the vault's underlying asset
@@ -67,7 +66,7 @@ export class Vault {
    */
   async getUserTokenBalance(userAddress: string): Promise<TokenWithBalance> {
     const source = 'Vault [getUserTokenBalance]'
-    validateAddress(userAddress)
+    validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const tokenContract = await this.getTokenContract()
     const tokenBalance = await getTokenBalances(this.signerOrProvider, userAddress, [
@@ -83,20 +82,20 @@ export class Vault {
    */
   async getUserShareBalance(userAddress: string): Promise<TokenWithBalance> {
     const source = 'Vault [getUserShareBalance]'
-    validateAddress(userAddress)
+    validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const shareBalance = await getTokenBalances(this.signerOrProvider, userAddress, [this.address])
     return shareBalance[this.address]
   }
 
   /**
-   * Returns a user's allowance for the vault's underlying token
+   * Returns a user's allowance for the vault's underlying asset
    * @param userAddress the user's address to get an allowance for
    * @returns
    */
   async getUserTokenAllowance(userAddress: string): Promise<BigNumber> {
     const source = 'Vault [getUserTokenAllowance]'
-    validateAddress(userAddress)
+    validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const tokenContract = await this.getTokenContract()
     const tokenAllowance = await getTokenAllowances(
@@ -108,15 +107,15 @@ export class Vault {
     return tokenAllowance[tokenContract.address]
   }
 
-  //////////////////////////////// Contract Initializers ////////////////////////////////
+  /* =========================== Contract Initializers =========================== */
 
   /**
-   * Initializes a contract for the vault's underlying asset.
+   * Initializes a contract for the vault's underlying asset
    * @returns
    */
   async getTokenContract(): Promise<Contract> {
     if (this.tokenContract !== undefined) return this.tokenContract
-    const tokenAddress: string = ((await this.vaultContract.functions.asset()) as utils.Result)[0]
+    const tokenAddress: string = await this.vaultContract.asset()
     const tokenContract = new Contract(tokenAddress, erc20Abi, this.signerOrProvider)
     this.tokenContract = tokenContract
     return tokenContract
