@@ -29,6 +29,7 @@ interface VaultListItemProps {
   vaultInfo: VaultInfo
 }
 
+// TODO: proper image sizing (24px)
 const VaultListItem = (props: VaultListItemProps) => {
   const {
     vaultInfo: {

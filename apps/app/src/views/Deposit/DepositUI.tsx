@@ -1,5 +1,5 @@
-import { VaultList } from '../../components/PrizePool/VaultList'
 import { PrizePoolHeader } from '../../components/PrizePool/PrizePoolHeader'
+import { VaultList } from '../../components/Vault/VaultList'
 import { SUPPORTED_NETWORKS } from '../../constants/networks'
 
 export const DepositUI = () => {

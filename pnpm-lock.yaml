@@ -259,6 +259,7 @@ importers:
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
       ethers: ^5.7.2
+      pt-client-js: workspace:*
       pt-types: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
@@ -276,6 +277,7 @@ importers:
       '@types/react-dom': 17.0.18
       eslint: 7.32.0
       eslint-config-custom: link:../eslint-config-custom
+      pt-client-js: link:../pt-client-js
       pt-types: link:../pt-types
       react: 18.2.0
       react-query: 3.39.3_react@18.2.0

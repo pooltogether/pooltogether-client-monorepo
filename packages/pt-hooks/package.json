@@ -17,6 +17,7 @@
     "@types/react-dom": "^17.0.11",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
+    "pt-client-js": "workspace:*",
     "pt-types": "workspace:*",
     "react": "^18.2.0",
     "react-query": "^3.39.3",

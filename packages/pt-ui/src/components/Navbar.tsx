@@ -12,6 +12,7 @@ export interface NavbarProps {
   linkClassName?: string
 }
 
+// TODO: proper image & text size (16px)
 export const Navbar = (props: NavbarProps) => {
   return (
     <FlowbiteNavbar
