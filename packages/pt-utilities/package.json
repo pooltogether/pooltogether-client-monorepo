@@ -8,8 +8,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsdx build",
-    "prepare": "tsdx build",
+    "build": "tsc",
+    "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
   "devDependencies": {
@@ -18,7 +18,6 @@
     "eslint-config-custom": "workspace:*",
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
-    "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   },

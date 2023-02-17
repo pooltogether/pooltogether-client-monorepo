@@ -1,3 +1,4 @@
+import { providers, Signer } from 'ethers'
 import { MULTICALL, MULTICALL_NETWORK, NETWORK } from '../constants'
 
 /**
@@ -55,5 +56,22 @@ export const getMulticallContractByChainId = (chainId: number): string | undefin
     return MULTICALL[chainId as MULTICALL_NETWORK]
   } else {
     return undefined
+  }
+}
+
+/**
+ * Returns the chain ID from a Signer or Provider
+ * @param signerOrProvider a Signer or Provider object
+ * @returns
+ */
+export const getChainIdFromSignerOrProvider = async (
+  signerOrProvider: Signer | providers.Provider
+): Promise<number> => {
+  if (providers.Provider.isProvider(signerOrProvider)) {
+    const chainId = (await signerOrProvider.getNetwork())?.chainId
+    return chainId
+  } else {
+    const chainId = await signerOrProvider.getChainId()
+    return chainId
   }
 }

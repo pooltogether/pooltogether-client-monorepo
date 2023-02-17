@@ -41,6 +41,27 @@ export const validateSignerOrProviderNetwork = async (
 }
 
 /**
+ * Throws an error if the Provider is for the wrong network
+ * @param chainId the chain ID expected
+ * @param provider the Provider to validate
+ * @param source where this function is being called from (ex. "Vault [getTokenData]")
+ */
+export const validateProviderNetwork = async (
+  chainId: number,
+  provider: providers.Provider,
+  source?: string
+) => {
+  const providerChainId = (await provider.getNetwork())?.chainId
+  if (providerChainId !== chainId) {
+    throw new Error(
+      `${
+        !!source ? `${source} | ` : ''
+      }Provider is on network ${providerChainId}. Expected network ${chainId}`
+    )
+  }
+}
+
+/**
  * Throws an error if the Signer is for the wrong network
  * @param chainId the chain ID expected
  * @param signer the Signer to validate

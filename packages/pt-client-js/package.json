@@ -13,10 +13,8 @@
     "node": ">=10"
   },
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
+    "build": "tsc",
+    "prepare": "pnpm build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "clean": "rm -rf dist"
@@ -38,7 +36,6 @@
     "pt-types": "workspace:*",
     "size-limit": "^8.1.2",
     "tsconfig": "workspace:*",
-    "tsdx": "^0.14.1",
     "tslib": "^2.5.0",
     "typescript": "^4.9.5"
   },
