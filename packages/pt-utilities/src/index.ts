@@ -17,6 +17,7 @@ export * from './utils/networks'
 export * from './utils/time'
 export * from './utils/tokens'
 export * from './utils/validation'
+export * from './utils/vaults'
 export * from './utils/web'
 
 /**

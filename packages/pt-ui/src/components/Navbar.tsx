@@ -29,7 +29,7 @@ export const Navbar = (props: NavbarProps) => {
         <FlowbiteDropdown
           arrowIcon={false}
           inline={true}
-          label={<Bars3Icon className='h-6 w-6 text-gray-500' />}
+          label={<Bars3Icon className='h-6 w-6 text-gray-600' />}
           className={props.dropdownClassName}
         >
           <FlowbiteDropdown.Item>Settings</FlowbiteDropdown.Item>
@@ -60,11 +60,19 @@ const NavbarLinks = (props: NavbarLinksProps) => {
   return (
     <>
       {links.map((link, i) => {
+        const isActiveLink = link.href === props.activePage
         return (
           <FlowbiteNavbar.Link
             href={link.href}
-            className={props.className}
-            active={link.href === props.activePage}
+            className={classNames(
+              { 'dark:text-pt-teal': isActiveLink },
+              {
+                'dark:text-pt-purple-50 dark:hover:text-pt-teal md:dark:hover:text-pt-teal':
+                  !isActiveLink
+              },
+              props.className
+            )}
+            active={isActiveLink}
             key={`nav-${i}-${link.name.toLowerCase()}`}
           >
             {link.name}

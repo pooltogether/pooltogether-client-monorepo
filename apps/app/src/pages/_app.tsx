@@ -1,5 +1,4 @@
 import '../styles/globals.css'
-import 'pt-ui/styles.css'
 import '@rainbow-me/rainbowkit/styles.css'
 import { Flowbite } from 'pt-ui'
 import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'

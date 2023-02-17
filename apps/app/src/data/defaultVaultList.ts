@@ -13,7 +13,7 @@ const defaultVaultList: VaultList = {
     {
       chainId: 1,
       address: '',
-      name: 'Aave USDC Vault',
+      name: 'USDC Vault',
       decimals: 18,
       symbol: 'ptaUSDC',
       logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
@@ -32,7 +32,7 @@ const defaultVaultList: VaultList = {
     {
       chainId: 137,
       address: '',
-      name: 'Aave USDC Vault',
+      name: 'USDC Vault',
       decimals: 18,
       symbol: 'ptaUSDC',
       logoURI: 'https://polygonscan.com/token/images/centre-usdc_32.png',
@@ -51,7 +51,7 @@ const defaultVaultList: VaultList = {
     {
       chainId: 10,
       address: '',
-      name: 'Aave WETH Vault',
+      name: 'WETH Vault',
       decimals: 18,
       symbol: 'ptaWETH',
       logoURI: 'https://optimistic.etherscan.io/token/images/weth_28.png',
@@ -70,7 +70,7 @@ const defaultVaultList: VaultList = {
     {
       chainId: 42161,
       address: '',
-      name: 'Aave WBTC Vault',
+      name: 'WBTC Vault',
       decimals: 18,
       symbol: 'ptaWBTC',
       logoURI: 'https://arbiscan.io/token/images/wbtc_28.png',
