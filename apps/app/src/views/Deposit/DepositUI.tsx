@@ -9,7 +9,7 @@ export const DepositUI = () => {
         {SUPPORTED_NETWORKS.mainnets.map((network) => {
           return (
             <div key={`pp-${network}`}>
-              <PrizePoolHeader chainId={network} />
+              <PrizePoolHeader chainId={network} className='mb-4' />
               <VaultList chainId={network} />
             </div>
           )

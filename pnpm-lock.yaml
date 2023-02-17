@@ -29,6 +29,7 @@ importers:
       jotai: ^1.12.0
       next: latest
       postcss: ^8.4.4
+      pt-hooks: workspace:*
       pt-types: workspace:*
       pt-ui: workspace:*
       pt-utilities: workspace:*
@@ -45,6 +46,7 @@ importers:
       ethers: 5.7.2
       jotai: 1.12.0_zavbqmrropwrojvx6ojaa4s7im
       next: 13.1.6_672uxklweod7ene3nqtsh262ca
+      pt-hooks: link:../../packages/pt-hooks
       pt-ui: link:../../packages/pt-ui
       pt-utilities: link:../../packages/pt-utilities
       react: 18.2.0

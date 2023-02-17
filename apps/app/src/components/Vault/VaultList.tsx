@@ -13,8 +13,8 @@ export const VaultList = (props: VaultListProps) => {
     <>
       <VaultListHeaders />
       <div className='flex flex-col gap-4'>
-        {vaults.map((vault) => {
-          return <VaultListItem vaultInfo={vault} key={`vault-${vault.name}`} />
+        {vaults.map((vault, i) => {
+          return <VaultListItem vaultInfo={vault} key={`vault-${i}-${vault.name}`} />
         })}
       </div>
     </>

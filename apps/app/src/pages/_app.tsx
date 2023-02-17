@@ -5,12 +5,17 @@ import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/ra
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import type { AppProps } from 'next/app'
 
 const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum],
-  [alchemyProvider({ apiKey: process.env.ALCHEMY_ID }), publicProvider()]
+  [
+    infuraProvider({ apiKey: process.env.INFURA_ID }),
+    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    publicProvider()
+  ]
 )
 const { connectors } = getDefaultWallets({ appName: 'PoolTogether App', chains })
 const wagmiClient = createClient({ autoConnect: true, connectors, provider })

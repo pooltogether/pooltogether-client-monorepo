@@ -69,7 +69,7 @@ export const formatNumberForDisplay = (
 export const formatUnformattedBigNumberForDisplay = (
   val: BigNumber,
   decimals: string,
-  options: Intl.NumberFormatOptions & {
+  options?: Intl.NumberFormatOptions & {
     locale?: string
     round?: boolean
     hideZeroes?: boolean
@@ -89,7 +89,7 @@ export const formatUnformattedBigNumberForDisplay = (
 export const formatCurrencyNumberForDisplay = (
   val: string | number,
   currency: string = 'USD',
-  options: Omit<Intl.NumberFormatOptions, 'style' | 'currency'> & {
+  options?: Omit<Intl.NumberFormatOptions, 'style' | 'currency'> & {
     locale?: string
     round?: boolean
     hideZeroes?: boolean
