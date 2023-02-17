@@ -1,91 +1,41 @@
-import { BigNumber, utils } from 'ethers'
-import { useTokenBalances } from 'pt-hooks'
-import { VaultInfo } from 'pt-types'
-import {
-  formatUnformattedBigNumberForDisplay,
-  getNiceNetworkNameByChainId,
-  getVaultsByChainId,
-  NETWORK
-} from 'pt-utilities'
+import classNames from 'classnames'
+import { BigNumber } from 'ethers'
+import { useAllUserVaultBalances } from 'pt-hooks'
+import { VaultInfoWithBalance } from 'pt-types'
+import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
 import { useAccount } from 'wagmi'
 import defaultVaultList from '../../data/defaultVaultList'
 
-export interface DepositedVaultListProps {}
+export interface DepositedVaultListProps {
+  className?: string
+}
 
-// TODO: make a hook to simplify querying balances from all vaults (using Vault class)
 // TODO: coingecko pricing of each token
 // TODO: sort by balance by default
 // TODO: add sorting when clicking headers
 export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
 
-  const vaultBalances: (VaultInfo & { balance: string })[] = []
-
-  // Ethereum Vaults
-  const ethVaults = getVaultsByChainId(NETWORK.mainnet, defaultVaultList)
-  const ethVaultAddresses = ethVaults.map((vault) => vault.address)
-  // const { data: ethVaultBalances } = useTokenBalances(
-  //   NETWORK.mainnet,
-  //   userAddress,
-  //   ethVaultAddresses
-  // )
-  ethVaults.forEach((vault) => {
-    // const balance = ethVaultBalances[vault.address].balance
-    const balance = utils.parseUnits('10', vault.decimals).toString()
-    vaultBalances.push({ ...vault, balance })
-  })
-
-  // Polygon Vaults
-  const polyVaults = getVaultsByChainId(NETWORK.polygon, defaultVaultList)
-  const polyVaultAddresses = polyVaults.map((vault) => vault.address)
-  // const { data: polyVaultBalances } = useTokenBalances(
-  //   NETWORK.polygon,
-  //   userAddress,
-  //   polyVaultAddresses
-  // )
-  polyVaults.forEach((vault) => {
-    // const balance = polyVaultBalances[vault.address].balance
-    const balance = utils.parseUnits('10', vault.decimals).toString()
-    vaultBalances.push({ ...vault, balance })
-  })
-
-  // Optimism Vaults
-  const opVaults = getVaultsByChainId(NETWORK.optimism, defaultVaultList)
-  const opVaultAddresses = opVaults.map((vault) => vault.address)
-  // const { data: opVaultBalances } = useTokenBalances(
-  //   NETWORK.optimism,
-  //   userAddress,
-  //   opVaultAddresses
-  // )
-  opVaults.forEach((vault) => {
-    // const balance = opVaultBalances[vault.address].balance
-    const balance = utils.parseUnits('10', vault.decimals).toString()
-    vaultBalances.push({ ...vault, balance })
-  })
-
-  // Arbitrum Vaults
-  const arbVaults = getVaultsByChainId(NETWORK.arbitrum, defaultVaultList)
-  const arbVaultAddresses = arbVaults.map((vault) => vault.address)
-  // const { data: arbVaultBalances } = useTokenBalances(
-  //   NETWORK.arbitrum,
-  //   userAddress,
-  //   arbVaultAddresses
-  // )
-  arbVaults.forEach((vault) => {
-    // const balance = arbVaultBalances[vault.address].balance
-    const balance = utils.parseUnits('10', vault.decimals).toString()
-    vaultBalances.push({ ...vault, balance })
-  })
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
+    userAddress,
+    defaultVaultList
+  )
 
   return (
-    <>
+    <div className={classNames(props.className)}>
       <DepositedVaultListHeaders />
-      <div className='flex flex-col gap-4'>
-        {vaultBalances.map((vault, i) => {
-          return <DepositedVaultListItem vaultInfo={vault} key={`vault-${i}-${vault.name}`} />
-        })}
-      </div>
-    </>
+      {isFetchedVaultBalances && (
+        <div className='flex flex-col gap-4'>
+          {Object.keys(vaultBalances).map((vaultId, i) => {
+            const vaultInfo = vaultBalances[vaultId]
+            return (
+              <DepositedVaultListItem vaultInfo={vaultInfo} key={`vault-${i}-${vaultInfo.name}`} />
+            )
+          })}
+        </div>
+      )}
+      {!isFetchedVaultBalances && <div>Loading...</div>}
+    </div>
   )
 }
 
@@ -94,35 +44,25 @@ const DepositedVaultListHeaders = () => {
 }
 
 interface DepositedVaultListItemProps {
-  vaultInfo: VaultInfo & { balance: string }
+  vaultInfo: VaultInfoWithBalance
 }
 
 const DepositedVaultListItem = (props: DepositedVaultListItemProps) => {
-  const {
-    vaultInfo: {
-      chainId,
-      name,
-      symbol,
-      decimals,
-      logoURI,
-      balance,
-      extensions: { underlyingAsset }
-    }
-  } = props
+  const { vaultInfo } = props
 
   const formattedBalance = formatUnformattedBigNumberForDisplay(
-    BigNumber.from(balance),
-    decimals.toString()
+    BigNumber.from(vaultInfo.balance),
+    vaultInfo.decimals.toString()
   )
 
   return (
     <div className='flex gap-4'>
-      <img src={logoURI} alt={`${name} Logo`} className='h-6 w-6' />
-      <span>{name}</span>
-      <span>{symbol}</span>
-      <span>{getNiceNetworkNameByChainId(chainId)}</span>
+      <img src={vaultInfo.logoURI} alt={`${vaultInfo.name} Logo`} className='h-6 w-6' />
+      <span>{vaultInfo.name}</span>
+      <span>{vaultInfo.symbol}</span>
+      <span>{getNiceNetworkNameByChainId(vaultInfo.chainId)}</span>
       <span>
-        Balance: {formattedBalance} {underlyingAsset.symbol}
+        Balance: {formattedBalance} {vaultInfo.extensions.underlyingAsset.symbol}
       </span>
     </div>
   )

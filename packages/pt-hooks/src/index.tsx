@@ -25,6 +25,11 @@ export * from './transactions/useSendWithdrawTransaction'
 export * from './transactions/useSentApproveTransaction'
 
 /**
+ * Vault Hooks
+ */
+export * from './vaults/useAllUserVaultBalances'
+
+/**
  * Utils
  */
 export * from './utils/populateCachePerId'

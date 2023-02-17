@@ -53,3 +53,7 @@ export interface VaultListTags {
     readonly description: string
   }
 }
+
+export interface VaultInfoWithBalance extends VaultInfo {
+  balance: string
+}

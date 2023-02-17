@@ -29,7 +29,6 @@ interface VaultListItemProps {
   vaultInfo: VaultInfo
 }
 
-// TODO: proper image sizing (24px)
 const VaultListItem = (props: VaultListItemProps) => {
   const {
     vaultInfo: {
@@ -42,7 +41,7 @@ const VaultListItem = (props: VaultListItemProps) => {
 
   return (
     <div className='flex gap-4'>
-      <img src={logoURI} alt={`${name} Logo`} />
+      <img src={logoURI} alt={`${name} Logo`} className='h-6 w-6' />
       <span>{name}</span>
       <span>{symbol}</span>
       <span>Yield Source: {yieldSource}</span>
