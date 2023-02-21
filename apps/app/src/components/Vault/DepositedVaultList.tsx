@@ -65,7 +65,7 @@ export const DepositedVaultList = (props: DepositedVaultListProps) => {
         <Table
           headers={tableHeaders}
           rows={tableRows}
-          _key={'dpVaultList'}
+          keyPrefix='dpVaultList'
           className={classNames(props.className)}
         />
       )}
