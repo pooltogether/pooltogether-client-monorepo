@@ -2,9 +2,12 @@ import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 import { useAllUserVaultBalances } from 'pt-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
+import { Button, Table, TableProps } from 'pt-ui'
 import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
+import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import defaultVaultList from '../../data/defaultVaultList'
+import { VaultToken } from './VaultList'
 
 export interface DepositedVaultListProps {
   className?: string
@@ -15,55 +18,83 @@ export interface DepositedVaultListProps {
 // TODO: add sorting when clicking headers
 export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
+  console.log(userAddress)
+  console.log(defaultVaultList)
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
-    userAddress,
-    defaultVaultList
-  )
+  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
+  //   userAddress,
+  //   defaultVaultList
+  // )
+  const vaultBalances: {
+    [vaultId: string]: VaultInfoWithBalance
+  } = {}
+  const isFetchedVaultBalances = true
+
+  const noBalances = isFetchedVaultBalances
+    ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
+    : false
+
+  if (userAddress === undefined) {
+    return <span>Connect your wallet to check your vault balances.</span>
+  } else if (noBalances) {
+    return <span>You haven't deposited into any vaults yet.</span>
+  }
+
+  const tableHeaders: TableProps['headers'] = [
+    'Token',
+    'Prize Pool',
+    'Winning Chances',
+    'Deposited',
+    ''
+  ]
+
+  const tableRows: TableProps['rows'] = Object.keys(vaultBalances).map((vaultId) => {
+    const cells: ReactNode[] = [
+      <VaultToken vaultInfo={vaultBalances[vaultId]} />,
+      getNiceNetworkNameByChainId(vaultBalances[vaultId].chainId),
+      '1 in X',
+      <DepositedVaultBalance vaultInfo={vaultBalances[vaultId]} />,
+      <DepositedVaultButtons />
+    ]
+    return { cells }
+  })
 
   return (
-    <div className={classNames(props.className)}>
-      <DepositedVaultListHeaders />
+    <>
       {isFetchedVaultBalances && (
-        <div className='flex flex-col gap-4'>
-          {Object.keys(vaultBalances).map((vaultId, i) => {
-            const vaultInfo = vaultBalances[vaultId]
-            return (
-              <DepositedVaultListItem vaultInfo={vaultInfo} key={`vault-${i}-${vaultInfo.name}`} />
-            )
-          })}
-        </div>
+        <Table
+          headers={tableHeaders}
+          rows={tableRows}
+          _key={'dpVaultList'}
+          className={classNames(props.className)}
+        />
       )}
-      {!isFetchedVaultBalances && <div>Loading...</div>}
-    </div>
+      {!isFetchedVaultBalances && <span>Loading...</span>}
+    </>
   )
 }
 
-const DepositedVaultListHeaders = () => {
-  return <></>
-}
-
-interface DepositedVaultListItemProps {
+interface DepositedVaultBalanceProps {
   vaultInfo: VaultInfoWithBalance
 }
 
-const DepositedVaultListItem = (props: DepositedVaultListItemProps) => {
-  const { vaultInfo } = props
-
-  const formattedBalance = formatUnformattedBigNumberForDisplay(
-    BigNumber.from(vaultInfo.balance),
-    vaultInfo.decimals.toString()
-  )
-
+const DepositedVaultBalance = (props: DepositedVaultBalanceProps) => {
   return (
-    <div className='flex gap-4'>
-      <img src={vaultInfo.logoURI} alt={`${vaultInfo.name} Logo`} className='h-6 w-6' />
-      <span>{vaultInfo.name}</span>
-      <span>{vaultInfo.symbol}</span>
-      <span>{getNiceNetworkNameByChainId(vaultInfo.chainId)}</span>
-      <span>
-        Balance: {formattedBalance} {vaultInfo.extensions.underlyingAsset.symbol}
-      </span>
+    <span>
+      {formatUnformattedBigNumberForDisplay(
+        BigNumber.from(props.vaultInfo.balance),
+        props.vaultInfo.decimals.toString()
+      )}{' '}
+      {props.vaultInfo.extensions.underlyingAsset.symbol}
+    </span>
+  )
+}
+
+const DepositedVaultButtons = () => {
+  return (
+    <div>
+      <Button>Deposit</Button>
+      <Button>Withdraw</Button>
     </div>
   )
 }

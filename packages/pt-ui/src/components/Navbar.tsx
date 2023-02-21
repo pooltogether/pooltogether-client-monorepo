@@ -30,7 +30,7 @@ export const Navbar = (props: NavbarProps) => {
         <FlowbiteDropdown
           arrowIcon={false}
           inline={true}
-          label={<Bars3Icon className='h-6 w-6 text-gray-600' />}
+          label={<Bars3Icon className='h-6 w-6 dark:text-gray-600' />}
           className={props.dropdownClassName}
         >
           <FlowbiteDropdown.Item>Settings</FlowbiteDropdown.Item>
