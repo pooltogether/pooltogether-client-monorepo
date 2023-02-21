@@ -14,3 +14,20 @@ export const getProviderFromSigner = (
     return signerOrProvider.provider
   }
 }
+
+/**
+ * Returns the chain ID from a Signer or Provider
+ * @param signerOrProvider a Signer or Provider object
+ * @returns
+ */
+export const getChainIdFromSignerOrProvider = async (
+  signerOrProvider: Signer | providers.Provider
+): Promise<number> => {
+  if (providers.Provider.isProvider(signerOrProvider)) {
+    const chainId = (await signerOrProvider.getNetwork())?.chainId
+    return chainId
+  } else {
+    const chainId = await signerOrProvider.getChainId()
+    return chainId
+  }
+}

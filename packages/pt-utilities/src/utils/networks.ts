@@ -1,5 +1,4 @@
-import { providers, Signer } from 'ethers'
-import { MULTICALL, MULTICALL_NETWORK, NETWORK } from '../constants'
+import { NETWORK } from '../constants'
 
 /**
  * Returns the chain ID that maps to a provided network name
@@ -43,35 +42,5 @@ export const getNiceNetworkNameByChainId = (chainId: number): string => {
       const niceName = getNetworkNameByChainId(chainId)
       return niceName ? niceName.charAt(0).toUpperCase() + niceName.slice(1) : '--'
     }
-  }
-}
-
-/**
- * Returns a chain's multicall contract address if available
- * @param chainId chain ID to get contract address for
- * @returns
- */
-export const getMulticallContractByChainId = (chainId: number): string | undefined => {
-  if (chainId in MULTICALL) {
-    return MULTICALL[chainId as MULTICALL_NETWORK]
-  } else {
-    return undefined
-  }
-}
-
-/**
- * Returns the chain ID from a Signer or Provider
- * @param signerOrProvider a Signer or Provider object
- * @returns
- */
-export const getChainIdFromSignerOrProvider = async (
-  signerOrProvider: Signer | providers.Provider
-): Promise<number> => {
-  if (providers.Provider.isProvider(signerOrProvider)) {
-    const chainId = (await signerOrProvider.getNetwork())?.chainId
-    return chainId
-  } else {
-    const chainId = await signerOrProvider.getChainId()
-    return chainId
   }
 }

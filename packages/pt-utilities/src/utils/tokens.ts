@@ -1,9 +1,7 @@
-import { ContractCallContext, ContractCallResults, Multicall } from 'ethereum-multicall'
-import { CallContext } from 'ethereum-multicall/dist/esm/models'
 import { BigNumber, providers } from 'ethers'
 import { TokenWithBalance, TokenWithSupply } from 'pt-types'
 import { erc20 as erc20Abi } from '../abis/erc20'
-import { getMulticallContractByChainId } from './networks'
+import { getMulticallResults } from './multicall'
 
 /**
  * Returns basic ERC20 token info such as symbol, name, decimals and totalSupply
@@ -14,48 +12,29 @@ import { getMulticallContractByChainId } from './networks'
 export const getTokenInfo = async (
   readProvider: providers.Provider,
   tokenAddresses: string[]
-): Promise<Record<string, TokenWithSupply>> => {
+): Promise<{ [tokenAddress: string]: TokenWithSupply }> => {
+  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+    { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+    { reference: 'name', methodName: 'name', methodParameters: [] },
+    { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
+    { reference: 'totalSupply', methodName: 'totalSupply', methodParameters: [] }
+  ])
+
   const chainId = (await readProvider.getNetwork())?.chainId
-  const multicallContract = !!chainId ? getMulticallContractByChainId(chainId) : undefined
-  const result: Record<string, TokenWithSupply> = {}
-  if (!!multicallContract) {
-    const queries: ContractCallContext[] = []
-    const calls: CallContext[] = [
-      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-      { reference: 'name', methodName: 'name', methodParameters: [] },
-      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-      { reference: 'totalSupply', methodName: 'totalSupply', methodParameters: [] }
-    ]
-    tokenAddresses.forEach((address) => {
-      queries.push({ reference: address, contractAddress: address, abi: erc20Abi, calls })
-    })
-    const multicall = new Multicall({
-      ethersProvider: readProvider,
-      tryAggregate: true,
-      multicallCustomContractAddress: multicallContract
-    })
-    const response: ContractCallResults = await multicall.call(queries)
-    tokenAddresses.forEach((address) => {
-      const tokenResults = response.results[address].callsReturnContext
-      const symbol: string = tokenResults.find((entry) => entry.reference === 'symbol')
-        ?.returnValues[0]
-      const name: string = tokenResults.find((entry) => entry.reference === 'name')?.returnValues[0]
-      const decimals: string = tokenResults.find((entry) => entry.reference === 'decimals')
-        ?.returnValues[0]
-      const totalSupply: string = tokenResults.find((entry) => entry.reference === 'totalSupply')
-        ?.returnValues[0]
-      const tokenInfo: TokenWithSupply = {
-        chainId,
-        address,
-        symbol,
-        name,
-        decimals,
-        totalSupply
-      }
-      result[address] = tokenInfo
-    })
-  }
-  return result
+
+  const formattedResult: { [tokenAddress: string]: TokenWithSupply } = {}
+  tokenAddresses.forEach((address) => {
+    formattedResult[address] = {
+      chainId,
+      address,
+      symbol: multicallResults[address]['symbol']?.[0],
+      name: multicallResults[address]['name']?.[0],
+      decimals: multicallResults[address]['decimals']?.[0],
+      totalSupply: multicallResults[address]['totalSupply']?.[0]
+    }
+  })
+
+  return formattedResult
 }
 
 /**
@@ -71,40 +50,19 @@ export const getTokenAllowances = async (
   address: string,
   spenderAddress: string,
   tokenAddresses: string[]
-): Promise<Record<string, BigNumber>> => {
-  const chainId = (await readProvider.getNetwork())?.chainId
-  const multicallContract = !!chainId ? getMulticallContractByChainId(chainId) : undefined
-  const result: Record<string, BigNumber> = {}
-  if (!!multicallContract) {
-    const queries: ContractCallContext[] = []
-    const calls: CallContext[] = [
-      {
-        reference: 'allowance',
-        methodName: 'allowance',
-        methodParameters: [address, spenderAddress]
-      }
-    ]
-    tokenAddresses.forEach((address) => {
-      queries.push({ reference: address, contractAddress: address, abi: erc20Abi, calls })
-    })
-    const multicall = new Multicall({
-      ethersProvider: readProvider,
-      tryAggregate: true,
-      multicallCustomContractAddress: multicallContract
-    })
-    const response: ContractCallResults = await multicall.call(queries)
-    tokenAddresses.forEach((address) => {
-      const tokenResults = response.results[address].callsReturnContext
-      const allowance =
-        tokenResults[0].reference === 'allowance'
-          ? BigNumber.from(tokenResults[0].returnValues[0])
-          : undefined
-      if (!!allowance) {
-        result[address] = allowance
-      }
-    })
-  }
-  return result
+): Promise<{ [tokenAddress: string]: BigNumber }> => {
+  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+    { reference: 'allowance', methodName: 'allowance', methodParameters: [address, spenderAddress] }
+  ])
+
+  const formattedResult: { [tokenAddress: string]: BigNumber } = {}
+  tokenAddresses.forEach((tokenAddress) => {
+    formattedResult[tokenAddress] = BigNumber.from(
+      multicallResults[tokenAddress]['allowance']?.[0] ?? 0
+    )
+  })
+
+  return formattedResult
 }
 
 /**
@@ -118,46 +76,27 @@ export const getTokenBalances = async (
   readProvider: providers.Provider,
   address: string,
   tokenAddresses: string[]
-): Promise<Record<string, TokenWithBalance>> => {
+): Promise<{ [tokenAddress: string]: TokenWithBalance }> => {
+  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+    { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+    { reference: 'name', methodName: 'name', methodParameters: [] },
+    { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
+    { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }
+  ])
+
   const chainId = (await readProvider.getNetwork())?.chainId
-  const multicallContract = !!chainId ? getMulticallContractByChainId(chainId) : undefined
-  const result: Record<string, TokenWithBalance> = {}
-  if (!!multicallContract) {
-    const queries: ContractCallContext[] = []
-    const calls: CallContext[] = [
-      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-      { reference: 'name', methodName: 'name', methodParameters: [] },
-      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-      { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }
-    ]
-    tokenAddresses.forEach((address) => {
-      queries.push({ reference: address, contractAddress: address, abi: erc20Abi, calls })
-    })
-    const multicall = new Multicall({
-      ethersProvider: readProvider,
-      tryAggregate: true,
-      multicallCustomContractAddress: multicallContract
-    })
-    const response: ContractCallResults = await multicall.call(queries)
-    tokenAddresses.forEach((address) => {
-      const tokenResults = response.results[address].callsReturnContext
-      const symbol: string = tokenResults.find((entry) => entry.reference === 'symbol')
-        ?.returnValues[0]
-      const name: string = tokenResults.find((entry) => entry.reference === 'name')?.returnValues[0]
-      const decimals: string = tokenResults.find((entry) => entry.reference === 'decimals')
-        ?.returnValues[0]
-      const balance: string = tokenResults.find((entry) => entry.reference === 'balanceOf')
-        ?.returnValues[0]
-      const tokenWithBalance: TokenWithBalance = {
-        chainId,
-        address,
-        symbol,
-        name,
-        decimals,
-        balance
-      }
-      result[address] = tokenWithBalance
-    })
-  }
-  return result
+
+  const formattedResult: { [tokenAddress: string]: TokenWithBalance } = {}
+  tokenAddresses.forEach((address) => {
+    formattedResult[address] = {
+      chainId,
+      address,
+      symbol: multicallResults[address]['symbol']?.[0],
+      name: multicallResults[address]['name']?.[0],
+      decimals: multicallResults[address]['decimals']?.[0],
+      balance: multicallResults[address]['balanceOf']?.[0]
+    }
+  })
+
+  return formattedResult
 }

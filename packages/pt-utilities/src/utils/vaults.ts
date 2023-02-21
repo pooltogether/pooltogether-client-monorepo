@@ -1,9 +1,7 @@
-import { ContractCallContext, Multicall } from 'ethereum-multicall'
-import { CallContext, ContractCallResults } from 'ethereum-multicall/dist/esm/models'
 import { providers } from 'ethers'
 import { VaultInfoWithBalance, VaultList } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
-import { getMulticallContractByChainId } from './networks'
+import { getMulticallResults } from './multicall'
 
 /**
  * Returns vaults from a vault list that match with a given chain ID
@@ -34,31 +32,19 @@ export const getAllUserVaultBalances = async (
   let promises = readProviders.map((readProvider) =>
     (async () => {
       const chainId = (await readProvider.getNetwork())?.chainId
-      const multicallContract = !!chainId ? getMulticallContractByChainId(chainId) : undefined
-      if (!!multicallContract) {
-        const queries: ContractCallContext[] = []
-        const calls: CallContext[] = [
-          { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [userAddress] }
-        ]
-        const vaults = vaultList.tokens.filter((vault) => vault.chainId === chainId)
+      const vaults = !!chainId ? vaultList.tokens.filter((vault) => vault.chainId === chainId) : []
+
+      if (vaults.length > 0) {
+        const vaultAddresses = vaults.map((vault) => vault.address)
+        const multicallResults = await getMulticallResults(
+          readProvider,
+          vaultAddresses,
+          erc4626Abi,
+          [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [userAddress] }]
+        )
+
         vaults.forEach((vault) => {
-          queries.push({
-            reference: vault.address,
-            contractAddress: vault.address,
-            abi: erc4626Abi,
-            calls
-          })
-        })
-        const multicall = new Multicall({
-          ethersProvider: readProvider,
-          tryAggregate: true,
-          multicallCustomContractAddress: multicallContract
-        })
-        const response: ContractCallResults = await multicall.call(queries)
-        vaults.forEach((vault) => {
-          const vaultResults = response.results[vault.address].callsReturnContext
-          const balance: string =
-            vaultResults[0].reference === 'balanceOf' ? vaultResults[0].returnValues[0] : undefined
+          const balance: string | undefined = multicallResults[vault.address]['balanceOf']?.[0]
           if (!!balance) {
             const vaultId = `${vault.address}-${vault.chainId}`
             userVaultBalances[vaultId] = { ...vault, balance }
