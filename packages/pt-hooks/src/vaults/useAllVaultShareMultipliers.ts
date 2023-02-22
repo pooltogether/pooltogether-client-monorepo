@@ -1,30 +1,21 @@
-import { BigNumber } from 'ethers'
+import { BigNumber, providers } from 'ethers'
 import { VaultList } from 'pt-types'
-import { getAllVaultShareMultipliers, NETWORK } from 'pt-utilities'
+import { getAllVaultShareMultipliers } from 'pt-utilities'
 import { useQuery, UseQueryResult } from 'react-query'
-import { useProvider } from 'wagmi'
 import { QUERY_KEYS } from '../constants'
 
+/**
+ * Returns multipliers to calculate 1 share -> X assets in all vaults from a vault list
+ * @param readProviders read-capable providers from any chains that should be queried
+ * @param vaultList a vault list to query through vaults in
+ * @returns
+ */
 export const useAllVaultShareMultipliers = (
+  readProviders: providers.Provider[],
   vaultList: VaultList
 ): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
-  // TODO: need a better way to get providers from all SUPPORTED_NETWORKS
-  const ethProvider = useProvider({ chainId: NETWORK.mainnet })
-  const polyProvider = useProvider({ chainId: NETWORK.polygon })
-  const opProvider = useProvider({ chainId: NETWORK.optimism })
-  const arbProvider = useProvider({ chainId: NETWORK.arbitrum })
-  const providers = [ethProvider, polyProvider, opProvider, arbProvider]
-
-  const enabled = providers.every((provider) => !!provider)
-
-  return useQuery(
-    [QUERY_KEYS.allVaultShareMultipliers],
-    async () => {
-      const vaultShareMultipliers = await getAllVaultShareMultipliers(providers, vaultList)
-      return vaultShareMultipliers
-    },
-    {
-      enabled
-    }
-  )
+  return useQuery([QUERY_KEYS.allVaultShareMultipliers], async () => {
+    const vaultShareMultipliers = await getAllVaultShareMultipliers(readProviders, vaultList)
+    return vaultShareMultipliers
+  })
 }

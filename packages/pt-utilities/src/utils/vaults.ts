@@ -59,6 +59,12 @@ export const getAllUserVaultBalances = async (
   return userVaultBalances
 }
 
+/**
+ * Returns multipliers to calculate 1 share -> X assets in all vaults from a vault list
+ * @param readProviders read-capable providers from any chains that should be queried
+ * @param vaultList a vault list to query through vaults in
+ * @returns
+ */
 export const getAllVaultShareMultipliers = async (
   readProviders: providers.Provider[],
   vaultList: VaultList

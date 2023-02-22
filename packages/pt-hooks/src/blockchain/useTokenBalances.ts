@@ -1,36 +1,34 @@
+import { providers } from 'ethers'
 import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
-import { useProvider } from 'wagmi'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns a dictionary keyed by the token addresses with their associated balances
- * @param chainId chain ID to query token balances from
+ * @param readProvider read-capable provider to query token balances through
  * @param address address to check for token balances
  * @param tokenAddresses token addresses to query balances for
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useTokenBalances = (
-  chainId: number,
+  readProvider: providers.Provider,
   address: string,
   tokenAddresses: string[],
   refetchInterval?: number
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }, unknown> => {
   const queryClient = useQueryClient()
-  const readProvider = useProvider({ chainId })
 
   const enabled =
     !!address &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!chainId &&
     !!readProvider
 
-  const queryKey = [QUERY_KEYS.tokenBalances, chainId, address, tokenAddresses]
+  const queryKey = [QUERY_KEYS.tokenBalances, address, tokenAddresses]
 
   return useQuery(
     queryKey,
@@ -47,14 +45,14 @@ export const useTokenBalances = (
 /**
  * Returns an address's token balance.
  * Wraps `useTokenBalances`.
- * @param chainId chain ID to query token balance from
+ * @param readProvider read-capable provider to query token balance through
  * @param address address to check for token balance
  * @param tokenAddress token address to query balance for
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useTokenBalance = (
-  chainId: number,
+  readProvider: providers.Provider,
   address: string,
   tokenAddress: string,
   refetchInterval?: number
@@ -62,6 +60,6 @@ export const useTokenBalance = (
   UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }>,
   'data'
 > => {
-  const result = useTokenBalances(chainId, address, [tokenAddress], refetchInterval)
+  const result = useTokenBalances(readProvider, address, [tokenAddress], refetchInterval)
   return { ...result, data: result.data?.[tokenAddress] as TokenWithBalance }
 }

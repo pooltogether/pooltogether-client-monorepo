@@ -11,23 +11,23 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "^0.8.1",
     "ethers": "^5.7.2",
-    "jotai": "^1.12.0",
+    "jotai": "^1.13.1",
     "next": "latest",
+    "pt-ui": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "pt-ui": "workspace:*",
-    "wagmi": "^0.9.4"
+    "wagmi": "^0.9.6"
   },
   "devDependencies": {
-    "@types/node": "^17.0.12",
-    "@types/react": "^18.0.22",
-    "@types/react-dom": "^18.0.7",
-    "autoprefixer": "^10.4.0",
+    "@types/node": "^17.0.45",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "autoprefixer": "^10.4.13",
     "eslint-config-custom": "workspace:*",
-    "postcss": "^8.4.4",
+    "postcss": "^8.4.21",
     "tailwind-config": "workspace:*",
-    "tailwindcss": "^3.0.0",
+    "tailwindcss": "^3.2.7",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.3"
+    "typescript": "^4.9.5"
   }
 }

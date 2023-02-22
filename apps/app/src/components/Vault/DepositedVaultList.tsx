@@ -7,6 +7,7 @@ import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } fro
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import defaultVaultList from '../../data/defaultVaultList'
+import { useProviders } from '../../hooks/useProviders'
 import { VaultToken } from './VaultList'
 
 export interface DepositedVaultListProps {
@@ -18,17 +19,13 @@ export interface DepositedVaultListProps {
 // TODO: add sorting when clicking headers
 export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
-  console.log(userAddress)
-  console.log(defaultVaultList)
+  const providers = useProviders()
 
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
-  //   userAddress,
-  //   defaultVaultList
-  // )
-  const vaultBalances: {
-    [vaultId: string]: VaultInfoWithBalance
-  } = {}
-  const isFetchedVaultBalances = true
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
+    providers,
+    userAddress,
+    defaultVaultList
+  )
 
   const noBalances = isFetchedVaultBalances
     ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')

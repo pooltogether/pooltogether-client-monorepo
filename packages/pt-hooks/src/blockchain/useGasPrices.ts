@@ -11,7 +11,7 @@ import { QUERY_KEYS } from '../constants'
 export const useGasPrices = (chainId: number, refetchInterval?: number) => {
   const enabled = !!chainId
 
-  return useQuery([QUERY_KEYS.gasPrices, chainId], async () => getGasPrices(chainId), {
+  return useQuery([QUERY_KEYS.gasPrices, chainId], async () => await getGasPrices(chainId), {
     refetchInterval: refetchInterval ?? sToMs(5),
     enabled
   })

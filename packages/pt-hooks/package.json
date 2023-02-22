@@ -13,20 +13,19 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.19",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
-    "pt-client-js": "workspace:*",
     "pt-types": "workspace:*",
-    "react": "^18.2.0",
-    "react-query": "^3.39.3",
     "tsconfig": "workspace:*",
     "typescript": "^4.9.5"
   },
   "dependencies": {
     "ethers": "^5.7.2",
+    "pt-client-js": "workspace:*",
     "pt-utilities": "workspace:*",
-    "wagmi": "^0.9.4"
+    "react": "^18.2.0",
+    "react-query": "^3.39.3"
   }
 }
