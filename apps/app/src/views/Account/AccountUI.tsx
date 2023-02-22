@@ -1,4 +1,4 @@
-import { DepositedVaultList } from '../../components/Vault/DepositedVaultList'
+import { DepositedVaultList } from '@components/Vault/DepositedVaultList'
 
 export const AccountUI = () => {
   return (

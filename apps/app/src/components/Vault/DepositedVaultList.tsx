@@ -6,11 +6,11 @@ import { Button, Table, TableProps } from 'pt-ui'
 import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
-import defaultVaultList from '../../data/defaultVaultList'
-import { useProviders } from '../../hooks/useProviders'
+import defaultVaultList from '@data/defaultVaultList'
+import { useProviders } from '@hooks/useProviders'
 import { VaultToken } from './VaultList'
 
-export interface DepositedVaultListProps {
+interface DepositedVaultListProps {
   className?: string
 }
 

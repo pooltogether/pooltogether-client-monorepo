@@ -11,29 +11,44 @@ export interface ModalProps extends FlowbiteModalProps {
   footerClassName?: string
 }
 
+// TODO: blur background when open
 export const Modal = (props: ModalProps) => {
+  const {
+    headerContent,
+    bodyContent,
+    footerContent,
+    headerClassName,
+    bodyClassName,
+    footerClassName,
+    className,
+    ...rest
+  } = props
   return (
-    <FlowbiteModal
-      {...props}
-      className={classNames(
-        'dark:bg-pt-bg-purple-light dark:text-pt-purple-50 rounded',
-        props.className
-      )}
-    >
-      {props.headerContent && (
-        <FlowbiteModal.Header className={classNames(props.headerClassName)}>
+    <FlowbiteModal {...rest} className={classNames('dark:text-pt-purple-50', className)}>
+      {headerContent && (
+        <FlowbiteModal.Header
+          className={classNames('dark:bg-pt-bg-purple-light border-none', headerClassName)}
+        >
           {/* @ts-ignore */}
-          {props.headerContent}
+          {headerContent}
         </FlowbiteModal.Header>
       )}
-      <FlowbiteModal.Body className={classNames(props.bodyClassName)}>
+      <FlowbiteModal.Body
+        className={classNames(
+          'dark:bg-pt-bg-purple-light',
+          { 'rounded-t': headerContent === undefined, 'rounded-b': footerContent === undefined },
+          bodyClassName
+        )}
+      >
         {/* @ts-ignore */}
-        {props.bodyContent}
+        {bodyContent}
       </FlowbiteModal.Body>
-      {props.footerContent && (
-        <FlowbiteModal.Footer className={classNames(props.footerClassName)}>
+      {footerContent && (
+        <FlowbiteModal.Footer
+          className={classNames('dark:bg-pt-bg-purple-light border-none', footerClassName)}
+        >
           {/* @ts-ignore */}
-          {props.footerContent}
+          {footerContent}
         </FlowbiteModal.Footer>
       )}
     </FlowbiteModal>

@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { NETWORK_ICONS } from '../../constants/networks'
+import { NETWORK_ICONS } from '@constants/networks'
 
-export interface PrizePoolHeaderProps {
+interface PrizePoolHeaderProps {
   chainId: number
   className?: string
 }

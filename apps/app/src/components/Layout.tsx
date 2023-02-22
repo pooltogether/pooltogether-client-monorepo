@@ -4,7 +4,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { ReactNode } from 'react'
 import { useRouter } from 'next/router'
 
-export interface LayoutProps {
+interface LayoutProps {
   children: ReactNode
 }
 

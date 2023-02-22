@@ -3,9 +3,10 @@ import { VaultInfo } from 'pt-types'
 import { Button, Table, TableProps } from 'pt-ui'
 import { getVaultsByChainId } from 'pt-utilities'
 import { ReactNode } from 'react'
-import defaultVaultList from '../../data/defaultVaultList'
+import defaultVaultList from '@data/defaultVaultList'
+import { DepositButton } from '@components/Deposit/DepositButton'
 
-export interface VaultListProps {
+interface VaultListProps {
   chainId: number
   classname?: string
 }
@@ -21,13 +22,13 @@ export const VaultList = (props: VaultListProps) => {
     ''
   ]
 
-  const tableRows: TableProps['rows'] = vaults.map((vault) => {
+  const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
     const cells: ReactNode[] = [
-      <VaultToken vaultInfo={vault} />,
-      vault.extensions.yieldSource,
+      <VaultToken vaultInfo={vaultInfo} />,
+      vaultInfo.extensions.yieldSource,
       '',
       '0',
-      <VaultButtons />
+      <VaultButtons vaultInfo={vaultInfo} />
     ]
     const className = 'text-center'
     return { cells, className }
@@ -63,10 +64,14 @@ export const VaultToken = (props: VaultTokenProps) => {
   )
 }
 
-const VaultButtons = () => {
+interface VaultButtonsProps {
+  vaultInfo: VaultInfo
+}
+
+const VaultButtons = (props: VaultButtonsProps) => {
   return (
     <div className='flex gap-2'>
-      <Button>Deposit</Button>
+      <DepositButton vaultInfo={props.vaultInfo} />
       <Button>Details</Button>
     </div>
   )
