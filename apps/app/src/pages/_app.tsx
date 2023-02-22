@@ -7,6 +7,8 @@ import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+// import { InjectedConnector } from 'wagmi/connectors/injected'
+// import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
@@ -20,6 +22,17 @@ const { chains, provider } = configureChains(
   ]
 )
 const { connectors } = getDefaultWallets({ appName: 'PoolTogether App', chains })
+// const connectors = [
+//   new InjectedConnector({ chains }),
+//   new WalletConnectConnector({
+//     chains,
+//     options: {
+//       version: '2',
+//       qrcode: true,
+//       projectId: '358b98f0af3cd936fe09dc21064de51d'
+//     }
+//   })
+// ]
 const wagmiClient = createClient({ autoConnect: true, connectors, provider })
 
 // React Query Client:

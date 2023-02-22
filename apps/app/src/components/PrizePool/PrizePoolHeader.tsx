@@ -17,7 +17,7 @@ export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
         alt={`${networkName} Logo`}
         className='h-8 w-8 my-auto'
       />
-      <h2 className='text-3xl font-semibold'>{networkName} Prize Pool</h2>
+      <span className='text-3xl font-semibold'>{networkName} Prize Pool</span>
     </div>
   )
 }
