@@ -1,9 +1,9 @@
-import { useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
+import { BigNumber } from 'ethers'
 import { VaultInfo } from 'pt-types'
-import { Button, Modal } from 'pt-ui'
+import { Modal } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
+import { DepositModalButton } from './DepositModalButton'
 
 interface DepositModalProps {
   vaultInfo: VaultInfo
@@ -62,28 +62,7 @@ interface DepositModalFooterProps {
 }
 
 const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const { address: userAddress, isDisconnected } = useAccount()
-  const { openConnectModal } = useConnectModal()
-  const { openChainModal } = useChainModal()
-
-  if (isDisconnected) {
-    return (
-      <Button fullSized={true} onClick={openConnectModal}>
-        Connect
-      </Button>
-    )
-  }
-
-  // TODO: check chain
-  // TODO: check approval
-  // TODO: exact approval transaction
-  // TODO: deposit transaction
-
-  return (
-    <>
-      <Button fullSized={true} onClick={openChainModal}>
-        Chain
-      </Button>
-    </>
-  )
+  // TODO: get deposit amount from form data and pass it to button
+  const depositAmount = BigNumber.from(0)
+  return <DepositModalButton vaultInfo={props.vaultInfo} depositAmount={depositAmount} />
 }

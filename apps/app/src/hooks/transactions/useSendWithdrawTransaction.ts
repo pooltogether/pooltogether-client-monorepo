@@ -24,7 +24,7 @@ export const useSendWithdrawTransaction = (
   // TODO: onSuccess
   // TODO: onError
   const { config } = usePrepareContractWrite({
-    address: vault?.address,
+    address: vault?.address as `0x${string}`,
     abi: erc4626Abi,
     functionName: 'withdraw',
     args: [amount, userAddress, userAddress],

@@ -42,7 +42,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Flowbite theme={{ dark: true }}>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()}>
+        <RainbowKitProvider chains={chains} theme={darkTheme()} showRecentTransactions={true}>
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
           </QueryClientProvider>
