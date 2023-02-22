@@ -21,11 +21,15 @@ export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
   const providers = useProviders()
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
-    providers,
-    userAddress,
-    defaultVaultList
-  )
+  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
+  //   providers,
+  //   userAddress,
+  //   defaultVaultList
+  // )
+  const vaultBalances: {
+    [vaultId: string]: VaultInfoWithBalance
+  } = {}
+  const isFetchedVaultBalances = true
 
   const noBalances = isFetchedVaultBalances
     ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
