@@ -1,13 +1,13 @@
-import { VaultInfoWithBalance, VaultList } from 'pt-types'
-import { getAllUserVaultBalances, NETWORK } from 'pt-utilities'
+import { BigNumber } from 'ethers'
+import { VaultList } from 'pt-types'
+import { getAllVaultShareMultipliers, NETWORK } from 'pt-utilities'
 import { useQuery, UseQueryResult } from 'react-query'
 import { useProvider } from 'wagmi'
 import { QUERY_KEYS } from '../constants'
 
-export const useAllUserVaultBalances = (
-  userAddress: string,
+export const useAllVaultShareMultipliers = (
   vaultList: VaultList
-): UseQueryResult<{ [vaultId: string]: VaultInfoWithBalance }, unknown> => {
+): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
   // TODO: need a better way to get providers from all SUPPORTED_NETWORKS
   const ethProvider = useProvider({ chainId: NETWORK.mainnet })
   const polyProvider = useProvider({ chainId: NETWORK.polygon })
@@ -18,10 +18,10 @@ export const useAllUserVaultBalances = (
   const enabled = providers.every((provider) => !!provider)
 
   return useQuery(
-    [QUERY_KEYS.allUserVaultBalances],
+    [QUERY_KEYS.allVaultShareMultipliers],
     async () => {
-      const vaultBalances = await getAllUserVaultBalances(providers, userAddress, vaultList)
-      return vaultBalances
+      const vaultShareMultipliers = await getAllVaultShareMultipliers(providers, vaultList)
+      return vaultShareMultipliers
     },
     {
       enabled

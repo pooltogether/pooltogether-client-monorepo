@@ -3,6 +3,7 @@
  */
 export const QUERY_KEYS = Object.freeze({
   allUserVaultBalances: 'allUserVaultBalances',
+  allVaultShareMultipliers: 'allVaultShareMultipliers',
   coingeckoExchangeRates: 'coingeckoExchangeRates',
   coingeckoSimpleTokenPrices: 'coingeckoSimpleTokenPrices',
   coingeckoTokenData: 'coingeckoTokenData',

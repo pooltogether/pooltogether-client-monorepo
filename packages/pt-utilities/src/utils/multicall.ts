@@ -1,5 +1,5 @@
 import { ContractCallContext, Multicall } from 'ethereum-multicall'
-import { CallContext, ContractCallResults } from 'ethereum-multicall/dist/esm/models'
+import { ContractCallResults } from 'ethereum-multicall/dist/esm/models'
 import { providers, utils } from 'ethers'
 import { MULTICALL, MULTICALL_NETWORK } from '../constants'
 
@@ -29,12 +29,17 @@ export const getMulticallResults = async (
   readProvider: providers.Provider,
   contractAddresses: string[],
   abi: ContractCallContext['abi'],
-  calls: CallContext[]
+  calls: ContractCallContext['calls']
 ): Promise<{
   [contractAddress: string]: {
     [reference: string]: any[]
   }
 }> => {
+  const validAddresses = contractAddresses.every((address) => utils.isAddress(address))
+  if (contractAddresses.length === 0 || !validAddresses || calls.length === 0) {
+    throw new Error('Multicall Error: Invalid parameters')
+  }
+
   const chainId = (await readProvider.getNetwork())?.chainId
   if (!!chainId) {
     throw new Error('Multicall Error: Could not get chainId from provider')
@@ -43,11 +48,6 @@ export const getMulticallResults = async (
   const multicallContractAddress = getMulticallContractAddressByChainId(chainId)
   if (multicallContractAddress === undefined) {
     throw new Error(`Multicall Error: Not setup for network ${chainId}`)
-  }
-
-  const validAddresses = contractAddresses.every((address) => utils.isAddress(address))
-  if (contractAddresses.length === 0 || !validAddresses || calls.length === 0) {
-    throw new Error('Multicall Error: Invalid parameters')
   }
 
   const queries: ContractCallContext[] = []
@@ -67,6 +67,55 @@ export const getMulticallResults = async (
     formattedResults[contractAddress] = {}
     response.results[contractAddress].callsReturnContext.forEach((result) => {
       formattedResults[contractAddress][result.reference] = result.returnValues
+    })
+  })
+
+  return formattedResults
+}
+
+/**
+ * Returns the results of a complex multicall where contract queries are provided instead of calls
+ * @param readProvider a read-capable provider to query through
+ * @param queries the contract queries to make
+ * @returns
+ */
+export const getComplexMulticallResults = async (
+  readProvider: providers.Provider,
+  queries: ContractCallContext[]
+): Promise<{
+  [contractAddress: string]: {
+    [reference: string]: any[]
+  }
+}> => {
+  const validAddresses = queries.every((query) => utils.isAddress(query.contractAddress))
+  if (queries.length === 0 || !validAddresses) {
+    throw new Error('Multicall Error: Invalid parameters')
+  }
+
+  const chainId = (await readProvider.getNetwork())?.chainId
+  if (!!chainId) {
+    throw new Error('Multicall Error: Could not get chainId from provider')
+  }
+
+  const multicallContractAddress = getMulticallContractAddressByChainId(chainId)
+  if (multicallContractAddress === undefined) {
+    throw new Error(`Multicall Error: Not setup for network ${chainId}`)
+  }
+
+  const multicall = new Multicall({
+    ethersProvider: readProvider,
+    tryAggregate: true,
+    multicallCustomContractAddress: multicallContractAddress
+  })
+  const response: ContractCallResults = await multicall.call(queries)
+
+  const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
+  queries.forEach((query) => {
+    if (formattedResults[query.contractAddress] === undefined) {
+      formattedResults[query.contractAddress] = {}
+    }
+    response.results[query.reference].callsReturnContext.forEach((result) => {
+      formattedResults[query.contractAddress][result.reference] = result.returnValues
     })
   })
 

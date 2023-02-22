@@ -1,5 +1,5 @@
 import { BigNumber, Overrides, providers, Signer } from 'ethers'
-import { TokenWithBalance } from 'pt-types'
+import { TokenWithBalance, TokenWithSupply } from 'pt-types'
 import { validateAddress, validateSignerNetwork } from 'pt-utilities'
 import { Vault } from './Vault'
 
@@ -35,6 +35,18 @@ export class User extends Vault {
   async getTokenBalance(): Promise<TokenWithBalance> {
     const userAddress = await this.signer.getAddress()
     return this.getUserTokenBalance(userAddress)
+  }
+
+  /**
+   * Returns the user's deposited balance, in terms of the vault's underlying asset
+   * @returns
+   */
+  async getDepositedTokenBalance(): Promise<TokenWithBalance & TokenWithSupply> {
+    const tokenData = await this.getTokenData()
+    const shares = await this.getShareBalance()
+    const assets = await this.getAssetsFromShares(BigNumber.from(shares.balance))
+    const balance = assets.toString()
+    return { ...tokenData, balance }
   }
 
   /**

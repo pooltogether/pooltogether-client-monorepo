@@ -1,7 +1,8 @@
-import { providers } from 'ethers'
+import { ContractCallContext } from 'ethereum-multicall'
+import { BigNumber, providers, utils } from 'ethers'
 import { VaultInfoWithBalance, VaultList } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
-import { getMulticallResults } from './multicall'
+import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
  * Returns vaults from a vault list that match with a given chain ID
@@ -14,7 +15,7 @@ export const getVaultsByChainId = (chainId: number, vaultList: VaultList) => {
 }
 
 /**
- * Returns a user's balance in all vaults from a vault list
+ * Returns a user's share balance in all vaults from a vault list
  * @param readProviders read-capable providers from any chains that should be queried
  * @param userAddress a user's address to check balances for
  * @param vaultList a vault list to check balances in
@@ -56,4 +57,52 @@ export const getAllUserVaultBalances = async (
   await Promise.all(promises)
 
   return userVaultBalances
+}
+
+export const getAllVaultShareMultipliers = async (
+  readProviders: providers.Provider[],
+  vaultList: VaultList
+) => {
+  const vaultShareMultipliers: {
+    [vaultId: string]: BigNumber
+  } = {}
+
+  let promises = readProviders.map((readProvider) =>
+    (async () => {
+      const chainId = (await readProvider.getNetwork())?.chainId
+      const vaults = !!chainId ? vaultList.tokens.filter((vault) => vault.chainId === chainId) : []
+
+      if (vaults.length > 0) {
+        const queries: ContractCallContext[] = vaults.map((vault) => {
+          const oneShare = utils.parseUnits('1', vault.decimals)
+          const calls: ContractCallContext['calls'] = [
+            {
+              reference: 'convertToAssets',
+              methodName: 'convertToAssets',
+              methodParameters: [oneShare]
+            }
+          ]
+          return {
+            reference: vault.address,
+            contractAddress: vault.address,
+            abi: erc4626Abi,
+            calls
+          }
+        })
+        const multicallResults = await getComplexMulticallResults(readProvider, queries)
+
+        vaults.forEach((vault) => {
+          const multiplier: string | undefined =
+            multicallResults[vault.address]['convertToAssets']?.[0]
+          if (!!multiplier) {
+            const vaultId = `${vault.address}-${vault.chainId}`
+            vaultShareMultipliers[vaultId] = BigNumber.from(multiplier)
+          }
+        })
+      }
+    })()
+  )
+  await Promise.all(promises)
+
+  return vaultShareMultipliers
 }

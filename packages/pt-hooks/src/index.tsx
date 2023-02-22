@@ -28,6 +28,7 @@ export * from './transactions/useSentApproveTransaction'
  * Vault Hooks
  */
 export * from './vaults/useAllUserVaultBalances'
+export * from './vaults/useAllVaultShareMultipliers'
 
 /**
  * Utils

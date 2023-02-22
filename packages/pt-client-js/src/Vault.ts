@@ -113,6 +113,35 @@ export class Vault {
     return tokenAllowance[tokenContract.address]
   }
 
+  /**
+   * Returns the equivalent amount of underlying assets from a share amount
+   * @param shares the amount of shares to convert
+   * @returns
+   */
+  async getAssetsFromShares(shares: BigNumber): Promise<BigNumber> {
+    const assets: string = this.vaultContract.convertToAssets(shares)
+    return BigNumber.from(assets)
+  }
+
+  /**
+   * Returns the equivalent amount of shares from an underlying asset amount
+   * @param assets the amount of assets to convert
+   * @returns
+   */
+  async getSharesFromAssets(assets: BigNumber): Promise<BigNumber> {
+    const shares: string = this.vaultContract.convertToShares(assets)
+    return BigNumber.from(shares)
+  }
+
+  /**
+   * Returns the total amount of underlying assets deposited in the vault
+   * @returns
+   */
+  async getTotalTokenBalance(): Promise<BigNumber> {
+    const totalAssets: string = this.vaultContract.totalAssets()
+    return BigNumber.from(totalAssets)
+  }
+
   /* =========================== Contract Initializers =========================== */
 
   /**
