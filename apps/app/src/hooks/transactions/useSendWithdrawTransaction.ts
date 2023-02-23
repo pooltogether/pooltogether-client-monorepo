@@ -1,8 +1,8 @@
 import { BigNumber, providers, utils } from 'ethers'
+import { useAccount, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
-import { useAccount, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
 
 // TODO: validation to make sure userAddress and signer.getAddress() are the same
 export const useSendWithdrawTransaction = (

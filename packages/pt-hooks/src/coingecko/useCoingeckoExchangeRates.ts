@@ -1,6 +1,6 @@
+import { useQuery, UseQueryResult } from 'react-query'
 import { CoingeckoExchangeRates } from 'pt-types'
 import { getCoingeckoExchangeRates } from 'pt-utilities'
-import { useQuery, UseQueryResult } from 'react-query'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 
 /**

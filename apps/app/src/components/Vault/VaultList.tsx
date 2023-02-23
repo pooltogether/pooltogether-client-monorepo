@@ -1,10 +1,10 @@
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { VaultInfo } from 'pt-types'
 import { Button, Table, TableProps } from 'pt-ui'
 import { getVaultsByChainId } from 'pt-utilities'
-import { ReactNode } from 'react'
-import defaultVaultList from '@data/defaultVaultList'
 import { DepositButton } from '@components/Deposit/DepositButton'
+import defaultVaultList from '@data/defaultVaultList'
 
 interface VaultListProps {
   chainId: number

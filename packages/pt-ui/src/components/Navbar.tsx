@@ -1,8 +1,8 @@
-import { Navbar as FlowbiteNavbar, Dropdown as FlowbiteDropdown } from 'flowbite-react'
 import { Bars3Icon } from '@heroicons/react/24/outline'
+import classNames from 'classnames'
+import { Dropdown as FlowbiteDropdown, Navbar as FlowbiteNavbar } from 'flowbite-react'
 import { ReactNode } from 'react'
 import { Logo } from './Logo'
-import classNames from 'classnames'
 
 export interface NavbarProps {
   activePage: string

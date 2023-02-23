@@ -1,7 +1,7 @@
 import { providers } from 'ethers'
+import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
-import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 

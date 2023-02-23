@@ -1,7 +1,7 @@
 import { utils } from 'ethers'
+import { useQuery, UseQueryResult } from 'react-query'
 import { CoingeckoTokenData } from 'pt-types'
 import { COINGECKO_PLATFORM, getCoingeckoTokenData } from 'pt-utilities'
-import { useQuery, UseQueryResult } from 'react-query'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 
 /**

@@ -7,5 +7,19 @@
   "jsxBracketSameLine": false,
   "jsxSingleQuote": true,
   "arrowParens": "always",
-  "trailingComma": "none"
+  "trailingComma": "none",
+  "importOrder": [
+    "^pt-",
+    "^@components/(.*)$",
+    "^@constants/(.*)$",
+    "^@data/(.*)$",
+    "^@hooks/(.*)$",
+    "^@pages/(.*)$",
+    "^@utils/(.*)$",
+    "^@views/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true,
+  "importOrderCaseInsensitive": true,
+  "plugins": ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"]
 }

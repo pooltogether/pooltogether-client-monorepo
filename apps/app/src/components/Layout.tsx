@@ -1,8 +1,8 @@
-import Head from 'next/head'
-import { Navbar } from 'pt-ui'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { ReactNode } from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { ReactNode } from 'react'
+import { Navbar } from 'pt-ui'
 
 interface LayoutProps {
   children: ReactNode

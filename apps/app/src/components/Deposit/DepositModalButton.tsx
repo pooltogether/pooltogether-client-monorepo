@@ -1,12 +1,12 @@
-import { useSendDepositTransaction } from '@hooks/transactions/useSendDepositTransaction'
 import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { BigNumber } from 'ethers'
+import { useEffect } from 'react'
+import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTokenAllowance } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
 import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
-import { useEffect } from 'react'
-import { useAccount, useNetwork, useProvider } from 'wagmi'
+import { useSendDepositTransaction } from '@hooks/transactions/useSendDepositTransaction'
 
 interface DepositModalButtonProps {
   vaultInfo: VaultInfo
@@ -56,6 +56,7 @@ export const DepositModalButton = (props: DepositModalButtonProps) => {
     )
   }
 
+  // TODO: use https://wagmi.sh/react/hooks/useSwitchNetwork to actually switch networks
   if (chain.id !== vaultInfo.chainId) {
     return (
       <Button fullSized={true} onClick={openChainModal}>

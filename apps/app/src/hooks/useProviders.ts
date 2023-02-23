@@ -1,6 +1,6 @@
 import { providers } from 'ethers'
-import { NETWORK } from 'pt-utilities'
 import { useProvider } from 'wagmi'
+import { NETWORK } from 'pt-utilities'
 
 /**
  * Returns providers for all SUPPORTED_NETWORKS

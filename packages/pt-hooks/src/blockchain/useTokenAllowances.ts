@@ -1,6 +1,6 @@
 import { BigNumber, providers } from 'ethers'
-import { getTokenAllowances } from 'pt-utilities'
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
+import { getTokenAllowances } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 

@@ -1,6 +1,6 @@
+import { providers } from 'ethers'
 import { useQuery, UseQueryResult } from 'react-query'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
-import { providers } from 'ethers'
 
 /**
  * Returns a provider's chain ID

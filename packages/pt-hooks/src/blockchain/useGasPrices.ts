@@ -1,5 +1,5 @@
-import { getGasPrices, sToMs } from 'pt-utilities'
 import { useQuery } from 'react-query'
+import { getGasPrices, sToMs } from 'pt-utilities'
 import { QUERY_KEYS } from '../constants'
 
 /**

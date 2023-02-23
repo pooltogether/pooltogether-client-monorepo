@@ -1,9 +1,9 @@
-import { getTokenInfo } from 'pt-utilities'
+import { providers } from 'ethers'
 import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { TokenWithSupply } from 'pt-types'
+import { getTokenInfo } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
-import { providers } from 'ethers'
 
 /**
  * Returns a dictionary keyed by the token addresses with basic token data.

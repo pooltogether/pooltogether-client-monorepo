@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers'
+import { useEffect, useState } from 'react'
 import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { useEffect, useState } from 'react'
 import { DepositModalButton } from './DepositModalButton'
 
 interface DepositModalProps {
@@ -11,6 +11,7 @@ interface DepositModalProps {
   onClose?: () => void
 }
 
+// TODO: abstract out wagmi hooks and send component to pt-components package
 export const DepositModal = (props: DepositModalProps) => {
   const { vaultInfo, isOpen, onClose } = props
   const [isBrowser, setIsBrowser] = useState(false)

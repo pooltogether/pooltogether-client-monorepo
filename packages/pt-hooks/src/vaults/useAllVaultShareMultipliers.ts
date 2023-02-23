@@ -1,7 +1,7 @@
 import { BigNumber, providers } from 'ethers'
+import { useQuery, UseQueryResult } from 'react-query'
 import { VaultList } from 'pt-types'
 import { getAllVaultShareMultipliers } from 'pt-utilities'
-import { useQuery, UseQueryResult } from 'react-query'
 import { QUERY_KEYS } from '../constants'
 
 /**
