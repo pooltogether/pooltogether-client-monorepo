@@ -1,10 +1,8 @@
 import { BigNumber, providers, utils } from 'ethers'
-import { useAccount, useContractWrite, usePrepareContractWrite, useSigner } from 'wagmi'
-import { Vault } from 'pt-client-js'
+import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { VaultInfo } from 'pt-types'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
 
-// TODO: validation to make sure userAddress and signer.getAddress() are the same
 export const useSendDepositTransaction = (
   amount: BigNumber,
   vaultInfo: VaultInfo
@@ -13,22 +11,18 @@ export const useSendDepositTransaction = (
   sendDepositTransaction: (() => void) | undefined
 } => {
   const { address: userAddress } = useAccount()
-  const { data: signer, isFetched, isError } = useSigner({ chainId: vaultInfo.chainId })
 
-  const vault = !!signer ? new Vault(vaultInfo.chainId, vaultInfo.address, signer) : undefined
-
-  const enabled =
-    !!signer && isFetched && !isError && !!vault && !!userAddress && utils.isAddress(userAddress)
+  const enabled = !!userAddress && utils.isAddress(userAddress)
 
   // TODO: overrides?
   // TODO: onSuccess
   // TODO: onError
   const { config } = usePrepareContractWrite({
-    address: vault?.address as `0x${string}`,
+    address: vaultInfo.address,
     abi: erc4626Abi,
     functionName: 'deposit',
     args: [amount, userAddress],
-    chainId: vault?.chainId,
+    chainId: vaultInfo.chainId,
     enabled
   })
 
