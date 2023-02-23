@@ -15,8 +15,6 @@
   "devDependencies": {
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.9.5"

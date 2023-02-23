@@ -27,7 +27,6 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 ### Packages
 
-- `eslint-config-custom`: Shared `eslint` configs, including `eslint-config-next` and `eslint-config-prettier`.
 - `pt-client-js`: Protocol-specific functions to easily interact with on-chain data.
 - `pt-components`: More complex React component library utilizing some components from `pt-ui`.
 - `pt-hooks`: Shared React hooks.
@@ -47,7 +46,6 @@ This Turborepo has some additional tools already setup:
 
 - [Tailwind CSS](https://tailwindcss.com/) for styles
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
 ### Known Issues / Fixes

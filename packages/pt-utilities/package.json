@@ -14,8 +14,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
