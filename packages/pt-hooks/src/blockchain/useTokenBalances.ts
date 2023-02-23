@@ -1,5 +1,5 @@
+import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { providers } from 'ethers'
-import { useQuery, useQueryClient, UseQueryResult } from 'react-query'
 import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'

@@ -1,5 +1,5 @@
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { utils } from 'ethers'
-import { useQuery, UseQueryResult } from 'react-query'
 import { CoingeckoTokenData } from 'pt-types'
 import { COINGECKO_PLATFORM, getCoingeckoTokenData } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
