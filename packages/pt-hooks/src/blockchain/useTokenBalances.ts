@@ -4,9 +4,12 @@ import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
+import { useProviderChainId } from './useProviderChainId'
 
 /**
  * Returns a dictionary keyed by the token addresses with their associated balances
+ *
+ * Stores queried balances in cache
  * @param readProvider read-capable provider to query token balances through
  * @param address address to check for token balances
  * @param tokenAddresses token addresses to query balances for
@@ -21,14 +24,18 @@ export const useTokenBalances = (
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }, unknown> => {
   const queryClient = useQueryClient()
 
+  const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
+
   const enabled =
     !!address &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!readProvider
+    !!readProvider &&
+    isFetchedChainId &&
+    !!chainId
 
-  const queryKey = [QUERY_KEYS.tokenBalances, address, tokenAddresses]
+  const queryKey = [QUERY_KEYS.tokenBalances, chainId, address, tokenAddresses]
 
   return useQuery(
     queryKey,
@@ -43,8 +50,9 @@ export const useTokenBalances = (
 }
 
 /**
- * Returns an address's token balance.
- * Wraps `useTokenBalances`.
+ * Returns an address's token balance
+ *
+ * Wraps {@link useTokenBalances}
  * @param readProvider read-capable provider to query token balance through
  * @param address address to check for token balance
  * @param tokenAddress token address to query balance for

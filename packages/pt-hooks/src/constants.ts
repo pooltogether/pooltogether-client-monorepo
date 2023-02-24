@@ -2,8 +2,6 @@
  * Query keys for various hooks
  */
 export const QUERY_KEYS = Object.freeze({
-  allUserVaultBalances: 'allUserVaultBalances',
-  allVaultShareMultipliers: 'allVaultShareMultipliers',
   coingeckoExchangeRates: 'coingeckoExchangeRates',
   coingeckoSimpleTokenPrices: 'coingeckoSimpleTokenPrices',
   coingeckoTokenData: 'coingeckoTokenData',
@@ -12,7 +10,9 @@ export const QUERY_KEYS = Object.freeze({
   providerChainId: 'providerChainId',
   tokenAllowances: 'tokenAllowances',
   tokenBalances: 'tokenBalances',
-  tokens: 'tokens'
+  tokens: 'tokens',
+  userVaultBalances: 'allUserVaultBalances',
+  vaultShareMultipliers: 'allVaultShareMultipliers'
 })
 
 /**

@@ -1,7 +1,7 @@
 import { Version } from './contracts'
 
 /**
- * This interface is compatible with Uniswap's token lists (https://tokenlists.org/)
+ * Vault list interface, compatible with Uniswap's token lists (https://tokenlists.org/)
  */
 export interface VaultList {
   readonly name: string

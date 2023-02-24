@@ -18,8 +18,8 @@ export class PrizePool {
     public address: string,
     public signerOrProvider: Signer | providers.Provider
   ) {
-    // this.prizePoolContract = new Contract(this.address, prizePoolAbi, this.signerOrProvider)
-    this.id = `${this.address}-${this.chainId}`
+    // this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
+    this.id = `${address}-${chainId}`
   }
 
   /* ============================== Read Functions ============================== */

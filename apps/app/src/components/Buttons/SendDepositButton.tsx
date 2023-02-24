@@ -11,6 +11,7 @@ interface SendDepositButtonProps extends ButtonProps {
   vaultInfo: VaultInfo
 }
 
+// TODO: need to check balance and disable if depositAmount is larger than balance
 export const SendDepositButton = (props: SendDepositButtonProps) => {
   const { depositAmount, vaultInfo, ...rest } = props
 

@@ -4,10 +4,12 @@ import { TokenWithSupply } from 'pt-types'
 import { getTokenInfo } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
+import { useProviderChainId } from './useProviderChainId'
 
 /**
- * Returns a dictionary keyed by the token addresses with basic token data.
- * Stored queried token data in cache.
+ * Returns a dictionary keyed by the token addresses with basic token data
+ *
+ * Stores queried token data in cache
  * @param readProvider read-capable provider to query token info through
  * @param tokenAddresses token addresses to query info for
  * @returns
@@ -18,13 +20,17 @@ export const useTokens = (
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }, unknown> => {
   const queryClient = useQueryClient()
 
+  const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
+
   const enabled =
     tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!readProvider
+    !!readProvider &&
+    isFetchedChainId &&
+    !!chainId
 
-  const queryKey = [QUERY_KEYS.tokens, tokenAddresses]
+  const queryKey = [QUERY_KEYS.tokens, chainId, tokenAddresses]
 
   return useQuery(queryKey, async () => await getTokenInfo(readProvider, tokenAddresses), {
     enabled,
@@ -34,8 +40,9 @@ export const useTokens = (
 }
 
 /**
- * Returns basic token data for one token.
- * Wraps `useTokens`.
+ * Returns basic token data for one token
+ *
+ * Wraps {@link useTokens}
  * @param readProvider read-capable provider to query token info through
  * @param tokenAddress token address to query info for
  * @returns

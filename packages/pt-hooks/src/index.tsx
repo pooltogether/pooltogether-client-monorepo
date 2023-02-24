@@ -19,8 +19,8 @@ export * from './coingecko/useCoingeckoTokenPrices'
 /**
  * Vault Hooks
  */
-export * from './vaults/useAllUserVaultBalances'
-export * from './vaults/useAllVaultShareMultipliers'
+export * from './vaults/useUserVaultBalances'
+export * from './vaults/useVaultShareMultipliers'
 
 /**
  * Utils

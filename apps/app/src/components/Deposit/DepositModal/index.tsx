@@ -13,7 +13,6 @@ interface DepositModalProps {
   onClose?: () => void
 }
 
-// TODO: abstract out wagmi hooks and send component to pt-components package
 export const DepositModal = (props: DepositModalProps) => {
   const { vaultInfo, isOpen, onClose } = props
 

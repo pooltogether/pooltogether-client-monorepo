@@ -61,7 +61,7 @@ export const formatNumberForDisplay = (
 }
 
 /**
- * Wraps formatNumberForDisplay and handles shifting decimals of a BigNumber
+ * Wraps {@link formatNumberForDisplay} and handles shifting decimals of a BigNumber
  * @param val BigNumber to format
  * @param decimals decimals to shift by
  * @param options formatting options
@@ -81,7 +81,7 @@ export const formatUnformattedBigNumberForDisplay = (
 }
 
 /**
- * Wraps formatNumberForDisplay and handles currency style selection
+ * Wraps {@link formatNumberForDisplay} and handles currency style selection
  * @param val number to format
  * @param currency currency symbol and formatting to follow (default is "USD")
  * @param options formatting options

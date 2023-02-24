@@ -2,9 +2,9 @@ import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { ChangeEvent } from 'react'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { useAllVaultShareMultipliers } from 'pt-hooks'
+import { useVaultShareMultipliers } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { divideBigNumbers } from 'pt-utilities'
+import { divideBigNumbers, getVaultId } from 'pt-utilities'
 import defaultVaultList from '@data/defaultVaultList'
 import { useProviders } from '@hooks/useProviders'
 
@@ -26,9 +26,9 @@ export const DepositForm = (props: DepositFormProps) => {
   const { vaultInfo, register, setValue, errors } = props
 
   // const providers = useProviders()
-  // const { data: vaultMultipliers } = useAllVaultShareMultipliers(providers, defaultVaultList)
+  // const { data: vaultMultipliers } = useVaultShareMultipliers(providers, defaultVaultList)
 
-  // const vaultId = `${vaultInfo.address}-${vaultInfo.chainId}`
+  // const vaultId = getVaultId(vaultInfo)
   // const vaultMultiplier = vaultMultipliers[vaultId]
 
   // TODO: remove this after vaults have proper addresses (and uncomment code above)

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { BigNumber } from 'ethers'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
-import { useAllUserVaultBalances } from 'pt-hooks'
+import { useUserVaultBalances } from 'pt-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { Button, Table, TableProps } from 'pt-ui'
 import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
@@ -21,7 +21,7 @@ export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
   const providers = useProviders()
 
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
+  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
   //   providers,
   //   userAddress,
   //   defaultVaultList

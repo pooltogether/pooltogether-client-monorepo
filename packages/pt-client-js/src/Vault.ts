@@ -7,6 +7,7 @@ import {
   getTokenAllowances,
   getTokenBalances,
   getTokenInfo,
+  getVaultId,
   validateAddress,
   validateSignerOrProviderNetwork
 } from 'pt-utilities'
@@ -30,8 +31,8 @@ export class Vault {
     public address: string,
     public signerOrProvider: Signer | providers.Provider
   ) {
-    this.vaultContract = new Contract(this.address, erc4626Abi, this.signerOrProvider)
-    this.id = `${this.address}-${this.chainId}`
+    this.vaultContract = new Contract(address, erc4626Abi, signerOrProvider)
+    this.id = getVaultId({ address, chainId })
     this.tokenContract = undefined
   }
 
