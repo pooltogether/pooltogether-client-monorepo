@@ -44,9 +44,9 @@ export const useVaultShareMultipliers = (
  * Returns a vault's multiplier to calculate shares to assets
  *
  * Wraps {@link useVaultShareMultipliers}
- * @param readProvider
- * @param vaultInfo
- * @param refetchInterval
+ * @param readProvider read-capable provider to query vault multiplier through
+ * @param vaultInfo vault info for the vault to query a multiplier for
+ * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useVaultShareMultiplier = (
