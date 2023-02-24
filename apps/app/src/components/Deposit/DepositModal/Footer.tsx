@@ -1,4 +1,5 @@
-import { BigNumber } from 'ethers'
+import { utils } from 'ethers'
+import { UseFormWatch } from 'react-hook-form'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTokenAllowance } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
@@ -6,42 +7,54 @@ import { ConnectWalletButton } from '@components/Buttons/ConnectWalletButton'
 import { SendApproveButton } from '@components/Buttons/SendApproveButton'
 import { SendDepositButton } from '@components/Buttons/SendDepositButton'
 import { SwitchNetworkButton } from '@components/Buttons/SwitchNetworkButton'
+import { DepositFormValues } from './DepositForm'
 
 interface DepositModalFooterProps {
   vaultInfo: VaultInfo
-  depositAmount: BigNumber // TODO: possibly get this directly from a form hook instead
+  watch: UseFormWatch<DepositFormValues>
+  isValidFormInputs: boolean
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
+  const { vaultInfo, watch, isValidFormInputs } = props
+
   const { address: userAddress, isDisconnected } = useAccount()
   const { chain } = useNetwork()
 
-  const provider = useProvider({ chainId: props.vaultInfo.chainId })
+  const provider = useProvider({ chainId: vaultInfo.chainId })
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
     provider,
     userAddress,
-    props.vaultInfo.address,
-    props.vaultInfo.extensions.underlyingAsset.address
+    vaultInfo.address,
+    vaultInfo.extensions.underlyingAsset.address
+  )
+
+  const formTokenAmount = watch('tokenAmount')
+  const depositAmount = utils.parseUnits(
+    isValidFormInputs && !!formTokenAmount ? formTokenAmount : '0',
+    vaultInfo.decimals
   )
 
   if (isDisconnected) {
     return <ConnectWalletButton fullSized={true} />
-  } else if (chain?.id !== props.vaultInfo.chainId) {
-    return <SwitchNetworkButton chainId={props.vaultInfo.chainId} fullSized={true} />
-  } else if (!isFetchedAllowance || allowance.lt(props.depositAmount)) {
+  } else if (chain?.id !== vaultInfo.chainId) {
+    return <SwitchNetworkButton chainId={vaultInfo.chainId} fullSized={true} />
+  } else if (!isFetchedAllowance || allowance.lt(depositAmount)) {
     return (
       <SendApproveButton
-        depositAmount={props.depositAmount}
-        vaultInfo={props.vaultInfo}
+        amount={depositAmount}
+        vaultInfo={vaultInfo}
         fullSized={true}
+        disabled={!isValidFormInputs}
       />
     )
   } else {
     return (
       <SendDepositButton
-        depositAmount={props.depositAmount}
-        vaultInfo={props.vaultInfo}
+        depositAmount={depositAmount}
+        vaultInfo={vaultInfo}
         fullSized={true}
+        disabled={!isValidFormInputs}
       />
     )
   }

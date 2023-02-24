@@ -6,12 +6,13 @@ interface DepositModalHeaderProps {
 }
 
 export const DepositModalHeader = (props: DepositModalHeaderProps) => {
-  const vaultName = props.vaultInfo.name
-  const networkName = getNiceNetworkNameByChainId(props.vaultInfo.chainId)
+  const { vaultInfo } = props
+
+  const networkName = getNiceNetworkNameByChainId(vaultInfo.chainId)
 
   return (
     <span className='font-semibold text-center mt-6'>
-      Deposit to {vaultName} on {networkName}
+      Deposit to {vaultInfo.name} on {networkName}
     </span>
   )
 }

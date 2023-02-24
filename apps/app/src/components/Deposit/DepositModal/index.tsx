@@ -1,8 +1,9 @@
-import { BigNumber } from 'ethers'
 import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { DepositModalBody } from './Body'
+import { DepositFormValues } from './DepositForm'
 import { DepositModalFooter } from './Footer'
 import { DepositModalHeader } from './Header'
 
@@ -15,13 +16,22 @@ interface DepositModalProps {
 // TODO: abstract out wagmi hooks and send component to pt-components package
 export const DepositModal = (props: DepositModalProps) => {
   const { vaultInfo, isOpen, onClose } = props
-  const [isBrowser, setIsBrowser] = useState(false)
 
   // NOTE: This is necessary due to hydration errors otherwise.
+  const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  // TODO: remove this temporary value and fetch from form here or on components themselves
-  const depositAmount = BigNumber.from(0)
+  const defaultFormValues: DepositFormValues = { tokenAmount: '0', shareAmount: '0' }
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors: formErrors, isValid: isValidFormInputs }
+  } = useForm<DepositFormValues>({
+    mode: 'onChange',
+    defaultValues: defaultFormValues,
+    shouldUnregister: true
+  })
 
   if (isBrowser) {
     return (
@@ -29,8 +39,21 @@ export const DepositModal = (props: DepositModalProps) => {
         show={isOpen}
         dismissible={true}
         headerContent={<DepositModalHeader vaultInfo={vaultInfo} />}
-        bodyContent={<DepositModalBody vaultInfo={vaultInfo} />}
-        footerContent={<DepositModalFooter vaultInfo={vaultInfo} depositAmount={depositAmount} />}
+        bodyContent={
+          <DepositModalBody
+            vaultInfo={vaultInfo}
+            register={register}
+            setValue={setValue}
+            errors={formErrors}
+          />
+        }
+        footerContent={
+          <DepositModalFooter
+            vaultInfo={vaultInfo}
+            watch={watch}
+            isValidFormInputs={isValidFormInputs}
+          />
+        }
         onClose={onClose}
       />
     )

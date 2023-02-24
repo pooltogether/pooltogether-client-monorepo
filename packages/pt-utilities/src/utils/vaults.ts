@@ -2,6 +2,7 @@ import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, providers, utils } from 'ethers'
 import { VaultInfoWithBalance, VaultList } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
+import { divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
@@ -102,7 +103,10 @@ export const getAllVaultShareMultipliers = async (
             multicallResults[vault.address]['convertToAssets']?.[0]
           if (!!multiplier) {
             const vaultId = `${vault.address}-${vault.chainId}`
-            vaultShareMultipliers[vaultId] = BigNumber.from(multiplier)
+            vaultShareMultipliers[vaultId] = divideBigNumbers(
+              BigNumber.from(multiplier),
+              utils.parseUnits('1', vault.decimals)
+            )
           }
         })
       }

@@ -34,7 +34,7 @@ export const SendDepositButton = (props: SendDepositButtonProps) => {
   }, [depositTxData])
 
   return (
-    <Button onClick={sendDepositTransaction} {...rest}>
+    <Button onClick={sendDepositTransaction} disabled={depositAmount.isZero()} {...rest}>
       Deposit
     </Button>
   )

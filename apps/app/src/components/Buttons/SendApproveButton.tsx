@@ -7,16 +7,16 @@ import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } fro
 import { useSendApproveTransaction } from '@hooks/transactions/useSendApproveTransaction'
 
 interface SendApproveButtonProps extends ButtonProps {
-  depositAmount: BigNumber
+  amount: BigNumber
   vaultInfo: VaultInfo
 }
 
 // TODO: implement infinite approval as well?
 export const SendApproveButton = (props: SendApproveButtonProps) => {
-  const { depositAmount, vaultInfo, ...rest } = props
+  const { amount, vaultInfo, ...rest } = props
 
   const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
-    depositAmount,
+    amount,
     vaultInfo
   )
 
@@ -24,8 +24,8 @@ export const SendApproveButton = (props: SendApproveButtonProps) => {
 
   const networkName = getNiceNetworkNameByChainId(vaultInfo.chainId)
   const tokenSymbol = vaultInfo.extensions.underlyingAsset.symbol
-  const formattedDepositAmount = formatUnformattedBigNumberForDisplay(
-    depositAmount,
+  const formattedAmount = formatUnformattedBigNumberForDisplay(
+    amount,
     vaultInfo.decimals.toString()
   )
 
@@ -39,8 +39,8 @@ export const SendApproveButton = (props: SendApproveButtonProps) => {
   }, [approveTxData])
 
   return (
-    <Button onClick={sendApproveTransaction} {...rest}>
-      Approve {formattedDepositAmount} {tokenSymbol}
+    <Button onClick={sendApproveTransaction} disabled={amount.isZero()} {...rest}>
+      Approve {formattedAmount} {tokenSymbol}
     </Button>
   )
 }

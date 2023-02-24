@@ -8,6 +8,7 @@ import { formatUnits } from 'ethers/lib/utils'
  * @returns
  */
 export const formatStringWithPrecision = (val: string, precision: number = 2) => {
+  if (precision === 0) return val.substring(0, val.indexOf('.'))
   return val.substring(0, val.indexOf('.') + precision + 1)
 }
 
