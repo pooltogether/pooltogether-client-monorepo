@@ -2,6 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { ChangeEvent } from 'react'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
+import { FallbackTokenLogo } from 'pt-ui'
 import { formatBigNumberForDisplay, formatCurrencyNumberForDisplay } from 'pt-utilities'
 import { DepositFormValues } from './DepositForm'
 
@@ -64,8 +65,11 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
       />
       <span>Value: {usdValue}</span>
       <span>
-        {/* TODO: add fallback token logo component */}
-        {!!token.logoURI ? <img src={token.logoURI} alt={`${token.symbol} Logo`} /> : <></>}
+        {!!token.logoURI ? (
+          <img src={token.logoURI} alt={`${token.symbol} Logo`} />
+        ) : (
+          <FallbackTokenLogo symbol={token.symbol} />
+        )}
         {token.symbol}
       </span>
       <span>Balance: {formattedBalance}</span>

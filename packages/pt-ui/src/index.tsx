@@ -8,6 +8,7 @@ export { Flowbite } from 'flowbite-react'
  */
 export * from './components/Button'
 export * from './components/Card'
+export * from './components/FallbackTokenLogo'
 export * from './components/Logo'
 export * from './components/Modal'
 export * from './components/Navbar'
