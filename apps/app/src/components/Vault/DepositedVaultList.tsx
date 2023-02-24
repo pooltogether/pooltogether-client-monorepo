@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi'
 import { useUserVaultBalances } from 'pt-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { Button, Table, TableProps } from 'pt-ui'
-import { formatUnformattedBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
+import { formatBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
 import defaultVaultList from '@data/defaultVaultList'
 import { useProviders } from '@hooks/useProviders'
 import { VaultToken } from './VaultList'
@@ -82,7 +82,7 @@ interface DepositedVaultBalanceProps {
 const DepositedVaultBalance = (props: DepositedVaultBalanceProps) => {
   return (
     <span>
-      {formatUnformattedBigNumberForDisplay(
+      {formatBigNumberForDisplay(
         BigNumber.from(props.vaultInfo.balance),
         props.vaultInfo.decimals.toString()
       )}{' '}

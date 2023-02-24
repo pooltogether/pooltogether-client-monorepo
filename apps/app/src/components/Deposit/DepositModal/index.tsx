@@ -42,6 +42,7 @@ export const DepositModal = (props: DepositModalProps) => {
           <DepositModalBody
             vaultInfo={vaultInfo}
             register={register}
+            watch={watch}
             setValue={setValue}
             errors={formErrors}
           />

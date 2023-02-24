@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { CoingeckoTokenPrices } from 'pt-types'
-import { COINGECKO_PLATFORM, getCoingeckoTokenPrices } from 'pt-utilities'
+import { COINGECKO_PLATFORM, COINGECKO_PLATFORMS, getCoingeckoTokenPrices } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 
 /**
@@ -11,7 +11,7 @@ import { NO_REFETCH, QUERY_KEYS } from '../constants'
  * @returns
  */
 export const useCoingeckoTokenPrices = (
-  chainId: COINGECKO_PLATFORM,
+  chainId: number,
   tokenAddresses: string[],
   currencies?: string[]
 ): UseQueryResult<CoingeckoTokenPrices, unknown> => {
@@ -20,11 +20,13 @@ export const useCoingeckoTokenPrices = (
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!chainId &&
+    chainId in COINGECKO_PLATFORMS &&
     (currencies === undefined || currencies.length > 0)
 
   return useQuery(
     [QUERY_KEYS.coingeckoTokenPrices, chainId, tokenAddresses, currencies],
-    async () => await getCoingeckoTokenPrices(chainId, tokenAddresses, currencies),
+    async () =>
+      await getCoingeckoTokenPrices(chainId as COINGECKO_PLATFORM, tokenAddresses, currencies),
     {
       staleTime: Infinity,
       enabled,

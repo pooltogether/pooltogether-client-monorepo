@@ -29,9 +29,9 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vaultInfo.extensions.underlyingAsset.address
   )
 
-  const formTokenAmount = watch('tokenAmount')
+  const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount = utils.parseUnits(
-    isValidFormInputs && !!formTokenAmount ? formTokenAmount : '0',
+    isValidFormInputs ? formTokenAmount : '0',
     vaultInfo.decimals
   )
 

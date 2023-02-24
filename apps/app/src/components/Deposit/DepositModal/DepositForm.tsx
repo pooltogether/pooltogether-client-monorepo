@@ -1,11 +1,16 @@
-import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { ChangeEvent } from 'react'
-import { FieldErrorsImpl, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
-import { useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
+import {
+  useCoingeckoTokenPrices,
+  useTokenBalance,
+  useUserVaultBalance,
+  useVaultShareMultiplier
+} from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { divideBigNumbers } from 'pt-utilities'
+import { divideBigNumbers, sToMs } from 'pt-utilities'
+import { DepositFormInput } from './DepositFormInput'
 
 export interface DepositFormValues {
   tokenAmount: string
@@ -15,25 +20,46 @@ export interface DepositFormValues {
 interface DepositFormProps {
   vaultInfo: VaultInfo
   register: UseFormRegister<DepositFormValues>
+  watch: UseFormWatch<DepositFormValues>
   setValue: UseFormSetValue<DepositFormValues>
   errors: FieldErrorsImpl<DepositFormValues>
 }
 
 export const DepositForm = (props: DepositFormProps) => {
-  const { vaultInfo, register, setValue, errors } = props
+  const { vaultInfo, register, watch, setValue, errors } = props
 
   const provider = useProvider({ chainId: vaultInfo.chainId })
-  // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo, 10_000)
+  // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo, sToMs(10))
 
   // TODO: remove this after vaults have proper addresses (and uncomment code above)
   const vaultMultiplier = BigNumber.from('2')
 
   const { address: userAddress } = useAccount()
-  const { data: vaultInfoWithBalance, isFetched: isFetchedUserBalance } = useUserVaultBalance(
+
+  const { data: tokenWithBalance, isFetched: isFetchedTokenBalance } = useTokenBalance(
     provider,
     userAddress,
-    vaultInfo
+    vaultInfo.extensions.underlyingAsset.address,
+    sToMs(30)
   )
+  const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
+
+  const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
+    provider,
+    userAddress,
+    vaultInfo,
+    sToMs(30)
+  )
+
+  const { data: coingeckoPrices, isFetched: isFetchedCoingeckoPrices } = useCoingeckoTokenPrices(
+    vaultInfo.chainId,
+    [vaultInfo.extensions.underlyingAsset.address],
+    ['usd']
+  )
+  const usdPrice =
+    isFetchedCoingeckoPrices && !!coingeckoPrices
+      ? coingeckoPrices[vaultInfo.extensions.underlyingAsset.address]?.['usd']
+      : 0
 
   const calculateSharesForTokens = (e: ChangeEvent<HTMLInputElement>) => {
     const formTokenAmount = e.target.value
@@ -77,59 +103,41 @@ export const DepositForm = (props: DepositFormProps) => {
   return (
     <>
       <DepositFormInput
+        token={{
+          ...vaultInfo.extensions.underlyingAsset,
+          balance: tokenBalance,
+          usdPrice,
+          logoURI: vaultInfo.extensions.underlyingAsset.logoURI
+        }}
         formKey='tokenAmount'
         validate={{
           ...basicValidation,
           isNotGreaterThanBalance: (v) =>
-            (isFetchedUserBalance &&
+            (isFetchedVaultBalance &&
               !!vaultInfoWithBalance &&
               parseFloat(utils.formatUnits(vaultInfoWithBalance.balance, vaultInfo.decimals)) >=
                 parseFloat(v)) ||
-            !isFetchedUserBalance ||
+            !isFetchedVaultBalance ||
             !vaultInfoWithBalance ||
             `Not enough ${vaultInfo.extensions.underlyingAsset.symbol} in wallet`
         }}
         register={register}
+        watch={watch}
+        setValue={setValue}
         errors={errors}
         onChange={calculateSharesForTokens}
+        showMaxButton={true}
       />
       <DepositFormInput
+        token={{ ...vaultInfoWithBalance, decimals: String(vaultInfo.decimals), usdPrice: 0 }}
         formKey='shareAmount'
         validate={basicValidation}
         register={register}
+        watch={watch}
+        setValue={setValue}
         errors={errors}
         onChange={calculateTokensForShares}
       />
-    </>
-  )
-}
-
-interface DepositFormInputProps {
-  formKey: keyof DepositFormValues
-  validate?: { [rule: string]: (v: any) => true | string }
-  disabled?: boolean
-  register: UseFormRegister<DepositFormValues>
-  errors: FieldErrorsImpl<DepositFormValues>
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
-}
-
-const DepositFormInput = (props: DepositFormInputProps) => {
-  const { formKey, validate, disabled, errors, register, onChange } = props
-
-  const error =
-    !!errors[formKey]?.message && typeof errors[formKey].message === 'string'
-      ? errors[formKey].message
-      : null
-
-  return (
-    <>
-      <input
-        id={formKey}
-        {...register(formKey, { validate, onChange })}
-        className={classNames('w-full dark:bg-pt-transparent')}
-        disabled={disabled}
-      />
-      {!!error && <span>{error}</span>}
     </>
   )
 }

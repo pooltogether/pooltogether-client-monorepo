@@ -67,7 +67,7 @@ export const formatNumberForDisplay = (
  * @param options formatting options
  * @returns
  */
-export const formatUnformattedBigNumberForDisplay = (
+export const formatBigNumberForDisplay = (
   val: BigNumber,
   decimals: string,
   options?: Intl.NumberFormatOptions & {
