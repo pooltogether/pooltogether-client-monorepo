@@ -1,5 +1,4 @@
 import { BigNumber, utils } from 'ethers'
-import { ChangeEvent } from 'react'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { FallbackTokenLogo } from 'pt-ui'
@@ -15,11 +14,10 @@ interface DepositFormInputProps {
   watch: UseFormWatch<DepositFormValues>
   setValue: UseFormSetValue<DepositFormValues>
   errors: FieldErrorsImpl<DepositFormValues>
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
+  onChange?: (v: string) => void
   showMaxButton?: boolean
 }
 
-// TODO: "Max" button functionality
 export const DepositFormInput = (props: DepositFormInputProps) => {
   const {
     token,
@@ -34,8 +32,13 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
     showMaxButton
   } = props
 
-  const formAmount = Number(watch(formKey, '0'))
-  const usdValue = formatCurrencyNumberForDisplay(!Number.isNaN(formAmount) ? formAmount : 0, 'USD')
+  const formAmount = watch(formKey, '0')
+  const usdValue = formatCurrencyNumberForDisplay(
+    isValidFormInput(formAmount, parseInt(token.decimals)) && !!token.usdPrice
+      ? Number(formAmount) * token.usdPrice
+      : 0,
+    'USD'
+  )
 
   const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
 
@@ -53,13 +56,14 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
         shouldValidate: true
       }
     )
+    onChange(formattedAmount)
   }
 
   return (
     <>
       <input
         id={formKey}
-        {...register(formKey, { validate, onChange })}
+        {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
         className='w-full dark:bg-pt-transparent'
         disabled={disabled}
       />
@@ -77,4 +81,23 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
       {!!error && <span>{error}</span>}
     </>
   )
+}
+
+/**
+ * Checks if a form value is valid
+ * @param formValue the form value to check
+ * @param decimals the decimals the input should be constrained to
+ * @returns
+ */
+export const isValidFormInput = (formValue: string, decimals: number): boolean => {
+  if (
+    !!formValue &&
+    !Number.isNaN(Number(formValue)) &&
+    parseFloat(formValue) >= 0 &&
+    (formValue.split('.').length < 2 || formValue.split('.')[1].length <= decimals)
+  ) {
+    return true
+  } else {
+    return false
+  }
 }

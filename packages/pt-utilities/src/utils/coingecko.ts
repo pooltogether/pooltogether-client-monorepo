@@ -8,6 +8,8 @@ import {
 
 /**
  * Returns all native token prices from CoinGecko
+ *
+ * NOTE: `ids` can be found through `COINGECKO_NATIVE_TOKEN_IDS`
  * @param currencies optional currency override (default is ['usd'])
  * @returns
  */
@@ -30,6 +32,8 @@ export const getCoingeckoSimpleTokenPrices = async (
 
 /**
  * Returns token prices from CoinGecko from provided token addresses on a given chain
+ *
+ * NOTE: Contract addresses returned are all lowercase
  * @param chainId chain ID where the token addresses provided are from
  * @param tokenAddresses token addresses to query prices for
  * @param currencies optional currency override (default is ['usd'])

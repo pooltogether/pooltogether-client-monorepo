@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { VaultInfo } from 'pt-types'
-import { Button, Table, TableProps } from 'pt-ui'
+import { Table, TableProps } from 'pt-ui'
 import { getVaultsByChainId } from 'pt-utilities'
-import { DepositButton } from '@components/Deposit/DepositButton'
 import defaultVaultList from '@data/defaultVaultList'
+import { VaultButtons } from './VaultButtons'
+import { VaultToken } from './VaultToken'
 
 interface VaultListProps {
   chainId: number
@@ -44,35 +44,6 @@ export const VaultList = (props: VaultListProps) => {
         headerClassName='text-center'
         cellClassName='min-w-[15vw]'
       />
-    </div>
-  )
-}
-
-interface VaultTokenProps {
-  vaultInfo: VaultInfo
-}
-
-export const VaultToken = (props: VaultTokenProps) => {
-  return (
-    <div className='flex items-center gap-2'>
-      <img src={props.vaultInfo.logoURI} alt={`${props.vaultInfo.name} Logo`} className='h-6 w-6' />
-      <div className='flex flex-col'>
-        <span>{props.vaultInfo.name}</span>
-        <span className='text-sm'>{props.vaultInfo.symbol}</span>
-      </div>
-    </div>
-  )
-}
-
-interface VaultButtonsProps {
-  vaultInfo: VaultInfo
-}
-
-const VaultButtons = (props: VaultButtonsProps) => {
-  return (
-    <div className='flex gap-2'>
-      <DepositButton vaultInfo={props.vaultInfo} />
-      <Button>Details</Button>
     </div>
   )
 }

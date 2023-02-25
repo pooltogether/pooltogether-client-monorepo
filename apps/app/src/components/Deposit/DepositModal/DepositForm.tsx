@@ -1,16 +1,12 @@
 import { BigNumber, utils } from 'ethers'
-import { ChangeEvent } from 'react'
+import { useAtomValue } from 'jotai'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
-import {
-  useCoingeckoTokenPrices,
-  useTokenBalance,
-  useUserVaultBalance,
-  useVaultShareMultiplier
-} from 'pt-hooks'
+import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { divideBigNumbers, sToMs } from 'pt-utilities'
-import { DepositFormInput } from './DepositFormInput'
+import { divideBigNumbers } from 'pt-utilities'
+import { tokenPricesAtom } from '../../../atoms'
+import { DepositFormInput, isValidFormInput } from './DepositFormInput'
 
 export interface DepositFormValues {
   tokenAmount: string
@@ -29,7 +25,7 @@ export const DepositForm = (props: DepositFormProps) => {
   const { vaultInfo, register, watch, setValue, errors } = props
 
   const provider = useProvider({ chainId: vaultInfo.chainId })
-  // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo, sToMs(10))
+  // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo)
 
   // TODO: remove this after vaults have proper addresses (and uncomment code above)
   const vaultMultiplier = BigNumber.from('2')
@@ -39,31 +35,26 @@ export const DepositForm = (props: DepositFormProps) => {
   const { data: tokenWithBalance, isFetched: isFetchedTokenBalance } = useTokenBalance(
     provider,
     userAddress,
-    vaultInfo.extensions.underlyingAsset.address,
-    sToMs(30)
+    vaultInfo.extensions.underlyingAsset.address
   )
   const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
 
   const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
     provider,
     userAddress,
-    vaultInfo,
-    sToMs(30)
+    vaultInfo
   )
+  const shareBalance =
+    isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
-  const { data: coingeckoPrices, isFetched: isFetchedCoingeckoPrices } = useCoingeckoTokenPrices(
-    vaultInfo.chainId,
-    [vaultInfo.extensions.underlyingAsset.address],
-    ['usd']
-  )
-  const usdPrice =
-    isFetchedCoingeckoPrices && !!coingeckoPrices
-      ? coingeckoPrices[vaultInfo.extensions.underlyingAsset.address]?.['usd']
-      : 0
+  const tokenPrices =
+    useAtomValue(tokenPricesAtom)[vaultInfo.chainId]?.[
+      vaultInfo.extensions.underlyingAsset.address.toLowerCase()
+    ]
+  const usdPrice = tokenPrices?.['usd'] ?? 0
 
-  const calculateSharesForTokens = (e: ChangeEvent<HTMLInputElement>) => {
-    const formTokenAmount = e.target.value
-    if (!!formTokenAmount) {
+  const calculateSharesForTokens = (formTokenAmount: string) => {
+    if (isValidFormInput(formTokenAmount, vaultInfo.decimals)) {
       const tokens = utils.parseUnits(formTokenAmount, vaultInfo.decimals)
       const shares = divideBigNumbers(tokens, vaultMultiplier)
       const formattedShares = utils.formatUnits(shares, vaultInfo.decimals)
@@ -77,9 +68,8 @@ export const DepositForm = (props: DepositFormProps) => {
     }
   }
 
-  const calculateTokensForShares = (e: ChangeEvent<HTMLInputElement>) => {
-    const formShareAmount = e.target.value
-    if (!!formShareAmount) {
+  const calculateTokensForShares = (formShareAmount: string) => {
+    if (isValidFormInput(formShareAmount, vaultInfo.decimals)) {
       const shares = utils.parseUnits(formShareAmount, vaultInfo.decimals)
       const tokens = shares.mul(vaultMultiplier)
       const formattedTokens = utils.formatUnits(tokens, vaultInfo.decimals)
@@ -94,10 +84,10 @@ export const DepositForm = (props: DepositFormProps) => {
   }
 
   const basicValidation: { [rule: string]: (v: any) => true | string } = {
-    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Invalid number',
-    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Negative numbers not allowed',
+    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
+    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
     isNotTooPrecise: (v) =>
-      v.split('.').length < 2 || v.split('.')[1].length < vaultInfo.decimals || 'Too many decimals'
+      v.split('.').length < 2 || v.split('.')[1].length <= vaultInfo.decimals || 'Too many decimals'
   }
 
   return (
@@ -113,10 +103,7 @@ export const DepositForm = (props: DepositFormProps) => {
         validate={{
           ...basicValidation,
           isNotGreaterThanBalance: (v) =>
-            (isFetchedVaultBalance &&
-              !!vaultInfoWithBalance &&
-              parseFloat(utils.formatUnits(vaultInfoWithBalance.balance, vaultInfo.decimals)) >=
-                parseFloat(v)) ||
+            parseFloat(utils.formatUnits(shareBalance, vaultInfo.decimals)) >= parseFloat(v) ||
             !isFetchedVaultBalance ||
             !vaultInfoWithBalance ||
             `Not enough ${vaultInfo.extensions.underlyingAsset.symbol} in wallet`
@@ -129,7 +116,12 @@ export const DepositForm = (props: DepositFormProps) => {
         showMaxButton={true}
       />
       <DepositFormInput
-        token={{ ...vaultInfoWithBalance, decimals: String(vaultInfo.decimals), usdPrice: 0 }}
+        token={{
+          ...vaultInfo,
+          decimals: vaultInfo.decimals.toString(),
+          balance: shareBalance,
+          usdPrice: 0 // TODO: calculate share price (token price divided by multiplier)
+        }}
         formKey='shareAmount'
         validate={basicValidation}
         register={register}

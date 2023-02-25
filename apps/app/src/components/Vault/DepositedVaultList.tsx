@@ -1,14 +1,14 @@
 import classNames from 'classnames'
-import { BigNumber } from 'ethers'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { useUserVaultBalances } from 'pt-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
-import { Button, Table, TableProps } from 'pt-ui'
-import { formatBigNumberForDisplay, getNiceNetworkNameByChainId } from 'pt-utilities'
+import { Table, TableProps } from 'pt-ui'
+import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import defaultVaultList from '@data/defaultVaultList'
 import { useProviders } from '@hooks/useProviders'
-import { VaultToken } from './VaultList'
+import { DepositedVaultBalance } from './DepositedVaultBalance'
+import { DepositedVaultButtons } from './DepositedVaultButtons'
+import { VaultToken } from './VaultToken'
 
 interface DepositedVaultListProps {
   className?: string
@@ -21,15 +21,11 @@ export const DepositedVaultList = (props: DepositedVaultListProps) => {
   const { address: userAddress } = useAccount()
   const providers = useProviders()
 
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
-  //   providers,
-  //   userAddress,
-  //   defaultVaultList
-  // )
-  const vaultBalances: {
-    [vaultId: string]: VaultInfoWithBalance
-  } = {}
-  const isFetchedVaultBalances = true
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
+    providers,
+    userAddress,
+    defaultVaultList
+  )
 
   const noBalances = isFetchedVaultBalances
     ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
@@ -72,30 +68,5 @@ export const DepositedVaultList = (props: DepositedVaultListProps) => {
       )}
       {!isFetchedVaultBalances && <span>Loading...</span>}
     </>
-  )
-}
-
-interface DepositedVaultBalanceProps {
-  vaultInfo: VaultInfoWithBalance
-}
-
-const DepositedVaultBalance = (props: DepositedVaultBalanceProps) => {
-  return (
-    <span>
-      {formatBigNumberForDisplay(
-        BigNumber.from(props.vaultInfo.balance),
-        props.vaultInfo.decimals.toString()
-      )}{' '}
-      {props.vaultInfo.extensions.underlyingAsset.symbol}
-    </span>
-  )
-}
-
-const DepositedVaultButtons = () => {
-  return (
-    <div>
-      <Button>Deposit</Button>
-      <Button>Withdraw</Button>
-    </div>
   )
 }

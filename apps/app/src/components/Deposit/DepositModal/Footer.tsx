@@ -8,6 +8,7 @@ import { SendApproveButton } from '@components/Buttons/SendApproveButton'
 import { SendDepositButton } from '@components/Buttons/SendDepositButton'
 import { SwitchNetworkButton } from '@components/Buttons/SwitchNetworkButton'
 import { DepositFormValues } from './DepositForm'
+import { isValidFormInput } from './DepositFormInput'
 
 interface DepositModalFooterProps {
   vaultInfo: VaultInfo
@@ -31,7 +32,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
 
   const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount = utils.parseUnits(
-    isValidFormInputs ? formTokenAmount : '0',
+    isValidFormInput(formTokenAmount, vaultInfo.decimals) ? formTokenAmount : '0',
     vaultInfo.decimals
   )
 

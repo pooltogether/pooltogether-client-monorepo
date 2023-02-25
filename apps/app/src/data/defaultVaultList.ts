@@ -14,7 +14,7 @@ const defaultVaultList: VaultList = {
       chainId: 1,
       address: '',
       name: 'USDC Vault',
-      decimals: 18,
+      decimals: 6,
       symbol: 'ptaUSDC',
       logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
       extensions: {
@@ -33,7 +33,7 @@ const defaultVaultList: VaultList = {
       chainId: 137,
       address: '',
       name: 'USDC Vault',
-      decimals: 18,
+      decimals: 6,
       symbol: 'ptaUSDC',
       logoURI: 'https://polygonscan.com/token/images/centre-usdc_32.png',
       extensions: {
@@ -71,7 +71,7 @@ const defaultVaultList: VaultList = {
       chainId: 42161,
       address: '',
       name: 'WBTC Vault',
-      decimals: 18,
+      decimals: 8,
       symbol: 'ptaWBTC',
       logoURI: 'https://arbiscan.io/token/images/wbtc_28.png',
       extensions: {
