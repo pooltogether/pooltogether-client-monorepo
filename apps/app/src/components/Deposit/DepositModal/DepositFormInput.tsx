@@ -36,8 +36,7 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
   const usdValue = formatCurrencyNumberForDisplay(
     isValidFormInput(formAmount, parseInt(token.decimals)) && !!token.usdPrice
       ? Number(formAmount) * token.usdPrice
-      : 0,
-    'USD'
+      : 0
   )
 
   const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)

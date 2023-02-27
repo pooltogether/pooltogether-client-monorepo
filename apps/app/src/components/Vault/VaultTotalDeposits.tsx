@@ -10,47 +10,58 @@ import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 
 interface VaultTotalDepositsProps {
   vaultInfo: VaultInfo
-  options?: { displayCurrency?: boolean }
+  displayCurrency?: boolean
 }
 
 export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
-  const { vaultInfo, options } = props
+  const { vaultInfo, displayCurrency } = props
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices(['usd'])
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
+  const usdPrice = useMemo(() => {
+    if (isFetchedTokenPrices && !!tokenPrices) {
+      return (
+        tokenPrices[vaultInfo.chainId][
+          vaultInfo.extensions.underlyingAsset.address.toLowerCase()
+        ]?.['usd'] ?? 0
+      )
+    } else {
+      return 0
+    }
+  }, [isFetchedTokenPrices, tokenPrices, vaultInfo])
 
-  const provider = useProvider({ chainId: vaultInfo.chainId })
-  const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(
-    provider,
-    vaultInfo
-  )
+  // const provider = useProvider({ chainId: vaultInfo.chainId })
+  // const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(
+  //   provider,
+  //   vaultInfo
+  // )
 
-  if (!isFetchedTotalDeposits) {
+  // TODO: remove this once vaults are setup (and uncomment code above):
+  const totalDeposits = utils.parseUnits('50000', vaultInfo.decimals)
+  const isFetchedTotalDeposits = true
+
+  if (!isFetchedTotalDeposits || (displayCurrency && !isFetchedTokenPrices)) {
     return <LoadingSpinner />
   }
 
-  if (options?.displayCurrency) {
-    const usdPrice = useMemo(() => {
-      return isFetchedTokenPrices && !!tokenPrices
-        ? tokenPrices[vaultInfo.chainId][
-            vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-          ]?.['usd'] ?? 0
-        : 0
-    }, [isFetchedTokenPrices, tokenPrices, vaultInfo])
-
-    const formattedTokenAmount = Number(utils.formatUnits(totalDeposits, vaultInfo.decimals))
+  if (displayCurrency) {
+    const formattedTokenAmount = !!totalDeposits
+      ? Number(utils.formatUnits(totalDeposits, vaultInfo.decimals))
+      : 0
 
     return (
       <span className='text-lg'>
-        <CurrencyValue baseValue={formattedTokenAmount * usdPrice} options={{ hideZeroes: true }} />
+        <CurrencyValue baseValue={formattedTokenAmount * usdPrice} hideZeroes={true} />
       </span>
     )
   }
 
   return (
     <span className='text-lg'>
-      {formatBigNumberForDisplay(totalDeposits, vaultInfo.decimals.toString(), {
-        hideZeroes: true
-      })}{' '}
+      {!!totalDeposits
+        ? formatBigNumberForDisplay(totalDeposits, vaultInfo.decimals.toString(), {
+            hideZeroes: true
+          })
+        : 0}{' '}
       {vaultInfo.extensions.underlyingAsset.symbol}
     </span>
   )

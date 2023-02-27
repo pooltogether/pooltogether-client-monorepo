@@ -46,7 +46,7 @@ export const DepositForm = (props: DepositFormProps) => {
   const shareBalance =
     isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices(['usd'])
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
   const usdPrice =
     isFetchedTokenPrices && !!tokenPrices
       ? tokenPrices[vaultInfo.chainId][

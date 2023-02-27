@@ -54,8 +54,8 @@ export const useCoingeckoTokenPricesAcrossChains = (
         tokenAddresses[chainId].every(
           (tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string'
         ) &&
-        Array.isArray(tokenAddresses) &&
-        tokenAddresses.length > 0 &&
+        Array.isArray(tokenAddresses[chainId]) &&
+        tokenAddresses[chainId].length > 0 &&
         !!chainId &&
         chainId in COINGECKO_PLATFORMS &&
         (currencies === undefined || currencies.length > 0)

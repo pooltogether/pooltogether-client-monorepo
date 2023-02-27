@@ -6,6 +6,7 @@ import defaultVaultList from '@data/defaultVaultList'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultToken } from './VaultToken'
+import { VaultTotalDeposits } from './VaultTotalDeposits'
 
 interface VaultListProps {
   chainId: number
@@ -28,7 +29,7 @@ export const VaultList = (props: VaultListProps) => {
       <VaultToken vaultInfo={vaultInfo} />,
       vaultInfo.extensions.yieldSource,
       <VaultPrizePower vaultInfo={vaultInfo} />,
-      '0',
+      <VaultTotalDeposits vaultInfo={vaultInfo} displayCurrency={true} />,
       <VaultButtons vaultInfo={vaultInfo} />
     ]
     const className = 'text-center'
