@@ -47,14 +47,14 @@ export const useUserVaultBalances = (
  *
  * Wraps {@link useUserVaultBalances}
  * @param readProvider read-capable provider to query vault balance through
- * @param useAddress a user's address to check balance for
+ * @param userAddress a user's address to check balance for
  * @param vaultInfo vault info for the vault to query a balance for
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useUserVaultBalance = (
   readProvider: providers.Provider,
-  useAddress: string,
+  userAddress: string,
   vaultInfo: VaultInfo,
   refetchInterval?: number
 ): { data: VaultInfoWithBalance } & Omit<
@@ -68,6 +68,6 @@ export const useUserVaultBalance = (
     timestamp: '',
     tokens: [vaultInfo]
   }
-  const result = useUserVaultBalances([readProvider], useAddress, mockVaultList, refetchInterval)
+  const result = useUserVaultBalances([readProvider], userAddress, mockVaultList, refetchInterval)
   return { ...result, data: result.data?.[vaultId] as VaultInfoWithBalance }
 }
