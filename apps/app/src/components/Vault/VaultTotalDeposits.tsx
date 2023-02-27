@@ -1,6 +1,9 @@
-import { BigNumber, utils } from 'ethers'
+import { utils } from 'ethers'
 import { useMemo } from 'react'
+import { useProvider } from 'wagmi'
+import { useVaultBalance } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
+import { LoadingSpinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
@@ -15,8 +18,15 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices(['usd'])
 
-  // TODO: fetch total deposits
-  const totalTokenDeposits: BigNumber = BigNumber.from('1234567890')
+  const provider = useProvider({ chainId: vaultInfo.chainId })
+  const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(
+    provider,
+    vaultInfo
+  )
+
+  if (!isFetchedTotalDeposits) {
+    return <LoadingSpinner />
+  }
 
   if (options?.displayCurrency) {
     const usdPrice = useMemo(() => {
@@ -27,7 +37,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
         : 0
     }, [isFetchedTokenPrices, tokenPrices, vaultInfo])
 
-    const formattedTokenAmount = Number(utils.formatUnits(totalTokenDeposits, vaultInfo.decimals))
+    const formattedTokenAmount = Number(utils.formatUnits(totalDeposits, vaultInfo.decimals))
 
     return (
       <span className='text-lg'>
@@ -38,7 +48,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   return (
     <span className='text-lg'>
-      {formatBigNumberForDisplay(totalTokenDeposits, vaultInfo.decimals.toString(), {
+      {formatBigNumberForDisplay(totalDeposits, vaultInfo.decimals.toString(), {
         hideZeroes: true
       })}{' '}
       {vaultInfo.extensions.underlyingAsset.symbol}

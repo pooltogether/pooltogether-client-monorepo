@@ -151,3 +151,67 @@ export const getVaultShareMultipliers = async (
 
   return vaultShareMultipliers
 }
+
+/**
+ * Returns the total underlying token amount deposited in all vaults from a vault list
+ * @param readProviders read-capable providers from any chains that should be queried
+ * @param vaultList a vault list to query through vaults in
+ * @returns
+ */
+export const getAllVaultBalances = async (
+  readProviders: providers.Provider[],
+  vaultList: VaultList
+): Promise<{
+  [vaultId: string]: BigNumber
+}> => {
+  const allVaultBalances: {
+    [vaultId: string]: BigNumber
+  } = {}
+
+  await Promise.all(
+    readProviders.map((readProvider) =>
+      (async () => {
+        const vaultBalances = await getVaultBalances(readProvider, vaultList)
+        Object.assign(allVaultBalances, vaultBalances)
+      })()
+    )
+  )
+
+  return allVaultBalances
+}
+
+/**
+ * Returns the total underlying token amount deposited in all vaults from a given chain and vault list
+ * @param readProvider a read-capable provider for the chain that should be queried
+ * @param vaultList a vault list to query through vaults in
+ * @returns
+ */
+export const getVaultBalances = async (
+  readProvider: providers.Provider,
+  vaultList: VaultList
+): Promise<{
+  [vaultId: string]: BigNumber
+}> => {
+  const vaultBalances: {
+    [vaultId: string]: BigNumber
+  } = {}
+  const chainId = (await readProvider.getNetwork())?.chainId
+  const vaults = !!chainId ? vaultList.tokens.filter((vault) => vault.chainId === chainId) : []
+
+  if (vaults.length > 0) {
+    const vaultAddresses = vaults.map((vault) => vault.address)
+    const multicallResults = await getMulticallResults(readProvider, vaultAddresses, erc4626Abi, [
+      { reference: 'totalAssets', methodName: 'totalAssets', methodParameters: [] }
+    ])
+
+    vaults.forEach((vault) => {
+      const balance: string | undefined = multicallResults[vault.address]['totalAssets']?.[0]
+      if (!!balance) {
+        const vaultId = getVaultId(vault)
+        vaultBalances[vaultId] = BigNumber.from(balance)
+      }
+    })
+  }
+
+  return vaultBalances
+}

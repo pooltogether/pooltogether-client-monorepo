@@ -11,8 +11,9 @@ export const QUERY_KEYS = Object.freeze({
   tokenAllowances: 'tokenAllowances',
   tokenBalances: 'tokenBalances',
   tokens: 'tokens',
-  userVaultBalances: 'allUserVaultBalances',
-  vaultShareMultipliers: 'allVaultShareMultipliers'
+  userVaultBalances: 'userVaultBalances',
+  vaultBalances: 'vaultBalances',
+  vaultShareMultipliers: 'vaultShareMultipliers'
 })
 
 /**
