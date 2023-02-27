@@ -1,21 +1,18 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
+import { VaultInfo } from 'pt-types'
 import { Table, TableProps } from 'pt-ui'
-import { getVaultsByChainId } from 'pt-utilities'
-import defaultVaultList from '@data/defaultVaultList'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultToken } from './VaultToken'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
 interface VaultListProps {
-  chainId: number
+  vaults: VaultInfo[]
   classname?: string
 }
 
 export const VaultList = (props: VaultListProps) => {
-  const vaults = getVaultsByChainId(props.chainId, defaultVaultList)
-
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
     'Yield Source',
@@ -24,7 +21,7 @@ export const VaultList = (props: VaultListProps) => {
     ''
   ]
 
-  const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
+  const tableRows: TableProps['rows'] = props.vaults.map((vaultInfo) => {
     const cells: ReactNode[] = [
       <VaultToken vaultInfo={vaultInfo} />,
       vaultInfo.extensions.yieldSource,
