@@ -9,6 +9,7 @@ export * from './abis/erc4626'
  */
 export * from './utils/addresses'
 export * from './utils/coingecko'
+export * from './utils/currencies'
 export * from './utils/formatting'
 export * from './utils/gas'
 export * from './utils/math'

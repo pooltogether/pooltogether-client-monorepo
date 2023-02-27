@@ -6,11 +6,15 @@ interface VaultTokenProps {
 
 export const VaultToken = (props: VaultTokenProps) => {
   return (
-    <div className='flex items-center gap-2'>
-      <img src={props.vaultInfo.logoURI} alt={`${props.vaultInfo.name} Logo`} className='h-6 w-6' />
-      <div className='flex flex-col'>
+    <div className='flex gap-2'>
+      <img
+        src={props.vaultInfo.logoURI}
+        alt={`${props.vaultInfo.name} Logo`}
+        className='h-6 w-6 my-auto'
+      />
+      <div className='flex flex-col text-left'>
         <span>{props.vaultInfo.name}</span>
-        <span className='text-sm'>{props.vaultInfo.symbol}</span>
+        <span className='text-sm dark:text-gray-400'>{props.vaultInfo.symbol}</span>
       </div>
     </div>
   )

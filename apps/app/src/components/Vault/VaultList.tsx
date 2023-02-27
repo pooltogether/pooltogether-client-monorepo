@@ -4,6 +4,7 @@ import { Table, TableProps } from 'pt-ui'
 import { getVaultsByChainId } from 'pt-utilities'
 import defaultVaultList from '@data/defaultVaultList'
 import { VaultButtons } from './VaultButtons'
+import { VaultPrizePower } from './VaultPrizePower'
 import { VaultToken } from './VaultToken'
 
 interface VaultListProps {
@@ -17,7 +18,7 @@ export const VaultList = (props: VaultListProps) => {
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
     'Yield Source',
-    'Prize Power',
+    'Prize Power', // TODO: add icon with tooltip next to prize power header
     'Total Deposits',
     ''
   ]
@@ -26,7 +27,7 @@ export const VaultList = (props: VaultListProps) => {
     const cells: ReactNode[] = [
       <VaultToken vaultInfo={vaultInfo} />,
       vaultInfo.extensions.yieldSource,
-      '',
+      <VaultPrizePower vaultInfo={vaultInfo} />,
       '0',
       <VaultButtons vaultInfo={vaultInfo} />
     ]

@@ -20,6 +20,7 @@ export * from './coingecko/useCoingeckoTokenPrices'
  * Vault Hooks
  */
 export * from './vaults/useUserVaultBalances'
+export * from './vaults/useVaultBalances'
 export * from './vaults/useVaultShareMultipliers'
 
 /**

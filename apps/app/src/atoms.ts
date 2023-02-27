@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { CoingeckoTokenPrices } from 'pt-types'
+import { CURRENCY_ID, SUPPORTED_CURRENCIES } from '@constants/currencies'
 
 /**
  * Testnet mode atom
@@ -7,9 +7,18 @@ import { CoingeckoTokenPrices } from 'pt-types'
 export const testnetModeAtom = atom<boolean>(false)
 
 /**
- * Token prices atom
+ * Returns a user's previous currency selection through local storage if available
+ * @returns
  */
-export const tokenPricesAtom = atom<{
-  simple: CoingeckoTokenPrices
-  [chainId: number]: CoingeckoTokenPrices
-}>({ simple: {} })
+const getInitialSelectedCurrency = (): CURRENCY_ID => {
+  // TODO: set initial currency to match user's locale if never set
+  if (typeof window === 'undefined') return 'usd'
+  const cachedCurrency = localStorage.getItem('selectedCurrency')
+  if (!!cachedCurrency && cachedCurrency in SUPPORTED_CURRENCIES) {
+    return cachedCurrency as CURRENCY_ID
+  } else {
+    return 'usd'
+  }
+}
+
+export const selectedCurrencyAtom = atom<CURRENCY_ID>(getInitialSelectedCurrency())

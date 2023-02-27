@@ -29,10 +29,13 @@ export const Table = (props: TableProps) => {
   return (
     <FlowbiteTable {...rest}>
       <FlowbiteTable.Head
-        className={classNames('dark:bg-transparent dark:text-pt-purple-100 py-2', headerClassName)}
+        className={classNames(
+          'dark:bg-transparent dark:text-pt-purple-100 py-2 normal-case',
+          headerClassName
+        )}
       >
         {headers.map((header, i) => (
-          <FlowbiteTable.HeadCell key={`${keyPrefix}-th-${i}`}>
+          <FlowbiteTable.HeadCell key={`${keyPrefix}-th-${i}`} className='text-base'>
             {/* @ts-ignore */}
             {header}
           </FlowbiteTable.HeadCell>

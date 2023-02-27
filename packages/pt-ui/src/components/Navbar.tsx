@@ -27,6 +27,7 @@ export const Navbar = (props: NavbarProps) => {
       {/* Right Side Content & Dropdown */}
       <div className='flex md:order-2 space-x-2 items-center'>
         {props.walletConnectionButton}
+        {/* TODO: convert this to settings icon */}
         <FlowbiteDropdown
           arrowIcon={false}
           inline={true}
@@ -65,16 +66,15 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         return (
           <FlowbiteNavbar.Link
             href={link.href}
-            className={classNames(
-              { 'dark:text-pt-teal': isActiveLink },
-              {
-                'dark:text-pt-purple-50 dark:hover:text-pt-teal md:dark:hover:text-pt-teal':
-                  !isActiveLink
-              },
-              props.className
-            )}
+            className={classNames('dark:text-pt-purple-50', props.className)}
             active={isActiveLink}
             key={`nav-${i}-${link.name.toLowerCase()}`}
+            theme={{
+              active: {
+                on: 'dark:text-pt-teal',
+                off: 'dark:hover:text-pt-teal'
+              }
+            }}
           >
             {link.name}
           </FlowbiteNavbar.Link>

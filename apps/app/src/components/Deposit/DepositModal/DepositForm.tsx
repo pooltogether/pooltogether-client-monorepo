@@ -1,11 +1,10 @@
 import { BigNumber, utils } from 'ethers'
-import { useAtomValue } from 'jotai'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
 import { divideBigNumbers } from 'pt-utilities'
-import { tokenPricesAtom } from '../../../atoms'
+import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { DepositFormInput, isValidFormInput } from './DepositFormInput'
 
 export interface DepositFormValues {
@@ -47,11 +46,13 @@ export const DepositForm = (props: DepositFormProps) => {
   const shareBalance =
     isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
-  const tokenPrices =
-    useAtomValue(tokenPricesAtom)[vaultInfo.chainId]?.[
-      vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-    ]
-  const usdPrice = tokenPrices?.['usd'] ?? 0
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices(['usd'])
+  const usdPrice =
+    isFetchedTokenPrices && !!tokenPrices
+      ? tokenPrices[vaultInfo.chainId][
+          vaultInfo.extensions.underlyingAsset.address.toLowerCase()
+        ]?.['usd'] ?? 0
+      : 0
 
   const calculateSharesForTokens = (formTokenAmount: string) => {
     if (isValidFormInput(formTokenAmount, vaultInfo.decimals)) {
