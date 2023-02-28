@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { Button } from 'pt-ui'
+import { TabItem, Tabs } from 'pt-ui'
 import { getVaultId, getVaultUnderlyingTokensFromVaultList } from 'pt-utilities'
 import { VAULT_FILTER_ID, VAULT_FILTERS } from '@constants/filters'
 import defaultVaultList from '@data/defaultVaultList'
@@ -30,11 +30,18 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 
-  const [filterId, setFilterId] = useState<VAULT_FILTER_ID>('all')
+  const [tab, setTab] = useState<number>(0)
 
-  const filterIds = Object.keys(VAULT_FILTERS) as VAULT_FILTER_ID[]
+  const tabItems: TabItem[] = [
+    { title: VAULT_FILTERS.all.name },
+    { title: VAULT_FILTERS.popular.name, disabled: !isFetchedTokenPrices },
+    { title: VAULT_FILTERS.userWallet.name, disabled: !isFetchedUserTokenBalances },
+    { title: VAULT_FILTERS.stablecoin.name }
+  ]
 
   useEffect(() => {
+    const filterIds = Object.keys(VAULT_FILTERS) as VAULT_FILTER_ID[]
+    const filterId = filterIds[tab]
     let filteredVaults: VaultInfo[] = [...defaultVaultList.tokens]
 
     switch (filterId) {
@@ -55,12 +62,6 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         })
         break
       }
-      case 'stablecoin': {
-        filteredVaults = defaultVaultList.tokens.filter((vault) =>
-          VAULT_FILTERS[filterId].validation(vault)
-        )
-        break
-      }
       case 'userWallet': {
         filteredVaults = defaultVaultList.tokens.filter((vault) => {
           const userWalletBalance = BigNumber.from(
@@ -73,24 +74,21 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         })
         break
       }
+      case 'stablecoin': {
+        filteredVaults = defaultVaultList.tokens.filter((vault) =>
+          VAULT_FILTERS[filterId].validation(vault)
+        )
+        break
+      }
     }
 
     props.onFilter(filteredVaults)
-  }, [filterId])
+  }, [tab])
 
-  // TODO: use tabs from flowbite once they are setup
   return (
     <div>
       <span>Filter</span>
-      {filterIds.map((id) => {
-        if (id === 'popular' && !isFetchedTokenPrices) return
-        if (id === 'userWallet' && !isFetchedUserTokenBalances) return
-        return (
-          <Button onClick={() => setFilterId(id)} theme={'purple'} key={`bt-filter-${id}`}>
-            {VAULT_FILTERS[id].name}
-          </Button>
-        )
-      })}
+      <Tabs items={tabItems} onActiveTabChange={setTab} />
     </div>
   )
 }

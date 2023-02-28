@@ -47,7 +47,7 @@ export const Navbar = (props: NavbarProps) => {
   )
 }
 
-export interface NavbarLinksProps {
+interface NavbarLinksProps {
   activePage: string
   className?: string
 }
