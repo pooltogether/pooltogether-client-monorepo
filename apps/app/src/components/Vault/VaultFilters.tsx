@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
+import { NetworkIcon } from 'pt-components'
 import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
 import { TabItem, Tabs } from 'pt-ui'
@@ -11,7 +12,7 @@ import {
   getVaultUnderlyingTokensFromVaultList
 } from 'pt-utilities'
 import { VAULT_FILTERS } from '@constants/filters'
-import { NETWORK_ICONS, SUPPORTED_NETWORKS } from '@constants/networks'
+import { SUPPORTED_NETWORKS } from '@constants/networks'
 import defaultVaultList from '@data/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useProviders } from '@hooks/useProviders'
@@ -51,13 +52,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       const networkName = getNiceNetworkNameByChainId(network)
       return {
         name: networkName,
-        title: (
-          <img
-            src={NETWORK_ICONS[network].iconUrl}
-            alt={`${networkName} Logo`}
-            className='h-6 w-6'
-          />
-        )
+        title: <NetworkIcon chainId={network} />
       }
     })
   ]

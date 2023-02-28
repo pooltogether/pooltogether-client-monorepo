@@ -16,6 +16,7 @@
   "devDependencies": {
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
+    "pt-types": "workspace:*",
     "react": "^18.2.0",
     "tailwind-config": "workspace:*",
     "tailwindcss": "^3.2.7",
@@ -24,7 +25,9 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
+    "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
-    "flowbite-react": "^0.3.8"
+    "flowbite-react": "^0.3.8",
+    "pt-utilities": "workspace:*"
   }
 }

@@ -16,6 +16,7 @@
     "jotai": "^1.13.1",
     "next": "latest",
     "pt-client-js": "workspace:*",
+    "pt-components": "workspace:*",
     "pt-hooks": "workspace:*",
     "pt-ui": "workspace:*",
     "pt-utilities": "workspace:*",
