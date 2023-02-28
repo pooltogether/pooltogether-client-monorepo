@@ -1,20 +1,26 @@
+import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
 import { TabItem, Tabs } from 'pt-ui'
-import { getVaultId, getVaultUnderlyingTokensFromVaultList } from 'pt-utilities'
-import { VAULT_FILTER_ID, VAULT_FILTERS } from '@constants/filters'
+import {
+  getNiceNetworkNameByChainId,
+  getVaultId,
+  getVaultUnderlyingTokensFromVaultList
+} from 'pt-utilities'
+import { VAULT_FILTERS } from '@constants/filters'
+import { NETWORK_ICONS, SUPPORTED_NETWORKS } from '@constants/networks'
 import defaultVaultList from '@data/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useProviders } from '@hooks/useProviders'
 
 interface VaultFiltersProps {
   onFilter: (filteredVaults: VaultInfo[]) => void
+  className?: string
 }
 
-// TODO: add chain-specific filters with logos instead of names
 export const VaultFilters = (props: VaultFiltersProps) => {
   const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(
@@ -33,18 +39,35 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const [tab, setTab] = useState<number>(0)
 
   const tabItems: TabItem[] = [
-    { title: VAULT_FILTERS.all.name },
-    { title: VAULT_FILTERS.popular.name, disabled: !isFetchedTokenPrices },
-    { title: VAULT_FILTERS.userWallet.name, disabled: !isFetchedUserTokenBalances },
-    { title: VAULT_FILTERS.stablecoin.name }
+    { name: 'all', title: VAULT_FILTERS.all.name },
+    { name: 'popular', title: VAULT_FILTERS.popular.name, disabled: !isFetchedTokenPrices },
+    {
+      name: 'userWallet',
+      title: VAULT_FILTERS.userWallet.name,
+      disabled: !isFetchedUserTokenBalances
+    },
+    { name: 'stablecoin', title: VAULT_FILTERS.stablecoin.name },
+    ...SUPPORTED_NETWORKS.mainnets.map((network) => {
+      const networkName = getNiceNetworkNameByChainId(network)
+      return {
+        name: networkName,
+        title: (
+          <img
+            src={NETWORK_ICONS[network].iconUrl}
+            alt={`${networkName} Logo`}
+            className='h-6 w-6'
+          />
+        )
+      }
+    })
   ]
 
+  // TODO: add chain filter functionality
   useEffect(() => {
-    const filterIds = Object.keys(VAULT_FILTERS) as VAULT_FILTER_ID[]
-    const filterId = filterIds[tab]
+    const tabName = tabItems[tab].name
     let filteredVaults: VaultInfo[] = [...defaultVaultList.tokens]
 
-    switch (filterId) {
+    switch (tabName) {
       case 'popular': {
         filteredVaults = defaultVaultList.tokens.filter((vault) => {
           const usdPrice =
@@ -58,7 +81,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           // TODO: remove this once vaults are setup (and uncomment code above):
           const tokenAmount = utils.parseUnits('50000', vault.decimals)
           const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
-          return VAULT_FILTERS[filterId].validation(formattedTokenAmount * usdPrice)
+          return VAULT_FILTERS[tabName].validation(formattedTokenAmount * usdPrice)
         })
         break
       }
@@ -70,13 +93,13 @@ export const VaultFilters = (props: VaultFiltersProps) => {
                   ?.balance ?? 0
               : 0
           )
-          return VAULT_FILTERS[filterId].validation(userWalletBalance)
+          return VAULT_FILTERS[tabName].validation(userWalletBalance)
         })
         break
       }
       case 'stablecoin': {
         filteredVaults = defaultVaultList.tokens.filter((vault) =>
-          VAULT_FILTERS[filterId].validation(vault)
+          VAULT_FILTERS[tabName].validation(vault)
         )
         break
       }
@@ -86,9 +109,10 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   }, [tab])
 
   return (
-    <div>
-      <span>Filter</span>
-      <Tabs items={tabItems} onActiveTabChange={setTab} />
+    <div className={classNames('w-full flex items-center gap-6', props.className)}>
+      <span className='text-lg font-semibold'>Filter</span>
+      <Tabs items={tabItems} onActiveTabChange={setTab} className='flex-grow' />
+      <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
     </div>
   )
 }

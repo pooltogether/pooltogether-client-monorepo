@@ -2,7 +2,8 @@ import { Tabs as FlowbiteTabs, TabsProps as FlowbiteTabsProps } from 'flowbite-r
 import { ReactNode } from 'react'
 
 export interface TabItem {
-  title: string
+  name: string
+  title: ReactNode
   content?: ReactNode
   disabled?: boolean
 }
@@ -21,8 +22,9 @@ export const Tabs = (props: TabsProps) => {
       {items.map((item, i) => {
         return (
           <FlowbiteTabs.Item
-            key={`tab-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
+            key={`tab-${item.name.toLowerCase().replace(' ', '-')}-${i}`}
             active={i === defaultActiveTab ?? 0}
+            // @ts-ignore
             title={item.title}
             disabled={item.disabled}
           >
