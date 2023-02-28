@@ -1,10 +1,10 @@
-import { utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { useVaultBalances } from 'pt-hooks'
+import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { getVaultId } from 'pt-utilities'
+import { getVaultId, getVaultUnderlyingTokensFromVaultList } from 'pt-utilities'
 import { VAULT_FILTER_ID, VAULT_FILTERS } from '@constants/filters'
 import defaultVaultList from '@data/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
@@ -14,28 +14,32 @@ interface VaultFiltersProps {
   onFilter: (filteredVaults: VaultInfo[]) => void
 }
 
+// TODO: add chain-specific filters with logos instead of names
 export const VaultFilters = (props: VaultFiltersProps) => {
-  // const providers = useProviders()
+  const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(
   //   providers,
   //   defaultVaultList
   // )
 
-  // const { address: userAddress } = useAccount()
+  const vaultUnderlyingTokenAddresses = getVaultUnderlyingTokensFromVaultList(defaultVaultList)
+
+  const { address: userAddress } = useAccount()
+  const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
+    useTokenBalancesAcrossChains(providers, userAddress, vaultUnderlyingTokenAddresses)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 
   const [filterId, setFilterId] = useState<VAULT_FILTER_ID>('all')
 
   const filterIds = Object.keys(VAULT_FILTERS) as VAULT_FILTER_ID[]
-  const vaults = defaultVaultList.tokens
 
   useEffect(() => {
-    let filteredVaults: VaultInfo[] = [...vaults]
+    let filteredVaults: VaultInfo[] = [...defaultVaultList.tokens]
 
     switch (filterId) {
       case 'popular': {
-        filteredVaults = vaults.filter((vault) => {
+        filteredVaults = defaultVaultList.tokens.filter((vault) => {
           const usdPrice =
             isFetchedTokenPrices && !!tokenPrices
               ? tokenPrices[vault.chainId][
@@ -52,14 +56,20 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         break
       }
       case 'stablecoin': {
-        filteredVaults = vaults.filter((vault) => VAULT_FILTERS[filterId].validation(vault))
+        filteredVaults = defaultVaultList.tokens.filter((vault) =>
+          VAULT_FILTERS[filterId].validation(vault)
+        )
         break
       }
       case 'userWallet': {
-        filteredVaults = vaults.filter((vault) => {
-          // TODO: need `useTokenBalancesAcrossChains`
-          // return VAULT_FILTERS[filterId].validation()
-          return false
+        filteredVaults = defaultVaultList.tokens.filter((vault) => {
+          const userWalletBalance = BigNumber.from(
+            isFetchedUserTokenBalances && !!userTokenBalances
+              ? userTokenBalances[vault.chainId]?.[vault.extensions.underlyingAsset.address]
+                  ?.balance ?? 0
+              : 0
+          )
+          return VAULT_FILTERS[filterId].validation(userWalletBalance)
         })
         break
       }
@@ -68,12 +78,13 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     props.onFilter(filteredVaults)
   }, [filterId])
 
-  // TODO: need to hide some filters until the data they need to work is fetched
   // TODO: use tabs from flowbite once they are setup
   return (
     <div>
       <span>Filter</span>
       {filterIds.map((id) => {
+        if (id === 'popular' && !isFetchedTokenPrices) return
+        if (id === 'userWallet' && !isFetchedUserTokenBalances) return
         return (
           <Button onClick={() => setFilterId(id)} theme={'purple'} key={`bt-filter-${id}`}>
             {VAULT_FILTERS[id].name}

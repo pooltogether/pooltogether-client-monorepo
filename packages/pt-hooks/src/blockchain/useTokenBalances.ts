@@ -1,13 +1,14 @@
-import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
+import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { providers } from 'ethers'
+import { useMemo } from 'react'
 import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
-import { useProviderChainId } from './useProviderChainId'
+import { useProviderChainId, useProviderChainIds } from './useProviderChainId'
 
 /**
- * Returns a dictionary keyed by the token addresses with their associated balances
+ * Returns an address's token balances
  *
  * Stores queried balances in cache
  * @param readProvider read-capable provider to query token balances through
@@ -70,4 +71,62 @@ export const useTokenBalance = (
 > => {
   const result = useTokenBalances(readProvider, address, [tokenAddress], refetchInterval)
   return { ...result, data: result.data?.[tokenAddress] as TokenWithBalance }
+}
+
+/**
+ * Returns an address's token balance across many chains
+ * @param readProviders read-capable providers to query token balances through
+ * @param address address to check for token balances
+ * @param tokenAddresses token addresses for each chain to query balances for
+ * @returns
+ */
+export const useTokenBalancesAcrossChains = (
+  readProviders: providers.Provider[],
+  address: string,
+  tokenAddresses: { [chainId: number]: string[] }
+) => {
+  const { data: chainIds, isFetched: isFetchedChainIds } = useProviderChainIds(readProviders)
+
+  const results = useQueries({
+    queries: readProviders.map((readProvider, i) => {
+      const chainId = chainIds?.[i]
+      const chainTokenAddresses = !!chainId ? tokenAddresses[chainId] : []
+
+      const enabled =
+        !!address &&
+        chainTokenAddresses.every(
+          (tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string'
+        ) &&
+        Array.isArray(chainTokenAddresses) &&
+        chainTokenAddresses.length > 0 &&
+        !!readProvider &&
+        isFetchedChainIds &&
+        !!chainId
+
+      const queryKey = [QUERY_KEYS.tokenBalances, chainId, address, chainTokenAddresses]
+
+      return {
+        queryKey: queryKey,
+        queryFn: async () => {
+          const tokenBalances = await getTokenBalances(readProvider, address, chainTokenAddresses)
+          return { chainId, tokenBalances }
+        },
+        enabled,
+        ...NO_REFETCH
+      }
+    })
+  })
+
+  return useMemo(() => {
+    const isFetched = results?.every((result) => result.isFetched)
+    const refetch = async () => results?.forEach((result) => result.refetch())
+
+    const formattedData: { [chainId: number]: { [tokenAddress: string]: TokenWithBalance } } = {}
+    results.forEach((result) => {
+      if (result.data && result.data.chainId) {
+        formattedData[result.data.chainId] = result.data.tokenBalances
+      }
+    })
+    return { isFetched, refetch, data: formattedData }
+  }, [results])
 }

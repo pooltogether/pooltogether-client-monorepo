@@ -215,3 +215,23 @@ export const getVaultBalances = async (
 
   return vaultBalances
 }
+
+/**
+ * Returns the underlying tokens from all vaults in a vault list
+ * @param vaultList a vault list to go through
+ * @returns
+ */
+export const getVaultUnderlyingTokensFromVaultList = (
+  vaultList: VaultList
+): { [chainId: number]: `0x${string}`[] } => {
+  const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
+
+  vaultList.tokens.forEach((vault) => {
+    if (tokenAddresses[vault.chainId] === undefined) {
+      tokenAddresses[vault.chainId] = []
+    }
+    tokenAddresses[vault.chainId].push(vault.extensions.underlyingAsset.address)
+  })
+
+  return tokenAddresses
+}
