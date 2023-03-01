@@ -2,7 +2,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
-import { Navbar } from 'pt-ui'
+import { Footer, Navbar } from 'pt-ui'
 
 interface LayoutProps {
   children: ReactNode
@@ -33,6 +33,8 @@ export const Layout = (props: LayoutProps) => {
       />
 
       {props.children}
+
+      <Footer />
     </div>
   )
 }
