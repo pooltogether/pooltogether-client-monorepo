@@ -41,7 +41,10 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     { id: 'userWallet', content: 'In My Wallet', disabled: !isFetchedUserTokenBalances },
     { id: 'stablecoin', content: 'Stablecoins' },
     ...SUPPORTED_NETWORKS.mainnets.map((network) => {
-      return { id: network.toString(), content: <NetworkIcon chainId={network} /> }
+      return {
+        id: network.toString(),
+        content: <NetworkIcon chainId={network} className='!h-5 !w-5' />
+      }
     })
   ]
 
@@ -89,15 +92,11 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   }, [filterId])
 
   return (
-    <div className={classNames('w-full flex items-center gap-6', props.className)}>
-      <span className='text-lg font-semibold'>Filter</span>
-      <Selection
-        items={filterItems}
-        onSelect={setFilterId}
-        className='flex-grow'
-        buttonTheme='purple'
-      />
-      <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
-    </div>
+    <Selection
+      items={filterItems}
+      onSelect={setFilterId}
+      className={classNames('flex-grow', props.className)}
+      buttonTheme='purple'
+    />
   )
 }

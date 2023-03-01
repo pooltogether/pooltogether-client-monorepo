@@ -22,7 +22,12 @@ export const DepositUI = () => {
   return (
     <div className='flex flex-col items-center py-2'>
       <main className='flex flex-col items-center mx-auto w-auto px-4 pt-16 pb-8 sm:pt-24 lg:px-8 gap-14'>
-        <VaultFilters onFilter={handleFilteredVaults} />
+        <div className='w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg'>
+          <span className='text-lg font-semibold'>Filter</span>
+          <VaultFilters onFilter={handleFilteredVaults} />
+          {/* TODO: vaultlist management functionality */}
+          <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
+        </div>
         {SUPPORTED_NETWORKS.mainnets.map((network) => {
           if (vaults[network] === undefined || vaults[network].length === 0) return
           return (
