@@ -18,7 +18,7 @@ export const Tabs = (props: TabsProps) => {
   const { items, defaultActiveTab, ...rest } = props
 
   return (
-    <FlowbiteTabs.Group style='pills' {...rest}>
+    <FlowbiteTabs.Group {...rest}>
       {items.map((item, i) => {
         return (
           <FlowbiteTabs.Item
