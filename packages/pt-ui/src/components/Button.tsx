@@ -8,6 +8,7 @@ export interface ButtonProps extends Omit<FlowbiteButtonProps, 'color' | 'theme'
 // TODO: waiting for flowbite-react to bump versions so we can use `theme` everywhere and fix this component
 export const Button = (props: ButtonProps) => {
   const { theme, className, ...rest } = props
+
   return (
     <FlowbiteButton
       {...rest}

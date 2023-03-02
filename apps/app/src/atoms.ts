@@ -1,10 +1,7 @@
 import { atom } from 'jotai'
 import { CURRENCY_ID, SUPPORTED_CURRENCIES } from '@constants/currencies'
 
-/**
- * Testnet mode atom
- */
-export const testnetModeAtom = atom<boolean>(false)
+/* ============================== Helper Functions ============================== */
 
 /**
  * Returns a user's previous currency selection through local storage if available
@@ -21,4 +18,25 @@ const getInitialSelectedCurrency = (): CURRENCY_ID => {
   }
 }
 
+/* =================================== Atoms =================================== */
+
+/**
+ * Testnet mode toggle
+ */
+export const isTestnetModeAtom = atom<boolean>(false)
+
+/**
+ * Currently selected currency ID
+ */
 export const selectedCurrencyAtom = atom<CURRENCY_ID>(getInitialSelectedCurrency())
+
+/**
+ * Settings modal display toggle
+ */
+export const isSettingsModalOpenAtom = atom<boolean>(false)
+
+/**
+ * Settings modal view selector
+ */
+export const settingsModalViewAtom = atom<ModalView>('menu')
+export type ModalView = 'menu' | 'currency' | 'language'

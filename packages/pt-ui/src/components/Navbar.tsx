@@ -1,72 +1,86 @@
-import { Bars3Icon } from '@heroicons/react/24/outline'
+import { Cog8ToothIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
-import { Dropdown as FlowbiteDropdown, Navbar as FlowbiteNavbar } from 'flowbite-react'
+import { Navbar as FlowbiteNavbar } from 'flowbite-react'
 import { ReactNode } from 'react'
 import { Logo } from './Logo'
 
+export const defaultNavbarLinks: NavbarLink[] = [
+  { href: '/prizes', name: 'Prizes' },
+  { href: '/deposit', name: 'Deposit' },
+  { href: '/account', name: 'Account' },
+  { href: '/extensions', name: 'Extensions' }
+]
+
+export interface NavbarLink {
+  href: string
+  name: string
+}
+
 export interface NavbarProps {
   activePage: string
+  links?: NavbarLink[]
   walletConnectionButton?: ReactNode
+  onClickSettings?: () => void
   className?: string
-  dropdownClassName?: string
   linkClassName?: string
 }
 
 // TODO: proper image & text size (16px)
 export const Navbar = (props: NavbarProps) => {
+  const { activePage, links, walletConnectionButton, onClickSettings, className, linkClassName } =
+    props
+
   return (
     <FlowbiteNavbar
       fluid={true}
-      className={classNames('dark:bg-pt-bg-purple-darker dark:text-pt-purple-50', props.className)}
+      className={classNames('dark:bg-pt-bg-purple-darker dark:text-pt-purple-50', className)}
     >
       {/* Left Side Branding */}
       <FlowbiteNavbar.Brand href='/'>
         <Logo />
       </FlowbiteNavbar.Brand>
 
-      {/* Right Side Content & Dropdown */}
+      {/* Right Side Content */}
       <div className='flex md:order-2 space-x-2 items-center'>
-        {props.walletConnectionButton}
-        {/* TODO: convert this to settings icon */}
-        <FlowbiteDropdown
-          arrowIcon={false}
-          inline={true}
-          label={<Bars3Icon className='h-6 w-6 dark:text-gray-600' />}
-          className={props.dropdownClassName}
-        >
-          <FlowbiteDropdown.Item>Settings</FlowbiteDropdown.Item>
-        </FlowbiteDropdown>
+        {walletConnectionButton}
+        {onClickSettings !== undefined && (
+          <Cog8ToothIcon
+            className='h-6 w-6 dark:text-pt-purple-50 cursor-pointer'
+            onClick={onClickSettings}
+          />
+        )}
         <FlowbiteNavbar.Toggle />
       </div>
 
       {/* Middle Collapsable Content */}
       <FlowbiteNavbar.Collapse>
-        <NavbarLinks activePage={props.activePage} className={props.linkClassName} />
+        <NavbarLinks
+          links={links ?? defaultNavbarLinks}
+          activePage={activePage}
+          className={linkClassName}
+        />
       </FlowbiteNavbar.Collapse>
     </FlowbiteNavbar>
   )
 }
 
 interface NavbarLinksProps {
+  links: NavbarLink[]
   activePage: string
   className?: string
 }
 
 const NavbarLinks = (props: NavbarLinksProps) => {
-  const links: { href: string; name: string }[] = [
-    { href: '/prizes', name: 'Prizes' },
-    { href: '/deposit', name: 'Deposit' },
-    { href: '/account', name: 'Account' },
-    { href: '/extensions', name: 'Extensions' }
-  ]
+  const { links, activePage, className } = props
+
   return (
     <>
       {links.map((link, i) => {
-        const isActiveLink = link.href === props.activePage
+        const isActiveLink = link.href === activePage
         return (
           <FlowbiteNavbar.Link
             href={link.href}
-            className={classNames('dark:text-pt-purple-50', props.className)}
+            className={classNames('dark:text-pt-purple-50', className)}
             active={isActiveLink}
             key={`nav-${i}-${link.name.toLowerCase()}`}
             theme={{

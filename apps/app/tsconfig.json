@@ -3,6 +3,7 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "paths": {
+      "@atoms": ["./src/atoms"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
       "@data/*": ["./src/data/*"],

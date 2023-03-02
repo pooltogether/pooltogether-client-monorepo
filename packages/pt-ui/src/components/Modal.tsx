@@ -23,6 +23,7 @@ export const Modal = (props: ModalProps) => {
     className,
     ...rest
   } = props
+
   return (
     <FlowbiteModal {...rest} className={classNames('dark:text-pt-purple-50', className)}>
       {headerContent && (

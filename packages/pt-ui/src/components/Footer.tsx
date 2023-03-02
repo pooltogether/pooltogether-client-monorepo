@@ -56,7 +56,7 @@ export const Footer = (props: FooterProps) => {
   return (
     <FlowbiteFooter
       {...rest}
-      className={classNames('fixed bottom-0 dark:bg-pt-purple-600 rounded-none', className)}
+      className={classNames('dark:bg-pt-purple-600 rounded-none', className)}
     >
       <div className='w-full'>
         <div className={`flex justify-between px-6 py-8`}>
@@ -97,15 +97,16 @@ export interface FooterLink {
   iconUrl?: string
 }
 
-const Link = (props: FooterLink & { key: string; className?: string }) => {
+const Link = (props: FooterLink & { className?: string }) => {
+  const { text, linkUrl, iconUrl, className } = props
+
   return (
     <FlowbiteFooter.Link
-      key={props.key}
-      href={props.linkUrl}
-      className={classNames('dark:text-pt-purple-100', props.className)}
+      href={linkUrl}
+      className={classNames('dark:text-pt-purple-100', className)}
     >
-      {props.iconUrl && <img src={props.iconUrl} className='fill-pt-purple-100' />}
-      {props.text}
+      {iconUrl && <img src={iconUrl} className='fill-pt-purple-100' />}
+      {text}
     </FlowbiteFooter.Link>
   )
 }
@@ -115,14 +116,10 @@ export interface FooterIcon {
   iconUrl: string
 }
 
-const Icon = (props: FooterIcon & { key: string; className?: string }) => {
-  return (
-    <img
-      src={props.iconUrl}
-      key={props.key}
-      className={classNames('fill-pt-purple-100', props.className)}
-    />
-  )
+const Icon = (props: FooterIcon & { className?: string }) => {
+  const { iconUrl, className } = props
+
+  return <img src={iconUrl} className={classNames('fill-pt-purple-100', className)} />
 }
 
 export interface FooterText {
@@ -132,19 +129,20 @@ export interface FooterText {
   iconUrl?: string
 }
 
-const Text = (props: FooterText & { key: string; className?: string }) => {
+const Text = (props: FooterText & { className?: string }) => {
+  const { text, onClick, iconUrl, className } = props
+
   return (
     <span
-      key={props.key}
       className={classNames(
         'dark:text-pt-purple-100',
-        { 'cursor-pointer': props.onClick !== undefined },
-        props.className
+        { 'cursor-pointer': onClick !== undefined },
+        className
       )}
-      onClick={props.onClick}
+      onClick={onClick}
     >
-      {props.iconUrl && <img src={props.iconUrl} className='fill-pt-purple-100' />}
-      {props.text}
+      {iconUrl && <img src={iconUrl} className='fill-pt-purple-100' />}
+      {text}
     </span>
   )
 }

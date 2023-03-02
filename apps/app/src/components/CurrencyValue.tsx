@@ -3,8 +3,8 @@ import { useMemo } from 'react'
 import { useCoingeckoExchangeRates } from 'pt-hooks'
 import { LoadingSpinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
+import { selectedCurrencyAtom } from '@atoms'
 import { CURRENCY_ID } from '@constants/currencies'
-import { selectedCurrencyAtom } from '../atoms'
 
 interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
   baseValue: number | string

@@ -26,6 +26,7 @@ export const Table = (props: TableProps) => {
     cellClassName,
     ...rest
   } = props
+
   return (
     <FlowbiteTable {...rest}>
       <FlowbiteTable.Head
