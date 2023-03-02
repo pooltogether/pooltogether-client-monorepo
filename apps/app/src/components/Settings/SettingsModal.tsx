@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { useAtom } from 'jotai'
 import { ReactNode, useEffect, useState } from 'react'
 import { Modal } from 'pt-ui'
@@ -6,7 +7,7 @@ import { CurrencySelector } from './CurrencySelector'
 import { LanguageSelector } from './LanguageSelector'
 import { SettingsMenu } from './SettingsMenu'
 
-// TODO: add back arrows to other views (in header)
+// TODO: modal overflows height-wise
 export const SettingsModal = () => {
   const [isOpen, setIsOpen] = useAtom(isSettingsModalOpenAtom)
   const [view, setView] = useAtom(settingsModalViewAtom)
@@ -27,6 +28,14 @@ export const SettingsModal = () => {
         show={isOpen}
         dismissible={true}
         bgColor='dark'
+        headerContent={
+          view !== 'menu' ? (
+            <ArrowLeftIcon
+              className='h-6 w-6 dark:text-pt-purple-50 cursor-pointer'
+              onClick={() => setView('menu')}
+            />
+          ) : undefined
+        }
         bodyContent={modalViews[view]}
         onClose={() => {
           setIsOpen(false)

@@ -26,7 +26,7 @@ export const SettingsMenu = () => {
           },
           {
             iconContent: languageId.toUpperCase(),
-            title: SUPPORTED_LANGUAGES[languageId].nativeName,
+            title: `${SUPPORTED_LANGUAGES[languageId].nativeName} (${SUPPORTED_LANGUAGES[languageId].name})`,
             description: 'Change Language',
             onClick: () => setSettingsModalView('language'),
             disabled: true
