@@ -40,6 +40,7 @@ module.exports = {
             dark: '#8B0000',
             DEFAULT: '#8B0000'
           },
+          gold: '#FFB636',
           transparent: '#F5F0FF1A'
         }
       }

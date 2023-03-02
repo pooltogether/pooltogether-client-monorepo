@@ -46,7 +46,7 @@ export const Modal = (props: ModalProps) => {
           'dark:bg-pt-bg-purple-light px-8 py-0',
           { 'dark:!bg-pt-purple-900': bgColor === 'dark' },
           {
-            'rounded-t pt-8': headerContent === undefined && !!rest.dismissible,
+            'rounded-t pt-8': headerContent === undefined && !rest.dismissible,
             'rounded-b pb-8': footerContent === undefined
           },
           bodyClassName

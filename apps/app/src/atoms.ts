@@ -1,5 +1,6 @@
 import { atom } from 'jotai'
 import { CURRENCY_ID, SUPPORTED_CURRENCIES } from '@constants/currencies'
+import { LANGUAGE_ID, SUPPORTED_LANGUAGES } from '@constants/languages'
 
 /* ============================== Helper Functions ============================== */
 
@@ -18,6 +19,20 @@ const getInitialSelectedCurrency = (): CURRENCY_ID => {
   }
 }
 
+/**
+ * Returns a user's previous language selection through local storage if available
+ * @returns
+ */
+const getInitialSelectedLanguage = (): LANGUAGE_ID => {
+  if (typeof window === 'undefined') return 'en'
+  const cachedLanguage = localStorage.getItem('selectedLanguage')
+  if (!!cachedLanguage && cachedLanguage in SUPPORTED_LANGUAGES) {
+    return cachedLanguage as LANGUAGE_ID
+  } else {
+    return 'en'
+  }
+}
+
 /* =================================== Atoms =================================== */
 
 /**
@@ -29,6 +44,11 @@ export const isTestnetModeAtom = atom<boolean>(false)
  * Currently selected currency ID
  */
 export const selectedCurrencyAtom = atom<CURRENCY_ID>(getInitialSelectedCurrency())
+
+/**
+ * Currently selected language ID
+ */
+export const selectedLanguageAtom = atom<LANGUAGE_ID>(getInitialSelectedLanguage())
 
 /**
  * Settings modal display toggle
