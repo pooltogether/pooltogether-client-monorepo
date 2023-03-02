@@ -6,6 +6,7 @@ import { CurrencySelector } from './CurrencySelector'
 import { LanguageSelector } from './LanguageSelector'
 import { SettingsMenu } from './SettingsMenu'
 
+// TODO: add back arrows to other views (in header)
 export const SettingsModal = () => {
   const [isOpen, setIsOpen] = useAtom(isSettingsModalOpenAtom)
   const [view, setView] = useAtom(settingsModalViewAtom)
@@ -25,6 +26,7 @@ export const SettingsModal = () => {
       <Modal
         show={isOpen}
         dismissible={true}
+        bgColor='dark'
         bodyContent={modalViews[view]}
         onClose={() => {
           setIsOpen(false)

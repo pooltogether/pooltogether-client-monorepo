@@ -86,7 +86,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
             theme={{
               active: {
                 on: 'dark:text-pt-teal',
-                off: 'dark:hover:text-pt-teal'
+                off: 'dark:hover:text-pt-purple-200'
               }
             }}
           >
