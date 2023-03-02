@@ -1,12 +1,11 @@
 import classNames from 'classnames'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
-import { FallbackIcon } from 'pt-components'
+import { SocialIcon } from 'pt-components'
 import { selectedCurrencyAtom, selectedLanguageAtom, settingsModalViewAtom } from '@atoms'
 import { SUPPORTED_CURRENCIES } from '@constants/currencies'
 import { SUPPORTED_LANGUAGES } from '@constants/languages'
 
-// TODO: add discord icon
 export const SettingsMenu = () => {
   const setSettingsModalView = useSetAtom(settingsModalViewAtom)
 
@@ -43,7 +42,7 @@ export const SettingsMenu = () => {
             onClick: () => window.open('https://docs.pooltogether.com/')
           },
           {
-            iconContent: <FallbackIcon symbol={'Discord'} />,
+            iconContent: <SocialIcon platform='discord' />,
             title: 'Talk to us on Discord',
             description: 'Connect with our community',
             onClick: () => window.open('https://pooltogether.com/discord')

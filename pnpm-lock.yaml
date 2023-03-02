@@ -291,6 +291,7 @@ importers:
       classnames: ^2.3.2
       flowbite: ^1.6.3
       flowbite-react: ^0.3.8
+      pt-components: workspace:*
       react: ^18.2.0
       tailwind-config: workspace:*
       tailwindcss: ^3.2.7
@@ -302,6 +303,7 @@ importers:
       classnames: 2.3.2
       flowbite: 1.6.3
       flowbite-react: 0.3.8_2mmgqswwoqcramfjhwovfbbuw4
+      pt-components: link:../pt-components
     devDependencies:
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.19

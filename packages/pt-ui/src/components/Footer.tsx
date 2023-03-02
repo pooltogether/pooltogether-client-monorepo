@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter, FooterProps as FlowbiteFooterProps } from 'flowbite-react'
+import { SocialIcon } from 'pt-components'
 
-// TODO: add missing links/icons/actions
 export const defaultFooterItems: FooterItem[] = [
   {
     title: 'Get Help',
@@ -22,25 +22,56 @@ export const defaultFooterItems: FooterItem[] = [
   {
     title: 'Community',
     content: [
-      { type: 'link', text: 'Twitter', linkUrl: 'https://twitter.com/PoolTogether_' },
-      { type: 'link', text: 'Discord', linkUrl: 'https://pooltogether.com/discord' },
-      { type: 'link', text: 'GitHub', linkUrl: 'https://github.com/pooltogether' },
-      { type: 'link', text: 'Medium', linkUrl: 'https://medium.com/pooltogether' }
-    ]
-  },
-  {
-    title: 'Settings',
-    content: [
-      { type: 'text', text: 'Change Language' },
-      { type: 'text', text: 'Change Currency' },
-      { type: 'text', text: 'Enable Testnets' }
+      {
+        type: 'link',
+        text: 'Twitter',
+        linkUrl: 'https://twitter.com/PoolTogether_',
+        icon: <SocialIcon platform='twitter' />
+      },
+      {
+        type: 'link',
+        text: 'Discord',
+        linkUrl: 'https://pooltogether.com/discord',
+        icon: <SocialIcon platform='discord' />
+      },
+      {
+        type: 'link',
+        text: 'GitHub',
+        linkUrl: 'https://github.com/pooltogether',
+        icon: <SocialIcon platform='github' />
+      },
+      {
+        type: 'link',
+        text: 'Medium',
+        linkUrl: 'https://medium.com/pooltogether',
+        icon: <SocialIcon platform='medium' />
+      }
     ]
   }
 ]
 
 export interface FooterItem {
   title: string
-  content: (FooterLink | FooterIcon | FooterText)[]
+  content: (FooterLink | FooterText | FooterIcon)[]
+}
+
+export interface FooterLink {
+  type: 'link'
+  text: string
+  linkUrl: string
+  icon?: JSX.Element
+}
+
+export interface FooterText {
+  type: 'text'
+  text: string
+  onClick?: () => void
+  icon?: JSX.Element
+}
+
+export interface FooterIcon {
+  type: 'icon'
+  icon: JSX.Element
 }
 
 export interface FooterProps extends FlowbiteFooterProps {
@@ -73,11 +104,11 @@ export const Footer = (props: FooterProps) => {
                     if (content.type === 'link') {
                       return <Link key={contentKey} {...content} className={itemClassName} />
                     }
-                    if (content.type === 'icon') {
-                      return <Icon key={contentKey} {...content} className={itemClassName} />
-                    }
                     if (content.type === 'text') {
                       return <Text key={contentKey} {...content} className={itemClassName} />
+                    }
+                    if (content.type === 'icon') {
+                      return content.icon
                     }
                   })}
                 </FlowbiteFooter.LinkGroup>
@@ -90,47 +121,22 @@ export const Footer = (props: FooterProps) => {
   )
 }
 
-export interface FooterLink {
-  type: 'link'
-  text: string
-  linkUrl: string
-  iconUrl?: string
-}
-
 const Link = (props: FooterLink & { className?: string }) => {
-  const { text, linkUrl, iconUrl, className } = props
+  const { text, linkUrl, icon, className } = props
 
   return (
     <FlowbiteFooter.Link
       href={linkUrl}
       className={classNames('dark:text-pt-purple-100', className)}
     >
-      {iconUrl && <img src={iconUrl} className='fill-pt-purple-100' />}
+      {icon}
       {text}
     </FlowbiteFooter.Link>
   )
 }
 
-export interface FooterIcon {
-  type: 'icon'
-  iconUrl: string
-}
-
-const Icon = (props: FooterIcon & { className?: string }) => {
-  const { iconUrl, className } = props
-
-  return <img src={iconUrl} className={classNames('fill-pt-purple-100', className)} />
-}
-
-export interface FooterText {
-  type: 'text'
-  text: string
-  onClick?: () => void
-  iconUrl?: string
-}
-
 const Text = (props: FooterText & { className?: string }) => {
-  const { text, onClick, iconUrl, className } = props
+  const { text, onClick, icon, className } = props
 
   return (
     <span
@@ -141,7 +147,7 @@ const Text = (props: FooterText & { className?: string }) => {
       )}
       onClick={onClick}
     >
-      {iconUrl && <img src={iconUrl} className='fill-pt-purple-100' />}
+      {icon}
       {text}
     </span>
   )
