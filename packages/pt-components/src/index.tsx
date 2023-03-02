@@ -1,6 +1,7 @@
 /**
  * Components
  */
-export * from './components/FallbackIcon'
-export * from './components/NetworkIcon'
-export * from './components/TokenIcon'
+export * from './components/icons/FallbackIcon'
+export * from './components/icons/NetworkIcon'
+export * from './components/icons/SocialIcon'
+export * from './components/icons/TokenIcon'
