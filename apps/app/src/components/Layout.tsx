@@ -1,11 +1,18 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useSetAtom } from 'jotai'
+import { useAtom } from 'jotai'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
+import { SettingsModal } from 'pt-components'
 import { defaultFooterItems, Footer, Navbar } from 'pt-ui'
-import { isSettingsModalOpenAtom, settingsModalViewAtom } from '@atoms'
-import { SettingsModal } from './Settings/SettingsModal'
+import {
+  isSettingsModalOpenAtom,
+  selectedCurrencyAtom,
+  selectedLanguageAtom,
+  settingsModalViewAtom
+} from '@atoms'
+import { CURRENCY_ID, SUPPORTED_CURRENCIES } from '@constants/currencies'
+import { LANGUAGE_ID, SUPPORTED_LANGUAGES } from '@constants/languages'
 
 interface LayoutProps {
   children: ReactNode
@@ -14,8 +21,11 @@ interface LayoutProps {
 export const Layout = (props: LayoutProps) => {
   const router = useRouter()
 
-  const setIsSettingsModalOpen = useSetAtom(isSettingsModalOpenAtom)
-  const setSettingsModalView = useSetAtom(settingsModalViewAtom)
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useAtom(isSettingsModalOpenAtom)
+  const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
+
+  const [currencyId, setCurrencyId] = useAtom(selectedCurrencyAtom)
+  const [languageId, setLanguageId] = useAtom(selectedLanguageAtom)
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -39,7 +49,19 @@ export const Layout = (props: LayoutProps) => {
         onClickSettings={() => setIsSettingsModalOpen(true)}
       />
 
-      <SettingsModal />
+      <SettingsModal
+        isOpen={isSettingsModalOpen}
+        setIsOpen={setIsSettingsModalOpen}
+        view={settingsModalView}
+        setView={setSettingsModalView}
+        currencyId={currencyId}
+        setCurrencyId={(id) => setCurrencyId(id as CURRENCY_ID)}
+        languageId={languageId}
+        setLanguageId={(id) => setLanguageId(id as LANGUAGE_ID)}
+        currencies={SUPPORTED_CURRENCIES}
+        languages={SUPPORTED_LANGUAGES}
+        disableLanguages={true}
+      />
 
       {props.children}
 

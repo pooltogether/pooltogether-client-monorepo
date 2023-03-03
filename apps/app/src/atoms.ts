@@ -58,5 +58,5 @@ export const isSettingsModalOpenAtom = atom<boolean>(false)
 /**
  * Settings modal view selector
  */
-export const settingsModalViewAtom = atom<ModalView>('menu')
-export type ModalView = 'menu' | 'currency' | 'language'
+export const settingsModalViewAtom = atom<SettingsModalView>('menu')
+export type SettingsModalView = 'menu' | 'currency' | 'language'

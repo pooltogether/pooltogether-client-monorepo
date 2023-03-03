@@ -1,16 +1,28 @@
 import classNames from 'classnames'
-import { useAtomValue, useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
-import { BasicIcon, SocialIcon } from 'pt-ui'
-import { selectedCurrencyAtom, selectedLanguageAtom, settingsModalViewAtom } from '@atoms'
-import { SUPPORTED_CURRENCIES } from '@constants/currencies'
-import { SUPPORTED_LANGUAGES } from '@constants/languages'
+import { BasicIcon, LINKS, SocialIcon } from 'pt-ui'
+import { SettingsModalView } from '.'
 
-export const SettingsMenu = () => {
-  const setSettingsModalView = useSetAtom(settingsModalViewAtom)
+interface SettingsMenuProps {
+  setView: (view: SettingsModalView) => void
+  currencyId: string
+  languageId: string
+  currencies: { [id: string]: { name: string; symbol: string } }
+  languages: { [id: string]: { name: string; nativeName: string } }
+  disableCurrencies?: boolean
+  disableLanguages?: boolean
+}
 
-  const currencyId = useAtomValue(selectedCurrencyAtom)
-  const languageId = useAtomValue(selectedLanguageAtom)
+export const SettingsMenu = (props: SettingsMenuProps) => {
+  const {
+    setView,
+    currencyId,
+    languageId,
+    currencies,
+    languages,
+    disableCurrencies,
+    disableLanguages
+  } = props
 
   return (
     <div className='flex flex-col gap-4'>
@@ -18,17 +30,18 @@ export const SettingsMenu = () => {
         title='Customize Your Experience'
         items={[
           {
-            iconContent: SUPPORTED_CURRENCIES[currencyId].symbol,
-            title: `${SUPPORTED_CURRENCIES[currencyId].name} (${SUPPORTED_CURRENCIES[currencyId].symbol})`,
+            iconContent: currencies[currencyId].symbol,
+            title: `${currencies[currencyId].name} (${currencies[currencyId].symbol})`,
             description: 'Change Currency',
-            onClick: () => setSettingsModalView('currency')
+            onClick: () => setView('currency'),
+            disabled: disableCurrencies
           },
           {
             iconContent: languageId.toUpperCase(),
-            title: `${SUPPORTED_LANGUAGES[languageId].nativeName} (${SUPPORTED_LANGUAGES[languageId].name})`,
+            title: `${languages[languageId].nativeName} (${languages[languageId].name})`,
             description: 'Change Language',
-            onClick: () => setSettingsModalView('language'),
-            disabled: true
+            onClick: () => setView('language'),
+            disabled: disableLanguages
           }
         ]}
       />
@@ -39,13 +52,13 @@ export const SettingsMenu = () => {
             iconContent: '?',
             title: 'Help Documentation',
             description: 'Get help with using PoolTogether',
-            onClick: () => window.open('https://docs.pooltogether.com/')
+            onClick: () => window.open(LINKS.docs)
           },
           {
             iconContent: <SocialIcon platform='discord' />,
             title: 'Talk to us on Discord',
             description: 'Connect with our community',
-            onClick: () => window.open('https://pooltogether.com/discord')
+            onClick: () => window.open(LINKS.discord)
           }
         ]}
       />
@@ -80,7 +93,7 @@ interface SettingsMenuItemProps {
   iconContent: ReactNode
   title: string
   description: string
-  onClick?: () => void
+  onClick: () => void
   disabled?: boolean
 }
 

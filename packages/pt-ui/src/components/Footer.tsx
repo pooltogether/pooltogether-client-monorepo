@@ -1,22 +1,23 @@
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter, FooterProps as FlowbiteFooterProps } from 'flowbite-react'
+import { LINKS } from '@constants'
 import { SocialIcon } from './SocialIcon'
 
 export const defaultFooterItems: FooterItem[] = [
   {
     title: 'Get Help',
     content: [
-      { text: 'User Docs', href: 'https://docs.pooltogether.com/' },
-      { text: 'FAQ', href: 'https://docs.pooltogether.com/welcome/faq' },
-      { text: 'Developer Docs', href: 'https://dev.pooltogether.com/' }
+      { text: 'User Docs', href: LINKS.docs },
+      { text: 'FAQ', href: LINKS.faq },
+      { text: 'Developer Docs', href: LINKS.devDocs }
     ]
   },
   {
     title: 'Ecosystem',
     content: [
       { text: 'Extensions', href: '/extensions' },
-      { text: 'Governance', href: 'https://gov.pooltogether.com/' },
-      { text: 'Security', href: 'https://docs.pooltogether.com/security/audits' }
+      { text: 'Governance', href: LINKS.governance },
+      { text: 'Security', href: LINKS.audits }
     ]
   },
   {
@@ -24,22 +25,22 @@ export const defaultFooterItems: FooterItem[] = [
     content: [
       {
         text: 'Twitter',
-        href: 'https://twitter.com/PoolTogether_',
+        href: LINKS.twitter,
         icon: <SocialIcon platform='twitter' />
       },
       {
         text: 'Discord',
-        href: 'https://pooltogether.com/discord',
+        href: LINKS.discord,
         icon: <SocialIcon platform='discord' />
       },
       {
         text: 'GitHub',
-        href: 'https://github.com/pooltogether',
+        href: LINKS.github,
         icon: <SocialIcon platform='github' />
       },
       {
         text: 'Medium',
-        href: 'https://medium.com/pooltogether',
+        href: LINKS.medium,
         icon: <SocialIcon platform='medium' />
       }
     ]
