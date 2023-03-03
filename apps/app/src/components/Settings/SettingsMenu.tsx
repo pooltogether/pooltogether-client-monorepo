@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
-import { SocialIcon } from 'pt-ui'
+import { BasicIcon, SocialIcon } from 'pt-ui'
 import { selectedCurrencyAtom, selectedLanguageAtom, settingsModalViewAtom } from '@atoms'
 import { SUPPORTED_CURRENCIES } from '@constants/currencies'
 import { SUPPORTED_LANGUAGES } from '@constants/languages'
@@ -99,9 +99,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <div className='dark:text-pt-purple-100 rounded-full dark:bg-pt-purple-400 flex items-center justify-center text-lg h-8 w-8'>
-        {iconContent}
-      </div>
+      <BasicIcon content={iconContent} theme='dark' size='large' />
       <span className='text-sm font-semibold dark:text-pt-purple-50'>{title}</span>
       <span className='text-xs dark:text-pt-purple-300'>{description}</span>
     </div>

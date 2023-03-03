@@ -12,18 +12,18 @@
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
-  "devDependencies": {
-    "@types/react": "^17.0.53",
-    "@types/react-dom": "^17.0.19",
-    "pt-types": "workspace:*",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.9.5"
-  },
   "dependencies": {
     "@tanstack/react-query": "^4.24.10",
     "ethers": "^5.7.2",
     "pt-client-js": "workspace:*",
     "pt-utilities": "workspace:*",
     "react": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.19",
+    "pt-types": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.9.5"
   }
 }

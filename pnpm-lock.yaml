@@ -212,6 +212,7 @@ importers:
 
   packages/pt-components:
     specifiers:
+      '@heroicons/react': ^2.0.16
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
@@ -227,16 +228,17 @@ importers:
       tsup: ^6.6.3
       typescript: ^4.9.5
     dependencies:
+      '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
       flowbite: 1.6.3
       flowbite-react: 0.3.8_2mmgqswwoqcramfjhwovfbbuw4
       pt-ui: link:../pt-ui
       pt-utilities: link:../pt-utilities
+      react: 18.2.0
     devDependencies:
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.19
       pt-types: link:../pt-types
-      react: 18.2.0
       tailwind-config: link:../tailwind-config
       tailwindcss: 3.2.7_postcss@8.4.21
       tsconfig: link:../tsconfig
@@ -302,10 +304,10 @@ importers:
       classnames: 2.3.2
       flowbite: 1.6.3
       flowbite-react: 0.3.8_2mmgqswwoqcramfjhwovfbbuw4
+      react: 18.2.0
     devDependencies:
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.19
-      react: 18.2.0
       tailwind-config: link:../tailwind-config
       tailwindcss: 3.2.7_postcss@8.4.21
       tsconfig: link:../tsconfig
@@ -5461,6 +5463,7 @@ packages:
     hasBin: true
     dependencies:
       js-tokens: 4.0.0
+    dev: false
 
   /loupe/2.3.6:
     resolution:
@@ -6457,6 +6460,7 @@ packages:
     engines: { node: '>=0.10.0' }
     dependencies:
       loose-envify: 1.4.0
+    dev: false
 
   /read-cache/1.0.0:
     resolution:
