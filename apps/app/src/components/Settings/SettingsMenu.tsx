@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
-import { SocialIcon } from 'pt-components'
+import { SocialIcon } from 'pt-ui'
 import { selectedCurrencyAtom, selectedLanguageAtom, settingsModalViewAtom } from '@atoms'
 import { SUPPORTED_CURRENCIES } from '@constants/currencies'
 import { SUPPORTED_LANGUAGES } from '@constants/languages'

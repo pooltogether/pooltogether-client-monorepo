@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { FallbackIcon } from 'pt-components'
+import { TokenIcon } from 'pt-components'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { formatBigNumberForDisplay, formatCurrencyNumberForDisplay } from 'pt-utilities'
 import { DepositFormValues } from './DepositForm'
@@ -68,11 +68,7 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
       />
       <span>Value: {usdValue}</span>
       <span>
-        {!!token.logoURI ? (
-          <img src={token.logoURI} alt={`${token.symbol} Logo`} />
-        ) : (
-          <FallbackIcon symbol={token.symbol} />
-        )}
+        <TokenIcon token={token} />
         {token.symbol}
       </span>
       <span>Balance: {formattedBalance}</span>

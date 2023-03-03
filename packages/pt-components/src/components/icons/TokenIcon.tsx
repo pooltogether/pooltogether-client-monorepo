@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { TokenWithLogo } from 'pt-types'
-import { FallbackIcon } from './FallbackIcon'
+import { BasicIcon } from 'pt-ui'
 
 export interface TokenIconProps {
   token: Partial<TokenWithLogo>
@@ -24,5 +24,5 @@ export const TokenIcon = (props: TokenIconProps) => {
     // TODO: fetch token data from coingecko and display token icon
   }
 
-  return <FallbackIcon symbol={token.symbol ?? ''} />
+  return <BasicIcon content={!!token.symbol ? token.symbol.slice(0, 2).toUpperCase() : '?'} />
 }

@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 
-export interface LoadingSpinnerProps {
+export interface SpinnerProps {
   className?: string
 }
 
-export const LoadingSpinner = (props: LoadingSpinnerProps) => {
+export const Spinner = (props: SpinnerProps) => {
   const { className } = props
 
   return (

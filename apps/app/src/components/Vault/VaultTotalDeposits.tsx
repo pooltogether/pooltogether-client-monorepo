@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useProvider } from 'wagmi'
 import { useVaultBalance } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { LoadingSpinner } from 'pt-ui'
+import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
@@ -40,7 +40,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   const isFetchedTotalDeposits = true
 
   if (!isFetchedTotalDeposits || (displayCurrency && !isFetchedTokenPrices)) {
-    return <LoadingSpinner />
+    return <Spinner />
   }
 
   if (displayCurrency) {

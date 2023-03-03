@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import { useMemo } from 'react'
 import { useCoingeckoExchangeRates } from 'pt-hooks'
-import { LoadingSpinner } from 'pt-ui'
+import { Spinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
 import { selectedCurrencyAtom } from '@atoms'
 import { CURRENCY_ID } from '@constants/currencies'
@@ -33,7 +33,7 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
   }, [isFetchedExchangeRates, exchangeRates, baseValue, currency, baseCurrency])
 
   if (!isFetchedExchangeRates) {
-    return <LoadingSpinner />
+    return <Spinner />
     // } else if (options?.countUp) {
     //   return (
     //     <>

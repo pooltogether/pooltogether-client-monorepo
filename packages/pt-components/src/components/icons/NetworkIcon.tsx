@@ -1,13 +1,12 @@
 import classNames from 'classnames'
+import { BasicIcon } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
-import { FallbackIcon } from './FallbackIcon'
 
 export interface NetworkIconProps {
   chainId: number
   className?: string
 }
 
-// TODO: this component could be largely simplified once proper asset exporting is setup
 export const NetworkIcon = (props: NetworkIconProps) => {
   const { chainId, className } = props
 
@@ -16,7 +15,7 @@ export const NetworkIcon = (props: NetworkIconProps) => {
     return <SvgIcon className={classNames('h-6 w-6 rounded-full', className)} />
   }
 
-  return <FallbackIcon symbol={''} />
+  return <BasicIcon content='?' />
 }
 
 /* =================================== Icons =================================== */

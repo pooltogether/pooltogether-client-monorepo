@@ -1,49 +1,45 @@
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter, FooterProps as FlowbiteFooterProps } from 'flowbite-react'
-import { SocialIcon } from 'pt-components'
+import { SocialIcon } from './SocialIcon'
 
 export const defaultFooterItems: FooterItem[] = [
   {
     title: 'Get Help',
     content: [
-      { type: 'link', text: 'User Docs', linkUrl: 'https://docs.pooltogether.com/' },
-      { type: 'link', text: 'FAQ', linkUrl: 'https://docs.pooltogether.com/welcome/faq' },
-      { type: 'link', text: 'Developer Docs', linkUrl: 'https://dev.pooltogether.com/' }
+      { text: 'User Docs', href: 'https://docs.pooltogether.com/' },
+      { text: 'FAQ', href: 'https://docs.pooltogether.com/welcome/faq' },
+      { text: 'Developer Docs', href: 'https://dev.pooltogether.com/' }
     ]
   },
   {
     title: 'Ecosystem',
     content: [
-      { type: 'link', text: 'Extensions', linkUrl: '/extensions' },
-      { type: 'link', text: 'Governance', linkUrl: 'https://gov.pooltogether.com/' },
-      { type: 'link', text: 'Security', linkUrl: 'https://docs.pooltogether.com/security/audits' }
+      { text: 'Extensions', href: '/extensions' },
+      { text: 'Governance', href: 'https://gov.pooltogether.com/' },
+      { text: 'Security', href: 'https://docs.pooltogether.com/security/audits' }
     ]
   },
   {
     title: 'Community',
     content: [
       {
-        type: 'link',
         text: 'Twitter',
-        linkUrl: 'https://twitter.com/PoolTogether_',
+        href: 'https://twitter.com/PoolTogether_',
         icon: <SocialIcon platform='twitter' />
       },
       {
-        type: 'link',
         text: 'Discord',
-        linkUrl: 'https://pooltogether.com/discord',
+        href: 'https://pooltogether.com/discord',
         icon: <SocialIcon platform='discord' />
       },
       {
-        type: 'link',
         text: 'GitHub',
-        linkUrl: 'https://github.com/pooltogether',
+        href: 'https://github.com/pooltogether',
         icon: <SocialIcon platform='github' />
       },
       {
-        type: 'link',
         text: 'Medium',
-        linkUrl: 'https://medium.com/pooltogether',
+        href: 'https://medium.com/pooltogether',
         icon: <SocialIcon platform='medium' />
       }
     ]
@@ -52,26 +48,7 @@ export const defaultFooterItems: FooterItem[] = [
 
 export interface FooterItem {
   title: string
-  content: (FooterLink | FooterText | FooterIcon)[]
-}
-
-export interface FooterLink {
-  type: 'link'
-  text: string
-  linkUrl: string
-  icon?: JSX.Element
-}
-
-export interface FooterText {
-  type: 'text'
-  text: string
-  onClick?: () => void
-  icon?: JSX.Element
-}
-
-export interface FooterIcon {
-  type: 'icon'
-  icon: JSX.Element
+  content: FooterItemContentProps[]
 }
 
 export interface FooterProps extends FlowbiteFooterProps {
@@ -100,16 +77,13 @@ export const Footer = (props: FooterProps) => {
                 />
                 <FlowbiteFooter.LinkGroup col={true}>
                   {item.content.map((content, i) => {
-                    const contentKey = `ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`
-                    if (content.type === 'link') {
-                      return <Link key={contentKey} {...content} className={itemClassName} />
-                    }
-                    if (content.type === 'text') {
-                      return <Text key={contentKey} {...content} className={itemClassName} />
-                    }
-                    if (content.type === 'icon') {
-                      return content.icon
-                    }
+                    return (
+                      <FooterItemContent
+                        key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
+                        {...content}
+                        className={itemClassName}
+                      />
+                    )
                   })}
                 </FlowbiteFooter.LinkGroup>
               </div>
@@ -121,27 +95,41 @@ export const Footer = (props: FooterProps) => {
   )
 }
 
-const Link = (props: FooterLink & { className?: string }) => {
-  const { text, linkUrl, icon, className } = props
-
-  return (
-    <FlowbiteFooter.Link
-      href={linkUrl}
-      className={classNames('dark:text-pt-purple-100', className)}
-    >
-      {icon}
-      {text}
-    </FlowbiteFooter.Link>
-  )
+interface FooterItemContentProps {
+  text: string
+  href?: string
+  icon?: JSX.Element
+  onClick?: () => void
+  disabled?: boolean
 }
 
-const Text = (props: FooterText & { className?: string }) => {
-  const { text, onClick, icon, className } = props
+const FooterItemContent = (props: FooterItemContentProps & { className?: string }) => {
+  const { text, href, icon, onClick, disabled, className } = props
+
+  if (disabled) {
+    return (
+      <span className={classNames('flex items-center gap-2 dark:text-pt-purple-300', className)}>
+        {icon}
+        {text}
+      </span>
+    )
+  }
+
+  if (!!href) {
+    return (
+      <FlowbiteFooter.Link href={href} className={classNames('dark:text-pt-purple-100', className)}>
+        <span className='flex items-center gap-2'>
+          {icon}
+          {text}
+        </span>
+      </FlowbiteFooter.Link>
+    )
+  }
 
   return (
     <span
       className={classNames(
-        'dark:text-pt-purple-100',
+        'flex items-center gap-2 dark:text-pt-purple-100',
         { 'cursor-pointer': onClick !== undefined },
         className
       )}

@@ -27,7 +27,6 @@
     "@heroicons/react": "^2.0.16",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
-    "flowbite-react": "^0.3.8",
-    "pt-components": "workspace:*"
+    "flowbite-react": "^0.3.8"
   }
 }

@@ -50,7 +50,6 @@ export const Layout = (props: LayoutProps) => {
             title: 'Settings',
             content: [
               {
-                type: 'text',
                 text: 'Change Currency',
                 onClick: () => {
                   setSettingsModalView('currency')
@@ -58,14 +57,14 @@ export const Layout = (props: LayoutProps) => {
                 }
               },
               {
-                type: 'text',
                 text: 'Change Language',
                 onClick: () => {
                   setSettingsModalView('language')
                   setIsSettingsModalOpen(true)
-                }
+                },
+                disabled: true
               },
-              { type: 'text', text: 'Enable Testnets' }
+              { text: 'Enable Testnets', disabled: true }
             ]
           }
         ]}
