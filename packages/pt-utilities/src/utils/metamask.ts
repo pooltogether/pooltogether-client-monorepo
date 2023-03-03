@@ -41,7 +41,7 @@ export const addPoolTokenToMetaMask = async (chainId: number) => {
       address: POOL_TOKEN_ADDRESSES[chainId as keyof typeof POOL_TOKEN_ADDRESSES],
       symbol: 'POOL',
       decimals: 18,
-      image: 'https://app.pooltogether.com/pooltogether-token-logo@2x.png'
+      image: 'https://app.pooltogether.com/pooltogether-token-logo@2x.png' // TODO: need to add this image to the app
     })
   } else {
     console.error(`No POOL token address found in chain ${chainId}`)

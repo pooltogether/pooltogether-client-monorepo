@@ -44,7 +44,7 @@ importers:
     dependencies:
       '@heroicons/react': 2.0.16_react@18.2.0
       '@rainbow-me/rainbowkit': 0.11.0_7mbqcem2us4hjkgdkfe6733sim
-      '@tanstack/react-query': 4.24.10_react@18.2.0
+      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       ethers: 5.7.2
       jotai: 1.13.1_q2tyk3gci27qk4qoatek53e4vi
@@ -255,14 +255,16 @@ importers:
       pt-types: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
+      react-dom: ^18.2.0
       tsconfig: workspace:*
       typescript: ^4.9.5
     dependencies:
-      '@tanstack/react-query': 4.24.10_react@18.2.0
+      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
       ethers: 5.7.2
       pt-client-js: link:../pt-client-js
       pt-utilities: link:../pt-utilities
       react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     devDependencies:
       '@types/react': 17.0.53
       '@types/react-dom': 17.0.19
@@ -2310,26 +2312,6 @@ packages:
       '@tanstack/query-core': 4.24.10
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      use-sync-external-store: 1.2.0_react@18.2.0
-    dev: false
-
-  /@tanstack/react-query/4.24.10_react@18.2.0:
-    resolution:
-      {
-        integrity: sha512-FY1DixytOcNNCydPQXLxuKEV7VSST32CAuJ55BjhDNqASnMLZn+6c30yQBMrODjmWMNwzfjMZnq0Vw7C62Fwow==
-      }
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      '@tanstack/query-core': 4.24.10
-      react: 18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
