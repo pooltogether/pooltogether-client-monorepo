@@ -43,7 +43,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     ...SUPPORTED_NETWORKS.mainnets.map((network) => {
       return {
         id: network.toString(),
-        content: <NetworkIcon chainId={network} className='!h-5 !w-5' />
+        content: <NetworkIcon chainId={network} className='h-5 w-5' />
       }
     })
   ]
@@ -96,7 +96,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       items={filterItems}
       onSelect={setFilterId}
       className={classNames('flex-grow', props.className)}
-      buttonTheme='purple'
+      buttonColor='purple'
     />
   )
 }

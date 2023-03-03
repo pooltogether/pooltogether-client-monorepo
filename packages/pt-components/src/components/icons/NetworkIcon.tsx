@@ -12,7 +12,7 @@ export const NetworkIcon = (props: NetworkIconProps) => {
 
   if (chainId in icons) {
     const SvgIcon = icons[chainId as keyof typeof icons].svgIcon
-    return <SvgIcon className={classNames('h-6 w-6 rounded-full', className)} />
+    return <SvgIcon className={classNames('rounded-full', className)} />
   }
 
   return <BasicIcon content='?' />
@@ -23,8 +23,6 @@ export const NetworkIcon = (props: NetworkIconProps) => {
 const EthereumIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='25'
-    height='25'
     viewBox='0 0 25 25'
     fill='none'
     className={props.className}
@@ -64,8 +62,6 @@ const EthereumIcon = (props: { className?: string }) => (
 const PolygonIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='28'
-    height='28'
     viewBox='0 0 28 28'
     fill='none'
     className={props.className}
@@ -88,8 +84,6 @@ const PolygonIcon = (props: { className?: string }) => (
 const OptimismIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='28'
-    height='28'
     viewBox='0 0 28 28'
     fill='none'
     className={props.className}
@@ -112,8 +106,6 @@ const OptimismIcon = (props: { className?: string }) => (
 const ArbitrumIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='28'
-    height='28'
     viewBox='0 0 28 28'
     fill='none'
     className={props.className}

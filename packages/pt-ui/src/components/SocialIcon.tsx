@@ -16,7 +16,7 @@ export const SocialIcon = (props: SocialIconProps) => {
   }
 
   const SvgIcon = icons[platform].svgIcon
-  return <SvgIcon className={classNames('h-6 w-6', className)} />
+  return <SvgIcon className={classNames(className)} />
 }
 
 /* =================================== Icons =================================== */
@@ -24,8 +24,6 @@ export const SocialIcon = (props: SocialIconProps) => {
 const DiscordIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='24'
-    height='20'
     viewBox='0 0 24 20'
     fill='none'
     className={props.className}
@@ -40,8 +38,6 @@ const DiscordIcon = (props: { className?: string }) => (
 const GithubIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='21'
-    height='21'
     viewBox='0 0 21 21'
     fill='none'
     className={props.className}
@@ -56,8 +52,6 @@ const GithubIcon = (props: { className?: string }) => (
 const MediumIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='24'
-    height='14'
     viewBox='0 0 24 14'
     fill='none'
     className={props.className}
@@ -72,8 +66,6 @@ const MediumIcon = (props: { className?: string }) => (
 const TwitterIcon = (props: { className?: string }) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    width='22'
-    height='18'
     viewBox='0 0 22 18'
     fill='none'
     className={props.className}

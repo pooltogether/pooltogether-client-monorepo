@@ -26,22 +26,22 @@ export const defaultFooterItems: FooterItem[] = [
       {
         text: 'Twitter',
         href: LINKS.twitter,
-        icon: <SocialIcon platform='twitter' />
+        icon: <SocialIcon platform='twitter' className='w-6 h-auto' />
       },
       {
         text: 'Discord',
         href: LINKS.discord,
-        icon: <SocialIcon platform='discord' />
+        icon: <SocialIcon platform='discord' className='w-6 h-auto' />
       },
       {
         text: 'GitHub',
         href: LINKS.github,
-        icon: <SocialIcon platform='github' />
+        icon: <SocialIcon platform='github' className='w-6 h-auto' />
       },
       {
         text: 'Medium',
         href: LINKS.medium,
-        icon: <SocialIcon platform='medium' />
+        icon: <SocialIcon platform='medium' className='w-6 h-auto' />
       }
     ]
   }

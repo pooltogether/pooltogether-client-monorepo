@@ -55,7 +55,7 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
             onClick: () => window.open(LINKS.docs)
           },
           {
-            iconContent: <SocialIcon platform='discord' />,
+            iconContent: <SocialIcon platform='discord' className='w-6 h-auto' />,
             title: 'Talk to us on Discord',
             description: 'Connect with our community',
             onClick: () => window.open(LINKS.discord)

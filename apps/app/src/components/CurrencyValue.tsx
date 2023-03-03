@@ -18,6 +18,7 @@ interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'c
 }
 
 // TODO: implement CountUp in pt-ui package and uncomment the relevant code here
+// TODO: add option to hide loading symbol (return nothing)
 export const CurrencyValue = (props: CurrencyValueProps) => {
   const { baseValue, baseCurrency, countUp, hideCountUpSymbol, decimals, ...rest } = props
 

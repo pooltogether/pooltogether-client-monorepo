@@ -9,7 +9,7 @@ import { VaultTotalDeposits } from './VaultTotalDeposits'
 
 interface VaultListProps {
   vaults: VaultInfo[]
-  classname?: string
+  className?: string
 }
 
 export const VaultList = (props: VaultListProps) => {
@@ -34,14 +34,14 @@ export const VaultList = (props: VaultListProps) => {
   })
 
   return (
-    <div className={classNames('bg-pt-bg-purple-dark p-4 rounded-lg', props.classname)}>
+    <div className={classNames('bg-pt-bg-purple-dark p-4 rounded-lg', props.className)}>
       <Table
         headers={tableHeaders}
         rows={tableRows}
         keyPrefix='vaultList'
         roundedRows={true}
         headerClassName='text-center'
-        cellClassName='min-w-[15vw]'
+        cellClassName='min-w-[15vw] text-center'
       />
     </div>
   )
