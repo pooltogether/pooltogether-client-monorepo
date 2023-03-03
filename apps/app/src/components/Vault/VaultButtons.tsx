@@ -12,7 +12,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   return (
     <div className='flex gap-2'>
       <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
-      <Button color='purple' outline={true}>
+      <Button color='white' outline={true}>
         Details
       </Button>
     </div>

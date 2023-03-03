@@ -22,7 +22,6 @@ export interface SettingsModalProps {
   disableLanguages?: boolean
 }
 
-// TODO: modal overflows height-wise
 export const SettingsModal = (props: SettingsModalProps) => {
   const {
     isOpen,

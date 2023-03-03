@@ -14,6 +14,8 @@ export interface ModalProps extends FlowbiteModalProps {
 
 // TODO: blur background when open
 // TODO: X needs to be styled properly
+// TODO: overflowing height-wise
+// TODO: not positioning center properly
 export const Modal = (props: ModalProps) => {
   const {
     headerContent,

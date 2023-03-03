@@ -26,6 +26,7 @@ export interface NavbarProps {
 }
 
 // TODO: proper image & text size (16px)
+// TODO: maybe center links absolutely, so they don't shift to the left when a wallet connects
 export const Navbar = (props: NavbarProps) => {
   const { activePage, links, walletConnectionButton, onClickSettings, className, linkClassName } =
     props
