@@ -13,7 +13,6 @@ export interface TabsProps extends FlowbiteTabsProps {
   defaultActiveTab?: number
 }
 
-// TODO: waiting for flowbite-react to bump versions to use `theme` here
 export const Tabs = (props: TabsProps) => {
   const { items, defaultActiveTab, ...rest } = props
 

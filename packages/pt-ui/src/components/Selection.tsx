@@ -15,11 +15,11 @@ export interface SelectionProps {
   onSelect: (id: string) => void
   defaultSelected?: string
   className?: string
-  buttonTheme?: ButtonProps['theme']
+  buttonColor?: ButtonProps['color']
 }
 
 export const Selection = (props: SelectionProps) => {
-  const { items, onSelect, defaultSelected, className, buttonTheme } = props
+  const { items, onSelect, defaultSelected, className, buttonColor } = props
 
   const [itemSelected, setItemSelected] = useState(defaultSelected ?? items[0]?.id)
 
@@ -36,7 +36,7 @@ export const Selection = (props: SelectionProps) => {
         return (
           <Button
             key={`sl-${item.id}`}
-            theme={buttonTheme}
+            color={buttonColor}
             outline={item.id !== itemSelected}
             className={item.className}
             disabled={item.disabled}

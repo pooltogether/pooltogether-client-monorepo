@@ -45,7 +45,7 @@ export const Navbar = (props: NavbarProps) => {
         {walletConnectionButton}
         {onClickSettings !== undefined && (
           <Cog8ToothIcon
-            className='h-6 w-6 dark:text-pt-purple-50 cursor-pointer'
+            className='h-6 w-6 dark:text-pt-purple-50 dark:hover:text-pt-purple-200 cursor-pointer'
             onClick={onClickSettings}
           />
         )}

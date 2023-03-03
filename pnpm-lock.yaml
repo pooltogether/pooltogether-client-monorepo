@@ -217,7 +217,7 @@ importers:
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
       flowbite: ^1.6.3
-      flowbite-react: ^0.3.8
+      flowbite-react: ^0.4.1
       pt-types: workspace:*
       pt-ui: workspace:*
       pt-utilities: workspace:*
@@ -231,7 +231,7 @@ importers:
       '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
       flowbite: 1.6.3
-      flowbite-react: 0.3.8_2mmgqswwoqcramfjhwovfbbuw4
+      flowbite-react: 0.4.1_2mmgqswwoqcramfjhwovfbbuw4
       pt-ui: link:../pt-ui
       pt-utilities: link:../pt-utilities
       react: 18.2.0
@@ -294,7 +294,7 @@ importers:
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
       flowbite: ^1.6.3
-      flowbite-react: ^0.3.8
+      flowbite-react: ^0.4.1
       react: ^18.2.0
       tailwind-config: workspace:*
       tailwindcss: ^3.2.7
@@ -305,7 +305,7 @@ importers:
       '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
       flowbite: 1.6.3
-      flowbite-react: 0.3.8_2mmgqswwoqcramfjhwovfbbuw4
+      flowbite-react: 0.4.1_2mmgqswwoqcramfjhwovfbbuw4
       react: 18.2.0
     devDependencies:
       '@types/react': 17.0.53
@@ -1451,10 +1451,10 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: false
 
-  /@floating-ui/react/0.16.0_rji2cnntvinamdkduhjj7n4ma4:
+  /@floating-ui/react/0.20.1_rji2cnntvinamdkduhjj7n4ma4:
     resolution:
       {
-        integrity: sha512-h+69TJSAY2R/k5rw+az56RzzDFc/Tg7EHn/qEgwkIVz56Zg9LlaRMMUvxkcvd+iN3CNFDLtEnDlsXnpshjsRsQ==
+        integrity: sha512-JHTHJ+/YsIxNFH8uJDFa5OyI6dSUZcle6wAFe0zRTjgWD+rkACfBBoJtx2itTtn7C4a7xAz4jgxdEQcMel194g==
       }
     peerDependencies:
       react: '>=16.8.0'
@@ -4635,10 +4635,10 @@ packages:
     hasBin: true
     dev: false
 
-  /flowbite-react/0.3.8_2mmgqswwoqcramfjhwovfbbuw4:
+  /flowbite-react/0.4.1_2mmgqswwoqcramfjhwovfbbuw4:
     resolution:
       {
-        integrity: sha512-IzbpvnUBDXsdf3HflbYv2W1lmTXITizMaX4G0SYoh/GxSp+25E97yNuwdBItwtCacUU1MJLwqIYXeicAxScRfA==
+        integrity: sha512-o3X2YWcAcwu5O1NunlsAz2UNvTqmwmytkVdRVAC7jQeVOx+F/xUO1e3ZaG7hB5ULfx8d5AyhTeRzaPQPT539Wg==
       }
     peerDependencies:
       flowbite: ^1
@@ -4646,7 +4646,7 @@ packages:
       react-dom: ^18
       tailwindcss: ^3
     dependencies:
-      '@floating-ui/react': 0.16.0_rji2cnntvinamdkduhjj7n4ma4
+      '@floating-ui/react': 0.20.1_rji2cnntvinamdkduhjj7n4ma4
       classnames: 2.3.2
       flowbite: 1.6.3
       react: 18.2.0

@@ -7,10 +7,12 @@ interface VaultButtonsProps {
 }
 
 export const VaultButtons = (props: VaultButtonsProps) => {
+  const { vaultInfo } = props
+
   return (
     <div className='flex gap-2'>
-      <DepositButton vaultInfo={props.vaultInfo} />
-      <Button theme={'purple'} outline={true}>
+      <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
+      <Button color='purple' outline={true}>
         Details
       </Button>
     </div>
