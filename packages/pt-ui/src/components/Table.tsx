@@ -28,7 +28,7 @@ export const Table = (props: TableProps) => {
   } = props
 
   return (
-    <FlowbiteTable {...rest}>
+    <FlowbiteTable className={classNames('border-separate border-spacing-0', className)} {...rest}>
       <FlowbiteTable.Head
         className={classNames(
           'dark:bg-transparent dark:text-pt-purple-100 py-2 normal-case',
@@ -42,7 +42,7 @@ export const Table = (props: TableProps) => {
           </FlowbiteTable.HeadCell>
         ))}
       </FlowbiteTable.Head>
-      <FlowbiteTable.Body className={classNames('divide-y-8', bodyClassName)}>
+      <FlowbiteTable.Body className={classNames(bodyClassName)}>
         {rows.map((row, i) => (
           <FlowbiteTable.Row
             className={classNames('dark:bg-pt-transparent', rowClassName, row.className)}

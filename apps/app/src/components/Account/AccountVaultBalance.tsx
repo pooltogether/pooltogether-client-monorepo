@@ -37,7 +37,6 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
     <div className='flex flex-col'>
       <span className='text-lg'>
         {formatBigNumberForDisplay(tokenBalance, vaultInfo.decimals.toString())}{' '}
-        {vaultInfo.extensions.underlyingAsset.symbol}
       </span>
       <span className='text-sm'>
         <CurrencyValue baseValue={usdBalance} hideZeroes={true} />

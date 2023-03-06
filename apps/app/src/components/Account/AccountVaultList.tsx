@@ -90,12 +90,13 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
   return (
     <>
       {isFetchedVaultBalances && (
-        <div className={classNames('bg-pt-bg-purple-dark p-4 rounded-lg', props.className)}>
+        <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', props.className)}>
           <Table
             headers={tableHeaders}
             rows={tableRows}
             keyPrefix='dpVaultList'
             roundedRows={true}
+            className='border-spacing-y-4'
             headerClassName='text-center'
             cellClassName='min-w-[15vw] text-center'
           />
