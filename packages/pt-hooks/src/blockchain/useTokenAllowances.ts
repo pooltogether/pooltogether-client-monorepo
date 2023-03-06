@@ -35,6 +35,7 @@ export const useTokenAllowances = (
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!readProvider &&
+    readProvider._isProvider &&
     isFetchedChainId &&
     !!chainId
 

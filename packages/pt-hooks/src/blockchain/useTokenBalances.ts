@@ -33,6 +33,7 @@ export const useTokenBalances = (
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!readProvider &&
+    readProvider._isProvider &&
     isFetchedChainId &&
     !!chainId
 
@@ -100,6 +101,7 @@ export const useTokenBalancesAcrossChains = (
         Array.isArray(chainTokenAddresses) &&
         chainTokenAddresses.length > 0 &&
         !!readProvider &&
+        readProvider._isProvider &&
         isFetchedChainIds &&
         !!chainId
 

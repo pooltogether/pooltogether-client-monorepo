@@ -26,7 +26,14 @@ export const useUserVaultBalances = (
 
   const { data: chainIds, isFetched: isFetchedChainIds } = useProviderChainIds(readProviders)
 
-  const enabled = !!userAddress && utils.isAddress(userAddress) && isFetchedChainIds && !!chainIds
+  const enabled =
+    !!userAddress &&
+    utils.isAddress(userAddress) &&
+    !!readProviders &&
+    readProviders.length > 0 &&
+    readProviders.every((provider) => provider?._isProvider) &&
+    isFetchedChainIds &&
+    !!chainIds
 
   const queryKey = [QUERY_KEYS.userVaultBalances, chainIds, userAddress, vaultList]
 

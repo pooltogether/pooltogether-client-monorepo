@@ -24,7 +24,12 @@ export const useVaultShareMultipliers = (
 
   const { data: chainIds, isFetched: isFetchedChainIds } = useProviderChainIds(readProviders)
 
-  const enabled = isFetchedChainIds && !!chainIds
+  const enabled =
+    !!readProviders &&
+    readProviders.length > 0 &&
+    readProviders.every((provider) => provider?._isProvider) &&
+    isFetchedChainIds &&
+    !!chainIds
 
   const queryKey = [QUERY_KEYS.vaultShareMultipliers, chainIds, vaultList]
 
