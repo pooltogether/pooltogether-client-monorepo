@@ -1,12 +1,10 @@
 import classNames from 'classnames'
 import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { NetworkIcon } from 'pt-components'
+import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useUserVaultBalances } from 'pt-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { Spinner, Table, TableProps } from 'pt-ui'
-import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { VaultToken } from '@components/Vault/VaultToken'
 import defaultVaultList from '@data/defaultVaultList'
 import { useProviders } from '@hooks/useProviders'
 import { AccountVaultBalance } from './AccountVaultBalance'
@@ -68,8 +66,8 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
   const tableRows: TableProps['rows'] = Object.keys(vaultBalances).map((vaultId) => {
     const vaultInfo = vaultBalances[vaultId]
     const cells: ReactNode[] = [
-      <VaultToken vaultInfo={vaultInfo} />,
-      <VaultPrizePool chainId={vaultInfo.chainId} />,
+      <VaultBadge vaultInfo={vaultInfo} />,
+      <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} />,
       '1 in X',
       <AccountVaultBalance vaultInfo={vaultInfo} />,
       <AccountVaultButtons vaultInfo={vaultInfo} />
@@ -104,20 +102,5 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
       )}
       {!isFetchedVaultBalances && <Spinner />}
     </>
-  )
-}
-
-interface VaultPrizePoolProps {
-  chainId: number
-}
-
-const VaultPrizePool = (props: VaultPrizePoolProps) => {
-  const networkName = getNiceNetworkNameByChainId(props.chainId)
-
-  return (
-    <span className='inline-flex items-center justify-center gap-2 text-sm dark:bg-pt-transparent px-3 py-1 rounded-lg'>
-      <NetworkIcon chainId={props.chainId} className='h-4 w-4' />
-      <span>{networkName} Prize Pool</span>
-    </span>
   )
 }

@@ -5,7 +5,6 @@ import { Modal } from 'pt-ui'
 import { DepositModalBody } from './Body'
 import { DepositFormValues } from './DepositForm'
 import { DepositModalFooter } from './Footer'
-import { DepositModalHeader } from './Header'
 
 interface DepositModalProps {
   vaultInfo: VaultInfo
@@ -37,7 +36,8 @@ export const DepositModal = (props: DepositModalProps) => {
       <Modal
         show={isOpen}
         dismissible={true}
-        headerContent={<DepositModalHeader vaultInfo={vaultInfo} />}
+        position='center'
+        bgColor='light'
         bodyContent={
           <DepositModalBody
             vaultInfo={vaultInfo}

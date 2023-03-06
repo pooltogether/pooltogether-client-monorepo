@@ -10,7 +10,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   const { vaultInfo } = props
 
   return (
-    <div className='flex gap-2'>
+    <div className='flex justify-end gap-2'>
       <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
       {/* TODO: re-add "Details" button once the vault-specific page exists (not MVP) */}
       {/* <Button color='white' outline={true}>

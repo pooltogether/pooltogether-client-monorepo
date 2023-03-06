@@ -86,7 +86,6 @@ export const SettingsModal = (props: SettingsModalProps) => {
           ) : undefined
         }
         bodyContent={modalViews[view]}
-        bodyClassName='max-h-[80vh]'
         onClose={() => {
           setIsOpen(false)
           setView('menu')

@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { TokenIcon } from 'pt-components'
@@ -16,6 +17,7 @@ interface DepositFormInputProps {
   errors: FieldErrorsImpl<DepositFormValues>
   onChange?: (v: string) => void
   showMaxButton?: boolean
+  className?: string
 }
 
 export const DepositFormInput = (props: DepositFormInputProps) => {
@@ -29,7 +31,8 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
     watch,
     setValue,
     onChange,
-    showMaxButton
+    showMaxButton,
+    className
   } = props
 
   const formAmount = watch(formKey, '0')
@@ -59,11 +62,11 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
   }
 
   return (
-    <>
+    <div className={classNames('dark:bg-pt-transparent p-4 rounded-lg', className)}>
       <input
         id={formKey}
         {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
-        className='w-full dark:bg-pt-transparent'
+        className='w-full text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50'
         disabled={disabled}
       />
       <span>Value: {usdValue}</span>
@@ -74,7 +77,7 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
       <span>Balance: {formattedBalance}</span>
       {showMaxButton && <span onClick={setFormAmountToMax}>Max</span>}
       {!!error && <span>{error}</span>}
-    </>
+    </div>
   )
 }
 

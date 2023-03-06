@@ -1,9 +1,10 @@
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
 import { VaultInfo } from 'pt-types'
-import { divideBigNumbers } from 'pt-utilities'
+import { divideBigNumbers, formatBigNumberForDisplay, formatNumberForDisplay } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { DepositFormInput, isValidFormInput } from './DepositFormInput'
 
@@ -20,6 +21,7 @@ interface DepositFormProps {
   errors: FieldErrorsImpl<DepositFormValues>
 }
 
+// TODO: form input is being unselected everytime a value is entered
 export const DepositForm = (props: DepositFormProps) => {
   const { vaultInfo, register, watch, setValue, errors } = props
 
@@ -92,7 +94,7 @@ export const DepositForm = (props: DepositFormProps) => {
   }
 
   return (
-    <>
+    <div className='flex flex-col'>
       <DepositFormInput
         token={{
           ...vaultInfo.extensions.underlyingAsset,
@@ -115,13 +117,16 @@ export const DepositForm = (props: DepositFormProps) => {
         errors={errors}
         onChange={calculateSharesForTokens}
         showMaxButton={true}
+        className='mb-0.5'
       />
       <DepositFormInput
         token={{
           ...vaultInfo,
           decimals: vaultInfo.decimals.toString(),
           balance: shareBalance,
-          usdPrice: 0 // TODO: calculate share price (token price divided by multiplier)
+          usdPrice: divideBigNumbers(BigNumber.from(Math.round(usdPrice * 1000)), vaultMultiplier)
+            .div(1000)
+            .toNumber()
         }}
         formKey='shareAmount'
         validate={basicValidation}
@@ -130,7 +135,31 @@ export const DepositForm = (props: DepositFormProps) => {
         setValue={setValue}
         errors={errors}
         onChange={calculateTokensForShares}
+        className='my-0.5 rounded-b-none'
       />
-    </>
+      {/* TODO: add tooltip next to conversion rate */}
+      <div className='flex items-center justify-between gap-4 dark:bg-pt-transparent px-4 py-2 rounded-b-lg'>
+        <span className='dark:text-pt-purple-200'>
+          1 {vaultInfo.extensions.underlyingAsset.symbol} ={' '}
+          {formatNumberForDisplay(
+            divideBigNumbers(BigNumber.from(1000), vaultMultiplier).toNumber() / 1000,
+            {
+              hideZeroes: true
+            }
+          )}{' '}
+          {vaultInfo.symbol}
+        </span>
+        {/* TODO: add link to block explorer */}
+        <a
+          href='#'
+          target='_blank'
+          rel='noreferrer'
+          className='inline-flex items-center gap-1 text-xs dark:text-pt-teal'
+        >
+          <span>View Prize Asset</span>
+          <ArrowTopRightOnSquareIcon className='h-4 w-4 dark:text-inherit' />
+        </a>
+      </div>
+    </div>
   )
 }

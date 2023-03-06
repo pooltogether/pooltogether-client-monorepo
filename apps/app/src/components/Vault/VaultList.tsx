@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
+import { VaultBadge } from 'pt-components'
 import { VaultInfo } from 'pt-types'
 import { Table, TableProps } from 'pt-ui'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
-import { VaultToken } from './VaultToken'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
 interface VaultListProps {
@@ -23,7 +23,7 @@ export const VaultList = (props: VaultListProps) => {
 
   const tableRows: TableProps['rows'] = props.vaults.map((vaultInfo) => {
     const cells: ReactNode[] = [
-      <VaultToken vaultInfo={vaultInfo} />,
+      <VaultBadge vaultInfo={vaultInfo} />,
       vaultInfo.extensions.yieldSource,
       <VaultPrizePower vaultInfo={vaultInfo} />,
       <VaultTotalDeposits vaultInfo={vaultInfo} displayCurrency={true} />,
