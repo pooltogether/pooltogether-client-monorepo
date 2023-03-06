@@ -12,7 +12,7 @@ const defaultVaultList: VaultList = {
   tokens: [
     {
       chainId: 1,
-      address: '',
+      address: '0x',
       name: 'USDC Vault',
       decimals: 6,
       symbol: 'ptaUSDC',
@@ -31,7 +31,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 137,
-      address: '',
+      address: '0x',
       name: 'USDC Vault',
       decimals: 6,
       symbol: 'ptaUSDC',
@@ -50,7 +50,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 10,
-      address: '',
+      address: '0x',
       name: 'WETH Vault',
       decimals: 18,
       symbol: 'ptaWETH',
@@ -69,7 +69,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 42161,
-      address: '',
+      address: '0x',
       name: 'WBTC Vault',
       decimals: 8,
       symbol: 'ptaWBTC',
