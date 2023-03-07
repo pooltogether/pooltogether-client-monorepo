@@ -1,9 +1,11 @@
+import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { TokenIcon } from 'pt-components'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
-import { formatBigNumberForDisplay, formatCurrencyNumberForDisplay } from 'pt-utilities'
+import { formatBigNumberForDisplay } from 'pt-utilities'
+import { CurrencyValue } from '@components/CurrencyValue'
 import { DepositFormValues } from './DepositForm'
 
 interface DepositFormInputProps {
@@ -17,6 +19,7 @@ interface DepositFormInputProps {
   errors: FieldErrorsImpl<DepositFormValues>
   onChange?: (v: string) => void
   showMaxButton?: boolean
+  showDownArrow?: boolean
   className?: string
 }
 
@@ -32,15 +35,15 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
     setValue,
     onChange,
     showMaxButton,
+    showDownArrow,
     className
   } = props
 
   const formAmount = watch(formKey, '0')
-  const usdValue = formatCurrencyNumberForDisplay(
+  const usdValue =
     isValidFormInput(formAmount, parseInt(token.decimals)) && !!token.usdPrice
       ? Number(formAmount) * token.usdPrice
       : 0
-  )
 
   const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
 
@@ -62,21 +65,40 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
   }
 
   return (
-    <div className={classNames('dark:bg-pt-transparent p-4 rounded-lg', className)}>
-      <input
-        id={formKey}
-        {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
-        className='w-full text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50'
-        disabled={disabled}
-      />
-      <span>Value: {usdValue}</span>
-      <span>
-        <TokenIcon token={token} />
-        {token.symbol}
-      </span>
-      <span>Balance: {formattedBalance}</span>
-      {showMaxButton && <span onClick={setFormAmountToMax}>Max</span>}
+    <div className={classNames('relative dark:bg-pt-transparent p-4 rounded-lg', className)}>
+      <div className='flex justify-between gap-6'>
+        <input
+          id={formKey}
+          {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
+          className='flex-grow text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50'
+          disabled={disabled}
+        />
+        <div className='flex items-center gap-1'>
+          <TokenIcon token={token} />
+          <span className='text-2xl font-semibold'>{token.symbol}</span>
+        </div>
+      </div>
+      <div className='flex justify-between gap-6 dark:text-pt-purple-100'>
+        <CurrencyValue baseValue={usdValue} />
+        <div className='flex gap-1'>
+          <span>Balance: {formattedBalance}</span>
+          {showMaxButton && (
+            <span
+              onClick={setFormAmountToMax}
+              className='dark:text-pt-purple-200 cursor-pointer select-none'
+            >
+              Max
+            </span>
+          )}
+        </div>
+      </div>
+      {/* TODO: style error message or outline */}
       {!!error && <span>{error}</span>}
+      {showDownArrow && (
+        <div className='absolute -bottom-4 left-0 right-0 mx-auto flex items-center justify-center h-8 w-8 dark:bg-pt-bg-purple-light border-2 dark:border-pt-purple-50 rounded-lg z-10'>
+          <ArrowDownIcon className='h-5 w-5 dark:text-purple-100' />
+        </div>
+      )}
     </div>
   )
 }

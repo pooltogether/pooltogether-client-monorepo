@@ -41,7 +41,7 @@ export const getMulticallResults = async (
   }
 
   const chainId = (await readProvider.getNetwork())?.chainId
-  if (!!chainId) {
+  if (!chainId) {
     throw new Error('Multicall Error: Could not get chainId from provider')
   }
 
@@ -93,7 +93,7 @@ export const getComplexMulticallResults = async (
   }
 
   const chainId = (await readProvider.getNetwork())?.chainId
-  if (!!chainId) {
+  if (!chainId) {
     throw new Error('Multicall Error: Could not get chainId from provider')
   }
 

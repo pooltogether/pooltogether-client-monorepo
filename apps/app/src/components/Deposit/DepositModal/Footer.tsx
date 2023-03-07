@@ -1,4 +1,4 @@
-import { utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount, useNetwork, useProvider } from 'wagmi'
 import { useTokenAllowance } from 'pt-hooks'
@@ -22,13 +22,16 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const { chain } = useNetwork()
 
-  const provider = useProvider({ chainId: vaultInfo.chainId })
-  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
-    provider,
-    userAddress,
-    vaultInfo.address,
-    vaultInfo.extensions.underlyingAsset.address
-  )
+  // const provider = useProvider({ chainId: vaultInfo.chainId })
+  // const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
+  //   provider,
+  //   userAddress,
+  //   vaultInfo.address,
+  //   vaultInfo.extensions.underlyingAsset.address
+  // )
+  // TODO: remove and uncomment above once vaults are setup:
+  const allowance = BigNumber.from(0)
+  const isFetchedAllowance: boolean = true
 
   const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount = utils.parseUnits(
@@ -40,7 +43,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     return <ConnectWalletButton fullSized={true} />
   } else if (chain?.id !== vaultInfo.chainId) {
     return <SwitchNetworkButton chainId={vaultInfo.chainId} fullSized={true} />
-  } else if (!isFetchedAllowance || allowance.lt(depositAmount)) {
+  } else if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
       <SendApproveButton
         amount={depositAmount}

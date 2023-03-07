@@ -3,8 +3,8 @@ import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
-import { VaultInfo } from 'pt-types'
-import { divideBigNumbers, formatBigNumberForDisplay, formatNumberForDisplay } from 'pt-utilities'
+import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
+import { divideBigNumbers, formatNumberForDisplay } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { DepositFormInput, isValidFormInput } from './DepositFormInput'
 
@@ -21,7 +21,7 @@ interface DepositFormProps {
   errors: FieldErrorsImpl<DepositFormValues>
 }
 
-// TODO: form input is being unselected everytime a value is entered
+// TODO: form input is being unselected everytime a value is entered (most likely being re-rendered)
 export const DepositForm = (props: DepositFormProps) => {
   const { vaultInfo, register, watch, setValue, errors } = props
 
@@ -40,11 +40,14 @@ export const DepositForm = (props: DepositFormProps) => {
   )
   const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
 
-  const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
-    provider,
-    userAddress,
-    vaultInfo
-  )
+  // const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
+  //   provider,
+  //   userAddress,
+  //   vaultInfo
+  // )
+  // TODO: remove the following once vaults are setup (and uncomment above)
+  const isFetchedVaultBalance: boolean = true
+  const vaultInfoWithBalance: VaultInfoWithBalance = { ...vaultInfo, balance: '0' }
   const shareBalance =
     isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
@@ -106,7 +109,7 @@ export const DepositForm = (props: DepositFormProps) => {
         validate={{
           ...basicValidation,
           isNotGreaterThanBalance: (v) =>
-            parseFloat(utils.formatUnits(shareBalance, vaultInfo.decimals)) >= parseFloat(v) ||
+            parseFloat(utils.formatUnits(tokenBalance, vaultInfo.decimals)) >= parseFloat(v) ||
             !isFetchedVaultBalance ||
             !vaultInfoWithBalance ||
             `Not enough ${vaultInfo.extensions.underlyingAsset.symbol} in wallet`
@@ -117,6 +120,7 @@ export const DepositForm = (props: DepositFormProps) => {
         errors={errors}
         onChange={calculateSharesForTokens}
         showMaxButton={true}
+        showDownArrow={true}
         className='mb-0.5'
       />
       <DepositFormInput

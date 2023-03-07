@@ -19,7 +19,6 @@ export const DepositModal = (props: DepositModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const defaultFormValues: DepositFormValues = { tokenAmount: '0', shareAmount: '0' }
   const {
     register,
     watch,
@@ -27,7 +26,7 @@ export const DepositModal = (props: DepositModalProps) => {
     formState: { errors: formErrors, isValid: isValidFormInputs }
   } = useForm<DepositFormValues>({
     mode: 'onChange',
-    defaultValues: defaultFormValues,
+    defaultValues: { tokenAmount: '0', shareAmount: '0' },
     shouldUnregister: true
   })
 
