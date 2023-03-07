@@ -29,7 +29,8 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 - `pt-client-js`: Protocol-specific functions to easily interact with on-chain data.
 - `pt-components`: More complex React component library utilizing some components from `pt-ui`.
-- `pt-hooks`: Shared React hooks.
+- `pt-generic-hooks`: Shared React hooks.
+- `pt-hyperstructure-hooks`: Shared React hooks specific to Hyperstructure functionality.
 - `pt-types`: Shared Typescript types.
 - `pt-ui`: Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
 - `pt-utilities`: Shared Typescript utilities.
