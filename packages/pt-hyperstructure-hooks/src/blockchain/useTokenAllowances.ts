@@ -1,7 +1,8 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { BigNumber, providers } from 'ethers'
+import { NO_REFETCH } from 'pt-generic-hooks'
 import { getTokenAllowances } from 'pt-utilities'
-import { NO_REFETCH, QUERY_KEYS } from '../constants'
+import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 import { useProviderChainId } from './useProviderChainId'
 

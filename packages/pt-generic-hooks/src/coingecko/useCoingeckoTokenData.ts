@@ -1,5 +1,4 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { utils } from 'ethers'
 import { CoingeckoTokenData } from 'pt-types'
 import { COINGECKO_PLATFORM, COINGECKO_PLATFORMS, getCoingeckoTokenData } from 'pt-utilities'
 import { NO_REFETCH, QUERY_KEYS } from '../constants'
@@ -14,8 +13,7 @@ export const useCoingeckoTokenData = (
   chainId: number,
   tokenAddress: string
 ): UseQueryResult<CoingeckoTokenData | undefined, unknown> => {
-  const enabled =
-    !!tokenAddress && utils.isAddress(tokenAddress) && !!chainId && chainId in COINGECKO_PLATFORMS
+  const enabled = !!tokenAddress && !!chainId && chainId in COINGECKO_PLATFORMS
 
   return useQuery(
     [QUERY_KEYS.coingeckoTokenData, chainId, tokenAddress],

@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai'
 import { useMemo } from 'react'
-import { useCoingeckoExchangeRates } from 'pt-hooks'
+import { useCoingeckoExchangeRates } from 'pt-generic-hooks'
 import { Spinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
 import { selectedCurrencyAtom } from '@atoms'

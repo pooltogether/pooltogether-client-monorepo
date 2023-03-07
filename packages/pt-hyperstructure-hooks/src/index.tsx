@@ -9,14 +9,6 @@ export * from './blockchain/useTokenBalances'
 export * from './blockchain/useTokens'
 
 /**
- * CoinGecko Hooks
- */
-export * from './coingecko/useCoingeckoExchangeRates'
-export * from './coingecko/useCoingeckoSimpleTokenPrices'
-export * from './coingecko/useCoingeckoTokenData'
-export * from './coingecko/useCoingeckoTokenPrices'
-
-/**
  * Vault Hooks
  */
 export * from './vaults/useUserVaultBalances'
@@ -32,3 +24,8 @@ export * from './utils/populateCachePerId'
  * Constants
  */
 export * from './constants'
+
+/**
+ * Generic Hook Constants
+ */
+export { NO_REFETCH } from 'pt-generic-hooks'

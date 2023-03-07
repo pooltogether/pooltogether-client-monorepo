@@ -1,7 +1,7 @@
 import { utils } from 'ethers'
 import { useMemo } from 'react'
 import { useProvider } from 'wagmi'
-import { useVaultBalance } from 'pt-hooks'
+import { useVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'

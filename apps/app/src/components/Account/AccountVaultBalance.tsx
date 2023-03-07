@@ -1,6 +1,6 @@
 import { BigNumber, utils } from 'ethers'
 import { useProvider } from 'wagmi'
-import { useVaultShareMultiplier } from 'pt-hooks'
+import { useVaultShareMultiplier } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'

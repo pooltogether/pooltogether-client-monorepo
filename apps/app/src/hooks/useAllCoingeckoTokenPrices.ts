@@ -1,4 +1,7 @@
-import { useCoingeckoSimpleTokenPrices, useCoingeckoTokenPricesAcrossChains } from 'pt-hooks'
+import {
+  useCoingeckoSimpleTokenPrices,
+  useCoingeckoTokenPricesAcrossChains
+} from 'pt-generic-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
 import { getVaultsByChainId } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'

@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
-import { useTokenAllowance, useTokenBalance } from 'pt-hooks'
+import { useTokenAllowance, useTokenBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { TransactionButton } from '@components/TransactionButton'

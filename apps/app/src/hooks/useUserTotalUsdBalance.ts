@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { useUserVaultBalances, useVaultShareMultipliers } from 'pt-hooks'
+import { useUserVaultBalances, useVaultShareMultipliers } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import defaultVaultList from '@constants/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'

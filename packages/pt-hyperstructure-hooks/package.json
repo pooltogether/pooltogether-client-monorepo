@@ -1,5 +1,5 @@
 {
-  "name": "pt-hooks",
+  "name": "pt-hyperstructure-hooks",
   "version": "0.0.1",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,6 +16,7 @@
     "@tanstack/react-query": "^4.24.10",
     "ethers": "^5.7.2",
     "pt-client-js": "workspace:*",
+    "pt-generic-hooks": "workspace:*",
     "pt-utilities": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

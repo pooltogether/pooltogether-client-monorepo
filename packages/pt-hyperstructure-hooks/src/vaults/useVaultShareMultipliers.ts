@@ -1,9 +1,10 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { BigNumber, providers } from 'ethers'
+import { NO_REFETCH } from 'pt-generic-hooks'
 import { VaultInfo, VaultList } from 'pt-types'
 import { getAllVaultShareMultipliers, getVaultId } from 'pt-utilities'
 import { useProviderChainIds } from '../blockchain/useProviderChainId'
-import { NO_REFETCH, QUERY_KEYS } from '../constants'
+import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**

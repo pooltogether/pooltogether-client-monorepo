@@ -2,7 +2,11 @@ import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
-import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
+import {
+  useTokenBalance,
+  useUserVaultBalance,
+  useVaultShareMultiplier
+} from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
 import { divideBigNumbers, formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'

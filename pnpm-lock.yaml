@@ -29,7 +29,8 @@ importers:
       postcss: ^8.4.21
       pt-client-js: workspace:*
       pt-components: workspace:*
-      pt-hooks: workspace:*
+      pt-generic-hooks: workspace:*
+      pt-hyperstructure-hooks: workspace:*
       pt-types: workspace:*
       pt-ui: workspace:*
       pt-utilities: workspace:*
@@ -51,7 +52,8 @@ importers:
       next: 13.2.3_6m24vuloj5ihw4zc5lbsktc4fu
       pt-client-js: link:../../packages/pt-client-js
       pt-components: link:../../packages/pt-components
-      pt-hooks: link:../../packages/pt-hooks
+      pt-generic-hooks: link:../../packages/pt-generic-hooks
+      pt-hyperstructure-hooks: link:../../packages/pt-hyperstructure-hooks
       pt-ui: link:../../packages/pt-ui
       pt-utilities: link:../../packages/pt-utilities
       react: 18.2.0
@@ -245,13 +247,37 @@ importers:
       tsup: 6.6.3_uujdqti2krmttzhqvubwnsmcci
       typescript: 4.9.5
 
-  packages/pt-hooks:
+  packages/pt-generic-hooks:
+    specifiers:
+      '@tanstack/react-query': ^4.24.10
+      '@types/react': ^17.0.53
+      '@types/react-dom': ^17.0.19
+      pt-types: workspace:*
+      pt-utilities: workspace:*
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      tsconfig: workspace:*
+      typescript: ^4.9.5
+    dependencies:
+      '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      pt-utilities: link:../pt-utilities
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@types/react': 17.0.53
+      '@types/react-dom': 17.0.19
+      pt-types: link:../pt-types
+      tsconfig: link:../tsconfig
+      typescript: 4.9.5
+
+  packages/pt-hyperstructure-hooks:
     specifiers:
       '@tanstack/react-query': ^4.24.10
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
       ethers: ^5.7.2
       pt-client-js: workspace:*
+      pt-generic-hooks: workspace:*
       pt-types: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
@@ -262,6 +288,7 @@ importers:
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
       ethers: 5.7.2
       pt-client-js: link:../pt-client-js
+      pt-generic-hooks: link:../pt-generic-hooks
       pt-utilities: link:../pt-utilities
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { providers } from 'ethers'
-import { NO_REFETCH, QUERY_KEYS } from '../constants'
+import { NO_REFETCH } from 'pt-generic-hooks'
+import { QUERY_KEYS } from '../constants'
 
 /**
  * Returns a provider's chain ID
