@@ -8,6 +8,7 @@ export * from './abis/erc4626'
  * Utils
  */
 export * from './utils/addresses'
+export * from './utils/blockExplorers'
 export * from './utils/coingecko'
 export * from './utils/currencies'
 export * from './utils/formatting'

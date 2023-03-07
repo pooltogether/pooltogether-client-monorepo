@@ -104,3 +104,24 @@ export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK, string> = Object.freeze
  * PoolTogether API URL
  */
 export const POOLTOGETHER_API_URL = 'https://pooltogether-api.com'
+
+/**
+ * Block explorer URLs
+ */
+export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
+  [NETWORK.mainnet]: 'https://etherscan.io/',
+  [NETWORK.goerli]: 'https://goerli.etherscan.io/',
+  [NETWORK.bsc]: 'https://bscscan.com/',
+  [NETWORK['bsc-testnet']]: 'https://testnet.bscscan.com/',
+  [NETWORK.xdai]: 'https://gnosisscan.io/',
+  [NETWORK.polygon]: 'https://polygonscan.com/',
+  [NETWORK.mumbai]: 'https://mumbai.polygonscan.com/',
+  [NETWORK.optimism]: 'https://optimistic.etherscan.io/',
+  [NETWORK['optimism-goerli']]: 'https://goerli-optimism.etherscan.io/',
+  [NETWORK.avalanche]: 'https://snowtrace.io/',
+  [NETWORK.fuji]: 'https://testnet.snowtrace.io/',
+  [NETWORK.celo]: 'https://celoscan.io/',
+  [NETWORK['celo-testnet']]: 'https://alfajores.celoscan.io/',
+  [NETWORK.arbitrum]: 'https://arbiscan.io/',
+  [NETWORK['arbitrum-goerli']]: 'https://goerli.arbiscan.io/'
+})

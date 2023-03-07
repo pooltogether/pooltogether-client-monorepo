@@ -4,7 +4,7 @@ import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 
 import { useAccount, useProvider } from 'wagmi'
 import { useTokenBalance, useUserVaultBalance, useVaultShareMultiplier } from 'pt-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
-import { divideBigNumbers, formatNumberForDisplay } from 'pt-utilities'
+import { divideBigNumbers, formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { DepositFormInput, isValidFormInput } from './DepositFormInput'
 
@@ -153,9 +153,8 @@ export const DepositForm = (props: DepositFormProps) => {
           )}{' '}
           {vaultInfo.symbol}
         </span>
-        {/* TODO: add link to block explorer */}
         <a
-          href='#'
+          href={getBlockExplorerUrl(vaultInfo.chainId, vaultInfo.address, 'token')}
           target='_blank'
           rel='noreferrer'
           className='inline-flex items-center gap-1 text-xs dark:text-pt-teal'
