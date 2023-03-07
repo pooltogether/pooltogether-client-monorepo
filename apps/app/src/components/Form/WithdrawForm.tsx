@@ -1,4 +1,3 @@
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
@@ -8,25 +7,21 @@ import {
   useVaultShareMultiplier
 } from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
-import { divideBigNumbers, formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
+import { divideBigNumbers } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
-import { DepositFormInput, isValidFormInput } from './DepositFormInput'
+import { TxFormInfo } from './TxFormInfo'
+import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
-export interface DepositFormValues {
-  tokenAmount: string
-  shareAmount: string
-}
-
-interface DepositFormProps {
+interface WithdrawFormProps {
   vaultInfo: VaultInfo
-  register: UseFormRegister<DepositFormValues>
-  watch: UseFormWatch<DepositFormValues>
-  setValue: UseFormSetValue<DepositFormValues>
-  errors: FieldErrorsImpl<DepositFormValues>
+  register: UseFormRegister<TxFormValues>
+  watch: UseFormWatch<TxFormValues>
+  setValue: UseFormSetValue<TxFormValues>
+  errors: FieldErrorsImpl<TxFormValues>
 }
 
 // TODO: form input is being unselected everytime a value is entered (most likely being re-rendered)
-export const DepositForm = (props: DepositFormProps) => {
+export const WithdrawForm = (props: WithdrawFormProps) => {
   const { vaultInfo, register, watch, setValue, errors } = props
 
   const provider = useProvider({ chainId: vaultInfo.chainId })
@@ -62,6 +57,10 @@ export const DepositForm = (props: DepositFormProps) => {
           vaultInfo.extensions.underlyingAsset.address.toLowerCase()
         ]?.['usd'] ?? 0
       : 0
+  const shareUsdPrice =
+    BigNumber.from(Math.round(usdPrice * 1000))
+      .mul(vaultMultiplier)
+      .toNumber() / 1000
 
   const calculateSharesForTokens = (formTokenAmount: string) => {
     if (isValidFormInput(formTokenAmount, vaultInfo.decimals)) {
@@ -93,16 +92,33 @@ export const DepositForm = (props: DepositFormProps) => {
     }
   }
 
-  const basicValidation: { [rule: string]: (v: any) => true | string } = {
-    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
-    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
-    isNotTooPrecise: (v) =>
-      v.split('.').length < 2 || v.split('.')[1].length <= vaultInfo.decimals || 'Too many decimals'
-  }
-
   return (
     <div className='flex flex-col'>
-      <DepositFormInput
+      <TxFormInput
+        token={{
+          ...vaultInfo,
+          decimals: vaultInfo.decimals.toString(),
+          balance: shareBalance,
+          usdPrice: shareUsdPrice
+        }}
+        formKey='shareAmount'
+        validate={{
+          isNotGreaterThanShareBalance: (v) =>
+            parseFloat(utils.formatUnits(shareBalance, vaultInfo.decimals)) >= parseFloat(v) ||
+            !isFetchedVaultBalance ||
+            !vaultInfoWithBalance ||
+            `Not enough ${vaultInfo.symbol} in wallet`
+        }}
+        register={register}
+        watch={watch}
+        setValue={setValue}
+        errors={errors}
+        onChange={calculateTokensForShares}
+        showMaxButton={true}
+        showDownArrow={true}
+        className='mb-0.5'
+      />
+      <TxFormInput
         token={{
           ...vaultInfo.extensions.underlyingAsset,
           balance: tokenBalance,
@@ -110,63 +126,14 @@ export const DepositForm = (props: DepositFormProps) => {
           logoURI: vaultInfo.extensions.underlyingAsset.logoURI
         }}
         formKey='tokenAmount'
-        validate={{
-          ...basicValidation,
-          isNotGreaterThanBalance: (v) =>
-            parseFloat(utils.formatUnits(tokenBalance, vaultInfo.decimals)) >= parseFloat(v) ||
-            !isFetchedVaultBalance ||
-            !vaultInfoWithBalance ||
-            `Not enough ${vaultInfo.extensions.underlyingAsset.symbol} in wallet`
-        }}
         register={register}
         watch={watch}
         setValue={setValue}
         errors={errors}
         onChange={calculateSharesForTokens}
-        showMaxButton={true}
-        showDownArrow={true}
-        className='mb-0.5'
-      />
-      <DepositFormInput
-        token={{
-          ...vaultInfo,
-          decimals: vaultInfo.decimals.toString(),
-          balance: shareBalance,
-          usdPrice: divideBigNumbers(BigNumber.from(Math.round(usdPrice * 1000)), vaultMultiplier)
-            .div(1000)
-            .toNumber()
-        }}
-        formKey='shareAmount'
-        validate={basicValidation}
-        register={register}
-        watch={watch}
-        setValue={setValue}
-        errors={errors}
-        onChange={calculateTokensForShares}
         className='my-0.5 rounded-b-none'
       />
-      {/* TODO: add tooltip next to conversion rate */}
-      <div className='flex items-center justify-between gap-4 dark:bg-pt-transparent px-4 py-2 rounded-b-lg'>
-        <span className='dark:text-pt-purple-200'>
-          1 {vaultInfo.extensions.underlyingAsset.symbol} ={' '}
-          {formatNumberForDisplay(
-            divideBigNumbers(BigNumber.from(1000), vaultMultiplier).toNumber() / 1000,
-            {
-              hideZeroes: true
-            }
-          )}{' '}
-          {vaultInfo.symbol}
-        </span>
-        <a
-          href={getBlockExplorerUrl(vaultInfo.chainId, vaultInfo.address, 'token')}
-          target='_blank'
-          rel='noreferrer'
-          className='inline-flex items-center gap-1 text-xs dark:text-pt-teal'
-        >
-          <span>View Prize Asset</span>
-          <ArrowTopRightOnSquareIcon className='h-4 w-4 dark:text-inherit' />
-        </a>
-      </div>
+      <TxFormInfo vaultInfo={vaultInfo} vaultMultiplier={vaultMultiplier} linkType='token' />
     </div>
   )
 }

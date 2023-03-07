@@ -10,17 +10,18 @@ interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'c
   baseValue: number | string
   baseCurrency?: CURRENCY_ID
   countUp?: boolean
-  hideCountUpSymbol?: boolean
   decimals?: number
+  hideCountUpSymbol?: boolean
+  hideLoading?: boolean
   locale?: string
   round?: boolean
   hideZeroes?: boolean
 }
 
 // TODO: implement CountUp in pt-ui package and uncomment the relevant code here
-// TODO: add option to hide loading symbol (return nothing)
 export const CurrencyValue = (props: CurrencyValueProps) => {
-  const { baseValue, baseCurrency, countUp, hideCountUpSymbol, decimals, ...rest } = props
+  const { baseValue, baseCurrency, countUp, decimals, hideCountUpSymbol, hideLoading, ...rest } =
+    props
 
   const { data: exchangeRates, isFetched: isFetchedExchangeRates } = useCoingeckoExchangeRates()
   const currency = useAtomValue(selectedCurrencyAtom)
@@ -34,7 +35,9 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
   }, [isFetchedExchangeRates, exchangeRates, baseValue, currency, baseCurrency])
 
   if (!isFetchedExchangeRates) {
-    return <Spinner />
+    if (!hideLoading) {
+      return <Spinner />
+    }
     // } else if (options?.countUp) {
     //   return (
     //     <>

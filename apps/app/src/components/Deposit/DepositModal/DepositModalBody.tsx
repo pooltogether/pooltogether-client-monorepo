@@ -2,14 +2,15 @@ import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 
 import { NetworkBadge } from 'pt-components'
 import { VaultInfo } from 'pt-types'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { DepositForm, DepositFormValues } from './DepositForm'
+import { DepositForm } from '@components/Form/DepositForm'
+import { TxFormValues } from '@components/Form/TxFormInput'
 
 interface DepositModalBodyProps {
   vaultInfo: VaultInfo
-  register: UseFormRegister<DepositFormValues>
-  watch: UseFormWatch<DepositFormValues>
-  setValue: UseFormSetValue<DepositFormValues>
-  errors: FieldErrorsImpl<DepositFormValues>
+  register: UseFormRegister<TxFormValues>
+  watch: UseFormWatch<TxFormValues>
+  setValue: UseFormSetValue<TxFormValues>
+  errors: FieldErrorsImpl<TxFormValues>
 }
 
 export const DepositModalBody = (props: DepositModalBodyProps) => {

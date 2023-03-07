@@ -3,16 +3,16 @@ import { useForm } from 'react-hook-form'
 import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { TxFormValues } from '@components/Form/TxFormInput'
-import { DepositModalBody } from './DepositModalBody'
-import { DepositModalFooter } from './DepositModalFooter'
+import { WithdrawModalBody } from './WithdrawModalBody'
+import { WithdrawModalFooter } from './WithdrawModalFooter'
 
-interface DepositModalProps {
+interface WithdrawModalProps {
   vaultInfo: VaultInfo
   isOpen: boolean
   onClose?: () => void
 }
 
-export const DepositModal = (props: DepositModalProps) => {
+export const WithdrawModal = (props: WithdrawModalProps) => {
   const { vaultInfo, isOpen, onClose } = props
 
   // NOTE: This is necessary due to hydration errors otherwise.
@@ -26,7 +26,7 @@ export const DepositModal = (props: DepositModalProps) => {
     formState: { errors: formErrors, isValid: isValidFormInputs }
   } = useForm<TxFormValues>({
     mode: 'onChange',
-    defaultValues: { tokenAmount: '0', shareAmount: '0' },
+    defaultValues: { shareAmount: '0', tokenAmount: '0' },
     shouldUnregister: true
   })
 
@@ -38,7 +38,7 @@ export const DepositModal = (props: DepositModalProps) => {
         position='center'
         bgColor='light'
         bodyContent={
-          <DepositModalBody
+          <WithdrawModalBody
             vaultInfo={vaultInfo}
             register={register}
             watch={watch}
@@ -47,7 +47,7 @@ export const DepositModal = (props: DepositModalProps) => {
           />
         }
         footerContent={
-          <DepositModalFooter
+          <WithdrawModalFooter
             vaultInfo={vaultInfo}
             watch={watch}
             isValidFormInputs={isValidFormInputs}

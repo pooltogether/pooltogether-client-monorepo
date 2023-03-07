@@ -6,24 +6,28 @@ import { TokenIcon } from 'pt-components'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
-import { DepositFormValues } from './DepositForm'
 
-interface DepositFormInputProps {
+export interface TxFormValues {
+  tokenAmount: string
+  shareAmount: string
+}
+
+interface TxFormInputProps {
   token: TokenWithBalance & TokenWithUsdPrice & Partial<TokenWithLogo>
-  formKey: keyof DepositFormValues
+  formKey: keyof TxFormValues
   validate?: { [rule: string]: (v: any) => true | string }
   disabled?: boolean
-  register: UseFormRegister<DepositFormValues>
-  watch: UseFormWatch<DepositFormValues>
-  setValue: UseFormSetValue<DepositFormValues>
-  errors: FieldErrorsImpl<DepositFormValues>
+  register: UseFormRegister<TxFormValues>
+  watch: UseFormWatch<TxFormValues>
+  setValue: UseFormSetValue<TxFormValues>
+  errors: FieldErrorsImpl<TxFormValues>
   onChange?: (v: string) => void
   showMaxButton?: boolean
   showDownArrow?: boolean
   className?: string
 }
 
-export const DepositFormInput = (props: DepositFormInputProps) => {
+export const TxFormInput = (props: TxFormInputProps) => {
   const {
     token,
     formKey,
@@ -64,12 +68,24 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
     onChange(formattedAmount)
   }
 
+  const basicValidation: { [rule: string]: (v: any) => true | string } = {
+    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
+    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
+    isNotTooPrecise: (v) =>
+      v.split('.').length < 2 ||
+      v.split('.')[1].length <= parseInt(token.decimals) ||
+      'Too many decimals'
+  }
+
   return (
     <div className={classNames('relative dark:bg-pt-transparent p-4 rounded-lg', className)}>
       <div className='flex justify-between gap-6'>
         <input
           id={formKey}
-          {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
+          {...register(formKey, {
+            validate: { ...basicValidation, ...validate },
+            onChange: (e) => onChange(e.target.value as string)
+          })}
           className='flex-grow text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50 focus:outline-none'
           disabled={disabled}
         />

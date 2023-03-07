@@ -4,15 +4,14 @@ import { useAccount, useProvider } from 'wagmi'
 import { useTokenAllowance, useTokenBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { isValidFormInput, TxFormValues } from '@components/Form/TxFormInput'
 import { TransactionButton } from '@components/TransactionButton'
 import { useSendApproveTransaction } from '@hooks/transactions/useSendApproveTransaction'
 import { useSendDepositTransaction } from '@hooks/transactions/useSendDepositTransaction'
-import { DepositFormValues } from './DepositForm'
-import { isValidFormInput } from './DepositFormInput'
 
 interface DepositModalFooterProps {
   vaultInfo: VaultInfo
-  watch: UseFormWatch<DepositFormValues>
+  watch: UseFormWatch<TxFormValues>
   isValidFormInputs: boolean
 }
 
