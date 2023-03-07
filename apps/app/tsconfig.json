@@ -6,10 +6,8 @@
       "@atoms": ["./src/atoms"],
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
-      "@data/*": ["./src/data/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@views/*": ["./src/views/*"]
+      "@pages/*": ["./src/pages/*"]
     }
   }
 }

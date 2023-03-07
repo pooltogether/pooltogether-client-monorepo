@@ -23,7 +23,6 @@ Open [http://localhost:3000](http://localhost:3000) on your browser to see the r
 ## App Structure
 
 - `pages` - All of the pages in the app!
-- `views` - The base UI for each page, calling a multitude of other components.
 - `components` - React components that make up the contents of the pages.
 - `constants` - Constant values for configuration and functionality of the app.
-- `data` - Static data such as vault lists to be consumed by the app.
+- `hooks` - App-specific hooks not included in other hook packages.

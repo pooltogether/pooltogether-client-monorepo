@@ -1,8 +1,8 @@
 import { useCoingeckoSimpleTokenPrices, useCoingeckoTokenPricesAcrossChains } from 'pt-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
 import { getVaultsByChainId } from 'pt-utilities'
+import defaultVaultList from '@constants/defaultVaultList'
 import { SUPPORTED_NETWORKS } from '@constants/networks'
-import defaultVaultList from '@data/defaultVaultList'
 
 /**
  * Returns token prices from CoinGecko for all SUPPORTED_NETWORKS

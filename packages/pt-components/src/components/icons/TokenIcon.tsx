@@ -22,6 +22,7 @@ export const TokenIcon = (props: TokenIconProps) => {
 
   if (token.chainId && token.address) {
     // TODO: fetch token data from coingecko and display token icon
+    // TODO: include overrides mapping for tokens that we know are awkward to use from coingecko
   }
 
   return <BasicIcon content={!!token.symbol ? token.symbol.slice(0, 2).toUpperCase() : '?'} />
