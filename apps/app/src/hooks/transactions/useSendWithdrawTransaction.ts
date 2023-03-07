@@ -1,5 +1,5 @@
 import { BigNumber, providers, utils } from 'ethers'
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
 import { VaultInfo } from 'pt-types'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
 
@@ -11,8 +11,9 @@ export const useSendWithdrawTransaction = (
   sendWithdrawTransaction: (() => void) | undefined
 } => {
   const { address: userAddress } = useAccount()
+  const { chain } = useNetwork()
 
-  const enabled = !!userAddress && utils.isAddress(userAddress)
+  const enabled = !!userAddress && utils.isAddress(userAddress) && chain?.id === vaultInfo.chainId
 
   // TODO: overrides?
   // TODO: onSuccess

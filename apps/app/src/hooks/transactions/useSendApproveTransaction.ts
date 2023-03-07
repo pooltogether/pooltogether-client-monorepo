@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers'
-import { useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
 import { VaultInfo } from 'pt-types'
 import { erc20 as erc20Abi } from 'pt-utilities'
 
@@ -10,6 +10,10 @@ export const useSendApproveTransaction = (
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
   sendApproveTransaction: (() => void) | undefined
 } => {
+  const { chain } = useNetwork()
+
+  const enabled = chain?.id === vaultInfo.chainId
+
   // TODO: overrides?
   // TODO: onSuccess
   // TODO: onError
@@ -18,7 +22,8 @@ export const useSendApproveTransaction = (
     abi: erc20Abi,
     functionName: 'approve',
     args: [vaultInfo.address, amount],
-    chainId: vaultInfo.chainId
+    chainId: vaultInfo.chainId,
+    enabled
   })
 
   const { data, write: sendApproveTransaction } = useContractWrite(config)

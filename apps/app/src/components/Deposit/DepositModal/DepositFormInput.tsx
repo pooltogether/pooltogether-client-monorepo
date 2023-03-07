@@ -70,7 +70,7 @@ export const DepositFormInput = (props: DepositFormInputProps) => {
         <input
           id={formKey}
           {...register(formKey, { validate, onChange: (e) => onChange(e.target.value as string) })}
-          className='flex-grow text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50'
+          className='flex-grow text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50 focus:outline-none'
           disabled={disabled}
         />
         <div className='flex items-center gap-1'>
