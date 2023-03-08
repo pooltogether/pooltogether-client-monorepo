@@ -2,15 +2,17 @@ import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/ra
 import '@rainbow-me/rainbowkit/styles.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
-import { configureChains, createClient, goerli, WagmiConfig } from 'wagmi'
+import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import {
   arbitrum,
   arbitrumGoerli,
+  goerli,
   mainnet,
   optimism,
   optimismGoerli,
   polygon,
-  polygonMumbai
+  polygonMumbai,
+  sepolia
 } from 'wagmi/chains'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
@@ -22,7 +24,17 @@ import '../styles/globals.css'
 // Wagmi Config:
 const { chains, provider } = configureChains(
   // TODO: need to only include proper chains depending on testnet mode or not
-  [mainnet, polygon, optimism, arbitrum, goerli, polygonMumbai, optimismGoerli, arbitrumGoerli],
+  [
+    mainnet,
+    polygon,
+    optimism,
+    arbitrum,
+    goerli,
+    sepolia,
+    polygonMumbai,
+    optimismGoerli,
+    arbitrumGoerli
+  ],
   [
     infuraProvider({ apiKey: process.env.INFURA_ID }),
     alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),

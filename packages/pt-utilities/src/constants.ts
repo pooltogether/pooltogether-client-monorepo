@@ -4,6 +4,7 @@
 export enum NETWORK {
   'mainnet' = 1,
   'goerli' = 5,
+  'sepolia' = 11155111,
   'bsc' = 56,
   'bsc-testnet' = 97,
   'xdai' = 100,
@@ -53,13 +54,10 @@ export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3'
  */
 export const COINGECKO_PLATFORMS = Object.freeze({
   [NETWORK.mainnet]: 'ethereum',
-  [NETWORK.goerli]: 'goerli',
   [NETWORK.bsc]: 'binance-smart-chain',
   [NETWORK.xdai]: 'xdai',
   [NETWORK.polygon]: 'polygon-pos',
-  [NETWORK.mumbai]: 'mumbai',
   [NETWORK.optimism]: 'optimistic-ethereum',
-  [NETWORK['optimism-goerli']]: 'optimistic-ethereum',
   [NETWORK.avalanche]: 'avalanche',
   [NETWORK.celo]: 'celo',
   [NETWORK.arbitrum]: 'arbitrum-one'
@@ -72,6 +70,7 @@ export type COINGECKO_PLATFORM = keyof typeof COINGECKO_PLATFORMS
 export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK, string> = Object.freeze({
   [NETWORK.mainnet]: 'ethereum',
   [NETWORK.goerli]: 'ethereum',
+  [NETWORK.sepolia]: 'ethereum',
   [NETWORK.bsc]: 'binancecoin',
   [NETWORK['bsc-testnet']]: 'binancecoin',
   [NETWORK.xdai]: 'xdai',
@@ -98,6 +97,7 @@ export const POOLTOGETHER_API_URL = 'https://pooltogether-api.com'
 export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
   [NETWORK.mainnet]: 'https://etherscan.io/',
   [NETWORK.goerli]: 'https://goerli.etherscan.io/',
+  [NETWORK.sepolia]: 'https://sepolia.etherscan.io/',
   [NETWORK.bsc]: 'https://bscscan.com/',
   [NETWORK['bsc-testnet']]: 'https://testnet.bscscan.com/',
   [NETWORK.xdai]: 'https://gnosisscan.io/',

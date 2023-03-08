@@ -5,5 +5,11 @@ import { NETWORK } from 'pt-utilities'
  */
 export const SUPPORTED_NETWORKS = Object.freeze({
   mainnets: [NETWORK.mainnet, NETWORK.polygon, NETWORK.optimism, NETWORK.arbitrum],
-  testnets: [NETWORK.goerli, NETWORK.mumbai, NETWORK['optimism-goerli'], NETWORK['arbitrum-goerli']]
+  testnets: [
+    NETWORK.goerli,
+    NETWORK.sepolia,
+    NETWORK.mumbai,
+    NETWORK['optimism-goerli'],
+    NETWORK['arbitrum-goerli']
+  ]
 })

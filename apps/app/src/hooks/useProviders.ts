@@ -19,6 +19,7 @@ export const useProviders = (): providers.Provider[] => {
     ],
     testnets: [
       useProvider({ chainId: NETWORK.goerli }),
+      useProvider({ chainId: NETWORK.sepolia }),
       useProvider({ chainId: NETWORK.mumbai }),
       useProvider({ chainId: NETWORK['optimism-goerli'] }),
       useProvider({ chainId: NETWORK['arbitrum-goerli'] })
