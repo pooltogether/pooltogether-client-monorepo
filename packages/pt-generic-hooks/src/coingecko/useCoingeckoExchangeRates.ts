@@ -1,7 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { CoingeckoExchangeRates } from 'pt-types'
 import { getCoingeckoExchangeRates } from 'pt-utilities'
-import { NO_REFETCH, QUERY_KEYS } from '../constants'
+import { QUERY_KEYS } from '../constants/keys'
+import { NO_REFETCH } from '../constants/query'
 
 /**
  * Returns exchange rates from CoinGecko

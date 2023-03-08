@@ -252,6 +252,7 @@ importers:
       '@tanstack/react-query': ^4.24.10
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
+      jotai: ^1.13.1
       pt-types: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
@@ -260,6 +261,7 @@ importers:
       typescript: ^4.9.5
     dependencies:
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
+      jotai: 1.13.1_react@18.2.0
       pt-utilities: link:../pt-utilities
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -5239,6 +5241,52 @@ packages:
         optional: true
     dependencies:
       '@babel/core': 7.21.0
+      react: 18.2.0
+    dev: false
+
+  /jotai/1.13.1_react@18.2.0:
+    resolution:
+      {
+        integrity: sha512-RUmH1S4vLsG3V6fbGlKzGJnLrDcC/HNb5gH2AeA9DzuJknoVxSGvvg8OBB7lke+gDc4oXmdVsaKn/xDUhWZ0vw==
+      }
+    engines: { node: '>=12.20.0' }
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      jotai-devtools: '*'
+      jotai-immer: '*'
+      jotai-optics: '*'
+      jotai-redux: '*'
+      jotai-tanstack-query: '*'
+      jotai-urql: '*'
+      jotai-valtio: '*'
+      jotai-xstate: '*'
+      jotai-zustand: '*'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      jotai-devtools:
+        optional: true
+      jotai-immer:
+        optional: true
+      jotai-optics:
+        optional: true
+      jotai-redux:
+        optional: true
+      jotai-tanstack-query:
+        optional: true
+      jotai-urql:
+        optional: true
+      jotai-valtio:
+        optional: true
+      jotai-xstate:
+        optional: true
+      jotai-zustand:
+        optional: true
+    dependencies:
       react: 18.2.0
     dev: false
 

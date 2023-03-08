@@ -4,15 +4,17 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { SettingsModal } from 'pt-components'
-import { defaultFooterItems, Footer, Navbar } from 'pt-ui'
 import {
-  isSettingsModalOpenAtom,
-  selectedCurrencyAtom,
-  selectedLanguageAtom,
-  settingsModalViewAtom
-} from '@atoms'
-import { CURRENCY_ID, SUPPORTED_CURRENCIES } from '@constants/currencies'
-import { LANGUAGE_ID, SUPPORTED_LANGUAGES } from '@constants/languages'
+  CURRENCY_ID,
+  LANGUAGE_ID,
+  SUPPORTED_CURRENCIES,
+  SUPPORTED_LANGUAGES,
+  useIsSettingsModalOpen,
+  useSelectedCurrency,
+  useSelectedLanguage
+} from 'pt-generic-hooks'
+import { defaultFooterItems, Footer, Navbar } from 'pt-ui'
+import { settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
   children: ReactNode
@@ -21,11 +23,11 @@ interface LayoutProps {
 export const Layout = (props: LayoutProps) => {
   const router = useRouter()
 
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useAtom(isSettingsModalOpenAtom)
+  const { isSettingsModalOpen, setIsSettingsModalOpen } = useIsSettingsModalOpen()
   const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
 
-  const [currencyId, setCurrencyId] = useAtom(selectedCurrencyAtom)
-  const [languageId, setLanguageId] = useAtom(selectedLanguageAtom)
+  const { selectedCurrency, setSelectedCurrency } = useSelectedCurrency()
+  const { selectedLanguage, setSelectedLanguage } = useSelectedLanguage()
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -54,10 +56,10 @@ export const Layout = (props: LayoutProps) => {
         setIsOpen={setIsSettingsModalOpen}
         view={settingsModalView}
         setView={setSettingsModalView}
-        currencyId={currencyId}
-        setCurrencyId={(id) => setCurrencyId(id as CURRENCY_ID)}
-        languageId={languageId}
-        setLanguageId={(id) => setLanguageId(id as LANGUAGE_ID)}
+        currencyId={selectedCurrency}
+        setCurrencyId={(id) => setSelectedCurrency(id as CURRENCY_ID)}
+        languageId={selectedLanguage}
+        setLanguageId={(id) => setSelectedLanguage(id as LANGUAGE_ID)}
         currencies={SUPPORTED_CURRENCIES}
         languages={SUPPORTED_LANGUAGES}
         disableLanguages={true}

@@ -9,12 +9,10 @@ export const QUERY_KEYS = Object.freeze({
 })
 
 /**
- * Basic config to avoid refetching data
+ * Local storage keys
  */
-export const NO_REFETCH = Object.freeze({
-  refetchInterval: false,
-  refetchIntervalInBackground: false,
-  refetchOnMount: false,
-  refetchOnReconnect: false,
-  refetchOnWindowFocus: false
+export const LOCAL_STORAGE_KEYS = Object.freeze({
+  isTestnets: 'isTestnets',
+  selectedCurrency: 'selectedCurrency',
+  selectedLanguage: 'selectedLanguage'
 })

@@ -1,10 +1,7 @@
-import { useAtomValue } from 'jotai'
 import { useMemo } from 'react'
-import { useCoingeckoExchangeRates } from 'pt-generic-hooks'
+import { CURRENCY_ID, useCoingeckoExchangeRates, useSelectedCurrency } from 'pt-generic-hooks'
 import { Spinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
-import { selectedCurrencyAtom } from '@atoms'
-import { CURRENCY_ID } from '@constants/currencies'
 
 interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
   baseValue: number | string
@@ -24,15 +21,15 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
     props
 
   const { data: exchangeRates, isFetched: isFetchedExchangeRates } = useCoingeckoExchangeRates()
-  const currency = useAtomValue(selectedCurrencyAtom)
+  const { selectedCurrency } = useSelectedCurrency()
 
   const currencyValue = useMemo(() => {
     if (isFetchedExchangeRates && !!exchangeRates) {
-      return calculateCurrencyValue(baseValue, currency, exchangeRates, { baseCurrency })
+      return calculateCurrencyValue(baseValue, selectedCurrency, exchangeRates, { baseCurrency })
     } else {
       return 0
     }
-  }, [isFetchedExchangeRates, exchangeRates, baseValue, currency, baseCurrency])
+  }, [isFetchedExchangeRates, exchangeRates, baseValue, selectedCurrency, baseCurrency])
 
   if (!isFetchedExchangeRates) {
     if (!hideLoading) {
@@ -46,6 +43,6 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
     //     </>
     //   )
   } else {
-    return <>{formatCurrencyNumberForDisplay(currencyValue, currency, { ...rest })}</>
+    return <>{formatCurrencyNumberForDisplay(currencyValue, selectedCurrency, { ...rest })}</>
   }
 }

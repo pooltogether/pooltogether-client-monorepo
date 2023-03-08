@@ -2,7 +2,8 @@ import { useQueries, useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { CoingeckoTokenPrices } from 'pt-types'
 import { COINGECKO_PLATFORM, COINGECKO_PLATFORMS, getCoingeckoTokenPrices } from 'pt-utilities'
-import { NO_REFETCH, QUERY_KEYS } from '../constants'
+import { QUERY_KEYS } from '../constants/keys'
+import { NO_REFETCH } from '../constants/query'
 
 /**
  * Returns token prices from CoinGecko
