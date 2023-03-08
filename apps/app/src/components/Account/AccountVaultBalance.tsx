@@ -2,7 +2,11 @@ import { BigNumber, utils } from 'ethers'
 import { useProvider } from 'wagmi'
 import { useVaultShareMultiplier } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
-import { formatBigNumberForDisplay, getAssetsFromShares } from 'pt-utilities'
+import {
+  formatBigNumberForDisplay,
+  getAssetsFromShares,
+  getTokenPriceFromObject
+} from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 
@@ -13,13 +17,12 @@ interface AccountVaultBalanceProps {
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   const { vaultInfo } = props
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
-  const usdPrice =
-    isFetchedTokenPrices && !!tokenPrices
-      ? tokenPrices[vaultInfo.chainId]?.[
-          vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-        ]?.['usd'] ?? 0
-      : 0
+  const { data: tokenPrices } = useAllCoingeckoTokenPrices()
+  const usdPrice = getTokenPriceFromObject(
+    vaultInfo.chainId,
+    vaultInfo.extensions.underlyingAsset.address,
+    tokenPrices
+  )
 
   // const provider = useProvider({ chainId: vaultInfo.chainId })
   // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo)

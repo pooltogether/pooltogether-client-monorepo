@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { useUserVaultBalances, useVaultShareMultipliers } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
-import { getAssetsFromShares } from 'pt-utilities'
+import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 import { useProviders } from './useProviders'
@@ -68,10 +68,11 @@ export const useUserTotalUsdBalance = () => {
         const vaultMultiplier = vaultMultipliers[vaultId]
 
         if (!!vaultMultiplier) {
-          const usdPrice =
-            tokenPrices[vaultInfo.chainId]?.[
-              vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-            ]?.['usd'] ?? 0
+          const usdPrice = getTokenPriceFromObject(
+            vaultInfo.chainId,
+            vaultInfo.extensions.underlyingAsset.address,
+            tokenPrices
+          )
 
           const shareBalance = BigNumber.from(vaultInfo.balance)
           const tokenBalance = getAssetsFromShares(

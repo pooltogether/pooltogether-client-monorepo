@@ -6,7 +6,11 @@ import { NetworkIcon } from 'pt-components'
 import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
-import { getVaultId, getVaultUnderlyingTokensFromVaultList } from 'pt-utilities'
+import {
+  getTokenPriceFromObject,
+  getVaultId,
+  getVaultUnderlyingTokensFromVaultList
+} from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
@@ -56,12 +60,11 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
     if (filterId === 'popular') {
       filteredVaults = defaultVaultList.tokens.filter((vault) => {
-        const usdPrice =
-          isFetchedTokenPrices && !!tokenPrices
-            ? tokenPrices[vault.chainId]?.[
-                vault.extensions.underlyingAsset.address.toLowerCase()
-              ]?.['usd'] ?? 0
-            : 0
+        const usdPrice = getTokenPriceFromObject(
+          vault.chainId,
+          vault.extensions.underlyingAsset.address,
+          tokenPrices
+        )
         // const vaultId = getVaultId(vault)
         // const tokenAmount = isFetchedVaultBalances && !!vaultBalances ? vaultBalances[vaultId] : 0
         // TODO: remove this once vaults are setup (and uncomment code above):

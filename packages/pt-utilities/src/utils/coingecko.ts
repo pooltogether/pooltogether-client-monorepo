@@ -59,6 +59,27 @@ export const getCoingeckoTokenPrices = async (
 }
 
 /**
+ * Returns a token's price from an object of many CoinGecko token prices
+ * @param chainId chain ID for the token requested
+ * @param tokenAddress the token's address
+ * @param tokenPrices all token prices returned from CoinGecko
+ * @param currency optional currency override (default is 'usd')
+ * @returns
+ */
+export const getTokenPriceFromObject = (
+  chainId: number,
+  tokenAddress: string,
+  tokenPrices: { [chainId: number]: CoingeckoTokenPrices } | undefined,
+  currency?: string
+) => {
+  if (!!tokenPrices) {
+    return tokenPrices[chainId]?.[tokenAddress.toLowerCase()]?.[currency ?? 'usd'] ?? 0
+  } else {
+    return 0
+  }
+}
+
+/**
  * Returns token data from CoinGecko
  * @param chainId chain ID where the token address provided is from
  * @param tokenAddress token address to query token data for

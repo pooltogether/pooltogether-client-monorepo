@@ -1,10 +1,9 @@
 import { utils } from 'ethers'
-import { useMemo } from 'react'
 import { useProvider } from 'wagmi'
 import { useVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Spinner } from 'pt-ui'
-import { formatBigNumberForDisplay } from 'pt-utilities'
+import { formatBigNumberForDisplay, getTokenPriceFromObject } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 
@@ -17,17 +16,11 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   const { vaultInfo, displayCurrency } = props
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
-  const usdPrice = useMemo(() => {
-    if (isFetchedTokenPrices && !!tokenPrices) {
-      return (
-        tokenPrices[vaultInfo.chainId]?.[
-          vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-        ]?.['usd'] ?? 0
-      )
-    } else {
-      return 0
-    }
-  }, [isFetchedTokenPrices, tokenPrices, vaultInfo])
+  const usdPrice = getTokenPriceFromObject(
+    vaultInfo.chainId,
+    vaultInfo.extensions.underlyingAsset.address,
+    tokenPrices
+  )
 
   // const provider = useProvider({ chainId: vaultInfo.chainId })
   // const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(

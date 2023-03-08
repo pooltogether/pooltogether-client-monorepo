@@ -7,7 +7,7 @@ import {
   useVaultShareMultiplier
 } from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
-import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
+import { getAssetsFromShares, getSharesFromAssets, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
@@ -50,13 +50,12 @@ export const DepositForm = (props: DepositFormProps) => {
   const shareBalance =
     isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
-  const usdPrice =
-    isFetchedTokenPrices && !!tokenPrices
-      ? tokenPrices[vaultInfo.chainId]?.[
-          vaultInfo.extensions.underlyingAsset.address.toLowerCase()
-        ]?.['usd'] ?? 0
-      : 0
+  const { data: tokenPrices } = useAllCoingeckoTokenPrices()
+  const usdPrice = getTokenPriceFromObject(
+    vaultInfo.chainId,
+    vaultInfo.extensions.underlyingAsset.address,
+    tokenPrices
+  )
   const shareUsdPrice =
     getAssetsFromShares(
       BigNumber.from(Math.round(usdPrice * 1000)),
