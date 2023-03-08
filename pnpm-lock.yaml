@@ -219,7 +219,7 @@ importers:
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
       flowbite: ^1.6.3
-      flowbite-react: ^0.4.1
+      flowbite-react: ^0.4.2
       pt-generic-hooks: workspace:*
       pt-types: workspace:*
       pt-ui: workspace:*
@@ -234,7 +234,7 @@ importers:
       '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
       flowbite: 1.6.3
-      flowbite-react: 0.4.1_2mmgqswwoqcramfjhwovfbbuw4
+      flowbite-react: 0.4.2_2mmgqswwoqcramfjhwovfbbuw4
       pt-generic-hooks: link:../pt-generic-hooks
       pt-ui: link:../pt-ui
       pt-utilities: link:../pt-utilities
@@ -325,7 +325,7 @@ importers:
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
       flowbite: ^1.6.3
-      flowbite-react: ^0.4.1
+      flowbite-react: ^0.4.2
       react: ^18.2.0
       tailwind-config: workspace:*
       tailwindcss: ^3.2.7
@@ -336,7 +336,7 @@ importers:
       '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
       flowbite: 1.6.3
-      flowbite-react: 0.4.1_2mmgqswwoqcramfjhwovfbbuw4
+      flowbite-react: 0.4.2_2mmgqswwoqcramfjhwovfbbuw4
       react: 18.2.0
     devDependencies:
       '@types/react': 17.0.53
@@ -4666,10 +4666,10 @@ packages:
     hasBin: true
     dev: false
 
-  /flowbite-react/0.4.1_2mmgqswwoqcramfjhwovfbbuw4:
+  /flowbite-react/0.4.2_2mmgqswwoqcramfjhwovfbbuw4:
     resolution:
       {
-        integrity: sha512-o3X2YWcAcwu5O1NunlsAz2UNvTqmwmytkVdRVAC7jQeVOx+F/xUO1e3ZaG7hB5ULfx8d5AyhTeRzaPQPT539Wg==
+        integrity: sha512-o4VsyYpJKfmiuHdfFA36o4slimdOyTKHmBIcqZNtd9eYCMrRDqEttUISIBPLDB9MArPZ13U1snAIKXHLp2Nr/A==
       }
     peerDependencies:
       flowbite: ^1

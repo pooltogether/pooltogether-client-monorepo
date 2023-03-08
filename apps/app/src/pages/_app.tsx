@@ -19,6 +19,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+import { Flowbite } from 'pt-ui'
 import '../styles/globals.css'
 
 // Wagmi Config:
@@ -60,12 +61,14 @@ const queryClient = new QueryClient()
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains} theme={darkTheme()} showRecentTransactions={true}>
-        <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
-        </QueryClientProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <Flowbite theme={{ dark: true }}>
+      <WagmiConfig client={wagmiClient}>
+        <RainbowKitProvider chains={chains} theme={darkTheme()} showRecentTransactions={true}>
+          <QueryClientProvider client={queryClient}>
+            <Component {...pageProps} />
+          </QueryClientProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </Flowbite>
   )
 }
