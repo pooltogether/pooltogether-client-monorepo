@@ -2,7 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { useProvider } from 'wagmi'
 import { useVaultShareMultiplier } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
-import { formatBigNumberForDisplay } from 'pt-utilities'
+import { formatBigNumberForDisplay, getAssetsFromShares } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 
@@ -25,10 +25,10 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo)
 
   // TODO: remove this after vaults have proper addresses (and uncomment code above)
-  const vaultMultiplier = BigNumber.from('2')
+  const vaultMultiplier = utils.parseUnits('2', vaultInfo.decimals)
 
   const shareBalance = BigNumber.from(vaultInfo.balance)
-  const tokenBalance = shareBalance.mul(vaultMultiplier)
+  const tokenBalance = getAssetsFromShares(shareBalance, vaultMultiplier, vaultInfo.decimals)
 
   const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
   const usdBalance = Number(formattedTokenBalance) * usdPrice

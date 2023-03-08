@@ -7,7 +7,7 @@ import {
   useVaultShareMultiplier
 } from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
-import { divideBigNumbers } from 'pt-utilities'
+import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
@@ -28,7 +28,7 @@ export const DepositForm = (props: DepositFormProps) => {
   // const { data: vaultMultiplier } = useVaultShareMultiplier(provider, vaultInfo)
 
   // TODO: remove this after vaults have proper addresses (and uncomment code above)
-  const vaultMultiplier = BigNumber.from('2')
+  const vaultMultiplier = utils.parseUnits('2', vaultInfo.decimals)
 
   const { address: userAddress } = useAccount()
 
@@ -58,14 +58,16 @@ export const DepositForm = (props: DepositFormProps) => {
         ]?.['usd'] ?? 0
       : 0
   const shareUsdPrice =
-    BigNumber.from(Math.round(usdPrice * 1000))
-      .mul(vaultMultiplier)
-      .toNumber() / 1000
+    getAssetsFromShares(
+      BigNumber.from(Math.round(usdPrice * 1000)),
+      vaultMultiplier,
+      vaultInfo.decimals
+    ).toNumber() / 1000
 
   const calculateSharesForTokens = (formTokenAmount: string) => {
     if (isValidFormInput(formTokenAmount, vaultInfo.decimals)) {
       const tokens = utils.parseUnits(formTokenAmount, vaultInfo.decimals)
-      const shares = divideBigNumbers(tokens, vaultMultiplier)
+      const shares = getSharesFromAssets(tokens, vaultMultiplier, vaultInfo.decimals)
       const formattedShares = utils.formatUnits(shares, vaultInfo.decimals)
       setValue(
         'shareAmount',
@@ -80,7 +82,7 @@ export const DepositForm = (props: DepositFormProps) => {
   const calculateTokensForShares = (formShareAmount: string) => {
     if (isValidFormInput(formShareAmount, vaultInfo.decimals)) {
       const shares = utils.parseUnits(formShareAmount, vaultInfo.decimals)
-      const tokens = shares.mul(vaultMultiplier)
+      const tokens = getAssetsFromShares(shares, vaultMultiplier, vaultInfo.decimals)
       const formattedTokens = utils.formatUnits(tokens, vaultInfo.decimals)
       setValue(
         'tokenAmount',

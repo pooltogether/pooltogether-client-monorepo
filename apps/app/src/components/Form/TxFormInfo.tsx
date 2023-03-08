@@ -1,7 +1,7 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
-import { BigNumber } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import { VaultInfo } from 'pt-types'
-import { divideBigNumbers, formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
+import { formatBigNumberForDisplay, getBlockExplorerUrl, getSharesFromAssets } from 'pt-utilities'
 
 interface TxFormInfoProps {
   vaultInfo: VaultInfo
@@ -22,8 +22,13 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
       <span className='dark:text-pt-purple-200'>
         1 {vaultInfo.extensions.underlyingAsset.symbol} ={' '}
         {!!vaultMultiplier
-          ? formatNumberForDisplay(
-              divideBigNumbers(BigNumber.from(1000), vaultMultiplier).toNumber() / 1000,
+          ? formatBigNumberForDisplay(
+              getSharesFromAssets(
+                utils.parseUnits('1', vaultInfo.decimals),
+                vaultMultiplier,
+                vaultInfo.decimals
+              ),
+              vaultInfo.decimals.toString(),
               {
                 hideZeroes: true
               }

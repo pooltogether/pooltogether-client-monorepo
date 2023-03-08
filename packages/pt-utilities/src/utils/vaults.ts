@@ -2,7 +2,7 @@ import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, providers, utils } from 'ethers'
 import { VaultInfo, VaultInfoWithBalance, VaultList } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
-import { divideBigNumbers } from './math'
+import { formatStringWithPrecision } from './formatting'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
@@ -141,15 +141,36 @@ export const getVaultShareMultipliers = async (
       const multiplier: string | undefined = multicallResults[vault.address]['convertToAssets']?.[0]
       if (!!multiplier) {
         const vaultId = getVaultId(vault)
-        vaultShareMultipliers[vaultId] = divideBigNumbers(
-          BigNumber.from(multiplier),
-          utils.parseUnits('1', vault.decimals)
-        )
+        vaultShareMultipliers[vaultId] = BigNumber.from(multiplier)
       }
     })
   }
 
   return vaultShareMultipliers
+}
+
+/**
+ * Returns an asset amount based on shares and a vault multiplier
+ * @param shares the share amount to convert to assets
+ * @param multiplier the multiplier (unformatted BigNumber)
+ * @param decimals the vault's number of decimals
+ * @returns
+ */
+export const getAssetsFromShares = (shares: BigNumber, multiplier: BigNumber, decimals: number) => {
+  const result = formatStringWithPrecision(utils.formatUnits(shares.mul(multiplier), decimals), 0)
+  return BigNumber.from(result)
+}
+
+/**
+ * Returns a share amount based on assets and a vault multiplier
+ * @param assets the asset amount to convert to shares
+ * @param multiplier the multiplier (unformatted BigNumber)
+ * @param decimals the vault's number of decimals
+ * @returns
+ */
+export const getSharesFromAssets = (assets: BigNumber, multiplier: BigNumber, decimals: number) => {
+  const result = assets.mul(utils.parseUnits('1', decimals)).div(multiplier).toString()
+  return BigNumber.from(result)
 }
 
 /**

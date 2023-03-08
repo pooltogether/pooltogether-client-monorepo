@@ -3,6 +3,7 @@ import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { useUserVaultBalances, useVaultShareMultipliers } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
+import { getAssetsFromShares } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 import { useProviders } from './useProviders'
@@ -28,7 +29,7 @@ export const useUserTotalUsdBalance = () => {
 
   // TODO: remove and uncomment hooks above once vaults are setup
   const vaultMultipliers: { [vaultId: string]: BigNumber } = {
-    '0x4200000000000000000000000000000000000006-10': BigNumber.from('2')
+    '0x4200000000000000000000000000000000000006-10': utils.parseUnits('2', 18)
   }
   const vaultBalances: { [vaultId: string]: VaultInfoWithBalance } = {
     '0x4200000000000000000000000000000000000006-10': {
@@ -73,7 +74,11 @@ export const useUserTotalUsdBalance = () => {
             ]?.['usd'] ?? 0
 
           const shareBalance = BigNumber.from(vaultInfo.balance)
-          const tokenBalance = shareBalance.mul(vaultMultiplier)
+          const tokenBalance = getAssetsFromShares(
+            shareBalance,
+            vaultMultiplier,
+            vaultInfo.decimals
+          )
 
           const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
           totalUsdBalance += Number(formattedTokenBalance) * usdPrice

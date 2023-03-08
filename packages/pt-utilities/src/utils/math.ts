@@ -1,5 +1,4 @@
-import { BigNumber } from 'ethers'
-import { formatUnits } from 'ethers/lib/utils'
+import { BigNumber, utils } from 'ethers'
 import { formatStringWithPrecision } from './formatting'
 
 /**
@@ -11,7 +10,7 @@ import { formatStringWithPrecision } from './formatting'
  */
 export const divideBigNumbers = (a: BigNumber, b: BigNumber, precision: number = 4) => {
   if (a.isZero() || b.isZero()) return BigNumber.from(0)
-  const result = formatUnits(a.mul(10 ** precision).div(b), String(precision))
+  const result = utils.formatUnits(a.mul(10 ** precision).div(b), String(precision))
   return BigNumber.from(formatStringWithPrecision(result, 0))
 }
 
