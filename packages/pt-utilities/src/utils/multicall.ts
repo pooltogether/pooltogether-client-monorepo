@@ -1,20 +1,6 @@
 import { ContractCallContext, Multicall } from 'ethereum-multicall'
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models'
 import { providers, utils } from 'ethers'
-import { MULTICALL, MULTICALL_NETWORK } from '../constants'
-
-/**
- * Returns a chain's multicall contract address if available
- * @param chainId chain ID to get contract address for
- * @returns
- */
-export const getMulticallContractAddressByChainId = (chainId: number): string | undefined => {
-  if (chainId in MULTICALL) {
-    return MULTICALL[chainId as MULTICALL_NETWORK]
-  } else {
-    return undefined
-  }
-}
 
 // TODO: add batching in case of too many calls
 /**
@@ -45,21 +31,12 @@ export const getMulticallResults = async (
     throw new Error('Multicall Error: Could not get chainId from provider')
   }
 
-  const multicallContractAddress = getMulticallContractAddressByChainId(chainId)
-  if (multicallContractAddress === undefined) {
-    throw new Error(`Multicall Error: Not setup for network ${chainId}`)
-  }
-
   const queries: ContractCallContext[] = []
   contractAddresses.forEach((contractAddress) => {
     queries.push({ reference: contractAddress, contractAddress, abi, calls })
   })
 
-  const multicall = new Multicall({
-    ethersProvider: readProvider,
-    tryAggregate: true,
-    multicallCustomContractAddress: multicallContractAddress
-  })
+  const multicall = new Multicall({ ethersProvider: readProvider, tryAggregate: true })
   const response: ContractCallResults = await multicall.call(queries)
 
   const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
@@ -97,16 +74,7 @@ export const getComplexMulticallResults = async (
     throw new Error('Multicall Error: Could not get chainId from provider')
   }
 
-  const multicallContractAddress = getMulticallContractAddressByChainId(chainId)
-  if (multicallContractAddress === undefined) {
-    throw new Error(`Multicall Error: Not setup for network ${chainId}`)
-  }
-
-  const multicall = new Multicall({
-    ethersProvider: readProvider,
-    tryAggregate: true,
-    multicallCustomContractAddress: multicallContractAddress
-  })
+  const multicall = new Multicall({ ethersProvider: readProvider, tryAggregate: true })
   const response: ContractCallResults = await multicall.call(queries)
 
   const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}

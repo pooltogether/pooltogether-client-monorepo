@@ -8,7 +8,7 @@ import defaultVaultList from '@constants/defaultVaultList'
 import { SUPPORTED_NETWORKS } from '@constants/networks'
 
 /**
- * Returns token prices from CoinGecko for all SUPPORTED_NETWORKS
+ * Returns token prices from CoinGecko for all mainnet SUPPORTED_NETWORKS
  * @param currencies optional currencies array (default is ['usd'])
  * @returns
  */

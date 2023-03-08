@@ -69,7 +69,7 @@ export const useUserTotalUsdBalance = () => {
 
         if (!!vaultMultiplier) {
           const usdPrice =
-            tokenPrices[vaultInfo.chainId][
+            tokenPrices[vaultInfo.chainId]?.[
               vaultInfo.extensions.underlyingAsset.address.toLowerCase()
             ]?.['usd'] ?? 0
 

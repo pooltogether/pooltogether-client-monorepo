@@ -20,7 +20,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   const usdPrice = useMemo(() => {
     if (isFetchedTokenPrices && !!tokenPrices) {
       return (
-        tokenPrices[vaultInfo.chainId][
+        tokenPrices[vaultInfo.chainId]?.[
           vaultInfo.extensions.underlyingAsset.address.toLowerCase()
         ]?.['usd'] ?? 0
       )

@@ -9,8 +9,8 @@ import { Selection, SelectionItem } from 'pt-ui'
 import { getVaultId, getVaultUnderlyingTokensFromVaultList } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
-import { SUPPORTED_NETWORKS } from '@constants/networks'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
+import { useNetworks } from '@hooks/useNetworks'
 import { useProviders } from '@hooks/useProviders'
 
 interface VaultFiltersProps {
@@ -19,6 +19,8 @@ interface VaultFiltersProps {
 }
 
 export const VaultFilters = (props: VaultFiltersProps) => {
+  const networks = useNetworks()
+
   const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(
   //   providers,
@@ -40,7 +42,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     { id: 'popular', content: 'Popular', disabled: !isFetchedTokenPrices },
     { id: 'userWallet', content: 'In My Wallet', disabled: !isFetchedUserTokenBalances },
     { id: 'stablecoin', content: 'Stablecoins' },
-    ...SUPPORTED_NETWORKS.mainnets.map((network) => {
+    ...networks.map((network) => {
       return {
         id: network.toString(),
         content: <NetworkIcon chainId={network} className='h-5 w-5' />
@@ -49,16 +51,16 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   ]
 
   useEffect(() => {
-    const stringNetworks = SUPPORTED_NETWORKS.mainnets.map((network) => network.toString())
+    const stringNetworks = networks.map((network) => network.toString())
     let filteredVaults: VaultInfo[] = [...defaultVaultList.tokens]
 
     if (filterId === 'popular') {
       filteredVaults = defaultVaultList.tokens.filter((vault) => {
         const usdPrice =
           isFetchedTokenPrices && !!tokenPrices
-            ? tokenPrices[vault.chainId][vault.extensions.underlyingAsset.address.toLowerCase()]?.[
-                'usd'
-              ] ?? 0
+            ? tokenPrices[vault.chainId]?.[
+                vault.extensions.underlyingAsset.address.toLowerCase()
+              ]?.['usd'] ?? 0
             : 0
         // const vaultId = getVaultId(vault)
         // const tokenAmount = isFetchedVaultBalances && !!vaultBalances ? vaultBalances[vaultId] : 0

@@ -8,7 +8,7 @@ const defaultVaultList: VaultList = {
     minor: 1,
     patch: 0
   },
-  timestamp: '2023-02-16T18:36:18.517Z',
+  timestamp: '2023-03-08T16:20:44.987Z',
   tokens: [
     {
       chainId: 1,
@@ -83,6 +83,25 @@ const defaultVaultList: VaultList = {
           name: 'Wrapped BTC',
           decimals: '8',
           logoURI: 'https://arbiscan.io/token/images/wbtc_28.png'
+        }
+      }
+    },
+    {
+      chainId: 5,
+      address: '0x',
+      name: 'USDC Vault',
+      decimals: 6,
+      symbol: 'ptaUSDC',
+      logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
+      extensions: {
+        yieldSource: 'Aave',
+        underlyingAsset: {
+          chainId: 5,
+          address: '0xA2025B15a1757311bfD68cb14eaeFCc237AF5b43',
+          symbol: 'USDC',
+          name: 'USD Coin',
+          decimals: '6',
+          logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png'
         }
       }
     }

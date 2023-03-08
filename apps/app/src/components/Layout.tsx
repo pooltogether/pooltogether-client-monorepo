@@ -2,10 +2,10 @@ import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAtom } from 'jotai'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { SettingsModal } from 'pt-components'
-import { useIsSettingsModalOpen } from 'pt-generic-hooks'
-import { defaultFooterItems, Footer, Navbar } from 'pt-ui'
+import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
+import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
 import { settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
@@ -17,6 +17,42 @@ export const Layout = (props: LayoutProps) => {
 
   const { setIsSettingsModalOpen } = useIsSettingsModalOpen()
   const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
+
+  const { isTestnets, setIsTestnets } = useIsTestnets()
+
+  // NOTE: This is necessary due to hydration errors otherwise.
+  const [isBrowser, setIsBrowser] = useState(false)
+  useEffect(() => setIsBrowser(true), [])
+
+  const extraFooterContent: FooterItem[] = [
+    {
+      title: 'Settings',
+      content: [
+        {
+          text: 'Change Currency',
+          onClick: () => {
+            setSettingsModalView('currency')
+            setIsSettingsModalOpen(true)
+          }
+        },
+        {
+          text: 'Change Language',
+          onClick: () => {
+            setSettingsModalView('language')
+            setIsSettingsModalOpen(true)
+          },
+          disabled: true
+        }
+      ]
+    }
+  ]
+
+  if (isBrowser) {
+    extraFooterContent[0].content.push({
+      text: `${isTestnets ? 'Disable' : 'Enable'} Testnets`,
+      onClick: () => setIsTestnets(!isTestnets)
+    })
+  }
 
   return (
     <div className='flex flex-col min-h-screen'>
@@ -48,32 +84,7 @@ export const Layout = (props: LayoutProps) => {
 
       {props.children}
 
-      <Footer
-        items={[
-          ...defaultFooterItems,
-          {
-            title: 'Settings',
-            content: [
-              {
-                text: 'Change Currency',
-                onClick: () => {
-                  setSettingsModalView('currency')
-                  setIsSettingsModalOpen(true)
-                }
-              },
-              {
-                text: 'Change Language',
-                onClick: () => {
-                  setSettingsModalView('language')
-                  setIsSettingsModalOpen(true)
-                },
-                disabled: true
-              },
-              { text: 'Enable Testnets', disabled: true }
-            ]
-          }
-        ]}
-      />
+      <Footer items={[...defaultFooterItems, ...extraFooterContent]} />
     </div>
   )
 }

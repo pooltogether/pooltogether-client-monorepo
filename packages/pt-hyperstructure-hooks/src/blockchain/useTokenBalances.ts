@@ -96,6 +96,7 @@ export const useTokenBalancesAcrossChains = (
 
       const enabled =
         !!address &&
+        !!chainTokenAddresses &&
         chainTokenAddresses.every(
           (tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string'
         ) &&

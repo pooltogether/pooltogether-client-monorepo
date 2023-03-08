@@ -21,19 +21,6 @@ export enum NETWORK {
 export type NETWORK_NAME = keyof typeof NETWORK
 
 /**
- * Multicall contract addresses
- */
-export const MULTICALL = Object.freeze({
-  [NETWORK.mainnet]: '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
-  [NETWORK.bsc]: '0xc50f4c1e81c873b2204d7eff7069ffec6fbe136d',
-  [NETWORK.polygon]: '0x275617327c958bd06b5d6b871e7f491d76113dd8',
-  [NETWORK.optimism]: '0xeaa6877139d436dc6d1f75f3af15b74662617b2c',
-  [NETWORK.avalanche]: '0xed386fe855c1eff2f843b910923dd8846e45c5a4',
-  [NETWORK.arbitrum]: '0x842ec2c7d803033edf55e478f461fc547bc54eb2'
-})
-export type MULTICALL_NETWORK = keyof typeof MULTICALL
-
-/**
  * POOL token addresses
  */
 export const POOL_TOKEN_ADDRESSES = Object.freeze({

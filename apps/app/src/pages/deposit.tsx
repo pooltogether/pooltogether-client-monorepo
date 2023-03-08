@@ -5,13 +5,17 @@ import { PrizePoolHeader } from '@components/PrizePool/PrizePoolHeader'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
 import { SUPPORTED_NETWORKS } from '@constants/networks'
+import { useNetworks } from '@hooks/useNetworks'
 
 export default function DepositPage() {
+  const networks = useNetworks()
+  const allNetworks = [...SUPPORTED_NETWORKS.mainnets, ...SUPPORTED_NETWORKS.testnets]
+
   const [vaults, setVaults] = useState<{ [chainId: number]: VaultInfo[] }>({})
 
   const handleFilteredVaults = (filteredVaults: VaultInfo[]) => {
     const newVaults: { [chainId: number]: VaultInfo[] } = {}
-    SUPPORTED_NETWORKS.mainnets.forEach((network) => {
+    allNetworks.forEach((network) => {
       newVaults[network] = []
     })
     filteredVaults.forEach((vault) => {
@@ -30,7 +34,7 @@ export default function DepositPage() {
             {/* TODO: vaultlist management functionality */}
             <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
           </div>
-          {SUPPORTED_NETWORKS.mainnets.map((network) => {
+          {networks.map((network) => {
             if (vaults[network] === undefined || vaults[network].length === 0) return
             return (
               <div key={`pp-${network}`}>

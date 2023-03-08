@@ -10,23 +10,23 @@ const getInitialIsTestnets = (): boolean => {
 const isTestnetsAtom = atom<boolean>(getInitialIsTestnets())
 
 /**
- * Returns the state of `isTestnetsAtom` as well as methods to toggle it
+ * Returns the state of `isTestnetsAtom` as well as a method to toggle it
  *
  * Stores state in local storage
  * @returns
  */
 export const useIsTestnets = () => {
-  const [isTestnets, setIsTestnets] = useAtom(isTestnetsAtom)
+  const [isTestnets, _setIsTestnets] = useAtom(isTestnetsAtom)
 
-  const enableTestnets = () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.isTestnets, 'true')
-    setIsTestnets(true)
+  const setIsTestnets = (value: boolean) => {
+    if (value) {
+      localStorage.setItem(LOCAL_STORAGE_KEYS.isTestnets, 'true')
+      _setIsTestnets(true)
+    } else {
+      localStorage.setItem(LOCAL_STORAGE_KEYS.isTestnets, 'false')
+      _setIsTestnets(false)
+    }
   }
 
-  const disableTestnets = () => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.isTestnets, 'false')
-    setIsTestnets(false)
-  }
-
-  return { isTestnets, enableTestnets, disableTestnets }
+  return { isTestnets, setIsTestnets }
 }
