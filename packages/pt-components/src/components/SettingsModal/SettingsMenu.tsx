@@ -1,28 +1,25 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
+import {
+  SUPPORTED_CURRENCIES,
+  SUPPORTED_LANGUAGES,
+  useSelectedCurrency,
+  useSelectedLanguage
+} from 'pt-generic-hooks'
 import { BasicIcon, LINKS, SocialIcon } from 'pt-ui'
 import { SettingsModalView } from '.'
 
 interface SettingsMenuProps {
   setView: (view: SettingsModalView) => void
-  currencyId: string
-  languageId: string
-  currencies: { [id: string]: { name: string; symbol: string } }
-  languages: { [id: string]: { name: string; nativeName: string } }
   disableCurrencies?: boolean
   disableLanguages?: boolean
 }
 
 export const SettingsMenu = (props: SettingsMenuProps) => {
-  const {
-    setView,
-    currencyId,
-    languageId,
-    currencies,
-    languages,
-    disableCurrencies,
-    disableLanguages
-  } = props
+  const { setView, disableCurrencies, disableLanguages } = props
+
+  const { selectedCurrency } = useSelectedCurrency()
+  const { selectedLanguage } = useSelectedLanguage()
 
   return (
     <div className='flex flex-col gap-4'>
@@ -30,15 +27,15 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
         title='Customize Your Experience'
         items={[
           {
-            iconContent: currencies[currencyId].symbol,
-            title: `${currencies[currencyId].name} (${currencies[currencyId].symbol})`,
+            iconContent: SUPPORTED_CURRENCIES[selectedCurrency].symbol,
+            title: `${SUPPORTED_CURRENCIES[selectedCurrency].name} (${SUPPORTED_CURRENCIES[selectedCurrency].symbol})`,
             description: 'Change Currency',
             onClick: () => setView('currency'),
             disabled: disableCurrencies
           },
           {
-            iconContent: languageId.toUpperCase(),
-            title: `${languages[languageId].nativeName} (${languages[languageId].name})`,
+            iconContent: selectedLanguage.toUpperCase(),
+            title: `${SUPPORTED_LANGUAGES[selectedLanguage].nativeName} (${SUPPORTED_LANGUAGES[selectedLanguage].name})`,
             description: 'Change Language',
             onClick: () => setView('language'),
             disabled: disableLanguages

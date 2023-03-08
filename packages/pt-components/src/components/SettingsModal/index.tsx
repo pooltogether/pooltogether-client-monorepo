@@ -1,5 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { ReactNode, useEffect, useState } from 'react'
+import { useIsSettingsModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
 import { CurrencySelector } from './CurrencySelector'
 import { LanguageSelector } from './LanguageSelector'
@@ -8,35 +9,16 @@ import { SettingsMenu } from './SettingsMenu'
 export type SettingsModalView = 'menu' | 'currency' | 'language'
 
 export interface SettingsModalProps {
-  isOpen: boolean
-  setIsOpen: (val: boolean) => void
   view: SettingsModalView
   setView: (view: SettingsModalView) => void
-  currencyId: string
-  setCurrencyId: (id: string) => void
-  languageId: string
-  setLanguageId: (id: string) => void
-  currencies: { [id: string]: { name: string; symbol: string } }
-  languages: { [id: string]: { name: string; nativeName: string } }
   disableCurrencies?: boolean
   disableLanguages?: boolean
 }
 
 export const SettingsModal = (props: SettingsModalProps) => {
-  const {
-    isOpen,
-    setIsOpen,
-    view,
-    setView,
-    currencyId,
-    setCurrencyId,
-    languageId,
-    setLanguageId,
-    currencies,
-    languages,
-    disableCurrencies,
-    disableLanguages
-  } = props
+  const { view, setView, disableCurrencies, disableLanguages } = props
+
+  const { isSettingsModalOpen, setIsSettingsModalOpen } = useIsSettingsModalOpen()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -46,34 +28,18 @@ export const SettingsModal = (props: SettingsModalProps) => {
     menu: (
       <SettingsMenu
         setView={setView}
-        currencyId={currencyId}
-        languageId={languageId}
-        currencies={currencies}
-        languages={languages}
         disableCurrencies={disableCurrencies}
         disableLanguages={disableLanguages}
       />
     ),
-    currency: (
-      <CurrencySelector
-        currencyId={currencyId}
-        setCurrencyId={setCurrencyId}
-        currencies={currencies}
-      />
-    ),
-    language: (
-      <LanguageSelector
-        languageId={languageId}
-        setLanguageId={setLanguageId}
-        languages={languages}
-      />
-    )
+    currency: <CurrencySelector setView={setView} />,
+    language: <LanguageSelector setView={setView} />
   }
 
   if (isBrowser) {
     return (
       <Modal
-        show={isOpen}
+        show={isSettingsModalOpen}
         dismissible={true}
         position='center'
         bgColor='dark'
@@ -87,7 +53,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
         }
         bodyContent={modalViews[view]}
         onClose={() => {
-          setIsOpen(false)
+          setIsSettingsModalOpen(false)
           setView('menu')
         }}
       />
