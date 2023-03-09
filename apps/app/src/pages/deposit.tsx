@@ -26,24 +26,22 @@ export default function DepositPage() {
 
   return (
     <Layout>
-      <div className='flex flex-col flex-grow items-center py-2'>
-        <main className='flex flex-col items-center mx-auto w-auto max-w-screen-xl px-4 pt-16 pb-8 sm:pt-24 lg:px-8 gap-14'>
-          <div className='w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg'>
-            <span className='text-lg font-semibold'>Filter</span>
-            <VaultFilters onFilter={handleFilteredVaults} />
-            {/* TODO: vaultlist management functionality */}
-            <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
-          </div>
-          {networks.map((network) => {
-            if (vaults[network] === undefined || vaults[network].length === 0) return
-            return (
-              <div key={`pp-${network}`}>
-                <PrizePoolHeader chainId={network} className='mb-4' />
-                <VaultList vaults={vaults[network]} />
-              </div>
-            )
-          })}
-        </main>
+      <div className='flex flex-col items-center gap-14'>
+        <div className='w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg'>
+          <span className='text-lg font-semibold'>Filter</span>
+          <VaultFilters onFilter={handleFilteredVaults} />
+          {/* TODO: vaultlist management functionality */}
+          <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
+        </div>
+        {networks.map((network) => {
+          if (vaults[network] === undefined || vaults[network].length === 0) return
+          return (
+            <div key={`pp-${network}`}>
+              <PrizePoolHeader chainId={network} className='mb-4' />
+              <VaultList vaults={vaults[network]} />
+            </div>
+          )
+        })}
       </div>
     </Layout>
   )

@@ -13,6 +13,8 @@ interface LayoutProps {
 }
 
 export const Layout = (props: LayoutProps) => {
+  const { children } = props
+
   const router = useRouter()
 
   const { setIsSettingsModalOpen } = useIsSettingsModalOpen()
@@ -82,7 +84,9 @@ export const Layout = (props: LayoutProps) => {
         disableLanguages={true}
       />
 
-      {props.children}
+      <main className='flex flex-col flex-grow items-center mx-auto w-auto max-w-screen-xl p-8 gap-6'>
+        {children}
+      </main>
 
       <Footer items={[...defaultFooterItems, ...extraFooterContent]} />
     </div>
