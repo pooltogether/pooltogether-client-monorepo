@@ -12,8 +12,6 @@ export interface ModalProps extends FlowbiteModalProps {
   footerClassName?: string
 }
 
-// TODO: blur background when open
-// TODO: X needs to be styled properly
 export const Modal = (props: ModalProps) => {
   const {
     headerContent,
@@ -28,40 +26,45 @@ export const Modal = (props: ModalProps) => {
   } = props
 
   return (
-    <FlowbiteModal {...rest} className={classNames('dark:text-pt-purple-50', className)}>
+    <FlowbiteModal
+      theme={{
+        root: { show: { on: 'flex text-pt-purple-50 bg-gray-600/50 backdrop-blur-sm' } },
+        content: {
+          inner: classNames('relative rounded-lg bg-pt-bg-purple-light shadow p-8', {
+            'bg-pt-purple-900': bgColor === 'dark'
+          })
+        }
+      }}
+      className={classNames(className)}
+      {...rest}
+    >
       {(headerContent || rest.dismissible) && (
         <FlowbiteModal.Header
-          className={classNames(
-            'dark:bg-pt-bg-purple-light px-8 pt-8 pb-4 border-none overflow-x-hidden overflow-y-auto',
-            { 'dark:!bg-pt-purple-900': bgColor === 'dark' },
-            headerClassName
-          )}
+          theme={{
+            base: 'flex items-start justify-between pb-4 rounded-t overflow-x-hidden overflow-y-auto',
+            title: 'text-xl text-pt-purple-100',
+            close: {
+              base: 'ml-auto inline-flex items-center text-pt-purple-100',
+              icon: 'h-6 w-6'
+            }
+          }}
+          className={classNames(headerClassName)}
         >
           {/* @ts-ignore */}
           {headerContent}
         </FlowbiteModal.Header>
       )}
       <FlowbiteModal.Body
-        className={classNames(
-          'dark:bg-pt-bg-purple-light px-8 py-0 overflow-x-hidden overflow-y-auto max-h-[75vh]',
-          { 'dark:!bg-pt-purple-900': bgColor === 'dark' },
-          {
-            'rounded-t pt-8': headerContent === undefined && !rest.dismissible,
-            'rounded-b pb-8': footerContent === undefined
-          },
-          bodyClassName
-        )}
+        theme={{ base: 'max-h-[75vh] rounded-lg overflow-x-hidden overflow-y-auto' }}
+        className={classNames(bodyClassName)}
       >
         {/* @ts-ignore */}
         {bodyContent}
       </FlowbiteModal.Body>
       {footerContent && (
         <FlowbiteModal.Footer
-          className={classNames(
-            'dark:bg-pt-bg-purple-light px-8 pt-4 pb-8 border-none overflow-x-hidden overflow-y-auto',
-            { 'dark:!bg-pt-purple-900': bgColor === 'dark' },
-            footerClassName
-          )}
+          theme={{ base: 'pt-4 overflow-x-hidden overflow-y-auto', popup: '' }}
+          className={classNames(footerClassName)}
         >
           {/* @ts-ignore */}
           {footerContent}

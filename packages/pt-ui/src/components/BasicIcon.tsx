@@ -16,8 +16,8 @@ export const BasicIcon = (props: BasicIconProps) => {
       className={classNames(
         'rounded-full flex items-center justify-center text-xs h-6 w-6',
         {
-          'dark:bg-pt-purple-100 dark:text-pt-purple-800': theme === 'light' || theme === undefined,
-          'dark:bg-pt-purple-400 dark:text-pt-purple-100': theme === 'dark',
+          'bg-pt-purple-100 text-pt-purple-800': theme === 'light' || theme === undefined,
+          'bg-pt-purple-400 text-pt-purple-100': theme === 'dark',
           'text-xs h-6 w-6': size === 'small' || size === undefined,
           'text-lg h-8 w-8': size === 'large'
         },

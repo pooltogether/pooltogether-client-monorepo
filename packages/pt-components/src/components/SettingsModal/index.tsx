@@ -46,7 +46,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
         headerContent={
           view !== 'menu' ? (
             <ArrowLeftIcon
-              className='h-6 w-6 dark:text-pt-purple-50 cursor-pointer'
+              className='h-6 w-6 text-pt-purple-100 cursor-pointer'
               onClick={() => setView('menu')}
             />
           ) : undefined

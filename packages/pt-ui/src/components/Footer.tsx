@@ -52,46 +52,47 @@ export interface FooterItem {
   content: FooterItemContentProps[]
 }
 
-export interface FooterProps extends FlowbiteFooterProps {
+export interface FooterProps extends Omit<FlowbiteFooterProps, 'theme'> {
   items?: FooterItem[]
   titleClassName?: string
   itemClassName?: string
 }
 
-// TODO: add proper sizing on different screen sizes
 export const Footer = (props: FooterProps) => {
   const { items, titleClassName, itemClassName, className, ...rest } = props
 
   return (
     <FlowbiteFooter
+      theme={{
+        root: {
+          base: 'w-full bg-pt-purple-600 px-6 py-8 shadow md:flex md:items-center md:justify-between'
+        }
+      }}
+      className={classNames(className)}
       {...rest}
-      className={classNames('dark:bg-pt-purple-600 rounded-none', className)}
     >
-      <div className='w-full'>
-        <div className={`flex justify-between px-6 py-8`}>
-          {(items ?? defaultFooterItems).map((item) => {
-            return (
-              <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`}>
-                <FlowbiteFooter.Title
-                  title={item.title}
-                  className={classNames('dark:!text-pt-teal-dark normal-case', titleClassName)}
-                />
-                <FlowbiteFooter.LinkGroup col={true}>
-                  {item.content.map((content, i) => {
-                    return (
-                      <FooterItemContent
-                        key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
-                        {...content}
-                        className={itemClassName}
-                      />
-                    )
-                  })}
-                </FlowbiteFooter.LinkGroup>
-              </div>
-            )
-          })}
-        </div>
-      </div>
+      {(items ?? defaultFooterItems).map((item) => {
+        return (
+          <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`}>
+            <FlowbiteFooter.Title
+              theme={{ base: 'text-pt-teal-dark mb-6' }}
+              title={item.title}
+              className={classNames(titleClassName)}
+            />
+            <FlowbiteFooter.LinkGroup theme={{ base: 'flex flex-col gap-6 text-pt-purple-100' }}>
+              {item.content.map((content, i) => {
+                return (
+                  <FooterItemContent
+                    key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
+                    {...content}
+                    className={itemClassName}
+                  />
+                )
+              })}
+            </FlowbiteFooter.LinkGroup>
+          </div>
+        )
+      })}
     </FlowbiteFooter>
   )
 }
@@ -109,7 +110,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
 
   if (disabled) {
     return (
-      <span className={classNames('flex items-center gap-2 dark:text-pt-purple-300', className)}>
+      <span className={classNames('flex items-center gap-2 text-pt-purple-300', className)}>
         {icon}
         {text}
       </span>
@@ -118,7 +119,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
 
   if (!!href) {
     return (
-      <FlowbiteFooter.Link href={href} className={classNames('dark:text-pt-purple-100', className)}>
+      <FlowbiteFooter.Link href={href} className={classNames(className)}>
         <span className='flex items-center gap-2'>
           {icon}
           {text}
@@ -130,7 +131,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
   return (
     <span
       className={classNames(
-        'flex items-center gap-2 dark:text-pt-purple-100',
+        'flex items-center gap-2',
         { 'cursor-pointer': onClick !== undefined },
         className
       )}

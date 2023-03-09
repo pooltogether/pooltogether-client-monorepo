@@ -25,7 +25,6 @@ export interface NavbarProps {
   linkClassName?: string
 }
 
-// TODO: proper image & text size (16px)
 // TODO: maybe center links absolutely, so they don't shift to the left when a wallet connects
 export const Navbar = (props: NavbarProps) => {
   const { activePage, links, walletConnectionButton, onClickSettings, className, linkClassName } =
@@ -34,7 +33,8 @@ export const Navbar = (props: NavbarProps) => {
   return (
     <FlowbiteNavbar
       fluid={true}
-      className={classNames('dark:bg-pt-bg-purple-darker dark:text-pt-purple-50', className)}
+      theme={{ base: 'bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4' }}
+      className={classNames(className)}
     >
       {/* Left Side Branding */}
       <FlowbiteNavbar.Brand href='/'>
@@ -42,14 +42,15 @@ export const Navbar = (props: NavbarProps) => {
       </FlowbiteNavbar.Brand>
 
       {/* Right Side Content */}
-      <div className='flex md:order-2 space-x-2 items-center'>
+      <div className='flex gap-2 items-center md:order-2'>
         {walletConnectionButton}
         {onClickSettings !== undefined && (
           <Cog8ToothIcon
-            className='h-6 w-6 dark:text-pt-purple-50 dark:hover:text-pt-purple-200 cursor-pointer'
+            className='h-6 w-6 text-pt-purple-50 hover:text-pt-purple-200 cursor-pointer'
             onClick={onClickSettings}
           />
         )}
+        {/* TODO: style and configure toggle on smaller screens */}
         <FlowbiteNavbar.Toggle />
       </div>
 
@@ -58,7 +59,7 @@ export const Navbar = (props: NavbarProps) => {
         <NavbarLinks
           links={links ?? defaultNavbarLinks}
           activePage={activePage}
-          className={linkClassName}
+          className={classNames(linkClassName)}
         />
       </FlowbiteNavbar.Collapse>
     </FlowbiteNavbar>
@@ -80,16 +81,17 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         const isActiveLink = link.href === activePage
         return (
           <FlowbiteNavbar.Link
-            href={link.href}
-            className={classNames('dark:text-pt-purple-50', className)}
-            active={isActiveLink}
-            key={`nav-${i}-${link.name.toLowerCase()}`}
             theme={{
+              base: 'block text-base text-pt-purple-50 p-4 md:p-0',
               active: {
-                on: 'dark:text-pt-teal',
-                off: 'dark:hover:text-pt-purple-200'
+                on: 'text-pt-teal',
+                off: 'hover:text-pt-purple-200'
               }
             }}
+            href={link.href}
+            className={classNames(className)}
+            active={isActiveLink}
+            key={`nav-${i}-${link.name.toLowerCase()}`}
           >
             {link.name}
           </FlowbiteNavbar.Link>
