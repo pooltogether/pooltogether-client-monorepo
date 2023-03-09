@@ -3,9 +3,8 @@ import {
   useCoingeckoTokenPricesAcrossChains
 } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
-import { getVaultsByChainId } from 'pt-utilities'
+import { getVaultUnderlyingTokenAddressesFromVaultList } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
-import { SUPPORTED_NETWORKS } from '@constants/networks'
 
 /**
  * Returns token prices from CoinGecko for all mainnet SUPPORTED_NETWORKS
@@ -19,11 +18,7 @@ export const useAllCoingeckoTokenPrices = (currencies: string[] = ['usd']) => {
     refetch: refetchCoingeckoSimpleTokenPrices
   } = useCoingeckoSimpleTokenPrices(currencies)
 
-  const tokenAddresses: { [chainId: number]: string[] } = {}
-  SUPPORTED_NETWORKS.mainnets.forEach((network) => {
-    const vaults = getVaultsByChainId(network, defaultVaultList)
-    tokenAddresses[network] = vaults.map((vault) => vault.extensions.underlyingAsset.address)
-  })
+  const tokenAddresses = getVaultUnderlyingTokenAddressesFromVaultList(defaultVaultList)
 
   const {
     data: coingeckoTokenPrices,

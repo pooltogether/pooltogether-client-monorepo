@@ -32,3 +32,36 @@ export const useProviders = (): providers.Provider[] => {
 
   return providers.mainnets
 }
+
+/**
+ * Returns providers for SUPPORTED_NETWORKS keyed by chain
+ * @returns
+ */
+export const useProvidersByChain = (): { [chainId: number]: providers.Provider } => {
+  const { isTestnets } = useIsTestnets()
+
+  const providers: {
+    mainnets: { [chainId: number]: providers.Provider }
+    testnets: { [chainId: number]: providers.Provider }
+  } = {
+    mainnets: {
+      [NETWORK.mainnet]: useProvider({ chainId: NETWORK.mainnet }),
+      [NETWORK.polygon]: useProvider({ chainId: NETWORK.polygon }),
+      [NETWORK.optimism]: useProvider({ chainId: NETWORK.optimism }),
+      [NETWORK.arbitrum]: useProvider({ chainId: NETWORK.arbitrum })
+    },
+    testnets: {
+      [NETWORK.goerli]: useProvider({ chainId: NETWORK.goerli }),
+      [NETWORK.sepolia]: useProvider({ chainId: NETWORK.sepolia }),
+      [NETWORK.mumbai]: useProvider({ chainId: NETWORK.mumbai }),
+      [NETWORK['optimism-goerli']]: useProvider({ chainId: NETWORK['optimism-goerli'] }),
+      [NETWORK['arbitrum-goerli']]: useProvider({ chainId: NETWORK['arbitrum-goerli'] })
+    }
+  }
+
+  if (isTestnets) {
+    return providers.testnets
+  }
+
+  return providers.mainnets
+}

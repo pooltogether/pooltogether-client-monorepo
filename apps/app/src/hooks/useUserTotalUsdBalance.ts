@@ -1,12 +1,11 @@
 import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { useUserVaultBalances, useVaultShareMultipliers } from 'pt-hyperstructure-hooks'
+import { useUserVaultBalances, useVaultExchangeRates } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
-import defaultVaultList from '@constants/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
-import { useProviders } from './useProviders'
+import { useVaults } from './useVaults'
 
 /**
  * Returns a user's total balance in USD
@@ -15,20 +14,20 @@ import { useProviders } from './useProviders'
 export const useUserTotalUsdBalance = () => {
   const { address: userAddress } = useAccount()
 
-  const providers = useProviders()
+  const vaults = useVaults()
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
-  //   providers,
-  //   userAddress,
-  //   defaultVaultList
+  //   vaults,
+  //   userAddress
   // )
 
-  // const {data: vaultMultipliers, isFetched: isFetchedVaultMultipliers} = useVaultShareMultipliers(providers, defaultVaultList)
+  // const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
+  //   useVaultExchangeRates(vaults)
 
   // TODO: remove and uncomment hooks above once vaults are setup
-  const vaultMultipliers: { [vaultId: string]: BigNumber } = {
+  const vaultExchangeRates: { [vaultId: string]: BigNumber } = {
     '0x4200000000000000000000000000000000000006-10': utils.parseUnits('2', 18)
   }
   const vaultBalances: { [vaultId: string]: VaultInfoWithBalance } = {
@@ -54,20 +53,20 @@ export const useUserTotalUsdBalance = () => {
     }
   }
   const isFetchedVaultBalances: boolean = true
-  const isFetchedVaultMultipliers: boolean = true
+  const isFetchedVaultExchangeRates: boolean = true
 
-  const isFetched = isFetchedTokenPrices && isFetchedVaultBalances && isFetchedVaultMultipliers
+  const isFetched = isFetchedTokenPrices && isFetchedVaultBalances && isFetchedVaultExchangeRates
 
-  const enabled = isFetched && !!tokenPrices && !!vaultBalances && !!vaultMultipliers
+  const enabled = isFetched && !!tokenPrices && !!vaultBalances && !!vaultExchangeRates
 
   const data = useMemo(() => {
     if (enabled) {
       let totalUsdBalance: number = 0
       for (const vaultId in vaultBalances) {
         const vaultInfo = vaultBalances[vaultId]
-        const vaultMultiplier = vaultMultipliers[vaultId]
+        const vaultExchangeRate = vaultExchangeRates[vaultId]
 
-        if (!!vaultMultiplier) {
+        if (!!vaultExchangeRate) {
           const usdPrice = getTokenPriceFromObject(
             vaultInfo.chainId,
             vaultInfo.extensions.underlyingAsset.address,
@@ -77,7 +76,7 @@ export const useUserTotalUsdBalance = () => {
           const shareBalance = BigNumber.from(vaultInfo.balance)
           const tokenBalance = getAssetsFromShares(
             shareBalance,
-            vaultMultiplier,
+            vaultExchangeRate,
             vaultInfo.decimals
           )
 
@@ -94,8 +93,8 @@ export const useUserTotalUsdBalance = () => {
     tokenPrices,
     isFetchedVaultBalances,
     vaultBalances,
-    isFetchedVaultMultipliers,
-    vaultMultipliers
+    isFetchedVaultExchangeRates,
+    vaultExchangeRates
   ])
 
   return { data, isFetched }

@@ -1,11 +1,12 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { useUserVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
 import { isValidFormInput, TxFormValues } from '@components/Form/TxFormInput'
 import { TransactionButton } from '@components/TransactionButton'
 import { useSendWithdrawTransaction } from '@hooks/transactions/useSendWithdrawTransaction'
+import { useVault } from '@hooks/useVaults'
 
 interface WithdrawModalFooterProps {
   vaultInfo: VaultInfo
@@ -17,12 +18,12 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const { vaultInfo, watch, isValidFormInputs } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
-  const provider = useProvider({ chainId: vaultInfo.chainId })
+
+  const vault = useVault(vaultInfo)
 
   // const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
-  //   provider,
-  //   userAddress,
-  //   vaultInfo
+  //   vault,
+  //   userAddress
   // )
   // TODO: remove the following once vaults are setup (and uncomment above)
   const isFetchedVaultBalance: boolean = true

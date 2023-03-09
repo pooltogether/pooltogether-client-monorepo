@@ -1,4 +1,4 @@
-import { BigNumber, Contract, providers, Signer } from 'ethers'
+import { BigNumber, Contract, providers, Signer, utils } from 'ethers'
 import { TokenWithBalance, TokenWithSupply } from 'pt-types'
 import {
   erc20 as erc20Abi,
@@ -19,21 +19,28 @@ export class Vault {
   readonly vaultContract: Contract
   readonly id: string
   tokenContract: Contract | undefined
+  exchangeRate: BigNumber | undefined
 
   /**
    * Creates an instance of a Vault with a given signer or provider to query on-chain data with
    * @param chainId the vault's chain ID
    * @param address the vault's address
+   * @param decimals the vault's decimals
    * @param signerOrProvider a Signer or Provider for the network the vault is deployed on
+   * @param tokenAddress optional token address (prevents 1 extra call)
    */
   constructor(
     public chainId: number,
     public address: string,
-    public signerOrProvider: Signer | providers.Provider
+    public decimals: number,
+    public signerOrProvider: Signer | providers.Provider,
+    tokenAddress?: string
   ) {
     this.vaultContract = new Contract(address, erc4626Abi, signerOrProvider)
     this.id = getVaultId({ address, chainId })
-    this.tokenContract = undefined
+    if (!!tokenAddress) {
+      this.tokenContract = new Contract(tokenAddress, erc20Abi, signerOrProvider)
+    }
   }
 
   /* ============================== Read Functions ============================== */
@@ -141,6 +148,16 @@ export class Vault {
   async getTotalTokenBalance(): Promise<BigNumber> {
     const totalAssets: string = this.vaultContract.totalAssets()
     return BigNumber.from(totalAssets)
+  }
+
+  /**
+   * Returns the exchange rate from 1 share to the vault's underlying asset
+   * @returns
+   */
+  async getExchangeRate(): Promise<BigNumber> {
+    const exchangeRate = await this.getAssetsFromShares(utils.parseUnits('1', this.decimals))
+    this.exchangeRate = exchangeRate
+    return exchangeRate
   }
 
   /* =========================== Contract Initializers =========================== */

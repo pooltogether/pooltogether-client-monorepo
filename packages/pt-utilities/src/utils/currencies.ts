@@ -49,8 +49,8 @@ export const calculateCurrencyValue = (
       ? exchangeRates[options.baseCurrency]?.value
       : exchangeRates.usd?.value
     if (!!baseCurrencyValue) {
-      const currencyMultiplier = exchangeRates[currency].value / baseCurrencyValue
-      const currencyValue = Number(baseValue) * currencyMultiplier
+      const currencyExchangeRate = exchangeRates[currency].value / baseCurrencyValue
+      const currencyValue = Number(baseValue) * currencyExchangeRate
       return currencyValue
     } else {
       console.warn(`No base currency value found: ${options?.baseCurrency}`)

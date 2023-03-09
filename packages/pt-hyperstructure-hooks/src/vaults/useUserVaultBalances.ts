@@ -1,81 +1,62 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { providers, utils } from 'ethers'
+import { Vault, Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
-import { VaultInfo, VaultInfoWithBalance, VaultList } from 'pt-types'
-import { getAllUserVaultBalances, getVaultId } from 'pt-utilities'
-import { useProviderChainIds } from '../blockchain/useProviderChainId'
+import { VaultInfoWithBalance } from 'pt-types'
 import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
- * Returns a user's share balance in vaults from a vault list
+ * Returns a user's share balance in each vault
  *
  * Stores queried vault balances in cache
- * @param readProviders read-capable providers from any chains that should be queried
- * @param userAddress a user's address to check balances for
- * @param vaultList a vault list to check balances in
- * @param refetchInterval optional automatic refetching interval in ms
+ * @param vaults
+ * @param userAddress
+ * @param refetchInterval
  * @returns
  */
 export const useUserVaultBalances = (
-  readProviders: providers.Provider[],
+  vaults: Vaults,
   userAddress: string,
-  vaultList: VaultList,
   refetchInterval?: number
 ): UseQueryResult<{ [vaultId: string]: VaultInfoWithBalance }, unknown> => {
   const queryClient = useQueryClient()
 
-  const { data: chainIds, isFetched: isFetchedChainIds } = useProviderChainIds(readProviders)
+  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaults?.vaultAddresses]
 
-  const enabled =
-    !!userAddress &&
-    utils.isAddress(userAddress) &&
-    !!readProviders &&
-    readProviders.length > 0 &&
-    readProviders.every((provider) => provider?._isProvider) &&
-    isFetchedChainIds &&
-    !!chainIds
-
-  const queryKey = [QUERY_KEYS.userVaultBalances, chainIds, userAddress, vaultList]
-
-  return useQuery(
-    queryKey,
-    async () => await getAllUserVaultBalances(readProviders, userAddress, vaultList),
-    {
-      enabled,
-      ...NO_REFETCH,
-      refetchInterval: refetchInterval ?? false,
-      onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
-    }
-  )
+  return useQuery(queryKey, async () => await vaults.getUserShareBalances(userAddress), {
+    enabled: !!vaults,
+    ...NO_REFETCH,
+    refetchInterval: refetchInterval ?? false,
+    onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
+  })
 }
 
 /**
  * Returns a user's share balance in a vault
  *
- * Wraps {@link useUserVaultBalances}
- * @param readProvider read-capable provider to query vault balance through
- * @param userAddress a user's address to check balance for
- * @param vaultInfo vault info for the vault to query a balance for
- * @param refetchInterval optional automatic refetching interval in ms
+ * Stores queried vault balance in cache
+ * @param vault
+ * @param userAddress
+ * @param refetchInterval
  * @returns
  */
 export const useUserVaultBalance = (
-  readProvider: providers.Provider,
+  vault: Vault,
   userAddress: string,
-  vaultInfo: VaultInfo,
   refetchInterval?: number
-): { data: VaultInfoWithBalance } & Omit<
-  UseQueryResult<{ [vaultId: string]: VaultInfoWithBalance }>,
-  'data'
-> => {
-  const vaultId = getVaultId(vaultInfo)
-  const mockVaultList: VaultList = {
-    name: 'Mock',
-    version: { major: 0, minor: 0, patch: 1 },
-    timestamp: '',
-    tokens: [vaultInfo]
-  }
-  const result = useUserVaultBalances([readProvider], userAddress, mockVaultList, refetchInterval)
-  return { ...result, data: result.data?.[vaultId] as VaultInfoWithBalance }
+): UseQueryResult<VaultInfoWithBalance, unknown> => {
+  const queryClient = useQueryClient()
+
+  const queryKey = [
+    QUERY_KEYS.userVaultBalances,
+    userAddress,
+    !!vault ? [{ [vault.chainId]: vault.address }] : []
+  ]
+
+  return useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
+    enabled: !!vault,
+    ...NO_REFETCH,
+    refetchInterval: refetchInterval ?? false,
+    onSuccess: (data) => populateCachePerId(queryClient, queryKey, { [vault.id]: data })
+  })
 }

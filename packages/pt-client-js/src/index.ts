@@ -4,6 +4,7 @@
 export * from './PrizePool'
 export * from './User'
 export * from './Vault'
+export * from './Vaults'
 
 /**
  * Utilities

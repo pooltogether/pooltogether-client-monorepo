@@ -47,7 +47,9 @@ export const useCoingeckoTokenPricesAcrossChains = (
   tokenAddresses: { [chainId: number]: string[] },
   currencies?: string[]
 ) => {
-  const chainIds = Object.keys(tokenAddresses).map((chainId) => parseInt(chainId))
+  const chainIds = Object.keys(tokenAddresses)
+    .map((chainId) => parseInt(chainId))
+    .filter((chainId) => chainId in COINGECKO_PLATFORMS)
 
   const results = useQueries({
     queries: chainIds.map((chainId) => {

@@ -6,16 +6,13 @@ import { NetworkIcon } from 'pt-components'
 import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
-import {
-  getTokenPriceFromObject,
-  getVaultId,
-  getVaultUnderlyingTokensFromVaultList
-} from 'pt-utilities'
+import { getTokenPriceFromObject, getVaultId } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 import { useProviders } from '@hooks/useProviders'
+import { useVaults } from '@hooks/useVaults'
 
 interface VaultFiltersProps {
   onFilter: (filteredVaults: VaultInfo[]) => void
@@ -24,18 +21,14 @@ interface VaultFiltersProps {
 
 export const VaultFilters = (props: VaultFiltersProps) => {
   const networks = useNetworks()
+  const vaults = useVaults()
 
   const providers = useProviders()
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(
-  //   providers,
-  //   defaultVaultList
-  // )
-
-  const vaultUnderlyingTokenAddresses = getVaultUnderlyingTokensFromVaultList(defaultVaultList)
+  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
 
   const { address: userAddress } = useAccount()
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
-    useTokenBalancesAcrossChains(providers, userAddress, vaultUnderlyingTokenAddresses)
+    useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 

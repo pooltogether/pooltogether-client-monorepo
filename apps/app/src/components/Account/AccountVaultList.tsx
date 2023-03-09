@@ -5,8 +5,7 @@ import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useUserVaultBalances } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { Spinner, Table, TableProps } from 'pt-ui'
-import defaultVaultList from '@constants/defaultVaultList'
-import { useProviders } from '@hooks/useProviders'
+import { useVaults } from '@hooks/useVaults'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 
@@ -19,11 +18,11 @@ interface AccountVaultListProps {
 export const AccountVaultList = (props: AccountVaultListProps) => {
   const { address: userAddress } = useAccount()
 
-  // const providers = useProviders()
+  const vaults = useVaults()
+
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
-  //   providers,
-  //   userAddress,
-  //   defaultVaultList
+  //   vaults,
+  //   userAddress
   // )
 
   // TODO: remove and uncomment hook above once vaults are setup

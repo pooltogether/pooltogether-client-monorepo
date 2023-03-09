@@ -1,11 +1,11 @@
 import { utils } from 'ethers'
-import { useProvider } from 'wagmi'
 import { useVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getTokenPriceFromObject } from 'pt-utilities'
 import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
+import { useVault } from '@hooks/useVaults'
 
 interface VaultTotalDepositsProps {
   vaultInfo: VaultInfo
@@ -15,6 +15,8 @@ interface VaultTotalDepositsProps {
 export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   const { vaultInfo, displayCurrency } = props
 
+  const vault = useVault(vaultInfo)
+
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
   const usdPrice = getTokenPriceFromObject(
     vaultInfo.chainId,
@@ -22,11 +24,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
     tokenPrices
   )
 
-  // const provider = useProvider({ chainId: vaultInfo.chainId })
-  // const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(
-  //   provider,
-  //   vaultInfo
-  // )
+  // const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(vault)
 
   // TODO: remove this once vaults are setup (and uncomment code above):
   const totalDeposits = utils.parseUnits('50000', vaultInfo.decimals)

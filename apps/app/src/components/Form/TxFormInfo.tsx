@@ -5,13 +5,13 @@ import { formatBigNumberForDisplay, getBlockExplorerUrl, getSharesFromAssets } f
 
 interface TxFormInfoProps {
   vaultInfo: VaultInfo
-  vaultMultiplier: BigNumber
+  vaultExchangeRate: BigNumber
   linkType: 'share' | 'token'
 }
 
 // TODO: add tooltip next to conversion rate
 export const TxFormInfo = (props: TxFormInfoProps) => {
-  const { vaultInfo, vaultMultiplier, linkType } = props
+  const { vaultInfo, vaultExchangeRate, linkType } = props
 
   const tokenAddress =
     linkType === 'share' ? vaultInfo.address : vaultInfo.extensions.underlyingAsset.address
@@ -21,11 +21,11 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
     <div className='flex items-center justify-between gap-4 dark:bg-pt-transparent px-4 py-2 rounded-b-lg'>
       <span className='dark:text-pt-purple-200'>
         1 {vaultInfo.extensions.underlyingAsset.symbol} ={' '}
-        {!!vaultMultiplier
+        {!!vaultExchangeRate
           ? formatBigNumberForDisplay(
               getSharesFromAssets(
                 utils.parseUnits('1', vaultInfo.decimals),
-                vaultMultiplier,
+                vaultExchangeRate,
                 vaultInfo.decimals
               ),
               vaultInfo.decimals.toString(),

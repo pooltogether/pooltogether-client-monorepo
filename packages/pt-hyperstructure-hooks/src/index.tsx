@@ -13,7 +13,7 @@ export * from './blockchain/useTokens'
  */
 export * from './vaults/useUserVaultBalances'
 export * from './vaults/useVaultBalances'
-export * from './vaults/useVaultShareMultipliers'
+export * from './vaults/useVaultExchangeRates'
 
 /**
  * Utils

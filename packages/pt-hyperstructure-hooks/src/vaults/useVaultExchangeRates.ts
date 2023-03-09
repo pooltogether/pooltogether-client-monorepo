@@ -6,22 +6,22 @@ import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
- * Returns the total underlying token balance deposited in each vault
+ * Returns exchange rates to calculate shares to assets in each vault
  *
- * Stores queried balances in cache
+ * Stores queried exchange rates in cache
  * @param vaults instance of the `Vaults` class
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
-export const useVaultBalances = (
+export const useVaultExchangeRates = (
   vaults: Vaults,
   refetchInterval?: number
 ): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.vaultBalances, vaults?.vaultAddresses]
+  const queryKey = [QUERY_KEYS.vaultExchangeRates, vaults?.vaultAddresses]
 
-  return useQuery(queryKey, async () => await vaults.getTotalTokenBalances(), {
+  return useQuery(queryKey, async () => await vaults.getExchangeRates(), {
     enabled: !!vaults,
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
@@ -30,22 +30,25 @@ export const useVaultBalances = (
 }
 
 /**
- * Returns a vault's total underlying token balance
+ * Returns a vault's exchange rate to calculate shares to assets
  *
- * Stores queried balance in cache
+ * Stores queried exchange rate in cache
  * @param vault instance of the `Vault` class
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
-export const useVaultBalance = (
+export const useVaultExchangeRate = (
   vault: Vault,
   refetchInterval?: number
 ): UseQueryResult<BigNumber, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.vaultBalances, !!vault ? [{ [vault.chainId]: vault.address }] : []]
+  const queryKey = [
+    QUERY_KEYS.vaultExchangeRates,
+    !!vault ? [{ [vault.chainId]: vault.address }] : []
+  ]
 
-  return useQuery(queryKey, async () => await vault.getTotalTokenBalance(), {
+  return useQuery(queryKey, async () => await vault.getExchangeRate(), {
     enabled: !!vault,
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
