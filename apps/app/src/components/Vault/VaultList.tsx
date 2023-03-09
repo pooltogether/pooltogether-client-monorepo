@@ -35,15 +35,7 @@ export const VaultList = (props: VaultListProps) => {
 
   return (
     <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', props.className)}>
-      <Table
-        headers={tableHeaders}
-        rows={tableRows}
-        keyPrefix='vaultList'
-        roundedRows={true}
-        className='border-spacing-y-4'
-        headerClassName='text-center'
-        cellClassName='min-w-[15vw] text-center'
-      />
+      <Table headers={tableHeaders} rows={tableRows} keyPrefix='vaultList' roundedRows={true} />
     </div>
   )
 }

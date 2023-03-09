@@ -93,9 +93,6 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
             rows={tableRows}
             keyPrefix='dpVaultList'
             roundedRows={true}
-            className='border-spacing-y-4'
-            headerClassName='text-center'
-            cellClassName='min-w-[15vw] text-center'
           />
         </div>
       )}

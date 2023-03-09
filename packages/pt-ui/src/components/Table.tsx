@@ -31,7 +31,7 @@ export const Table = (props: TableProps) => {
     <FlowbiteTable
       theme={{
         root: {
-          base: 'w-full text-left text-sm text-pt-purple-50 border-separate border-spacing-0',
+          base: 'w-full table-fixed text-left text-sm text-pt-purple-50 border-separate border-spacing-0 border-spacing-y-4',
           wrapper: 'relative overflow-x-hidden'
         }
       }}
@@ -40,9 +40,9 @@ export const Table = (props: TableProps) => {
     >
       <FlowbiteTable.Head
         // TODO: once theme is fixed, can use it instead of manual className
-        // theme={{ base: 'text-pt-purple-100 py-2' }}
+        // theme={{ base: 'text-pt-purple-100 py-2 text-center' }}
         className={classNames(
-          'dark:text-pt-purple-100 dark:bg-transparent py-2 !text-base normal-case',
+          'dark:text-pt-purple-100 dark:bg-transparent py-2 text-center !text-base normal-case',
           headerClassName
         )}
       >
@@ -62,7 +62,7 @@ export const Table = (props: TableProps) => {
             {row.cells.map((cell, j) => (
               <FlowbiteTable.Cell
                 key={`${keyPrefix}-tc-${i}-${j}`}
-                theme={{ base: 'text-pt-purple-50 px-6 py-4' }}
+                theme={{ base: 'text-pt-purple-50 text-center px-6 py-4' }}
                 className={classNames(
                   {
                     'rounded-l-lg': roundedRows && j === 0,

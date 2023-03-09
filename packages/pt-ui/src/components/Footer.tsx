@@ -54,45 +54,46 @@ export interface FooterItem {
 
 export interface FooterProps extends Omit<FlowbiteFooterProps, 'theme'> {
   items?: FooterItem[]
+  containerClassName?: string
   titleClassName?: string
   itemClassName?: string
 }
 
 export const Footer = (props: FooterProps) => {
-  const { items, titleClassName, itemClassName, className, ...rest } = props
+  const { items, containerClassName, titleClassName, itemClassName, className, ...rest } = props
 
   return (
     <FlowbiteFooter
-      theme={{
-        root: {
-          base: 'w-full bg-pt-purple-600 px-6 py-8 shadow md:flex md:items-center md:justify-between'
-        }
-      }}
+      theme={{ root: { base: 'w-full flex justify-center bg-pt-purple-600 px-6 py-8 shadow' } }}
       className={classNames(className)}
       {...rest}
     >
-      {(items ?? defaultFooterItems).map((item) => {
-        return (
-          <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`}>
-            <FlowbiteFooter.Title
-              theme={{ base: 'text-pt-teal-dark mb-6' }}
-              title={item.title}
-              className={classNames(titleClassName)}
-            />
-            <FlowbiteFooter.LinkGroup theme={{ base: 'flex flex-col gap-6 text-pt-purple-100' }}>
-              {item.content.map((content, i) => {
-                return (
-                  <FooterItemContent
-                    key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
-                    {...content}
-                    className={itemClassName}
-                  />
-                )
-              })}
-            </FlowbiteFooter.LinkGroup>
-          </div>
-        )
-      })}
+      <div
+        className={classNames('w-full max-w-6xl md:flex md:justify-between', containerClassName)}
+      >
+        {(items ?? defaultFooterItems).map((item) => {
+          return (
+            <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`}>
+              <FlowbiteFooter.Title
+                theme={{ base: 'text-pt-teal-dark mb-6' }}
+                title={item.title}
+                className={classNames(titleClassName)}
+              />
+              <FlowbiteFooter.LinkGroup theme={{ base: 'flex flex-col gap-6 text-pt-purple-100' }}>
+                {item.content.map((content, i) => {
+                  return (
+                    <FooterItemContent
+                      key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
+                      {...content}
+                      className={itemClassName}
+                    />
+                  )
+                })}
+              </FlowbiteFooter.LinkGroup>
+            </div>
+          )
+        })}
+      </div>
     </FlowbiteFooter>
   )
 }
