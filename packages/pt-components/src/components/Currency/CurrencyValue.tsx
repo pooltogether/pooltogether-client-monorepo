@@ -3,7 +3,7 @@ import { CURRENCY_ID, useCoingeckoExchangeRates, useSelectedCurrency } from 'pt-
 import { Spinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
 
-interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
+export interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
   baseValue: number | string
   baseCurrency?: CURRENCY_ID
   countUp?: boolean

@@ -207,8 +207,11 @@ export const getSecondsSinceEpoch = () => Number((Date.now() / 1000).toFixed(0))
 /**
  * Converts a daily event count into a frequency with the most relevant unit of time.
  * @param dailyCount Number count of times an event takes place in any given day.
+
  * 0 means the event never takes place.
+ * 
  * 1 means it happens once a day.
+ * 
  * 2 means it happens twice a day, etc.
  * @returns Object with frequency and unit of time specified.
  */

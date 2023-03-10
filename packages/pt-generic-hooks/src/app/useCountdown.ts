@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { SECONDS_PER_DAY, SECONDS_PER_HOUR, SECONDS_PER_MINUTE, sToMs } from 'pt-utilities'
+import { getTimeBreakdown, msToS, sToMs } from 'pt-utilities'
 
 /**
  * Returns days, hours, minutes and seconds until a given epoch timestamp
@@ -21,20 +21,11 @@ export const useCountdown = (targetEpochTimestampInSeconds: number) => {
     }, [targetTimestampInMs])
 
     if (countdownInMs <= 0) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+      return { years: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
     }
 
-    const days = Math.floor(countdownInMs / (1_000 * SECONDS_PER_DAY))
-    const hours = Math.floor(
-      (countdownInMs % (1_000 * SECONDS_PER_DAY)) / (1_000 * SECONDS_PER_HOUR)
-    )
-    const minutes = Math.floor(
-      (countdownInMs % (1_000 * SECONDS_PER_HOUR)) / (1_000 * SECONDS_PER_MINUTE)
-    )
-    const seconds = Math.floor((countdownInMs % (1_000 * SECONDS_PER_MINUTE)) / 1_000)
-
-    return { days, hours, minutes, seconds }
+    return getTimeBreakdown(msToS(countdownInMs))
   } else {
-    return { days: null, hours: null, minutes: null, seconds: null }
+    return { years: null, days: null, hours: null, minutes: null, seconds: null }
   }
 }

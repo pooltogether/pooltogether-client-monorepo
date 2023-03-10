@@ -3,7 +3,7 @@ import { formatNumberForDisplay, NETWORK } from 'pt-utilities'
 import { CurrencyValue } from '../Currency/CurrencyValue'
 import { PrizePoolHeader } from './PrizePoolHeader'
 
-interface PrizePoolCardProps {
+export interface PrizePoolCardProps {
   chainId: NETWORK
 }
 

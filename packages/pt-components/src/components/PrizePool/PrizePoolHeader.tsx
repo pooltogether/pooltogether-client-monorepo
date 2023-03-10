@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { getNiceNetworkNameByChainId, NETWORK } from 'pt-utilities'
 import { NetworkIcon } from '../Icons/NetworkIcon'
 
-interface PrizePoolHeaderProps {
+export interface PrizePoolHeaderProps {
   chainId: NETWORK
   size?: 'small' | 'large'
   showDetails?: boolean

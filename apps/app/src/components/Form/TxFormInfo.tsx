@@ -1,6 +1,6 @@
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { BigNumber, utils } from 'ethers'
 import { VaultInfo } from 'pt-types'
+import { ExternalLink } from 'pt-ui'
 import { formatBigNumberForDisplay, getBlockExplorerUrl, getSharesFromAssets } from 'pt-utilities'
 
 interface TxFormInfoProps {
@@ -36,15 +36,11 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
           : '?'}{' '}
         {vaultInfo.symbol}
       </span>
-      <a
+      <ExternalLink
         href={getBlockExplorerUrl(vaultInfo.chainId, tokenAddress, 'token')}
-        target='_blank'
-        rel='noreferrer'
-        className='inline-flex items-center gap-1 text-xs dark:text-pt-teal'
-      >
-        <span>View {tokenDisplayName}</span>
-        <ArrowTopRightOnSquareIcon className='h-4 w-4 dark:text-inherit' />
-      </a>
+        text={`View ${tokenDisplayName}`}
+        className='text-pt-teal'
+      />
     </div>
   )
 }
