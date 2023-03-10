@@ -20,6 +20,10 @@ export const useCountdown = (targetEpochTimestampInSeconds: number) => {
       return () => clearInterval(interval)
     }, [targetTimestampInMs])
 
+    if (countdownInMs <= 0) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    }
+
     const days = Math.floor(countdownInMs / (1_000 * SECONDS_PER_DAY))
     const hours = Math.floor(
       (countdownInMs % (1_000 * SECONDS_PER_DAY)) / (1_000 * SECONDS_PER_HOUR)
