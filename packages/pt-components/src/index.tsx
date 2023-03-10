@@ -1,10 +1,10 @@
 /**
  * Components
  */
-export * from './components/Badges/NetworkBadge'
-export * from './components/Badges/VaultBadge'
-export * from './components/Icons/NetworkIcon'
-export * from './components/Icons/TokenIcon'
+// export * from './components/Badges/NetworkBadge'
+// export * from './components/Badges/VaultBadge'
+// export * from './components/Icons/NetworkIcon'
+// export * from './components/Icons/TokenIcon'
 export * from './components/PrizePool/PrizePoolCard'
 export * from './components/PrizePool/PrizePoolHeader'
 export * from './components/SettingsModal'
