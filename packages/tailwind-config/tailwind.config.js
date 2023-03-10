@@ -27,6 +27,11 @@ module.exports = {
             dark: '#0DC5A5',
             DEFAULT: '#35F0D0'
           },
+          pink: {
+            light: '#FA48E8',
+            dark: '#B623A7',
+            DEFAULT: '#FA48E8'
+          },
           bg: {
             purple: {
               light: '#5D3A97',

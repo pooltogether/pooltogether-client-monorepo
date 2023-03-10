@@ -19,7 +19,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
   return (
     <Card href={`/deposit?network=${chainId}`} className='gap-16'>
       <PrizePoolHeader chainId={chainId} />
-      <div className='flex flex-col text-pt-purple-100'>
+      <div className='flex flex-col gap-0.5 text-pt-purple-100'>
         <span className='text-sm uppercase'>Grand Prize</span>
         <span className='text-4xl text-pt-teal'>
           <CurrencyValue baseValue={grandPrize} hideZeroes={true} />
