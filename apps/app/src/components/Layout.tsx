@@ -62,9 +62,7 @@ export const Layout = (props: LayoutProps) => {
     <div className='flex flex-col min-h-screen'>
       <Head>
         <title>PoolTogether Hyperstructure App</title>
-        <link rel='icon' href='/favicon.ico' />
       </Head>
-
       <Navbar
         activePage={router.pathname}
         walletConnectionButton={

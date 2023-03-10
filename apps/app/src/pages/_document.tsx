@@ -18,7 +18,9 @@ class MyDocument extends Document {
     return (
       <Html className='bg-pt-bg-purple-darker text-pt-purple-50 overflow-x-hidden dark'>
         {/* TODO: add meta tags, link to manifest, etc. to head */}
-        <Head />
+        <Head>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
         <body>
           <Main />
           <NextScript />

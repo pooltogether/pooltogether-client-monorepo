@@ -1,6 +1,6 @@
 import classNames from 'classnames'
-import { NetworkIcon } from 'pt-components'
 import { getNiceNetworkNameByChainId, NETWORK } from 'pt-utilities'
+import { NetworkIcon } from '../Icons/NetworkIcon'
 
 interface PrizePoolHeaderProps {
   chainId: NETWORK

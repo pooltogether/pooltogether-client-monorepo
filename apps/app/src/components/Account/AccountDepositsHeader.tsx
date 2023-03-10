@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import { CurrencyValue } from 'pt-components'
 import { Spinner } from 'pt-ui'
-import { CurrencyValue } from '@components/CurrencyValue'
 import { useUserTotalUsdBalance } from '@hooks/useUserTotalUsdBalance'
 
 interface AccountDepositsHeaderProps {

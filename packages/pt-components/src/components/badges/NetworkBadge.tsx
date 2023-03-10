@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { NetworkIcon } from '../icons/NetworkIcon'
+import { NetworkIcon } from '../Icons/NetworkIcon'
 
 export interface NetworkBadgeProps {
   chainId: number

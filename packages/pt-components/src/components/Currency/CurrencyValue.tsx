@@ -34,14 +34,16 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
   if (!isFetchedExchangeRates) {
     if (!hideLoading) {
       return <Spinner />
+      // } else if (options?.countUp) {
+      //   return (
+      //     <>
+      //       {!options?.hideCountUpSymbol && SUPPORTED_CURRENCIES[currency]?.symbol}
+      //       <CountUp countTo={currencyValue} decimals={options?.decimals ?? 0} />
+      //     </>
+      //   )
+    } else {
+      return null
     }
-    // } else if (options?.countUp) {
-    //   return (
-    //     <>
-    //       {!options?.hideCountUpSymbol && SUPPORTED_CURRENCIES[currency]?.symbol}
-    //       <CountUp countTo={currencyValue} decimals={options?.decimals ?? 0} />
-    //     </>
-    //   )
   } else {
     return <>{formatCurrencyNumberForDisplay(currencyValue, selectedCurrency, { ...rest })}</>
   }

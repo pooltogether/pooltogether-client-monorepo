@@ -1,7 +1,7 @@
 import { useState } from 'react'
+import { PrizePoolHeader } from 'pt-components'
 import { VaultInfo } from 'pt-types'
 import { Layout } from '@components/Layout'
-import { PrizePoolHeader } from '@components/PrizePool/PrizePoolHeader'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
 import { SUPPORTED_NETWORKS } from '@constants/networks'

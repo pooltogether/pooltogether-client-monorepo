@@ -1,6 +1,6 @@
 import { Card } from 'pt-ui'
 import { formatNumberForDisplay, NETWORK } from 'pt-utilities'
-import { CurrencyValue } from '@components/CurrencyValue'
+import { CurrencyValue } from '../Currency/CurrencyValue'
 import { PrizePoolHeader } from './PrizePoolHeader'
 
 interface PrizePoolCardProps {

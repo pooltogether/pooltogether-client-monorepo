@@ -2,10 +2,9 @@ import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { TokenIcon } from 'pt-components'
+import { CurrencyValue, TokenIcon } from 'pt-components'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
-import { CurrencyValue } from '@components/CurrencyValue'
 
 export interface TxFormValues {
   tokenAmount: string

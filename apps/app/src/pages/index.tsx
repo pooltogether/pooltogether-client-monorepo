@@ -1,8 +1,6 @@
+import { CurrencyValue, NextDrawCountdown, PrizePoolCard } from 'pt-components'
 import { Button } from 'pt-ui'
-import { CurrencyValue } from '@components/CurrencyValue'
 import { Layout } from '@components/Layout'
-import { NextDrawCountdown } from '@components/NextDrawCountdown'
-import { PrizePoolCard } from '@components/PrizePool/PrizePoolCard'
 import { useNetworks } from '@hooks/useNetworks'
 
 export default function HomePage() {

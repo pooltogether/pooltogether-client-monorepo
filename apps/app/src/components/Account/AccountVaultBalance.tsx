@@ -1,4 +1,5 @@
 import { BigNumber, utils } from 'ethers'
+import { CurrencyValue } from 'pt-components'
 import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import {
@@ -6,7 +7,6 @@ import {
   getAssetsFromShares,
   getTokenPriceFromObject
 } from 'pt-utilities'
-import { CurrencyValue } from '@components/CurrencyValue'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useVault } from '@hooks/useVaults'
 

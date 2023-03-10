@@ -19,6 +19,9 @@
     ],
     "format": [
       "esm"
+    ],
+    "external": [
+      "pt-types"
     ]
   },
   "dependencies": {
