@@ -4,7 +4,7 @@ import { Layout } from '@components/Layout'
 
 export default function AccountPage() {
   return (
-    <Layout>
+    <Layout className='gap-6'>
       <AccountDepositsHeader />
       <AccountVaultList />
     </Layout>

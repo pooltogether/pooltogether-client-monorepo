@@ -1,4 +1,5 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import classNames from 'classnames'
 import { useAtom } from 'jotai'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -10,10 +11,11 @@ import { settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
   children: ReactNode
+  className?: string
 }
 
 export const Layout = (props: LayoutProps) => {
-  const { children } = props
+  const { children, className } = props
 
   const router = useRouter()
 
@@ -84,7 +86,12 @@ export const Layout = (props: LayoutProps) => {
         disableLanguages={true}
       />
 
-      <main className='flex flex-col flex-grow items-center mx-auto w-auto max-w-screen-xl p-8 gap-6'>
+      <main
+        className={classNames(
+          'flex flex-col flex-grow items-center mx-auto w-auto max-w-screen-xl p-8',
+          className
+        )}
+      >
         {children}
       </main>
 

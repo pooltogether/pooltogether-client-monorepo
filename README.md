@@ -55,4 +55,4 @@ When adding/updating apps and/or packages, duplicate dependencies may be created
 
 The biggest culprit of the above is `@tanstack/react-query`, which sometimes is installed as two different versions and apps can no longer utilize hooks from the hooks package. This has been solved through the method described [here](https://github.com/TanStack/query/issues/3595#issuecomment-1248074333).
 
-If editing component themes in `pt-ui` or `pt-components`, having the `Tailwind CSS IntelliSense` plugin for VSCode is recommended. In order to enable it for themes, add `theme` to the `Class Attributes` setting.
+If editing component themes in `pt-ui` or `pt-components`, having the `Tailwind CSS IntelliSense` plugin for VSCode is recommended. In order to enable it for custom Flowbite themes, add `theme` to the `Class Attributes` setting.

@@ -19,6 +19,7 @@ interface VaultFiltersProps {
   className?: string
 }
 
+// TODO: get filters from url (example: ?network=10)
 export const VaultFilters = (props: VaultFiltersProps) => {
   const networks = useNetworks()
   const vaults = useVaults()

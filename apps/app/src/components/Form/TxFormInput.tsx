@@ -112,7 +112,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       {!!error && <span>{error}</span>}
       {showDownArrow && (
         <div className='absolute -bottom-4 left-0 right-0 mx-auto flex items-center justify-center h-8 w-8 dark:bg-pt-bg-purple-light border-2 dark:border-pt-purple-50 rounded-lg z-10'>
-          <ArrowDownIcon className='h-5 w-5 dark:text-purple-100' />
+          <ArrowDownIcon className='h-5 w-5 dark:text-pt-purple-100' />
         </div>
       )}
     </div>

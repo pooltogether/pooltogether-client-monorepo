@@ -1,13 +1,32 @@
+import { Button } from 'pt-ui'
+import { CurrencyValue } from '@components/CurrencyValue'
 import { Layout } from '@components/Layout'
+import { NextDrawCountdown } from '@components/NextDrawCountdown'
+import { PrizePoolCard } from '@components/PrizePool/PrizePoolCard'
+import { useNetworks } from '@hooks/useNetworks'
 
 export default function HomePage() {
+  const networks = useNetworks()
+
+  // TODO: get largest grand prize
+  const largestGrandPrize = 5_000
+
   return (
-    <Layout>
-      <h1 className='mx-auto text-center text-3xl font-extrabold leading-[1.1] tracking-tighter text-white'>
-        <span className='inline-block bg-gradient-to-r from-pt-purple to-pt-teal-dark bg-clip-text text-transparent'>
-          PoolTogether Hyperstructure App (WIP)
+    <Layout className='gap-8'>
+      <div className='flex flex-col items-center gap-3'>
+        <span className='text-5xl font-semibold'>
+          Deposit for a chance to win up to{' '}
+          <CurrencyValue baseValue={largestGrandPrize} hideZeroes={true} />
         </span>
-      </h1>
+        <span className='text-pt-purple-100'>Deposit into prize pools for a chance to win.</span>
+      </div>
+      <NextDrawCountdown />
+      <Button href='/deposit'>Deposit to Win</Button>
+      <div className='grid grid-cols-2 gap-4 bg-pt-bg-purple-dark p-4 rounded-lg'>
+        {networks.map((network) => {
+          return <PrizePoolCard key={`pp-${network}`} chainId={network} />
+        })}
+      </div>
     </Layout>
   )
 }
