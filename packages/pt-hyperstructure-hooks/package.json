@@ -19,8 +19,7 @@
       "src/index.ts"
     ],
     "format": [
-      "esm",
-      "cjs"
+      "esm"
     ]
   },
   "dependencies": {
