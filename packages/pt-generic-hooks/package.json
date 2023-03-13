@@ -1,23 +1,21 @@
 {
   "name": "pt-generic-hooks",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist"
   },
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@tanstack/react-query": "^4.24.10",
     "jotai": "^1.13.1",
-    "pt-utilities": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "pt-utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^17.0.53",
@@ -25,5 +23,10 @@
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^4.24.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

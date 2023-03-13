@@ -1,27 +1,26 @@
 {
   "name": "pt-components",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist",
-    "./styles.css": "./dist/styles.css"
+    ".": "./dist"
   },
-  "license": "MIT",
   "scripts": {
-    "build": "tsup --dts && tailwindcss -i ./src/styles.css -o ./dist/styles.css",
+    "build": "tsup",
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
   "tsup": {
+    "dts": true,
+    "clean": true,
     "entry": [
       "src/index.tsx"
     ],
     "format": [
       "esm"
-    ],
-    "external": [
-      "pt-types"
     ]
   },
   "dependencies": {
@@ -31,8 +30,7 @@
     "flowbite-react": "^0.4.2",
     "pt-generic-hooks": "workspace:*",
     "pt-ui": "workspace:*",
-    "pt-utilities": "workspace:*",
-    "react": "^18.2.0"
+    "pt-utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^17.0.53",
@@ -43,5 +41,9 @@
     "tsconfig": "workspace:*",
     "tsup": "^6.6.3",
     "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

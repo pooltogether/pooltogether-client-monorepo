@@ -1,12 +1,10 @@
 {
   "name": "pt-types",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": "./dist"
-  },
-  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "prepare": "pnpm build",

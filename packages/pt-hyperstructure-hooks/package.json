@@ -1,31 +1,45 @@
 {
   "name": "pt-hyperstructure-hooks",
   "version": "0.0.1",
+  "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist"
   },
-  "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
+  "tsup": {
+    "dts": true,
+    "clean": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  },
   "dependencies": {
-    "@tanstack/react-query": "^4.24.10",
     "ethers": "^5.7.2",
     "pt-client-js": "workspace:*",
     "pt-generic-hooks": "workspace:*",
-    "pt-utilities": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "pt-utilities": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
+    "tsup": "^6.6.3",
     "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^4.24.10",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
