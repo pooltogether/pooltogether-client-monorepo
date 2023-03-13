@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter, FooterProps as FlowbiteFooterProps } from 'flowbite-react'
-import { LINKS } from '@constants'
+import { LINKS } from '../constants'
 import { SocialIcon } from './SocialIcon'
 
 export const defaultFooterItems: FooterItem[] = [

@@ -2,6 +2,7 @@
   "name": "tailwind-config",
   "version": "0.0.1",
   "private": true,
+  "license": "MIT",
   "main": "index.js",
   "devDependencies": {
     "tailwindcss": "^3.2.7"

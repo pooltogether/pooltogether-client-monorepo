@@ -11,7 +11,7 @@
     "isolatedModules": true,
     "moduleResolution": "node",
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true

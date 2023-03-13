@@ -1,5 +1,4 @@
-import { BigNumber } from 'ethers'
-import { formatUnits } from 'ethers/lib/utils'
+import { BigNumber, utils } from 'ethers'
 
 /**
  * Formats a number string to the requested precision
@@ -76,7 +75,7 @@ export const formatBigNumberForDisplay = (
     hideZeroes?: boolean
   }
 ) => {
-  const shiftedBigNumber = formatUnits(val, decimals)
+  const shiftedBigNumber = utils.formatUnits(val, decimals)
   return formatNumberForDisplay(shiftedBigNumber, options)
 }
 
