@@ -156,10 +156,10 @@ export const dToM = (days: number) => {
 }
 
 /**
- * Finds the difference between two date objects
+ * Finds the difference between two date objects in days, hours, minutes and seconds
  * @param dateA DateTime JS object (ie. new Date(Date.now()))
  * @param dateB DateTime JS object (ie. new Date(Date.now()))
- * @returns Object with difference split into keys with days, hours, minutes, and seconds
+ * @returns
  */
 export const subtractDates = (dateA: Date, dateB: Date) => {
   let msA = dateA.getTime()
@@ -200,20 +200,20 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
 
 /**
  * Return seconds since Epoch as a number
- * @returns Number of seconds since the Unix Epoch
+ * @returns
  */
 export const getSecondsSinceEpoch = () => Number((Date.now() / 1000).toFixed(0))
 
 /**
- * Converts a daily event count into a frequency with the most relevant unit of time.
- * @param dailyCount Number count of times an event takes place in any given day.
+ * Converts a daily event count into a frequency (every X days/weeks/months/years) with the most relevant unit of time
+ * @param dailyCount Number count of times an event takes place in any given day
 
- * 0 means the event never takes place.
+ * 0 means the event never takes place
  * 
- * 1 means it happens once a day.
+ * 1 means it happens once a day
  * 
  * 2 means it happens twice a day, etc.
- * @returns Object with frequency and unit of time specified.
+ * @returns
  */
 export const formatDailyCountToFrequency = (dailyCount: number) => {
   const result: { frequency: number; unit: TimeUnit } = {
@@ -242,4 +242,90 @@ export const formatDailyCountToFrequency = (dailyCount: number) => {
   }
 
   return result
+}
+
+/**
+ * Returns prize frequency text for any given frequency
+ * @param data data from `formatDailyCountToFrequency()`
+ * @param format desired output format (default is 'everyXdays')
+ * @returns
+ */
+export const getPrizeTextFromFrequency = (
+  data: { frequency: number; unit: TimeUnit },
+  format?: 'everyXdays' | 'daily'
+) => {
+  // "Every X Days/Weeks/Months/Years" format:
+  if (format === 'everyXdays' || format === undefined) {
+    if (data.frequency !== 0) {
+      if (data.unit === TimeUnit.day) {
+        if (data.frequency < 1.5) {
+          return `Daily`
+        } else {
+          return `Every ${Math.round(data.frequency)} Days`
+        }
+      } else if (data.unit === TimeUnit.week) {
+        return `Every ${Math.round(data.frequency)} Weeks`
+      } else if (data.unit === TimeUnit.month) {
+        return `Every ${Math.round(data.frequency)} Months`
+      } else {
+        return `Every ${Math.round(data.frequency)} Years`
+      }
+    } else {
+      return null
+    }
+  }
+
+  // "X Prize(s) Daily/Weekly/Monthly/Yearly" format:
+  if (format === 'daily') {
+    if (data.frequency !== 0) {
+      let perUnitFreq = 1 / data.frequency
+
+      if (data.unit === TimeUnit.day) {
+        if (perUnitFreq >= 1.5) {
+          return `${Math.round(perUnitFreq)} Prizes Daily`
+        } else if (perUnitFreq >= 1) {
+          return `1 Prize Daily`
+        } else {
+          perUnitFreq *= 7
+          data.unit = TimeUnit.week
+        }
+      }
+
+      if (data.unit === TimeUnit.week) {
+        if (perUnitFreq >= 1.5) {
+          return `${Math.round(perUnitFreq)} Prizes Weekly`
+        } else if (perUnitFreq >= 1) {
+          return `1 Prize Weekly`
+        } else {
+          perUnitFreq *= 365 / 12 / 7
+          data.unit = TimeUnit.month
+        }
+      }
+
+      if (data.unit === TimeUnit.month) {
+        if (perUnitFreq >= 1.5) {
+          return `${Math.round(perUnitFreq)} Prizes Monthly`
+        } else if (perUnitFreq >= 1) {
+          return `1 Prize Monthly`
+        } else {
+          perUnitFreq *= 12
+          data.unit = TimeUnit.year
+        }
+      }
+
+      if (data.unit === TimeUnit.year) {
+        if (perUnitFreq >= 1.5) {
+          return `${Math.round(perUnitFreq)} Prizes Yearly`
+        } else if (perUnitFreq >= 1) {
+          return `1 Prize Yearly`
+        } else {
+          return `${Math.round(perUnitFreq)} Prizes Yearly`
+        }
+      }
+    } else {
+      return null
+    }
+  }
+
+  return null
 }
