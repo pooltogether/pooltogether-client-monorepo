@@ -52,7 +52,7 @@ export interface FooterItem {
   content: FooterItemContentProps[]
 }
 
-export interface FooterProps extends Omit<FlowbiteFooterProps, 'theme'> {
+export interface FooterProps extends FlowbiteFooterProps {
   items?: FooterItem[]
   containerClassName?: string
   titleClassName?: string

@@ -18,7 +18,7 @@ export const NetworkBadge = (props: NetworkBadgeProps) => {
   return (
     <span
       className={classNames(
-        'inline-flex items-center justify-center gap-2 text-sm dark:bg-pt-transparent px-3 py-1 rounded-lg',
+        'inline-flex items-center justify-center gap-2 text-sm bg-pt-transparent px-3 py-1 rounded-lg',
         className
       )}
     >

@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Button as FlowbiteButton, ButtonProps as FlowbiteButtonProps } from 'flowbite-react'
 
-export interface ButtonProps extends Omit<FlowbiteButtonProps, 'theme'> {
+export interface ButtonProps extends FlowbiteButtonProps {
   color?: 'teal' | 'purple' | 'white'
   active?: boolean
 }
