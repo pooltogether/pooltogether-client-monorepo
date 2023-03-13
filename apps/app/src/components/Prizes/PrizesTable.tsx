@@ -1,6 +1,5 @@
 import { CurrencyValue } from 'pt-components'
-import { TimeUnit } from 'pt-types'
-import { formatDailyCountToFrequency } from 'pt-utilities'
+import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
 
 interface PrizesTableProps {
   chainId: number
@@ -19,28 +18,6 @@ export const PrizesTable = (props: PrizesTableProps) => {
     { val: 2, dailyCount: 256 }
   ]
 
-  // TODO: update this function and `formatDailyCountToFrequency` to use `X prize(s) daily`, etc.
-  // TODO: make `formatDailyCountToFrequency` take in an option for different formats/calcs
-  const getFrequencyText = (freq: number, unit: TimeUnit) => {
-    if (freq !== 0) {
-      if (unit === TimeUnit.day) {
-        if (freq <= 1.5) {
-          return `Daily`
-        } else {
-          return `Every ${freq.toFixed(0)} Days`
-        }
-      } else if (unit === 'week') {
-        return `Every ${freq.toFixed(0)} Weeks`
-      } else if (unit === 'month') {
-        return `Every ${freq.toFixed(0)} Months`
-      } else {
-        return `Every ${freq.toFixed(0)} Years`
-      }
-    } else {
-      return '?'
-    }
-  }
-
   return (
     <>
       <div className='flex w-[36rem] text-center text-sm text-pt-purple-100/50 mt-8 pb-2 border-b-[0.5px] border-b-current'>
@@ -57,7 +34,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
                 <CurrencyValue baseValue={prize.val} hideZeroes={true} />
               </span>
               <span className='w-1/2 text-xl text-pt-purple-100'>
-                {getFrequencyText(frequency.frequency, frequency.unit)}
+                {getPrizeTextFromFrequency(frequency, 'daily')}
               </span>
             </div>
           )

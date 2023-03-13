@@ -250,7 +250,7 @@ export const formatDailyCountToFrequency = (dailyCount: number) => {
  * @param format desired output format (default is 'everyXdays')
  * @returns
  */
-export const formatFrequencyToPrizeText = (
+export const getPrizeTextFromFrequency = (
   data: { frequency: number; unit: TimeUnit },
   format?: 'everyXdays' | 'daily'
 ) => {
