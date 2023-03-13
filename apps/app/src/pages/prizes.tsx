@@ -1,17 +1,24 @@
+import { useState } from 'react'
+import { PrizePoolDropdown } from 'pt-components'
 import { Button, ExternalLink } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
 import { Layout } from '@components/Layout'
-import { PrizePoolDropdown } from '@components/PrizePoolDropdown'
 import { PrizesTable } from '@components/Prizes/PrizesTable'
+import { useNetworks } from '@hooks/useNetworks'
 
 export default function PrizesPage() {
-  // TODO: get selected network from dropdown and/or wallet connection
-  const selectedNetwork = NETWORK.optimism
+  const networks = useNetworks()
+
+  const [selectedNetwork, setSelectedNetwork] = useState<NETWORK>(NETWORK.optimism)
 
   return (
     <Layout className='gap-8 mb-20'>
       <span className='text-6xl py-2'>🏆</span>
-      <PrizePoolDropdown />
+      <PrizePoolDropdown
+        networks={networks}
+        selectedNetwork={selectedNetwork}
+        onSelect={setSelectedNetwork}
+      />
       <Button href={`/deposit?network=${selectedNetwork}`}>Deposit to Win</Button>
       <PrizesTable chainId={selectedNetwork} />
       {/* TODO: add link */}
