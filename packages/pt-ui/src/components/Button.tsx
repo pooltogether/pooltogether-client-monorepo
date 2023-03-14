@@ -21,11 +21,11 @@ export const Button = (props: ButtonProps) => {
         },
         outline: {
           color: {
-            teal: '!text-pt-teal hover:!text-pt-purple-800 border-pt-teal border bg-opacity-0 hover:bg-opacity-100',
+            teal: '!text-pt-teal border-pt-teal border bg-opacity-0 hover:!text-pt-purple-800 hover:bg-opacity-100',
             purple:
-              '!text-pt-purple-100 hover:!text-pt-purple-700 border-pt-purple-100 border bg-opacity-0 hover:bg-opacity-100',
+              '!text-pt-purple-100 border-pt-purple-100 border bg-opacity-0 hover:!bg-pt-transparent hover:bg-opacity-100',
             white:
-              '!text-white hover:!text-gray-900 border-white border bg-opacity-0 hover:bg-opacity-100'
+              '!text-white border-white border bg-opacity-0 hover:!text-gray-900 hover:bg-opacity-100'
           },
           on: 'flex justify-center'
         },

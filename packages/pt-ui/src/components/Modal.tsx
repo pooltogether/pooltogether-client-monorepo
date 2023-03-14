@@ -22,6 +22,7 @@ export const Modal = (props: ModalProps) => {
     bodyClassName,
     footerClassName,
     className,
+    size,
     ...rest
   } = props
 
@@ -35,6 +36,7 @@ export const Modal = (props: ModalProps) => {
           })
         }
       }}
+      size={size ?? 'xl'}
       className={classNames(className)}
       {...rest}
     >

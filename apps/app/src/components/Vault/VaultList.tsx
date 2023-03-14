@@ -6,6 +6,7 @@ import { Table, TableProps } from 'pt-ui'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
+import { VaultYieldSource } from './VaultYieldSource'
 
 interface VaultListProps {
   vaults: VaultInfo[]
@@ -26,7 +27,7 @@ export const VaultList = (props: VaultListProps) => {
   const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
     const cells: ReactNode[] = [
       <VaultBadge vaultInfo={vaultInfo} />,
-      vaultInfo.extensions.yieldSource,
+      <VaultYieldSource vaultInfo={vaultInfo} />,
       <VaultPrizePower vaultInfo={vaultInfo} />,
       <VaultTotalDeposits vaultInfo={vaultInfo} displayCurrency={true} />,
       <VaultButtons vaultInfo={vaultInfo} />

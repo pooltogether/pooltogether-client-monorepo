@@ -21,7 +21,7 @@ export const VaultBadge = (props: VaultBadgeProps) => {
       />
       <div className='flex flex-col text-left'>
         <span className={classNames(nameClassName)}>{vaultInfo.name}</span>
-        <span className={classNames('text-sm dark:text-gray-400', symbolClassName)}>
+        <span className={classNames('text-sm text-pt-purple-100', symbolClassName)}>
           {vaultInfo.symbol}
         </span>
       </div>
