@@ -1,8 +1,9 @@
-import { ReactNode, useState } from 'react'
-import { DepositModal } from 'pt-components'
+import { useSetAtom } from 'jotai'
+import { ReactNode } from 'react'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
+import { selectedVaultAtom } from '@atoms'
 
 interface DepositButtonProps {
   vaultInfo: VaultInfo
@@ -12,18 +13,18 @@ interface DepositButtonProps {
 export const DepositButton = (props: DepositButtonProps) => {
   const { vaultInfo, children } = props
 
-  const {} = useIsDepositModalOpen()
+  const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const setSelectedVault = useSetAtom(selectedVaultAtom)
+
+  const handleClick = () => {
+    setSelectedVault(vaultInfo)
+    setIsDepositModalOpen(true)
+  }
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>{children}</Button>
-      <DepositModal
-        vaultInfo={vaultInfo}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <Button onClick={handleClick}>{children}</Button>
     </>
   )
 }

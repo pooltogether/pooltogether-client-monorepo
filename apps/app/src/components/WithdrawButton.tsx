@@ -1,7 +1,9 @@
-import { ReactNode, useState } from 'react'
-import { WithdrawModal } from 'pt-components'
+import { useSetAtom } from 'jotai'
+import { ReactNode } from 'react'
+import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
+import { selectedVaultAtom } from '@atoms'
 
 interface WithdrawButtonProps {
   vaultInfo: VaultInfo
@@ -11,18 +13,20 @@ interface WithdrawButtonProps {
 export const WithdrawButton = (props: WithdrawButtonProps) => {
   const { vaultInfo, children } = props
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const { setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
+
+  const setSelectedVault = useSetAtom(selectedVaultAtom)
+
+  const handleClick = () => {
+    setSelectedVault(vaultInfo)
+    setIsWithdrawModalOpen(true)
+  }
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)} color='white' outline={true}>
+      <Button onClick={handleClick} color='white' outline={true}>
         {children}
       </Button>
-      <WithdrawModal
-        vaultInfo={vaultInfo}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
     </>
   )
 }

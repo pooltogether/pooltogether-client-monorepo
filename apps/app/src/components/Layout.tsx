@@ -1,13 +1,18 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import {
+  ConnectButton,
+  useAddRecentTransaction,
+  useChainModal,
+  useConnectModal
+} from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import { SettingsModal } from 'pt-components'
+import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
 import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
-import { settingsModalViewAtom } from '@atoms'
+import { selectedVaultAtom, settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
   children: ReactNode
@@ -22,7 +27,13 @@ export const Layout = (props: LayoutProps) => {
   const { setIsSettingsModalOpen } = useIsSettingsModalOpen()
   const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
 
+  const selectedVault = useAtomValue(selectedVaultAtom)
+
   const { isTestnets, setIsTestnets } = useIsTestnets()
+
+  const { openConnectModal } = useConnectModal()
+  const { openChainModal } = useChainModal()
+  const addRecentTransaction = useAddRecentTransaction()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -82,6 +93,20 @@ export const Layout = (props: LayoutProps) => {
         view={settingsModalView}
         setView={setSettingsModalView}
         disableLanguages={true}
+      />
+
+      <DepositModal
+        vaultInfo={selectedVault}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+      />
+
+      <WithdrawModal
+        vaultInfo={selectedVault}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
       />
 
       <main
