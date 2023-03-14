@@ -115,7 +115,7 @@ export const Layout = (props: LayoutProps) => {
           className
         )}
       >
-        {children}
+        {isBrowser && router.isReady && <>{children}</>}
       </main>
 
       <Footer items={[...defaultFooterItems, ...extraFooterContent]} />
