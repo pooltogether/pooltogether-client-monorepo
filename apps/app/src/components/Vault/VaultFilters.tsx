@@ -93,7 +93,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     }
 
     onFilter(filteredVaults)
-  }, [filterId])
+  }, [filterId, userAddress])
 
   return (
     <Selection

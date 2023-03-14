@@ -13,7 +13,7 @@ export const CurrencySelector = (props: CurrencySelectorProps) => {
   const currencies = Object.keys(SUPPORTED_CURRENCIES) as CURRENCY_ID[]
 
   return (
-    <div className='flex flex-col items-center gap-4'>
+    <div className='flex flex-col items-center gap-4 px-4'>
       <span className='text-xl font-semibold dark:text-pt-purple-300 order-first'>
         Customize Currency
       </span>
