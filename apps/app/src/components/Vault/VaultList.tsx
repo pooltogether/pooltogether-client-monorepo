@@ -13,6 +13,8 @@ interface VaultListProps {
 }
 
 export const VaultList = (props: VaultListProps) => {
+  const { vaults, className } = props
+
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
     'Yield Source',
@@ -21,7 +23,7 @@ export const VaultList = (props: VaultListProps) => {
     ''
   ]
 
-  const tableRows: TableProps['rows'] = props.vaults.map((vaultInfo) => {
+  const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
     const cells: ReactNode[] = [
       <VaultBadge vaultInfo={vaultInfo} />,
       vaultInfo.extensions.yieldSource,
@@ -34,7 +36,7 @@ export const VaultList = (props: VaultListProps) => {
   })
 
   return (
-    <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', props.className)}>
+    <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
       <Table headers={tableHeaders} rows={tableRows} keyPrefix='vaultList' roundedRows={true} />
     </div>
   )

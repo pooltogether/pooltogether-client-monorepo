@@ -6,6 +6,8 @@ interface VaultPrizePowerProps {
 }
 
 export const VaultPrizePower = (props: VaultPrizePowerProps) => {
+  const { vaultInfo } = props
+
   // TODO: calculate vault prize power
   const prizePower: number = 4.2
 

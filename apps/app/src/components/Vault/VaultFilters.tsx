@@ -21,6 +21,8 @@ interface VaultFiltersProps {
 
 // TODO: get filters from url (example: ?network=10)
 export const VaultFilters = (props: VaultFiltersProps) => {
+  const { onFilter, className } = props
+
   const networks = useNetworks()
   const vaults = useVaults()
 
@@ -87,14 +89,14 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       )
     }
 
-    props.onFilter(filteredVaults)
+    onFilter(filteredVaults)
   }, [filterId])
 
   return (
     <Selection
       items={filterItems}
       onSelect={setFilterId}
-      className={classNames('flex-grow', props.className)}
+      className={classNames('flex-grow', className)}
       buttonColor='purple'
     />
   )

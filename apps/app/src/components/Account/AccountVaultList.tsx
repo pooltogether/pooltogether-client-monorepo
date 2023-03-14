@@ -16,6 +16,8 @@ interface AccountVaultListProps {
 // TODO: sort by balance by default
 // TODO: add sorting when clicking headers
 export const AccountVaultList = (props: AccountVaultListProps) => {
+  const { className } = props
+
   const { address: userAddress } = useAccount()
 
   const vaults = useVaults()
@@ -87,7 +89,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
   return (
     <>
       {isFetchedVaultBalances && (
-        <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', props.className)}>
+        <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
           <Table
             headers={tableHeaders}
             rows={tableRows}
