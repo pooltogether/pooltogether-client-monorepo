@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useMemo, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkIcon } from 'pt-components'
 import {
@@ -11,7 +12,7 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
-import { getTokenPriceFromObject, getVaultId } from 'pt-utilities'
+import { getTokenPriceFromObject, getVaultId, NETWORK } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
@@ -22,9 +23,10 @@ interface VaultFiltersProps {
   className?: string
 }
 
-// TODO: get filters from url (example: ?network=10)
 export const VaultFilters = (props: VaultFiltersProps) => {
   const { onFilter, className } = props
+
+  const router = useRouter()
 
   const networks = useNetworks()
   const vaults = useVaults(defaultVaultList)
@@ -52,6 +54,18 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       }
     })
   ]
+
+  const defaultFilter = useMemo(() => {
+    const rawUrlNetwork = router.query['network']
+    const urlNetwork =
+      !!rawUrlNetwork && typeof rawUrlNetwork === 'string' ? parseInt(rawUrlNetwork) : undefined
+
+    if (!!urlNetwork && urlNetwork in NETWORK) {
+      const filter = urlNetwork.toString()
+      setFilterId(filter)
+      return filter
+    }
+  }, [router])
 
   useEffect(() => {
     const stringNetworks = networks.map((network) => network.toString())
@@ -95,12 +109,15 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     onFilter(filteredVaults)
   }, [filterId, userAddress])
 
-  return (
-    <Selection
-      items={filterItems}
-      onSelect={setFilterId}
-      className={classNames('flex-grow', className)}
-      buttonColor='purple'
-    />
-  )
+  if (router.isReady) {
+    return (
+      <Selection
+        items={filterItems}
+        defaultSelected={defaultFilter}
+        onSelect={setFilterId}
+        className={classNames('flex-grow', className)}
+        buttonColor='purple'
+      />
+    )
+  }
 }

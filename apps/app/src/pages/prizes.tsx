@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { PrizePoolDropdown } from 'pt-components'
 import { Button, ExternalLink } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
@@ -7,9 +8,21 @@ import { PrizesTable } from '@components/Prizes/PrizesTable'
 import { useNetworks } from '@hooks/useNetworks'
 
 export default function PrizesPage() {
+  const router = useRouter()
+
   const networks = useNetworks()
 
   const [selectedNetwork, setSelectedNetwork] = useState<NETWORK>(NETWORK.optimism)
+
+  useEffect(() => {
+    const rawUrlNetwork = router.query['network']
+    const urlNetwork =
+      !!rawUrlNetwork && typeof rawUrlNetwork === 'string' ? parseInt(rawUrlNetwork) : undefined
+
+    if (!!urlNetwork && urlNetwork in NETWORK) {
+      setSelectedNetwork(urlNetwork)
+    }
+  }, [router])
 
   return (
     <Layout className='gap-8 mb-20'>

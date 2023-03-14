@@ -32,8 +32,9 @@ export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
         {networkName} Prize Pool
       </span>
       {showDetails && (
-        // TODO: "see prize details" functionality
-        <span className='dark:text-pt-purple-400 cursor-pointer my-auto'>See Prize Details</span>
+        <a href={`/prizes?network=${chainId}`} className='text-pt-purple-400 my-auto'>
+          See Prize Details
+        </a>
       )}
     </div>
   )
