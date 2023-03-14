@@ -6,6 +6,10 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      averta: 'Averta',
+      inter: 'Inter'
+    },
     extend: {
       colors: {
         pt: {

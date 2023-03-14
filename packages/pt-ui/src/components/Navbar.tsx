@@ -33,7 +33,7 @@ export const Navbar = (props: NavbarProps) => {
   return (
     <FlowbiteNavbar
       fluid={true}
-      theme={{ base: 'bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4' }}
+      theme={{ base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4' }}
       className={classNames(className)}
     >
       {/* Left Side Branding */}
@@ -82,7 +82,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         return (
           <FlowbiteNavbar.Link
             theme={{
-              base: 'block text-base text-pt-purple-50 p-4 md:p-0',
+              base: 'block text-base text-pt-purple-50 font-semibold p-4 md:p-0',
               active: {
                 on: 'text-pt-teal',
                 off: 'hover:text-pt-purple-200'

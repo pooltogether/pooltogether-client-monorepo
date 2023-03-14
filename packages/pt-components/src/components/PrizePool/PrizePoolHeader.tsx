@@ -26,7 +26,7 @@ export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
       <span
         className={classNames('font-semibold', {
           'text-2xl': size === 'small' || size === undefined,
-          'text-3xl': size === 'large'
+          'text-3xl font-averta': size === 'large'
         })}
       >
         {networkName} Prize Pool

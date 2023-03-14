@@ -12,7 +12,7 @@ export default function HomePage() {
   return (
     <Layout className='gap-8 mb-20'>
       <div className='flex flex-col items-center gap-3'>
-        <span className='text-5xl font-semibold'>
+        <span className='text-5xl font-averta font-semibold'>
           Deposit for a chance to win up to{' '}
           <CurrencyValue baseValue={largestGrandPrize} hideZeroes={true} />
         </span>
