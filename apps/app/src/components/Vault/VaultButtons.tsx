@@ -1,6 +1,6 @@
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { DepositButton } from '@components/Deposit/DepositButton'
+import { DepositButton } from '@components/DepositButton'
 
 interface VaultButtonsProps {
   vaultInfo: VaultInfo

@@ -2,16 +2,17 @@ import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { CurrencyValue, TokenIcon } from 'pt-components'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { CurrencyValue } from '../Currency/CurrencyValue'
+import { TokenIcon } from '../Icons/TokenIcon'
 
 export interface TxFormValues {
   tokenAmount: string
   shareAmount: string
 }
 
-interface TxFormInputProps {
+export interface TxFormInputProps {
   token: TokenWithBalance & TokenWithUsdPrice & Partial<TokenWithLogo>
   formKey: keyof TxFormValues
   validate?: { [rule: string]: (v: any) => true | string }
@@ -51,8 +52,8 @@ export const TxFormInput = (props: TxFormInputProps) => {
   const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
 
   const error =
-    !!errors[formKey]?.message && typeof errors[formKey].message === 'string'
-      ? errors[formKey].message
+    !!errors[formKey]?.message && typeof errors[formKey]?.message === 'string'
+      ? errors[formKey]?.message
       : null
 
   const setFormAmountToMax = () => {
@@ -64,7 +65,9 @@ export const TxFormInput = (props: TxFormInputProps) => {
         shouldValidate: true
       }
     )
-    onChange(formattedAmount)
+    if (!!onChange) {
+      onChange(formattedAmount)
+    }
   }
 
   const basicValidation: { [rule: string]: (v: any) => true | string } = {
@@ -83,7 +86,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
           id={formKey}
           {...register(formKey, {
             validate: { ...basicValidation, ...validate },
-            onChange: (e) => onChange(e.target.value as string)
+            onChange: (e) => onChange?.(e.target.value as string)
           })}
           className='flex-grow text-2xl font-semibold dark:bg-transparent dark:text-pt-purple-50 focus:outline-none'
           disabled={disabled}

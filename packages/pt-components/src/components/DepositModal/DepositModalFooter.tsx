@@ -1,29 +1,42 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
-import { useTokenAllowance, useTokenBalance } from 'pt-hyperstructure-hooks'
+import {
+  useSendApproveTransaction,
+  useSendDepositTransaction,
+  useTokenAllowance,
+  useTokenBalance
+} from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
-import { isValidFormInput, TxFormValues } from '@components/Form/TxFormInput'
-import { TransactionButton } from '@components/TransactionButton'
-import { useSendApproveTransaction } from '@hooks/transactions/useSendApproveTransaction'
-import { useSendDepositTransaction } from '@hooks/transactions/useSendDepositTransaction'
+import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
   vaultInfo: VaultInfo
   watch: UseFormWatch<TxFormValues>
   isValidFormInputs: boolean
+  openConnectModal?: () => void
+  openChainModal?: () => void
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const { vaultInfo, watch, isValidFormInputs } = props
+  const {
+    vaultInfo,
+    watch,
+    isValidFormInputs,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction
+  } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vaultInfo.chainId })
 
   // const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
   //   provider,
-  //   userAddress,
+  //   userAddress as `0x${string}`,
   //   vaultInfo.address,
   //   vaultInfo.extensions.underlyingAsset.address
   // )
@@ -33,7 +46,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
 
   const { data: userBalance, isFetched: isFetchedUserBalance } = useTokenBalance(
     provider,
-    userAddress,
+    userAddress as `0x${string}`,
     vaultInfo.extensions.underlyingAsset.address
   )
 
@@ -89,6 +102,9 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
       >
         Approve {formattedDepositAmount} {vaultInfo.extensions.underlyingAsset.symbol}
       </TransactionButton>
@@ -102,6 +118,9 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Deposit`}
         fullSized={true}
         disabled={!depositEnabled}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
       >
         Deposit
       </TransactionButton>

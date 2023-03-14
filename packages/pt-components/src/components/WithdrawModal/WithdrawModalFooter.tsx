@@ -1,21 +1,29 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount } from 'wagmi'
-import { useUserVaultBalance } from 'pt-hyperstructure-hooks'
+import { useSendWithdrawTransaction, useUserVaultBalance, useVault } from 'pt-hyperstructure-hooks'
 import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
-import { isValidFormInput, TxFormValues } from '@components/Form/TxFormInput'
-import { TransactionButton } from '@components/TransactionButton'
-import { useSendWithdrawTransaction } from '@hooks/transactions/useSendWithdrawTransaction'
-import { useVault } from '@hooks/useVaults'
+import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface WithdrawModalFooterProps {
   vaultInfo: VaultInfo
   watch: UseFormWatch<TxFormValues>
   isValidFormInputs: boolean
+  openConnectModal?: () => void
+  openChainModal?: () => void
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
-  const { vaultInfo, watch, isValidFormInputs } = props
+  const {
+    vaultInfo,
+    watch,
+    isValidFormInputs,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction
+  } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
 
@@ -23,7 +31,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
 
   // const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
   //   vault,
-  //   userAddress
+  //   userAddress as `0x${string}`
   // )
   // TODO: remove the following once vaults are setup (and uncomment above)
   const isFetchedVaultBalance: boolean = true
@@ -57,6 +65,9 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
       txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Withdrawal`}
       fullSized={true}
       disabled={!withdrawEnabled}
+      openConnectModal={openConnectModal}
+      openChainModal={openChainModal}
+      addRecentTransaction={addRecentTransaction}
     >
       Withdraw
     </TransactionButton>

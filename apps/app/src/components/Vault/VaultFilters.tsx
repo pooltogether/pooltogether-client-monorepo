@@ -3,7 +3,12 @@ import { BigNumber, utils } from 'ethers'
 import { useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkIcon } from 'pt-components'
-import { useTokenBalancesAcrossChains, useVaultBalances } from 'pt-hyperstructure-hooks'
+import {
+  useProviders,
+  useTokenBalancesAcrossChains,
+  useVaultBalances,
+  useVaults
+} from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, getVaultId } from 'pt-utilities'
@@ -11,8 +16,6 @@ import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
-import { useProviders } from '@hooks/useProviders'
-import { useVaults } from '@hooks/useVaults'
 
 interface VaultFiltersProps {
   onFilter: (filteredVaults: VaultInfo[]) => void
@@ -24,7 +27,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { onFilter, className } = props
 
   const networks = useNetworks()
-  const vaults = useVaults()
+  const vaults = useVaults(defaultVaultList)
 
   const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)

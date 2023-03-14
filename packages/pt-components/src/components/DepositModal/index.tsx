@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
-import { TxFormValues } from '@components/Form/TxFormInput'
+import { TxFormValues } from '../Form/TxFormInput'
 import { DepositModalBody } from './DepositModalBody'
 import { DepositModalFooter } from './DepositModalFooter'
 
-interface DepositModalProps {
+export interface DepositModalProps {
   vaultInfo: VaultInfo
-  isOpen: boolean
-  onClose?: () => void
+  openConnectModal?: () => void
+  openChainModal?: () => void
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { vaultInfo, isOpen, onClose } = props
+  const { vaultInfo, openConnectModal, openChainModal, addRecentTransaction } = props
+
+  const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -33,7 +37,7 @@ export const DepositModal = (props: DepositModalProps) => {
   if (isBrowser) {
     return (
       <Modal
-        show={isOpen}
+        show={isDepositModalOpen}
         dismissible={true}
         position='center'
         bgColor='light'
@@ -51,9 +55,12 @@ export const DepositModal = (props: DepositModalProps) => {
             vaultInfo={vaultInfo}
             watch={watch}
             isValidFormInputs={isValidFormInputs}
+            openConnectModal={openConnectModal}
+            openChainModal={openChainModal}
+            addRecentTransaction={addRecentTransaction}
           />
         }
-        onClose={onClose}
+        onClose={() => setIsDepositModalOpen(false)}
       />
     )
   }

@@ -2,8 +2,10 @@
  * App Hooks
  */
 export * from './app/useCountdown'
+export * from './app/useIsDepositModalOpen'
 export * from './app/useIsSettingsModalOpen'
 export * from './app/useIsTestnets'
+export * from './app/useIsWithdrawModalOpen'
 export * from './app/useSelectedCurrency'
 export * from './app/useSelectedLanguage'
 

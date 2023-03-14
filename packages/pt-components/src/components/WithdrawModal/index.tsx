@@ -1,19 +1,23 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
-import { TxFormValues } from '@components/Form/TxFormInput'
+import { TxFormValues } from '../Form/TxFormInput'
 import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
-interface WithdrawModalProps {
+export interface WithdrawModalProps {
   vaultInfo: VaultInfo
-  isOpen: boolean
-  onClose?: () => void
+  openConnectModal?: () => void
+  openChainModal?: () => void
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { vaultInfo, isOpen, onClose } = props
+  const { vaultInfo, openConnectModal, openChainModal, addRecentTransaction } = props
+
+  const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -33,7 +37,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   if (isBrowser) {
     return (
       <Modal
-        show={isOpen}
+        show={isWithdrawModalOpen}
         dismissible={true}
         position='center'
         bgColor='light'
@@ -51,9 +55,12 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
             vaultInfo={vaultInfo}
             watch={watch}
             isValidFormInputs={isValidFormInputs}
+            openConnectModal={openConnectModal}
+            openChainModal={openChainModal}
+            addRecentTransaction={addRecentTransaction}
           />
         }
-        onClose={onClose}
+        onClose={() => setIsWithdrawModalOpen(false)}
       />
     )
   }

@@ -4,7 +4,7 @@ import { useIsTestnets } from 'pt-generic-hooks'
 import { NETWORK } from 'pt-utilities'
 
 /**
- * Returns providers for SUPPORTED_NETWORKS
+ * Returns providers
  * @returns
  */
 export const useProviders = (): providers.Provider[] => {
@@ -34,7 +34,7 @@ export const useProviders = (): providers.Provider[] => {
 }
 
 /**
- * Returns providers for SUPPORTED_NETWORKS keyed by chain
+ * Returns providers keyed by chain
  * @returns
  */
 export const useProvidersByChain = (): { [chainId: number]: providers.Provider } => {
