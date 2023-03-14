@@ -1,34 +1,43 @@
-import { useAddRecentTransaction, useChainModal, useConnectModal } from '@rainbow-me/rainbowkit'
 import { useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 import { Button, ButtonProps } from 'pt-ui'
 import { getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'pt-utilities'
 
-interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
+export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
   chainId: number
   write?: () => void
   txHash?: string
   txDescription?: string
   showReceipt?: boolean
+  openConnectModal?: () => void
+  openChainModal?: () => void
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 // TODO: add toasts
 export const TransactionButton = (props: TransactionButtonProps) => {
-  const { chainId, write, txHash, txDescription, showReceipt, disabled, ...rest } = props
+  const {
+    chainId,
+    write,
+    txHash,
+    txDescription,
+    showReceipt,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction,
+    disabled,
+    ...rest
+  } = props
 
   const { isDisconnected } = useAccount()
   const { chain } = useNetwork()
 
-  const { openConnectModal } = useConnectModal()
-  const { openChainModal } = useChainModal()
   const { isLoading: isSwitchingNetwork, switchNetwork } = useSwitchNetwork()
-
-  const addRecentTransaction = useAddRecentTransaction()
 
   const networkName = getNiceNetworkNameByChainId(chainId)
 
   useEffect(() => {
-    if (!!txHash && !!txDescription) {
+    if (!!txHash && !!txDescription && !!addRecentTransaction) {
       addRecentTransaction({
         hash: txHash,
         description: `${networkName}: ${txDescription}`
@@ -45,7 +54,9 @@ export const TransactionButton = (props: TransactionButtonProps) => {
   } else if (chain?.id !== chainId) {
     return (
       <Button
-        onClick={() => (!!switchNetwork ? switchNetwork(chainId) : openChainModal())}
+        onClick={() =>
+          !!switchNetwork ? switchNetwork(chainId) : !!openChainModal ? openChainModal() : undefined
+        }
         disabled={isSwitchingNetwork}
         {...rest}
       >

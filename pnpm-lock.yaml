@@ -36,7 +36,6 @@ importers:
       pt-utilities: workspace:*
       react: ^18.2.0
       react-dom: ^18.2.0
-      react-hook-form: ^7.43.2
       tailwind-config: workspace:*
       tailwindcss: ^3.2.7
       tsconfig: workspace:*
@@ -58,7 +57,6 @@ importers:
       pt-utilities: link:../../packages/pt-utilities
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-hook-form: 7.43.2_react@18.2.0
       wagmi: 0.11.6_ytivb5iujbnxnvt2aykdg52tue
     devDependencies:
       '@types/node': 17.0.45
@@ -215,14 +213,17 @@ importers:
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
       classnames: ^2.3.2
+      ethers: ^5.7.2
       flowbite: ^1.6.3
       flowbite-react: ^0.4.2
       pt-generic-hooks: workspace:*
+      pt-hyperstructure-hooks: workspace:*
       pt-types: workspace:*
       pt-ui: workspace:*
       pt-utilities: workspace:*
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-hook-form: ^7.43.2
       tailwind-config: workspace:*
       tailwindcss: ^3.2.7
       tsconfig: workspace:*
@@ -232,13 +233,16 @@ importers:
     dependencies:
       '@heroicons/react': 2.0.16_react@18.2.0
       classnames: 2.3.2
+      ethers: 5.7.2
       flowbite: 1.6.3
       flowbite-react: 0.4.2_2mmgqswwoqcramfjhwovfbbuw4
       pt-generic-hooks: link:../pt-generic-hooks
+      pt-hyperstructure-hooks: link:../pt-hyperstructure-hooks
       pt-ui: link:../pt-ui
       pt-utilities: link:../pt-utilities
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-hook-form: 7.43.2_react@18.2.0
       wagmi: 0.11.6_ytivb5iujbnxnvt2aykdg52tue
     devDependencies:
       '@types/node': 17.0.45

@@ -1,6 +1,6 @@
 import { VaultInfo } from 'pt-types'
-import { DepositButton } from '@components/Deposit/DepositButton'
-import { WithdrawButton } from '@components/Withdraw/WithdrawButton'
+import { DepositButton } from '@components/DepositButton'
+import { WithdrawButton } from '@components/WithdrawButton'
 
 interface AccountVaultButtonsProps {
   vaultInfo: VaultInfo

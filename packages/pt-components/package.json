@@ -15,7 +15,6 @@
   },
   "tsup": {
     "dts": true,
-    "clean": true,
     "entry": [
       "src/index.tsx"
     ],
@@ -26,11 +25,14 @@
   "dependencies": {
     "@heroicons/react": "^2.0.16",
     "classnames": "^2.3.2",
+    "ethers": "^5.7.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.4.2",
     "pt-generic-hooks": "workspace:*",
+    "pt-hyperstructure-hooks": "workspace:*",
     "pt-ui": "workspace:*",
-    "pt-utilities": "workspace:*"
+    "pt-utilities": "workspace:*",
+    "react-hook-form": "^7.43.2"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",

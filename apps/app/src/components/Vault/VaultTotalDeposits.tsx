@@ -1,11 +1,10 @@
 import { utils } from 'ethers'
 import { CurrencyValue } from 'pt-components'
-import { useVaultBalance } from 'pt-hyperstructure-hooks'
+import { useVault, useVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
-import { useVault } from '@hooks/useVaults'
 
 interface VaultTotalDepositsProps {
   vaultInfo: VaultInfo

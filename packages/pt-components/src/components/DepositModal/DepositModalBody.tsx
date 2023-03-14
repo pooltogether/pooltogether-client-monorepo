@@ -1,11 +1,11 @@
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { NetworkBadge } from 'pt-components'
 import { VaultInfo } from 'pt-types'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { TxFormValues } from '@components/Form/TxFormInput'
-import { WithdrawForm } from '@components/Form/WithdrawForm'
+import { NetworkBadge } from '../Badges/NetworkBadge'
+import { DepositForm } from '../Form/DepositForm'
+import { TxFormValues } from '../Form/TxFormInput'
 
-interface WithdrawModalBodyProps {
+interface DepositModalBodyProps {
   vaultInfo: VaultInfo
   register: UseFormRegister<TxFormValues>
   watch: UseFormWatch<TxFormValues>
@@ -13,7 +13,7 @@ interface WithdrawModalBodyProps {
   errors: FieldErrorsImpl<TxFormValues>
 }
 
-export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
+export const DepositModalBody = (props: DepositModalBodyProps) => {
   const { vaultInfo, register, watch, setValue, errors } = props
 
   const networkName = getNiceNetworkNameByChainId(vaultInfo.chainId)
@@ -21,13 +21,13 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
   return (
     <div className='flex flex-col gap-6'>
       <span className='w-full text-xl font-semibold text-center'>
-        Withdraw from {vaultInfo.name} on {networkName}
+        Deposit to {vaultInfo.name} on {networkName}
       </span>
       <div className='flex flex-col items-center gap-1'>
         <span className='text-xs dark:text-pt-purple-100'>Prize Pool</span>
         <NetworkBadge chainId={vaultInfo.chainId} />
       </div>
-      <WithdrawForm
+      <DepositForm
         vaultInfo={vaultInfo}
         register={register}
         watch={watch}

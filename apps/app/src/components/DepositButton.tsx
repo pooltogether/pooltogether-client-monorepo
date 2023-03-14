@@ -1,7 +1,8 @@
 import { ReactNode, useState } from 'react'
+import { DepositModal } from 'pt-components'
+import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { DepositModal } from './DepositModal'
 
 interface DepositButtonProps {
   vaultInfo: VaultInfo
@@ -10,6 +11,8 @@ interface DepositButtonProps {
 
 export const DepositButton = (props: DepositButtonProps) => {
   const { vaultInfo, children } = props
+
+  const {} = useIsDepositModalOpen()
 
   const [isModalOpen, setIsModalOpen] = useState(false)
 

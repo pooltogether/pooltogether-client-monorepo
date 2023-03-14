@@ -3,9 +3,9 @@ import { VaultInfo } from 'pt-types'
 import { ExternalLink } from 'pt-ui'
 import { formatBigNumberForDisplay, getBlockExplorerUrl, getSharesFromAssets } from 'pt-utilities'
 
-interface TxFormInfoProps {
+export interface TxFormInfoProps {
   vaultInfo: VaultInfo
-  vaultExchangeRate: BigNumber
+  vaultExchangeRate: BigNumber | undefined
   linkType: 'share' | 'token'
 }
 

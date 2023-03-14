@@ -1,7 +1,7 @@
 import { ReactNode, useState } from 'react'
+import { WithdrawModal } from 'pt-components'
 import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { WithdrawModal } from './WithdrawModal'
 
 interface WithdrawButtonProps {
   vaultInfo: VaultInfo

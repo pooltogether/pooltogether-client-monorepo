@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
-import { useUserVaultBalances } from 'pt-hyperstructure-hooks'
+import { useUserVaultBalances, useVaults } from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { Spinner, Table, TableProps } from 'pt-ui'
-import { useVaults } from '@hooks/useVaults'
+import defaultVaultList from '@constants/defaultVaultList'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 
@@ -20,7 +20,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const vaults = useVaults()
+  const vaults = useVaults(defaultVaultList)
 
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
   //   vaults,
