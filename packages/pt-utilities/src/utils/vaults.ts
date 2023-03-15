@@ -1,6 +1,6 @@
 import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, providers, utils } from 'ethers'
-import { VaultInfo, VaultInfoWithBalance, VaultList } from 'pt-types'
+import { VaultInfo, VaultList } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
 import { formatStringWithPrecision } from './formatting'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
@@ -36,9 +36,7 @@ export const getVaultExchangeRates = async (
 ): Promise<{
   [vaultId: string]: BigNumber
 }> => {
-  const vaultExchangeRates: {
-    [vaultId: string]: BigNumber
-  } = {}
+  const vaultExchangeRates: { [vaultId: string]: BigNumber } = {}
   const chainId = (await readProvider.getNetwork())?.chainId
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 
@@ -118,9 +116,7 @@ export const getVaultBalances = async (
 ): Promise<{
   [vaultId: string]: BigNumber
 }> => {
-  const vaultBalances: {
-    [vaultId: string]: BigNumber
-  } = {}
+  const vaultBalances: { [vaultId: string]: BigNumber } = {}
   const chainId = (await readProvider.getNetwork())?.chainId
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 
