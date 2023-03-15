@@ -1,11 +1,12 @@
-import { BigNumber, Contract, providers, Signer } from 'ethers'
-import { TokenWithSupply } from 'pt-types'
+import { BigNumber, Contract, Overrides, providers, Signer, utils } from 'ethers'
+import { PrizeInfo, TokenWithSupply } from 'pt-types'
 import {
   erc20 as erc20Abi,
   getProviderFromSigner,
   getTokenInfo,
   erc20 as prizePoolAbi, // TODO: use actual prize pool ABI
   validateAddress,
+  validateSignerNetwork,
   validateSignerOrProviderNetwork
 } from 'pt-utilities'
 
@@ -75,7 +76,7 @@ export class PrizePool {
   }
 
   /**
-   * Returns the number of tiers in the prize pool
+   * Returns the number of prize tiers in the prize pool
    *
    * NOTE: Includes the canary tier
    * @returns
@@ -115,7 +116,7 @@ export class PrizePool {
   }
 
   /**
-   * Returns the token amount contributed by any vaults for the given draw IDs
+   * Returns the token amounts contributed by any vaults for the given draw IDs
    * @param vaultAddresses vault addresses to get contributions from
    * @param startDrawId start draw ID (inclusive)
    * @param endDrawId end draw ID (inclusive)
@@ -159,8 +160,7 @@ export class PrizePool {
       startDrawId,
       endDrawId
     )
-    // TODO: properly format the percentage output (0 to 1 with decimals)
-    return BigNumber.from(contributedPercentage).toNumber()
+    return parseFloat(utils.formatUnits(contributedPercentage, 18))
   }
 
   /**
@@ -221,129 +221,134 @@ export class PrizePool {
     return {}
   }
 
-  // TODO
-  // function calculatePrizeSize(uint8 _tier) external view returns (uint256) {
-  //   return _calculatePrizeSize(_tier);
-  // }
+  /**
+   * Returns the current prize size of a given tier
+   * @param tier prize tier
+   * @returns
+   */
+  async getCurrentPrizeSize(tier: number): Promise<BigNumber> {
+    const source = 'Prize Pool [getCurrentPrizeSize]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const currentPrizeSize: string = await this.prizePoolContract.calculatePrizeSize(tier)
+    return BigNumber.from(currentPrizeSize)
+  }
 
-  // TODO
-  // function getTierLiquidity(uint8 _tier) external view returns (uint256) {
-  //   if (_tier > numberOfTiers) {
-  //       return 0;
-  //   } else if (_tier != numberOfTiers) {
-  //       return _getLiquidity(_tier, tierShares);
-  //   } else {
-  //       return _getLiquidity(_tier, canaryShares);
-  //   }
-  // }
+  /**
+   * Returns the token liquidity of a given tier
+   * @param tier prize tier
+   * @returns
+   */
+  async getTierLiquidity(tier: number): Promise<BigNumber> {
+    const source = 'Prize Pool [getTierLiquidity]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const tierLiquidity: string = await this.prizePoolContract.getTierLiquidity(tier)
+    return BigNumber.from(tierLiquidity)
+  }
 
-  // TODO
-  // function getTotalShares() external view returns (uint256) {
-  //   return _getTotalShares(numberOfTiers);
-  // }
+  /**
+   * Returns the estimated time to award a given tier (in seconds)
+   * @param tier prize tier
+   * @returns
+   */
+  async getEstimatedTierAwardTime(tier: number): Promise<number> {
+    const source = 'Prize Pool [getEstimatedTierAwardTime]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const estimatedDraws = parseInt(
+      await this.prizePoolContract.getTierAccrualDurationInDraws(tier)
+    )
+    const drawPeriod = await this.getDrawPeriodInSeconds()
+    return estimatedDraws * drawPeriod
+  }
+
+  // TODO: this function would get estimated prize amounts and frequencies and return them in an array
+  async getPrizes(): Promise<PrizeInfo[]> {
+    return []
+  }
 
   /* ============================== Write Functions ============================== */
 
-  // TODO
-  // function claimPrize(
-  //   address _winner,
-  //   uint8 _tier,
-  //   address _to,
-  //   uint96 _fee,
-  //   address _feeRecipient
-  // ) external returns (uint256) {
-  //   address _vault = msg.sender;
-  //   uint256 prizeSize;
-  //   if (_isWinner(_vault, _winner, _tier)) {
-  //       // transfer prize to user
-  //       prizeSize = _calculatePrizeSize(_tier);
-  //   } else {
-  //       revert("did not win");
-  //   }
-  //   ClaimRecord memory claimRecord = claimRecords[_winner];
-  //   if (claimRecord.drawId != lastCompletedDrawId) {
-  //       claimRecord = ClaimRecord({drawId: lastCompletedDrawId, claimedTiers: uint8(0)});
-  //   } else if (BitLib.getBit(claimRecord.claimedTiers, _tier)) {
-  //       return 0;
-  //   }
-  //   require(_fee <= prizeSize, "fee too large");
-  //   _totalClaimedPrizes += prizeSize;
-  //   uint256 payout = prizeSize - _fee;
-  //   if (largestTierClaimed < _tier) {
-  //       largestTierClaimed = _tier;
-  //   }
-  //   if (_tier == numberOfTiers) {
-  //       canaryClaimCount++;
-  //   } else {
-  //       claimCount++;
-  //   }
-  //   claimRecords[_winner] = ClaimRecord({drawId: lastCompletedDrawId, claimedTiers: uint8(BitLib.flipBit(claimRecord.claimedTiers, _tier))});
-  //   prizeToken.transfer(_to, payout);
-  //   if (_fee > 0) {
-  //       prizeToken.transfer(_feeRecipient, _fee);
-  //   }
-  //   emit ClaimedPrize(lastCompletedDrawId, _vault, _winner, _tier, uint152(payout), _to, _fee, _feeRecipient);
-  //   return payout;
-  // }
+  /**
+   * Submits a transaction to claim a prize from the prize pool
+   * @param userAddress the address that won the prize
+   * @param tier the prize tier to claim
+   * @param options optional receiver, fees and overrides for this transaction
+   * @returns
+   */
+  async claimPrize(
+    userAddress: string,
+    tier: number,
+    options?: {
+      receiver?: string
+      fee?: { amount: BigNumber; receiver: string }
+      overrides?: Overrides
+    }
+  ): Promise<providers.TransactionResponse> {
+    const source = 'Prize Pool [claimPrize]'
+    if ((this.signerOrProvider as Signer)._isSigner) {
+      const signer = this.signerOrProvider as Signer
+      validateAddress(userAddress, source)
+      !!options?.receiver && validateAddress(options.receiver, source)
+      !!options?.fee && validateAddress(options.fee.receiver, source)
+      await validateSignerNetwork(this.chainId, signer, source)
 
-  // TODO
-  // function completeAndStartNextDraw(uint256 winningRandomNumber_) external returns (uint32) {
-  //   // check winning random number
-  //   require(winningRandomNumber_ != 0, "num invalid");
-  //   uint64 nextDrawStartsAt_ = _nextDrawStartsAt();
-  //   require(block.timestamp >= _nextDrawEndsAt(), "not elapsed");
+      if (!!options?.overrides) {
+        return this.prizePoolContract.claimPrize(
+          userAddress,
+          tier,
+          options.receiver ?? userAddress,
+          options.fee?.amount ?? 0,
+          options.fee?.receiver ?? userAddress,
+          options.overrides
+        )
+      } else {
+        return this.prizePoolContract.claimPrize(
+          userAddress,
+          tier,
+          options?.receiver ?? userAddress,
+          options?.fee?.amount ?? 0,
+          options?.fee?.receiver ?? userAddress
+        )
+      }
+    } else {
+      throw new Error(`${source} | Invalid Signer`)
+    }
+  }
 
-  //   uint8 numTiers = numberOfTiers;
-  //   uint8 nextNumberOfTiers = numberOfTiers;
-  //   uint256 reclaimedLiquidity;
-  //   // console2.log("completeAndStartNextDraw largestTierClaimed", largestTierClaimed);
-  //   // console2.log("completeAndStartNextDraw numTiers", numTiers);
-  //   // if the draw was eligible
-  //   if (lastCompletedDrawId != 0) {
-  //       if (largestTierClaimed < numTiers) {
-  //           nextNumberOfTiers = largestTierClaimed > MINIMUM_NUMBER_OF_TIERS ? largestTierClaimed+1 : MINIMUM_NUMBER_OF_TIERS;
-  //           reclaimedLiquidity = _reclaimTierLiquidity(numTiers, nextNumberOfTiers);
-  //       } else {
-  //           // check canary tier and standard tiers
-  //           if (canaryClaimCount >= _canaryClaimExpansionThreshold(claimExpansionThreshold, numTiers) &&
-  //               claimCount >= _prizeClaimExpansionThreshold(claimExpansionThreshold, numTiers)) {
-  //               // expand the number of tiers
-  //               // first reset the next tier exchange rate to have accrued nothing (delta is zero)
-  //               _tierExchangeRates[numTiers] = prizeTokenPerShare;
-  //               // now increase the number of tiers to include te new tier
-  //               nextNumberOfTiers = numTiers + 1;
-  //           }
-  //       }
-  //   }
-  //   // add back canary liquidity
-  //   reclaimedLiquidity += _getLiquidity(numTiers, canaryShares);
+  /**
+   * Submits a transaction to complete the current draw and start the next draw
+   * @param winningRandomNumber randomly generated winning number
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async completeAndStartNextDraw(
+    winningRandomNumber: BigNumber,
+    overrides?: Overrides
+  ): Promise<providers.TransactionResponse> {
+    const source = 'Prize Pool [completeAndStartNextDraw]'
+    if ((this.signerOrProvider as Signer)._isSigner) {
+      const signer = this.signerOrProvider as Signer
+      await validateSignerNetwork(this.chainId, signer, source)
 
-  //   _winningRandomNumber = winningRandomNumber_;
-  //   numberOfTiers = nextNumberOfTiers;
-  //   lastCompletedDrawId += 1;
-  //   claimCount = 0;
-  //   canaryClaimCount = 0;
-  //   largestTierClaimed = 0;
-  //   // reset canary tier
-  //   _tierExchangeRates[nextNumberOfTiers] = prizeTokenPerShare;
-  //   lastCompletedDrawStartedAt_ = nextDrawStartsAt_;
-
-  //   (UD60x18 deltaExchangeRate, uint256 remainder) = _computeDrawDeltaExchangeRate(nextNumberOfTiers);
-  //   prizeTokenPerShare = prizeTokenPerShare.add(deltaExchangeRate);
-
-  //   uint256 _additionalReserve = fromUD60x18(deltaExchangeRate.mul(toUD60x18(reserveShares)));
-  //   // console2.log("completeAndStartNextDraw _additionalReserve", _additionalReserve);
-  //   // console2.log("completeAndStartNextDraw reclaimedLiquidity", reclaimedLiquidity);
-  //   // console2.log("completeAndStartNextDraw remainder", remainder);
-  //   _reserve += _additionalReserve + reclaimedLiquidity + remainder;
-
-  //   return lastCompletedDrawId;
-  // }
+      if (!!overrides) {
+        return this.prizePoolContract.completeAndStartNextDraw(winningRandomNumber, overrides)
+      } else {
+        return this.prizePoolContract.completeAndStartNextDraw(winningRandomNumber)
+      }
+    } else {
+      throw new Error(`${source} | Invalid Signer`)
+    }
+  }
 
   /* ============================== Other Functions ============================== */
 
-  // TODO: hardcode this one? no async: 4 ** tier
-  // async getTierPrizeCount(tier: number): Promise<number> {}
+  /**
+   * Returns the number of prizes in a given prize tier
+   * @param tier prize tier
+   * @returns
+   */
+  getTierPrizeCount(tier: number): number {
+    return 4 ** tier
+  }
 
   /* =========================== Contract Initializers =========================== */
 
