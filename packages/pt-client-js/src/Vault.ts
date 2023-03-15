@@ -54,7 +54,7 @@ export class Vault {
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const tokenContract = await this.getTokenContract()
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const tokenInfo = await getTokenInfo(provider, [tokenContract.address])
     return tokenInfo[tokenContract.address]
   }
@@ -67,7 +67,7 @@ export class Vault {
     const source = 'Vault [getShareData]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const shareInfo = await getTokenInfo(provider, [this.address])
     return shareInfo[this.address]
   }
@@ -82,7 +82,7 @@ export class Vault {
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const tokenContract = await this.getTokenContract()
     const tokenBalance = await getTokenBalances(provider, userAddress, [tokenContract.address])
     return tokenBalance[tokenContract.address]
@@ -98,7 +98,7 @@ export class Vault {
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const shareBalance = await getTokenBalances(provider, userAddress, [this.address])
     return shareBalance[this.address]
   }
@@ -113,7 +113,7 @@ export class Vault {
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const tokenContract = await this.getTokenContract()
     const tokenAllowance = await getTokenAllowances(provider, userAddress, this.address, [
       tokenContract.address

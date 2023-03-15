@@ -36,9 +36,7 @@ export const getVaultExchangeRates = async (
 ): Promise<{
   [vaultId: string]: BigNumber
 }> => {
-  const vaultExchangeRates: {
-    [vaultId: string]: BigNumber
-  } = {}
+  const vaultExchangeRates: { [vaultId: string]: BigNumber } = {}
   const chainId = (await readProvider.getNetwork())?.chainId
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 
@@ -118,9 +116,7 @@ export const getVaultBalances = async (
 ): Promise<{
   [vaultId: string]: BigNumber
 }> => {
-  const vaultBalances: {
-    [vaultId: string]: BigNumber
-  } = {}
+  const vaultBalances: { [vaultId: string]: BigNumber } = {}
   const chainId = (await readProvider.getNetwork())?.chainId
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 

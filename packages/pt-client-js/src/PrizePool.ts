@@ -1,7 +1,10 @@
-import { BigNumber, Contract, Overrides, providers, Signer, utils } from 'ethers'
+import { BigNumber, Contract, Overrides, providers, Signer } from 'ethers'
 import { PrizeInfo, TokenWithSupply } from 'pt-types'
 import {
+  checkPrizePoolWins,
   erc20 as erc20Abi,
+  getPrizePoolContributionAmounts,
+  getPrizePoolContributionPercentages,
   getProviderFromSigner,
   getTokenInfo,
   erc20 as prizePoolAbi, // TODO: use actual prize pool ABI
@@ -57,7 +60,7 @@ export class PrizePool {
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
     const prizeTokenContract = await this.getPrizeTokenContract()
     const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider'`)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
     const prizeTokenInfo = await getTokenInfo(provider, [prizeTokenContract.address])
     return prizeTokenInfo[prizeTokenContract.address]
   }
@@ -126,21 +129,25 @@ export class PrizePool {
     vaultAddresses: string[],
     startDrawId: number,
     endDrawId: number
-  ): Promise<BigNumber> {
-    // TODO: refactor this function to use a util with multicall to query multiple vaults
+  ): Promise<{ [vaultAddress: string]: BigNumber }> {
     const source = 'Prize Pool [getVaultContributedAmounts]'
-    validateAddress(vaultAddresses[0], source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-    const contributedAmount: string = await this.prizePoolContract.getContributedBetween(
-      vaultAddresses[0],
+    const provider = getProviderFromSigner(this.signerOrProvider)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+    const contributedAmounts = await getPrizePoolContributionAmounts(
+      provider,
+      this.address,
+      vaultAddresses,
       startDrawId,
       endDrawId
     )
-    return BigNumber.from(contributedAmount)
+    return contributedAmounts
   }
 
   /**
    * Returns the percentage of the total prize pool contributions for any vaults for the given draw IDs
+   *
+   * NOTE: Percentage value from 0 to 1 (eg: 0.25 representing 25%)
    * @param vaultAddresses vault addresses to get contributions from
    * @param startDrawId start draw ID (inclusive)
    * @param endDrawId end draw ID (inclusive)
@@ -150,17 +157,19 @@ export class PrizePool {
     vaultAddresses: string[],
     startDrawId: number,
     endDrawId: number
-  ): Promise<number> {
-    // TODO: refactor this function to use a util with multicall to query multiple vaults
+  ): Promise<{ [vaultAddress: string]: number }> {
     const source = 'Prize Pool [getVaultContributedPercentages]'
-    validateAddress(vaultAddresses[0], source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-    const contributedPercentage: string = await this.prizePoolContract.getVaultPortion(
-      vaultAddresses[0],
+    const provider = getProviderFromSigner(this.signerOrProvider)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+    const contributedPercentages = await getPrizePoolContributionPercentages(
+      provider,
+      this.address,
+      vaultAddresses,
       startDrawId,
       endDrawId
     )
-    return parseFloat(utils.formatUnits(contributedPercentage, 18))
+    return contributedPercentages
   }
 
   /**
@@ -207,18 +216,19 @@ export class PrizePool {
    * @param userAddress user address to check prizes for
    * @returns
    */
-  async isWinner(
+  async checkWins(
     vaultAddresses: string[],
     userAddress: string
   ): Promise<{ [vaultAddress: string]: number[] }> {
-    // TODO: refactor this function to use a util with multicall to query multiple vaults and tiers
     const source = 'Prize Pool [isWinner]'
-    validateAddress(vaultAddresses[0], source)
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-    // const numberOfTiers = await this.getNumberOfTiers()
-    // const isWinner: boolean = await this.prizePoolContract.isWinner(vaultAddresses[0], userAddress, 0)
-    return {}
+    const provider = getProviderFromSigner(this.signerOrProvider)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+    const numberOfTiers = await this.getNumberOfTiers()
+    const tiers = Array.from(Array(numberOfTiers).keys())
+    const wins = checkPrizePoolWins(provider, this.address, vaultAddresses, userAddress, tiers)
+    return wins
   }
 
   /**
@@ -261,8 +271,13 @@ export class PrizePool {
   }
 
   // TODO: this function would get estimated prize amounts and frequencies and return them in an array
-  async getPrizes(): Promise<PrizeInfo[]> {
+  async getAllPrizeInfo(): Promise<PrizeInfo[]> {
     return []
+  }
+
+  // TODO: this function would calculate the prize power for any given vault addresses
+  async getVaultPrizePower(): Promise<{ [vaultAddress: `0x${string}`]: number }> {
+    return { '0x': 0 }
   }
 
   /* ============================== Write Functions ============================== */
