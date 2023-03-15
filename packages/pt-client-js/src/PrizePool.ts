@@ -5,6 +5,7 @@ import {
   getProviderFromSigner,
   getTokenInfo,
   erc20 as prizePoolAbi, // TODO: use actual prize pool ABI
+  validateAddress,
   validateSignerOrProviderNetwork
 } from 'pt-utilities'
 
@@ -74,51 +75,151 @@ export class PrizePool {
   }
 
   /**
+   * Returns the number of tiers in the prize pool
+   *
+   * NOTE: Includes the canary tier
+   * @returns
+   */
+  async getNumberOfTiers(): Promise<number> {
+    const source = 'Prize Pool [getNumberOfTiers]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const numberOfTiers = parseInt(await this.prizePoolContract.numberOfTiers())
+    return numberOfTiers
+  }
+
+  /**
    * Returns the prize pool's last awarded draw ID
    * @returns
    */
   async getLastDrawId(): Promise<number> {
     const source = 'Prize Pool [getLastDrawId]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-    const lastDrawId: string = await this.prizePoolContract.getLastCompletedDrawId()
-    return parseInt(lastDrawId)
+    const lastDrawId = parseInt(await this.prizePoolContract.getLastCompletedDrawId())
+    return lastDrawId
   }
 
-  // TODO
-  // async getTotalContributedBetween(startDrawId: number, endDrawId: number): Promise<BigNumber> {}
+  /**
+   * Returns the total token amount contributed by all vaults for the given draw IDs
+   * @param startDrawId start draw ID (inclusive)
+   * @param endDrawId end draw ID (inclusive)
+   * @returns
+   */
+  async getTotalContributedAmount(startDrawId: number, endDrawId: number): Promise<BigNumber> {
+    const source = 'Prize Pool [getTotalContributedAmount]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const totalContributedAmount: string = await this.prizePoolContract.getTotalContributedBetween(
+      startDrawId,
+      endDrawId
+    )
+    return BigNumber.from(totalContributedAmount)
+  }
 
-  // TODO
-  // async getContributedBetween(
-  //   vaultAddress: string,
-  //   startDrawId: number,
-  //   endDrawId: number
-  // ): Promise<BigNumber> {}
+  /**
+   * Returns the token amount contributed by any vaults for the given draw IDs
+   * @param vaultAddresses vault addresses to get contributions from
+   * @param startDrawId start draw ID (inclusive)
+   * @param endDrawId end draw ID (inclusive)
+   * @returns
+   */
+  async getVaultContributedAmounts(
+    vaultAddresses: string[],
+    startDrawId: number,
+    endDrawId: number
+  ): Promise<BigNumber> {
+    // TODO: refactor this function to use a util with multicall to query multiple vaults
+    const source = 'Prize Pool [getVaultContributedAmounts]'
+    validateAddress(vaultAddresses[0], source)
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const contributedAmount: string = await this.prizePoolContract.getContributedBetween(
+      vaultAddresses[0],
+      startDrawId,
+      endDrawId
+    )
+    return BigNumber.from(contributedAmount)
+  }
 
-  // TODO
-  // async getTierPrizeCount(tier: number): Promise<number> {}
+  /**
+   * Returns the percentage of the total prize pool contributions for any vaults for the given draw IDs
+   * @param vaultAddresses vault addresses to get contributions from
+   * @param startDrawId start draw ID (inclusive)
+   * @param endDrawId end draw ID (inclusive)
+   * @returns
+   */
+  async getVaultContributedPercentages(
+    vaultAddresses: string[],
+    startDrawId: number,
+    endDrawId: number
+  ): Promise<number> {
+    // TODO: refactor this function to use a util with multicall to query multiple vaults
+    const source = 'Prize Pool [getVaultContributedPercentages]'
+    validateAddress(vaultAddresses[0], source)
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const contributedPercentage: string = await this.prizePoolContract.getVaultPortion(
+      vaultAddresses[0],
+      startDrawId,
+      endDrawId
+    )
+    // TODO: properly format the percentage output (0 to 1 with decimals)
+    return BigNumber.from(contributedPercentage).toNumber()
+  }
 
-  // TODO
-  // function lastCompletedDrawStartedAt() external view returns (uint64) {
-  //   if (lastCompletedDrawId != 0) {
-  //       return lastCompletedDrawStartedAt_;
-  //   } else {
-  //       return 0;
-  //   }
-  // }
+  /**
+   * Returns the start timestamp of the last completed draw (in seconds)
+   * @returns
+   */
+  async getLastDrawStartTimestamp(): Promise<number> {
+    const source = 'Prize Pool [getLastDrawStartTimestamp]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const startTimestamp = parseInt(await this.prizePoolContract.lastCompletedDrawStartedAt())
+    return startTimestamp
+  }
 
-  // TODO
-  // function nextDrawStartsAt() external view returns (uint64) {
-  //   return _nextDrawStartsAt();
-  // }
+  /**
+   * Returns the start timestamp of the next draw (in seconds)
+   * @returns
+   */
+  async getNextDrawStartTimestamp(): Promise<number> {
+    const source = 'Prize Pool [getNextDrawStartTimestamp]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const startTimestamp = parseInt(await this.prizePoolContract.nextDrawStartsAt())
+    return startTimestamp
+  }
 
-  // TODO
-  // function isWinner(
-  //   address _vault,
-  //   address _user,
-  //   uint8 _tier
-  // ) external view returns (bool) {
-  //   return _isWinner(_vault, _user, _tier);
-  // }
+  /**
+   * Checks if a user has won a specific prize tier while deposited in a given vault
+   * @param vaultAddress vault address to check
+   * @param userAddress user address to check prizes for
+   * @param tier prize tier to check
+   * @returns
+   */
+  async isTierWinner(vaultAddress: string, userAddress: string, tier: number): Promise<boolean> {
+    const source = 'Prize Pool [isTierWinner]'
+    validateAddress(vaultAddress, source)
+    validateAddress(userAddress, source)
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const isWinner: boolean = await this.prizePoolContract.isWinner(vaultAddress, userAddress, tier)
+    return isWinner
+  }
+
+  /**
+   * Checks if a user has won any prizes on the given vaults
+   * @param vaultAddresses vault addresses to check
+   * @param userAddress user address to check prizes for
+   * @returns
+   */
+  async isWinner(
+    vaultAddresses: string[],
+    userAddress: string
+  ): Promise<{ [vaultAddress: string]: number[] }> {
+    // TODO: refactor this function to use a util with multicall to query multiple vaults and tiers
+    const source = 'Prize Pool [isWinner]'
+    validateAddress(vaultAddresses[0], source)
+    validateAddress(userAddress, source)
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    // const numberOfTiers = await this.getNumberOfTiers()
+    // const isWinner: boolean = await this.prizePoolContract.isWinner(vaultAddresses[0], userAddress, 0)
+    return {}
+  }
 
   // TODO
   // function calculatePrizeSize(uint8 _tier) external view returns (uint256) {
@@ -139,11 +240,6 @@ export class PrizePool {
   // TODO
   // function getTotalShares() external view returns (uint256) {
   //   return _getTotalShares(numberOfTiers);
-  // }
-
-  // TODO
-  // function estimatedPrizeCount() external view returns (uint32) {
-  //   return _estimatedPrizeCount(numberOfTiers);
   // }
 
   /* ============================== Write Functions ============================== */
@@ -243,6 +339,11 @@ export class PrizePool {
 
   //   return lastCompletedDrawId;
   // }
+
+  /* ============================== Other Functions ============================== */
+
+  // TODO: hardcode this one? no async: 4 ** tier
+  // async getTierPrizeCount(tier: number): Promise<number> {}
 
   /* =========================== Contract Initializers =========================== */
 
