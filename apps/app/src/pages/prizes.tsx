@@ -26,7 +26,7 @@ export default function PrizesPage() {
   }, [router])
 
   return (
-    <Layout className='gap-8 mb-20'>
+    <Layout className='gap-8'>
       <span className='text-6xl py-2'>🏆</span>
       <PrizePoolDropdown
         networks={networks}

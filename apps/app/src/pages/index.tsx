@@ -11,7 +11,7 @@ export default function HomePage() {
   const largestGrandPrize = 5_000
 
   return (
-    <Layout className='gap-8 mb-20'>
+    <Layout className='gap-8'>
       <div className='flex flex-col items-center gap-3'>
         <span className='text-5xl font-averta font-semibold'>
           Deposit for a chance to win up to{' '}
