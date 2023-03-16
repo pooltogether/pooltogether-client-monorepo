@@ -7,10 +7,11 @@ import {
   useSelectedLanguage
 } from 'pt-generic-hooks'
 import { BasicIcon, LINKS, SocialIcon } from 'pt-ui'
-import { SettingsModalView } from '.'
+import { SettingsModalTheme, SettingsModalView } from '.'
 
 interface SettingsMenuProps {
   setView: (view: SettingsModalView) => void
+  theme?: SettingsModalTheme
   disableCurrencies?: boolean
   disableLanguages?: boolean
 }
@@ -66,14 +67,22 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
 interface SettingsMenuSectionProps {
   title: string
   items: SettingsMenuItemProps[]
+  theme?: SettingsModalTheme
 }
 
 const SettingsMenuSection = (props: SettingsMenuSectionProps) => {
-  const { title, items } = props
+  const { title, items, theme } = props
 
   return (
     <div className='flex flex-col items-center gap-4'>
-      <span className='text-lg font-semibold dark:text-pt-purple-300'>{title}</span>
+      <span
+        className={classNames('text-xl font-semibold', {
+          'text-pt-purple-50': theme === 'light' || theme === undefined,
+          'text-pt-purple-300': theme === 'dark'
+        })}
+      >
+        {title}
+      </span>
       {items.map((item) => {
         return (
           <SettingsMenuItem
@@ -91,17 +100,22 @@ interface SettingsMenuItemProps {
   title: string
   description: string
   onClick: () => void
+  theme?: SettingsModalTheme
   disabled?: boolean
 }
 
 const SettingsMenuItem = (props: SettingsMenuItemProps) => {
-  const { iconContent, title, description, onClick, disabled } = props
+  const { iconContent, title, description, onClick, theme, disabled } = props
 
   return (
     <div
       className={classNames(
-        'flex flex-col items-center gap-1 w-full rounded-lg p-4 dark:bg-pt-purple-600/40 select-none relative',
-        { 'dark:hover:bg-pt-purple-600/60 cursor-pointer': !disabled, 'brightness-50': disabled }
+        'flex flex-col items-center gap-1 w-full rounded-lg p-4 select-none relative',
+        {
+          'bg-pt-transparent hover:bg-pt-transparent/5': theme === 'light' || theme === undefined,
+          'bg-pt-purple-600/40 hover:bg-pt-purple-600/60': theme === 'dark'
+        },
+        { 'cursor-pointer': !disabled, 'brightness-50': disabled }
       )}
       onClick={() => {
         if (!disabled) {
@@ -109,9 +123,16 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <BasicIcon content={iconContent} theme='dark' size='large' />
-      <span className='text-sm font-semibold dark:text-pt-purple-50'>{title}</span>
-      <span className='text-xs dark:text-pt-purple-300'>{description}</span>
+      <BasicIcon content={iconContent} size='large' />
+      <span className='font-semibold text-pt-purple-50'>{title}</span>
+      <span
+        className={classNames('text-xs', {
+          'text-pt-purple-100': theme === 'light' || theme === undefined,
+          'text-pt-purple-300': theme === 'dark'
+        })}
+      >
+        {description}
+      </span>
     </div>
   )
 }

@@ -9,13 +9,14 @@ import { WithdrawModalFooter } from './WithdrawModalFooter'
 
 export interface WithdrawModalProps {
   vaultInfo: VaultInfo
+  bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { vaultInfo, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vaultInfo, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
@@ -40,7 +41,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         show={isWithdrawModalOpen}
         dismissible={true}
         position='center'
-        bgColor='light'
+        bgColor={bgColor}
         bodyContent={
           <WithdrawModalBody
             vaultInfo={vaultInfo}

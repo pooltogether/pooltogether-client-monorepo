@@ -115,7 +115,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         items={filterItems}
         defaultSelected={defaultFilter}
         onSelect={setFilterId}
-        className={classNames('flex-grow', className)}
+        className={classNames(className)}
         buttonColor='purple'
       />
     )

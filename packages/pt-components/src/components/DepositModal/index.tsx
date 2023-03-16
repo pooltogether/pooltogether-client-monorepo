@@ -9,13 +9,14 @@ import { DepositModalFooter } from './DepositModalFooter'
 
 export interface DepositModalProps {
   vaultInfo: VaultInfo
+  bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { vaultInfo, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vaultInfo, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
 
@@ -40,7 +41,7 @@ export const DepositModal = (props: DepositModalProps) => {
         show={isDepositModalOpen}
         dismissible={true}
         position='center'
-        bgColor='light'
+        bgColor={bgColor}
         bodyContent={
           <DepositModalBody
             vaultInfo={vaultInfo}

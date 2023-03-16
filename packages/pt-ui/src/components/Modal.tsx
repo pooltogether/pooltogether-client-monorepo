@@ -31,7 +31,8 @@ export const Modal = (props: ModalProps) => {
       theme={{
         root: { show: { on: 'flex text-pt-purple-50 bg-gray-600/50 backdrop-blur-sm' } },
         content: {
-          inner: classNames('relative rounded-lg bg-pt-bg-purple-light shadow p-8', {
+          inner: classNames('relative rounded-lg shadow p-8', {
+            'bg-pt-bg-purple-light': bgColor === 'light' || bgColor === undefined,
             'bg-pt-purple-900': bgColor === 'dark'
           })
         }

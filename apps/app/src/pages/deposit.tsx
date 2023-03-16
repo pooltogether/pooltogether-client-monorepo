@@ -30,8 +30,6 @@ export default function DepositPage() {
       <div className='w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg'>
         <span className='text-lg font-semibold'>Filter</span>
         <VaultFilters onFilter={handleFilteredVaults} />
-        {/* TODO: vaultlist management functionality */}
-        <span className='dark:text-pt-purple-100 cursor-pointer'>Manage Prize Asset List</span>
       </div>
       {networks.map((network) => {
         if (vaults[network] === undefined || vaults[network].length === 0) return
