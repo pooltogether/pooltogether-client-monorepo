@@ -64,7 +64,9 @@ export const Footer = (props: FooterProps) => {
 
   return (
     <FlowbiteFooter
-      theme={{ root: { base: 'w-full flex justify-center bg-pt-purple-600 px-6 py-8 shadow' } }}
+      theme={{
+        root: { base: 'w-full flex justify-center bg-pt-purple-600 px-6 pt-12 pb-24 shadow' }
+      }}
       className={classNames(className)}
       {...rest}
     >
@@ -73,7 +75,7 @@ export const Footer = (props: FooterProps) => {
       >
         {(items ?? defaultFooterItems).map((item) => {
           return (
-            <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`}>
+            <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`} className='w-1/12'>
               <FlowbiteFooter.Title
                 theme={{ base: 'text-pt-teal-dark mb-6' }}
                 title={item.title}
@@ -109,9 +111,11 @@ interface FooterItemContentProps {
 const FooterItemContent = (props: FooterItemContentProps & { className?: string }) => {
   const { text, href, icon, onClick, disabled, className } = props
 
+  const baseClassName = 'flex items-center gap-2 whitespace-nowrap'
+
   if (disabled) {
     return (
-      <span className={classNames('flex items-center gap-2 text-pt-purple-300', className)}>
+      <span className={classNames(baseClassName, 'text-pt-purple-300', className)}>
         {icon}
         {text}
       </span>
@@ -121,7 +125,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
   if (!!href) {
     return (
       <FlowbiteFooter.Link href={href} className={classNames(className)}>
-        <span className='flex items-center gap-2'>
+        <span className={classNames(baseClassName)}>
           {icon}
           {text}
         </span>
@@ -131,11 +135,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
 
   return (
     <span
-      className={classNames(
-        'flex items-center gap-2',
-        { 'cursor-pointer': onClick !== undefined },
-        className
-      )}
+      className={classNames(baseClassName, { 'cursor-pointer': onClick !== undefined }, className)}
       onClick={onClick}
     >
       {icon}
