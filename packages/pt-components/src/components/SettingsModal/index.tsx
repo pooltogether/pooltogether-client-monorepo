@@ -6,8 +6,9 @@ import { Modal } from 'pt-ui'
 import { CurrencySelector } from './CurrencySelector'
 import { LanguageSelector } from './LanguageSelector'
 import { SettingsMenu } from './SettingsMenu'
+import { VaultListSelector } from './VaultListSelector'
 
-export type SettingsModalView = 'menu' | 'currency' | 'language'
+export type SettingsModalView = 'menu' | 'currency' | 'language' | 'vaultLists'
 
 export type SettingsModalTheme = 'light' | 'dark'
 
@@ -17,10 +18,11 @@ export interface SettingsModalProps {
   theme?: SettingsModalTheme
   disableCurrencies?: boolean
   disableLanguages?: boolean
+  disableVaultLists?: boolean
 }
 
 export const SettingsModal = (props: SettingsModalProps) => {
-  const { view, setView, theme, disableCurrencies, disableLanguages } = props
+  const { view, setView, theme, disableCurrencies, disableLanguages, disableVaultLists } = props
 
   const { isSettingsModalOpen, setIsSettingsModalOpen } = useIsSettingsModalOpen()
 
@@ -35,10 +37,12 @@ export const SettingsModal = (props: SettingsModalProps) => {
         theme={theme}
         disableCurrencies={disableCurrencies}
         disableLanguages={disableLanguages}
+        disableVaultLists={disableVaultLists}
       />
     ),
     currency: <CurrencySelector setView={setView} theme={theme} />,
-    language: <LanguageSelector setView={setView} theme={theme} />
+    language: <LanguageSelector setView={setView} theme={theme} />,
+    vaultLists: <VaultListSelector />
   }
 
   if (isBrowser) {

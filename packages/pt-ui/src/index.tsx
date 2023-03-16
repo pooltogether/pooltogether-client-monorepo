@@ -20,6 +20,7 @@ export * from './components/SocialIcon'
 export * from './components/Spinner'
 export * from './components/Table'
 export * from './components/Tabs'
+export * from './components/Toggle'
 
 /**
  * Constants

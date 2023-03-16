@@ -1,6 +1,7 @@
 /**
  * Badges
  */
+export * from './components/Badges/ImportedBadge'
 export * from './components/Badges/NetworkBadge'
 export * from './components/Badges/VaultBadge'
 
@@ -25,6 +26,7 @@ export * from './components/Form/WithdrawForm'
 /**
  * Icons
  */
+export * from './components/Icons/ClipboardListIcon'
 export * from './components/Icons/NetworkIcon'
 export * from './components/Icons/TokenIcon'
 

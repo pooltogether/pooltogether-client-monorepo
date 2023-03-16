@@ -6,18 +6,20 @@ import {
   useSelectedCurrency,
   useSelectedLanguage
 } from 'pt-generic-hooks'
-import { BasicIcon, LINKS, SocialIcon } from 'pt-ui'
+import { BasicIcon, LINKS } from 'pt-ui'
 import { SettingsModalTheme, SettingsModalView } from '.'
+import { ClipboardListIcon } from '../Icons/ClipboardListIcon'
 
 interface SettingsMenuProps {
   setView: (view: SettingsModalView) => void
   theme?: SettingsModalTheme
   disableCurrencies?: boolean
   disableLanguages?: boolean
+  disableVaultLists?: boolean
 }
 
 export const SettingsMenu = (props: SettingsMenuProps) => {
-  const { setView, disableCurrencies, disableLanguages } = props
+  const { setView, disableCurrencies, disableLanguages, disableVaultLists } = props
 
   const { selectedCurrency } = useSelectedCurrency()
   const { selectedLanguage } = useSelectedLanguage()
@@ -40,6 +42,13 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
             description: 'Change Language',
             onClick: () => setView('language'),
             disabled: disableLanguages
+          },
+          {
+            iconContent: <ClipboardListIcon className='h-6 w-6 text-pt-purple-100' />,
+            title: 'Manage Prize Asset Lists',
+            description: 'Change the assets displayed on the app',
+            onClick: () => setView('vaultLists'),
+            disabled: disableVaultLists
           }
         ]}
       />
@@ -51,12 +60,6 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
             title: 'Help Documentation',
             description: 'Get help with using PoolTogether',
             onClick: () => window.open(LINKS.docs)
-          },
-          {
-            iconContent: <SocialIcon platform='discord' className='w-6 h-auto' />,
-            title: 'Talk to us on Discord',
-            description: 'Connect with our community',
-            onClick: () => window.open(LINKS.discord)
           }
         ]}
       />
@@ -123,7 +126,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <BasicIcon content={iconContent} size='large' />
+      <BasicIcon content={iconContent} size='large' theme={theme === 'dark' ? 'light' : 'dark'} />
       <span className='font-semibold text-pt-purple-50'>{title}</span>
       <span
         className={classNames('text-xs', {
