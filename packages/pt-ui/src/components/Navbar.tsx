@@ -4,12 +4,11 @@ import { Navbar as FlowbiteNavbar } from 'flowbite-react'
 import { ReactNode } from 'react'
 import { Logo } from './Logo'
 
-export const defaultNavbarLinks: NavbarLink[] = [
-  { href: '/prizes', name: 'Prizes' },
-  { href: '/deposit', name: 'Deposit' },
-  { href: '/account', name: 'Account' },
-  { href: '/extensions', name: 'Extensions' }
-]
+export interface LinkComponentProps {
+  href: string
+  children: string
+  className?: string
+}
 
 export interface NavbarLink {
   href: string
@@ -17,8 +16,9 @@ export interface NavbarLink {
 }
 
 export interface NavbarProps {
+  links: NavbarLink[]
   activePage: string
-  links?: NavbarLink[]
+  linksAs?: (props: LinkComponentProps) => JSX.Element
   walletConnectionButton?: ReactNode
   onClickSettings?: () => void
   className?: string
@@ -27,8 +27,15 @@ export interface NavbarProps {
 
 // TODO: maybe center links absolutely, so they don't shift to the left when a wallet connects
 export const Navbar = (props: NavbarProps) => {
-  const { activePage, links, walletConnectionButton, onClickSettings, className, linkClassName } =
-    props
+  const {
+    links,
+    activePage,
+    linksAs,
+    walletConnectionButton,
+    onClickSettings,
+    className,
+    linkClassName
+  } = props
 
   return (
     <FlowbiteNavbar
@@ -57,9 +64,10 @@ export const Navbar = (props: NavbarProps) => {
       {/* Middle Collapsable Content */}
       <FlowbiteNavbar.Collapse>
         <NavbarLinks
-          links={links ?? defaultNavbarLinks}
+          links={links}
           activePage={activePage}
-          className={classNames(linkClassName)}
+          Component={linksAs}
+          className={linkClassName}
         />
       </FlowbiteNavbar.Collapse>
     </FlowbiteNavbar>
@@ -69,33 +77,45 @@ export const Navbar = (props: NavbarProps) => {
 interface NavbarLinksProps {
   links: NavbarLink[]
   activePage: string
+  Component?: (props: LinkComponentProps) => JSX.Element
   className?: string
 }
 
 const NavbarLinks = (props: NavbarLinksProps) => {
-  const { links, activePage, className } = props
+  const { links, activePage, Component, className } = props
 
   return (
     <>
       {links.map((link, i) => {
+        const key = `nav-${i}-${link.name.toLowerCase()}`
         const isActiveLink = link.href === activePage
-        return (
-          <FlowbiteNavbar.Link
-            theme={{
-              base: 'block text-base text-pt-purple-50 font-semibold p-4 md:p-0',
-              active: {
-                on: 'text-pt-teal',
-                off: 'hover:text-pt-purple-200'
-              }
-            }}
-            href={link.href}
-            className={classNames(className)}
-            active={isActiveLink}
-            key={`nav-${i}-${link.name.toLowerCase()}`}
-          >
-            {link.name}
-          </FlowbiteNavbar.Link>
-        )
+        const baseClassName = 'block text-base font-semibold p-4 md:p-0'
+        const conditionalClassName = {
+          'text-pt-teal': isActiveLink,
+          'text-pt-purple-50 hover:text-pt-purple-200': !isActiveLink
+        }
+
+        if (!!Component) {
+          return (
+            <Component
+              key={key}
+              href={link.href}
+              className={classNames(baseClassName, conditionalClassName, className)}
+            >
+              {link.name}
+            </Component>
+          )
+        } else {
+          return (
+            <a
+              key={key}
+              href={link.href}
+              className={classNames(baseClassName, conditionalClassName, className)}
+            >
+              {link.name}
+            </a>
+          )
+        }
       })}
     </>
   )

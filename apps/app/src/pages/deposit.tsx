@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useState } from 'react'
 import { PrizePoolHeader } from 'pt-components'
 import { VaultInfo } from 'pt-types'
@@ -39,7 +40,11 @@ export default function DepositPage() {
             <PrizePoolHeader
               chainId={network}
               size='large'
-              showDetails={true}
+              appendItem={
+                <Link href={`/prizes?network=${network}`} className='text-pt-purple-400 my-auto'>
+                  See Prize Details
+                </Link>
+              }
               className='ml-6 mb-4'
             />
             <VaultList vaults={vaults[network]} />

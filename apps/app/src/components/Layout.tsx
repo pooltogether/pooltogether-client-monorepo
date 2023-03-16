@@ -7,6 +7,7 @@ import {
 import classNames from 'classnames'
 import { useAtom, useAtomValue } from 'jotai'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
@@ -74,8 +75,16 @@ export const Layout = (props: LayoutProps) => {
       <Head>
         <title>PoolTogether Hyperstructure App</title>
       </Head>
+
       <Navbar
+        links={[
+          { href: '/prizes', name: 'Prizes' },
+          { href: '/deposit', name: 'Deposit' },
+          { href: '/account', name: 'Account' },
+          { href: '/extensions', name: 'Extensions' }
+        ]}
         activePage={router.pathname}
+        linksAs={Link}
         walletConnectionButton={
           <ConnectButton
             showBalance={false}

@@ -1,16 +1,17 @@
 import classNames from 'classnames'
+import { ReactNode } from 'react'
 import { getNiceNetworkNameByChainId, NETWORK } from 'pt-utilities'
 import { NetworkIcon } from '../Icons/NetworkIcon'
 
 export interface PrizePoolHeaderProps {
   chainId: NETWORK
   size?: 'small' | 'large'
-  showDetails?: boolean
+  appendItem?: ReactNode
   className?: string
 }
 
 export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
-  const { chainId, size, showDetails, className } = props
+  const { chainId, size, appendItem, className } = props
 
   const networkName = getNiceNetworkNameByChainId(chainId)
 
@@ -31,11 +32,7 @@ export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
       >
         {networkName} Prize Pool
       </span>
-      {showDetails && (
-        <a href={`/prizes?network=${chainId}`} className='text-pt-purple-400 my-auto'>
-          See Prize Details
-        </a>
-      )}
+      {appendItem}
     </div>
   )
 }

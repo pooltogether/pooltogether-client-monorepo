@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { PrizePoolDropdown } from 'pt-components'
@@ -32,7 +33,9 @@ export default function PrizesPage() {
         selectedNetwork={selectedNetwork}
         onSelect={setSelectedNetwork}
       />
-      <Button href={`/deposit?network=${selectedNetwork}`}>Deposit to Win</Button>
+      <Link href={`/deposit?network=${selectedNetwork}`} passHref={true}>
+        <Button>Deposit to Win</Button>
+      </Link>
       <PrizesTable chainId={selectedNetwork} />
       {/* TODO: add link */}
       <ExternalLink

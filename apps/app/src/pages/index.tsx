@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { CurrencyValue, NextDrawCountdown, PrizePoolCard } from 'pt-components'
 import { Button } from 'pt-ui'
 import { Layout } from '@components/Layout'
@@ -21,10 +22,18 @@ export default function HomePage() {
         </span>
       </div>
       <NextDrawCountdown />
-      <Button href='/deposit'>Deposit to Win</Button>
+      <Link href='/deposit' passHref={true}>
+        <Button>Deposit to Win</Button>
+      </Link>
       <div className='grid grid-cols-2 gap-4 bg-pt-bg-purple-dark p-4 rounded-lg'>
         {networks.map((network) => {
-          return <PrizePoolCard key={`pp-${network}`} chainId={network} />
+          return (
+            <PrizePoolCard
+              key={`pp-${network}`}
+              chainId={network}
+              href={`/deposit?network=${network}`}
+            />
+          )
         })}
       </div>
     </Layout>
