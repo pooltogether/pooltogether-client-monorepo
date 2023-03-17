@@ -38,10 +38,10 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   return (
     <div className='flex flex-col'>
-      <span className='text-lg'>
+      <span className='text-base'>
         {formatBigNumberForDisplay(tokenBalance, vaultInfo.decimals.toString())}{' '}
       </span>
-      <span className='text-sm'>
+      <span className='text-sm text-pt-purple-100'>
         <CurrencyValue baseValue={usdBalance} hideZeroes={true} />
       </span>
     </div>

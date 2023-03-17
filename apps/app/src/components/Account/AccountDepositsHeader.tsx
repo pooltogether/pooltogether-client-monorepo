@@ -15,7 +15,7 @@ export const AccountDepositsHeader = (props: AccountDepositsHeaderProps) => {
   return (
     <div className={classNames('flex flex-col items-center gap-2', className)}>
       <span className='text-pt-purple-100'>Your Deposits</span>
-      <span className='text-3xl font-averta'>
+      <span className='text-3xl font-averta font-semibold'>
         {!isFetchedTotalUsdBalance && <Spinner />}
         {isFetchedTotalUsdBalance && (
           <CurrencyValue baseValue={totalUsdBalance} hideZeroes={true} />

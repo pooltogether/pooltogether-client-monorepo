@@ -8,6 +8,7 @@ import { Spinner, Table, TableProps } from 'pt-ui'
 import defaultVaultList from '@constants/defaultVaultList'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
+import { AccountVaultOdds } from './AccountVaultOdds'
 
 interface AccountVaultListProps {
   className?: string
@@ -61,15 +62,15 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
     'Prize Pool',
     'Winning Chances',
     'Deposited',
-    ''
+    'Manage'
   ]
 
   const tableRows: TableProps['rows'] = Object.keys(vaultBalances).map((vaultId) => {
     const vaultInfo = vaultBalances[vaultId]
     const cells: ReactNode[] = [
       <VaultBadge vaultInfo={vaultInfo} />,
-      <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} />,
-      '1 in X',
+      <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} hideIcon={true} />,
+      <AccountVaultOdds vaultInfo={vaultInfo} />,
       <AccountVaultBalance vaultInfo={vaultInfo} />,
       <AccountVaultButtons vaultInfo={vaultInfo} />
     ]
@@ -95,6 +96,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
             rows={tableRows}
             keyPrefix='dpVaultList'
             roundedRows={true}
+            headerCellClassName='font-normal'
           />
         </div>
       )}
