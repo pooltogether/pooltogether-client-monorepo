@@ -24,8 +24,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
         Withdraw from {vaultInfo.name} on {networkName}
       </span>
       <div className='flex flex-col items-center gap-1'>
-        <span className='text-xs dark:text-pt-purple-100'>Prize Pool</span>
-        <NetworkBadge chainId={vaultInfo.chainId} />
+        <NetworkBadge chainId={vaultInfo.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       <WithdrawForm
         vaultInfo={vaultInfo}
