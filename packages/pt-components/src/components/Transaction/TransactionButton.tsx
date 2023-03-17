@@ -48,7 +48,7 @@ export const TransactionButton = (props: TransactionButtonProps) => {
   if (isDisconnected) {
     return (
       <Button onClick={openConnectModal} {...rest}>
-        Connect
+        Connect Wallet
       </Button>
     )
   } else if (chain?.id !== chainId) {
