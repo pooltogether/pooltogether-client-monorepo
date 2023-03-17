@@ -261,14 +261,14 @@ export const getPrizeTextFromFrequency = (
         if (data.frequency < 1.5) {
           return `Daily`
         } else {
-          return `Every ${Math.round(data.frequency)} Days`
+          return `Every ${Math.round(data.frequency)} days`
         }
       } else if (data.unit === TimeUnit.week) {
-        return `Every ${Math.round(data.frequency)} Weeks`
+        return `Every ${Math.round(data.frequency)} weeks`
       } else if (data.unit === TimeUnit.month) {
-        return `Every ${Math.round(data.frequency)} Months`
+        return `Every ${Math.round(data.frequency)} months`
       } else {
-        return `Every ${Math.round(data.frequency)} Years`
+        return `Every ${Math.round(data.frequency)} years`
       }
     } else {
       return null
@@ -282,9 +282,9 @@ export const getPrizeTextFromFrequency = (
 
       if (data.unit === TimeUnit.day) {
         if (perUnitFreq >= 1.5) {
-          return `${Math.round(perUnitFreq)} Prizes Daily`
+          return `${Math.round(perUnitFreq)} prizes daily`
         } else if (perUnitFreq >= 1) {
-          return `1 Prize Daily`
+          return `1 prize daily`
         } else {
           perUnitFreq *= 7
           data.unit = TimeUnit.week
@@ -293,9 +293,9 @@ export const getPrizeTextFromFrequency = (
 
       if (data.unit === TimeUnit.week) {
         if (perUnitFreq >= 1.5) {
-          return `${Math.round(perUnitFreq)} Prizes Weekly`
+          return `${Math.round(perUnitFreq)} prizes weekly`
         } else if (perUnitFreq >= 1) {
-          return `1 Prize Weekly`
+          return `1 prize weekly`
         } else {
           perUnitFreq *= 365 / 12 / 7
           data.unit = TimeUnit.month
@@ -304,9 +304,9 @@ export const getPrizeTextFromFrequency = (
 
       if (data.unit === TimeUnit.month) {
         if (perUnitFreq >= 1.5) {
-          return `${Math.round(perUnitFreq)} Prizes Monthly`
+          return `${Math.round(perUnitFreq)} prizes monthly`
         } else if (perUnitFreq >= 1) {
-          return `1 Prize Monthly`
+          return `1 prize monthly`
         } else {
           perUnitFreq *= 12
           data.unit = TimeUnit.year
@@ -315,11 +315,11 @@ export const getPrizeTextFromFrequency = (
 
       if (data.unit === TimeUnit.year) {
         if (perUnitFreq >= 1.5) {
-          return `${Math.round(perUnitFreq)} Prizes Yearly`
+          return `${Math.round(perUnitFreq)} prizes yearly`
         } else if (perUnitFreq >= 1) {
-          return `1 Prize Yearly`
+          return `1 prize yearly`
         } else {
-          return `${Math.round(perUnitFreq)} Prizes Yearly`
+          return `${Math.round(perUnitFreq)} prizes yearly`
         }
       }
     } else {

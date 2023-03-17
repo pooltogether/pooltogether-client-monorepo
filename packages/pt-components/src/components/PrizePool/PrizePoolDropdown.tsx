@@ -19,7 +19,8 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
       content: (
         <NetworkBadge
           chainId={network}
-          className='w-full px-3 py-1 text-gray-900 !bg-gray-100 hover:!bg-gray-300'
+          className='w-full !justify-start p-2 !bg-none hover:!bg-pt-purple-100/40'
+          textClassName='text-pt-purple-600'
         />
       ),
       onClick: (id) => onSelect(parseInt(id))
@@ -30,6 +31,11 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
     <Dropdown
       label={<PrizePoolHeader chainId={selectedNetwork} size='large' />}
       items={dropdownItems}
+      header={
+        <span className='text-sm font-semibold text-pt-purple-400 px-3 mb-2'>
+          Switch prize pool
+        </span>
+      }
       inline={true}
       placement={placement ?? 'bottom-end'}
     />
