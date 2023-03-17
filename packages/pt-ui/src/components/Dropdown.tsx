@@ -14,19 +14,20 @@ export interface DropdownItem {
 export interface DropdownProps extends Omit<FlowbiteDropdownProps, 'label'> {
   label: ReactNode
   items: DropdownItem[]
+  header?: ReactNode
 }
 
 export const Dropdown = (props: DropdownProps) => {
-  const { label, items, className, ...rest } = props
+  const { label, items, header, className, ...rest } = props
 
   return (
     <FlowbiteDropdown
       theme={{
-        content: 'flex flex-col items-center gap-2',
+        content: 'flex flex-col items-center',
         floating: {
           content: 'px-2 py-2',
           style: {
-            auto: 'bg-pt-purple-200'
+            auto: 'bg-pt-purple-50'
           }
         }
       }}
@@ -35,18 +36,21 @@ export const Dropdown = (props: DropdownProps) => {
       className={classNames(className)}
       {...rest}
     >
-      {items.map((item) => {
-        return (
-          <FlowbiteDropdown.Item
-            key={`dd-${item.id}`}
-            theme={{ base: 'flex items-center justify-center w-full cursor-pointer' }}
-            onClick={() => item.onClick(item.id)}
-          >
-            {/* @ts-ignore */}
-            {item.content}
-          </FlowbiteDropdown.Item>
-        )
-      })}
+      <>
+        {header}
+        {items.map((item) => {
+          return (
+            <FlowbiteDropdown.Item
+              key={`dd-${item.id}`}
+              theme={{ base: 'flex items-center justify-center w-full cursor-pointer' }}
+              onClick={() => item.onClick(item.id)}
+            >
+              {/* @ts-ignore */}
+              {item.content}
+            </FlowbiteDropdown.Item>
+          )
+        })}
+      </>
     </FlowbiteDropdown>
   )
 }

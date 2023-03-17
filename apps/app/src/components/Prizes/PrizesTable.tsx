@@ -20,20 +20,20 @@ export const PrizesTable = (props: PrizesTableProps) => {
 
   return (
     <>
-      <div className='flex w-[36rem] text-center text-sm text-pt-purple-100/50 mt-8 pb-2 border-b-[0.5px] border-b-current'>
-        <span className='w-1/2'>Estimated Prize Value</span>
-        <span className='w-1/2'>Estimated Frequency</span>
+      <div className='flex w-[36rem] text-sm text-pt-purple-100/50 mt-8 pb-2 border-b-[0.5px] border-b-current'>
+        <span className='flex-grow pl-16 text-left'>Estimated Prize Value</span>
+        <span className='flex-grow pr-16 text-right'>Estimated Frequency</span>
       </div>
-      <div className='flex flex-col gap-2 mb-8'>
+      <div className='flex flex-col gap-3 mb-8'>
         {prizes.map((prize, i) => {
           const frequency = formatDailyCountToFrequency(prize.dailyCount)
 
           return (
-            <div key={`pp-prizes-${chainId}-${i}`} className='flex w-[36rem] text-center'>
-              <span className='w-1/2 text-3xl text-pt-teal'>
+            <div key={`pp-prizes-${chainId}-${i}`} className='flex w-[36rem] items-center'>
+              <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
                 <CurrencyValue baseValue={prize.val} hideZeroes={true} />
               </span>
-              <span className='w-1/2 text-xl text-pt-purple-100'>
+              <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
                 {getPrizeTextFromFrequency(frequency, 'daily')}
               </span>
             </div>
