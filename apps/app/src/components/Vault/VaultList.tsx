@@ -21,7 +21,7 @@ export const VaultList = (props: VaultListProps) => {
     'Yield Source',
     'Prize Power', // TODO: add icon with tooltip next to prize power header
     'Total Deposits',
-    ''
+    'Manage'
   ]
 
   const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
@@ -38,7 +38,13 @@ export const VaultList = (props: VaultListProps) => {
 
   return (
     <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
-      <Table headers={tableHeaders} rows={tableRows} keyPrefix='vaultList' roundedRows={true} />
+      <Table
+        headers={tableHeaders}
+        rows={tableRows}
+        keyPrefix='vaultList'
+        roundedRows={true}
+        headerCellClassName='font-normal'
+      />
     </div>
   )
 }

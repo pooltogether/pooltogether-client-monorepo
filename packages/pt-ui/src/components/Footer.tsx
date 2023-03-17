@@ -124,7 +124,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
 
   if (!!href) {
     return (
-      <FlowbiteFooter.Link href={href} className={classNames(className)}>
+      <FlowbiteFooter.Link theme={{ base: '' }} href={href} className={classNames(className)}>
         <span className={classNames(baseClassName)}>
           {icon}
           {text}

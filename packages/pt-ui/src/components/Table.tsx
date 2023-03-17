@@ -8,6 +8,7 @@ export interface TableProps extends FlowbiteTableProps {
   keyPrefix: string
   roundedRows?: boolean
   headerClassName?: string
+  headerCellClassName?: string
   bodyClassName?: string
   rowClassName?: string
   cellClassName?: string
@@ -21,6 +22,7 @@ export const Table = (props: TableProps) => {
     roundedRows,
     className,
     headerClassName,
+    headerCellClassName,
     bodyClassName,
     rowClassName,
     cellClassName,
@@ -40,14 +42,17 @@ export const Table = (props: TableProps) => {
     >
       <FlowbiteTable.Head
         // TODO: once theme is fixed, can use it instead of manual className
-        // theme={{ base: 'text-pt-purple-100 py-2 text-center' }}
+        // theme={{ base: 'text-sm font-normal text-pt-purple-100 py-2 text-center' }}
         className={classNames(
-          'dark:text-pt-purple-100 dark:bg-transparent py-2 text-center !text-base normal-case',
+          'dark:text-pt-purple-100 dark:bg-transparent py-2 text-center !text-sm normal-case',
           headerClassName
         )}
       >
         {headers.map((header, i) => (
-          <FlowbiteTable.HeadCell key={`${keyPrefix}-th-${i}`}>
+          <FlowbiteTable.HeadCell
+            key={`${keyPrefix}-th-${i}`}
+            className={classNames(headerCellClassName)}
+          >
             {/* @ts-ignore */}
             {header}
           </FlowbiteTable.HeadCell>
