@@ -5,31 +5,20 @@ import { NetworkIcon } from '../Icons/NetworkIcon'
 
 export interface PrizePoolHeaderProps {
   chainId: NETWORK
-  size?: 'small' | 'large'
   appendItem?: ReactNode
   className?: string
+  headerClassName?: string
 }
 
 export const PrizePoolHeader = (props: PrizePoolHeaderProps) => {
-  const { chainId, size, appendItem, className } = props
+  const { chainId, appendItem, className, headerClassName } = props
 
   const networkName = getNiceNetworkNameByChainId(chainId)
 
   return (
-    <div
-      className={classNames(
-        'flex align-center',
-        { 'gap-2': size === 'small' || size === undefined, 'gap-4': size === 'large' },
-        className
-      )}
-    >
+    <div className={classNames('flex align-center gap-2', className)}>
       <NetworkIcon chainId={chainId} className='h-8 w-8 my-auto' />
-      <span
-        className={classNames('font-semibold', {
-          'text-2xl': size === 'small' || size === undefined,
-          'text-3xl font-averta': size === 'large'
-        })}
-      >
+      <span className={classNames('text-2xl font-semibold', headerClassName)}>
         {networkName} Prize Pool
       </span>
       {appendItem}

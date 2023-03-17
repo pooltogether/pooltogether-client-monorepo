@@ -29,7 +29,7 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
 
   return (
     <Dropdown
-      label={<PrizePoolHeader chainId={selectedNetwork} size='large' />}
+      label={<PrizePoolHeader chainId={selectedNetwork} headerClassName='font-averta' />}
       items={dropdownItems}
       header={
         <span className='text-sm font-semibold text-pt-purple-400 px-3 mb-2'>

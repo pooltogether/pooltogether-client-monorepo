@@ -39,14 +39,14 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
       : 0
 
     return (
-      <span className='text-lg'>
+      <span className='text-base font-normal'>
         <CurrencyValue baseValue={formattedTokenAmount * usdPrice} hideZeroes={true} />
       </span>
     )
   }
 
   return (
-    <span className='text-lg'>
+    <span className='text-base font-normal'>
       {!!totalDeposits
         ? formatBigNumberForDisplay(totalDeposits, vaultInfo.decimals.toString(), {
             hideZeroes: true

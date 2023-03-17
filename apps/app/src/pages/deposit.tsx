@@ -37,13 +37,16 @@ export default function DepositPage() {
           <div key={`pp-${network}`}>
             <PrizePoolHeader
               chainId={network}
-              size='large'
               appendItem={
-                <Link href={`/prizes?network=${network}`} className='text-pt-purple-400 my-auto'>
+                <Link
+                  href={`/prizes?network=${network}`}
+                  className='text-sm text-pt-purple-400 my-auto'
+                >
                   See Prize Details
                 </Link>
               }
-              className='ml-6 mb-4'
+              className='ml-4 mb-6'
+              headerClassName='font-averta'
             />
             <VaultList vaults={vaults[network]} />
           </div>
