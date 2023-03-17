@@ -1,4 +1,4 @@
-import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
@@ -21,6 +21,7 @@ import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import { Flowbite } from 'pt-ui'
 import '../styles/globals.css'
+import { ptRainbowTheme } from '../themes'
 
 // Wagmi Config:
 const { chains, provider } = configureChains(
@@ -90,7 +91,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       }}
     >
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()} showRecentTransactions={true}>
+        <RainbowKitProvider
+          chains={chains}
+          theme={ptRainbowTheme()}
+          showRecentTransactions={true}
+          coolMode={true}
+        >
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
           </QueryClientProvider>

@@ -88,11 +88,8 @@ export const Layout = (props: LayoutProps) => {
         walletConnectionButton={
           <ConnectButton
             showBalance={false}
-            chainStatus='icon'
-            accountStatus={{
-              smallScreen: 'avatar',
-              largeScreen: 'full'
-            }}
+            chainStatus={{ smallScreen: 'icon', largeScreen: 'full' }}
+            accountStatus='full'
           />
         }
         onClickSettings={() => setIsSettingsModalOpen(true)}
