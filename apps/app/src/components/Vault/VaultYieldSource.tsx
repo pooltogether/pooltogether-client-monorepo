@@ -7,5 +7,5 @@ interface VaultYieldSourceProps {
 export const VaultYieldSource = (props: VaultYieldSourceProps) => {
   const { vaultInfo } = props
 
-  return <span className='text-lg'>{vaultInfo.extensions.yieldSource}</span>
+  return <span className='text-base font-normal'>{vaultInfo.extensions.yieldSource}</span>
 }
