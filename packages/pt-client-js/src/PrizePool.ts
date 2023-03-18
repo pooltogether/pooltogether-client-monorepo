@@ -3,6 +3,7 @@ import { PrizeInfo, TokenWithSupply } from 'pt-types'
 import {
   checkPrizePoolWins,
   erc20 as erc20Abi,
+  getPrizePoolAllPrizeInfo,
   getPrizePoolContributionAmounts,
   getPrizePoolContributionPercentages,
   getProviderFromSigner,
@@ -21,6 +22,7 @@ export class PrizePool {
   readonly id: string
   prizeTokenContract: Contract | undefined
   drawPeriodInSeconds: number | undefined
+  tierShares: BigNumber | undefined
 
   /**
    * Creates an instance of a Prize Pool with a given signer or provider
@@ -31,13 +33,15 @@ export class PrizePool {
    * @param signerOrProvider a Signer or Provider for the network the prize pool is deployed on
    * @param prizeTokenAddress optional address of the prize token awarded
    * @param drawPeriodInSeconds optional draw period in seconds
+   * @param tierShares optional tier shares
    */
   constructor(
     public chainId: number,
     public address: string,
     public signerOrProvider: Signer | providers.Provider,
     prizeTokenAddress?: string,
-    drawPeriodInSeconds?: number
+    drawPeriodInSeconds?: number,
+    tierShares?: BigNumber
   ) {
     this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
     this.id = `${address}-${chainId}`
@@ -46,6 +50,9 @@ export class PrizePool {
     }
     if (!!drawPeriodInSeconds) {
       this.drawPeriodInSeconds = drawPeriodInSeconds
+    }
+    if (!!tierShares) {
+      this.tierShares = tierShares
     }
   }
 
@@ -58,10 +65,14 @@ export class PrizePool {
   async getPrizeTokenData(): Promise<TokenWithSupply> {
     const source = 'Prize Pool [getPrizeTokenData]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const prizeTokenContract = await this.getPrizeTokenContract()
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const prizeTokenInfo = await getTokenInfo(provider, [prizeTokenContract.address])
+
     return prizeTokenInfo[prizeTokenContract.address]
   }
 
@@ -71,11 +82,30 @@ export class PrizePool {
    */
   async getDrawPeriodInSeconds(): Promise<number> {
     if (this.drawPeriodInSeconds !== undefined) return this.drawPeriodInSeconds
+
     const source = 'Prize Pool [getDrawPeriodInSeconds]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const drawPeriodInSeconds = parseInt(await this.prizePoolContract.drawPeriodSeconds())
     this.drawPeriodInSeconds = drawPeriodInSeconds
+
     return drawPeriodInSeconds
+  }
+
+  /**
+   * Returns the number of shares allocated to each prize tier
+   * @returns
+   */
+  async getTierShares(): Promise<BigNumber> {
+    if (this.tierShares !== undefined) return this.tierShares
+
+    const source = 'Prize Pool [getTierShares]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
+    const tierShares = BigNumber.from(await this.prizePoolContract.tierShares())
+    this.tierShares = tierShares
+
+    return tierShares
   }
 
   /**
@@ -87,7 +117,9 @@ export class PrizePool {
   async getNumberOfTiers(): Promise<number> {
     const source = 'Prize Pool [getNumberOfTiers]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const numberOfTiers = parseInt(await this.prizePoolContract.numberOfTiers())
+
     return numberOfTiers
   }
 
@@ -98,7 +130,9 @@ export class PrizePool {
   async getLastDrawId(): Promise<number> {
     const source = 'Prize Pool [getLastDrawId]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const lastDrawId = parseInt(await this.prizePoolContract.getLastCompletedDrawId())
+
     return lastDrawId
   }
 
@@ -111,10 +145,12 @@ export class PrizePool {
   async getTotalContributedAmount(startDrawId: number, endDrawId: number): Promise<BigNumber> {
     const source = 'Prize Pool [getTotalContributedAmount]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const totalContributedAmount: string = await this.prizePoolContract.getTotalContributedBetween(
       startDrawId,
       endDrawId
     )
+
     return BigNumber.from(totalContributedAmount)
   }
 
@@ -132,8 +168,10 @@ export class PrizePool {
   ): Promise<{ [vaultAddress: string]: BigNumber }> {
     const source = 'Prize Pool [getVaultContributedAmounts]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const contributedAmounts = await getPrizePoolContributionAmounts(
       provider,
       this.address,
@@ -141,6 +179,7 @@ export class PrizePool {
       startDrawId,
       endDrawId
     )
+
     return contributedAmounts
   }
 
@@ -160,8 +199,10 @@ export class PrizePool {
   ): Promise<{ [vaultAddress: string]: number }> {
     const source = 'Prize Pool [getVaultContributedPercentages]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const contributedPercentages = await getPrizePoolContributionPercentages(
       provider,
       this.address,
@@ -169,6 +210,7 @@ export class PrizePool {
       startDrawId,
       endDrawId
     )
+
     return contributedPercentages
   }
 
@@ -179,7 +221,9 @@ export class PrizePool {
   async getLastDrawStartTimestamp(): Promise<number> {
     const source = 'Prize Pool [getLastDrawStartTimestamp]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const startTimestamp = parseInt(await this.prizePoolContract.lastCompletedDrawStartedAt())
+
     return startTimestamp
   }
 
@@ -190,7 +234,9 @@ export class PrizePool {
   async getNextDrawStartTimestamp(): Promise<number> {
     const source = 'Prize Pool [getNextDrawStartTimestamp]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const startTimestamp = parseInt(await this.prizePoolContract.nextDrawStartsAt())
+
     return startTimestamp
   }
 
@@ -206,7 +252,9 @@ export class PrizePool {
     validateAddress(vaultAddress, source)
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const isWinner: boolean = await this.prizePoolContract.isWinner(vaultAddress, userAddress, tier)
+
     return isWinner
   }
 
@@ -223,11 +271,21 @@ export class PrizePool {
     const source = 'Prize Pool [isWinner]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const numberOfTiers = await this.getNumberOfTiers()
     const tiers = Array.from(Array(numberOfTiers).keys())
-    const wins = checkPrizePoolWins(provider, this.address, vaultAddresses, userAddress, tiers)
+
+    const wins = await checkPrizePoolWins(
+      provider,
+      this.address,
+      vaultAddresses,
+      userAddress,
+      tiers
+    )
+
     return wins
   }
 
@@ -239,7 +297,9 @@ export class PrizePool {
   async getCurrentPrizeSize(tier: number): Promise<BigNumber> {
     const source = 'Prize Pool [getCurrentPrizeSize]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const currentPrizeSize: string = await this.prizePoolContract.calculatePrizeSize(tier)
+
     return BigNumber.from(currentPrizeSize)
   }
 
@@ -251,7 +311,9 @@ export class PrizePool {
   async getTierLiquidity(tier: number): Promise<BigNumber> {
     const source = 'Prize Pool [getTierLiquidity]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const tierLiquidity: string = await this.prizePoolContract.getTierLiquidity(tier)
+
     return BigNumber.from(tierLiquidity)
   }
 
@@ -263,16 +325,33 @@ export class PrizePool {
   async getEstimatedTierAwardTime(tier: number): Promise<number> {
     const source = 'Prize Pool [getEstimatedTierAwardTime]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const estimatedDraws = parseInt(
       await this.prizePoolContract.getTierAccrualDurationInDraws(tier)
     )
+
     const drawPeriod = await this.getDrawPeriodInSeconds()
+
     return estimatedDraws * drawPeriod
   }
 
-  // TODO: this function would get estimated prize amounts and frequencies and return them in an array
+  /**
+   * Returns estimated prize amounts and frequency for all prize tiers
+   * @returns
+   */
   async getAllPrizeInfo(): Promise<PrizeInfo[]> {
-    return []
+    const source = 'Prize Pool [getAllPrizeInfo]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
+    const provider = getProviderFromSigner(this.signerOrProvider)
+    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
+    const numberOfTiers = await this.getNumberOfTiers()
+    const tiers = Array.from(Array(numberOfTiers).keys())
+
+    const allPrizeInfo = await getPrizePoolAllPrizeInfo(provider, this.address, tiers)
+
+    return allPrizeInfo
   }
 
   // TODO: this function would calculate the prize power for any given vault addresses
@@ -299,6 +378,7 @@ export class PrizePool {
     }
   ): Promise<providers.TransactionResponse> {
     const source = 'Prize Pool [claimPrize]'
+
     if ((this.signerOrProvider as Signer)._isSigner) {
       const signer = this.signerOrProvider as Signer
       validateAddress(userAddress, source)
@@ -340,6 +420,7 @@ export class PrizePool {
     overrides?: Overrides
   ): Promise<providers.TransactionResponse> {
     const source = 'Prize Pool [completeAndStartNextDraw]'
+
     if ((this.signerOrProvider as Signer)._isSigner) {
       const signer = this.signerOrProvider as Signer
       await validateSignerNetwork(this.chainId, signer, source)
@@ -373,11 +454,15 @@ export class PrizePool {
    */
   async getPrizeTokenContract(): Promise<Contract> {
     if (this.prizeTokenContract !== undefined) return this.prizeTokenContract
+
     const source = 'Prize Pool [getPrizeTokenContract]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const prizeTokenAddress: string = await this.prizePoolContract.prizeToken()
+
     const prizeTokenContract = new Contract(prizeTokenAddress, erc20Abi, this.signerOrProvider)
     this.prizeTokenContract = prizeTokenContract
+
     return prizeTokenContract
   }
 }
