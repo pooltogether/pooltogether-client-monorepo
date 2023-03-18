@@ -1,9 +1,12 @@
 import { ContractCallContext } from 'ethereum-multicall'
-import { BigNumber, providers, utils } from 'ethers'
+import { BigNumber, Contract, providers, utils } from 'ethers'
+import { PrizeInfo } from 'pt-types'
 import {
   erc20 as prizePoolAbi
   /* TODO: use actual prize pool ABI */
 } from '../abis/erc20'
+import { SECONDS_PER_DAY } from '../constants'
+import { divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
@@ -158,4 +161,80 @@ export const checkPrizePoolWins = async (
   }
 
   return wins
+}
+
+/**
+ * Returns estimated prize amounts and frequency for any tiers of a prize pool
+ * @param readProvider a read-capable provider for the prize pool's chain
+ * @param prizePoolAddress the prize pool's address
+ * @param tiers the prize tiers to get info for
+ * @param considerPastDraws the number of past draws to consider for amount estimates (min. 1 - default is 7)
+ * @returns
+ */
+export const getPrizePoolAllPrizeInfo = async (
+  readProvider: providers.Provider,
+  prizePoolAddress: string,
+  tiers: number[],
+  considerPastDraws: number = 7
+): Promise<PrizeInfo[]> => {
+  const prizes: PrizeInfo[] = []
+
+  if (considerPastDraws < 1) {
+    throw new Error(`Invalid number of past draws to consider: ${considerPastDraws}`)
+  }
+
+  const calls: ContractCallContext['calls'] = [
+    { reference: 'drawPeriod', methodName: 'drawPeriodSeconds', methodParameters: [] },
+    { reference: 'tierShares', methodName: 'tierShares', methodParameters: [] },
+    { reference: 'totalShares', methodName: 'getTotalShares', methodParameters: [] },
+    { reference: 'lastDrawId', methodName: 'getLastCompletedDrawId', methodParameters: [] },
+    ...tiers.map((tier) => {
+      return {
+        reference: `accrualDraws-${tier}`,
+        methodName: 'getTierAccrualDurationInDraws',
+        methodParameters: [tier]
+      }
+    })
+  ]
+
+  const multicallResults = await getMulticallResults(
+    readProvider,
+    [prizePoolAddress],
+    prizePoolAbi,
+    calls
+  )
+
+  const lastDrawId = parseInt(multicallResults[prizePoolAddress]['lastDrawId']?.[0])
+  const startDrawId = considerPastDraws > lastDrawId ? 1 : lastDrawId - considerPastDraws + 1
+
+  const prizePoolContract = new Contract(prizePoolAddress, prizePoolAbi, readProvider)
+  const totalContributions = BigNumber.from(
+    await prizePoolContract.getTotalContributedBetween(startDrawId, lastDrawId)
+  )
+
+  const drawPeriod = parseInt(multicallResults[prizePoolAddress]['drawPeriod']?.[0])
+
+  const tierShares = BigNumber.from(multicallResults[prizePoolAddress]['tierShares']?.[0])
+  const totalShares = BigNumber.from(multicallResults[prizePoolAddress]['totalShares']?.[0])
+  const tierSharePercentage = divideBigNumbers(tierShares, totalShares)
+
+  const tierContributionPerDraw = totalContributions
+    .mul(tierSharePercentage)
+    .div(BigNumber.from(considerPastDraws))
+
+  tiers.forEach((tier) => {
+    const tierPrizeCount = 4 ** tier
+
+    const accrualDraws = parseInt(multicallResults[prizePoolAddress][`accrualDraws-${tier}`]?.[0])
+    const accrualSeconds = accrualDraws * drawPeriod
+    const accrualDays = accrualSeconds / SECONDS_PER_DAY
+
+    const amount = tierContributionPerDraw.mul(accrualDraws).div(BigNumber.from(tierPrizeCount))
+
+    const dailyFrequency = tierPrizeCount / accrualDays
+
+    prizes.push({ amount, dailyFrequency })
+  })
+
+  return prizes
 }
