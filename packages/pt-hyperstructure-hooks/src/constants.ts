@@ -22,7 +22,7 @@ export const QUERY_KEYS = Object.freeze({
 export const LOCAL_STORAGE_KEYS = Object.freeze({
   ...GENERIC_LOCAL_STORAGE_KEYS,
   cachedVaultLists: 'cachedVaultLists',
-  selectedVaultLists: 'selectedVaultLists'
+  selectedVaultListIds: 'selectedVaultListIds'
 })
 
 /**
