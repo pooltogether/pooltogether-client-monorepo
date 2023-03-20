@@ -1,5 +1,7 @@
 # PoolTogether App
 
+App w/ core PoolTogether Hyperstructure functionality.
+
 ![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=apps%2Fapp%2Fpackage.json&color=brightgreen)
 
 ![next](https://img.shields.io/static/v1?label&logo=nextdotjs&logoColor=white&message=Next.js&color=black)
