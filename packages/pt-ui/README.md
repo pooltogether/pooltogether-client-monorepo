@@ -1,3 +1,29 @@
-# pt-ui
+# Pooltogether UI
 
-A package containing basic UI elements (buttons, inputs, modals, etc) with minimal requirements that can be shared easily across all apps.
+Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
+
+![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fpt-ui%2Fpackage.json&color=brightgreen)
+
+![typescript](https://img.shields.io/static/v1?label&logo=typescript&logoColor=white&message=TypeScript&color=blue)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+![tailwind](https://img.shields.io/static/v1?label&logo=tailwindcss&logoColor=white&message=TailwindCSS&color=38B2AC)
+
+## UI Components
+
+- `BasicIcon`
+- `Button`
+- `Card`
+- `Dropdown`
+- `ExternalLink`
+- `Footer`
+- `Logo`
+- `Modal`
+- `Navbar`
+- `Selection`
+- `SocialIcon`
+- `Spinner`
+- `Table`
+- `Tabs`
+- `Toggle`
+
+This package also exports the `Flowbite` object for use elsewhere if necessary.
