@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "ethers": "^5.7.2",
+    "jotai": "^1.13.1",
     "pt-client-js": "workspace:*",
     "pt-generic-hooks": "workspace:*",
     "pt-utilities": "workspace:*"

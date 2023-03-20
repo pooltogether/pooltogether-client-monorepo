@@ -287,6 +287,7 @@ importers:
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
       ethers: ^5.7.2
+      jotai: ^1.13.1
       pt-client-js: workspace:*
       pt-generic-hooks: workspace:*
       pt-types: workspace:*
@@ -300,6 +301,7 @@ importers:
     dependencies:
       '@tanstack/react-query': 4.24.10_biqbaboplfbrettd7655fr4n2y
       ethers: 5.7.2
+      jotai: 1.13.1_q2tyk3gci27qk4qoatek53e4vi
       pt-client-js: link:../pt-client-js
       pt-generic-hooks: link:../pt-generic-hooks
       pt-utilities: link:../pt-utilities

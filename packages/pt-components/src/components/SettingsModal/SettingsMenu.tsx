@@ -7,19 +7,18 @@ import {
   useSelectedLanguage
 } from 'pt-generic-hooks'
 import { BasicIcon, LINKS } from 'pt-ui'
-import { SettingsModalTheme, SettingsModalView } from '.'
+import { SettingsModalOption, SettingsModalTheme, SettingsModalView } from '.'
 import { ClipboardListIcon } from '../Icons/ClipboardListIcon'
 
 interface SettingsMenuProps {
   setView: (view: SettingsModalView) => void
   theme?: SettingsModalTheme
-  disableCurrencies?: boolean
-  disableLanguages?: boolean
-  disableVaultLists?: boolean
+  disable?: SettingsModalOption[]
+  hide?: SettingsModalOption[]
 }
 
 export const SettingsMenu = (props: SettingsMenuProps) => {
-  const { setView, disableCurrencies, disableLanguages, disableVaultLists } = props
+  const { setView, disable, hide } = props
 
   const { selectedCurrency } = useSelectedCurrency()
   const { selectedLanguage } = useSelectedLanguage()
@@ -34,21 +33,24 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
             title: `${SUPPORTED_CURRENCIES[selectedCurrency].name} (${SUPPORTED_CURRENCIES[selectedCurrency].symbol})`,
             description: 'Change Currency',
             onClick: () => setView('currency'),
-            disabled: disableCurrencies
+            disabled: disable?.includes('currency'),
+            hidden: hide?.includes('currency')
           },
           {
             iconContent: selectedLanguage.toUpperCase(),
             title: `${SUPPORTED_LANGUAGES[selectedLanguage].nativeName} (${SUPPORTED_LANGUAGES[selectedLanguage].name})`,
             description: 'Change Language',
             onClick: () => setView('language'),
-            disabled: disableLanguages
+            disabled: disable?.includes('language'),
+            hidden: hide?.includes('language')
           },
           {
             iconContent: <ClipboardListIcon className='h-6 w-6 text-pt-purple-100' />,
             title: 'Manage Prize Asset Lists',
             description: 'Change the assets displayed on the app',
             onClick: () => setView('vaultLists'),
-            disabled: disableVaultLists
+            disabled: disable?.includes('vaultLists'),
+            hidden: hide?.includes('vaultLists')
           }
         ]}
       />
@@ -89,7 +91,7 @@ const SettingsMenuSection = (props: SettingsMenuSectionProps) => {
       {items.map((item) => {
         return (
           <SettingsMenuItem
-            key={`st-item-${item.title.toLowerCase().replace(' ', '-')}`}
+            key={`st-item-${item.title.toLowerCase().replaceAll(' ', '-')}`}
             {...item}
           />
         )
@@ -105,10 +107,11 @@ interface SettingsMenuItemProps {
   onClick: () => void
   theme?: SettingsModalTheme
   disabled?: boolean
+  hidden?: boolean
 }
 
 const SettingsMenuItem = (props: SettingsMenuItemProps) => {
-  const { iconContent, title, description, onClick, theme, disabled } = props
+  const { iconContent, title, description, onClick, theme, disabled, hidden } = props
 
   return (
     <div
@@ -118,7 +121,8 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
           'bg-pt-transparent hover:bg-pt-transparent/5': theme === 'light' || theme === undefined,
           'bg-pt-purple-600/40 hover:bg-pt-purple-600/60': theme === 'dark'
         },
-        { 'cursor-pointer': !disabled, 'brightness-50': disabled }
+        { 'cursor-pointer': !disabled, 'brightness-50': disabled },
+        { hidden: hidden }
       )}
       onClick={() => {
         if (!disabled) {

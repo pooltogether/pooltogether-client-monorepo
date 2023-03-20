@@ -1,3 +1,7 @@
+import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from 'pt-generic-hooks'
+import { getVaultListId } from 'pt-utilities'
+import { defaultVaultList } from './vaultLists/defaultVaultList'
+
 /**
  * Query keys for various hooks
  */
@@ -11,3 +15,17 @@ export const QUERY_KEYS = Object.freeze({
   vaultBalances: 'vaultBalances',
   vaultExchangeRates: 'vaultExchangeRates'
 })
+
+/**
+ * Local storage keys
+ */
+export const LOCAL_STORAGE_KEYS = Object.freeze({
+  ...GENERIC_LOCAL_STORAGE_KEYS,
+  cachedVaultLists: 'cachedVaultLists',
+  selectedVaultLists: 'selectedVaultLists'
+})
+
+/**
+ * Default Vault list ID
+ */
+export const defaultVaultListId = getVaultListId(defaultVaultList)

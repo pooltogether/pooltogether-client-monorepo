@@ -8,7 +8,9 @@ import { LanguageSelector } from './LanguageSelector'
 import { SettingsMenu } from './SettingsMenu'
 import { VaultListSelector } from './VaultListSelector'
 
-export type SettingsModalView = 'menu' | 'currency' | 'language' | 'vaultLists'
+export type SettingsModalOption = 'currency' | 'language' | 'vaultLists'
+
+export type SettingsModalView = 'menu' | SettingsModalOption
 
 export type SettingsModalTheme = 'light' | 'dark'
 
@@ -16,13 +18,12 @@ export interface SettingsModalProps {
   view: SettingsModalView
   setView: (view: SettingsModalView) => void
   theme?: SettingsModalTheme
-  disableCurrencies?: boolean
-  disableLanguages?: boolean
-  disableVaultLists?: boolean
+  disable?: SettingsModalOption[]
+  hide?: SettingsModalOption[]
 }
 
 export const SettingsModal = (props: SettingsModalProps) => {
-  const { view, setView, theme, disableCurrencies, disableLanguages, disableVaultLists } = props
+  const { view, setView, theme, disable, hide } = props
 
   const { isSettingsModalOpen, setIsSettingsModalOpen } = useIsSettingsModalOpen()
 
@@ -31,15 +32,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
   useEffect(() => setIsBrowser(true), [])
 
   const modalViews: Record<SettingsModalView, ReactNode> = {
-    menu: (
-      <SettingsMenu
-        setView={setView}
-        theme={theme}
-        disableCurrencies={disableCurrencies}
-        disableLanguages={disableLanguages}
-        disableVaultLists={disableVaultLists}
-      />
-    ),
+    menu: <SettingsMenu setView={setView} theme={theme} disable={disable} hide={hide} />,
     currency: <CurrencySelector setView={setView} theme={theme} />,
     language: <LanguageSelector setView={setView} theme={theme} />,
     vaultLists: <VaultListSelector />

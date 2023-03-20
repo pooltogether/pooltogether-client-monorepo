@@ -75,7 +75,7 @@ export const Footer = (props: FooterProps) => {
       >
         {(items ?? defaultFooterItems).map((item) => {
           return (
-            <div key={`ft-${item.title.toLowerCase().replace(' ', '-')}`} className='w-1/12'>
+            <div key={`ft-${item.title.toLowerCase().replaceAll(' ', '-')}`} className='w-1/12'>
               <FlowbiteFooter.Title
                 theme={{ base: 'text-pt-teal-dark mb-6' }}
                 title={item.title}
@@ -85,7 +85,7 @@ export const Footer = (props: FooterProps) => {
                 {item.content.map((content, i) => {
                   return (
                     <FooterItemContent
-                      key={`ft-item-${item.title.toLowerCase().replace(' ', '-')}-${i}`}
+                      key={`ft-item-${item.title.toLowerCase().replaceAll(' ', '-')}-${i}`}
                       {...content}
                       className={itemClassName}
                     />
