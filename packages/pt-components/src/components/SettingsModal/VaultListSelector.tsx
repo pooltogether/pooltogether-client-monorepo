@@ -99,7 +99,7 @@ const VaultListItem = (props: VaultListItemProps) => {
           </div>
         </div>
       </div>
-      <Toggle label={''} checked={isChecked} onChange={handleChange} disabled={disabled} />
+      <Toggle checked={isChecked} onChange={handleChange} disabled={disabled} />
     </div>
   )
 }
