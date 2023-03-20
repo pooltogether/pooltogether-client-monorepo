@@ -25,10 +25,14 @@ Each app is already setup with its own port through its `package.json` dev scrip
 
 All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https://tailwindcss.com/) support, written in [TypeScript](https://www.typescriptlang.org/).
 
+**Repo Links:** [App](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/app) | [Ecosystem](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/ecosystem) | [Landing Page](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/landing-page) |  [Tools](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/tools)
+
 ### External Packages
 
 - `pt-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Ethers](https://ethers.org/).
 - `pt-hyperstructure-hooks`: Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
+
+**Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-hyperstructure-hooks)
 
 ### Internal Packages
 
@@ -39,6 +43,8 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 - `pt-utilities`: Shared Typescript utilities.
 - `tailwind-config`: Shared `tailwind` configs.
 - `tsconfig`: Shared `tsconfig.json` setups.
+
+**Repo Links:** [Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-components) | [Generic Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-generic-hooks) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tsconfig)
 
 ### Package Notes
 
