@@ -13,7 +13,11 @@ export default function PrizesPage() {
 
   const networks = useNetworks()
 
-  const [selectedNetwork, setSelectedNetwork] = useState<NETWORK>(NETWORK.optimism)
+  const [selectedNetwork, setSelectedNetwork] = useState<NETWORK>(networks[0])
+
+  useEffect(() => {
+    setSelectedNetwork(networks[0])
+  }, [networks])
 
   useEffect(() => {
     const rawUrlNetwork = router.query['network']

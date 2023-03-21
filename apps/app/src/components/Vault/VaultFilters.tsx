@@ -104,7 +104,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     }
 
     onFilter(filteredVaults)
-  }, [filterId, userAddress])
+  }, [filterId, userAddress, networks])
 
   if (router.isReady) {
     return (

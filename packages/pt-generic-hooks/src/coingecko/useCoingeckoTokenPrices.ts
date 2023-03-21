@@ -7,7 +7,7 @@ import { NO_REFETCH } from '../constants/query'
 
 /**
  * Returns token prices from CoinGecko
- * @param chainId optional currency override (default is ['usd'])
+ * @param chainId chain ID the tokens are in
  * @param tokenAddresses token addresses to query prices for
  * @param currencies optional currency override (default is ['usd'])
  * @returns

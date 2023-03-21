@@ -38,6 +38,18 @@ export const getNiceNetworkNameByChainId = (chainId: number): string => {
     case NETWORK.xdai: {
       return 'xDai'
     }
+    case NETWORK['optimism-goerli']: {
+      return 'Optimism Goerli'
+    }
+    case NETWORK['arbitrum-goerli']: {
+      return 'Arbitrum Goerli'
+    }
+    case NETWORK['bsc-testnet']: {
+      return 'BSC Testnet'
+    }
+    case NETWORK['celo-testnet']: {
+      return 'Celo Testnet'
+    }
     default: {
       const niceName = getNetworkNameByChainId(chainId)
       return niceName ? niceName.charAt(0).toUpperCase() + niceName.slice(1) : '--'

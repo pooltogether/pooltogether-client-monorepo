@@ -31,28 +31,24 @@ export class PrizePool {
    * @param chainId the prize pool's chain ID
    * @param address the prize pool's address
    * @param signerOrProvider a Signer or Provider for the network the prize pool is deployed on
-   * @param prizeTokenAddress optional address of the prize token awarded
-   * @param drawPeriodInSeconds optional draw period in seconds
-   * @param tierShares optional tier shares
+   * @param options optional parameters
    */
   constructor(
     public chainId: number,
     public address: string,
     public signerOrProvider: Signer | providers.Provider,
-    prizeTokenAddress?: string,
-    drawPeriodInSeconds?: number,
-    tierShares?: BigNumber
+    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: BigNumber }
   ) {
     this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
     this.id = `${address}-${chainId}`
-    if (!!prizeTokenAddress) {
-      this.prizeTokenContract = new Contract(prizeTokenAddress, erc20Abi, signerOrProvider)
+    if (!!options?.prizeTokenAddress) {
+      this.prizeTokenContract = new Contract(options.prizeTokenAddress, erc20Abi, signerOrProvider)
     }
-    if (!!drawPeriodInSeconds) {
-      this.drawPeriodInSeconds = drawPeriodInSeconds
+    if (!!options?.drawPeriodInSeconds) {
+      this.drawPeriodInSeconds = options.drawPeriodInSeconds
     }
-    if (!!tierShares) {
-      this.tierShares = tierShares
+    if (!!options?.tierShares) {
+      this.tierShares = options.tierShares
     }
   }
 

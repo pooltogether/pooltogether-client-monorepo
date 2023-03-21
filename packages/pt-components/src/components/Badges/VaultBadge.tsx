@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { VaultInfo } from 'pt-types'
+import { TokenIcon } from '../Icons/TokenIcon'
 
 export interface VaultBadgeProps {
   vaultInfo: VaultInfo
@@ -14,10 +15,14 @@ export const VaultBadge = (props: VaultBadgeProps) => {
 
   return (
     <div className={classNames('flex gap-2', className)}>
-      <img
-        src={vaultInfo.logoURI}
-        alt={`${vaultInfo.name} Logo`}
-        className={classNames('h-6 w-6 my-auto', iconClassName)}
+      <TokenIcon
+        token={{
+          chainId: vaultInfo.chainId,
+          address: vaultInfo.address,
+          name: vaultInfo.name,
+          logoURI: vaultInfo.logoURI ?? vaultInfo.extensions?.underlyingAsset?.logoURI
+        }}
+        className={classNames('my-auto', iconClassName)}
       />
       <div className='flex flex-col text-left'>
         <span className={classNames(nameClassName)}>{vaultInfo.name}</span>

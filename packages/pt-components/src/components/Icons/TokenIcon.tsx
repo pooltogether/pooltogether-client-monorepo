@@ -1,6 +1,8 @@
 import classNames from 'classnames'
 import { TokenWithLogo } from 'pt-types'
 import { BasicIcon } from 'pt-ui'
+import { NETWORK } from 'pt-utilities'
+import { TOKEN_LOGO_OVERRIDES } from '../../constants'
 
 export interface TokenIconProps {
   token: Partial<TokenWithLogo>
@@ -10,20 +12,42 @@ export interface TokenIconProps {
 export const TokenIcon = (props: TokenIconProps) => {
   const { token, className } = props
 
+  const altText = !!token.symbol
+    ? `${token.symbol} Logo`
+    : !!token.name
+    ? `${token.name} Logo`
+    : undefined
+
   if (token.logoURI) {
     return (
       <img
         src={token.logoURI}
-        alt={token.symbol ? `${token.symbol} Logo` : token.name ? `${token.name} Logo` : undefined}
-        className={classNames('h-6 w-6', className)}
+        alt={altText}
+        className={classNames('h-6 w-6 rounded-full', className)}
       />
     )
   }
 
   if (token.chainId && token.address) {
+    const logoOverride =
+      TOKEN_LOGO_OVERRIDES[token.chainId as NETWORK]?.[token.address.toLowerCase()]
+    if (!!logoOverride) {
+      return (
+        <img
+          src={logoOverride}
+          alt={altText}
+          className={classNames('h-6 w-6 rounded-full', className)}
+        />
+      )
+    }
+
     // TODO: fetch token data from coingecko and display token icon
-    // TODO: include overrides mapping for tokens that we know are awkward to use from coingecko
   }
 
-  return <BasicIcon content={!!token.symbol ? token.symbol.slice(0, 2).toUpperCase() : '?'} />
+  return (
+    <BasicIcon
+      content={!!token.symbol ? token.symbol.slice(0, 2).toUpperCase() : '?'}
+      className={classNames(className)}
+    />
+  )
 }

@@ -6,10 +6,22 @@ import { LOCAL_STORAGE_KEYS } from '../constants'
 const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
   const selectedAndCachedVaultLists: VaultList[] = []
 
-  if (selectedIds.includes(defaultVaultListId)) {
+  // Adding default vault list (also bumping version if necessary):
+  const defaultVaultListName = defaultVaultListId.split('-').slice(0, -1).join('-')
+  const defaultVaultListVersion = defaultVaultListId.split('-').slice(-1)[0]
+  const foundIndex = selectedIds.findIndex((id) => id.startsWith(defaultVaultListName))
+  if (foundIndex !== -1) {
+    if (
+      selectedIds[foundIndex].split('-')[selectedIds[foundIndex].length - 1] !==
+      defaultVaultListVersion
+    ) {
+      selectedIds[foundIndex] = defaultVaultListId
+      localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, selectedIds.toString())
+    }
     selectedAndCachedVaultLists.push(defaultVaultList)
   }
 
+  // Adding other cached vault lists:
   const cachedVaultLists = localStorage.getItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
   if (!!cachedVaultLists) {
     cachedVaultLists.split(',').forEach((strVaultList) => {
