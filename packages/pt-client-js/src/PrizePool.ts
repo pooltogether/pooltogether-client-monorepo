@@ -8,7 +8,7 @@ import {
   getPrizePoolContributionPercentages,
   getProviderFromSigner,
   getTokenInfo,
-  erc20 as prizePoolAbi, // TODO: use actual prize pool ABI
+  prizePool as prizePoolAbi,
   validateAddress,
   validateSignerNetwork,
   validateSignerOrProviderNetwork

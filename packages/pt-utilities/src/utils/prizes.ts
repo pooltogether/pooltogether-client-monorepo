@@ -1,10 +1,7 @@
 import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, Contract, providers, utils } from 'ethers'
 import { PrizeInfo } from 'pt-types'
-import {
-  erc20 as prizePoolAbi
-  /* TODO: use actual prize pool ABI */
-} from '../abis/erc20'
+import { prizePool as prizePoolAbi } from '../abis/prizePool'
 import { SECONDS_PER_DAY } from '../constants'
 import { divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
