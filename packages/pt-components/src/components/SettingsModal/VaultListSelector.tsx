@@ -13,6 +13,9 @@ import { ImportedBadge } from '../Badges/ImportedBadge'
 
 export const VaultListSelector = () => {
   const { cachedVaultLists } = useCachedVaultLists()
+  const { selectedVaultLists } = useSelectedVaultLists()
+
+  const selectedVaultListIds = selectedVaultLists.map((vaultList) => getVaultListId(vaultList))
 
   return (
     <div className='flex flex-col gap-8 px-4'>
@@ -44,12 +47,18 @@ export const VaultListSelector = () => {
         key={`vl-item-${defaultVaultListId}`}
         vaultList={defaultVaultList}
         id={defaultVaultListId}
+        checked={selectedVaultListIds.includes(defaultVaultListId)}
         disabled={cachedVaultLists.length === 0}
       />
       {cachedVaultLists.map((vaultList) => {
         const vaultListId = getVaultListId(vaultList)
         return (
-          <VaultListItem key={`vl-item-${vaultListId}`} vaultList={vaultList} id={vaultListId} />
+          <VaultListItem
+            key={`vl-item-${vaultListId}`}
+            vaultList={vaultList}
+            id={vaultListId}
+            checked={selectedVaultListIds.includes(vaultListId)}
+          />
         )
       })}
     </div>
@@ -59,22 +68,22 @@ export const VaultListSelector = () => {
 interface VaultListItemProps {
   vaultList: VaultList
   id: string
+  checked: boolean
   disabled?: boolean
 }
 
 const VaultListItem = (props: VaultListItemProps) => {
-  const { vaultList, id, disabled } = props
+  const { vaultList, id, checked, disabled } = props
 
-  const { selectedVaultLists, addVaultList, removeVaultList } = useSelectedVaultLists()
+  const { addVaultList, removeVaultList } = useSelectedVaultLists()
 
-  const isChecked = useMemo(() => selectedVaultLists.includes(id), [id, selectedVaultLists])
   const isImported = useMemo(() => id !== defaultVaultListId, [id])
 
   const handleChange = (checked: boolean) => {
     if (checked) {
-      addVaultList(id)
+      addVaultList(vaultList)
     } else {
-      removeVaultList(id)
+      removeVaultList(vaultList)
     }
   }
 
@@ -93,13 +102,13 @@ const VaultListItem = (props: VaultListItemProps) => {
             <span className='text-xs'>
               {vaultList.tokens.length} Token{vaultList.tokens.length > 1 ? 's' : ''}
             </span>
-            {/* TODO: cog functionality */}
-            <Cog8ToothIcon className='h-5 w-5 text-inherit cursor-pointer' />
+            {/* TODO: re-add cog once functionality is in place */}
+            {/* <Cog8ToothIcon className='h-5 w-5 text-inherit cursor-pointer' /> */}
             {isImported && <ImportedBadge />}
           </div>
         </div>
       </div>
-      <Toggle checked={isChecked} onChange={handleChange} disabled={disabled} />
+      <Toggle checked={checked} onChange={handleChange} disabled={disabled} />
     </div>
   )
 }

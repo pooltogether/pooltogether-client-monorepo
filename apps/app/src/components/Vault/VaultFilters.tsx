@@ -6,14 +6,13 @@ import { useAccount } from 'wagmi'
 import { NetworkIcon } from 'pt-components'
 import {
   useProviders,
+  useSelectedVaults,
   useTokenBalancesAcrossChains,
-  useVaultBalances,
-  useVaults
+  useVaultBalances
 } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, getVaultId, NETWORK } from 'pt-utilities'
-import defaultVaultList from '@constants/defaultVaultList'
 import { STABLECOIN_SYMBOLS } from '@constants/filters'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
@@ -29,7 +28,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const router = useRouter()
 
   const networks = useNetworks()
-  const vaults = useVaults(defaultVaultList.tokens)
+  const vaults = useSelectedVaults()
 
   const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
@@ -69,10 +68,10 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   useEffect(() => {
     const stringNetworks = networks.map((network) => network.toString())
-    let filteredVaults: VaultInfo[] = [...defaultVaultList.tokens]
+    let filteredVaults: VaultInfo[] = vaults.allVaultInfo
 
     if (filterId === 'popular') {
-      filteredVaults = defaultVaultList.tokens.filter((vault) => {
+      filteredVaults = vaults.allVaultInfo.filter((vault) => {
         const usdPrice = getTokenPriceFromObject(
           vault.chainId,
           vault.extensions.underlyingAsset.address,
@@ -87,7 +86,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         return totalUsdBalance > 100_000
       })
     } else if (filterId === 'userWallet') {
-      filteredVaults = defaultVaultList.tokens.filter((vault) => {
+      filteredVaults = vaults.allVaultInfo.filter((vault) => {
         const userWalletBalance = BigNumber.from(
           isFetchedUserTokenBalances && !!userTokenBalances
             ? userTokenBalances[vault.chainId]?.[vault.extensions.underlyingAsset.address]
@@ -97,13 +96,11 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         return !userWalletBalance.isZero()
       })
     } else if (filterId === 'stablecoin') {
-      filteredVaults = defaultVaultList.tokens.filter((vault) =>
+      filteredVaults = vaults.allVaultInfo.filter((vault) =>
         STABLECOIN_SYMBOLS.includes(vault.extensions.underlyingAsset.symbol)
       )
     } else if (stringNetworks.includes(filterId)) {
-      filteredVaults = defaultVaultList.tokens.filter(
-        (vault) => vault.chainId.toString() === filterId
-      )
+      filteredVaults = vaults.allVaultInfo.filter((vault) => vault.chainId.toString() === filterId)
     }
 
     onFilter(filteredVaults)

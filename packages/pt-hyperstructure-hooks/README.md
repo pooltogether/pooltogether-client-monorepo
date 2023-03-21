@@ -17,6 +17,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 
 - `useCachedVaultLists`
 - `useSelectedVaultLists`
+- `useSelectedVaults`
 
 ## Blockchain Hooks
 

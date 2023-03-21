@@ -3,6 +3,7 @@
  */
 export * from './app/useCachedVaultLists'
 export * from './app/useSelectedVaultLists'
+export * from './app/useSelectedVaults'
 
 /**
  * Blockchain Hooks

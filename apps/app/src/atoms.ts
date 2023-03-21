@@ -1,7 +1,7 @@
 import { atom } from 'jotai'
 import { SettingsModalView } from 'pt-components'
+import { defaultVaultList } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
-import defaultVaultList from '@constants/defaultVaultList'
 
 /* ============================= Helper Functions ============================= */
 

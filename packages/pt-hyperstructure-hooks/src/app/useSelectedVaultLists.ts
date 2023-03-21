@@ -4,6 +4,27 @@ import { getVaultListId } from 'pt-utilities'
 import { defaultVaultListId, LOCAL_STORAGE_KEYS } from '../constants'
 import { defaultVaultList } from '../vaultLists/defaultVaultList'
 
+const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
+  const selectedAndCachedVaultLists: VaultList[] = []
+
+  if (selectedIds.includes(defaultVaultListId)) {
+    selectedAndCachedVaultLists.push(defaultVaultList)
+  }
+
+  const cachedVaultLists = localStorage.getItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
+  if (!!cachedVaultLists) {
+    cachedVaultLists.split(',').forEach((strVaultList) => {
+      const vaultList: VaultList = JSON.parse(strVaultList)
+      const vaultListId = getVaultListId(vaultList)
+      if (selectedIds.includes(vaultListId)) {
+        selectedAndCachedVaultLists.push(vaultList)
+      }
+    })
+  }
+
+  return selectedAndCachedVaultLists
+}
+
 const getInitialSelectedVaultLists = (): VaultList[] => {
   if (typeof window === 'undefined') return [defaultVaultList]
   const cachedSelectedVaultListIds = localStorage.getItem(LOCAL_STORAGE_KEYS.selectedVaultListIds)
@@ -49,25 +70,4 @@ export const useSelectedVaultLists = () => {
   }
 
   return { selectedVaultLists, setSelectedVaultLists, addVaultList, removeVaultList }
-}
-
-const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
-  const selectedAndCachedVaultLists: VaultList[] = []
-
-  if (selectedIds.includes(defaultVaultListId)) {
-    selectedAndCachedVaultLists.push(defaultVaultList)
-  }
-
-  const cachedVaultLists = localStorage.getItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
-  if (!!cachedVaultLists) {
-    cachedVaultLists.split(',').forEach((strVaultList) => {
-      const vaultList: VaultList = JSON.parse(strVaultList)
-      const vaultListId = getVaultListId(vaultList)
-      if (selectedIds.includes(vaultListId)) {
-        selectedAndCachedVaultLists.push(vaultList)
-      }
-    })
-  }
-
-  return selectedAndCachedVaultLists
 }
