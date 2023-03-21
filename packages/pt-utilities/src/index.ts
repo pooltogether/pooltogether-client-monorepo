@@ -26,6 +26,11 @@ export * from './utils/vaults'
 export * from './utils/web'
 
 /**
+ * Vault Lists
+ */
+export * from './vaultLists/defaultVaultList'
+
+/**
  * Constants
  */
 export * from './constants'

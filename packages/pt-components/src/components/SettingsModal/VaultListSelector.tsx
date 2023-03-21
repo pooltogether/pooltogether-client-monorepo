@@ -1,14 +1,9 @@
 import { Cog8ToothIcon } from '@heroicons/react/20/solid'
 import { useMemo } from 'react'
-import {
-  defaultVaultList,
-  defaultVaultListId,
-  useCachedVaultLists,
-  useSelectedVaultLists
-} from 'pt-hyperstructure-hooks'
+import { useCachedVaultLists, useSelectedVaultLists } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
-import { getVaultListId } from 'pt-utilities'
+import { defaultVaultList, defaultVaultListId, getVaultListId } from 'pt-utilities'
 import { ImportedBadge } from '../Badges/ImportedBadge'
 
 export const VaultListSelector = () => {

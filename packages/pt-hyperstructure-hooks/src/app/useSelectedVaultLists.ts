@@ -1,8 +1,7 @@
 import { atom, useAtom } from 'jotai'
 import { VaultList } from 'pt-types'
-import { getVaultListId } from 'pt-utilities'
-import { defaultVaultListId, LOCAL_STORAGE_KEYS } from '../constants'
-import { defaultVaultList } from '../vaultLists/defaultVaultList'
+import { defaultVaultList, defaultVaultListId, getVaultListId } from 'pt-utilities'
+import { LOCAL_STORAGE_KEYS } from '../constants'
 
 const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
   const selectedAndCachedVaultLists: VaultList[] = []

@@ -1,3 +1,6 @@
+import { getVaultListId } from './utils/vaults'
+import { defaultVaultList } from './vaultLists/defaultVaultList'
+
 /**
  * Network IDs
  */
@@ -112,3 +115,8 @@ export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
   [NETWORK.arbitrum]: 'https://arbiscan.io/',
   [NETWORK['arbitrum-goerli']]: 'https://goerli.arbiscan.io/'
 })
+
+/**
+ * Default Vault list ID
+ */
+export const defaultVaultListId = getVaultListId(defaultVaultList)

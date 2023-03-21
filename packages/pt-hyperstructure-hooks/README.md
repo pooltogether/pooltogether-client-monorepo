@@ -43,5 +43,3 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useVaultBalances`
 - `useVaultExchangeRates`
 - `useVaults`
-
-This package also exports a default vault list in the `/vaultLists` folder.

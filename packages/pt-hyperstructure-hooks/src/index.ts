@@ -39,11 +39,6 @@ export * from './vaults/useVaults'
 export * from './utils/populateCachePerId'
 
 /**
- * Vault Lists
- */
-export * from './vaultLists/defaultVaultList'
-
-/**
  * Constants
  */
 export * from './constants'
