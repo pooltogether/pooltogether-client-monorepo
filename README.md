@@ -25,26 +25,26 @@ Each app is already setup with its own port through its `package.json` dev scrip
 
 All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https://tailwindcss.com/) support, written in [TypeScript](https://www.typescriptlang.org/).
 
-**Repo Links:** [App](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/app) | [Ecosystem](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/ecosystem) | [Landing Page](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/landing-page) |  [Tools](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/tools)
+**Repo Links:** [App](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/app) | [Ecosystem](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/ecosystem) | [Landing Page](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/landing-page) | [Tools](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/tools)
 
 ### External Packages
 
 - `pt-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Ethers](https://ethers.org/).
 - `pt-hyperstructure-hooks`: Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
+- `pt-types`: Shared Typescript types.
 
-**Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-hyperstructure-hooks)
+**Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-hyperstructure-hooks) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-types)
 
 ### Internal Packages
 
 - `pt-components`: React component library utilizing some simpler components from `pt-ui`, using [WAGMI](https://wagmi.sh/).
 - `pt-generic-hooks`: Shared React hooks.
-- `pt-types`: Shared Typescript types.
 - `pt-ui`: Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
 - `pt-utilities`: Shared Typescript utilities.
 - `tailwind-config`: Shared `tailwind` configs.
 - `tsconfig`: Shared `tsconfig.json` setups.
 
-**Repo Links:** [Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-components) | [Generic Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-generic-hooks) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tsconfig)
+**Repo Links:** [Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-components) | [Generic Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-generic-hooks) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tsconfig)
 
 ### Package Notes
 
