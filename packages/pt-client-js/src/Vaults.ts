@@ -1,20 +1,20 @@
 import { BigNumber, providers } from 'ethers'
-import { TokenWithBalance, TokenWithSupply, VaultList } from 'pt-types'
+import { TokenWithBalance, TokenWithSupply, VaultInfo } from 'pt-types'
 import {
   getTokenBalances,
   getTokenInfo,
-  getVaultAddressesFromVaultList,
+  getVaultAddresses,
   getVaultBalances,
   getVaultExchangeRates,
   getVaultId,
   getVaultsByChainId,
-  getVaultUnderlyingTokenAddressesFromVaultList,
+  getVaultUnderlyingTokenAddresses,
   validateProviderNetwork
 } from 'pt-utilities'
 import { Vault } from './Vault'
 
 /**
- * This class provides read-only functions to fetch on-chain data from all vaults in a vault list
+ * This class provides read-only functions to fetch on-chain data from any vaults in vault list(s)
  */
 export class Vaults {
   readonly vaults: { [vaultId: string]: Vault } = {}
@@ -24,19 +24,19 @@ export class Vaults {
 
   /**
    * Creates an instance of a Vaults object with providers to query on-chain data with
-   * @param vaultList a vault list
+   * @param vaults a list of vaults
    * @param providers Providers for each network to create Vault objects for
    */
   constructor(
-    public vaultList: VaultList,
+    public allVaultInfo: VaultInfo[],
     public providers: { [chainId: number]: providers.Provider }
   ) {
     this.chainIds = Object.keys(providers).map((key) => Number(key))
-    this.vaultAddresses = getVaultAddressesFromVaultList(vaultList)
-    this.underlyingTokenAddresses = getVaultUnderlyingTokenAddressesFromVaultList(vaultList)
+    this.vaultAddresses = getVaultAddresses(allVaultInfo)
+    this.underlyingTokenAddresses = getVaultUnderlyingTokenAddresses(allVaultInfo)
 
     this.chainIds.forEach((chainId) => {
-      const chainVaults = getVaultsByChainId(chainId, vaultList.tokens)
+      const chainVaults = getVaultsByChainId(chainId, allVaultInfo)
       chainVaults.forEach((vault) => {
         const newVault = new Vault(
           vault.chainId,
@@ -72,7 +72,7 @@ export class Vaults {
               provider,
               this.underlyingTokenAddresses[chainId]
             )
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
               tokenData[vaultId] = chainTokenData[vault.extensions.underlyingAsset.address]
@@ -102,7 +102,7 @@ export class Vaults {
             const source = `Vaults [getShareData] [${chainId}]`
             await validateProviderNetwork(chainId, provider, source)
             const chainShareData = await getTokenInfo(provider, this.vaultAddresses[chainId])
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
               shareData[vaultId] = chainShareData[vault.address]
@@ -140,7 +140,7 @@ export class Vaults {
               userAddress,
               this.underlyingTokenAddresses[chainId]
             )
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
               tokenBalances[vaultId] = chainTokenBalances[vault.extensions.underlyingAsset.address]
@@ -178,7 +178,7 @@ export class Vaults {
               userAddress,
               this.vaultAddresses[chainId]
             )
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
               shareBalances[vaultId] = chainShareBalances[vault.address]
@@ -207,7 +207,7 @@ export class Vaults {
           if (!!provider) {
             const source = `Vaults [getTotalTokenBalances] [${chainId}]`
             await validateProviderNetwork(chainId, provider, source)
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             const chainTokenBalances = await getVaultBalances(provider, chainVaults)
             Object.assign(tokenBalances, chainTokenBalances)
           }
@@ -234,7 +234,7 @@ export class Vaults {
           if (!!provider) {
             const source = `Vaults [getExchangeRates] [${chainId}]`
             await validateProviderNetwork(chainId, provider, source)
-            const chainVaults = getVaultsByChainId(chainId, this.vaultList.tokens)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             const chainExchangeRates = await getVaultExchangeRates(provider, chainVaults)
             Object.assign(exchangeRates, chainExchangeRates)
           }

@@ -3,11 +3,7 @@ import {
   useCoingeckoTokenPricesAcrossChains
 } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
-import {
-  getVaultUnderlyingTokenAddressesFromVaultList,
-  NETWORK,
-  POOL_TOKEN_ADDRESSES
-} from 'pt-utilities'
+import { getVaultUnderlyingTokenAddresses, NETWORK, POOL_TOKEN_ADDRESSES } from 'pt-utilities'
 import defaultVaultList from '@constants/defaultVaultList'
 
 /**
@@ -22,7 +18,7 @@ export const useAllCoingeckoTokenPrices = (currencies: string[] = ['usd']) => {
     refetch: refetchCoingeckoSimpleTokenPrices
   } = useCoingeckoSimpleTokenPrices(currencies)
 
-  const tokenAddresses = getVaultUnderlyingTokenAddressesFromVaultList(defaultVaultList)
+  const tokenAddresses = getVaultUnderlyingTokenAddresses(defaultVaultList.tokens)
 
   if (tokenAddresses[NETWORK.mainnet] === undefined) {
     tokenAddresses[NETWORK.mainnet] = [POOL_TOKEN_ADDRESSES[NETWORK.mainnet]]

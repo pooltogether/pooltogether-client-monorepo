@@ -14,7 +14,7 @@ import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 export const useUserTotalUsdBalance = () => {
   const { address: userAddress } = useAccount()
 
-  const vaults = useVaults(defaultVaultList)
+  const vaults = useVaults(defaultVaultList.tokens)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 

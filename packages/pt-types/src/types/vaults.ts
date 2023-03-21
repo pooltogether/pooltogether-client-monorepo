@@ -32,7 +32,7 @@ export interface VaultExtensions {
     readonly symbol: string
     readonly name: string
     readonly decimals: string
-    readonly logoURI: string
+    readonly logoURI?: string
   }
   readonly [key: string]:
     | {

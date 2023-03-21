@@ -151,16 +151,14 @@ export const getVaultBalances = async (
 }
 
 /**
- * Returns the vault addresses from all vaults in a vault list
- * @param vaultList a vault list to go through
+ * Returns the vault addresses from all vaults given
+ * @param vaults a list of vaults
  * @returns
  */
-export const getVaultAddressesFromVaultList = (
-  vaultList: VaultList
-): { [chainId: number]: `0x${string}`[] } => {
+export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x${string}`[] } => {
   const vaultAddresses: { [chainId: number]: `0x${string}`[] } = {}
 
-  vaultList.tokens.forEach((vault) => {
+  vaults.forEach((vault) => {
     if (vaultAddresses[vault.chainId] === undefined) {
       vaultAddresses[vault.chainId] = []
     }
@@ -171,16 +169,16 @@ export const getVaultAddressesFromVaultList = (
 }
 
 /**
- * Returns the underlying tokens from all vaults in a vault list
- * @param vaultList a vault list to go through
+ * Returns the underlying tokens from all vaults given
+ * @param vaults a list of vaults
  * @returns
  */
-export const getVaultUnderlyingTokenAddressesFromVaultList = (
-  vaultList: VaultList
+export const getVaultUnderlyingTokenAddresses = (
+  vaults: VaultInfo[]
 ): { [chainId: number]: `0x${string}`[] } => {
   const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
 
-  vaultList.tokens.forEach((vault) => {
+  vaults.forEach((vault) => {
     if (tokenAddresses[vault.chainId] === undefined) {
       tokenAddresses[vault.chainId] = []
     }

@@ -29,7 +29,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const router = useRouter()
 
   const networks = useNetworks()
-  const vaults = useVaults(defaultVaultList)
+  const vaults = useVaults(defaultVaultList.tokens)
 
   const providers = useProviders()
   // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)

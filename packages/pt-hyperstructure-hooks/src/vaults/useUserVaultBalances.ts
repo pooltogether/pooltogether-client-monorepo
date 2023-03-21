@@ -9,9 +9,9 @@ import { populateCachePerId } from '../utils/populateCachePerId'
  * Returns a user's share balance in each vault
  *
  * Stores queried vault balances in cache
- * @param vaults
- * @param userAddress
- * @param refetchInterval
+ * @param vaults instance of the `Vaults` class
+ * @param userAddress user address to get balances for
+ * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useUserVaultBalances = (
@@ -35,9 +35,9 @@ export const useUserVaultBalances = (
  * Returns a user's share balance in a vault
  *
  * Stores queried vault balance in cache
- * @param vault
- * @param userAddress
- * @param refetchInterval
+ * @param vault instance of the `Vault` class
+ * @param userAddress user address to get balance for
+ * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
 export const useUserVaultBalance = (
