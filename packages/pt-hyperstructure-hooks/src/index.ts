@@ -1,4 +1,11 @@
 /**
+ * App Hooks
+ */
+export * from './app/useCachedVaultLists'
+export * from './app/useSelectedVaultLists'
+export * from './app/useSelectedVaults'
+
+/**
  * Blockchain Hooks
  */
 export * from './blockchain/useGasCostEstimates'
@@ -30,6 +37,11 @@ export * from './vaults/useVaults'
  * Utils
  */
 export * from './utils/populateCachePerId'
+
+/**
+ * Vault Lists
+ */
+export * from './vaultLists/defaultVaultList'
 
 /**
  * Constants

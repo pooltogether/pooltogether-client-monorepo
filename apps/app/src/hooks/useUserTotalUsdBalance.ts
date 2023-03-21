@@ -1,10 +1,13 @@
 import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { useUserVaultBalances, useVaultExchangeRates, useVaults } from 'pt-hyperstructure-hooks'
+import {
+  useSelectedVaults,
+  useUserVaultBalances,
+  useVaultExchangeRates
+} from 'pt-hyperstructure-hooks'
 import { VaultInfoWithBalance } from 'pt-types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
-import defaultVaultList from '@constants/defaultVaultList'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 
 /**
@@ -14,7 +17,7 @@ import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 export const useUserTotalUsdBalance = () => {
   const { address: userAddress } = useAccount()
 
-  const vaults = useVaults(defaultVaultList)
+  const vaults = useSelectedVaults()
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 

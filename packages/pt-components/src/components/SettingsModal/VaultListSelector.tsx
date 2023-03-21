@@ -1,15 +1,21 @@
 import { Cog8ToothIcon } from '@heroicons/react/20/solid'
+import { useMemo } from 'react'
+import {
+  defaultVaultList,
+  defaultVaultListId,
+  useCachedVaultLists,
+  useSelectedVaultLists
+} from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
+import { getVaultListId } from 'pt-utilities'
 import { ImportedBadge } from '../Badges/ImportedBadge'
 
-interface VaultListSelectorProps {}
+export const VaultListSelector = () => {
+  const { cachedVaultLists } = useCachedVaultLists()
+  const { selectedVaultLists } = useSelectedVaultLists()
 
-export const VaultListSelector = (props: VaultListSelectorProps) => {
-  const {} = props
-
-  // TODO: get vault lists from atom/hook that fetches from local storage
-  const vaultLists: VaultList[] = []
+  const selectedVaultListIds = selectedVaultLists.map((vaultList) => getVaultListId(vaultList))
 
   return (
     <div className='flex flex-col gap-8 px-4'>
@@ -28,20 +34,31 @@ export const VaultListSelector = (props: VaultListSelectorProps) => {
         />
       </div>
 
-      {/* TODO: vault list input functionality */}
+      {/* TODO: vault list input functionality (fetching URL, IPFS & ENS data + caching) */}
       <input
         id='vaultListInput'
         type='text'
         className='w-full text-sm bg-gray-50 text-pt-purple-900 px-4 py-3 rounded-lg focus:outline-none'
         placeholder='https:// or ipfs:// or ENS name'
+        disabled
       />
 
-      {vaultLists.map((vaultList) => {
-        const vaultName = vaultList.name.toLowerCase().replace(' ', '-')
-        const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
-        const id = `${vaultName}-v${version}`
+      <VaultListItem
+        key={`vl-item-${defaultVaultListId}`}
+        vaultList={defaultVaultList}
+        id={defaultVaultListId}
+        checked={selectedVaultListIds.includes(defaultVaultListId)}
+        disabled={cachedVaultLists.length === 0}
+      />
+      {cachedVaultLists.map((vaultList) => {
+        const vaultListId = getVaultListId(vaultList)
         return (
-          <VaultListItem key={`vl-item-${id}`} vaultList={vaultList} id={id} version={version} />
+          <VaultListItem
+            key={`vl-item-${vaultListId}`}
+            vaultList={vaultList}
+            id={vaultListId}
+            checked={selectedVaultListIds.includes(vaultListId)}
+          />
         )
       })}
     </div>
@@ -51,38 +68,47 @@ export const VaultListSelector = (props: VaultListSelectorProps) => {
 interface VaultListItemProps {
   vaultList: VaultList
   id: string
-  version: string
+  checked: boolean
+  disabled?: boolean
 }
 
 const VaultListItem = (props: VaultListItemProps) => {
-  const { id, vaultList, version } = props
+  const { vaultList, id, checked, disabled } = props
 
-  // TODO: get checked state
-  const isChecked = true
+  const { addVaultList, removeVaultList } = useSelectedVaultLists()
 
-  // TODO: check if it is the default one
-  const isImported = false
+  const isImported = useMemo(() => id !== defaultVaultListId, [id])
+
+  const handleChange = (checked: boolean) => {
+    if (checked) {
+      addVaultList(vaultList)
+    } else {
+      removeVaultList(vaultList)
+    }
+  }
+
+  const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
 
   return (
     <div className='w-full flex items-center justify-between'>
       <div className='flex items-center gap-2'>
         {!!vaultList.logoURI && <img src={vaultList.logoURI} className='w-8 h-8 rounded-full' />}
         <div className='flex flex-col gap-1 text-pt-purple-50'>
-          <div className='flex items-center gap-1'>
-            <span className='font-medium'>{vaultList.name}</span>
+          <span>
+            <span className='font-medium'>{vaultList.name}</span>{' '}
             <span className='text-xs'>{version}</span>
-          </div>
+          </span>
           <div className='flex items-center gap-1 text-pt-purple-100'>
             <span className='text-xs'>
               {vaultList.tokens.length} Token{vaultList.tokens.length > 1 ? 's' : ''}
             </span>
-            <Cog8ToothIcon className='h-5 w-5 text-inherit' />
+            {/* TODO: re-add cog once functionality is in place */}
+            {/* <Cog8ToothIcon className='h-5 w-5 text-inherit cursor-pointer' /> */}
             {isImported && <ImportedBadge />}
           </div>
         </div>
       </div>
-      {/* TODO: add proper onChange effect */}
-      <Toggle label={`toggle-${id}`} checked={isChecked} onChange={() => {}} />
+      <Toggle checked={checked} onChange={handleChange} disabled={disabled} />
     </div>
   )
 }

@@ -98,7 +98,7 @@ export const Layout = (props: LayoutProps) => {
       <SettingsModal
         view={settingsModalView}
         setView={setSettingsModalView}
-        disableLanguages={true}
+        disable={['language']}
       />
 
       <DepositModal

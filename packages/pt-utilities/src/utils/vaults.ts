@@ -1,6 +1,6 @@
 import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, providers, utils } from 'ethers'
-import { VaultInfo, VaultList } from 'pt-types'
+import { VaultInfo, VaultList, Version } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
 import { formatStringWithPrecision } from './formatting'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
@@ -12,6 +12,18 @@ import { getComplexMulticallResults, getMulticallResults } from './multicall'
  */
 export const getVaultId = (vaultInfo: VaultInfo | { chainId: number; address: string }) => {
   return `${vaultInfo.address}-${vaultInfo.chainId}`
+}
+
+/**
+ * Returns a unique vault list ID
+ * @param vaultList basic vault list info: name and version
+ * @returns
+ */
+export const getVaultListId = (vaultList: VaultList | { name: string; version: Version }) => {
+  const vaultName = vaultList.name.toLowerCase().replaceAll(' ', '-')
+  const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
+  const id = `${vaultName}-${version}`
+  return id
 }
 
 /**
@@ -139,16 +151,14 @@ export const getVaultBalances = async (
 }
 
 /**
- * Returns the vault addresses from all vaults in a vault list
- * @param vaultList a vault list to go through
+ * Returns the vault addresses from all vaults given
+ * @param vaults a list of vaults
  * @returns
  */
-export const getVaultAddressesFromVaultList = (
-  vaultList: VaultList
-): { [chainId: number]: `0x${string}`[] } => {
+export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x${string}`[] } => {
   const vaultAddresses: { [chainId: number]: `0x${string}`[] } = {}
 
-  vaultList.tokens.forEach((vault) => {
+  vaults.forEach((vault) => {
     if (vaultAddresses[vault.chainId] === undefined) {
       vaultAddresses[vault.chainId] = []
     }
@@ -159,16 +169,16 @@ export const getVaultAddressesFromVaultList = (
 }
 
 /**
- * Returns the underlying tokens from all vaults in a vault list
- * @param vaultList a vault list to go through
+ * Returns the underlying tokens from all vaults given
+ * @param vaults a list of vaults
  * @returns
  */
-export const getVaultUnderlyingTokenAddressesFromVaultList = (
-  vaultList: VaultList
+export const getVaultUnderlyingTokenAddresses = (
+  vaults: VaultInfo[]
 ): { [chainId: number]: `0x${string}`[] } => {
   const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
 
-  vaultList.tokens.forEach((vault) => {
+  vaults.forEach((vault) => {
     if (tokenAddresses[vault.chainId] === undefined) {
       tokenAddresses[vault.chainId] = []
     }

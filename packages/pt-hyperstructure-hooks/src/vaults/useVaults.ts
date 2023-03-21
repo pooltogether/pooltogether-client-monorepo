@@ -1,23 +1,24 @@
 import { useProvider } from 'wagmi'
 import { Vault, Vaults } from 'pt-client-js'
-import { VaultInfo, VaultList } from 'pt-types'
+import { VaultInfo } from 'pt-types'
 import { useProvidersByChain } from '../blockchain/useProviders'
 
 /**
  * Returns an instance of a `Vaults` class
+ * @param allVaultInfo array of vaults' info
  * @returns
  */
-export const useVaults = (vaultList: VaultList): Vaults => {
+export const useVaults = (allVaultInfo: VaultInfo[]): Vaults => {
   const providers = useProvidersByChain()
 
-  const vaults = new Vaults(vaultList, providers)
+  const vaults = new Vaults(allVaultInfo, providers)
 
   return vaults
 }
 
 /**
  * Returns an instance of a `Vault` class
- * @param vaultInfo
+ * @param vaultInfo a vault's info
  * @returns
  */
 export const useVault = (vaultInfo: VaultInfo): Vault => {
