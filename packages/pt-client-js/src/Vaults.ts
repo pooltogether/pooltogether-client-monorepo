@@ -9,6 +9,7 @@ import {
   getVaultId,
   getVaultsByChainId,
   getVaultUnderlyingTokenAddresses,
+  validateAddress,
   validateProviderNetwork
 } from 'pt-utilities'
 import { Vault } from './Vault'
@@ -125,16 +126,17 @@ export class Vaults {
     userAddress: string,
     chainIds?: number[]
   ): Promise<{ [vaultId: string]: TokenWithBalance }> {
+    const source = `Vaults [getUserTokenBalances]`
     const tokenBalances: { [vaultId: string]: TokenWithBalance } = {}
     const networksToQuery = chainIds ?? this.chainIds
+    validateAddress(userAddress, source)
 
     await Promise.all(
       networksToQuery.map((chainId) =>
         (async () => {
           const provider = this.providers[chainId]
           if (!!provider) {
-            const source = `Vaults [getUserTokenBalances] [${chainId}]`
-            await validateProviderNetwork(chainId, provider, source)
+            await validateProviderNetwork(chainId, provider, source + ` [${chainId}]`)
             const chainTokenBalances = await getTokenBalances(
               provider,
               userAddress,
@@ -163,26 +165,30 @@ export class Vaults {
     userAddress: string,
     chainIds?: number[]
   ): Promise<{ [vaultId: string]: TokenWithBalance }> {
+    const source = `Vaults [getUserShareBalances]`
     const shareBalances: { [vaultId: string]: TokenWithBalance } = {}
     const networksToQuery = chainIds ?? this.chainIds
+    validateAddress(userAddress, source)
 
     await Promise.all(
       networksToQuery.map((chainId) =>
         (async () => {
-          const provider = this.providers[chainId]
-          if (!!provider) {
-            const source = `Vaults [getUserShareBalances] [${chainId}]`
-            await validateProviderNetwork(chainId, provider, source)
-            const chainShareBalances = await getTokenBalances(
-              provider,
-              userAddress,
-              this.vaultAddresses[chainId]
-            )
-            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
-            chainVaults.forEach((vault) => {
-              const vaultId = getVaultId(vault)
-              shareBalances[vaultId] = chainShareBalances[vault.address]
-            })
+          const vaultAddresses = this.vaultAddresses[chainId]
+          if (!!vaultAddresses) {
+            const provider = this.providers[chainId]
+            if (!!provider) {
+              await validateProviderNetwork(chainId, provider, source + ` [${chainId}]`)
+              const chainShareBalances = await getTokenBalances(
+                provider,
+                userAddress,
+                vaultAddresses
+              )
+              const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
+              chainVaults.forEach((vault) => {
+                const vaultId = getVaultId(vault)
+                shareBalances[vaultId] = chainShareBalances[vault.address]
+              })
+            }
           }
         })()
       )

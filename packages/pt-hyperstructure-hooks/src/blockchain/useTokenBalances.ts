@@ -30,6 +30,7 @@ export const useTokenBalances = (
 
   const enabled =
     !!address &&
+    !!tokenAddresses &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&

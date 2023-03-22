@@ -77,7 +77,6 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
           />
         </div>
       )}
-      {!isFetchedVaultBalances && <Spinner />}
     </>
   )
 }
