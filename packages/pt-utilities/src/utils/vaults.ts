@@ -149,7 +149,7 @@ export const getVaultBalances = async (
 
 /**
  * Returns the vault addresses from all vaults given
- * @param vaults a list of vaults
+ * @param vaults vaults' info
  * @returns
  */
 export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x${string}`[] } => {
@@ -159,7 +159,9 @@ export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x
     if (vaultAddresses[vault.chainId] === undefined) {
       vaultAddresses[vault.chainId] = []
     }
-    vaultAddresses[vault.chainId].push(vault.address)
+    if (!vaultAddresses[vault.chainId].includes(vault.address)) {
+      vaultAddresses[vault.chainId].push(vault.address)
+    }
   })
 
   return vaultAddresses
@@ -167,7 +169,7 @@ export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x
 
 /**
  * Returns the underlying tokens from all vaults given
- * @param vaults a list of vaults
+ * @param vaults vaults' info
  * @returns
  */
 export const getVaultUnderlyingTokenAddresses = (
@@ -179,7 +181,9 @@ export const getVaultUnderlyingTokenAddresses = (
     if (tokenAddresses[vault.chainId] === undefined) {
       tokenAddresses[vault.chainId] = []
     }
-    tokenAddresses[vault.chainId].push(vault.extensions.underlyingAsset.address)
+    if (!tokenAddresses[vault.chainId].includes(vault.extensions.underlyingAsset.address)) {
+      tokenAddresses[vault.chainId].push(vault.extensions.underlyingAsset.address)
+    }
   })
 
   return tokenAddresses
