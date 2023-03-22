@@ -21,7 +21,8 @@ export const useUserVaultBalances = (
 ): UseQueryResult<{ [vaultId: string]: VaultInfoWithBalance }, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaults?.vaultAddresses]
+  const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
+  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultIds]
 
   return useQuery(queryKey, async () => await vaults.getUserShareBalances(userAddress), {
     enabled: !!vaults && !!userAddress,
@@ -47,11 +48,8 @@ export const useUserVaultBalance = (
 ): UseQueryResult<VaultInfoWithBalance, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [
-    QUERY_KEYS.userVaultBalances,
-    userAddress,
-    !!vault ? [{ [vault.chainId]: vault.address }] : []
-  ]
+  const vaultId = !!vault ? [vault.id] : []
+  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultId]
 
   return useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
     enabled: !!vault && !!userAddress,

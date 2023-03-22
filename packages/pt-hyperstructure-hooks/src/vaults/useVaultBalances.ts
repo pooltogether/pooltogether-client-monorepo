@@ -19,7 +19,8 @@ export const useVaultBalances = (
 ): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.vaultBalances, vaults?.vaultAddresses]
+  const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
+  const queryKey = [QUERY_KEYS.vaultBalances, vaultIds]
 
   return useQuery(queryKey, async () => await vaults.getTotalTokenBalances(), {
     enabled: !!vaults,
@@ -43,7 +44,8 @@ export const useVaultBalance = (
 ): UseQueryResult<BigNumber, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.vaultBalances, !!vault ? [{ [vault.chainId]: vault.address }] : []]
+  const vaultId = !!vault ? [vault.id] : []
+  const queryKey = [QUERY_KEYS.vaultBalances, vaultId]
 
   return useQuery(queryKey, async () => await vault.getTotalTokenBalance(), {
     enabled: !!vault,

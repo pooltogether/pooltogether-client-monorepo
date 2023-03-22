@@ -41,11 +41,11 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     simple: coingeckoSimpleTokenPrices,
     ...coingeckoTokenPrices,
     [NETWORK.goerli]: {
-      '0x56159f593155E3079A2d0Ae253e97C703dBe54A8': { usd: 0.99 },
-      '0x346ca12Ac254b843879733b17c6ed3d9c53333f0': { usd: 1.0 },
-      '0xD13905EF313F0F8cd0855E25c566354A2b7b9780': { usd: 1.01 },
-      '0xF33e8157569e09a9090E058b0a6D685d394258ed': { usd: 27_624.85 },
-      '0x0a30769C05876521B79d61669513129aBeeF5B84': { usd: 1_751.11 }
+      '0x56159f593155e3079a2d0ae253e97c703dbe54a8': { usd: 0.99 },
+      '0x346ca12ac254b843879733b17c6ed3d9c53333f0': { usd: 1.0 },
+      '0xd13905ef313f0f8cd0855e25c566354a2b7b9780': { usd: 1.01 },
+      '0xf33e8157569e09a9090e058b0a6d685d394258ed': { usd: 27_624.85 },
+      '0x0a30769c05876521b79d61669513129abeef5b84': { usd: 1_751.11 }
     }
   }
 

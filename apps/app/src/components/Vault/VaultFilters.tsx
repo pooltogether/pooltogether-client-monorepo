@@ -84,7 +84,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
             : 0
         const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
         const totalUsdBalance = formattedTokenAmount * usdPrice
-        return totalUsdBalance > 100_000
+        return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
       })
     } else if (filterId === 'userWallet') {
       filteredVaults = vaults.allVaultInfo.filter((vault) => {

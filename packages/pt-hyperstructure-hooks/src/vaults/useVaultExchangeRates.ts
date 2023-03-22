@@ -19,7 +19,8 @@ export const useVaultExchangeRates = (
 ): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [QUERY_KEYS.vaultExchangeRates, vaults?.vaultAddresses]
+  const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
+  const queryKey = [QUERY_KEYS.vaultExchangeRates, vaultIds]
 
   return useQuery(queryKey, async () => await vaults.getExchangeRates(), {
     enabled: !!vaults,
@@ -43,10 +44,8 @@ export const useVaultExchangeRate = (
 ): UseQueryResult<BigNumber, unknown> => {
   const queryClient = useQueryClient()
 
-  const queryKey = [
-    QUERY_KEYS.vaultExchangeRates,
-    !!vault ? [{ [vault.chainId]: vault.address }] : []
-  ]
+  const vaultId = !!vault ? [vault.id] : []
+  const queryKey = [QUERY_KEYS.vaultExchangeRates, vaultId]
 
   return useQuery(queryKey, async () => await vault.getExchangeRate(), {
     enabled: !!vault,
