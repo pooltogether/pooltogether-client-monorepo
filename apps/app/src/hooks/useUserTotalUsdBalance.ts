@@ -7,7 +7,7 @@ import {
   useVaultExchangeRates
 } from 'pt-hyperstructure-hooks'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
-import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
+import { useAllTokenPrices } from './useAllTokenPrices'
 
 /**
  * Returns a user's total balance in USD
@@ -18,7 +18,7 @@ export const useUserTotalUsdBalance = () => {
 
   const vaults = useSelectedVaults()
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
     vaults,

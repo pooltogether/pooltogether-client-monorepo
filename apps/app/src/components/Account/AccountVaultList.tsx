@@ -1,9 +1,10 @@
 import classNames from 'classnames'
+import { BigNumber } from 'ethers'
 import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useSelectedVaults, useUserVaultBalances } from 'pt-hyperstructure-hooks'
-import { Spinner, Table, TableProps } from 'pt-ui'
+import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 import { AccountVaultOdds } from './AccountVaultOdds'
@@ -43,14 +44,20 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
     isFetchedVaultBalances && !!vaultBalances
       ? Object.keys(vaultBalances).map((vaultId) => {
           const vaultInfo = vaultBalances[vaultId]
-          const cells: ReactNode[] = [
-            <VaultBadge vaultInfo={vaultInfo} />,
-            <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} hideIcon={true} />,
-            <AccountVaultOdds vaultInfo={vaultInfo} />,
-            <AccountVaultBalance vaultInfo={vaultInfo} />,
-            <AccountVaultButtons vaultInfo={vaultInfo} />
-          ]
-          return { cells }
+          if (!!vaultInfo && BigNumber.from(vaultInfo.balance).gt(0)) {
+            const cells: ReactNode[] = [
+              <VaultBadge vaultInfo={vaultInfo} />,
+              <NetworkBadge
+                chainId={vaultInfo.chainId}
+                appendText={'Prize Pool'}
+                hideIcon={true}
+              />,
+              <AccountVaultOdds vaultInfo={vaultInfo} />,
+              <AccountVaultBalance vaultInfo={vaultInfo} />,
+              <AccountVaultButtons vaultInfo={vaultInfo} />
+            ]
+            return { cells }
+          }
         })
       : []
 

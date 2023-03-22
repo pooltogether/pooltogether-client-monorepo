@@ -4,7 +4,7 @@ import { useVault, useVaultBalance } from 'pt-hyperstructure-hooks'
 import { VaultInfo } from 'pt-types'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getTokenPriceFromObject } from 'pt-utilities'
-import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
+import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 interface VaultTotalDepositsProps {
   vaultInfo: VaultInfo
@@ -16,7 +16,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   const vault = useVault(vaultInfo)
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
   const usdPrice = getTokenPriceFromObject(
     vaultInfo.chainId,
     vaultInfo.extensions.underlyingAsset.address,

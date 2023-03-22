@@ -72,12 +72,10 @@ export const getVaultExchangeRates = async (
     const multicallResults = await getComplexMulticallResults(readProvider, queries)
 
     filteredVaults.forEach((vault) => {
-      const exchangeRate: string | undefined =
-        multicallResults[vault.address]['convertToAssets']?.[0]
-      if (!!exchangeRate) {
-        const vaultId = getVaultId(vault)
-        vaultExchangeRates[vaultId] = BigNumber.from(exchangeRate)
-      }
+      const vaultId = getVaultId(vault)
+      vaultExchangeRates[vaultId] = BigNumber.from(
+        multicallResults[vault.address]['convertToAssets']?.[0] ?? 0
+      )
     })
   }
 
@@ -139,11 +137,10 @@ export const getVaultBalances = async (
     ])
 
     filteredVaults.forEach((vault) => {
-      const balance: string | undefined = multicallResults[vault.address]['totalAssets']?.[0]
-      if (!!balance) {
-        const vaultId = getVaultId(vault)
-        vaultBalances[vaultId] = BigNumber.from(balance)
-      }
+      const vaultId = getVaultId(vault)
+      vaultBalances[vaultId] = BigNumber.from(
+        multicallResults[vault.address]['totalAssets']?.[0] ?? 0
+      )
     })
   }
 

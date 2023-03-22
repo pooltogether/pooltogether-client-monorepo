@@ -30,7 +30,7 @@ export const getTokenInfo = async (
       symbol: multicallResults[address]['symbol']?.[0],
       name: multicallResults[address]['name']?.[0],
       decimals: multicallResults[address]['decimals']?.[0],
-      totalSupply: multicallResults[address]['totalSupply']?.[0]
+      totalSupply: BigNumber.from(multicallResults[address]['totalSupply']?.[0] ?? 0).toString()
     }
   })
 
@@ -87,14 +87,14 @@ export const getTokenBalances = async (
   const chainId = (await readProvider.getNetwork())?.chainId
 
   const formattedResult: { [tokenAddress: string]: TokenWithBalance } = {}
-  tokenAddresses.forEach((address) => {
-    formattedResult[address] = {
+  tokenAddresses.forEach((tokenAddress) => {
+    formattedResult[tokenAddress] = {
       chainId,
-      address,
-      symbol: multicallResults[address]['symbol']?.[0],
-      name: multicallResults[address]['name']?.[0],
-      decimals: multicallResults[address]['decimals']?.[0],
-      balance: multicallResults[address]['balanceOf']?.[0]
+      address: tokenAddress,
+      symbol: multicallResults[tokenAddress]['symbol']?.[0],
+      name: multicallResults[tokenAddress]['name']?.[0],
+      decimals: multicallResults[tokenAddress]['decimals']?.[0],
+      balance: BigNumber.from(multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0).toString()
     }
   })
 

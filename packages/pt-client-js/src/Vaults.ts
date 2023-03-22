@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers'
-import { TokenWithBalance, TokenWithSupply, VaultInfo } from 'pt-types'
+import { TokenWithBalance, TokenWithSupply, VaultInfo, VaultInfoWithBalance } from 'pt-types'
 import {
   getTokenBalances,
   getTokenInfo,
@@ -164,9 +164,9 @@ export class Vaults {
   async getUserShareBalances(
     userAddress: string,
     chainIds?: number[]
-  ): Promise<{ [vaultId: string]: TokenWithBalance }> {
+  ): Promise<{ [vaultId: string]: VaultInfoWithBalance }> {
     const source = `Vaults [getUserShareBalances]`
-    const shareBalances: { [vaultId: string]: TokenWithBalance } = {}
+    const shareBalances: { [vaultId: string]: VaultInfoWithBalance } = {}
     const networksToQuery = chainIds ?? this.chainIds
     validateAddress(userAddress, source)
 
@@ -186,7 +186,10 @@ export class Vaults {
               const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
               chainVaults.forEach((vault) => {
                 const vaultId = getVaultId(vault)
-                shareBalances[vaultId] = chainShareBalances[vault.address]
+                shareBalances[vaultId] = {
+                  ...vault,
+                  balance: chainShareBalances[vault.address]?.balance
+                }
               })
             }
           }

@@ -7,7 +7,7 @@ import {
   getAssetsFromShares,
   getTokenPriceFromObject
 } from 'pt-utilities'
-import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
+import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 interface AccountVaultBalanceProps {
   vaultInfo: VaultInfoWithBalance
@@ -16,7 +16,7 @@ interface AccountVaultBalanceProps {
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   const { vaultInfo } = props
 
-  const { data: tokenPrices } = useAllCoingeckoTokenPrices()
+  const { data: tokenPrices } = useAllTokenPrices()
   const usdPrice = getTokenPriceFromObject(
     vaultInfo.chainId,
     vaultInfo.extensions.underlyingAsset.address,
@@ -25,10 +25,14 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const vault = useVault(vaultInfo)
 
-  const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
+  const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
+    useVaultExchangeRate(vault)
 
   const shareBalance = BigNumber.from(vaultInfo.balance)
-  const tokenBalance = getAssetsFromShares(shareBalance, vaultExchangeRate, vaultInfo.decimals)
+  const tokenBalance =
+    isFetchedVaultExchangeRate && !!vaultExchangeRate
+      ? getAssetsFromShares(shareBalance, vaultExchangeRate, vaultInfo.decimals)
+      : BigNumber.from(0)
 
   const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
   const usdBalance = Number(formattedTokenBalance) * usdPrice

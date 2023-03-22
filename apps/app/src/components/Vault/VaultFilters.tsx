@@ -14,7 +14,7 @@ import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, getVaultId, NETWORK } from 'pt-utilities'
 import { STABLECOIN_SYMBOLS } from '@constants'
-import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
+import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 
 interface VaultFiltersProps {
@@ -37,7 +37,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses)
 
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
+  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
   const [filterId, setFilterId] = useState<string>('all')
 

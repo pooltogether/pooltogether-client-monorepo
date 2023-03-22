@@ -93,11 +93,10 @@ export const getPrizePoolContributionPercentages = async (
     const multicallResults = await getComplexMulticallResults(readProvider, queries)
 
     vaultAddresses.forEach((vaultAddress) => {
-      const vaultContribution: string | undefined =
-        multicallResults[prizePoolAddress]['getVaultPortion']?.[0]
-      if (!!vaultContribution) {
-        contributionPercentages[vaultAddress] = parseFloat(utils.formatUnits(vaultContribution, 18))
-      }
+      const vaultContribution = BigNumber.from(
+        multicallResults[prizePoolAddress]['getVaultPortion']?.[0] ?? 0
+      ).toString()
+      contributionPercentages[vaultAddress] = parseFloat(utils.formatUnits(vaultContribution, 18))
     })
   }
 
@@ -211,8 +210,8 @@ export const getPrizePoolAllPrizeInfo = async (
 
   const drawPeriod = parseInt(multicallResults[prizePoolAddress]['drawPeriod']?.[0])
 
-  const tierShares = BigNumber.from(multicallResults[prizePoolAddress]['tierShares']?.[0])
-  const totalShares = BigNumber.from(multicallResults[prizePoolAddress]['totalShares']?.[0])
+  const tierShares = BigNumber.from(multicallResults[prizePoolAddress]['tierShares']?.[0] ?? 0)
+  const totalShares = BigNumber.from(multicallResults[prizePoolAddress]['totalShares']?.[0] ?? 0)
   const tierSharePercentage = divideBigNumbers(tierShares, totalShares)
 
   const tierContributionPerDraw = totalContributions

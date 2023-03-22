@@ -45,7 +45,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     userAddress as `0x${string}`
   )
   const shareBalance =
-    isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
+    isFetchedVaultBalance && !!vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 
   const { data: tokenPrices } = useCoingeckoTokenPrices(vaultInfo.chainId, [
     vaultInfo.extensions.underlyingAsset.address
