@@ -22,14 +22,22 @@ export const useUserVaultBalances = (
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultIds]
+  const getQueryKey = (val: (string | number)[]) => [
+    QUERY_KEYS.userVaultBalances,
+    userAddress,
+    [val]
+  ]
 
-  return useQuery(queryKey, async () => await vaults.getUserShareBalances(userAddress), {
-    enabled: !!vaults && !!userAddress,
-    ...NO_REFETCH,
-    refetchInterval: refetchInterval ?? false,
-    onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
-  })
+  return useQuery(
+    getQueryKey(vaultIds),
+    async () => await vaults.getUserShareBalances(userAddress),
+    {
+      enabled: !!vaults && !!userAddress,
+      ...NO_REFETCH,
+      refetchInterval: refetchInterval ?? false,
+      onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
+    }
+  )
 }
 
 /**
@@ -46,15 +54,12 @@ export const useUserVaultBalance = (
   userAddress: string,
   refetchInterval?: number
 ): UseQueryResult<VaultInfoWithBalance, unknown> => {
-  const queryClient = useQueryClient()
-
   const vaultId = !!vault ? [vault.id] : []
   const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultId]
 
   return useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
     enabled: !!vault && !!userAddress,
     ...NO_REFETCH,
-    refetchInterval: refetchInterval ?? false,
-    onSuccess: (data) => populateCachePerId(queryClient, queryKey, { [vault.id]: data })
+    refetchInterval: refetchInterval ?? false
   })
 }

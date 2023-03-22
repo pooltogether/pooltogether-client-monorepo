@@ -42,23 +42,25 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   const tableRows: TableProps['rows'] =
     isFetchedVaultBalances && !!vaultBalances
-      ? Object.keys(vaultBalances).map((vaultId) => {
-          const vaultInfo = vaultBalances[vaultId]
-          if (!!vaultInfo && BigNumber.from(vaultInfo.balance).gt(0)) {
-            const cells: ReactNode[] = [
-              <VaultBadge vaultInfo={vaultInfo} />,
-              <NetworkBadge
-                chainId={vaultInfo.chainId}
-                appendText={'Prize Pool'}
-                hideIcon={true}
-              />,
-              <AccountVaultOdds vaultInfo={vaultInfo} />,
-              <AccountVaultBalance vaultInfo={vaultInfo} />,
-              <AccountVaultButtons vaultInfo={vaultInfo} />
-            ]
-            return { cells }
-          }
-        })
+      ? Object.keys(vaultBalances)
+          .map((vaultId) => {
+            const vaultInfo = vaultBalances[vaultId]
+            if (!!vaultInfo && BigNumber.from(vaultInfo.balance).gt(0)) {
+              const cells: ReactNode[] = [
+                <VaultBadge vaultInfo={vaultInfo} />,
+                <NetworkBadge
+                  chainId={vaultInfo.chainId}
+                  appendText={'Prize Pool'}
+                  hideIcon={true}
+                />,
+                <AccountVaultOdds vaultInfo={vaultInfo} />,
+                <AccountVaultBalance vaultInfo={vaultInfo} />,
+                <AccountVaultButtons vaultInfo={vaultInfo} />
+              ]
+              return { cells }
+            }
+          })
+          .filter((row) => !!row)
       : []
 
   // NOTE: This is necessary due to hydration errors otherwise.

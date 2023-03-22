@@ -40,16 +40,22 @@ export const useTokenAllowances = (
     isFetchedChainId &&
     !!chainId
 
-  const queryKey = [QUERY_KEYS.tokenAllowances, chainId, address, spenderAddress, tokenAddresses]
+  const getQueryKey = (val: (string | number)[]) => [
+    QUERY_KEYS.tokenAllowances,
+    chainId,
+    address,
+    spenderAddress,
+    [val]
+  ]
 
   return useQuery(
-    queryKey,
+    getQueryKey(tokenAddresses),
     async () => await getTokenAllowances(readProvider, address, spenderAddress, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,
       refetchInterval: refetchInterval ?? false,
-      onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
+      onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
     }
   )
 }

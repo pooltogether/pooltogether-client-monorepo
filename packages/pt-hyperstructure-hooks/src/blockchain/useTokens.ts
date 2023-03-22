@@ -32,13 +32,17 @@ export const useTokens = (
     isFetchedChainId &&
     !!chainId
 
-  const queryKey = [QUERY_KEYS.tokens, chainId, tokenAddresses]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.tokens, chainId, [val]]
 
-  return useQuery(queryKey, async () => await getTokenInfo(readProvider, tokenAddresses), {
-    enabled,
-    ...NO_REFETCH,
-    onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
-  })
+  return useQuery(
+    getQueryKey(tokenAddresses),
+    async () => await getTokenInfo(readProvider, tokenAddresses),
+    {
+      enabled,
+      ...NO_REFETCH,
+      onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
+    }
+  )
 }
 
 /**
