@@ -25,7 +25,7 @@ export interface NavbarProps {
   linkClassName?: string
 }
 
-// TODO: maybe center links absolutely, so they don't shift to the left when a wallet connects
+// TODO: center links absolutely, so they don't shift to the left when a wallet connects
 export const Navbar = (props: NavbarProps) => {
   const {
     links,

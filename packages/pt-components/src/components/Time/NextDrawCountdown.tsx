@@ -2,9 +2,8 @@ import { useCountdown } from 'pt-generic-hooks'
 import { TimeUnit } from 'pt-types'
 import { TimeDigits } from './TimeDigits'
 
-// TODO: ensure this doesn't cause hydration errors on full build
 export const NextDrawCountdown = () => {
-  // TODO: get next draw time
+  // TODO: get next draw time and ensure this doesn't cause hydration errors on build
   const { days, hours, minutes } = useCountdown(1_678_824_488)
 
   return (

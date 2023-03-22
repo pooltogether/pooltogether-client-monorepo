@@ -25,10 +25,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const vault = useVault(vaultInfo)
 
-  // const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
-
-  // TODO: remove this after vaults have proper addresses (and uncomment code above)
-  const vaultExchangeRate = utils.parseUnits('2', vaultInfo.decimals)
+  const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
   const shareBalance = BigNumber.from(vaultInfo.balance)
   const tokenBalance = getAssetsFromShares(shareBalance, vaultExchangeRate, vaultInfo.decimals)

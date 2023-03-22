@@ -5,7 +5,7 @@ import { VaultInfo } from 'pt-types'
 import { Layout } from '@components/Layout'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
-import { SUPPORTED_NETWORKS } from '@constants/networks'
+import { SUPPORTED_NETWORKS } from '@constants'
 import { useNetworks } from '@hooks/useNetworks'
 
 export default function DepositPage() {

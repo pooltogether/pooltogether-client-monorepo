@@ -24,7 +24,7 @@ export const useUserVaultBalances = (
   const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaults?.vaultAddresses]
 
   return useQuery(queryKey, async () => await vaults.getUserShareBalances(userAddress), {
-    enabled: !!vaults,
+    enabled: !!vaults && !!userAddress,
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
     onSuccess: (data) => populateCachePerId(queryClient, queryKey, data)
@@ -54,7 +54,7 @@ export const useUserVaultBalance = (
   ]
 
   return useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
-    enabled: !!vault,
+    enabled: !!vault && !!userAddress,
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
     onSuccess: (data) => populateCachePerId(queryClient, queryKey, { [vault.id]: data })

@@ -5,7 +5,7 @@
     "paths": {
       "@atoms": ["./src/atoms"],
       "@components/*": ["./src/components/*"],
-      "@constants/*": ["./src/constants/*"],
+      "@constants": ["./src/constants"],
       "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"]
     }

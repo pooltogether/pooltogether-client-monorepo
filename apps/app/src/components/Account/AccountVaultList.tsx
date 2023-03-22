@@ -3,7 +3,6 @@ import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useSelectedVaults, useUserVaultBalances } from 'pt-hyperstructure-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
 import { Spinner, Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
@@ -22,39 +21,15 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   const vaults = useSelectedVaults()
 
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
-  //   vaults,
-  //   userAddress
-  // )
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
+    vaults,
+    userAddress
+  )
 
-  // TODO: remove and uncomment hook above once vaults are setup
-  const vaultBalances: { [vaultId: string]: VaultInfoWithBalance } = {
-    '0x4200000000000000000000000000000000000006-10': {
-      chainId: 10,
-      address: '0x4200000000000000000000000000000000000006',
-      name: 'WETH Vault',
-      decimals: 18,
-      symbol: 'ptaWETH',
-      logoURI: 'https://optimistic.etherscan.io/token/images/weth_28.png',
-      extensions: {
-        yieldSource: 'Aave',
-        underlyingAsset: {
-          chainId: 10,
-          address: '0x4200000000000000000000000000000000000006',
-          symbol: 'WETH',
-          name: 'Wrapped Ether',
-          decimals: '18',
-          logoURI: 'https://optimistic.etherscan.io/token/images/weth_28.png'
-        }
-      },
-      balance: '12345678909876543210'
-    }
-  }
-  const isFetchedVaultBalances: boolean = true
-
-  const noBalances = isFetchedVaultBalances
-    ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
-    : false
+  const noBalances =
+    isFetchedVaultBalances && !!vaultBalances
+      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
+      : false
 
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
@@ -64,17 +39,20 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
     'Manage'
   ]
 
-  const tableRows: TableProps['rows'] = Object.keys(vaultBalances).map((vaultId) => {
-    const vaultInfo = vaultBalances[vaultId]
-    const cells: ReactNode[] = [
-      <VaultBadge vaultInfo={vaultInfo} />,
-      <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} hideIcon={true} />,
-      <AccountVaultOdds vaultInfo={vaultInfo} />,
-      <AccountVaultBalance vaultInfo={vaultInfo} />,
-      <AccountVaultButtons vaultInfo={vaultInfo} />
-    ]
-    return { cells }
-  })
+  const tableRows: TableProps['rows'] =
+    isFetchedVaultBalances && !!vaultBalances
+      ? Object.keys(vaultBalances).map((vaultId) => {
+          const vaultInfo = vaultBalances[vaultId]
+          const cells: ReactNode[] = [
+            <VaultBadge vaultInfo={vaultInfo} />,
+            <NetworkBadge chainId={vaultInfo.chainId} appendText={'Prize Pool'} hideIcon={true} />,
+            <AccountVaultOdds vaultInfo={vaultInfo} />,
+            <AccountVaultBalance vaultInfo={vaultInfo} />,
+            <AccountVaultButtons vaultInfo={vaultInfo} />
+          ]
+          return { cells }
+        })
+      : []
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -88,7 +66,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   return (
     <>
-      {isFetchedVaultBalances && (
+      {isFetchedVaultBalances && !!vaultBalances && (
         <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
           <Table
             headers={tableHeaders}

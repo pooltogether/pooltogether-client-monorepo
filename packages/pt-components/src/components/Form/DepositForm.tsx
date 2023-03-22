@@ -8,7 +8,7 @@ import {
   useVault,
   useVaultExchangeRate
 } from 'pt-hyperstructure-hooks'
-import { VaultInfo, VaultInfoWithBalance } from 'pt-types'
+import { VaultInfo } from 'pt-types'
 import { getAssetsFromShares, getSharesFromAssets, getTokenPriceFromObject } from 'pt-utilities'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
@@ -27,10 +27,7 @@ export const DepositForm = (props: DepositFormProps) => {
 
   const vault = useVault(vaultInfo)
 
-  // const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
-
-  // TODO: remove this after vaults have proper addresses (and uncomment code above)
-  const vaultExchangeRate = utils.parseUnits('2', vaultInfo.decimals)
+  const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
   const { address: userAddress } = useAccount()
 
@@ -43,13 +40,10 @@ export const DepositForm = (props: DepositFormProps) => {
   )
   const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
 
-  // const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
-  //   vault,
-  //   userAddress as `0x${string}`
-  // )
-  // TODO: remove the following once vaults are setup (and uncomment above)
-  const isFetchedVaultBalance: boolean = true
-  const vaultInfoWithBalance: VaultInfoWithBalance = { ...vaultInfo, balance: '0' }
+  const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
+    vault,
+    userAddress as `0x${string}`
+  )
   const shareBalance =
     isFetchedVaultBalance && vaultInfoWithBalance ? vaultInfoWithBalance.balance : '0'
 

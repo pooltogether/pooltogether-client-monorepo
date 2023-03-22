@@ -13,7 +13,7 @@ import {
 import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, getVaultId, NETWORK } from 'pt-utilities'
-import { STABLECOIN_SYMBOLS } from '@constants/filters'
+import { STABLECOIN_SYMBOLS } from '@constants'
 import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 
@@ -31,7 +31,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const vaults = useSelectedVaults()
 
   const providers = useProviders()
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
 
   const { address: userAddress } = useAccount()
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
@@ -77,10 +77,11 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           vault.extensions.underlyingAsset.address,
           tokenPrices
         )
-        // const vaultId = getVaultId(vault)
-        // const tokenAmount = isFetchedVaultBalances && !!vaultBalances ? vaultBalances[vaultId] : 0
-        // TODO: remove this once vaults are setup (and uncomment code above):
-        const tokenAmount = utils.parseUnits('50000', vault.decimals)
+        const vaultId = getVaultId(vault)
+        const tokenAmount =
+          isFetchedVaultBalances && !!vaultBalances && vaultBalances[vaultId]
+            ? vaultBalances[vaultId]
+            : 0
         const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
         const totalUsdBalance = formattedTokenAmount * usdPrice
         return totalUsdBalance > 100_000

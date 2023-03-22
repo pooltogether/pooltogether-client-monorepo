@@ -29,5 +29,10 @@ Open [http://localhost:3000](http://localhost:3000) on your browser to see the r
 
 - `pages` - All of the pages in the app!
 - `components` - React components that make up the contents of the pages.
-- `constants` - Constant values for configuration and functionality of the app.
 - `hooks` - App-specific hooks not included in other hook packages.
+
+## Environment Setup:
+
+Add your RPC IDs to `.env.local` for testing. A `.env.example` file is available for reference.
+
+If none are provided, the app will use public RPCs which could potentially get rate-limited.

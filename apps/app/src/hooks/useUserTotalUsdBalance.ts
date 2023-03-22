@@ -6,7 +6,6 @@ import {
   useUserVaultBalances,
   useVaultExchangeRates
 } from 'pt-hyperstructure-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllCoingeckoTokenPrices } from './useAllCoingeckoTokenPrices'
 
@@ -21,42 +20,13 @@ export const useUserTotalUsdBalance = () => {
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllCoingeckoTokenPrices()
 
-  // const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
-  //   vaults,
-  //   userAddress
-  // )
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
+    vaults,
+    userAddress
+  )
 
-  // const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
-  //   useVaultExchangeRates(vaults)
-
-  // TODO: remove and uncomment hooks above once vaults are setup
-  const vaultExchangeRates: { [vaultId: string]: BigNumber } = {
-    '0x4200000000000000000000000000000000000006-10': utils.parseUnits('2', 18)
-  }
-  const vaultBalances: { [vaultId: string]: VaultInfoWithBalance } = {
-    '0x4200000000000000000000000000000000000006-10': {
-      chainId: 10,
-      address: '0x4200000000000000000000000000000000000006',
-      name: 'WETH Vault',
-      decimals: 18,
-      symbol: 'ptaWETH',
-      logoURI: 'https://optimistic.etherscan.io/token/images/weth_28.png',
-      extensions: {
-        yieldSource: 'Aave',
-        underlyingAsset: {
-          chainId: 10,
-          address: '0x4200000000000000000000000000000000000006',
-          symbol: 'WETH',
-          name: 'Wrapped Ether',
-          decimals: '18',
-          logoURI: 'https://optimistic.etherscan.io/token/images/weth_28.png'
-        }
-      },
-      balance: '12345678909876543210'
-    }
-  }
-  const isFetchedVaultBalances: boolean = true
-  const isFetchedVaultExchangeRates: boolean = true
+  const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
+    useVaultExchangeRates(vaults)
 
   const isFetched = isFetchedTokenPrices && isFetchedVaultBalances && isFetchedVaultExchangeRates
 

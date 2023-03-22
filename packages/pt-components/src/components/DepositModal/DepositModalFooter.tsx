@@ -34,15 +34,12 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vaultInfo.chainId })
 
-  // const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
-  //   provider,
-  //   userAddress as `0x${string}`,
-  //   vaultInfo.address,
-  //   vaultInfo.extensions.underlyingAsset.address
-  // )
-  // TODO: remove and uncomment above once vaults are setup:
-  const allowance = BigNumber.from(0)
-  const isFetchedAllowance: boolean = true
+  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
+    provider,
+    userAddress as `0x${string}`,
+    vaultInfo.address,
+    vaultInfo.extensions.underlyingAsset.address
+  )
 
   const { data: userBalance, isFetched: isFetchedUserBalance } = useTokenBalance(
     provider,

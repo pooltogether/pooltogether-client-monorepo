@@ -23,11 +23,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
     tokenPrices
   )
 
-  // const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(vault)
-
-  // TODO: remove this once vaults are setup (and uncomment code above):
-  const totalDeposits = utils.parseUnits('50000', vaultInfo.decimals)
-  const isFetchedTotalDeposits = true
+  const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(vault)
 
   if (!isFetchedTotalDeposits || (displayCurrency && !isFetchedTokenPrices)) {
     return <Spinner />
