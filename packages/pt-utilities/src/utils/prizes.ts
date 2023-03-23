@@ -7,6 +7,16 @@ import { divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
+ * Returns a unique prize pool ID
+ * @param chainId the prize pool's chain ID
+ * @param address the prize pool's address
+ * @returns
+ */
+export const getPrizePoolId = (chainId: number, address: string) => {
+  return `${address}-${chainId}`
+}
+
+/**
  * Returns prize pool contribution amounts for any vaults during the given draw IDs
  * @param readProvider a read-capable provider for the prize pool's chain
  * @param prizePoolAddress the prize pool's address
@@ -200,7 +210,9 @@ export const getPrizePoolAllPrizeInfo = async (
     calls
   )
 
-  const lastDrawId = parseInt(multicallResults[prizePoolAddress]['lastDrawId']?.[0])
+  const lastDrawId = BigNumber.from(
+    multicallResults[prizePoolAddress]['lastDrawId']?.[0] ?? 1
+  ).toNumber()
   const startDrawId = considerPastDraws > lastDrawId ? 1 : lastDrawId - considerPastDraws + 1
 
   const prizePoolContract = new Contract(prizePoolAddress, prizePoolAbi, readProvider)

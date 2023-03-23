@@ -28,6 +28,7 @@
     "ethers": "^5.7.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.4.2",
+    "pt-client-js": "workspace:*",
     "pt-generic-hooks": "workspace:*",
     "pt-hyperstructure-hooks": "workspace:*",
     "pt-ui": "workspace:*",

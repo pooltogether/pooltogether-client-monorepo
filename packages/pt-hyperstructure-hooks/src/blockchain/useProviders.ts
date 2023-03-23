@@ -17,13 +17,7 @@ export const useProviders = (): providers.Provider[] => {
       useProvider({ chainId: NETWORK.optimism }),
       useProvider({ chainId: NETWORK.arbitrum })
     ],
-    testnets: [
-      useProvider({ chainId: NETWORK.goerli }),
-      useProvider({ chainId: NETWORK.sepolia }),
-      useProvider({ chainId: NETWORK.mumbai }),
-      useProvider({ chainId: NETWORK['optimism-goerli'] }),
-      useProvider({ chainId: NETWORK['arbitrum-goerli'] })
-    ]
+    testnets: [useProvider({ chainId: NETWORK.goerli })]
   }
 
   if (isTestnets) {
@@ -51,11 +45,7 @@ export const useProvidersByChain = (): { [chainId: number]: providers.Provider }
       [NETWORK.arbitrum]: useProvider({ chainId: NETWORK.arbitrum })
     },
     testnets: {
-      [NETWORK.goerli]: useProvider({ chainId: NETWORK.goerli }),
-      [NETWORK.sepolia]: useProvider({ chainId: NETWORK.sepolia }),
-      [NETWORK.mumbai]: useProvider({ chainId: NETWORK.mumbai }),
-      [NETWORK['optimism-goerli']]: useProvider({ chainId: NETWORK['optimism-goerli'] }),
-      [NETWORK['arbitrum-goerli']]: useProvider({ chainId: NETWORK['arbitrum-goerli'] })
+      [NETWORK.goerli]: useProvider({ chainId: NETWORK.goerli })
     }
   }
 
