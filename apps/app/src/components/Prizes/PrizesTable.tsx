@@ -1,6 +1,7 @@
+import { utils } from 'ethers'
 import { PrizePool } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useAllPrizeInfo } from 'pt-hyperstructure-hooks'
+import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
 
@@ -16,7 +17,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
     isFetched: isFetchedAllPrizeInfo
   } = useAllPrizeInfo([prizePool])
 
-  // TODO: need to get prize asset info and convert prize bignumber to number
+  const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
   return (
     <>
@@ -24,7 +25,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
         <span className='flex-grow pl-16 text-left'>Estimated Prize Value</span>
         <span className='flex-grow pr-16 text-right'>Estimated Frequency</span>
       </div>
-      {isFetchedAllPrizeInfo && !!prizes ? (
+      {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
         <div className='flex flex-col gap-3 mb-8'>
           {prizes.map((prize, i) => {
             const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
@@ -35,7 +36,10 @@ export const PrizesTable = (props: PrizesTableProps) => {
                 className='flex w-[36rem] items-center'
               >
                 <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
-                  {/* <CurrencyValue baseValue={prize.amount} hideZeroes={true} /> */}
+                  <CurrencyValue
+                    baseValue={utils.formatUnits(prize.amount, prizeTokenData.decimals)}
+                    hideZeroes={true}
+                  />
                 </span>
                 <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
                   {getPrizeTextFromFrequency(frequency, 'daily')}
