@@ -6,6 +6,7 @@ import {
   getPrizePoolAllPrizeInfo,
   getPrizePoolContributionAmounts,
   getPrizePoolContributionPercentages,
+  getPrizePoolId,
   getProviderFromSigner,
   getTokenInfo,
   prizePool as prizePoolAbi,
@@ -40,7 +41,7 @@ export class PrizePool {
     options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: BigNumber }
   ) {
     this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
-    this.id = `${address}-${chainId}`
+    this.id = getPrizePoolId(chainId, address)
     if (!!options?.prizeTokenAddress) {
       this.prizeTokenContract = new Contract(options.prizeTokenAddress, erc20Abi, signerOrProvider)
     }
