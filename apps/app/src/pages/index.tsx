@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { utils } from 'ethers'
 import Link from 'next/link'
 import { CurrencyValue, NextDrawCountdown, PrizePoolCard } from 'pt-components'
@@ -9,7 +10,9 @@ import { formatPrizePools } from '@constants'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 export default function HomePage() {
-  const prizePools = usePrizePools(formatPrizePools())
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const numPrizePools = formattedPrizePoolInfo.length
 
   const { data: largestGrandPrize, isFetched: isFetchedLargestGrandPrize } = useLargestGrandPrize(
     Object.values(prizePools)
@@ -17,7 +20,7 @@ export default function HomePage() {
 
   // TODO: need to get data for prize pool with the largest grand prize, not assuming they are all the same
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(
-    prizePools[0]
+    Object.values(prizePools)[0]
   )
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
@@ -27,7 +30,7 @@ export default function HomePage() {
       : 0
 
   const formattedLargestGrandPrize = parseFloat(
-    isFetchedPrizeTokenData && !!prizeTokenData
+    isFetchedPrizeTokenData && !!prizeTokenData && isFetchedLargestGrandPrize && !!largestGrandPrize
       ? utils.formatUnits(largestGrandPrize, prizeTokenData.decimals)
       : '0'
   )
@@ -55,7 +58,13 @@ export default function HomePage() {
       <Link href='/deposit' passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
-      <div className='grid grid-cols-2 gap-4 bg-pt-bg-purple-dark p-4 rounded-lg'>
+      <div
+        className={classNames('grid gap-4 bg-pt-bg-purple-dark p-4 rounded-lg', {
+          'grid-cols-1': numPrizePools === 1,
+          'grid-cols-2': numPrizePools % 2 === 0 && numPrizePools % 3 !== 0,
+          'grid-cols-3': numPrizePools % 3 === 0
+        })}
+      >
         {Object.values(prizePools).map((prizePool) => {
           return (
             <PrizePoolCard

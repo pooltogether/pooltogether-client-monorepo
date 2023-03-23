@@ -13,7 +13,7 @@ import { QUERY_KEYS } from '../constants'
 export const useAllPrizeInfo = (prizePools: PrizePool[]) => {
   const results = useQueries({
     queries: prizePools.map((prizePool) => {
-      const queryKey = [QUERY_KEYS.prizeInfo, prizePool.id]
+      const queryKey = [QUERY_KEYS.prizeInfo, prizePool?.id]
 
       return {
         queryKey: queryKey,

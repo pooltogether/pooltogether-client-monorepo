@@ -32,7 +32,7 @@ export class Vaults {
     public allVaultInfo: VaultInfo[],
     public providers: { [chainId: number]: providers.Provider }
   ) {
-    this.chainIds = Object.keys(providers).map((key) => Number(key))
+    this.chainIds = Object.keys(providers).map((key) => parseInt(key))
     this.vaultAddresses = getVaultAddresses(allVaultInfo)
     this.underlyingTokenAddresses = getVaultUnderlyingTokenAddresses(allVaultInfo)
 

@@ -12,7 +12,7 @@ import { QUERY_KEYS } from '../constants'
 export const usePrizeTokenData = (
   prizePool: PrizePool
 ): UseQueryResult<TokenWithSupply, unknown> => {
-  const queryKey = [QUERY_KEYS.prizeTokenData, prizePool.id]
+  const queryKey = [QUERY_KEYS.prizeTokenData, prizePool?.id]
 
   return useQuery(queryKey, async () => await prizePool.getPrizeTokenData(), {
     enabled: !!prizePool,

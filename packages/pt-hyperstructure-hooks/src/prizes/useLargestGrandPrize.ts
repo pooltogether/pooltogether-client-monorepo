@@ -17,9 +17,8 @@ export const useLargestGrandPrize = (
   if (isFetchedAllPrizeInfo && !!allPrizeInfo) {
     let largestGrandPrize = BigNumber.from(0)
 
-    const prizePoolIds = Object.keys(allPrizeInfo)
-    prizePoolIds.forEach((prizePoolId) => {
-      const grandPrize = allPrizeInfo[prizePoolId][0].amount
+    Object.values(allPrizeInfo).forEach((prizes) => {
+      const grandPrize = prizes[0].amount
       if (grandPrize.gt(largestGrandPrize)) {
         largestGrandPrize = grandPrize
       }

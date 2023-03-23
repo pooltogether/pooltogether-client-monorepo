@@ -81,7 +81,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         const tokenAmount =
           isFetchedVaultBalances && !!vaultBalances && vaultBalances[vaultId]
             ? vaultBalances[vaultId]
-            : 0
+            : BigNumber.from(0)
         const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
         const totalUsdBalance = formattedTokenAmount * usdPrice
         return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically

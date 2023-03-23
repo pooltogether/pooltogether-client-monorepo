@@ -210,7 +210,9 @@ export const getPrizePoolAllPrizeInfo = async (
     calls
   )
 
-  const lastDrawId = parseInt(multicallResults[prizePoolAddress]['lastDrawId']?.[0])
+  const lastDrawId = BigNumber.from(
+    multicallResults[prizePoolAddress]['lastDrawId']?.[0] ?? 1
+  ).toNumber()
   const startDrawId = considerPastDraws > lastDrawId ? 1 : lastDrawId - considerPastDraws + 1
 
   const prizePoolContract = new Contract(prizePoolAddress, prizePoolAbi, readProvider)

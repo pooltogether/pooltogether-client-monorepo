@@ -1,22 +1,22 @@
 import { utils } from 'ethers'
-import { PrizePool } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
+import { useAllPrizeInfo, usePrizePool, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
+import { formatDailyCountToFrequency, getPrizeTextFromFrequency, NETWORK } from 'pt-utilities'
+import { PRIZE_POOLS } from '@constants'
 
 interface PrizesTableProps {
-  prizePool: PrizePool
+  chainId: NETWORK
 }
 
 export const PrizesTable = (props: PrizesTableProps) => {
-  const { prizePool } = props
+  const { chainId } = props
 
-  const {
-    data: { prizes },
-    isFetched: isFetchedAllPrizeInfo
-  } = useAllPrizeInfo([prizePool])
+  const prizePool = usePrizePool(chainId, PRIZE_POOLS[chainId].address, {
+    prizeTokenAddress: PRIZE_POOLS[chainId].prizeTokenAddress
+  })
 
+  const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
   return (
@@ -27,7 +27,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
       </div>
       {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
         <div className='flex flex-col gap-3 mb-8'>
-          {prizes.map((prize, i) => {
+          {Object.values(allPrizeInfo)[0].map((prize, i) => {
             const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
 
             return (
