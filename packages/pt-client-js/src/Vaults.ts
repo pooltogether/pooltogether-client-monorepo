@@ -21,7 +21,13 @@ export class Vaults {
   readonly vaults: { [vaultId: string]: Vault } = {}
   readonly chainIds: number[]
   readonly vaultAddresses: { [chainId: number]: `0x${string}`[] }
-  readonly underlyingTokenAddresses: { [chainId: number]: `0x${string}`[] }
+  underlyingTokenData: { [vaultId: string]: TokenWithSupply } | undefined
+  underlyingTokenAddresses:
+    | {
+        byChain: { [chainId: number]: `0x${string}`[] }
+        byVault: { [vaultId: string]: `0x${string}` }
+      }
+    | undefined
 
   /**
    * Creates an instance of a Vaults object with providers to query on-chain data with
@@ -34,18 +40,14 @@ export class Vaults {
   ) {
     this.chainIds = Object.keys(providers).map((key) => parseInt(key))
     this.vaultAddresses = getVaultAddresses(allVaultInfo)
-    this.underlyingTokenAddresses = getVaultUnderlyingTokenAddresses(allVaultInfo)
 
     this.chainIds.forEach((chainId) => {
       const chainVaults = getVaultsByChainId(chainId, allVaultInfo)
       chainVaults.forEach((vault) => {
-        const newVault = new Vault(
-          vault.chainId,
-          vault.address,
-          vault.decimals,
-          providers[chainId],
-          vault.extensions.underlyingAsset.address
-        )
+        const newVault = new Vault(vault.chainId, vault.address, providers[chainId], {
+          decimals: vault.decimals,
+          tokenAddress: vault.extensions?.underlyingAsset?.address
+        })
         this.vaults[newVault.id] = newVault
       })
     })
@@ -55,15 +57,17 @@ export class Vaults {
 
   /**
    * Returns basic data about each vault's underlying asset
-   * @param chainIds optional chain IDs to query (by default queries all)
    * @returns
    */
-  async getTokenData(chainIds?: number[]): Promise<{ [vaultId: string]: TokenWithSupply }> {
+  async getTokenData(): Promise<{ [vaultId: string]: TokenWithSupply }> {
+    if (this.underlyingTokenData !== undefined) return this.underlyingTokenData
+
     const tokenData: { [vaultId: string]: TokenWithSupply } = {}
-    const networksToQuery = chainIds ?? this.chainIds
+
+    const underlyingTokenAddresses = await this.getUnderlyingTokenAddresses()
 
     await Promise.all(
-      networksToQuery.map((chainId) =>
+      this.chainIds.map((chainId) =>
         (async () => {
           const provider = this.providers[chainId]
           if (!!provider) {
@@ -71,19 +75,21 @@ export class Vaults {
             await validateProviderNetwork(chainId, provider, source)
             const chainTokenData = await getTokenInfo(
               provider,
-              this.underlyingTokenAddresses[chainId]
+              underlyingTokenAddresses.byChain[chainId]
             )
             const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
-              tokenData[vaultId] = chainTokenData[vault.extensions.underlyingAsset.address]
+              const tokenAddress = underlyingTokenAddresses.byVault[vaultId]
+              tokenData[vaultId] = chainTokenData[tokenAddress]
             })
           }
         })()
       )
     )
+    this.underlyingTokenData = tokenData
 
-    return tokenData
+    return this.underlyingTokenData
   }
 
   /**
@@ -131,6 +137,8 @@ export class Vaults {
     const networksToQuery = chainIds ?? this.chainIds
     validateAddress(userAddress, source)
 
+    const underlyingTokenAddresses = await this.getUnderlyingTokenAddresses()
+
     await Promise.all(
       networksToQuery.map((chainId) =>
         (async () => {
@@ -140,12 +148,13 @@ export class Vaults {
             const chainTokenBalances = await getTokenBalances(
               provider,
               userAddress,
-              this.underlyingTokenAddresses[chainId]
+              underlyingTokenAddresses.byChain[chainId]
             )
             const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
-              tokenBalances[vaultId] = chainTokenBalances[vault.extensions.underlyingAsset.address]
+              const tokenAddress = underlyingTokenAddresses.byVault[vaultId]
+              tokenBalances[vaultId] = chainTokenBalances[tokenAddress]
             })
           }
         })()
@@ -252,5 +261,44 @@ export class Vaults {
     )
 
     return exchangeRates
+  }
+
+  /**
+   * Returns the unique underlying token addresses for all vaults
+   * @returns
+   */
+  async getUnderlyingTokenAddresses(): Promise<{
+    byChain: { [chainId: number]: `0x${string}`[] }
+    byVault: { [vaultId: string]: `0x${string}` }
+  }> {
+    if (this.underlyingTokenAddresses !== undefined) return this.underlyingTokenAddresses
+
+    const tokenAddresses: {
+      byChain: { [chainId: number]: `0x${string}`[] }
+      byVault: { [vaultId: string]: `0x${string}` }
+    } = { byChain: {}, byVault: {} }
+
+    await Promise.all(
+      this.chainIds.map((chainId) =>
+        (async () => {
+          const provider = this.providers[chainId]
+          if (!!provider) {
+            const source = `Vaults [getUnderlyingTokenAddresses] [${chainId}]`
+            await validateProviderNetwork(chainId, provider, source)
+            const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
+            const chainTokenAddresses = await getVaultUnderlyingTokenAddresses(
+              provider,
+              chainVaults
+            )
+            Object.assign(tokenAddresses.byVault, chainTokenAddresses)
+            tokenAddresses.byChain[chainId] = Object.values(chainTokenAddresses)
+          }
+        })()
+      )
+    )
+
+    this.underlyingTokenAddresses = tokenAddresses
+
+    return this.underlyingTokenAddresses
   }
 }

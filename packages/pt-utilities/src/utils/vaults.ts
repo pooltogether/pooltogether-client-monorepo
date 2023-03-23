@@ -168,23 +168,42 @@ export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x
 }
 
 /**
- * Returns the underlying tokens from all vaults given
+ * Returns the underlying token addresses for each vault from a given chain
+ * @param readProvider a read-capable provider for the chain that should be queried
  * @param vaults vaults' info
  * @returns
  */
-export const getVaultUnderlyingTokenAddresses = (
+export const getVaultUnderlyingTokenAddresses = async (
+  readProvider: providers.Provider,
   vaults: VaultInfo[]
-): { [chainId: number]: `0x${string}`[] } => {
-  const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
+): Promise<{ [vaultId: string]: `0x${string}` }> => {
+  const tokenAddresses: { [vaultId: string]: `0x${string}` } = {}
 
-  vaults.forEach((vault) => {
-    if (tokenAddresses[vault.chainId] === undefined) {
-      tokenAddresses[vault.chainId] = []
-    }
-    if (!tokenAddresses[vault.chainId].includes(vault.extensions.underlyingAsset.address)) {
-      tokenAddresses[vault.chainId].push(vault.extensions.underlyingAsset.address)
-    }
-  })
+  const chainId = (await readProvider.getNetwork())?.chainId
+  const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
+
+  if (filteredVaults.length > 0) {
+    const vaultAddresses = new Set<`0x${string}`>()
+    filteredVaults.forEach((vault) => {
+      if (!!vault.extensions?.underlyingAsset?.address) {
+        const vaultId = getVaultId(vault)
+        tokenAddresses[vaultId] = vault.extensions.underlyingAsset.address
+      } else {
+        vaultAddresses.add(vault.address)
+      }
+    })
+    const multicallResults = await getMulticallResults(
+      readProvider,
+      Array.from(vaultAddresses),
+      erc4626Abi,
+      [{ reference: 'asset', methodName: 'asset', methodParameters: [] }]
+    )
+
+    vaultAddresses.forEach((address) => {
+      const vaultId = getVaultId({ chainId, address })
+      tokenAddresses[vaultId] = multicallResults[address]['asset']?.[0]
+    })
+  }
 
   return tokenAddresses
 }

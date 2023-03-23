@@ -18,28 +18,34 @@ import {
 export class Vault {
   readonly vaultContract: Contract
   readonly id: string
+  decimals: number | undefined
   tokenContract: Contract | undefined
+  tokenData: TokenWithSupply | undefined
+  shareData: TokenWithSupply | undefined
   exchangeRate: BigNumber | undefined
 
   /**
    * Creates an instance of a Vault with a given signer or provider to query on-chain data with
    * @param chainId the vault's chain ID
    * @param address the vault's address
-   * @param decimals the vault's decimals
    * @param signerOrProvider a Signer or Provider for the network the vault is deployed on
-   * @param tokenAddress optional token address
+   * @param options optional parameters
    */
   constructor(
     public chainId: number,
     public address: string,
-    public decimals: number,
     public signerOrProvider: Signer | providers.Provider,
-    tokenAddress?: string
+    options?: { decimals?: number; tokenAddress?: string }
   ) {
     this.vaultContract = new Contract(address, erc4626Abi, signerOrProvider)
     this.id = getVaultId({ address, chainId })
-    if (!!tokenAddress) {
-      this.tokenContract = new Contract(tokenAddress, erc20Abi, signerOrProvider)
+
+    if (!!options?.decimals) {
+      this.decimals = options.decimals
+    }
+
+    if (!!options?.tokenAddress) {
+      this.tokenContract = new Contract(options.tokenAddress, erc20Abi, signerOrProvider)
     }
   }
 
@@ -50,13 +56,21 @@ export class Vault {
    * @returns
    */
   async getTokenData(): Promise<TokenWithSupply> {
+    if (this.tokenData !== undefined) return this.tokenData
+
     const source = 'Vault [getTokenData]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const tokenContract = await this.getTokenContract()
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
-    const tokenInfo = await getTokenInfo(provider, [tokenContract.address])
-    return tokenInfo[tokenContract.address]
+
+    const tokenData = await getTokenInfo(provider, [tokenContract.address])
+    this.tokenData = tokenData[tokenContract.address]
+    this.decimals = this.tokenData.decimals
+
+    return this.tokenData
   }
 
   /**
@@ -64,12 +78,19 @@ export class Vault {
    * @returns
    */
   async getShareData(): Promise<TokenWithSupply> {
+    if (this.shareData !== undefined) return this.shareData
+
     const source = 'Vault [getShareData]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const shareInfo = await getTokenInfo(provider, [this.address])
-    return shareInfo[this.address]
+    this.shareData = shareInfo[this.address]
+    this.decimals = this.shareData.decimals
+
+    return this.shareData
   }
 
   /**
@@ -81,10 +102,14 @@ export class Vault {
     const source = 'Vault [getUserTokenBalance]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const tokenContract = await this.getTokenContract()
+
     const tokenBalance = await getTokenBalances(provider, userAddress, [tokenContract.address])
+
     return tokenBalance[tokenContract.address]
   }
 
@@ -97,9 +122,12 @@ export class Vault {
     const source = 'Vault [getUserShareBalance]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const shareBalance = await getTokenBalances(provider, userAddress, [this.address])
+
     return shareBalance[this.address]
   }
 
@@ -112,12 +140,16 @@ export class Vault {
     const source = 'Vault [getUserTokenAllowance]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+
     const tokenContract = await this.getTokenContract()
+
     const tokenAllowance = await getTokenAllowances(provider, userAddress, this.address, [
       tokenContract.address
     ])
+
     return tokenAllowance[tokenContract.address]
   }
 
@@ -129,7 +161,9 @@ export class Vault {
   async getAssetsFromShares(shares: BigNumber): Promise<BigNumber> {
     const source = 'Vault [getAssetsFromShares]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const assets: string = await this.vaultContract.convertToAssets(shares)
+
     return BigNumber.from(assets)
   }
 
@@ -141,7 +175,9 @@ export class Vault {
   async getSharesFromAssets(assets: BigNumber): Promise<BigNumber> {
     const source = 'Vault [getSharesFromAssets]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const shares: string = await this.vaultContract.convertToShares(assets)
+
     return BigNumber.from(shares)
   }
 
@@ -152,7 +188,9 @@ export class Vault {
   async getTotalTokenBalance(): Promise<BigNumber> {
     const source = 'Vault [getTotalTokenBalance]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const totalAssets: string = await this.vaultContract.totalAssets()
+
     return BigNumber.from(totalAssets)
   }
 
@@ -163,9 +201,13 @@ export class Vault {
   async getExchangeRate(): Promise<BigNumber> {
     const source = 'Vault [getExchangeRate]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-    const exchangeRate = await this.getAssetsFromShares(utils.parseUnits('1', this.decimals))
+
+    const decimals = this.decimals ?? (await this.getTokenData()).decimals
+
+    const exchangeRate = await this.getAssetsFromShares(utils.parseUnits('1', decimals))
     this.exchangeRate = exchangeRate
-    return exchangeRate
+
+    return this.exchangeRate
   }
 
   /* =========================== Contract Initializers =========================== */
@@ -176,11 +218,15 @@ export class Vault {
    */
   async getTokenContract(): Promise<Contract> {
     if (this.tokenContract !== undefined) return this.tokenContract
+
     const source = 'Vault [getTokenContract]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
     const tokenAddress: string = await this.vaultContract.asset()
+
     const tokenContract = new Contract(tokenAddress, erc20Abi, this.signerOrProvider)
     this.tokenContract = tokenContract
-    return tokenContract
+
+    return this.tokenContract
   }
 }
