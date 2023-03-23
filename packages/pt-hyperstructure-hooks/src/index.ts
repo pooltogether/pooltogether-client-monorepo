@@ -17,6 +17,12 @@ export * from './blockchain/useTokenBalances'
 export * from './blockchain/useTokens'
 
 /**
+ * Prize Pool Hooks
+ */
+export * from './prizes/useAllPrizeInfo'
+export * from './prizes/usePrizePools'
+
+/**
  * Transaction Hooks
  */
 export * from './transactions/useSendApproveTransaction'
