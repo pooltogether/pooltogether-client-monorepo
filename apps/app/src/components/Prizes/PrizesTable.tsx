@@ -1,22 +1,22 @@
+import { PrizePool } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
+import { useAllPrizeInfo } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
 import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
 
 interface PrizesTableProps {
-  chainId: number
+  prizePool: PrizePool
 }
 
 export const PrizesTable = (props: PrizesTableProps) => {
-  const { chainId } = props
+  const { prizePool } = props
 
-  // TODO: get proper prize pool info
-  const prizes: { val: number; dailyCount: number }[] = [
-    { val: 161_121, dailyCount: 1 / 365 },
-    { val: 57_209, dailyCount: 12 / 365 },
-    { val: 7_298, dailyCount: 208 / 365 },
-    { val: 121, dailyCount: 6 },
-    { val: 22, dailyCount: 78 },
-    { val: 2, dailyCount: 256 }
-  ]
+  const {
+    data: { prizes },
+    isFetched: isFetchedAllPrizeInfo
+  } = useAllPrizeInfo([prizePool])
+
+  // TODO: need to get prize asset info and convert prize bignumber to number
 
   return (
     <>
@@ -24,22 +24,29 @@ export const PrizesTable = (props: PrizesTableProps) => {
         <span className='flex-grow pl-16 text-left'>Estimated Prize Value</span>
         <span className='flex-grow pr-16 text-right'>Estimated Frequency</span>
       </div>
-      <div className='flex flex-col gap-3 mb-8'>
-        {prizes.map((prize, i) => {
-          const frequency = formatDailyCountToFrequency(prize.dailyCount)
+      {isFetchedAllPrizeInfo && !!prizes ? (
+        <div className='flex flex-col gap-3 mb-8'>
+          {prizes.map((prize, i) => {
+            const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
 
-          return (
-            <div key={`pp-prizes-${chainId}-${i}`} className='flex w-[36rem] items-center'>
-              <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
-                <CurrencyValue baseValue={prize.val} hideZeroes={true} />
-              </span>
-              <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
-                {getPrizeTextFromFrequency(frequency, 'daily')}
-              </span>
-            </div>
-          )
-        })}
-      </div>
+            return (
+              <div
+                key={`pp-prizes-${prizePool.chainId}-${i}`}
+                className='flex w-[36rem] items-center'
+              >
+                <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
+                  {/* <CurrencyValue baseValue={prize.amount} hideZeroes={true} /> */}
+                </span>
+                <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
+                  {getPrizeTextFromFrequency(frequency, 'daily')}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <Spinner />
+      )}
     </>
   )
 }

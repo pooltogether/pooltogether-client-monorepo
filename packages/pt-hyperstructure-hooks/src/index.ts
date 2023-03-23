@@ -22,6 +22,7 @@ export * from './blockchain/useTokens'
 export * from './prizes/useAllPrizeInfo'
 export * from './prizes/useLargestGrandPrize'
 export * from './prizes/usePrizePools'
+export * from './prizes/usePrizeTokenData'
 
 /**
  * Transaction Hooks
