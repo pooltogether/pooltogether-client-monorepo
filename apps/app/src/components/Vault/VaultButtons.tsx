@@ -1,17 +1,17 @@
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
 import { Button } from 'pt-ui'
 import { DepositButton } from '@components/DepositButton'
 
 interface VaultButtonsProps {
-  vaultInfo: VaultInfo
+  vault: Vault
 }
 
 export const VaultButtons = (props: VaultButtonsProps) => {
-  const { vaultInfo } = props
+  const { vault } = props
 
   return (
     <div className='flex justify-end gap-2'>
-      <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
+      <DepositButton vault={vault}>Deposit</DepositButton>
       {/* TODO: re-add "Details" button once the vault-specific page exists (not MVP) */}
       {/* <Button color='white' outline={true}>
         Details

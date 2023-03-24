@@ -1,7 +1,8 @@
 import { BigNumber, utils } from 'ethers'
+import { Vault } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useVault, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
+import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
+import { TokenWithBalance } from 'pt-types'
 import {
   formatBigNumberForDisplay,
   getAssetsFromShares,
@@ -10,37 +11,32 @@ import {
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 interface AccountVaultBalanceProps {
-  vaultInfo: VaultInfoWithBalance
+  vault: Vault
+  tokenData: TokenWithBalance
 }
 
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
-  const { vaultInfo } = props
+  const { vault, tokenData } = props
 
   const { data: tokenPrices } = useAllTokenPrices()
-  const usdPrice = getTokenPriceFromObject(
-    vaultInfo.chainId,
-    vaultInfo.extensions.underlyingAsset.address,
-    tokenPrices
-  )
-
-  const vault = useVault(vaultInfo)
+  const usdPrice = getTokenPriceFromObject(vault.chainId, tokenData.address, tokenPrices)
 
   const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
     useVaultExchangeRate(vault)
 
-  const shareBalance = BigNumber.from(vaultInfo.balance)
+  const shareBalance = BigNumber.from(tokenData.balance)
   const tokenBalance =
     isFetchedVaultExchangeRate && !!vaultExchangeRate
-      ? getAssetsFromShares(shareBalance, vaultExchangeRate, vaultInfo.decimals)
+      ? getAssetsFromShares(shareBalance, vaultExchangeRate, tokenData.decimals)
       : BigNumber.from(0)
 
-  const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
+  const formattedTokenBalance = utils.formatUnits(tokenBalance, tokenData.decimals)
   const usdBalance = Number(formattedTokenBalance) * usdPrice
 
   return (
     <div className='flex flex-col'>
       <span className='text-base'>
-        {formatBigNumberForDisplay(tokenBalance, vaultInfo.decimals.toString())}{' '}
+        {formatBigNumberForDisplay(tokenBalance, tokenData.decimals.toString())}{' '}
       </span>
       <span className='text-sm text-pt-purple-100'>
         <CurrencyValue baseValue={usdBalance} hideZeroes={true} />

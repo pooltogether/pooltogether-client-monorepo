@@ -31,6 +31,14 @@ Open [http://localhost:3000](http://localhost:3000) on your browser to see the r
 - `components` - React components that make up the contents of the pages.
 - `hooks` - App-specific hooks not included in other hook packages.
 
+## App Data Configuration
+
+Most of the data on the app comes from the `useSelectedVaults()` hook from the `pt-hyperstructure-hooks` package. That hook returns a `Vaults` object from `pt-client-js`.
+
+Using various other hooks from `pt-hyperstructure-hooks`, the app uses these `Vaults` or `Vault` objects to query all necessary data.
+
+Providers are configured through `wagmi` in the `/pages/_app.tsx` file. These can be fetched throughout the app with the `useProvider()` or `useProviders()` hooks.
+
 ## Environment Setup:
 
 Add your RPC IDs to `.env.local` for testing. A `.env.example` file is available for reference.

@@ -1,24 +1,24 @@
 import { useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
+import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
-import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { selectedVaultAtom } from '@atoms'
+import { selectedVaultIdAtom } from '@atoms'
 
 interface DepositButtonProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   children: ReactNode
 }
 
 export const DepositButton = (props: DepositButtonProps) => {
-  const { vaultInfo, children } = props
+  const { vault, children } = props
 
   const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
-  const setSelectedVault = useSetAtom(selectedVaultAtom)
+  const setSelectedVaultId = useSetAtom(selectedVaultIdAtom)
 
   const handleClick = () => {
-    setSelectedVault(vaultInfo)
+    setSelectedVaultId(vault.id)
     setIsDepositModalOpen(true)
   }
 

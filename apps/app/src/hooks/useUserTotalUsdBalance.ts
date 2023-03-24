@@ -4,7 +4,8 @@ import { useAccount } from 'wagmi'
 import {
   useSelectedVaults,
   useUserVaultBalances,
-  useVaultExchangeRates
+  useVaultExchangeRates,
+  useVaultTokenAddresses
 } from 'pt-hyperstructure-hooks'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from './useAllTokenPrices'
@@ -28,6 +29,10 @@ export const useUserTotalUsdBalance = () => {
   const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
     useVaultExchangeRates(vaults)
 
+  const {
+    data: { byVault: vaultTokenAddresses }
+  } = useVaultTokenAddresses(vaults)
+
   const isFetched = isFetchedTokenPrices && isFetchedVaultBalances && isFetchedVaultExchangeRates
 
   const enabled = isFetched && !!tokenPrices && !!vaultBalances && !!vaultExchangeRates
@@ -36,24 +41,26 @@ export const useUserTotalUsdBalance = () => {
     if (enabled) {
       let totalUsdBalance: number = 0
       for (const vaultId in vaultBalances) {
-        const vaultInfo = vaultBalances[vaultId]
         const vaultExchangeRate = vaultExchangeRates[vaultId]
 
         if (!!vaultExchangeRate) {
           const usdPrice = getTokenPriceFromObject(
-            vaultInfo.chainId,
-            vaultInfo.extensions.underlyingAsset.address,
+            vaultBalances[vaultId].chainId,
+            vaultTokenAddresses[vaultId],
             tokenPrices
           )
 
-          const shareBalance = BigNumber.from(vaultInfo.balance)
+          const shareBalance = BigNumber.from(vaultBalances[vaultId].balance)
           const tokenBalance = getAssetsFromShares(
             shareBalance,
             vaultExchangeRate,
-            vaultInfo.decimals
+            vaultBalances[vaultId].decimals
           )
 
-          const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
+          const formattedTokenBalance = utils.formatUnits(
+            tokenBalance,
+            vaultBalances[vaultId].decimals
+          )
           totalUsdBalance += Number(formattedTokenBalance) * usdPrice
         }
       }

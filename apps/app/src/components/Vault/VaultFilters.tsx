@@ -8,17 +8,16 @@ import {
   useProviders,
   useSelectedVaults,
   useTokenBalancesAcrossChains,
-  useVaultBalances
+  useVaultBalances,
+  useVaultTokenAddresses
 } from 'pt-hyperstructure-hooks'
-import { VaultInfo } from 'pt-types'
 import { Selection, SelectionItem } from 'pt-ui'
-import { getTokenPriceFromObject, getVaultId, NETWORK } from 'pt-utilities'
-import { STABLECOIN_SYMBOLS } from '@constants'
+import { getTokenPriceFromObject, NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 
 interface VaultFiltersProps {
-  onFilter: (filteredVaults: VaultInfo[]) => void
+  onFilter: (filteredVaultIds: string[]) => void
   className?: string
 }
 
@@ -31,9 +30,15 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const vaults = useSelectedVaults()
 
   const providers = useProviders()
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
 
   const { address: userAddress } = useAccount()
+
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
+
+  const {
+    data: { byVault: vaultTokenAddresses }
+  } = useVaultTokenAddresses(vaults)
+
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses)
 
@@ -54,6 +59,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     })
   ]
 
+  // Getting default filter from URL query:
   const defaultFilter = useMemo(() => {
     const rawUrlNetwork = router.query['network']
     const urlNetwork =
@@ -67,45 +73,51 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   }, [router])
 
   useEffect(() => {
-    const stringNetworks = networks.map((network) => network.toString())
-    let filteredVaults: VaultInfo[] = vaults.allVaultInfo
+    let filteredVaultIds: string[] = Object.keys(vaults.vaults)
 
-    if (filterId === 'popular') {
-      filteredVaults = vaults.allVaultInfo.filter((vault) => {
+    const stringNetworks = networks.map((network) => network.toString())
+    const vaultIds = Object.keys(vaults.vaults)
+
+    if (filterId === 'popular' && !!vaultTokenAddresses) {
+      filteredVaultIds = vaultIds.filter((vaultId) => {
+        const vault = vaults.vaults[vaultId]
         const usdPrice = getTokenPriceFromObject(
           vault.chainId,
-          vault.extensions.underlyingAsset.address,
+          vaultTokenAddresses[vault.id],
           tokenPrices
         )
-        const vaultId = getVaultId(vault)
         const tokenAmount =
-          isFetchedVaultBalances && !!vaultBalances && vaultBalances[vaultId]
-            ? vaultBalances[vaultId]
+          isFetchedVaultBalances && !!vaultBalances && vaultBalances[vault.id]
+            ? vaultBalances[vault.id]
             : BigNumber.from(0)
         const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
         const totalUsdBalance = formattedTokenAmount * usdPrice
         return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
       })
-    } else if (filterId === 'userWallet') {
-      filteredVaults = vaults.allVaultInfo.filter((vault) => {
+    } else if (filterId === 'userWallet' && !!vaultTokenAddresses) {
+      filteredVaultIds = vaultIds.filter((vaultId) => {
+        const vault = vaults.vaults[vaultId]
         const userWalletBalance = BigNumber.from(
           isFetchedUserTokenBalances && !!userTokenBalances
-            ? userTokenBalances[vault.chainId]?.[vault.extensions.underlyingAsset.address]
-                ?.balance ?? 0
+            ? userTokenBalances[vault.chainId]?.[vaultTokenAddresses[vault.id]]?.balance ?? 0
             : 0
         )
         return !userWalletBalance.isZero()
       })
-    } else if (filterId === 'stablecoin') {
-      filteredVaults = vaults.allVaultInfo.filter((vault) =>
-        STABLECOIN_SYMBOLS.includes(vault.extensions.underlyingAsset.symbol)
-      )
+    } else if (filterId === 'stablecoin' && !!vaultTokenAddresses) {
+      filteredVaultIds = vaultIds.filter((vaultId) => {
+        const vault = vaults.vaults[vaultId]
+        return STABLECOIN_ADDRESSES[vault.chainId].includes(vaultTokenAddresses[vault.id])
+      })
     } else if (stringNetworks.includes(filterId)) {
-      filteredVaults = vaults.allVaultInfo.filter((vault) => vault.chainId.toString() === filterId)
+      filteredVaultIds = vaultIds.filter((vaultId) => {
+        const vault = vaults.vaults[vaultId]
+        return vault.chainId.toString() === filterId
+      })
     }
 
-    onFilter(filteredVaults)
-  }, [filterId, userAddress, networks])
+    onFilter(filteredVaultIds)
+  }, [filterId, userAddress, networks, vaultTokenAddresses])
 
   if (router.isReady) {
     return (

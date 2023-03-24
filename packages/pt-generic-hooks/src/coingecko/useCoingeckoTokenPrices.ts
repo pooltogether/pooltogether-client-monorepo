@@ -18,6 +18,7 @@ export const useCoingeckoTokenPrices = (
   currencies?: string[]
 ): UseQueryResult<CoingeckoTokenPrices, unknown> => {
   const enabled =
+    !!tokenAddresses &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
@@ -54,6 +55,7 @@ export const useCoingeckoTokenPricesAcrossChains = (
   const results = useQueries({
     queries: chainIds.map((chainId) => {
       const enabled =
+        !!tokenAddresses &&
         tokenAddresses[chainId].every(
           (tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string'
         ) &&

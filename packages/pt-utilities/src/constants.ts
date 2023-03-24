@@ -117,6 +117,28 @@ export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
 })
 
 /**
+ * Stablecoin addresses
+ */
+export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
+  [NETWORK.mainnet]: [],
+  [NETWORK.goerli]: [],
+  [NETWORK.sepolia]: [],
+  [NETWORK.bsc]: [],
+  [NETWORK['bsc-testnet']]: [],
+  [NETWORK.xdai]: [],
+  [NETWORK.polygon]: [],
+  [NETWORK.mumbai]: [],
+  [NETWORK.optimism]: [],
+  [NETWORK['optimism-goerli']]: [],
+  [NETWORK.avalanche]: [],
+  [NETWORK.fuji]: [],
+  [NETWORK.celo]: [],
+  [NETWORK['celo-testnet']]: [],
+  [NETWORK.arbitrum]: [],
+  [NETWORK['arbitrum-goerli']]: []
+})
+
+/**
  * Default Vault list ID
  */
 export const defaultVaultListId = getVaultListId(defaultVaultList)

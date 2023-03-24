@@ -10,11 +10,6 @@ export const SUPPORTED_NETWORKS = Object.freeze({
 })
 
 /**
- * Stablecoin symbols
- */
-export const STABLECOIN_SYMBOLS = Object.freeze(['USDC', 'DAI', 'GUSD'])
-
-/**
  * Prize Pools
  */
 export const PRIZE_POOLS = Object.freeze({

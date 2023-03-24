@@ -2,9 +2,9 @@ import {
   useCoingeckoSimpleTokenPrices,
   useCoingeckoTokenPricesAcrossChains
 } from 'pt-generic-hooks'
-import { useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { useSelectedVaults, useVaultTokenAddresses } from 'pt-hyperstructure-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
-import { getVaultUnderlyingTokenAddresses, NETWORK, POOL_TOKEN_ADDRESSES } from 'pt-utilities'
+import { NETWORK, POOL_TOKEN_ADDRESSES } from 'pt-utilities'
 
 /**
  * Returns token prices for all vaults' underlying tokens
@@ -18,15 +18,19 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     refetch: refetchCoingeckoSimpleTokenPrices
   } = useCoingeckoSimpleTokenPrices(currencies)
 
-  const { allVaultInfo } = useSelectedVaults()
+  const vaults = useSelectedVaults()
 
-  const tokenAddresses = getVaultUnderlyingTokenAddresses(allVaultInfo)
+  const {
+    data: { byChain: tokenAddresses }
+  } = useVaultTokenAddresses(vaults)
 
   // Adding POOL token addresses:
-  if (tokenAddresses[NETWORK.mainnet] === undefined) {
-    tokenAddresses[NETWORK.mainnet] = [POOL_TOKEN_ADDRESSES[NETWORK.mainnet]]
-  } else if (!tokenAddresses[NETWORK.mainnet].includes(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])) {
-    tokenAddresses[NETWORK.mainnet].push(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])
+  if (!!tokenAddresses) {
+    if (tokenAddresses[NETWORK.mainnet] === undefined) {
+      tokenAddresses[NETWORK.mainnet] = [POOL_TOKEN_ADDRESSES[NETWORK.mainnet]]
+    } else if (!tokenAddresses[NETWORK.mainnet].includes(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])) {
+      tokenAddresses[NETWORK.mainnet].push(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])
+    }
   }
 
   const {

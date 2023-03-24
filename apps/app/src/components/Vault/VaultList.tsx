@@ -1,36 +1,36 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 import { VaultBadge } from 'pt-components'
-import { VaultInfo } from 'pt-types'
+import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Table, TableProps } from 'pt-ui'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
-import { VaultYieldSource } from './VaultYieldSource'
 
 interface VaultListProps {
-  vaults: VaultInfo[]
+  vaultIds: string[]
   className?: string
 }
 
 export const VaultList = (props: VaultListProps) => {
-  const { vaults, className } = props
+  const { vaultIds, className } = props
+
+  const vaults = useSelectedVaults()
 
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
-    'Yield Source',
     'Prize Power', // TODO: add icon with tooltip next to prize power header
     'Total Deposits',
     'Manage'
   ]
 
-  const tableRows: TableProps['rows'] = vaults.map((vaultInfo) => {
+  const tableRows: TableProps['rows'] = vaultIds.map((vaultId) => {
+    const vault = vaults.vaults[vaultId]
     const cells: ReactNode[] = [
-      <VaultBadge vaultInfo={vaultInfo} />,
-      <VaultYieldSource vaultInfo={vaultInfo} />,
-      <VaultPrizePower vaultInfo={vaultInfo} />,
-      <VaultTotalDeposits vaultInfo={vaultInfo} displayCurrency={true} />,
-      <VaultButtons vaultInfo={vaultInfo} />
+      <VaultBadge vault={vault} />,
+      <VaultPrizePower vault={vault} />,
+      <VaultTotalDeposits vault={vault} displayCurrency={true} />,
+      <VaultButtons vault={vault} />
     ]
     const className = 'text-center'
     return { cells, className }
