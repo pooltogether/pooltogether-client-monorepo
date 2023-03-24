@@ -1,6 +1,7 @@
-import { BigNumber, providers } from 'ethers'
+import { BigNumber, Contract, providers } from 'ethers'
 import { TokenWithBalance, TokenWithSupply, VaultInfo, VaultInfoWithBalance } from 'pt-types'
 import {
+  erc20 as erc20Abi,
   getTokenBalances,
   getTokenInfo,
   getVaultAddresses,
@@ -82,6 +83,8 @@ export class Vaults {
               const vaultId = getVaultId(vault)
               const tokenAddress = underlyingTokenAddresses.byVault[vaultId]
               tokenData[vaultId] = chainTokenData[tokenAddress]
+
+              this.vaults[vaultId].tokenData = chainTokenData[tokenAddress]
             })
           }
         })()
@@ -113,6 +116,8 @@ export class Vaults {
             chainVaults.forEach((vault) => {
               const vaultId = getVaultId(vault)
               shareData[vaultId] = chainShareData[vault.address]
+
+              this.vaults[vaultId].shareData = chainShareData[vault.address]
             })
           }
         })()
@@ -255,6 +260,10 @@ export class Vaults {
             const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             const chainExchangeRates = await getVaultExchangeRates(provider, chainVaults)
             Object.assign(exchangeRates, chainExchangeRates)
+
+            Object.keys(chainExchangeRates).forEach((vaultId) => {
+              this.vaults[vaultId].exchangeRate = chainExchangeRates[vaultId]
+            })
           }
         })()
       )
@@ -292,6 +301,14 @@ export class Vaults {
             )
             Object.assign(tokenAddresses.byVault, chainTokenAddresses)
             tokenAddresses.byChain[chainId] = Object.values(chainTokenAddresses)
+
+            Object.keys(chainTokenAddresses).forEach((vaultId) => {
+              this.vaults[vaultId].tokenContract = new Contract(
+                chainTokenAddresses[vaultId],
+                erc20Abi,
+                provider
+              )
+            })
           }
         })()
       )

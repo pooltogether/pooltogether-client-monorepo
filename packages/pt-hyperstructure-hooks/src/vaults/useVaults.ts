@@ -24,11 +24,8 @@ export const useVaults = (allVaultInfo: VaultInfo[]): Vaults => {
 export const useVault = (vaultInfo: VaultInfo): Vault => {
   const provider = useProvider({ chainId: vaultInfo.chainId })
 
-  return new Vault(
-    vaultInfo.chainId,
-    vaultInfo.address,
-    vaultInfo.decimals,
-    provider,
-    vaultInfo.extensions.underlyingAsset.address
-  )
+  return new Vault(vaultInfo.chainId, vaultInfo.address, provider, {
+    decimals: vaultInfo.decimals,
+    tokenAddress: vaultInfo.extensions?.underlyingAsset?.address
+  })
 }
