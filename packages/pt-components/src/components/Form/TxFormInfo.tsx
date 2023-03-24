@@ -35,7 +35,7 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
           decimals !== undefined &&
           formatBigNumberForDisplay(
             getSharesFromAssets(utils.parseUnits('1', decimals), vaultExchangeRate, decimals),
-            decimals.toString(),
+            decimals,
             { hideZeroes: true }
           )}{' '}
         {!!vaultShareData ? vaultShareData?.symbol : <Spinner />}

@@ -49,10 +49,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       ? Number(formAmount) * token.usdPrice
       : 0
 
-  const formattedBalance = formatBigNumberForDisplay(
-    BigNumber.from(token.balance),
-    token.decimals.toString()
-  )
+  const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
 
   const error =
     !!errors[formKey]?.message && typeof errors[formKey]?.message === 'string'

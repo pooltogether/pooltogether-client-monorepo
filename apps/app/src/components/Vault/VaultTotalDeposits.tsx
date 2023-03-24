@@ -48,7 +48,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   return (
     <span className='text-base font-normal'>
       {!!totalDeposits && vaultTokenData
-        ? formatBigNumberForDisplay(totalDeposits, vaultTokenData.decimals.toString(), {
+        ? formatBigNumberForDisplay(totalDeposits, vaultTokenData.decimals, {
             hideZeroes: true
           })
         : 0}{' '}

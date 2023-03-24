@@ -59,7 +59,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
       )
     : BigNumber.from(0)
   const formattedDepositAmount = !!tokenData
-    ? formatBigNumberForDisplay(depositAmount, tokenData.decimals.toString())
+    ? formatBigNumberForDisplay(depositAmount, tokenData.decimals)
     : '0'
 
   // TODO: implement infinite approval?
