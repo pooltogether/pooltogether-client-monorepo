@@ -39,7 +39,7 @@ export const useVaultTokenAddresses = (
  * @param vault instance of the `Vault` class
  * @returns
  */
-export const useVaultTokenAddress = (vault: Vault): UseQueryResult<string, unknown> => {
+export const useVaultTokenAddress = (vault: Vault): UseQueryResult<`0x${string}`, unknown> => {
   const vaultId = !!vault ? [vault.id] : []
   const queryKey = [QUERY_KEYS.vaultTokenAddresses, vaultId]
 

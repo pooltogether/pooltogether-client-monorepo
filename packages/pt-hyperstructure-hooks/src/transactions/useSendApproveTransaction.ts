@@ -1,28 +1,31 @@
 import { BigNumber, providers } from 'ethers'
 import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
 import { erc20 as erc20Abi } from 'pt-utilities'
+import { useVaultTokenAddress } from '../vaults/useVaultTokenAddresses'
 
 export const useSendApproveTransaction = (
   amount: BigNumber,
-  vaultInfo: VaultInfo
+  vault: Vault
 ): {
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
   sendApproveTransaction: (() => void) | undefined
 } => {
   const { chain } = useNetwork()
 
-  const enabled = chain?.id === vaultInfo.chainId
+  const { data: tokenAddress, isFetched: isFetchedTokenAddress } = useVaultTokenAddress(vault)
+
+  const enabled = !!vault && chain?.id === vault.chainId && isFetchedTokenAddress && !!tokenAddress
 
   // TODO: overrides?
   // TODO: onSuccess
   // TODO: onError
   const { config } = usePrepareContractWrite({
-    address: vaultInfo.extensions.underlyingAsset.address,
+    address: tokenAddress,
     abi: erc20Abi,
     functionName: 'approve',
-    args: [vaultInfo.address, amount],
-    chainId: vaultInfo.chainId,
+    args: [vault.address, amount],
+    chainId: vault.chainId,
     enabled
   })
 

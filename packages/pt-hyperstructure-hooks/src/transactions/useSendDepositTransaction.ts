@@ -1,11 +1,11 @@
 import { BigNumber, providers, utils } from 'ethers'
 import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
 
 export const useSendDepositTransaction = (
   amount: BigNumber,
-  vaultInfo: VaultInfo
+  vault: Vault
 ): {
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
   sendDepositTransaction: (() => void) | undefined
@@ -13,17 +13,18 @@ export const useSendDepositTransaction = (
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
-  const enabled = !!userAddress && utils.isAddress(userAddress) && chain?.id === vaultInfo.chainId
+  const enabled =
+    !!vault && !!userAddress && utils.isAddress(userAddress) && chain?.id === vault.chainId
 
   // TODO: overrides?
   // TODO: onSuccess
   // TODO: onError
   const { config } = usePrepareContractWrite({
-    address: vaultInfo.address,
+    address: vault.address as `0x${string}`,
     abi: erc4626Abi,
     functionName: 'deposit',
     args: [amount, userAddress],
-    chainId: vaultInfo.chainId,
+    chainId: vault.chainId,
     enabled
   })
 
