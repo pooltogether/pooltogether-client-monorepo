@@ -35,7 +35,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
     shouldUnregister: true
   })
 
-  if (isBrowser) {
+  if (isBrowser && !!vault) {
     return (
       <Modal
         show={isWithdrawModalOpen}

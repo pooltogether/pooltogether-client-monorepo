@@ -1,20 +1,16 @@
 import { utils } from 'ethers'
+import { PrizePool } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useAllPrizeInfo, usePrizePool, usePrizeTokenData } from 'pt-hyperstructure-hooks'
+import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { formatDailyCountToFrequency, getPrizeTextFromFrequency, NETWORK } from 'pt-utilities'
-import { PRIZE_POOLS } from '@constants'
+import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
 
 interface PrizesTableProps {
-  chainId: NETWORK
+  prizePool: PrizePool
 }
 
 export const PrizesTable = (props: PrizesTableProps) => {
-  const { chainId } = props
-
-  const prizePool = usePrizePool(chainId, PRIZE_POOLS[chainId].address, {
-    prizeTokenAddress: PRIZE_POOLS[chainId].prizeTokenAddress
-  })
+  const { prizePool } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)

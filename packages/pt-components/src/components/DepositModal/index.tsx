@@ -35,7 +35,7 @@ export const DepositModal = (props: DepositModalProps) => {
     shouldUnregister: true
   })
 
-  if (isBrowser) {
+  if (isBrowser && !!vault) {
     return (
       <Modal
         show={isDepositModalOpen}
