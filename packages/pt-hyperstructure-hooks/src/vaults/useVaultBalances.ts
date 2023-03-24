@@ -20,7 +20,7 @@ export const useVaultBalances = (
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultBalances, [val]]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultBalances, val]
 
   return useQuery(getQueryKey(vaultIds), async () => await vaults.getTotalTokenBalances(), {
     enabled: !!vaults,

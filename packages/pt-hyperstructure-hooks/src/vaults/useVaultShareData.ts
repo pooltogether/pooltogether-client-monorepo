@@ -18,7 +18,7 @@ export const useVaultShareData = (
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultShareData, [val]]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultShareData, val]
 
   return useQuery(getQueryKey(vaultIds), async () => await vaults.getShareData(), {
     enabled: !!vaults,

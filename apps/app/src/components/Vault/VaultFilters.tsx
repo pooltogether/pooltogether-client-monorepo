@@ -35,9 +35,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
 
-  const {
-    data: { byVault: vaultTokenAddresses }
-  } = useVaultTokenAddresses(vaults)
+  const { data: vaultTokenAddresses } = useVaultTokenAddresses(vaults)
 
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses)
@@ -83,7 +81,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         const vault = vaults.vaults[vaultId]
         const usdPrice = getTokenPriceFromObject(
           vault.chainId,
-          vaultTokenAddresses[vault.id],
+          vaultTokenAddresses.byVault[vault.id],
           tokenPrices
         )
         const tokenAmount =
@@ -99,7 +97,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         const vault = vaults.vaults[vaultId]
         const userWalletBalance = BigNumber.from(
           isFetchedUserTokenBalances && !!userTokenBalances
-            ? userTokenBalances[vault.chainId]?.[vaultTokenAddresses[vault.id]]?.balance ?? 0
+            ? userTokenBalances[vault.chainId]?.[vaultTokenAddresses.byVault[vault.id]]?.balance ??
+                0
             : 0
         )
         return !userWalletBalance.isZero()
@@ -107,7 +106,9 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     } else if (filterId === 'stablecoin' && !!vaultTokenAddresses) {
       filteredVaultIds = vaultIds.filter((vaultId) => {
         const vault = vaults.vaults[vaultId]
-        return STABLECOIN_ADDRESSES[vault.chainId].includes(vaultTokenAddresses[vault.id])
+        return STABLECOIN_ADDRESSES[vault.chainId].includes(
+          vaultTokenAddresses.byVault[vault.id].toLowerCase()
+        )
       })
     } else if (stringNetworks.includes(filterId)) {
       filteredVaultIds = vaultIds.filter((vaultId) => {

@@ -20,7 +20,7 @@ export const useVaultExchangeRates = (
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultExchangeRates, [val]]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultExchangeRates, val]
 
   return useQuery(getQueryKey(vaultIds), async () => await vaults.getExchangeRates(), {
     enabled: !!vaults,

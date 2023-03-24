@@ -43,7 +43,7 @@ export const useTokenBalances = (
     QUERY_KEYS.tokenBalances,
     chainId,
     address,
-    [val]
+    val
   ]
 
   return useQuery(
@@ -98,7 +98,7 @@ export const useTokenBalancesAcrossChains = (
   const results = useQueries({
     queries: readProviders.map((readProvider, i) => {
       const chainId = chainIds?.[i]
-      const chainTokenAddresses = !!chainId ? tokenAddresses[chainId] : []
+      const chainTokenAddresses = !!chainId ? tokenAddresses?.[chainId] : []
 
       const enabled =
         !!address &&

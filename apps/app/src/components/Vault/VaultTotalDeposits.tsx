@@ -34,7 +34,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   if (displayCurrency) {
     const formattedTokenAmount =
-      !!totalDeposits && vaultTokenData
+      !!totalDeposits && !!vaultTokenData
         ? Number(utils.formatUnits(totalDeposits, vaultTokenData.decimals))
         : 0
 
@@ -47,7 +47,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   return (
     <span className='text-base font-normal'>
-      {!!totalDeposits && vaultTokenData
+      {!!totalDeposits && !!vaultTokenData
         ? formatBigNumberForDisplay(totalDeposits, vaultTokenData.decimals, {
             hideZeroes: true
           })

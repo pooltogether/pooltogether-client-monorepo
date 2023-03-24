@@ -12,10 +12,10 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   return (
     <div className='flex justify-end gap-2'>
       <DepositButton vault={vault}>Deposit</DepositButton>
-      {/* TODO: re-add "Details" button once the vault-specific page exists (not MVP) */}
-      {/* <Button color='white' outline={true}>
+      {/* TODO: details button functionality */}
+      <Button color='white' outline={true}>
         Details
-      </Button> */}
+      </Button>
     </div>
   )
 }

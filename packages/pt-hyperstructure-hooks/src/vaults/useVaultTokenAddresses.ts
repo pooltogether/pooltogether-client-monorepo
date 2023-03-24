@@ -1,8 +1,7 @@
-import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Vault, Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns underlying token addresses for each vault
@@ -20,15 +19,12 @@ export const useVaultTokenAddresses = (
   },
   unknown
 > => {
-  const queryClient = useQueryClient()
-
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultTokenAddresses, [val]]
+  const queryKey = [QUERY_KEYS.vaultTokenAddresses, vaultIds]
 
-  return useQuery(getQueryKey(vaultIds), async () => await vaults.getUnderlyingTokenAddresses(), {
+  return useQuery(queryKey, async () => await vaults.getUnderlyingTokenAddresses(), {
     enabled: !!vaults,
-    ...NO_REFETCH,
-    onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
+    ...NO_REFETCH
   })
 }
 

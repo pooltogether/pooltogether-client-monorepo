@@ -45,13 +45,17 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
       ? Object.keys(vaultBalances)
           .map((vaultId) => {
             const vault = vaults.vaults[vaultId]
-            const tokenData = vaultBalances[vaultId]
-            if (!!tokenData && BigNumber.from(tokenData.balance).gt(0)) {
+            const shareBalance = BigNumber.from(vaultBalances[vaultId]?.balance ?? 0)
+            if (!!vaultBalances[vaultId] && shareBalance.gt(0)) {
               const cells: ReactNode[] = [
                 <VaultBadge vault={vault} />,
                 <NetworkBadge chainId={vault.chainId} appendText={'Prize Pool'} hideIcon={true} />,
-                <AccountVaultOdds vault={vault} tokenData={tokenData} />,
-                <AccountVaultBalance vault={vault} tokenData={tokenData} />,
+                <AccountVaultOdds vault={vault} />,
+                <AccountVaultBalance
+                  vault={vault}
+                  shareBalance={shareBalance}
+                  decimals={vaultBalances[vaultId].decimals}
+                />,
                 <AccountVaultButtons vault={vault} />
               ]
               return { cells }

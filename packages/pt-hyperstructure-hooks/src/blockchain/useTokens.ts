@@ -32,7 +32,7 @@ export const useTokens = (
     isFetchedChainId &&
     !!chainId
 
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.tokens, chainId, [val]]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.tokens, chainId, val]
 
   return useQuery(
     getQueryKey(tokenAddresses),

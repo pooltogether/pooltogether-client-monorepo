@@ -20,24 +20,26 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
 
   const vaults = useSelectedVaults()
 
-  const {
-    data: { byChain: tokenAddresses }
-  } = useVaultTokenAddresses(vaults)
+  const { data: tokenAddresses } = useVaultTokenAddresses(vaults)
 
   // Adding POOL token addresses:
   if (!!tokenAddresses) {
-    if (tokenAddresses[NETWORK.mainnet] === undefined) {
-      tokenAddresses[NETWORK.mainnet] = [POOL_TOKEN_ADDRESSES[NETWORK.mainnet]]
-    } else if (!tokenAddresses[NETWORK.mainnet].includes(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])) {
-      tokenAddresses[NETWORK.mainnet].push(POOL_TOKEN_ADDRESSES[NETWORK.mainnet])
-    }
+    Object.keys(POOL_TOKEN_ADDRESSES).forEach((strChainId) => {
+      const chainId = parseInt(strChainId)
+      const chainTokenAddresses = tokenAddresses.byChain[chainId]
+      if (chainTokenAddresses === undefined) {
+        tokenAddresses.byChain[chainId] = [POOL_TOKEN_ADDRESSES[chainId]]
+      } else if (!chainTokenAddresses.includes(POOL_TOKEN_ADDRESSES[chainId])) {
+        tokenAddresses.byChain[chainId].push(POOL_TOKEN_ADDRESSES[chainId])
+      }
+    })
   }
 
   const {
     data: coingeckoTokenPrices,
     isFetched: isFetchedCoingeckoTokenPrices,
     refetch: refetchCoingeckoTokenPrices
-  } = useCoingeckoTokenPricesAcrossChains(tokenAddresses, currencies)
+  } = useCoingeckoTokenPricesAcrossChains(tokenAddresses?.byChain ?? [], currencies)
 
   // TODO: get token prices on-chain (those missing from coingecko)
 

@@ -22,11 +22,7 @@ export const useUserVaultBalances = (
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [
-    QUERY_KEYS.userVaultBalances,
-    userAddress,
-    [val]
-  ]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.userVaultBalances, userAddress, val]
 
   return useQuery(
     getQueryKey(vaultIds),

@@ -192,17 +192,20 @@ export const getVaultUnderlyingTokenAddresses = async (
         vaultAddresses.add(vault.address)
       }
     })
-    const multicallResults = await getMulticallResults(
-      readProvider,
-      Array.from(vaultAddresses),
-      erc4626Abi,
-      [{ reference: 'asset', methodName: 'asset', methodParameters: [] }]
-    )
 
-    vaultAddresses.forEach((address) => {
-      const vaultId = getVaultId({ chainId, address })
-      tokenAddresses[vaultId] = multicallResults[address]['asset']?.[0]
-    })
+    if (vaultAddresses.size > 0) {
+      const multicallResults = await getMulticallResults(
+        readProvider,
+        Array.from(vaultAddresses),
+        erc4626Abi,
+        [{ reference: 'asset', methodName: 'asset', methodParameters: [] }]
+      )
+
+      vaultAddresses.forEach((address) => {
+        const vaultId = getVaultId({ chainId, address })
+        tokenAddresses[vaultId] = multicallResults[address]['asset']?.[0]
+      })
+    }
   }
 
   return tokenAddresses

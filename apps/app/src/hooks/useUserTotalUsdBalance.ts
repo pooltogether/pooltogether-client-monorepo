@@ -29,13 +29,17 @@ export const useUserTotalUsdBalance = () => {
   const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
     useVaultExchangeRates(vaults)
 
-  const {
-    data: { byVault: vaultTokenAddresses }
-  } = useVaultTokenAddresses(vaults)
+  const { data: vaultTokenAddresses, isFetched: isFetchedVaultTokenAddresses } =
+    useVaultTokenAddresses(vaults)
 
-  const isFetched = isFetchedTokenPrices && isFetchedVaultBalances && isFetchedVaultExchangeRates
+  const isFetched =
+    isFetchedTokenPrices &&
+    isFetchedVaultBalances &&
+    isFetchedVaultExchangeRates &&
+    isFetchedVaultTokenAddresses
 
-  const enabled = isFetched && !!tokenPrices && !!vaultBalances && !!vaultExchangeRates
+  const enabled =
+    isFetched && !!tokenPrices && !!vaultBalances && !!vaultExchangeRates && !!vaultTokenAddresses
 
   const data = useMemo(() => {
     if (enabled) {
@@ -46,7 +50,7 @@ export const useUserTotalUsdBalance = () => {
         if (!!vaultExchangeRate) {
           const usdPrice = getTokenPriceFromObject(
             vaultBalances[vaultId].chainId,
-            vaultTokenAddresses[vaultId],
+            vaultTokenAddresses.byVault[vaultId],
             tokenPrices
           )
 
