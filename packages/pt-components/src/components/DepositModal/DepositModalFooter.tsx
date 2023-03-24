@@ -1,19 +1,21 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
+import { Vault } from 'pt-client-js'
 import {
   useSendApproveTransaction,
   useSendDepositTransaction,
+  useSingleVaultTokenData,
   useTokenAllowance,
   useTokenBalance
 } from 'pt-hyperstructure-hooks'
-import { VaultInfo } from 'pt-types'
+import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   watch: UseFormWatch<TxFormValues>
   isValidFormInputs: boolean
   openConnectModal?: () => void
@@ -23,7 +25,7 @@ interface DepositModalFooterProps {
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const {
-    vaultInfo,
+    vault,
     watch,
     isValidFormInputs,
     openConnectModal,
@@ -32,45 +34,49 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
-  const provider = useProvider({ chainId: vaultInfo.chainId })
+  const provider = useProvider({ chainId: vault.chainId })
+
+  const { data: tokenData } = useSingleVaultTokenData(vault)
 
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
     provider,
     userAddress as `0x${string}`,
-    vaultInfo.address,
-    vaultInfo.extensions.underlyingAsset.address
+    vault.address,
+    tokenData?.address as string
   )
 
   const { data: userBalance, isFetched: isFetchedUserBalance } = useTokenBalance(
     provider,
     userAddress as `0x${string}`,
-    vaultInfo.extensions.underlyingAsset.address
+    tokenData?.address as string
   )
 
   const formTokenAmount = watch('tokenAmount', '0')
-  const depositAmount = utils.parseUnits(
-    isValidFormInput(formTokenAmount, vaultInfo.decimals) ? formTokenAmount : '0',
-    vaultInfo.decimals
-  )
-  const formattedDepositAmount = formatBigNumberForDisplay(
-    depositAmount,
-    vaultInfo.decimals.toString()
-  )
+  const depositAmount = !!tokenData
+    ? utils.parseUnits(
+        isValidFormInput(formTokenAmount, tokenData.decimals) ? formTokenAmount : '0',
+        tokenData.decimals
+      )
+    : BigNumber.from(0)
+  const formattedDepositAmount = !!tokenData
+    ? formatBigNumberForDisplay(depositAmount, tokenData.decimals.toString())
+    : '0'
 
   // TODO: implement infinite approval?
   const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
     depositAmount,
-    vaultInfo
+    vault
   )
 
   const { data: depositTxData, sendDepositTransaction } = useSendDepositTransaction(
     depositAmount,
-    vaultInfo
+    vault
   )
 
   const approvalEnabled =
     !isDisconnected &&
     !!userAddress &&
+    !!tokenData &&
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
@@ -81,6 +87,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const depositEnabled =
     !isDisconnected &&
     !!userAddress &&
+    !!tokenData &&
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
@@ -93,26 +100,26 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
       <TransactionButton
-        chainId={vaultInfo.chainId}
+        chainId={vault.chainId}
         write={sendApproveTransaction}
         txHash={approveTxData?.hash}
-        txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Approval`}
+        txDescription={`${tokenData?.symbol} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Approve {formattedDepositAmount} {vaultInfo.extensions.underlyingAsset.symbol}
+        Approve {formattedDepositAmount} {tokenData?.symbol ?? <Spinner />}
       </TransactionButton>
     )
   } else {
     return (
       <TransactionButton
-        chainId={vaultInfo.chainId}
+        chainId={vault.chainId}
         write={sendDepositTransaction}
         txHash={depositTxData?.hash}
-        txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Deposit`}
+        txDescription={`${tokenData?.symbol} Deposit`}
         fullSized={true}
         disabled={!depositEnabled}
         openConnectModal={openConnectModal}

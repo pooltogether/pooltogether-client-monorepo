@@ -1,13 +1,17 @@
 import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount } from 'wagmi'
-import { useSendWithdrawTransaction, useUserVaultBalance, useVault } from 'pt-hyperstructure-hooks'
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
+import {
+  useSendWithdrawTransaction,
+  useSingleVaultShareData,
+  useUserVaultBalance
+} from 'pt-hyperstructure-hooks'
 import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface WithdrawModalFooterProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   watch: UseFormWatch<TxFormValues>
   isValidFormInputs: boolean
   openConnectModal?: () => void
@@ -17,7 +21,7 @@ interface WithdrawModalFooterProps {
 
 export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const {
-    vaultInfo,
+    vault,
     watch,
     isValidFormInputs,
     openConnectModal,
@@ -27,7 +31,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
 
   const { address: userAddress, isDisconnected } = useAccount()
 
-  const vault = useVault(vaultInfo)
+  const { data: shareData } = useSingleVaultShareData(vault)
 
   const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
     vault,
@@ -35,14 +39,16 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   )
 
   const formShareAmount = watch('shareAmount', '0')
-  const withdrawAmount = utils.parseUnits(
-    isValidFormInput(formShareAmount, vaultInfo.decimals) ? formShareAmount : '0',
-    vaultInfo.decimals
-  )
+  const withdrawAmount = !!shareData
+    ? utils.parseUnits(
+        isValidFormInput(formShareAmount, shareData.decimals) ? formShareAmount : '0',
+        shareData.decimals
+      )
+    : BigNumber.from(0)
 
   const { data: withdrawTxData, sendWithdrawTransaction } = useSendWithdrawTransaction(
     withdrawAmount,
-    vaultInfo
+    vault
   )
 
   const withdrawEnabled =
@@ -56,10 +62,10 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
 
   return (
     <TransactionButton
-      chainId={vaultInfo.chainId}
+      chainId={vault.chainId}
       write={sendWithdrawTransaction}
       txHash={withdrawTxData?.hash}
-      txDescription={`${vaultInfo.extensions.underlyingAsset.symbol} Withdrawal`}
+      txDescription={`${shareData?.symbol} Withdrawal`}
       fullSized={true}
       disabled={!withdrawEnabled}
       openConnectModal={openConnectModal}

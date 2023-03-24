@@ -1,5 +1,5 @@
 import { BigNumber, Contract, providers } from 'ethers'
-import { TokenWithBalance, TokenWithSupply, VaultInfo, VaultInfoWithBalance } from 'pt-types'
+import { TokenWithBalance, TokenWithSupply, VaultInfo } from 'pt-types'
 import {
   erc20 as erc20Abi,
   getTokenBalances,
@@ -47,7 +47,8 @@ export class Vaults {
       chainVaults.forEach((vault) => {
         const newVault = new Vault(vault.chainId, vault.address, providers[chainId], {
           decimals: vault.decimals,
-          tokenAddress: vault.extensions?.underlyingAsset?.address
+          tokenAddress: vault.extensions?.underlyingAsset?.address,
+          logoURI: vault.logoURI
         })
         this.vaults[newVault.id] = newVault
       })
@@ -178,9 +179,9 @@ export class Vaults {
   async getUserShareBalances(
     userAddress: string,
     chainIds?: number[]
-  ): Promise<{ [vaultId: string]: VaultInfoWithBalance }> {
+  ): Promise<{ [vaultId: string]: TokenWithBalance }> {
     const source = `Vaults [getUserShareBalances]`
-    const shareBalances: { [vaultId: string]: VaultInfoWithBalance } = {}
+    const shareBalances: { [vaultId: string]: TokenWithBalance } = {}
     const networksToQuery = chainIds ?? this.chainIds
     validateAddress(userAddress, source)
 
@@ -200,10 +201,7 @@ export class Vaults {
               const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
               chainVaults.forEach((vault) => {
                 const vaultId = getVaultId(vault)
-                shareBalances[vaultId] = {
-                  ...vault,
-                  balance: chainShareBalances[vault.address]?.balance
-                }
+                shareBalances[vaultId] = chainShareBalances[vault.address]
               })
             }
           }

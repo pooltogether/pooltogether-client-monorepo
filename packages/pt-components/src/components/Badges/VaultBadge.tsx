@@ -1,9 +1,11 @@
 import classNames from 'classnames'
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
+import { useSingleVaultShareData } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
 import { TokenIcon } from '../Icons/TokenIcon'
 
 export interface VaultBadgeProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   className?: string
   iconClassName?: string
   nameClassName?: string
@@ -11,24 +13,32 @@ export interface VaultBadgeProps {
 }
 
 export const VaultBadge = (props: VaultBadgeProps) => {
-  const { vaultInfo, className, iconClassName, nameClassName, symbolClassName } = props
+  const { vault, className, iconClassName, nameClassName, symbolClassName } = props
+
+  const { data: shareData } = useSingleVaultShareData(vault)
 
   return (
     <div className={classNames('flex gap-2', className)}>
       <TokenIcon
         token={{
-          chainId: vaultInfo.chainId,
-          address: vaultInfo.address,
-          name: vaultInfo.name,
-          logoURI: vaultInfo.logoURI ?? vaultInfo.extensions?.underlyingAsset?.logoURI
+          chainId: vault.chainId,
+          address: vault.address,
+          name: shareData?.name,
+          logoURI: vault.logoURI
         }}
         className={classNames('my-auto', iconClassName)}
       />
       <div className='flex flex-col text-left'>
-        <span className={classNames(nameClassName)}>{vaultInfo.name}</span>
-        <span className={classNames('text-sm text-pt-purple-100', symbolClassName)}>
-          {vaultInfo.symbol}
-        </span>
+        {!!shareData ? (
+          <>
+            <span className={classNames(nameClassName)}>{shareData.name}</span>
+            <span className={classNames('text-sm text-pt-purple-100', symbolClassName)}>
+              {shareData.symbol}
+            </span>
+          </>
+        ) : (
+          <Spinner />
+        )}
       </div>
     </div>
   )

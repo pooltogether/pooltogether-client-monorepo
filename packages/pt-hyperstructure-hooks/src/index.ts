@@ -40,6 +40,7 @@ export * from './vaults/useUserVaultBalances'
 export * from './vaults/useVaultBalances'
 export * from './vaults/useVaultExchangeRates'
 export * from './vaults/useVaults'
+export * from './vaults/useVaultShareData'
 export * from './vaults/useVaultTokenAddresses'
 export * from './vaults/useVaultTokenData'
 

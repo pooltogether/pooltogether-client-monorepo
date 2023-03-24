@@ -6,21 +6,21 @@ import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
- * Returns underlying token data for each vault
+ * Returns share data for each vault
  *
- * Stores queried token data in cache
+ * Stores queried share data in cache
  * @param vaults instance of the `Vaults` class
  * @returns
  */
-export const useVaultTokenData = (
+export const useVaultShareData = (
   vaults: Vaults
 ): UseQueryResult<{ [vaultId: string]: TokenWithSupply }, unknown> => {
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultTokenData, [val]]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.vaultShareData, [val]]
 
-  return useQuery(getQueryKey(vaultIds), async () => await vaults.getTokenData(), {
+  return useQuery(getQueryKey(vaultIds), async () => await vaults.getShareData(), {
     enabled: !!vaults,
     ...NO_REFETCH,
     onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
@@ -28,17 +28,17 @@ export const useVaultTokenData = (
 }
 
 /**
- * Returns a vault's token data
+ * Returns a vault's share data
  *
- * Stores queried token data in cache
+ * Stores queried share data in cache
  * @param vault instance of the `Vault` class
  * @returns
  */
-export const useSingleVaultTokenData = (vault: Vault): UseQueryResult<TokenWithSupply, unknown> => {
+export const useSingleVaultShareData = (vault: Vault): UseQueryResult<TokenWithSupply, unknown> => {
   const vaultId = !!vault ? [vault.id] : []
-  const queryKey = [QUERY_KEYS.vaultTokenData, vaultId]
+  const queryKey = [QUERY_KEYS.vaultShareData, vaultId]
 
-  return useQuery(queryKey, async () => await vault.getTokenData(), {
+  return useQuery(queryKey, async () => await vault.getShareData(), {
     enabled: !!vault,
     ...NO_REFETCH
   })
