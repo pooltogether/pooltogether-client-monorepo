@@ -2,9 +2,14 @@ import { atom, useAtom } from 'jotai'
 import { LOCAL_STORAGE_KEYS } from '../constants/keys'
 
 const getInitialIsTestnets = (): boolean => {
-  if (typeof window === 'undefined') return false
+  const defaultValue = true
+  if (typeof window === 'undefined') return defaultValue
   const cachedIsTestnets = localStorage.getItem(LOCAL_STORAGE_KEYS.isTestnets)
-  return cachedIsTestnets === 'true'
+  if (!!cachedIsTestnets) {
+    return cachedIsTestnets === 'true'
+  } else {
+    return defaultValue
+  }
 }
 
 const isTestnetsAtom = atom<boolean>(getInitialIsTestnets())

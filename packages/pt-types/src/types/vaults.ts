@@ -16,22 +16,19 @@ export interface VaultList {
 export interface VaultInfo {
   readonly chainId: number
   readonly address: `0x${string}`
-  readonly name: string
-  readonly decimals: number
-  readonly symbol: string
-  readonly extensions: VaultExtensions
+  readonly name?: string
+  readonly decimals?: number
+  readonly symbol?: string
+  readonly extensions?: VaultExtensions
   readonly tags?: string[]
   readonly logoURI?: string
 }
 
 export interface VaultExtensions {
-  readonly yieldSource: string
-  readonly underlyingAsset: {
-    readonly chainId: number
-    readonly address: `0x${string}`
-    readonly symbol: string
-    readonly name: string
-    readonly decimals: string
+  readonly underlyingAsset?: {
+    readonly address?: `0x${string}`
+    readonly symbol?: string
+    readonly name?: string
     readonly logoURI?: string
   }
   readonly [key: string]:
@@ -52,8 +49,4 @@ export interface VaultListTags {
     readonly name: string
     readonly description: string
   }
-}
-
-export interface VaultInfoWithBalance extends VaultInfo {
-  balance: string
 }

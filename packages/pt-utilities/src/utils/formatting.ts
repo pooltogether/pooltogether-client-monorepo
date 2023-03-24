@@ -68,7 +68,7 @@ export const formatNumberForDisplay = (
  */
 export const formatBigNumberForDisplay = (
   val: BigNumber,
-  decimals: string,
+  decimals: number,
   options?: Intl.NumberFormatOptions & {
     locale?: string
     round?: boolean

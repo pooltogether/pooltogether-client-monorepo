@@ -45,7 +45,7 @@ export const useTokenAllowances = (
     chainId,
     address,
     spenderAddress,
-    [val]
+    val
   ]
 
   return useQuery(

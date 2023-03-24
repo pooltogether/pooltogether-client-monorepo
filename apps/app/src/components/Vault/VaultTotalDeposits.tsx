@@ -1,38 +1,42 @@
 import { utils } from 'ethers'
+import { Vault } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useVault, useVaultBalance } from 'pt-hyperstructure-hooks'
-import { VaultInfo } from 'pt-types'
+import { useSingleVaultTokenData, useVaultBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 interface VaultTotalDepositsProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   displayCurrency?: boolean
 }
 
 export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
-  const { vaultInfo, displayCurrency } = props
+  const { vault, displayCurrency } = props
 
-  const vault = useVault(vaultInfo)
+  const { data: vaultTokenData, isFetched: isFetchedVaultTokenData } =
+    useSingleVaultTokenData(vault)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
-  const usdPrice = getTokenPriceFromObject(
-    vaultInfo.chainId,
-    vaultInfo.extensions.underlyingAsset.address,
-    tokenPrices
-  )
+  const usdPrice = !!vaultTokenData
+    ? getTokenPriceFromObject(vault.chainId, vaultTokenData.address, tokenPrices)
+    : 0
 
   const { data: totalDeposits, isFetched: isFetchedTotalDeposits } = useVaultBalance(vault)
 
-  if (!isFetchedTotalDeposits || (displayCurrency && !isFetchedTokenPrices)) {
+  if (
+    !isFetchedTotalDeposits ||
+    !isFetchedVaultTokenData ||
+    (displayCurrency && !isFetchedTokenPrices)
+  ) {
     return <Spinner />
   }
 
   if (displayCurrency) {
-    const formattedTokenAmount = !!totalDeposits
-      ? Number(utils.formatUnits(totalDeposits, vaultInfo.decimals))
-      : 0
+    const formattedTokenAmount =
+      !!totalDeposits && !!vaultTokenData
+        ? Number(utils.formatUnits(totalDeposits, vaultTokenData.decimals))
+        : 0
 
     return (
       <span className='text-base font-normal'>
@@ -43,12 +47,12 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
   return (
     <span className='text-base font-normal'>
-      {!!totalDeposits
-        ? formatBigNumberForDisplay(totalDeposits, vaultInfo.decimals.toString(), {
+      {!!totalDeposits && !!vaultTokenData
+        ? formatBigNumberForDisplay(totalDeposits, vaultTokenData.decimals, {
             hideZeroes: true
           })
         : 0}{' '}
-      {vaultInfo.extensions.underlyingAsset.symbol}
+      {vaultTokenData?.symbol}
     </span>
   )
 }

@@ -42,12 +42,15 @@ export class PrizePool {
   ) {
     this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
     this.id = getPrizePoolId(chainId, address)
+
     if (!!options?.prizeTokenAddress) {
       this.prizeTokenContract = new Contract(options.prizeTokenAddress, erc20Abi, signerOrProvider)
     }
+
     if (!!options?.drawPeriodInSeconds) {
       this.drawPeriodInSeconds = options.drawPeriodInSeconds
     }
+
     if (!!options?.tierShares) {
       this.tierShares = options.tierShares
     }
@@ -460,6 +463,6 @@ export class PrizePool {
     const prizeTokenContract = new Contract(prizeTokenAddress, erc20Abi, this.signerOrProvider)
     this.prizeTokenContract = prizeTokenContract
 
-    return prizeTokenContract
+    return this.prizeTokenContract
   }
 }

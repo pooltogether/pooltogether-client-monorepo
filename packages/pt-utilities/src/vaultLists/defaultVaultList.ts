@@ -2,7 +2,7 @@ import { VaultList } from 'pt-types'
 
 export const defaultVaultList: VaultList = {
   name: 'PoolTogether Vault List',
-  keywords: ['pooltogether', 'aave'],
+  keywords: ['pooltogether'],
   version: {
     major: 1,
     minor: 0,
@@ -17,13 +17,10 @@ export const defaultVaultList: VaultList = {
       decimals: 18,
       symbol: 'PTDAILYT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0x56159f593155E3079A2d0Ae253e97C703dBe54A8',
           symbol: 'DAI',
-          name: 'Dai Stablecoin',
-          decimals: '18'
+          name: 'Dai Stablecoin'
         }
       }
     },
@@ -34,13 +31,10 @@ export const defaultVaultList: VaultList = {
       decimals: 18,
       symbol: 'PTDAIHYT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0x56159f593155E3079A2d0Ae253e97C703dBe54A8',
           symbol: 'DAI',
-          name: 'Dai Stablecoin',
-          decimals: '18'
+          name: 'Dai Stablecoin'
         }
       }
     },
@@ -51,13 +45,10 @@ export const defaultVaultList: VaultList = {
       decimals: 6,
       symbol: 'PTUSDCLYT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0x346ca12Ac254b843879733b17c6ed3d9c53333f0',
           symbol: 'USDC',
-          name: 'USD Coin',
-          decimals: '6'
+          name: 'USD Coin'
         }
       }
     },
@@ -68,13 +59,10 @@ export const defaultVaultList: VaultList = {
       decimals: 6,
       symbol: 'PTUSDCHYT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0x346ca12Ac254b843879733b17c6ed3d9c53333f0',
           symbol: 'USDC',
-          name: 'USD Coin',
-          decimals: '6'
+          name: 'USD Coin'
         }
       }
     },
@@ -85,13 +73,10 @@ export const defaultVaultList: VaultList = {
       decimals: 2,
       symbol: 'PTGUSDT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0xD13905EF313F0F8cd0855E25c566354A2b7b9780',
           symbol: 'GUSD',
-          name: 'Gemini dollar',
-          decimals: '2'
+          name: 'Gemini dollar'
         }
       }
     },
@@ -102,13 +87,10 @@ export const defaultVaultList: VaultList = {
       decimals: 8,
       symbol: 'PTWBTCT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0xF33e8157569e09a9090E058b0a6D685d394258ed',
           symbol: 'WBTC',
-          name: 'Wrapped BTC',
-          decimals: '8'
+          name: 'Wrapped BTC'
         }
       }
     },
@@ -119,13 +101,10 @@ export const defaultVaultList: VaultList = {
       decimals: 18,
       symbol: 'PTWETHT',
       extensions: {
-        yieldSource: 'YieldVault',
         underlyingAsset: {
-          chainId: 5,
           address: '0x0a30769C05876521B79d61669513129aBeeF5B84',
           symbol: 'WETH',
-          name: 'Wrapped Ether',
-          decimals: '18'
+          name: 'Wrapped Ether'
         }
       }
     }

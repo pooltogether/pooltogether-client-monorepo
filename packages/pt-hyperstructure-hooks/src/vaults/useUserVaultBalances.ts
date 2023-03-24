@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { Vault, Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
+import { TokenWithBalance } from 'pt-types'
 import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
@@ -18,15 +18,11 @@ export const useUserVaultBalances = (
   vaults: Vaults,
   userAddress: string,
   refetchInterval?: number
-): UseQueryResult<{ [vaultId: string]: VaultInfoWithBalance }, unknown> => {
+): UseQueryResult<{ [vaultId: string]: TokenWithBalance }, unknown> => {
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [
-    QUERY_KEYS.userVaultBalances,
-    userAddress,
-    [val]
-  ]
+  const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.userVaultBalances, userAddress, val]
 
   return useQuery(
     getQueryKey(vaultIds),
@@ -53,7 +49,7 @@ export const useUserVaultBalance = (
   vault: Vault,
   userAddress: string,
   refetchInterval?: number
-): UseQueryResult<VaultInfoWithBalance, unknown> => {
+): UseQueryResult<TokenWithBalance, unknown> => {
   const vaultId = !!vault ? [vault.id] : []
   const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultId]
 

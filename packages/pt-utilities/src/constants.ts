@@ -117,6 +117,34 @@ export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
 })
 
 /**
+ * Stablecoin addresses
+ *
+ * NOTE: All addresses are lowercase
+ */
+export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
+  [NETWORK.mainnet]: [
+    '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48', // USDC
+    '0x6b175474e89094c44da98b954eedeac495271d0f', // DAI
+    '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd' // GUSD
+  ],
+  [NETWORK.goerli]: [],
+  [NETWORK.sepolia]: [],
+  [NETWORK.bsc]: [],
+  [NETWORK['bsc-testnet']]: [],
+  [NETWORK.xdai]: [],
+  [NETWORK.polygon]: [],
+  [NETWORK.mumbai]: [],
+  [NETWORK.optimism]: [],
+  [NETWORK['optimism-goerli']]: [],
+  [NETWORK.avalanche]: [],
+  [NETWORK.fuji]: [],
+  [NETWORK.celo]: [],
+  [NETWORK['celo-testnet']]: [],
+  [NETWORK.arbitrum]: [],
+  [NETWORK['arbitrum-goerli']]: []
+})
+
+/**
  * Default Vault list ID
  */
 export const defaultVaultListId = getVaultListId(defaultVaultList)

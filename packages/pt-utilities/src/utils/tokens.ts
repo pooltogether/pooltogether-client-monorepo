@@ -29,7 +29,7 @@ export const getTokenInfo = async (
       address,
       symbol: multicallResults[address]['symbol']?.[0],
       name: multicallResults[address]['name']?.[0],
-      decimals: multicallResults[address]['decimals']?.[0],
+      decimals: parseInt(multicallResults[address]['decimals']?.[0]),
       totalSupply: BigNumber.from(multicallResults[address]['totalSupply']?.[0] ?? 0).toString()
     }
   })

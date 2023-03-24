@@ -1,38 +1,40 @@
 import Link from 'next/link'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { PrizePoolHeader } from 'pt-components'
-import { VaultInfo } from 'pt-types'
 import { Layout } from '@components/Layout'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
-import { SUPPORTED_NETWORKS } from '@constants'
 import { useNetworks } from '@hooks/useNetworks'
 
 export default function DepositPage() {
   const networks = useNetworks()
-  const allNetworks = [...SUPPORTED_NETWORKS.mainnets, ...SUPPORTED_NETWORKS.testnets]
 
-  const [vaults, setVaults] = useState<{ [chainId: number]: VaultInfo[] }>({})
+  const [vaultIds, setVaultIds] = useState<string[]>([])
 
-  const handleFilteredVaults = (filteredVaults: VaultInfo[]) => {
-    const newVaults: { [chainId: number]: VaultInfo[] } = {}
-    allNetworks.forEach((network) => {
-      newVaults[network] = []
+  const vaultIdsByNetwork = useMemo(() => {
+    const ids: { [chainId: number]: string[] } = {}
+
+    networks.forEach((network) => {
+      ids[network] = []
     })
-    filteredVaults.forEach((vault) => {
-      newVaults[vault.chainId].push(vault)
+
+    vaultIds.forEach((id) => {
+      const network = parseInt(id.split('-')[1])
+      ids[network].push(id)
     })
-    setVaults(newVaults)
-  }
+
+    return ids
+  }, [networks, vaultIds])
 
   return (
     <Layout className='gap-14'>
       <div className='w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg'>
         <span className='text-lg font-semibold'>Filter</span>
-        <VaultFilters onFilter={handleFilteredVaults} />
+        <VaultFilters onFilter={setVaultIds} />
       </div>
       {networks.map((network) => {
-        if (vaults[network] === undefined || vaults[network].length === 0) return
+        if (vaultIdsByNetwork[network] === undefined || vaultIdsByNetwork[network].length === 0)
+          return
         return (
           <div key={`pp-${network}`}>
             <PrizePoolHeader
@@ -48,7 +50,7 @@ export default function DepositPage() {
               className='ml-4 mb-6'
               headerClassName='font-averta'
             />
-            <VaultList vaults={vaults[network]} />
+            <VaultList vaultIds={vaultIdsByNetwork[network]} />
           </div>
         )
       })}

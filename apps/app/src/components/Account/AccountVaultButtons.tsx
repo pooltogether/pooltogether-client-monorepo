@@ -1,18 +1,18 @@
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
 import { DepositButton } from '@components/DepositButton'
 import { WithdrawButton } from '@components/WithdrawButton'
 
 interface AccountVaultButtonsProps {
-  vaultInfo: VaultInfo
+  vault: Vault
 }
 
 export const AccountVaultButtons = (props: AccountVaultButtonsProps) => {
-  const { vaultInfo } = props
+  const { vault } = props
 
   return (
     <div className='flex justify-end gap-2'>
-      <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
-      <WithdrawButton vaultInfo={vaultInfo}>Withdraw</WithdrawButton>
+      <DepositButton vault={vault}>Deposit</DepositButton>
+      <WithdrawButton vault={vault}>Withdraw</WithdrawButton>
     </div>
   )
 }

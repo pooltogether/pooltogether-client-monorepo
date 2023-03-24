@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
-import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { TxFormValues } from '../Form/TxFormInput'
 import { DepositModalBody } from './DepositModalBody'
 import { DepositModalFooter } from './DepositModalFooter'
 
 export interface DepositModalProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -16,7 +16,7 @@ export interface DepositModalProps {
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { vaultInfo, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
 
@@ -35,7 +35,7 @@ export const DepositModal = (props: DepositModalProps) => {
     shouldUnregister: true
   })
 
-  if (isBrowser) {
+  if (isBrowser && !!vault) {
     return (
       <Modal
         show={isDepositModalOpen}
@@ -44,7 +44,7 @@ export const DepositModal = (props: DepositModalProps) => {
         bgColor={bgColor}
         bodyContent={
           <DepositModalBody
-            vaultInfo={vaultInfo}
+            vault={vault}
             register={register}
             watch={watch}
             setValue={setValue}
@@ -53,7 +53,7 @@ export const DepositModal = (props: DepositModalProps) => {
         }
         footerContent={
           <DepositModalFooter
-            vaultInfo={vaultInfo}
+            vault={vault}
             watch={watch}
             isValidFormInputs={isValidFormInputs}
             openConnectModal={openConnectModal}

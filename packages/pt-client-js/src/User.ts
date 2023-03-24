@@ -11,18 +11,16 @@ export class User extends Vault {
    * Creates an instance of a User for a specific Vault
    * @param chainId the vault's chain ID
    * @param vaultAddress the vault's address
-   * @param decimals the vault's decimals
    * @param signer a Signer for the network the vault is deployed on
-   * @param tokenAddress optional token address (prevents 1 extra call)
+   * @param options optional parameters
    */
   constructor(
     chainId: number,
     vaultAddress: string,
-    decimals: number,
     public signer: Signer,
-    tokenAddress?: string
+    options?: { decimals?: number; tokenAddress?: string }
   ) {
-    super(chainId, vaultAddress, decimals, signer, tokenAddress)
+    super(chainId, vaultAddress, signer, options)
   }
 
   /* ============================== Read Functions ============================== */

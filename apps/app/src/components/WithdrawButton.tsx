@@ -1,24 +1,24 @@
 import { useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
+import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
-import { VaultInfo } from 'pt-types'
 import { Button } from 'pt-ui'
-import { selectedVaultAtom } from '@atoms'
+import { selectedVaultIdAtom } from '@atoms'
 
 interface WithdrawButtonProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   children: ReactNode
 }
 
 export const WithdrawButton = (props: WithdrawButtonProps) => {
-  const { vaultInfo, children } = props
+  const { vault, children } = props
 
   const { setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
-  const setSelectedVault = useSetAtom(selectedVaultAtom)
+  const setSelectedVaultId = useSetAtom(selectedVaultIdAtom)
 
   const handleClick = () => {
-    setSelectedVault(vaultInfo)
+    setSelectedVaultId(vault.id)
     setIsWithdrawModalOpen(true)
   }
 

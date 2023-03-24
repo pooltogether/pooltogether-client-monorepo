@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
-import { VaultInfo } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { TxFormValues } from '../Form/TxFormInput'
 import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
 export interface WithdrawModalProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -16,7 +16,7 @@ export interface WithdrawModalProps {
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { vaultInfo, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
@@ -35,7 +35,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
     shouldUnregister: true
   })
 
-  if (isBrowser) {
+  if (isBrowser && !!vault) {
     return (
       <Modal
         show={isWithdrawModalOpen}
@@ -44,7 +44,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         bgColor={bgColor}
         bodyContent={
           <WithdrawModalBody
-            vaultInfo={vaultInfo}
+            vault={vault}
             register={register}
             watch={watch}
             setValue={setValue}
@@ -53,7 +53,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         }
         footerContent={
           <WithdrawModalFooter
-            vaultInfo={vaultInfo}
+            vault={vault}
             watch={watch}
             isValidFormInputs={isValidFormInputs}
             openConnectModal={openConnectModal}

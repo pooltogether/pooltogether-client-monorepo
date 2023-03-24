@@ -1,12 +1,12 @@
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
 import { formatNumberForDisplay } from 'pt-utilities'
 
 interface VaultPrizePowerProps {
-  vaultInfo: VaultInfo
+  vault: Vault
 }
 
 export const VaultPrizePower = (props: VaultPrizePowerProps) => {
-  const { vaultInfo } = props
+  const { vault } = props
 
   // TODO: calculate vault prize power
   const prizePower: number = 4.2

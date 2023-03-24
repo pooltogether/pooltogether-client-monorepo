@@ -1,12 +1,14 @@
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { VaultInfo } from 'pt-types'
+import { Vault } from 'pt-client-js'
+import { useSingleVaultShareData } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 import { DepositForm } from '../Form/DepositForm'
 import { TxFormValues } from '../Form/TxFormInput'
 
 interface DepositModalBodyProps {
-  vaultInfo: VaultInfo
+  vault: Vault
   register: UseFormRegister<TxFormValues>
   watch: UseFormWatch<TxFormValues>
   setValue: UseFormSetValue<TxFormValues>
@@ -14,20 +16,22 @@ interface DepositModalBodyProps {
 }
 
 export const DepositModalBody = (props: DepositModalBodyProps) => {
-  const { vaultInfo, register, watch, setValue, errors } = props
+  const { vault, register, watch, setValue, errors } = props
 
-  const networkName = getNiceNetworkNameByChainId(vaultInfo.chainId)
+  const { data: shareData } = useSingleVaultShareData(vault)
+
+  const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
   return (
     <div className='flex flex-col gap-6'>
       <span className='w-full text-xl font-semibold text-center'>
-        Deposit to {vaultInfo.name} on {networkName}
+        Deposit to {!!shareData ? shareData.name : <Spinner />} on {networkName}
       </span>
       <div className='flex flex-col items-center gap-1'>
-        <NetworkBadge chainId={vaultInfo.chainId} appendText='Prize Pool' hideIcon={true} />
+        <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       <DepositForm
-        vaultInfo={vaultInfo}
+        vault={vault}
         register={register}
         watch={watch}
         setValue={setValue}

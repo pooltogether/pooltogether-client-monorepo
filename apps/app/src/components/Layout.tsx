@@ -12,8 +12,9 @@ import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
 import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
+import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
-import { selectedVaultAtom, settingsModalViewAtom } from '@atoms'
+import { selectedVaultIdAtom, settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
   children: ReactNode
@@ -28,13 +29,15 @@ export const Layout = (props: LayoutProps) => {
   const { setIsSettingsModalOpen } = useIsSettingsModalOpen()
   const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
 
-  const selectedVault = useAtomValue(selectedVaultAtom)
-
   const { isTestnets, setIsTestnets } = useIsTestnets()
 
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
   const addRecentTransaction = useAddRecentTransaction()
+
+  const vaults = useSelectedVaults()
+  const selectedVaultId = useAtomValue(selectedVaultIdAtom)
+  const selectedVault = vaults.vaults[selectedVaultId]
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -102,14 +105,14 @@ export const Layout = (props: LayoutProps) => {
       />
 
       <DepositModal
-        vaultInfo={selectedVault}
+        vault={selectedVault}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       />
 
       <WithdrawModal
-        vaultInfo={selectedVault}
+        vault={selectedVault}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}

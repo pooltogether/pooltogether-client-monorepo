@@ -1,12 +1,12 @@
-import { VaultInfoWithBalance } from 'pt-types'
+import { Vault } from 'pt-client-js'
 
 interface AccountVaultOddsProps {
-  vaultInfo: VaultInfoWithBalance
+  vault: Vault
 }
 
 // TODO: calculate odds
 export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
-  const { vaultInfo } = props
+  const { vault } = props
 
   return <span className='text-base'>1 in X</span>
 }

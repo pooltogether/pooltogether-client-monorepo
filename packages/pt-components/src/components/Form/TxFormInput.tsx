@@ -45,7 +45,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
 
   const formAmount = watch(formKey, '0')
   const usdValue =
-    isValidFormInput(formAmount, parseInt(token.decimals)) && !!token.usdPrice
+    isValidFormInput(formAmount, token.decimals) && !!token.usdPrice
       ? Number(formAmount) * token.usdPrice
       : 0
 
@@ -74,9 +74,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
     isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
     isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
     isNotTooPrecise: (v) =>
-      v.split('.').length < 2 ||
-      v.split('.')[1].length <= parseInt(token.decimals) ||
-      'Too many decimals'
+      v.split('.').length < 2 || v.split('.')[1].length <= token.decimals || 'Too many decimals'
   }
 
   return (

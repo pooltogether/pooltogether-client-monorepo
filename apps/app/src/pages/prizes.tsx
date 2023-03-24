@@ -2,10 +2,12 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { PrizePoolDropdown } from 'pt-components'
+import { usePrizePools } from 'pt-hyperstructure-hooks'
 import { Button, ExternalLink } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
 import { Layout } from '@components/Layout'
 import { PrizesTable } from '@components/Prizes/PrizesTable'
+import { formatPrizePools } from '@constants'
 import { useNetworks } from '@hooks/useNetworks'
 
 export default function PrizesPage() {
@@ -14,6 +16,12 @@ export default function PrizesPage() {
   const networks = useNetworks()
 
   const [selectedNetwork, setSelectedNetwork] = useState<NETWORK>(networks[0])
+
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const selectedPrizePool = Object.values(prizePools).find(
+    (prizePool) => prizePool.chainId === selectedNetwork
+  )
 
   useEffect(() => {
     setSelectedNetwork(networks[0])
@@ -40,7 +48,7 @@ export default function PrizesPage() {
       <Link href={`/deposit?network=${selectedNetwork}`} passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
-      <PrizesTable chainId={selectedNetwork} />
+      {!!selectedPrizePool && <PrizesTable prizePool={selectedPrizePool} />}
       {/* TODO: add link */}
       <ExternalLink
         href='#'
