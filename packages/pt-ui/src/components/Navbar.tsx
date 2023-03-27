@@ -62,7 +62,7 @@ export const Navbar = (props: NavbarProps) => {
       </div>
 
       {/* Middle Collapsable Content */}
-      <FlowbiteNavbar.Collapse>
+      <FlowbiteNavbar.Collapse theme={{ base: 'absolute w-full justify-center md:flex md:pr-16' }}>
         <NavbarLinks
           links={links}
           activePage={activePage}
