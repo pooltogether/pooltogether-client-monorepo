@@ -40,3 +40,14 @@ export const formatPrizePools = () => {
     }
   })
 }
+
+/**
+ * RPCs
+ */
+export const RPC_URLS = {
+  [NETWORK.mainnet]: process.env.MAINNET_RPC_URL,
+  [NETWORK.polygon]: process.env.POLYGON_RPC_URL,
+  [NETWORK.optimism]: process.env.OPTIMISM_RPC_URL,
+  [NETWORK.arbitrum]: process.env.ARBITRUM_RPC_URL,
+  [NETWORK.goerli]: process.env.GOERLI_RPC_URL
+}

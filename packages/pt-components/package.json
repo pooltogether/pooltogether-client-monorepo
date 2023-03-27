@@ -49,6 +49,6 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^0.11.6"
+    "wagmi": "^0.12.6"
   }
 }
