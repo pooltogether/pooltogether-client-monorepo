@@ -48,7 +48,9 @@ export class Vaults {
         const newVault = new Vault(vault.chainId, vault.address, providers[chainId], {
           decimals: vault.decimals,
           tokenAddress: vault.extensions?.underlyingAsset?.address,
-          logoURI: vault.logoURI
+          name: vault.name,
+          logoURI: vault.logoURI,
+          tokenLogoURI: vault.extensions?.underlyingAsset?.logoURI
         })
         this.vaults[newVault.id] = newVault
       })
@@ -124,6 +126,10 @@ export class Vaults {
               if (!!chainShareData[vault.address]) {
                 this.vaults[vaultId].shareData = chainShareData[vault.address]
                 this.vaults[vaultId].decimals = chainShareData[vault.address].decimals
+
+                if (this.vaults[vaultId].name === undefined) {
+                  this.vaults[vaultId].name = chainShareData[vault.address].name
+                }
               }
             })
           }

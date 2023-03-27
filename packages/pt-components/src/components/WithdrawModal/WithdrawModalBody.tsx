@@ -25,7 +25,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
   return (
     <div className='flex flex-col gap-6'>
       <span className='w-full text-xl font-semibold text-center'>
-        Withdraw from {!!shareData ? shareData.name : <Spinner />} on {networkName}
+        Withdraw from {vault.name ?? <Spinner />} on {networkName}
       </span>
       <div className='flex flex-col items-center gap-1'>
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />

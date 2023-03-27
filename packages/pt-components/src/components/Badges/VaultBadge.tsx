@@ -19,13 +19,13 @@ export const VaultBadge = (props: VaultBadgeProps) => {
         token={{
           chainId: vault.chainId,
           address: vault.address,
-          name: vault.shareData?.name,
+          name: vault.name,
           logoURI: vault.logoURI
         }}
         className={classNames('my-auto', iconClassName)}
       />
       <div className='flex flex-col text-left'>
-        <span className={classNames(nameClassName)}>{vault.shareData?.name}</span>
+        <span className={classNames(nameClassName)}>{vault.name}</span>
         <span className={classNames('text-sm text-pt-purple-100', symbolClassName)}>
           {vault.shareData?.symbol}
         </span>

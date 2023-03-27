@@ -113,7 +113,8 @@ export const DepositForm = (props: DepositFormProps) => {
             token={{
               ...vaultTokenData,
               balance: tokenBalance,
-              usdPrice
+              usdPrice,
+              logoURI: vault.tokenLogoURI
             }}
             formKey='tokenAmount'
             validate={{

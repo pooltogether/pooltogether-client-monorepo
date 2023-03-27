@@ -137,7 +137,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
             token={{
               ...vaultTokenData,
               balance: tokenBalance,
-              usdPrice
+              usdPrice,
+              logoURI: vault.tokenLogoURI
             }}
             formKey='tokenAmount'
             register={register}

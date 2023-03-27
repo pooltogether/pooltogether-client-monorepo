@@ -23,7 +23,9 @@ export class Vault {
   tokenData: TokenWithSupply | undefined
   shareData: TokenWithSupply | undefined
   exchangeRate: BigNumber | undefined
+  name: string | undefined
   logoURI: string | undefined
+  tokenLogoURI: string | undefined
 
   /**
    * Creates an instance of a Vault with a given signer or provider to query on-chain data with
@@ -36,7 +38,13 @@ export class Vault {
     public chainId: number,
     public address: string,
     public signerOrProvider: Signer | providers.Provider,
-    options?: { decimals?: number; tokenAddress?: string; logoURI?: string }
+    options?: {
+      decimals?: number
+      tokenAddress?: string
+      name?: string
+      logoURI?: string
+      tokenLogoURI?: string
+    }
   ) {
     this.vaultContract = new Contract(address, erc4626Abi, signerOrProvider)
     this.id = getVaultId({ address, chainId })
@@ -49,8 +57,16 @@ export class Vault {
       this.tokenContract = new Contract(options.tokenAddress, erc20Abi, signerOrProvider)
     }
 
+    if (!!options?.name) {
+      this.name = options.name
+    }
+
     if (!!options?.logoURI) {
       this.logoURI = options.logoURI
+    }
+
+    if (!!options?.tokenLogoURI) {
+      this.tokenLogoURI = options.tokenLogoURI
     }
   }
 
@@ -99,6 +115,10 @@ export class Vault {
 
     if (!!this.shareData) {
       this.decimals = this.shareData.decimals
+
+      if (this.name === undefined) {
+        this.name = this.shareData.name
+      }
     }
 
     return this.shareData
