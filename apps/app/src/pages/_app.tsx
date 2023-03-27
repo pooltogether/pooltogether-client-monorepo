@@ -1,40 +1,53 @@
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
+import {
+  braveWallet,
+  coinbaseWallet,
+  injectedWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  safeWallet,
+  trustWallet,
+  walletConnectWallet
+} from '@rainbow-me/rainbowkit/wallets'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { infuraProvider } from 'wagmi/providers/infura'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 import { Flowbite } from 'pt-ui'
+import { RPC_URLS } from '@constants'
 import '../styles/globals.css'
 import { ptRainbowTheme } from '../themes'
 
+// App Name:
+const appName = 'PoolTogether'
+
+// Supported Networks:
+const supportedNetworks = [mainnet, polygon, optimism, arbitrum, goerli]
+
 // Wagmi Config:
-const { chains, provider } = configureChains(
-  // TODO: need to only include proper chains depending on testnet mode or not
-  [mainnet, polygon, optimism, arbitrum, goerli],
-  [
-    infuraProvider({ apiKey: process.env.INFURA_ID }),
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
-    publicProvider()
-  ]
-)
-const { connectors } = getDefaultWallets({ appName: 'PoolTogether App', chains })
-// const connectors = [
-//   new InjectedConnector({ chains }),
-//   new WalletConnectConnector({
-//     chains,
-//     options: {
-//       version: '2',
-//       qrcode: true,
-//       projectId: '358b98f0af3cd936fe09dc21064de51d'
-//     }
-//   })
-// ]
+const { chains, provider } = configureChains(supportedNetworks, [
+  jsonRpcProvider({ rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
+  publicProvider()
+])
+// TODO: update to new wallet connect connector (projectId: 358b98f0af3cd936fe09dc21064de51d)
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      injectedWallet({ chains }),
+      walletConnectWallet({ chains }),
+      coinbaseWallet({ appName, chains }),
+      metaMaskWallet({ chains }),
+      rainbowWallet({ chains }),
+      braveWallet({ chains }),
+      safeWallet({ chains }),
+      trustWallet({ chains })
+    ]
+  }
+])
 const wagmiClient = createClient({ autoConnect: true, connectors, provider })
 
 // React Query Client:
@@ -72,10 +85,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     >
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
-          chains={chains}
+          chains={supportedNetworks}
           theme={ptRainbowTheme()}
           showRecentTransactions={true}
           coolMode={true}
+          appInfo={{ appName }}
         >
           <QueryClientProvider client={queryClient}>
             <Component {...pageProps} />
