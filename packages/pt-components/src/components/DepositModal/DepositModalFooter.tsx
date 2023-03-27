@@ -52,15 +52,17 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   )
 
   const formTokenAmount = watch('tokenAmount', '0')
-  const depositAmount = !!tokenData
-    ? utils.parseUnits(
-        isValidFormInput(formTokenAmount, tokenData.decimals) ? formTokenAmount : '0',
-        tokenData.decimals
-      )
-    : BigNumber.from(0)
-  const formattedDepositAmount = !!tokenData
-    ? formatBigNumberForDisplay(depositAmount, tokenData.decimals)
-    : '0'
+  const depositAmount =
+    !!tokenData && !Number.isNaN(tokenData.decimals)
+      ? utils.parseUnits(
+          isValidFormInput(formTokenAmount, tokenData.decimals) ? formTokenAmount : '0',
+          tokenData.decimals
+        )
+      : BigNumber.from(0)
+  const formattedDepositAmount =
+    !!tokenData && !Number.isNaN(tokenData.decimals)
+      ? formatBigNumberForDisplay(depositAmount, tokenData.decimals)
+      : '0'
 
   // TODO: implement infinite approval?
   const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
@@ -82,7 +84,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
-    isValidFormInputs
+    isValidFormInputs &&
+    !Number.isNaN(tokenData.decimals)
 
   const depositEnabled =
     !isDisconnected &&
@@ -95,7 +98,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     !depositAmount.isZero() &&
     BigNumber.from(userBalance.balance).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
-    isValidFormInputs
+    isValidFormInputs &&
+    !Number.isNaN(tokenData.decimals)
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (

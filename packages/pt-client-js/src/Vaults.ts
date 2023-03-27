@@ -85,7 +85,10 @@ export class Vaults {
               const tokenAddress = underlyingTokenAddresses.byVault[vaultId]
               tokenData[vaultId] = chainTokenData[tokenAddress]
 
-              this.vaults[vaultId].tokenData = chainTokenData[tokenAddress]
+              if (!!chainTokenData[tokenAddress]) {
+                this.vaults[vaultId].tokenData = chainTokenData[tokenAddress]
+                this.vaults[vaultId].decimals = chainTokenData[tokenAddress].decimals
+              }
             })
           }
         })()
@@ -118,7 +121,10 @@ export class Vaults {
               const vaultId = getVaultId(vault)
               shareData[vaultId] = chainShareData[vault.address]
 
-              this.vaults[vaultId].shareData = chainShareData[vault.address]
+              if (!!chainShareData[vault.address]) {
+                this.vaults[vaultId].shareData = chainShareData[vault.address]
+                this.vaults[vaultId].decimals = chainShareData[vault.address].decimals
+              }
             })
           }
         })()

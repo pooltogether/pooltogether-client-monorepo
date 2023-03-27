@@ -59,29 +59,31 @@ export const Table = (props: TableProps) => {
         ))}
       </FlowbiteTable.Head>
       <FlowbiteTable.Body className={classNames(bodyClassName)}>
-        {rows.map((row, i) => (
-          <FlowbiteTable.Row
-            key={`${keyPrefix}-tr-${i}`}
-            className={classNames('bg-pt-transparent', rowClassName, row.className)}
-          >
-            {row.cells.map((cell, j) => (
-              <FlowbiteTable.Cell
-                key={`${keyPrefix}-tc-${i}-${j}`}
-                theme={{ base: 'text-pt-purple-50 text-center px-6 py-4' }}
-                className={classNames(
-                  {
-                    'rounded-l-lg': roundedRows && j === 0,
-                    'rounded-r-lg': roundedRows && j === row.cells.length - 1
-                  },
-                  cellClassName
-                )}
-              >
-                {/* @ts-ignore */}
-                {cell}
-              </FlowbiteTable.Cell>
-            ))}
-          </FlowbiteTable.Row>
-        ))}
+        {rows
+          .filter((row) => !!row)
+          .map((row, i) => (
+            <FlowbiteTable.Row
+              key={`${keyPrefix}-tr-${i}`}
+              className={classNames('bg-pt-transparent', rowClassName, row.className)}
+            >
+              {row.cells.map((cell, j) => (
+                <FlowbiteTable.Cell
+                  key={`${keyPrefix}-tc-${i}-${j}`}
+                  theme={{ base: 'text-pt-purple-50 text-center px-6 py-4' }}
+                  className={classNames(
+                    {
+                      'rounded-l-lg': roundedRows && j === 0,
+                      'rounded-r-lg': roundedRows && j === row.cells.length - 1
+                    },
+                    cellClassName
+                  )}
+                >
+                  {/* @ts-ignore */}
+                  {cell}
+                </FlowbiteTable.Cell>
+              ))}
+            </FlowbiteTable.Row>
+          ))}
       </FlowbiteTable.Body>
     </FlowbiteTable>
   )

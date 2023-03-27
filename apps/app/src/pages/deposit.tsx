@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
+import { Vault } from 'pt-client-js'
 import { PrizePoolHeader } from 'pt-components'
+import { useSelectedVaults, useVaultShareData, useVaultTokenData } from 'pt-hyperstructure-hooks'
 import { Layout } from '@components/Layout'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
@@ -9,22 +11,44 @@ import { useNetworks } from '@hooks/useNetworks'
 export default function DepositPage() {
   const networks = useNetworks()
 
+  const vaults = useSelectedVaults()
+
+  const { data: vaultShareData } = useVaultShareData(vaults)
+  const { data: vaultTokenData } = useVaultTokenData(vaults)
+
   const [vaultIds, setVaultIds] = useState<string[]>([])
 
-  const vaultIdsByNetwork = useMemo(() => {
-    const ids: { [chainId: number]: string[] } = {}
+  // Filtering out invalid vaults:
+  const validVaults = vaultIds
+    .map((vaultId) => {
+      const vault = vaults.vaults[vaultId]
+      const shareData = vaultShareData?.[vault.id]
+      const tokenData = vaultTokenData?.[vault.id]
+
+      if (
+        !!shareData &&
+        !!tokenData &&
+        !Number.isNaN(shareData.decimals) &&
+        !Number.isNaN(tokenData.decimals)
+      ) {
+        return vault
+      }
+    })
+    .filter((vault) => !!vault)
+
+  const vaultsByNetwork = useMemo(() => {
+    const vaults: { [chainId: number]: Vault[] } = {}
 
     networks.forEach((network) => {
-      ids[network] = []
+      vaults[network] = []
     })
 
-    vaultIds.forEach((id) => {
-      const network = parseInt(id.split('-')[1])
-      ids[network].push(id)
+    validVaults.forEach((vault) => {
+      vaults[vault.chainId].push(vault)
     })
 
-    return ids
-  }, [networks, vaultIds])
+    return vaults
+  }, [networks, validVaults])
 
   return (
     <Layout className='gap-14'>
@@ -33,8 +57,7 @@ export default function DepositPage() {
         <VaultFilters onFilter={setVaultIds} />
       </div>
       {networks.map((network) => {
-        if (vaultIdsByNetwork[network] === undefined || vaultIdsByNetwork[network].length === 0)
-          return
+        if (vaultsByNetwork[network] === undefined || vaultsByNetwork[network].length === 0) return
         return (
           <div key={`pp-${network}`}>
             <PrizePoolHeader
@@ -50,7 +73,7 @@ export default function DepositPage() {
               className='ml-4 mb-6'
               headerClassName='font-averta'
             />
-            <VaultList vaultIds={vaultIdsByNetwork[network]} />
+            <VaultList vaults={vaultsByNetwork[network]} />
           </div>
         )
       })}

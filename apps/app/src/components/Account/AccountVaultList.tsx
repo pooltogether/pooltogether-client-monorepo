@@ -46,7 +46,8 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
           .map((vaultId) => {
             const vault = vaults.vaults[vaultId]
             const shareBalance = BigNumber.from(vaultBalances[vaultId]?.balance ?? 0)
-            if (!!vaultBalances[vaultId] && shareBalance.gt(0)) {
+            const decimals = vaultBalances[vaultId]?.decimals ?? NaN
+            if (!!vaultBalances[vaultId] && shareBalance.gt(0) && !Number.isNaN(decimals)) {
               const cells: ReactNode[] = [
                 <VaultBadge vault={vault} />,
                 <NetworkBadge chainId={vault.chainId} appendText={'Prize Pool'} hideIcon={true} />,
@@ -54,7 +55,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
                 <AccountVaultBalance
                   vault={vault}
                   shareBalance={shareBalance}
-                  decimals={vaultBalances[vaultId].decimals}
+                  decimals={decimals}
                 />,
                 <AccountVaultButtons vault={vault} />
               ]

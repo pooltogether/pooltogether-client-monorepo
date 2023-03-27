@@ -73,7 +73,10 @@ export class Vault {
 
     const tokenData = await getTokenInfo(provider, [tokenContract.address])
     this.tokenData = tokenData[tokenContract.address]
-    this.decimals = this.tokenData.decimals
+
+    if (!!this.tokenData) {
+      this.decimals = this.tokenData.decimals
+    }
 
     return this.tokenData
   }
@@ -91,9 +94,12 @@ export class Vault {
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
 
-    const shareInfo = await getTokenInfo(provider, [this.address])
-    this.shareData = shareInfo[this.address]
-    this.decimals = this.shareData.decimals
+    const shareData = await getTokenInfo(provider, [this.address])
+    this.shareData = shareData[this.address]
+
+    if (!!this.shareData) {
+      this.decimals = this.shareData.decimals
+    }
 
     return this.shareData
   }

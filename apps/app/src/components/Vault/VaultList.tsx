@@ -1,21 +1,19 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
+import { Vault } from 'pt-client-js'
 import { VaultBadge } from 'pt-components'
-import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Table, TableProps } from 'pt-ui'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
 interface VaultListProps {
-  vaultIds: string[]
+  vaults: Vault[]
   className?: string
 }
 
 export const VaultList = (props: VaultListProps) => {
-  const { vaultIds, className } = props
-
-  const vaults = useSelectedVaults()
+  const { vaults, className } = props
 
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
@@ -24,8 +22,7 @@ export const VaultList = (props: VaultListProps) => {
     'Manage'
   ]
 
-  const tableRows: TableProps['rows'] = vaultIds.map((vaultId) => {
-    const vault = vaults.vaults[vaultId]
+  const tableRows: TableProps['rows'] = vaults.map((vault) => {
     const cells: ReactNode[] = [
       <VaultBadge vault={vault} />,
       <VaultPrizePower vault={vault} />,
@@ -36,15 +33,17 @@ export const VaultList = (props: VaultListProps) => {
     return { cells, className }
   })
 
-  return (
-    <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
-      <Table
-        headers={tableHeaders}
-        rows={tableRows}
-        keyPrefix='vaultList'
-        roundedRows={true}
-        headerCellClassName='font-normal'
-      />
-    </div>
-  )
+  if (tableRows.length > 0) {
+    return (
+      <div className={classNames('bg-pt-bg-purple-dark px-4 rounded-lg', className)}>
+        <Table
+          headers={tableHeaders}
+          rows={tableRows}
+          keyPrefix='vaultList'
+          roundedRows={true}
+          headerCellClassName='font-normal'
+        />
+      </div>
+    )
+  }
 }

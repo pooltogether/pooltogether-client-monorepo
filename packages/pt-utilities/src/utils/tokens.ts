@@ -24,14 +24,18 @@ export const getTokenInfo = async (
 
   const formattedResult: { [tokenAddress: string]: TokenWithSupply } = {}
   tokenAddresses.forEach((address) => {
-    formattedResult[address] = {
-      chainId,
-      address,
-      symbol: multicallResults[address]['symbol']?.[0],
-      name: multicallResults[address]['name']?.[0],
-      decimals: parseInt(multicallResults[address]['decimals']?.[0]),
-      totalSupply: BigNumber.from(multicallResults[address]['totalSupply']?.[0] ?? 0).toString()
+    const symbol = multicallResults[address]['symbol']?.[0]
+    const name = multicallResults[address]['name']?.[0]
+    const decimals = parseInt(multicallResults[address]['decimals']?.[0])
+    const totalSupply = BigNumber.from(
+      multicallResults[address]['totalSupply']?.[0] ?? 0
+    ).toString()
+
+    if (!symbol || Number.isNaN(decimals)) {
+      console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
     }
+
+    formattedResult[address] = { chainId, address, symbol, name, decimals, totalSupply }
   })
 
   return formattedResult
@@ -88,13 +92,22 @@ export const getTokenBalances = async (
 
   const formattedResult: { [tokenAddress: string]: TokenWithBalance } = {}
   tokenAddresses.forEach((tokenAddress) => {
+    const symbol = multicallResults[tokenAddress]['symbol']?.[0]
+    const name = multicallResults[tokenAddress]['name']?.[0]
+    const decimals = parseInt(multicallResults[tokenAddress]['decimals']?.[0])
+    const balance = BigNumber.from(multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0).toString()
+
+    if (!symbol || Number.isNaN(decimals)) {
+      console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
+    }
+
     formattedResult[tokenAddress] = {
       chainId,
       address: tokenAddress,
-      symbol: multicallResults[tokenAddress]['symbol']?.[0],
-      name: multicallResults[tokenAddress]['name']?.[0],
-      decimals: multicallResults[tokenAddress]['decimals']?.[0],
-      balance: BigNumber.from(multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0).toString()
+      symbol,
+      name,
+      decimals,
+      balance
     }
   })
 

@@ -30,13 +30,15 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
       <div className='flex flex-col items-center gap-1'>
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
-      <WithdrawForm
-        vault={vault}
-        register={register}
-        watch={watch}
-        setValue={setValue}
-        errors={errors}
-      />
+      {!!shareData && !Number.isNaN(shareData.decimals) && (
+        <WithdrawForm
+          vault={vault}
+          register={register}
+          watch={watch}
+          setValue={setValue}
+          errors={errors}
+        />
+      )}
     </div>
   )
 }

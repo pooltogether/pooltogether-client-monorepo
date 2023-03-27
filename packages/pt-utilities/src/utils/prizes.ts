@@ -211,13 +211,13 @@ export const getPrizePoolAllPrizeInfo = async (
   )
 
   const lastDrawId = BigNumber.from(
-    multicallResults[prizePoolAddress]['lastDrawId']?.[0] ?? 1
+    multicallResults[prizePoolAddress]['lastDrawId']?.[0] ?? 0
   ).toNumber()
   const startDrawId = considerPastDraws > lastDrawId ? 1 : lastDrawId - considerPastDraws + 1
 
   const prizePoolContract = new Contract(prizePoolAddress, prizePoolAbi, readProvider)
   const totalContributions = BigNumber.from(
-    await prizePoolContract.getTotalContributedBetween(startDrawId, lastDrawId)
+    lastDrawId > 0 ? await prizePoolContract.getTotalContributedBetween(startDrawId, lastDrawId) : 0
   )
 
   const drawPeriod = parseInt(multicallResults[prizePoolAddress]['drawPeriod']?.[0])

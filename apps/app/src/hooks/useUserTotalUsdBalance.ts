@@ -45,27 +45,29 @@ export const useUserTotalUsdBalance = () => {
     if (enabled) {
       let totalUsdBalance: number = 0
       for (const vaultId in vaultBalances) {
-        const vaultExchangeRate = vaultExchangeRates[vaultId]
+        if (!Number.isNaN(vaultBalances[vaultId].decimals)) {
+          const vaultExchangeRate = vaultExchangeRates[vaultId]
 
-        if (!!vaultExchangeRate) {
-          const usdPrice = getTokenPriceFromObject(
-            vaultBalances[vaultId].chainId,
-            vaultTokenAddresses.byVault[vaultId],
-            tokenPrices
-          )
+          if (!!vaultExchangeRate) {
+            const usdPrice = getTokenPriceFromObject(
+              vaultBalances[vaultId].chainId,
+              vaultTokenAddresses.byVault[vaultId],
+              tokenPrices
+            )
 
-          const shareBalance = BigNumber.from(vaultBalances[vaultId].balance)
-          const tokenBalance = getAssetsFromShares(
-            shareBalance,
-            vaultExchangeRate,
-            vaultBalances[vaultId].decimals
-          )
+            const shareBalance = BigNumber.from(vaultBalances[vaultId].balance)
+            const tokenBalance = getAssetsFromShares(
+              shareBalance,
+              vaultExchangeRate,
+              vaultBalances[vaultId].decimals
+            )
 
-          const formattedTokenBalance = utils.formatUnits(
-            tokenBalance,
-            vaultBalances[vaultId].decimals
-          )
-          totalUsdBalance += Number(formattedTokenBalance) * usdPrice
+            const formattedTokenBalance = utils.formatUnits(
+              tokenBalance,
+              vaultBalances[vaultId].decimals
+            )
+            totalUsdBalance += Number(formattedTokenBalance) * usdPrice
+          }
         }
       }
       return totalUsdBalance

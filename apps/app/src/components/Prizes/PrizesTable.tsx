@@ -24,6 +24,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
       {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
         <div className='flex flex-col gap-3 mb-8'>
           {Object.values(allPrizeInfo)[0].map((prize, i) => {
+            const amount = utils.formatUnits(prize.amount, prizeTokenData.decimals)
             const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
 
             return (
@@ -32,10 +33,8 @@ export const PrizesTable = (props: PrizesTableProps) => {
                 className='flex w-[36rem] items-center'
               >
                 <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
-                  <CurrencyValue
-                    baseValue={utils.formatUnits(prize.amount, prizeTokenData.decimals)}
-                    hideZeroes={true}
-                  />
+                  {/* TODO: multiply amount by POOL usd price */}
+                  <CurrencyValue baseValue={amount} hideZeroes={true} />
                 </span>
                 <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
                   {getPrizeTextFromFrequency(frequency, 'daily')}

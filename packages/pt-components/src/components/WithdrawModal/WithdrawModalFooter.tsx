@@ -39,12 +39,13 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   )
 
   const formShareAmount = watch('shareAmount', '0')
-  const withdrawAmount = !!shareData
-    ? utils.parseUnits(
-        isValidFormInput(formShareAmount, shareData.decimals) ? formShareAmount : '0',
-        shareData.decimals
-      )
-    : BigNumber.from(0)
+  const withdrawAmount =
+    !!shareData && !Number.isNaN(shareData.decimals)
+      ? utils.parseUnits(
+          isValidFormInput(formShareAmount, shareData.decimals) ? formShareAmount : '0',
+          shareData.decimals
+        )
+      : BigNumber.from(0)
 
   const { data: withdrawTxData, sendWithdrawTransaction } = useSendWithdrawTransaction(
     withdrawAmount,
@@ -54,11 +55,13 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const withdrawEnabled =
     !isDisconnected &&
     !!userAddress &&
+    !!shareData &&
     isFetchedVaultBalance &&
     !!vaultInfoWithBalance &&
     !withdrawAmount.isZero() &&
     BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
-    isValidFormInputs
+    isValidFormInputs &&
+    !Number.isNaN(shareData.decimals)
 
   return (
     <TransactionButton
