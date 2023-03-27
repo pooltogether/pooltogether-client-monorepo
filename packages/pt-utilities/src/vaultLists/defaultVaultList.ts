@@ -1,24 +1,24 @@
 import { VaultList } from 'pt-types'
 
 export const defaultVaultList: VaultList = {
-  name: 'PoolTogether Vault List',
+  name: 'PoolTogether Testnet Vault List',
   keywords: ['pooltogether'],
   version: {
     major: 1,
-    minor: 0,
-    patch: 1
+    minor: 1,
+    patch: 0
   },
-  timestamp: '2023-03-21T17:34:48.567Z',
+  timestamp: '2023-03-24T21:45:46.981Z',
   tokens: [
     {
       chainId: 5,
-      address: '0x4DFCDaFCc71228bAb8F1e4E95D7FaD360a6FaDB4',
+      address: '0x208773BcDe09B1835B2Af2A14FA59E1f9DcD9758',
       name: 'DAI Low Yield Vault',
       decimals: 18,
       symbol: 'PTDAILYT',
       extensions: {
         underlyingAsset: {
-          address: '0x56159f593155E3079A2d0Ae253e97C703dBe54A8',
+          address: '0x546F4D36168F90439aaC3b65A366a4563C340314',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
@@ -26,13 +26,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xcfda8A87481eC851c7dC5Cf23582EDe0C9a7A35b',
+      address: '0x3f304D47BbeFfEe5Ed5aA7A1fb529e165cCca081',
       name: 'DAI High Yield Vault',
       decimals: 18,
       symbol: 'PTDAIHYT',
       extensions: {
         underlyingAsset: {
-          address: '0x56159f593155E3079A2d0Ae253e97C703dBe54A8',
+          address: '0x546F4D36168F90439aaC3b65A366a4563C340314',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
@@ -40,13 +40,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0x86AAF4df222DD89067D228D325B643c4Da000860',
+      address: '0xD271423E918Ff3Fa328a5B3300d5c9eD07615f34',
       name: 'USDC Low Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCLYT',
       extensions: {
         underlyingAsset: {
-          address: '0x346ca12Ac254b843879733b17c6ed3d9c53333f0',
+          address: '0x6deF68cD3954a4A13fF74c578c2Fd74a761A87fD',
           symbol: 'USDC',
           name: 'USD Coin'
         }
@@ -54,13 +54,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xF07E44AFcACAF8D1307EF5A2405659a3e07B05A0',
+      address: '0x12edb464540ee3100DB6c694747f33232976a7DF',
       name: 'USDC High Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCHYT',
       extensions: {
         underlyingAsset: {
-          address: '0x346ca12Ac254b843879733b17c6ed3d9c53333f0',
+          address: '0x6deF68cD3954a4A13fF74c578c2Fd74a761A87fD',
           symbol: 'USDC',
           name: 'USD Coin'
         }
@@ -68,13 +68,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0x76196827f50E179fdC23898d3637F7a8b88E8116',
-      name: 'GUSD Vault',
+      address: '0xd5D322390aD95C644c99d6A5Badd7c2EB5AfC712',
+      name: 'GUSD Yield Vault',
       decimals: 2,
       symbol: 'PTGUSDT',
       extensions: {
         underlyingAsset: {
-          address: '0xD13905EF313F0F8cd0855E25c566354A2b7b9780',
+          address: '0x2CfBbd4d2B3eFE316b51a0B54E9ac1eA14E3A6c1',
           symbol: 'GUSD',
           name: 'Gemini dollar'
         }
@@ -82,13 +82,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xE1B3ec5885148F6F2379Ede684916c8F68aB129D',
-      name: 'WBTC Vault',
+      address: '0xC9C958E5af0feC3c5c17E53bA533497fAE3E8946',
+      name: 'WBTC Yield Vault',
       decimals: 8,
       symbol: 'PTWBTCT',
       extensions: {
         underlyingAsset: {
-          address: '0xF33e8157569e09a9090E058b0a6D685d394258ed',
+          address: '0xEE876AA37580F1c08cB42d38716D3f49040D88F8',
           symbol: 'WBTC',
           name: 'Wrapped BTC'
         }
@@ -96,13 +96,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xbA3cFE4d6AbfED02044d14F876d07722E967Ec74',
-      name: 'WETH Vault',
+      address: '0x7d8F096A502E47d9910E654b9183B55235b6E5A6',
+      name: 'WETH Yield Vault',
       decimals: 18,
       symbol: 'PTWETHT',
       extensions: {
         underlyingAsset: {
-          address: '0x0a30769C05876521B79d61669513129aBeeF5B84',
+          address: '0x9ed5697DFCeEA545C26f11E59cF76Db4cD56ffb5',
           symbol: 'WETH',
           name: 'Wrapped Ether'
         }
