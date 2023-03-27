@@ -41,6 +41,6 @@ Providers are configured through `wagmi` in the `/pages/_app.tsx` file. These ca
 
 ## Environment Setup:
 
-Add your RPC IDs to `.env.local` for testing. A `.env.example` file is available for reference.
+Add your RPC URLs to `.env.local` for testing. A `.env.example` file is available for reference.
 
 If none are provided, the app will use public RPCs which could potentially get rate-limited.
