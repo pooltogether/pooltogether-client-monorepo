@@ -5,20 +5,20 @@ export const defaultVaultList: VaultList = {
   keywords: ['pooltogether'],
   version: {
     major: 1,
-    minor: 1,
+    minor: 2,
     patch: 0
   },
-  timestamp: '2023-03-24T21:45:46.981Z',
+  timestamp: '2023-03-28T16:23:17.963Z',
   tokens: [
     {
       chainId: 5,
-      address: '0x208773BcDe09B1835B2Af2A14FA59E1f9DcD9758',
+      address: '0x84F2aCCe713207B6F3B6bdAd67A122D225279A9a',
       name: 'DAI Low Yield Vault',
       decimals: 18,
       symbol: 'PTDAILYT',
       extensions: {
         underlyingAsset: {
-          address: '0x546F4D36168F90439aaC3b65A366a4563C340314',
+          address: '0xB49F1BBD905A7a869DD50c1DF7D42E7907bcE7b4',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
@@ -26,13 +26,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0x3f304D47BbeFfEe5Ed5aA7A1fb529e165cCca081',
+      address: '0x61e0A5e77db8e659C8753630046025876414715d',
       name: 'DAI High Yield Vault',
       decimals: 18,
       symbol: 'PTDAIHYT',
       extensions: {
         underlyingAsset: {
-          address: '0x546F4D36168F90439aaC3b65A366a4563C340314',
+          address: '0xB49F1BBD905A7a869DD50c1DF7D42E7907bcE7b4',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
@@ -40,13 +40,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xD271423E918Ff3Fa328a5B3300d5c9eD07615f34',
+      address: '0xC6db350c20FB957C30C9D9661E33686be38ad3fb',
       name: 'USDC Low Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCLYT',
       extensions: {
         underlyingAsset: {
-          address: '0x6deF68cD3954a4A13fF74c578c2Fd74a761A87fD',
+          address: '0xA07af90b215b4EDccABC99Dd45cCa6D1127790eC',
           symbol: 'USDC',
           name: 'USD Coin'
         }
@@ -54,13 +54,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0x12edb464540ee3100DB6c694747f33232976a7DF',
+      address: '0x8B6d7FccE0455872631E5fE1B793a1ce154556A0',
       name: 'USDC High Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCHYT',
       extensions: {
         underlyingAsset: {
-          address: '0x6deF68cD3954a4A13fF74c578c2Fd74a761A87fD',
+          address: '0xA07af90b215b4EDccABC99Dd45cCa6D1127790eC',
           symbol: 'USDC',
           name: 'USD Coin'
         }
@@ -68,13 +68,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xd5D322390aD95C644c99d6A5Badd7c2EB5AfC712',
+      address: '0xAd1D0f9964dBf3596bd93d3f8b630ae813B7A8f6',
       name: 'GUSD Yield Vault',
       decimals: 2,
       symbol: 'PTGUSDT',
       extensions: {
         underlyingAsset: {
-          address: '0x2CfBbd4d2B3eFE316b51a0B54E9ac1eA14E3A6c1',
+          address: '0x0ea26B1023aCe3dcBbc2a11343b7a188bC4b5B9c',
           symbol: 'GUSD',
           name: 'Gemini dollar'
         }
@@ -82,13 +82,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0xC9C958E5af0feC3c5c17E53bA533497fAE3E8946',
+      address: '0x46D2DF182FE9d47D4705aB5CE117FE4f871df0e6',
       name: 'WBTC Yield Vault',
       decimals: 8,
       symbol: 'PTWBTCT',
       extensions: {
         underlyingAsset: {
-          address: '0xEE876AA37580F1c08cB42d38716D3f49040D88F8',
+          address: '0x50f7638aaE955EC17d1173D8AAcA69923923AfC6',
           symbol: 'WBTC',
           name: 'Wrapped BTC'
         }
@@ -96,13 +96,13 @@ export const defaultVaultList: VaultList = {
     },
     {
       chainId: 5,
-      address: '0x7d8F096A502E47d9910E654b9183B55235b6E5A6',
+      address: '0x1d2C74dec8E8D2C9673dcDa26b2890f434E46780',
       name: 'WETH Yield Vault',
       decimals: 18,
       symbol: 'PTWETHT',
       extensions: {
         underlyingAsset: {
-          address: '0x9ed5697DFCeEA545C26f11E59cF76Db4cD56ffb5',
+          address: '0xE322f82175964b8dFAEbac6C448442A176EEf492',
           symbol: 'WETH',
           name: 'Wrapped Ether'
         }

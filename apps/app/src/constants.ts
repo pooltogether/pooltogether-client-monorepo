@@ -14,8 +14,8 @@ export const SUPPORTED_NETWORKS = Object.freeze({
  */
 export const PRIZE_POOLS = Object.freeze({
   [NETWORK.goerli]: {
-    address: '0xabfc9363B8ac86D0E638480FEf0bf078DDf49B40',
-    prizeTokenAddress: '0x6D2C34B059c0146CEf7b655fB166c02212967884',
+    address: '0x13231cAe073c27F9274c15c883c51E257F5B10a2',
+    prizeTokenAddress: '0xc26EF73D0cdF27D5F184DF3e05ac6e2f490ccEDf',
     drawPeriodInSeconds: 7_200,
     tierShares: BigNumber.from('100000000000000000000')
   }

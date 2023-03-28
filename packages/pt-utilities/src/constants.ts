@@ -128,9 +128,9 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
     '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd' // GUSD
   ],
   [NETWORK.goerli]: [
-    '0x546f4d36168f90439aac3b65a366a4563c340314', // DAI
-    '0x6def68cd3954a4a13ff74c578c2fd74a761a87fd', // USDC
-    '0x2cfbbd4d2b3efe316b51a0b54e9ac1ea14e3a6c1' // GUSD
+    '0xb49f1bbd905a7a869dd50c1df7d42e7907bce7b4', // DAI
+    '0xa07af90b215b4edccabc99dd45cca6d1127790ec', // USDC
+    '0x0ea26b1023ace3dcbbc2a11343b7a188bc4b5b9c' // GUSD
   ],
   [NETWORK.sepolia]: [],
   [NETWORK.bsc]: [],
