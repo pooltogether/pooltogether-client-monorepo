@@ -25,7 +25,6 @@ export interface NavbarProps {
   linkClassName?: string
 }
 
-// TODO: center links absolutely, so they don't shift to the left when a wallet connects
 export const Navbar = (props: NavbarProps) => {
   const {
     links,
@@ -40,16 +39,16 @@ export const Navbar = (props: NavbarProps) => {
   return (
     <FlowbiteNavbar
       fluid={true}
-      theme={{ base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4' }}
+      theme={{ base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4 isolate' }}
       className={classNames(className)}
     >
       {/* Left Side Branding */}
-      <FlowbiteNavbar.Brand href='/'>
+      <FlowbiteNavbar.Brand href='/' className='z-30'>
         <Logo />
       </FlowbiteNavbar.Brand>
 
       {/* Right Side Content */}
-      <div className='flex gap-2 items-center md:order-2'>
+      <div className='flex gap-2 items-center md:order-2 z-20'>
         {walletConnectionButton}
         {onClickSettings !== undefined && (
           <Cog8ToothIcon
@@ -62,7 +61,9 @@ export const Navbar = (props: NavbarProps) => {
       </div>
 
       {/* Middle Collapsable Content */}
-      <FlowbiteNavbar.Collapse theme={{ base: 'absolute w-full justify-center md:flex md:pr-16' }}>
+      <FlowbiteNavbar.Collapse
+        theme={{ base: 'w-full justify-center z-10 md:absolute md:flex md:pr-16' }}
+      >
         <NavbarLinks
           links={links}
           activePage={activePage}
