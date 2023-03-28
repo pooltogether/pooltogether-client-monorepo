@@ -21,7 +21,7 @@ export default function DepositPage() {
     .map((vaultId) => {
       const vault = vaults.vaults[vaultId]
 
-      if (!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined) {
+      if (!!vault && !!vault.shareData && !!vault.tokenData && vault.decimals !== undefined) {
         return vault
       }
     })

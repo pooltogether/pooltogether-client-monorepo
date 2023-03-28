@@ -29,8 +29,8 @@ const supportedNetworks = [mainnet, polygon, optimism, arbitrum, goerli]
 
 // Wagmi Config:
 const { chains, provider } = configureChains(supportedNetworks, [
-  jsonRpcProvider({ rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
-  publicProvider()
+  jsonRpcProvider({ priority: 0, rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
+  publicProvider({ priority: 1 })
 ])
 // TODO: update to new wallet connect connector (projectId: 358b98f0af3cd936fe09dc21064de51d)
 const connectors = connectorsForWallets([
@@ -38,10 +38,10 @@ const connectors = connectorsForWallets([
     groupName: 'Recommended',
     wallets: [
       injectedWallet({ chains }),
-      walletConnectWallet({ chains }),
-      coinbaseWallet({ appName, chains }),
       metaMaskWallet({ chains }),
+      walletConnectWallet({ chains }),
       rainbowWallet({ chains }),
+      coinbaseWallet({ appName, chains }),
       braveWallet({ chains }),
       safeWallet({ chains }),
       trustWallet({ chains })
