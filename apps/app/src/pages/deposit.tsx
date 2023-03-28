@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { Vault } from 'pt-client-js'
 import { PrizePoolHeader } from 'pt-components'
-import { useSelectedVaults, useVaultShareData, useVaultTokenData } from 'pt-hyperstructure-hooks'
+import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Layout } from '@components/Layout'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
@@ -11,10 +11,7 @@ import { useNetworks } from '@hooks/useNetworks'
 export default function DepositPage() {
   const networks = useNetworks()
 
-  const vaults = useSelectedVaults()
-
-  const { data: vaultShareData } = useVaultShareData(vaults)
-  const { data: vaultTokenData } = useVaultTokenData(vaults)
+  const { vaults } = useSelectedVaults()
 
   const [vaultIds, setVaultIds] = useState<string[]>([])
 
@@ -22,15 +19,8 @@ export default function DepositPage() {
   const validVaults = vaultIds
     .map((vaultId) => {
       const vault = vaults.vaults[vaultId]
-      const shareData = vaultShareData?.[vault.id]
-      const tokenData = vaultTokenData?.[vault.id]
 
-      if (
-        !!shareData &&
-        !!tokenData &&
-        !Number.isNaN(shareData.decimals) &&
-        !Number.isNaN(tokenData.decimals)
-      ) {
+      if (!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined) {
         return vault
       }
     })

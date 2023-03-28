@@ -2,7 +2,7 @@ import {
   useCoingeckoSimpleTokenPrices,
   useCoingeckoTokenPricesAcrossChains
 } from 'pt-generic-hooks'
-import { useSelectedVaults, useVaultTokenAddresses } from 'pt-hyperstructure-hooks'
+import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
 import { NETWORK, POOL_TOKEN_ADDRESSES } from 'pt-utilities'
 
@@ -18,19 +18,20 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     refetch: refetchCoingeckoSimpleTokenPrices
   } = useCoingeckoSimpleTokenPrices(currencies)
 
-  const vaults = useSelectedVaults()
-
-  const { data: tokenAddresses } = useVaultTokenAddresses(vaults)
+  const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
+  const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
+  if (!!vaults.underlyingTokenAddresses) {
+    Object.assign(tokenAddresses, vaults.underlyingTokenAddresses.byChain)
+  }
 
   // Adding POOL token addresses:
-  if (!!tokenAddresses) {
+  if (!!vaults.underlyingTokenAddresses) {
     Object.keys(POOL_TOKEN_ADDRESSES).forEach((strChainId) => {
       const chainId = parseInt(strChainId)
-      const chainTokenAddresses = tokenAddresses.byChain[chainId]
-      if (chainTokenAddresses === undefined) {
-        tokenAddresses.byChain[chainId] = [POOL_TOKEN_ADDRESSES[chainId]]
-      } else if (!chainTokenAddresses.includes(POOL_TOKEN_ADDRESSES[chainId])) {
-        tokenAddresses.byChain[chainId].push(POOL_TOKEN_ADDRESSES[chainId])
+      if (tokenAddresses[chainId] === undefined) {
+        tokenAddresses[chainId] = [POOL_TOKEN_ADDRESSES[chainId]]
+      } else if (!tokenAddresses[chainId].includes(POOL_TOKEN_ADDRESSES[chainId])) {
+        tokenAddresses[chainId].push(POOL_TOKEN_ADDRESSES[chainId])
       }
     })
   }
@@ -39,7 +40,7 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     data: coingeckoTokenPrices,
     isFetched: isFetchedCoingeckoTokenPrices,
     refetch: refetchCoingeckoTokenPrices
-  } = useCoingeckoTokenPricesAcrossChains(tokenAddresses?.byChain ?? [], currencies)
+  } = useCoingeckoTokenPricesAcrossChains(tokenAddresses, currencies)
 
   // TODO: get token prices on-chain (those missing from coingecko)
 
@@ -56,7 +57,8 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     }
   }
 
-  const isFetched = isFetchedCoingeckoSimpleTokenPrices && isFetchedCoingeckoTokenPrices
+  const isFetched =
+    isFetchedCoingeckoSimpleTokenPrices && isFetchedVaultData && isFetchedCoingeckoTokenPrices
 
   const refetch = async () => {
     await Promise.all([refetchCoingeckoSimpleTokenPrices(), refetchCoingeckoTokenPrices()])

@@ -88,14 +88,17 @@ export class Vaults {
               tokenData[vaultId] = chainTokenData[tokenAddress]
 
               if (!!chainTokenData[tokenAddress]) {
+                if (!isNaN(chainTokenData[tokenAddress].decimals)) {
+                  this.vaults[vaultId].decimals = chainTokenData[tokenAddress].decimals
+                }
                 this.vaults[vaultId].tokenData = chainTokenData[tokenAddress]
-                this.vaults[vaultId].decimals = chainTokenData[tokenAddress].decimals
               }
             })
           }
         })()
       )
     )
+
     this.underlyingTokenData = tokenData
 
     return this.underlyingTokenData
@@ -124,8 +127,10 @@ export class Vaults {
               shareData[vaultId] = chainShareData[vault.address]
 
               if (!!chainShareData[vault.address]) {
+                if (!isNaN(chainShareData[vault.address].decimals)) {
+                  this.vaults[vaultId].decimals = chainShareData[vault.address].decimals
+                }
                 this.vaults[vaultId].shareData = chainShareData[vault.address]
-                this.vaults[vaultId].decimals = chainShareData[vault.address].decimals
 
                 if (this.vaults[vaultId].name === undefined) {
                   this.vaults[vaultId].name = chainShareData[vault.address].name

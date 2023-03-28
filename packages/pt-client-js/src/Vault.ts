@@ -87,13 +87,13 @@ export class Vault {
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
 
-    const tokenData = await getTokenInfo(provider, [tokenContract.address])
-    this.tokenData = tokenData[tokenContract.address]
+    const tokenData = (await getTokenInfo(provider, [tokenContract.address]))[tokenContract.address]
 
-    if (!!this.tokenData) {
-      this.decimals = this.tokenData.decimals
+    if (!!tokenData && !isNaN(tokenData.decimals)) {
+      this.decimals = tokenData.decimals
     }
 
+    this.tokenData = tokenData
     return this.tokenData
   }
 
@@ -110,17 +110,19 @@ export class Vault {
     const provider = getProviderFromSigner(this.signerOrProvider)
     if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
 
-    const shareData = await getTokenInfo(provider, [this.address])
-    this.shareData = shareData[this.address]
+    const shareData = (await getTokenInfo(provider, [this.address]))[this.address]
 
-    if (!!this.shareData) {
-      this.decimals = this.shareData.decimals
+    if (!!shareData) {
+      if (!isNaN(shareData.decimals)) {
+        this.decimals = shareData.decimals
+      }
 
       if (this.name === undefined) {
-        this.name = this.shareData.name
+        this.name = shareData.name
       }
     }
 
+    this.shareData = shareData
     return this.shareData
   }
 
@@ -236,8 +238,8 @@ export class Vault {
     const decimals = this.decimals ?? (await this.getTokenData()).decimals
 
     const exchangeRate = await this.getAssetsFromShares(utils.parseUnits('1', decimals))
-    this.exchangeRate = exchangeRate
 
+    this.exchangeRate = exchangeRate
     return this.exchangeRate
   }
 
@@ -256,8 +258,8 @@ export class Vault {
     const tokenAddress: string = await this.vaultContract.asset()
 
     const tokenContract = new Contract(tokenAddress, erc20Abi, this.signerOrProvider)
-    this.tokenContract = tokenContract
 
+    this.tokenContract = tokenContract
     return this.tokenContract
   }
 }

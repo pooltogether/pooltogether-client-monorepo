@@ -1,6 +1,5 @@
 import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
-import { useSingleVaultShareData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
@@ -18,8 +17,6 @@ interface WithdrawModalBodyProps {
 export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
   const { vault, register, watch, setValue, errors } = props
 
-  const { data: shareData } = useSingleVaultShareData(vault)
-
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
   return (
@@ -30,7 +27,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
       <div className='flex flex-col items-center gap-1'>
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
-      {!!shareData && !Number.isNaN(shareData.decimals) && (
+      {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <WithdrawForm
           vault={vault}
           register={register}

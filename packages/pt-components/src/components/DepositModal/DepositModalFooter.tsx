@@ -5,7 +5,6 @@ import { Vault } from 'pt-client-js'
 import {
   useSendApproveTransaction,
   useSendDepositTransaction,
-  useSingleVaultTokenData,
   useTokenAllowance,
   useTokenBalance
 } from 'pt-hyperstructure-hooks'
@@ -36,33 +35,29 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: tokenData } = useSingleVaultTokenData(vault)
-
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
     provider,
     userAddress as `0x${string}`,
     vault.address,
-    tokenData?.address as string
+    vault.tokenData?.address as string
   )
 
   const { data: userBalance, isFetched: isFetchedUserBalance } = useTokenBalance(
     provider,
     userAddress as `0x${string}`,
-    tokenData?.address as string
+    vault.tokenData?.address as string
   )
 
   const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount =
-    !!tokenData && !Number.isNaN(tokenData.decimals)
+    vault.decimals !== undefined
       ? utils.parseUnits(
-          isValidFormInput(formTokenAmount, tokenData.decimals) ? formTokenAmount : '0',
-          tokenData.decimals
+          isValidFormInput(formTokenAmount, vault.decimals) ? formTokenAmount : '0',
+          vault.decimals
         )
       : BigNumber.from(0)
   const formattedDepositAmount =
-    !!tokenData && !Number.isNaN(tokenData.decimals)
-      ? formatBigNumberForDisplay(depositAmount, tokenData.decimals)
-      : '0'
+    vault.decimals !== undefined ? formatBigNumberForDisplay(depositAmount, vault.decimals) : '0'
 
   // TODO: implement infinite approval?
   const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
@@ -78,19 +73,19 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const approvalEnabled =
     !isDisconnected &&
     !!userAddress &&
-    !!tokenData &&
+    !!vault.tokenData &&
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
     isValidFormInputs &&
-    !Number.isNaN(tokenData.decimals)
+    vault.decimals !== undefined
 
   const depositEnabled =
     !isDisconnected &&
     !!userAddress &&
-    !!tokenData &&
+    !!vault.tokenData &&
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
@@ -99,7 +94,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     BigNumber.from(userBalance.balance).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
     isValidFormInputs &&
-    !Number.isNaN(tokenData.decimals)
+    vault.decimals !== undefined
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
@@ -107,14 +102,14 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         chainId={vault.chainId}
         write={sendApproveTransaction}
         txHash={approveTxData?.hash}
-        txDescription={`${tokenData?.symbol} Approval`}
+        txDescription={`${vault.tokenData?.symbol} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Approve {formattedDepositAmount} {tokenData?.symbol ?? <Spinner />}
+        Approve {formattedDepositAmount} {vault.tokenData?.symbol ?? <Spinner />}
       </TransactionButton>
     )
   } else {
@@ -123,7 +118,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         chainId={vault.chainId}
         write={sendDepositTransaction}
         txHash={depositTxData?.hash}
-        txDescription={`${tokenData?.symbol} Deposit`}
+        txDescription={`${vault.tokenData?.symbol} Deposit`}
         fullSized={true}
         disabled={!depositEnabled}
         openConnectModal={openConnectModal}

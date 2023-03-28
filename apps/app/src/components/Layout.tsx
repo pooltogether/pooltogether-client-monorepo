@@ -35,7 +35,7 @@ export const Layout = (props: LayoutProps) => {
   const { openChainModal } = useChainModal()
   const addRecentTransaction = useAddRecentTransaction()
 
-  const vaults = useSelectedVaults()
+  const { vaults } = useSelectedVaults()
   const selectedVaultId = useAtomValue(selectedVaultIdAtom)
   const selectedVault = vaults.vaults[selectedVaultId]
 

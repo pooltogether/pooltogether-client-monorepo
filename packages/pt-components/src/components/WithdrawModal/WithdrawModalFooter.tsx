@@ -2,11 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { UseFormWatch } from 'react-hook-form'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import {
-  useSendWithdrawTransaction,
-  useSingleVaultShareData,
-  useUserVaultBalance
-} from 'pt-hyperstructure-hooks'
+import { useSendWithdrawTransaction, useUserVaultBalance } from 'pt-hyperstructure-hooks'
 import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
@@ -31,8 +27,6 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
 
   const { address: userAddress, isDisconnected } = useAccount()
 
-  const { data: shareData } = useSingleVaultShareData(vault)
-
   const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
     vault,
     userAddress as `0x${string}`
@@ -40,10 +34,10 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
 
   const formShareAmount = watch('shareAmount', '0')
   const withdrawAmount =
-    !!shareData && !Number.isNaN(shareData.decimals)
+    vault.decimals !== undefined
       ? utils.parseUnits(
-          isValidFormInput(formShareAmount, shareData.decimals) ? formShareAmount : '0',
-          shareData.decimals
+          isValidFormInput(formShareAmount, vault.decimals) ? formShareAmount : '0',
+          vault.decimals
         )
       : BigNumber.from(0)
 
@@ -55,20 +49,20 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const withdrawEnabled =
     !isDisconnected &&
     !!userAddress &&
-    !!shareData &&
+    !!vault.shareData &&
     isFetchedVaultBalance &&
     !!vaultInfoWithBalance &&
     !withdrawAmount.isZero() &&
     BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
     isValidFormInputs &&
-    !Number.isNaN(shareData.decimals)
+    vault.decimals !== undefined
 
   return (
     <TransactionButton
       chainId={vault.chainId}
       write={sendWithdrawTransaction}
       txHash={withdrawTxData?.hash}
-      txDescription={`${shareData?.symbol} Withdrawal`}
+      txDescription={`${vault.shareData?.symbol} Withdrawal`}
       fullSized={true}
       disabled={!withdrawEnabled}
       openConnectModal={openConnectModal}

@@ -1,32 +1,44 @@
+import { useMemo } from 'react'
 import { Vaults } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 import { getVaultId } from 'pt-utilities'
 import { useProvidersByChain } from '../blockchain/useProviders'
+import { useVaultShareData } from '../vaults/useVaultShareData'
+import { useVaultTokenData } from '../vaults/useVaultTokenData'
 import { useSelectedVaultLists } from './useSelectedVaultLists'
 
 /**
  * Returns an instance of a `Vaults` class with only selected vault lists' vaults
+ *
+ * NOTE: Also queries share and token data for each vault
  * @returns
  */
-export const useSelectedVaults = (): Vaults => {
+export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   const providers = useProvidersByChain()
 
   const { selectedVaultLists } = useSelectedVaultLists()
 
-  const selectedVaultInfo: VaultInfo[] = []
-  const selectedVaultIds = new Set<string>()
+  const vaults = useMemo(() => {
+    const selectedVaultInfo: VaultInfo[] = []
+    const selectedVaultIds = new Set<string>()
 
-  selectedVaultLists.forEach((vaultList) => {
-    vaultList.tokens.forEach((vaultInfo) => {
-      const vaultId = getVaultId(vaultInfo)
-      if (!selectedVaultIds.has(vaultId)) {
-        selectedVaultIds.add(vaultId)
-        selectedVaultInfo.push(vaultInfo)
-      }
+    selectedVaultLists.forEach((vaultList) => {
+      vaultList.tokens.forEach((vaultInfo) => {
+        const vaultId = getVaultId(vaultInfo)
+        if (!selectedVaultIds.has(vaultId)) {
+          selectedVaultIds.add(vaultId)
+          selectedVaultInfo.push(vaultInfo)
+        }
+      })
     })
-  })
 
-  const selectedVaults = new Vaults(selectedVaultInfo, providers)
+    return new Vaults(selectedVaultInfo, providers)
+  }, [selectedVaultLists])
 
-  return selectedVaults
+  const { isFetched: isFetchedShareData } = useVaultShareData(vaults)
+  const { isFetched: isFetchedTokenData } = useVaultTokenData(vaults)
+
+  const isFetched = isFetchedShareData && isFetchedTokenData
+
+  return { vaults, isFetched }
 }

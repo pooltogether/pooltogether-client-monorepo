@@ -4,8 +4,7 @@ import { useAccount } from 'wagmi'
 import {
   useSelectedVaults,
   useUserVaultBalances,
-  useVaultExchangeRates,
-  useVaultTokenAddresses
+  useVaultExchangeRates
 } from 'pt-hyperstructure-hooks'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from './useAllTokenPrices'
@@ -17,7 +16,7 @@ import { useAllTokenPrices } from './useAllTokenPrices'
 export const useUserTotalUsdBalance = () => {
   const { address: userAddress } = useAccount()
 
-  const vaults = useSelectedVaults()
+  const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
@@ -29,29 +28,30 @@ export const useUserTotalUsdBalance = () => {
   const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
     useVaultExchangeRates(vaults)
 
-  const { data: vaultTokenAddresses, isFetched: isFetchedVaultTokenAddresses } =
-    useVaultTokenAddresses(vaults)
-
   const isFetched =
+    isFetchedVaultData &&
     isFetchedTokenPrices &&
     isFetchedVaultBalances &&
-    isFetchedVaultExchangeRates &&
-    isFetchedVaultTokenAddresses
+    isFetchedVaultExchangeRates
 
   const enabled =
-    isFetched && !!tokenPrices && !!vaultBalances && !!vaultExchangeRates && !!vaultTokenAddresses
+    isFetched &&
+    !!tokenPrices &&
+    !!vaultBalances &&
+    !!vaultExchangeRates &&
+    !!vaults.underlyingTokenAddresses
 
   const data = useMemo(() => {
     if (enabled) {
       let totalUsdBalance: number = 0
       for (const vaultId in vaultBalances) {
-        if (!Number.isNaN(vaultBalances[vaultId].decimals)) {
+        if (!isNaN(vaultBalances[vaultId].decimals)) {
           const vaultExchangeRate = vaultExchangeRates[vaultId]
 
           if (!!vaultExchangeRate) {
             const usdPrice = getTokenPriceFromObject(
               vaultBalances[vaultId].chainId,
-              vaultTokenAddresses.byVault[vaultId],
+              vaults.underlyingTokenAddresses.byVault[vaultId],
               tokenPrices
             )
 
