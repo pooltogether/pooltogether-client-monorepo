@@ -13,30 +13,33 @@ export const getTokenInfo = async (
   readProvider: providers.Provider,
   tokenAddresses: string[]
 ): Promise<{ [tokenAddress: string]: TokenWithSupply }> => {
-  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
-    { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-    { reference: 'name', methodName: 'name', methodParameters: [] },
-    { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-    { reference: 'totalSupply', methodName: 'totalSupply', methodParameters: [] }
-  ])
-
-  const chainId = (await readProvider.getNetwork())?.chainId
-
   const formattedResult: { [tokenAddress: string]: TokenWithSupply } = {}
-  tokenAddresses.forEach((address) => {
-    const symbol = multicallResults[address]['symbol']?.[0]
-    const name = multicallResults[address]['name']?.[0]
-    const decimals = parseInt(multicallResults[address]['decimals']?.[0])
-    const totalSupply = BigNumber.from(
-      multicallResults[address]['totalSupply']?.[0] ?? 0
-    ).toString()
 
-    if (!symbol || Number.isNaN(decimals)) {
-      console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
-    }
+  if (tokenAddresses?.length > 0) {
+    const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+      { reference: 'name', methodName: 'name', methodParameters: [] },
+      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
+      { reference: 'totalSupply', methodName: 'totalSupply', methodParameters: [] }
+    ])
 
-    formattedResult[address] = { chainId, address, symbol, name, decimals, totalSupply }
-  })
+    const chainId = (await readProvider.getNetwork())?.chainId
+
+    tokenAddresses.forEach((address) => {
+      const symbol = multicallResults[address]['symbol']?.[0]
+      const name = multicallResults[address]['name']?.[0]
+      const decimals = parseInt(multicallResults[address]['decimals']?.[0])
+      const totalSupply = BigNumber.from(
+        multicallResults[address]['totalSupply']?.[0] ?? 0
+      ).toString()
+
+      if (!symbol || Number.isNaN(decimals)) {
+        console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
+      }
+
+      formattedResult[address] = { chainId, address, symbol, name, decimals, totalSupply }
+    })
+  }
 
   return formattedResult
 }
@@ -55,16 +58,23 @@ export const getTokenAllowances = async (
   spenderAddress: string,
   tokenAddresses: string[]
 ): Promise<{ [tokenAddress: string]: BigNumber }> => {
-  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
-    { reference: 'allowance', methodName: 'allowance', methodParameters: [address, spenderAddress] }
-  ])
-
   const formattedResult: { [tokenAddress: string]: BigNumber } = {}
-  tokenAddresses.forEach((tokenAddress) => {
-    formattedResult[tokenAddress] = BigNumber.from(
-      multicallResults[tokenAddress]['allowance']?.[0] ?? 0
-    )
-  })
+
+  if (tokenAddresses?.length > 0) {
+    const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+      {
+        reference: 'allowance',
+        methodName: 'allowance',
+        methodParameters: [address, spenderAddress]
+      }
+    ])
+
+    tokenAddresses.forEach((tokenAddress) => {
+      formattedResult[tokenAddress] = BigNumber.from(
+        multicallResults[tokenAddress]['allowance']?.[0] ?? 0
+      )
+    })
+  }
 
   return formattedResult
 }
@@ -81,35 +91,40 @@ export const getTokenBalances = async (
   address: string,
   tokenAddresses: string[]
 ): Promise<{ [tokenAddress: string]: TokenWithBalance }> => {
-  const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
-    { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-    { reference: 'name', methodName: 'name', methodParameters: [] },
-    { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-    { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }
-  ])
-
-  const chainId = (await readProvider.getNetwork())?.chainId
-
   const formattedResult: { [tokenAddress: string]: TokenWithBalance } = {}
-  tokenAddresses.forEach((tokenAddress) => {
-    const symbol = multicallResults[tokenAddress]['symbol']?.[0]
-    const name = multicallResults[tokenAddress]['name']?.[0]
-    const decimals = parseInt(multicallResults[tokenAddress]['decimals']?.[0])
-    const balance = BigNumber.from(multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0).toString()
 
-    if (!symbol || Number.isNaN(decimals)) {
-      console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
-    }
+  if (tokenAddresses?.length > 0) {
+    const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
+      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+      { reference: 'name', methodName: 'name', methodParameters: [] },
+      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
+      { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }
+    ])
 
-    formattedResult[tokenAddress] = {
-      chainId,
-      address: tokenAddress,
-      symbol,
-      name,
-      decimals,
-      balance
-    }
-  })
+    const chainId = (await readProvider.getNetwork())?.chainId
+
+    tokenAddresses.forEach((tokenAddress) => {
+      const symbol = multicallResults[tokenAddress]['symbol']?.[0]
+      const name = multicallResults[tokenAddress]['name']?.[0]
+      const decimals = parseInt(multicallResults[tokenAddress]['decimals']?.[0])
+      const balance = BigNumber.from(
+        multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0
+      ).toString()
+
+      if (!symbol || Number.isNaN(decimals)) {
+        console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
+      }
+
+      formattedResult[tokenAddress] = {
+        chainId,
+        address: tokenAddress,
+        symbol,
+        name,
+        decimals,
+        balance
+      }
+    })
+  }
 
   return formattedResult
 }
