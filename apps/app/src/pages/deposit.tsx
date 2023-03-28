@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react'
 import { Vault } from 'pt-client-js'
 import { PrizePoolHeader } from 'pt-components'
 import { useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
 import { Layout } from '@components/Layout'
 import { VaultFilters } from '@components/Vault/VaultFilters'
 import { VaultList } from '@components/Vault/VaultList'
@@ -11,7 +12,7 @@ import { useNetworks } from '@hooks/useNetworks'
 export default function DepositPage() {
   const networks = useNetworks()
 
-  const { vaults } = useSelectedVaults()
+  const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
 
   const [vaultIds, setVaultIds] = useState<string[]>([])
 
@@ -46,6 +47,7 @@ export default function DepositPage() {
         <span className='text-lg font-semibold'>Filter</span>
         <VaultFilters onFilter={setVaultIds} />
       </div>
+      {!isFetchedVaultData && <Spinner />}
       {networks.map((network) => {
         if (vaultsByNetwork[network] === undefined || vaultsByNetwork[network].length === 0) return
         return (
