@@ -35,7 +35,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
 
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
-    useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses)
+    useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses?.byChain)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
