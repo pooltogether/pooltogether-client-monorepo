@@ -1,16 +1,16 @@
-import { useMemo } from 'react'
 import { Vaults } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 import { getVaultId } from 'pt-utilities'
 import { useProvidersByChain } from '../blockchain/useProviders'
 import { useVaultShareData } from '../vaults/useVaultShareData'
+import { useVaultTokenAddresses } from '../vaults/useVaultTokenAddresses'
 import { useVaultTokenData } from '../vaults/useVaultTokenData'
 import { useSelectedVaultLists } from './useSelectedVaultLists'
 
 /**
  * Returns an instance of a `Vaults` class with only selected vault lists' vaults
  *
- * NOTE: Also queries share and token data for each vault
+ * NOTE: Also queries share data, token data and underlying token addresses for each vault
  * @returns
  */
 export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
@@ -18,27 +18,53 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
 
   const { selectedVaultLists } = useSelectedVaultLists()
 
-  const vaults = useMemo(() => {
-    const selectedVaultInfo: VaultInfo[] = []
-    const selectedVaultIds = new Set<string>()
+  const selectedVaultInfo: VaultInfo[] = []
+  const selectedVaultIds = new Set<string>()
 
-    selectedVaultLists.forEach((vaultList) => {
-      vaultList.tokens.forEach((vaultInfo) => {
-        const vaultId = getVaultId(vaultInfo)
-        if (!selectedVaultIds.has(vaultId)) {
-          selectedVaultIds.add(vaultId)
-          selectedVaultInfo.push(vaultInfo)
-        }
-      })
+  selectedVaultLists.forEach((vaultList) => {
+    vaultList.tokens.forEach((vaultInfo) => {
+      const vaultId = getVaultId(vaultInfo)
+      if (!selectedVaultIds.has(vaultId)) {
+        selectedVaultIds.add(vaultId)
+        selectedVaultInfo.push(vaultInfo)
+      }
     })
+  })
 
-    return new Vaults(selectedVaultInfo, providers)
-  }, [selectedVaultLists])
+  // TODO: ideally if we return the same cached/memoized instance of `Vaults` we can avoid re-assigning data
+  const vaults = new Vaults(selectedVaultInfo, providers)
 
-  const { isFetched: isFetchedShareData } = useVaultShareData(vaults)
-  const { isFetched: isFetchedTokenData } = useVaultTokenData(vaults)
+  const { data: shareData, isFetched: isFetchedShareData } = useVaultShareData(vaults)
+  const { data: tokenData, isFetched: isFetchedTokenData } = useVaultTokenData(vaults)
+  const { data: tokenAddresses, isFetched: isFetchedTokenAddresses } =
+    useVaultTokenAddresses(vaults)
 
-  const isFetched = isFetchedShareData && isFetchedTokenData
+  if (!!shareData) {
+    Object.keys(shareData).forEach((vaultId) => {
+      if (vaults.vaults[vaultId].decimals === undefined && !isNaN(shareData[vaultId].decimals)) {
+        vaults.vaults[vaultId].decimals = shareData[vaultId].decimals
+      }
+      vaults.vaults[vaultId].shareData = shareData[vaultId]
+      if (vaults.vaults[vaultId].name === undefined) {
+        vaults.vaults[vaultId].name = shareData[vaultId].name
+      }
+    })
+  }
+
+  if (!!tokenData) {
+    Object.keys(tokenData).forEach((vaultId) => {
+      if (vaults.vaults[vaultId].decimals === undefined && !isNaN(tokenData[vaultId].decimals)) {
+        vaults.vaults[vaultId].decimals = tokenData[vaultId].decimals
+      }
+      vaults.vaults[vaultId].tokenData = tokenData[vaultId]
+    })
+  }
+
+  if (!!tokenAddresses) {
+    vaults.underlyingTokenAddresses = tokenAddresses
+  }
+
+  const isFetched = isFetchedShareData && isFetchedTokenData && isFetchedTokenAddresses
 
   return { vaults, isFetched }
 }

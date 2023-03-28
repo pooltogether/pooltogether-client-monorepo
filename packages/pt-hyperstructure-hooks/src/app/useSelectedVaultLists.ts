@@ -58,6 +58,8 @@ const selectedVaultListsAtom = atom<VaultList[]>(getInitialSelectedVaultLists())
 export const useSelectedVaultLists = () => {
   const [selectedVaultLists, _setSelectedVaultLists] = useAtom(selectedVaultListsAtom)
 
+  const selectedVaultListIds = selectedVaultLists.map((list) => getVaultListId(list))
+
   const setSelectedVaultLists = (vaultLists: VaultList[]) => {
     const ids = vaultLists.map((list) => getVaultListId(list))
     localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, ids.toString())
@@ -80,5 +82,11 @@ export const useSelectedVaultLists = () => {
     _setSelectedVaultLists(newVaultLists)
   }
 
-  return { selectedVaultLists, setSelectedVaultLists, addVaultList, removeVaultList }
+  return {
+    selectedVaultLists,
+    selectedVaultListIds,
+    setSelectedVaultLists,
+    addVaultList,
+    removeVaultList
+  }
 }

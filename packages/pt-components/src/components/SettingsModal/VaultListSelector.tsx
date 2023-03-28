@@ -8,9 +8,7 @@ import { ImportedBadge } from '../Badges/ImportedBadge'
 
 export const VaultListSelector = () => {
   const { cachedVaultLists } = useCachedVaultLists()
-  const { selectedVaultLists } = useSelectedVaultLists()
-
-  const selectedVaultListIds = selectedVaultLists.map((vaultList) => getVaultListId(vaultList))
+  const { selectedVaultListIds } = useSelectedVaultLists()
 
   return (
     <div className='flex flex-col gap-8 px-4'>
