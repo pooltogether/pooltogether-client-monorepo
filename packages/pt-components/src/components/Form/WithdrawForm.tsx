@@ -1,4 +1,5 @@
 import { BigNumber, utils } from 'ethers'
+import { atom, useSetAtom } from 'jotai'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
@@ -8,14 +9,14 @@ import { getAssetsFromShares, getSharesFromAssets, getTokenPriceFromObject } fro
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
+export const withdrawFormShareAmountAtom = atom<string>('')
+
 export interface WithdrawFormProps {
   vault: Vault
-  setFormShareAmount: (shareAmount: string) => void
 }
 
-// TODO: form input is being unselected everytime a value is entered (being re-rendered)
 export const WithdrawForm = (props: WithdrawFormProps) => {
-  const { vault, setFormShareAmount } = props
+  const { vault } = props
 
   const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
@@ -55,9 +56,11 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
-    defaultValues: { shareAmount: '0', tokenAmount: '0' },
+    defaultValues: { shareAmount: '', tokenAmount: '' },
     shouldUnregister: true
   })
+
+  const setFormShareAmount = useSetAtom(withdrawFormShareAmountAtom)
 
   const calculateSharesForTokens = (tokenAmount: string) => {
     if (

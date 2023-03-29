@@ -6,11 +6,10 @@ import { DepositForm } from '../Form/DepositForm'
 
 interface DepositModalBodyProps {
   vault: Vault
-  setFormTokenAmount: (tokenAmount: string) => void
 }
 
 export const DepositModalBody = (props: DepositModalBodyProps) => {
-  const { vault, setFormTokenAmount } = props
+  const { vault } = props
 
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
@@ -23,7 +22,7 @@ export const DepositModalBody = (props: DepositModalBodyProps) => {
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <DepositForm vault={vault} setFormTokenAmount={setFormTokenAmount} />
+        <DepositForm vault={vault} />
       )}
     </div>
   )

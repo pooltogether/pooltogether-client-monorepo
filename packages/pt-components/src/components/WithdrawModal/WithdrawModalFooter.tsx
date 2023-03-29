@@ -1,20 +1,21 @@
 import { BigNumber, utils } from 'ethers'
+import { useAtomValue } from 'jotai'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { useSendWithdrawTransaction, useUserVaultBalance } from 'pt-hyperstructure-hooks'
 import { isValidFormInput } from '../Form/TxFormInput'
+import { withdrawFormShareAmountAtom } from '../Form/WithdrawForm'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface WithdrawModalFooterProps {
   vault: Vault
-  formShareAmount: string
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
-  const { vault, formShareAmount, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
 
@@ -23,6 +24,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     userAddress as `0x${string}`
   )
 
+  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
   const withdrawAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(

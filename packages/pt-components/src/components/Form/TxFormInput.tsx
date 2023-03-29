@@ -127,6 +127,7 @@ const Input = (props: InputProps) => {
         validate: { ...basicValidation, ...validate },
         onChange: (e) => onChange?.(e.target.value as string)
       })}
+      placeholder='0'
       className='min-w-0 flex-grow text-2xl font-semibold bg-transparent text-pt-purple-50 focus:outline-none'
       disabled={disabled}
     />

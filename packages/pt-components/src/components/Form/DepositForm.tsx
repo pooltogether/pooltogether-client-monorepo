@@ -1,4 +1,5 @@
 import { BigNumber, utils } from 'ethers'
+import { atom, useSetAtom } from 'jotai'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
@@ -8,14 +9,14 @@ import { getAssetsFromShares, getSharesFromAssets, getTokenPriceFromObject } fro
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
+export const depositFormTokenAmountAtom = atom<string>('')
+
 export interface DepositFormProps {
   vault: Vault
-  setFormTokenAmount: (tokenAmount: string) => void
 }
 
-// TODO: form input is being unselected everytime a value is entered (being re-rendered)
 export const DepositForm = (props: DepositFormProps) => {
-  const { vault, setFormTokenAmount } = props
+  const { vault } = props
 
   const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
@@ -55,9 +56,11 @@ export const DepositForm = (props: DepositFormProps) => {
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
-    defaultValues: { tokenAmount: '0', shareAmount: '0' },
+    defaultValues: { tokenAmount: '', shareAmount: '' },
     shouldUnregister: true
   })
+
+  const setFormTokenAmount = useSetAtom(depositFormTokenAmountAtom)
 
   const calculateSharesForTokens = (tokenAmount: string) => {
     if (

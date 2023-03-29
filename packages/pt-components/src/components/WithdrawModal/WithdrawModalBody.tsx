@@ -6,11 +6,10 @@ import { WithdrawForm } from '../Form/WithdrawForm'
 
 interface WithdrawModalBodyProps {
   vault: Vault
-  setFormShareAmount: (shareAmount: string) => void
 }
 
 export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
-  const { vault, setFormShareAmount } = props
+  const { vault } = props
 
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
@@ -23,7 +22,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <WithdrawForm vault={vault} setFormShareAmount={setFormShareAmount} />
+        <WithdrawForm vault={vault} />
       )}
     </div>
   )

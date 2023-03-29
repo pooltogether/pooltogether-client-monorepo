@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
-import { TxFormValues } from '../Form/TxFormInput'
 import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
@@ -19,8 +18,6 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
-  const [formShareAmount, setFormShareAmount] = useState<TxFormValues['shareAmount']>('0')
-
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
@@ -32,11 +29,10 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         dismissible={true}
         position='center'
         bgColor={bgColor}
-        bodyContent={<WithdrawModalBody vault={vault} setFormShareAmount={setFormShareAmount} />}
+        bodyContent={<WithdrawModalBody vault={vault} />}
         footerContent={
           <WithdrawModalFooter
             vault={vault}
-            formShareAmount={formShareAmount}
             openConnectModal={openConnectModal}
             openChainModal={openChainModal}
             addRecentTransaction={addRecentTransaction}

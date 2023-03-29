@@ -1,4 +1,5 @@
 import { BigNumber, utils } from 'ethers'
+import { useAtomValue } from 'jotai'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -9,19 +10,19 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { depositFormTokenAmountAtom } from '../Form/DepositForm'
 import { isValidFormInput } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
   vault: Vault
-  formTokenAmount: string
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const { vault, formTokenAmount, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
@@ -39,6 +40,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vault.tokenData?.address as string
   )
 
+  const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
   const depositAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(
