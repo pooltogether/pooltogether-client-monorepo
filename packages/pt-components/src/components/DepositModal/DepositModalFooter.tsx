@@ -1,5 +1,4 @@
 import { BigNumber, utils } from 'ethers'
-import { useFormContext } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -10,18 +9,19 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
-import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { isValidFormInput } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
   vault: Vault
+  formTokenAmount: string
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, formTokenAmount, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
@@ -39,12 +39,6 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vault.tokenData?.address as string
   )
 
-  const {
-    watch,
-    formState: { isValid: isValidFormInputs }
-  } = useFormContext<TxFormValues>()
-
-  const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(
@@ -54,6 +48,9 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
       : BigNumber.from(0)
   const formattedDepositAmount =
     vault.decimals !== undefined ? formatBigNumberForDisplay(depositAmount, vault.decimals) : '0'
+
+  const isValidFormTokenAmount =
+    vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
 
   // TODO: implement infinite approval?
   const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
@@ -75,7 +72,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
-    isValidFormInputs &&
+    isValidFormTokenAmount &&
     vault.decimals !== undefined
 
   const depositEnabled =
@@ -89,7 +86,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     !depositAmount.isZero() &&
     BigNumber.from(userBalance.balance).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
-    isValidFormInputs &&
+    isValidFormTokenAmount &&
     vault.decimals !== undefined
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {

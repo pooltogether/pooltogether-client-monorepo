@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
@@ -20,36 +19,31 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
+  const [formShareAmount, setFormShareAmount] = useState<TxFormValues['shareAmount']>('0')
+
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const formMethods = useForm<TxFormValues>({
-    mode: 'onChange',
-    defaultValues: { shareAmount: '0', tokenAmount: '0' },
-    shouldUnregister: true
-  })
-
   if (isBrowser && !!vault) {
     return (
-      <FormProvider {...formMethods}>
-        <Modal
-          show={isWithdrawModalOpen}
-          dismissible={true}
-          position='center'
-          bgColor={bgColor}
-          bodyContent={<WithdrawModalBody vault={vault} />}
-          footerContent={
-            <WithdrawModalFooter
-              vault={vault}
-              openConnectModal={openConnectModal}
-              openChainModal={openChainModal}
-              addRecentTransaction={addRecentTransaction}
-            />
-          }
-          onClose={() => setIsWithdrawModalOpen(false)}
-        />
-      </FormProvider>
+      <Modal
+        show={isWithdrawModalOpen}
+        dismissible={true}
+        position='center'
+        bgColor={bgColor}
+        bodyContent={<WithdrawModalBody vault={vault} setFormShareAmount={setFormShareAmount} />}
+        footerContent={
+          <WithdrawModalFooter
+            vault={vault}
+            formShareAmount={formShareAmount}
+            openConnectModal={openConnectModal}
+            openChainModal={openChainModal}
+            addRecentTransaction={addRecentTransaction}
+          />
+        }
+        onClose={() => setIsWithdrawModalOpen(false)}
+      />
     )
   }
 }

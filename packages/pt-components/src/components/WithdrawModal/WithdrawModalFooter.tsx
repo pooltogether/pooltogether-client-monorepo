@@ -1,20 +1,20 @@
 import { BigNumber, utils } from 'ethers'
-import { useFormContext } from 'react-hook-form'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { useSendWithdrawTransaction, useUserVaultBalance } from 'pt-hyperstructure-hooks'
-import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { isValidFormInput } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface WithdrawModalFooterProps {
   vault: Vault
+  formShareAmount: string
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
-  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { vault, formShareAmount, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
 
@@ -23,12 +23,6 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     userAddress as `0x${string}`
   )
 
-  const {
-    watch,
-    formState: { isValid: isValidFormInputs }
-  } = useFormContext<TxFormValues>()
-
-  const formShareAmount = watch('shareAmount', '0')
   const withdrawAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(
@@ -36,6 +30,9 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
           vault.decimals
         )
       : BigNumber.from(0)
+
+  const isValidFormShareAmount =
+    vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
   const { data: withdrawTxData, sendWithdrawTransaction } = useSendWithdrawTransaction(
     withdrawAmount,
@@ -50,7 +47,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     !!vaultInfoWithBalance &&
     !withdrawAmount.isZero() &&
     BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
-    isValidFormInputs &&
+    isValidFormShareAmount &&
     vault.decimals !== undefined
 
   return (

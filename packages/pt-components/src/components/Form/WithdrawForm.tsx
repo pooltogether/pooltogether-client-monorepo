@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { useFormContext } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { useCoingeckoTokenPrices } from 'pt-generic-hooks'
@@ -10,11 +10,12 @@ import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
 export interface WithdrawFormProps {
   vault: Vault
+  setFormShareAmount: (shareAmount: string) => void
 }
 
-// TODO: form input is being unselected everytime a value is entered (most likely being re-rendered)
+// TODO: form input is being unselected everytime a value is entered (being re-rendered)
 export const WithdrawForm = (props: WithdrawFormProps) => {
-  const { vault } = props
+  const { vault, setFormShareAmount } = props
 
   const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
@@ -52,18 +53,22 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
         ).toNumber() / 1000
       : 0
 
-  const { setValue } = useFormContext<TxFormValues>()
+  const formMethods = useForm<TxFormValues>({
+    mode: 'onChange',
+    defaultValues: { shareAmount: '0', tokenAmount: '0' },
+    shouldUnregister: true
+  })
 
-  const calculateSharesForTokens = (formTokenAmount: string) => {
+  const calculateSharesForTokens = (tokenAmount: string) => {
     if (
       !!vaultExchangeRate &&
       vault.decimals !== undefined &&
-      isValidFormInput(formTokenAmount, vault.decimals)
+      isValidFormInput(tokenAmount, vault.decimals)
     ) {
-      const tokens = utils.parseUnits(formTokenAmount, vault.decimals)
+      const tokens = utils.parseUnits(tokenAmount, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
       const formattedShares = utils.formatUnits(shares, vault.decimals)
-      setValue(
+      formMethods.setValue(
         'shareAmount',
         formattedShares.endsWith('.0') ? formattedShares.slice(0, -2) : formattedShares,
         {
@@ -73,16 +78,16 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     }
   }
 
-  const calculateTokensForShares = (formShareAmount: string) => {
+  const calculateTokensForShares = (shareAmount: string) => {
     if (
       !!vaultExchangeRate &&
       vault.decimals !== undefined &&
-      isValidFormInput(formShareAmount, vault.decimals)
+      isValidFormInput(shareAmount, vault.decimals)
     ) {
-      const shares = utils.parseUnits(formShareAmount, vault.decimals)
+      const shares = utils.parseUnits(shareAmount, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
       const formattedTokens = utils.formatUnits(tokens, vault.decimals)
-      setValue(
+      formMethods.setValue(
         'tokenAmount',
         formattedTokens.endsWith('.0') ? formattedTokens.slice(0, -2) : formattedTokens,
         {
@@ -96,37 +101,42 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     <div className='flex flex-col'>
       {!!vault.tokenData && !!vault.shareData && vault.decimals !== undefined && (
         <>
-          <TxFormInput
-            token={{
-              ...vault.shareData,
-              balance: shareBalance,
-              usdPrice: shareUsdPrice,
-              logoURI: vault.logoURI
-            }}
-            formKey='shareAmount'
-            validate={{
-              isNotGreaterThanShareBalance: (v) =>
-                parseFloat(utils.formatUnits(shareBalance, vault.decimals)) >= parseFloat(v) ||
-                !isFetchedVaultBalance ||
-                !vaultBalance ||
-                `Not enough ${vault.shareData?.symbol} in wallet`
-            }}
-            onChange={calculateTokensForShares}
-            showMaxButton={true}
-            showDownArrow={true}
-            className='mb-0.5'
-          />
-          <TxFormInput
-            token={{
-              ...vault.tokenData,
-              balance: tokenBalance,
-              usdPrice,
-              logoURI: vault.tokenLogoURI
-            }}
-            formKey='tokenAmount'
-            onChange={calculateSharesForTokens}
-            className='my-0.5 rounded-b-none'
-          />
+          <FormProvider {...formMethods}>
+            <TxFormInput
+              token={{
+                ...vault.shareData,
+                balance: shareBalance,
+                usdPrice: shareUsdPrice,
+                logoURI: vault.logoURI
+              }}
+              formKey='shareAmount'
+              validate={{
+                isNotGreaterThanShareBalance: (v) =>
+                  parseFloat(utils.formatUnits(shareBalance, vault.decimals)) >= parseFloat(v) ||
+                  !isFetchedVaultBalance ||
+                  !vaultBalance ||
+                  `Not enough ${vault.shareData?.symbol} in wallet`
+              }}
+              onChange={(shareAmount: string) => {
+                setFormShareAmount(shareAmount)
+                calculateTokensForShares(shareAmount)
+              }}
+              showMaxButton={true}
+              showDownArrow={true}
+              className='mb-0.5'
+            />
+            <TxFormInput
+              token={{
+                ...vault.tokenData,
+                balance: tokenBalance,
+                usdPrice,
+                logoURI: vault.tokenLogoURI
+              }}
+              formKey='tokenAmount'
+              onChange={calculateSharesForTokens}
+              className='my-0.5 rounded-b-none'
+            />
+          </FormProvider>
           <TxFormInfo vault={vault} linkType='token' />
         </>
       )}
