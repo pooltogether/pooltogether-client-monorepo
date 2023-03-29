@@ -48,12 +48,12 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
     simple: coingeckoSimpleTokenPrices,
     ...coingeckoTokenPrices,
     [NETWORK.goerli]: {
-      '0x56159f593155e3079a2d0ae253e97c703dbe54a8': { usd: 0.995 },
-      '0x346ca12ac254b843879733b17c6ed3d9c53333f0': { usd: 1 },
-      '0xd13905ef313f0f8cd0855e25c566354a2b7b9780': { usd: 1.005 },
-      '0xf33e8157569e09a9090e058b0a6d685d394258ed': { usd: 27_624.85 },
-      '0x0a30769c05876521b79d61669513129abeef5b84': { usd: 1_751.11 },
-      '0xfff6e20deb5cc0e66bc697eb779f7a884ecfab5d': { usd: 1.03 }
+      '0xb49f1bbd905a7a869dd50c1df7d42e7907bce7b4': { usd: 0.995 }, // DAI
+      '0xa07af90b215b4edccabc99dd45cca6d1127790ec': { usd: 1 }, // USDC
+      '0x0ea26b1023ace3dcbbc2a11343b7a188bc4b5b9c': { usd: 1.005 }, // GUSD
+      '0x50f7638aae955ec17d1173d8aaca69923923afc6': { usd: 27_624.85 }, // WBTC
+      '0xe322f82175964b8dfaebac6c448442a176eef492': { usd: 1_751.11 }, // WETH
+      '0xc26ef73d0cdf27d5f184df3e05ac6e2f490ccedf': { usd: 1.03 } // POOL
     }
   }
 
