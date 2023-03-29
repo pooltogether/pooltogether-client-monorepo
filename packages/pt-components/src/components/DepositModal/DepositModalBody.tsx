@@ -1,21 +1,15 @@
-import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 import { DepositForm } from '../Form/DepositForm'
-import { TxFormValues } from '../Form/TxFormInput'
 
 interface DepositModalBodyProps {
   vault: Vault
-  register: UseFormRegister<TxFormValues>
-  watch: UseFormWatch<TxFormValues>
-  setValue: UseFormSetValue<TxFormValues>
-  errors: FieldErrorsImpl<TxFormValues>
 }
 
 export const DepositModalBody = (props: DepositModalBodyProps) => {
-  const { vault, register, watch, setValue, errors } = props
+  const { vault } = props
 
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
@@ -28,13 +22,7 @@ export const DepositModalBody = (props: DepositModalBodyProps) => {
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <DepositForm
-          vault={vault}
-          register={register}
-          watch={watch}
-          setValue={setValue}
-          errors={errors}
-        />
+        <DepositForm vault={vault} />
       )}
     </div>
   )

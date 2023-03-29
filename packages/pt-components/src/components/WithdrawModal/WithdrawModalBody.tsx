@@ -1,21 +1,15 @@
-import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
-import { TxFormValues } from '../Form/TxFormInput'
 import { WithdrawForm } from '../Form/WithdrawForm'
 
 interface WithdrawModalBodyProps {
   vault: Vault
-  register: UseFormRegister<TxFormValues>
-  watch: UseFormWatch<TxFormValues>
-  setValue: UseFormSetValue<TxFormValues>
-  errors: FieldErrorsImpl<TxFormValues>
 }
 
 export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
-  const { vault, register, watch, setValue, errors } = props
+  const { vault } = props
 
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
@@ -28,13 +22,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
         <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
       </div>
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <WithdrawForm
-          vault={vault}
-          register={register}
-          watch={watch}
-          setValue={setValue}
-          errors={errors}
-        />
+        <WithdrawForm vault={vault} />
       )}
     </div>
   )

@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { UseFormWatch } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -15,22 +15,13 @@ import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
   vault: Vault
-  watch: UseFormWatch<TxFormValues>
-  isValidFormInputs: boolean
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const {
-    vault,
-    watch,
-    isValidFormInputs,
-    openConnectModal,
-    openChainModal,
-    addRecentTransaction
-  } = props
+  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
@@ -47,6 +38,11 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )
+
+  const {
+    watch,
+    formState: { isValid: isValidFormInputs }
+  } = useFormContext<TxFormValues>()
 
   const formTokenAmount = watch('tokenAmount', '0')
   const depositAmount =

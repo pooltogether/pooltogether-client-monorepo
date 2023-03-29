@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
@@ -24,12 +24,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { errors: formErrors, isValid: isValidFormInputs }
-  } = useForm<TxFormValues>({
+  const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
     defaultValues: { shareAmount: '0', tokenAmount: '0' },
     shouldUnregister: true
@@ -37,32 +32,24 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   if (isBrowser && !!vault) {
     return (
-      <Modal
-        show={isWithdrawModalOpen}
-        dismissible={true}
-        position='center'
-        bgColor={bgColor}
-        bodyContent={
-          <WithdrawModalBody
-            vault={vault}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={formErrors}
-          />
-        }
-        footerContent={
-          <WithdrawModalFooter
-            vault={vault}
-            watch={watch}
-            isValidFormInputs={isValidFormInputs}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
-        }
-        onClose={() => setIsWithdrawModalOpen(false)}
-      />
+      <FormProvider {...formMethods}>
+        <Modal
+          show={isWithdrawModalOpen}
+          dismissible={true}
+          position='center'
+          bgColor={bgColor}
+          bodyContent={<WithdrawModalBody vault={vault} />}
+          footerContent={
+            <WithdrawModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          }
+          onClose={() => setIsWithdrawModalOpen(false)}
+        />
+      </FormProvider>
     )
   }
 }

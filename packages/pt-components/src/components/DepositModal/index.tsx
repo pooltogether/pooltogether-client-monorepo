@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
@@ -24,12 +24,7 @@ export const DepositModal = (props: DepositModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { errors: formErrors, isValid: isValidFormInputs }
-  } = useForm<TxFormValues>({
+  const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
     defaultValues: { tokenAmount: '0', shareAmount: '0' },
     shouldUnregister: true
@@ -37,32 +32,24 @@ export const DepositModal = (props: DepositModalProps) => {
 
   if (isBrowser && !!vault) {
     return (
-      <Modal
-        show={isDepositModalOpen}
-        dismissible={true}
-        position='center'
-        bgColor={bgColor}
-        bodyContent={
-          <DepositModalBody
-            vault={vault}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={formErrors}
-          />
-        }
-        footerContent={
-          <DepositModalFooter
-            vault={vault}
-            watch={watch}
-            isValidFormInputs={isValidFormInputs}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
-        }
-        onClose={() => setIsDepositModalOpen(false)}
-      />
+      <FormProvider {...formMethods}>
+        <Modal
+          show={isDepositModalOpen}
+          dismissible={true}
+          position='center'
+          bgColor={bgColor}
+          bodyContent={<DepositModalBody vault={vault} />}
+          footerContent={
+            <DepositModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          }
+          onClose={() => setIsDepositModalOpen(false)}
+        />
+      </FormProvider>
     )
   }
 }

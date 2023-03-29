@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { useCoingeckoTokenPrices } from 'pt-generic-hooks'
@@ -10,15 +10,11 @@ import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
 export interface DepositFormProps {
   vault: Vault
-  register: UseFormRegister<TxFormValues>
-  watch: UseFormWatch<TxFormValues>
-  setValue: UseFormSetValue<TxFormValues>
-  errors: FieldErrorsImpl<TxFormValues>
 }
 
 // TODO: form input is being unselected everytime a value is entered (most likely being re-rendered)
 export const DepositForm = (props: DepositFormProps) => {
-  const { vault, register, watch, setValue, errors } = props
+  const { vault } = props
 
   const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
@@ -55,6 +51,8 @@ export const DepositForm = (props: DepositFormProps) => {
           vault.decimals
         ).toNumber() / 1000
       : 0
+
+  const { setValue } = useFormContext<TxFormValues>()
 
   const calculateSharesForTokens = (formTokenAmount: string) => {
     if (
@@ -113,10 +111,6 @@ export const DepositForm = (props: DepositFormProps) => {
                 !tokenWithBalance ||
                 `Not enough ${vault.tokenData?.symbol} in wallet`
             }}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={errors}
             onChange={calculateSharesForTokens}
             showMaxButton={true}
             showDownArrow={true}
@@ -130,10 +124,6 @@ export const DepositForm = (props: DepositFormProps) => {
               logoURI: vault.logoURI
             }}
             formKey='shareAmount'
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={errors}
             onChange={calculateTokensForShares}
             className='my-0.5 rounded-b-none'
           />
