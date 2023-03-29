@@ -27,7 +27,11 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
+  const {
+    data: allowance,
+    isFetched: isFetchedAllowance,
+    refetch: refetchTokenAllowance
+  } = useTokenAllowance(
     provider,
     userAddress as `0x${string}`,
     vault.address,
@@ -55,15 +59,19 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
 
   // TODO: implement infinite approval?
-  const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
-    depositAmount,
-    vault
-  )
+  const {
+    data: approveTxData,
+    isLoading: isApproving,
+    isSuccess: isSuccessfulApproval,
+    sendApproveTransaction
+  } = useSendApproveTransaction(depositAmount, vault, { onSuccess: refetchTokenAllowance })
 
-  const { data: depositTxData, sendDepositTransaction } = useSendDepositTransaction(
-    depositAmount,
-    vault
-  )
+  const {
+    data: depositTxData,
+    isLoading: isDepositing,
+    isSuccess: isSuccessfulDeposit,
+    sendDepositTransaction
+  } = useSendDepositTransaction(depositAmount, vault)
 
   const approvalEnabled =
     !isDisconnected &&
@@ -75,7 +83,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     !!allowance &&
     !depositAmount.isZero() &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined
+    vault.decimals !== undefined &&
+    !!sendApproveTransaction
 
   const depositEnabled =
     !isDisconnected &&
@@ -89,12 +98,15 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     BigNumber.from(userBalance.balance).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined
+    vault.decimals !== undefined &&
+    sendDepositTransaction
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
       <TransactionButton
         chainId={vault.chainId}
+        isTxLoading={isApproving}
+        isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
         txHash={approveTxData?.hash}
         txDescription={`${vault.tokenData?.symbol} Approval`}
@@ -104,13 +116,17 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Approve {formattedDepositAmount} {vault.tokenData?.symbol ?? <Spinner />}
+        {isApproving ? 'Approving' : 'Approve'} {formattedDepositAmount}{' '}
+        {vault.tokenData?.symbol ?? <Spinner />}
+        {isApproving && '...'}
       </TransactionButton>
     )
   } else {
     return (
       <TransactionButton
         chainId={vault.chainId}
+        isTxLoading={isDepositing}
+        isTxSuccess={isSuccessfulDeposit}
         write={sendDepositTransaction}
         txHash={depositTxData?.hash}
         txDescription={`${vault.tokenData?.symbol} Deposit`}
@@ -120,7 +136,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Deposit
+        {isDepositing ? 'Depositing...' : 'Deposit'}
       </TransactionButton>
     )
   }

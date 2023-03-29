@@ -5,6 +5,8 @@ import { getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'pt-utilities'
 
 export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
   chainId: number
+  isTxLoading: boolean
+  isTxSuccess: boolean
   write?: () => void
   txHash?: string
   txDescription?: string
@@ -18,6 +20,8 @@ export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
 export const TransactionButton = (props: TransactionButtonProps) => {
   const {
     chainId,
+    isTxLoading,
+    isTxSuccess,
     write,
     txHash,
     txDescription,
@@ -37,13 +41,13 @@ export const TransactionButton = (props: TransactionButtonProps) => {
   const networkName = getNiceNetworkNameByChainId(chainId)
 
   useEffect(() => {
-    if (!!txHash && !!txDescription && !!addRecentTransaction) {
+    if (isTxSuccess && !!txHash && !!txDescription && !!addRecentTransaction) {
       addRecentTransaction({
         hash: txHash,
         description: `${networkName}: ${txDescription}`
       })
     }
-  }, [txHash, txDescription])
+  }, [isTxSuccess, txHash, txDescription])
 
   if (isDisconnected) {
     return (
@@ -68,9 +72,11 @@ export const TransactionButton = (props: TransactionButtonProps) => {
 
   return (
     <>
-      <Button {...rest} onClick={write} disabled={disabled || write === undefined} />
+      <Button {...rest} onClick={write} disabled={!write || isTxLoading || disabled} />
       {/* TODO: style receipt */}
-      {!!txHash && showReceipt && <a href={getBlockExplorerUrl(chainId, txHash, 'tx')}>Receipt</a>}
+      {isTxSuccess && showReceipt && !!txHash && (
+        <a href={getBlockExplorerUrl(chainId, txHash, 'tx')}>Receipt</a>
+      )}
     </>
   )
 }

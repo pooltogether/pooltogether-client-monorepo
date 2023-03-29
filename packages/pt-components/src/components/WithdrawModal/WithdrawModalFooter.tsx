@@ -36,10 +36,12 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const isValidFormShareAmount =
     vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
-  const { data: withdrawTxData, sendWithdrawTransaction } = useSendWithdrawTransaction(
-    withdrawAmount,
-    vault
-  )
+  const {
+    data: withdrawTxData,
+    isLoading: isWithdrawing,
+    isSuccess: isSuccessfulWithdrawal,
+    sendWithdrawTransaction
+  } = useSendWithdrawTransaction(withdrawAmount, vault)
 
   const withdrawEnabled =
     !isDisconnected &&
@@ -55,6 +57,8 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   return (
     <TransactionButton
       chainId={vault.chainId}
+      isTxLoading={isWithdrawing}
+      isTxSuccess={isSuccessfulWithdrawal}
       write={sendWithdrawTransaction}
       txHash={withdrawTxData?.hash}
       txDescription={`${vault.shareData?.symbol} Withdrawal`}
@@ -64,7 +68,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
     >
-      Withdraw
+      {isWithdrawing ? 'Withdrawing...' : 'Withdraw'}
     </TransactionButton>
   )
 }

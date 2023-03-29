@@ -1,34 +1,59 @@
 import { BigNumber, providers, utils } from 'ethers'
-import { useAccount, useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
+import {
+  useAccount,
+  useContractWrite,
+  useNetwork,
+  usePrepareContractWrite,
+  useProvider
+} from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
+import { useTokenAllowance } from '../blockchain/useTokenAllowances'
 
 export const useSendDepositTransaction = (
   amount: BigNumber,
-  vault: Vault
+  vault: Vault,
+  options?: { onSuccess?: () => void; onError?: () => void }
 ): {
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
+  isLoading: boolean
+  isSuccess: boolean
   sendDepositTransaction: (() => void) | undefined
 } => {
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
-  const enabled =
-    !!vault && !!userAddress && utils.isAddress(userAddress) && chain?.id === vault.chainId
+  const provider = useProvider({ chainId: vault.chainId })
 
-  // TODO: overrides?
-  // TODO: onSuccess
-  // TODO: onError
+  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
+    provider,
+    userAddress,
+    vault.address,
+    vault.tokenData?.address
+  )
+
+  const enabled =
+    !!vault &&
+    !!vault.tokenData &&
+    !!userAddress &&
+    utils.isAddress(userAddress) &&
+    chain?.id === vault.chainId &&
+    isFetchedAllowance &&
+    !!allowance &&
+    allowance.gte(amount)
+
   const { config } = usePrepareContractWrite({
+    chainId: vault.chainId,
     address: vault.address as `0x${string}`,
     abi: erc4626Abi,
     functionName: 'deposit',
     args: [amount, userAddress],
-    chainId: vault.chainId,
+    onSuccess: () => options?.onSuccess(),
+    onError: () => options?.onError(),
     enabled
   })
 
-  const { data, write: sendDepositTransaction } = useContractWrite(config)
+  const { data, isLoading, isSuccess, write: sendDepositTransaction } = useContractWrite(config)
 
-  return { data, sendDepositTransaction }
+  return { data, isLoading, isSuccess, sendDepositTransaction }
 }
