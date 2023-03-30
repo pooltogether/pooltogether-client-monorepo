@@ -64,7 +64,13 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isLoading: isApproving,
     isSuccess: isSuccessfulApproval,
     sendApproveTransaction
-  } = useSendApproveTransaction(depositAmount, vault, { onSuccess: refetchTokenAllowance })
+  } = useSendApproveTransaction(depositAmount, vault, {
+    onSuccess: () => {
+      if (!!userAddress && !!vault.tokenData) {
+        refetchTokenAllowance()
+      }
+    }
+  })
 
   const {
     data: depositTxData,
