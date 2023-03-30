@@ -315,7 +315,9 @@ export class Vaults {
               chainVaults
             )
             Object.assign(tokenAddresses.byVault, chainTokenAddresses)
-            tokenAddresses.byChain[chainId] = Object.values(chainTokenAddresses)
+
+            const uniqueTokenAddresses = Array.from(new Set(Object.values(chainTokenAddresses)))
+            tokenAddresses.byChain[chainId] = uniqueTokenAddresses
 
             Object.keys(chainTokenAddresses).forEach((vaultId) => {
               this.vaults[vaultId].tokenContract = new Contract(

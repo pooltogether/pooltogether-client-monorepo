@@ -41,18 +41,21 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const [filterId, setFilterId] = useState<string>('all')
 
-  const filterItems: SelectionItem[] = [
-    { id: 'all', content: 'Show All' },
-    { id: 'popular', content: 'Popular', disabled: !isFetchedTokenPrices },
-    { id: 'userWallet', content: 'In My Wallet', disabled: !isFetchedUserTokenBalances },
-    { id: 'stablecoin', content: 'Stablecoins' },
-    ...networks.map((network) => {
-      return {
-        id: network.toString(),
-        content: <NetworkIcon chainId={network} className='h-5 w-5' />
-      }
-    })
-  ]
+  const filterItems: SelectionItem[] = useMemo(
+    () => [
+      { id: 'all', content: 'Show All' },
+      { id: 'popular', content: 'Popular', disabled: !isFetchedTokenPrices },
+      { id: 'userWallet', content: 'In My Wallet', disabled: !isFetchedUserTokenBalances },
+      { id: 'stablecoin', content: 'Stablecoins' },
+      ...networks.map((network) => {
+        return {
+          id: network.toString(),
+          content: <NetworkIcon chainId={network} className='h-5 w-5' />
+        }
+      })
+    ],
+    [networks, isFetchedTokenPrices, isFetchedUserTokenBalances]
+  )
 
   // Getting default filter from URL query:
   const defaultFilter = useMemo(() => {
@@ -90,13 +93,12 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
       })
     } else if (filterId === 'userWallet' && !!vaults.underlyingTokenAddresses) {
+      // TODO: this filter isn't 100% reliable - userTokenBalances sometimes take an extra tick to load in
       filteredVaultIds = vaultIds.filter((vaultId) => {
         const vault = vaults.vaults[vaultId]
         const userWalletBalance = BigNumber.from(
-          isFetchedUserTokenBalances && !!userTokenBalances
-            ? userTokenBalances[vault.chainId]?.[vaults.underlyingTokenAddresses.byVault[vault.id]]
-                ?.balance ?? 0
-            : 0
+          userTokenBalances?.[vault.chainId]?.[vaults.underlyingTokenAddresses.byVault[vault.id]]
+            ?.balance ?? 0
         )
         return !userWalletBalance.isZero()
       })
@@ -115,7 +117,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     }
 
     onFilter(filteredVaultIds)
-  }, [filterId, userAddress, networks, vaults.underlyingTokenAddresses])
+  }, [filterId])
 
   if (router.isReady) {
     return (
