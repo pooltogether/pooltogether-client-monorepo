@@ -1,5 +1,5 @@
 import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { providers } from 'ethers'
+import { providers, utils } from 'ethers'
 import { useMemo } from 'react'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithBalance } from 'pt-types'
@@ -31,7 +31,7 @@ export const useTokenBalances = (
   const enabled =
     !!address &&
     !!tokenAddresses &&
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!readProvider &&
@@ -78,7 +78,7 @@ export const useTokenBalance = (
   'data'
 > => {
   const result = useTokenBalances(readProvider, address, [tokenAddress], refetchInterval)
-  return { ...result, data: result.data?.[tokenAddress] as TokenWithBalance }
+  return { ...result, data: result.data as unknown as TokenWithBalance }
 }
 
 /**
@@ -104,7 +104,7 @@ export const useTokenBalancesAcrossChains = (
         !!address &&
         !!chainTokenAddresses &&
         chainTokenAddresses.every(
-          (tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string'
+          (tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)
         ) &&
         Array.isArray(chainTokenAddresses) &&
         chainTokenAddresses.length > 0 &&

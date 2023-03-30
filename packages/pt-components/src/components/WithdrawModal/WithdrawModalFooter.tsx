@@ -1,29 +1,21 @@
 import { BigNumber, utils } from 'ethers'
-import { UseFormWatch } from 'react-hook-form'
+import { useAtomValue } from 'jotai'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { useSendWithdrawTransaction, useUserVaultBalance } from 'pt-hyperstructure-hooks'
-import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { isValidFormInput } from '../Form/TxFormInput'
+import { withdrawFormShareAmountAtom } from '../Form/WithdrawForm'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface WithdrawModalFooterProps {
   vault: Vault
-  watch: UseFormWatch<TxFormValues>
-  isValidFormInputs: boolean
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
-  const {
-    vault,
-    watch,
-    isValidFormInputs,
-    openConnectModal,
-    openChainModal,
-    addRecentTransaction
-  } = props
+  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
 
@@ -32,7 +24,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     userAddress as `0x${string}`
   )
 
-  const formShareAmount = watch('shareAmount', '0')
+  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
   const withdrawAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(
@@ -41,10 +33,15 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
         )
       : BigNumber.from(0)
 
-  const { data: withdrawTxData, sendWithdrawTransaction } = useSendWithdrawTransaction(
-    withdrawAmount,
-    vault
-  )
+  const isValidFormShareAmount =
+    vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
+
+  const {
+    data: withdrawTxData,
+    isLoading: isWithdrawing,
+    isSuccess: isSuccessfulWithdrawal,
+    sendWithdrawTransaction
+  } = useSendWithdrawTransaction(withdrawAmount, vault)
 
   const withdrawEnabled =
     !isDisconnected &&
@@ -54,12 +51,14 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     !!vaultInfoWithBalance &&
     !withdrawAmount.isZero() &&
     BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
-    isValidFormInputs &&
+    isValidFormShareAmount &&
     vault.decimals !== undefined
 
   return (
     <TransactionButton
       chainId={vault.chainId}
+      isTxLoading={isWithdrawing}
+      isTxSuccess={isSuccessfulWithdrawal}
       write={sendWithdrawTransaction}
       txHash={withdrawTxData?.hash}
       txDescription={`${vault.shareData?.symbol} Withdrawal`}
@@ -69,7 +68,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
     >
-      Withdraw
+      {isWithdrawing ? 'Withdrawing...' : 'Withdraw'}
     </TransactionButton>
   )
 }

@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { BigNumber, providers } from 'ethers'
+import { BigNumber, providers, utils } from 'ethers'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { getTokenAllowances } from 'pt-utilities'
 import { QUERY_KEYS } from '../constants'
@@ -32,7 +32,7 @@ export const useTokenAllowances = (
   const enabled =
     !!address &&
     !!spenderAddress &&
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!readProvider &&
@@ -85,5 +85,5 @@ export const useTokenAllowance = (
     [tokenAddress],
     refetchInterval
   )
-  return { ...result, data: result.data?.[tokenAddress] as BigNumber }
+  return { ...result, data: result.data as unknown as BigNumber }
 }

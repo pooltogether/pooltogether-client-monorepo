@@ -87,7 +87,8 @@ export const Layout = (props: LayoutProps) => {
           { href: '/extensions', name: 'Extensions' }
         ]}
         activePage={router.pathname}
-        linksAs={Link}
+        // TODO: re-add if no longer breaking modal re-renders
+        // linksAs={Link}
         walletConnectionButton={
           <ConnectButton
             showBalance={false}

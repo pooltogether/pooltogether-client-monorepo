@@ -5,28 +5,30 @@ import { erc20 as erc20Abi } from 'pt-utilities'
 
 export const useSendApproveTransaction = (
   amount: BigNumber,
-  vault: Vault
+  vault: Vault,
+  options?: { onSuccess?: () => void; onError?: () => void }
 ): {
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
+  isLoading: boolean
+  isSuccess: boolean
   sendApproveTransaction: (() => void) | undefined
 } => {
   const { chain } = useNetwork()
 
   const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenContract.address
 
-  // TODO: overrides?
-  // TODO: onSuccess
-  // TODO: onError
   const { config } = usePrepareContractWrite({
+    chainId: vault.chainId,
     address: vault.tokenContract.address as `0x${string}`,
     abi: erc20Abi,
     functionName: 'approve',
     args: [vault.address, amount],
-    chainId: vault.chainId,
+    onSuccess: () => options?.onSuccess(),
+    onError: () => options?.onError(),
     enabled
   })
 
-  const { data, write: sendApproveTransaction } = useContractWrite(config)
+  const { data, isLoading, isSuccess, write: sendApproveTransaction } = useContractWrite(config)
 
-  return { data, sendApproveTransaction }
+  return { data, isLoading, isSuccess, sendApproveTransaction }
 }

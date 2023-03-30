@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
-import { TxFormValues } from '../Form/TxFormInput'
 import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
@@ -24,17 +22,6 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { errors: formErrors, isValid: isValidFormInputs }
-  } = useForm<TxFormValues>({
-    mode: 'onChange',
-    defaultValues: { shareAmount: '0', tokenAmount: '0' },
-    shouldUnregister: true
-  })
-
   if (isBrowser && !!vault) {
     return (
       <Modal
@@ -42,20 +29,10 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         dismissible={true}
         position='center'
         bgColor={bgColor}
-        bodyContent={
-          <WithdrawModalBody
-            vault={vault}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={formErrors}
-          />
-        }
+        bodyContent={<WithdrawModalBody vault={vault} />}
         footerContent={
           <WithdrawModalFooter
             vault={vault}
-            watch={watch}
-            isValidFormInputs={isValidFormInputs}
             openConnectModal={openConnectModal}
             openChainModal={openChainModal}
             addRecentTransaction={addRecentTransaction}

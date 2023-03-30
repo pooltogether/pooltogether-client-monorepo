@@ -5,9 +5,12 @@ import { erc4626 as erc4626Abi } from 'pt-utilities'
 
 export const useSendWithdrawTransaction = (
   amount: BigNumber,
-  vault: Vault
+  vault: Vault,
+  options?: { onSuccess?: () => void; onError?: () => void }
 ): {
   data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
+  isLoading: boolean
+  isSuccess: boolean
   sendWithdrawTransaction: (() => void) | undefined
 } => {
   const { address: userAddress } = useAccount()
@@ -16,19 +19,18 @@ export const useSendWithdrawTransaction = (
   const enabled =
     !!vault && !!userAddress && utils.isAddress(userAddress) && chain?.id === vault.chainId
 
-  // TODO: overrides?
-  // TODO: onSuccess
-  // TODO: onError
   const { config } = usePrepareContractWrite({
+    chainId: vault.chainId,
     address: vault.address as `0x${string}`,
     abi: erc4626Abi,
     functionName: 'withdraw',
     args: [amount, userAddress, userAddress],
-    chainId: vault.chainId,
+    onSuccess: () => options?.onSuccess(),
+    onError: () => options?.onError(),
     enabled
   })
 
-  const { data, write: sendWithdrawTransaction } = useContractWrite(config)
+  const { data, isLoading, isSuccess, write: sendWithdrawTransaction } = useContractWrite(config)
 
-  return { data, sendWithdrawTransaction }
+  return { data, isLoading, isSuccess, sendWithdrawTransaction }
 }

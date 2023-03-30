@@ -1,7 +1,7 @@
 import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
-import { FieldErrorsImpl, UseFormRegister, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '../Currency/CurrencyValue'
@@ -17,10 +17,6 @@ export interface TxFormInputProps {
   formKey: keyof TxFormValues
   validate?: { [rule: string]: (v: any) => true | string }
   disabled?: boolean
-  register: UseFormRegister<TxFormValues>
-  watch: UseFormWatch<TxFormValues>
-  setValue: UseFormSetValue<TxFormValues>
-  errors: FieldErrorsImpl<TxFormValues>
   onChange?: (v: string) => void
   showMaxButton?: boolean
   showDownArrow?: boolean
@@ -28,20 +24,14 @@ export interface TxFormInputProps {
 }
 
 export const TxFormInput = (props: TxFormInputProps) => {
+  const { token, formKey, validate, disabled, onChange, showMaxButton, showDownArrow, className } =
+    props
+
   const {
-    token,
-    formKey,
-    validate,
-    disabled,
-    register,
     watch,
     setValue,
-    errors,
-    onChange,
-    showMaxButton,
-    showDownArrow,
-    className
-  } = props
+    formState: { errors }
+  } = useFormContext<TxFormValues>()
 
   const formAmount = watch(formKey, '0')
   const usdValue =
@@ -70,24 +60,15 @@ export const TxFormInput = (props: TxFormInputProps) => {
     }
   }
 
-  const basicValidation: { [rule: string]: (v: any) => true | string } = {
-    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
-    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
-    isNotTooPrecise: (v) =>
-      v.split('.').length < 2 || v.split('.')[1].length <= token.decimals || 'Too many decimals'
-  }
-
   return (
     <div className={classNames('relative bg-pt-transparent p-4 rounded-lg', className)}>
       <div className='flex justify-between gap-6'>
-        <input
-          id={formKey}
-          {...register(formKey, {
-            validate: { ...basicValidation, ...validate },
-            onChange: (e) => onChange?.(e.target.value as string)
-          })}
-          className='min-w-0 flex-grow text-2xl font-semibold bg-transparent text-pt-purple-50 focus:outline-none'
+        <Input
+          formKey={formKey}
+          decimals={token.decimals}
+          validate={validate}
           disabled={disabled}
+          onChange={onChange}
         />
         <div className='flex shrink-0 items-center gap-1'>
           <TokenIcon token={token} />
@@ -116,6 +97,40 @@ export const TxFormInput = (props: TxFormInputProps) => {
         </div>
       )}
     </div>
+  )
+}
+
+interface InputProps {
+  formKey: keyof TxFormValues
+  decimals: number
+  validate?: { [rule: string]: (v: any) => true | string }
+  disabled?: boolean
+  onChange?: (v: string) => void
+}
+
+const Input = (props: InputProps) => {
+  const { formKey, decimals, validate, disabled, onChange } = props
+
+  const { register } = useFormContext<TxFormValues>()
+
+  const basicValidation: { [rule: string]: (v: any) => true | string } = {
+    isValidNumber: (v) => !Number.isNaN(Number(v)) || 'Enter a valid number',
+    isGreaterThanOrEqualToZero: (v) => parseFloat(v) >= 0 || 'Enter a positive number',
+    isNotTooPrecise: (v) =>
+      v.split('.').length < 2 || v.split('.')[1].length <= decimals || 'Too many decimals'
+  }
+
+  return (
+    <input
+      id={formKey}
+      {...register(formKey, {
+        validate: { ...basicValidation, ...validate },
+        onChange: (e) => onChange?.(e.target.value as string)
+      })}
+      placeholder='0'
+      className='min-w-0 flex-grow text-2xl font-semibold bg-transparent text-pt-purple-50 focus:outline-none'
+      disabled={disabled}
+    />
   )
 }
 

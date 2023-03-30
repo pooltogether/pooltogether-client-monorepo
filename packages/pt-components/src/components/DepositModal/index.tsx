@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
-import { TxFormValues } from '../Form/TxFormInput'
 import { DepositModalBody } from './DepositModalBody'
 import { DepositModalFooter } from './DepositModalFooter'
 
@@ -24,17 +22,6 @@ export const DepositModal = (props: DepositModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const {
-    register,
-    watch,
-    setValue,
-    formState: { errors: formErrors, isValid: isValidFormInputs }
-  } = useForm<TxFormValues>({
-    mode: 'onChange',
-    defaultValues: { tokenAmount: '0', shareAmount: '0' },
-    shouldUnregister: true
-  })
-
   if (isBrowser && !!vault) {
     return (
       <Modal
@@ -42,20 +29,10 @@ export const DepositModal = (props: DepositModalProps) => {
         dismissible={true}
         position='center'
         bgColor={bgColor}
-        bodyContent={
-          <DepositModalBody
-            vault={vault}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            errors={formErrors}
-          />
-        }
+        bodyContent={<DepositModalBody vault={vault} />}
         footerContent={
           <DepositModalFooter
             vault={vault}
-            watch={watch}
-            isValidFormInputs={isValidFormInputs}
             openConnectModal={openConnectModal}
             openChainModal={openChainModal}
             addRecentTransaction={addRecentTransaction}

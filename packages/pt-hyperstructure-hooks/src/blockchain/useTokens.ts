@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { providers } from 'ethers'
+import { providers, utils } from 'ethers'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithSupply } from 'pt-types'
 import { getTokenInfo } from 'pt-utilities'
@@ -24,7 +24,7 @@ export const useTokens = (
   const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
 
   const enabled =
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && typeof tokenAddress === 'string') &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
     !!readProvider &&
@@ -61,5 +61,5 @@ export const useToken = (
   'data'
 > => {
   const result = useTokens(readProvider, [tokenAddress])
-  return { ...result, data: result.data?.[tokenAddress] as TokenWithSupply }
+  return { ...result, data: result.data as unknown as TokenWithSupply }
 }

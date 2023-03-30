@@ -30,7 +30,8 @@ export type NETWORK_NAME = keyof typeof NETWORK
 export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
-  [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125'
+  [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
+  [NETWORK.goerli]: '0xc26EF73D0cdF27D5F184DF3e05ac6e2f490ccEDf'
 })
 
 /**

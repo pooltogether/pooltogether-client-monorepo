@@ -1,5 +1,5 @@
 import { BigNumber, utils } from 'ethers'
-import { UseFormWatch } from 'react-hook-form'
+import { useAtomValue } from 'jotai'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -10,32 +10,28 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
-import { isValidFormInput, TxFormValues } from '../Form/TxFormInput'
+import { depositFormTokenAmountAtom } from '../Form/DepositForm'
+import { isValidFormInput } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
 interface DepositModalFooterProps {
   vault: Vault
-  watch: UseFormWatch<TxFormValues>
-  isValidFormInputs: boolean
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const {
-    vault,
-    watch,
-    isValidFormInputs,
-    openConnectModal,
-    openChainModal,
-    addRecentTransaction
-  } = props
+  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
+  const {
+    data: allowance,
+    isFetched: isFetchedAllowance,
+    refetch: refetchTokenAllowance
+  } = useTokenAllowance(
     provider,
     userAddress as `0x${string}`,
     vault.address,
@@ -48,7 +44,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vault.tokenData?.address as string
   )
 
-  const formTokenAmount = watch('tokenAmount', '0')
+  const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
   const depositAmount =
     vault.decimals !== undefined
       ? utils.parseUnits(
@@ -59,16 +55,29 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const formattedDepositAmount =
     vault.decimals !== undefined ? formatBigNumberForDisplay(depositAmount, vault.decimals) : '0'
 
-  // TODO: implement infinite approval?
-  const { data: approveTxData, sendApproveTransaction } = useSendApproveTransaction(
-    depositAmount,
-    vault
-  )
+  const isValidFormTokenAmount =
+    vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
 
-  const { data: depositTxData, sendDepositTransaction } = useSendDepositTransaction(
-    depositAmount,
-    vault
-  )
+  // TODO: implement infinite approval?
+  const {
+    data: approveTxData,
+    isLoading: isApproving,
+    isSuccess: isSuccessfulApproval,
+    sendApproveTransaction
+  } = useSendApproveTransaction(depositAmount, vault, {
+    onSuccess: () => {
+      if (!!userAddress && !!vault.tokenData) {
+        refetchTokenAllowance()
+      }
+    }
+  })
+
+  const {
+    data: depositTxData,
+    isLoading: isDepositing,
+    isSuccess: isSuccessfulDeposit,
+    sendDepositTransaction
+  } = useSendDepositTransaction(depositAmount, vault)
 
   const approvalEnabled =
     !isDisconnected &&
@@ -79,8 +88,9 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
-    isValidFormInputs &&
-    vault.decimals !== undefined
+    isValidFormTokenAmount &&
+    vault.decimals !== undefined &&
+    !!sendApproveTransaction
 
   const depositEnabled =
     !isDisconnected &&
@@ -93,13 +103,16 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     !depositAmount.isZero() &&
     BigNumber.from(userBalance.balance).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
-    isValidFormInputs &&
-    vault.decimals !== undefined
+    isValidFormTokenAmount &&
+    vault.decimals !== undefined &&
+    sendDepositTransaction
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
       <TransactionButton
         chainId={vault.chainId}
+        isTxLoading={isApproving}
+        isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
         txHash={approveTxData?.hash}
         txDescription={`${vault.tokenData?.symbol} Approval`}
@@ -109,13 +122,17 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Approve {formattedDepositAmount} {vault.tokenData?.symbol ?? <Spinner />}
+        {isApproving ? 'Approving' : 'Approve'} {formattedDepositAmount}{' '}
+        {vault.tokenData?.symbol ?? <Spinner />}
+        {isApproving && '...'}
       </TransactionButton>
     )
   } else {
     return (
       <TransactionButton
         chainId={vault.chainId}
+        isTxLoading={isDepositing}
+        isTxSuccess={isSuccessfulDeposit}
         write={sendDepositTransaction}
         txHash={depositTxData?.hash}
         txDescription={`${vault.tokenData?.symbol} Deposit`}
@@ -125,7 +142,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Deposit
+        {isDepositing ? 'Depositing...' : 'Deposit'}
       </TransactionButton>
     )
   }
