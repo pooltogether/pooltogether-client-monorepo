@@ -78,7 +78,7 @@ export const useTokenBalance = (
   'data'
 > => {
   const result = useTokenBalances(readProvider, address, [tokenAddress], refetchInterval)
-  return { ...result, data: result.data as unknown as TokenWithBalance }
+  return { ...result, data: result.data?.[tokenAddress] }
 }
 
 /**

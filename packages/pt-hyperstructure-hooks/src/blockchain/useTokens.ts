@@ -61,5 +61,5 @@ export const useToken = (
   'data'
 > => {
   const result = useTokens(readProvider, [tokenAddress])
-  return { ...result, data: result.data as unknown as TokenWithSupply }
+  return { ...result, data: result.data?.[tokenAddress] }
 }

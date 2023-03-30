@@ -42,12 +42,16 @@ export const useVaultBalance = (
   vault: Vault,
   refetchInterval?: number
 ): UseQueryResult<BigNumber, unknown> => {
-  const vaultId = !!vault ? [vault.id] : []
-  const queryKey = [QUERY_KEYS.vaultBalances, vaultId]
+  const queryClient = useQueryClient()
 
-  return useQuery(queryKey, async () => await vault.getTotalTokenBalance(), {
+  const queryKey = [QUERY_KEYS.vaultBalances, [vault?.id]]
+
+  const result = useQuery(queryKey, async () => await vault.getTotalTokenBalance(), {
     enabled: !!vault,
     ...NO_REFETCH,
-    refetchInterval: refetchInterval ?? false
+    refetchInterval: refetchInterval ?? false,
+    onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
   })
+
+  return { ...result, data: result.data?.[vault?.id] }
 }

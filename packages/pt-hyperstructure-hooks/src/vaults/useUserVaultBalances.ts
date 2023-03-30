@@ -50,12 +50,16 @@ export const useUserVaultBalance = (
   userAddress: string,
   refetchInterval?: number
 ): UseQueryResult<TokenWithBalance, unknown> => {
-  const vaultId = !!vault ? [vault.id] : []
-  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, vaultId]
+  const queryClient = useQueryClient()
 
-  return useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
+  const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, [vault?.id]]
+
+  const result = useQuery(queryKey, async () => await vault.getUserShareBalance(userAddress), {
     enabled: !!vault && !!userAddress,
     ...NO_REFETCH,
-    refetchInterval: refetchInterval ?? false
+    refetchInterval: refetchInterval ?? false,
+    onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
   })
+
+  return { ...result, data: result.data?.[vault?.id] }
 }

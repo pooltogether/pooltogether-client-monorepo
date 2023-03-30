@@ -17,6 +17,6 @@ export const populateCachePerId = (
   Object.keys(data).forEach((key) => {
     const queryKey = getQueryKey([key])
     const datum = data[key]
-    queryClient.setQueryData(queryKey, datum)
+    queryClient.setQueryData(queryKey, { [key]: datum })
   })
 }

@@ -35,11 +35,15 @@ export const useVaultTokenData = (
  * @returns
  */
 export const useSingleVaultTokenData = (vault: Vault): UseQueryResult<TokenWithSupply, unknown> => {
-  const vaultId = !!vault ? [vault.id] : []
-  const queryKey = [QUERY_KEYS.vaultTokenData, vaultId]
+  const queryClient = useQueryClient()
 
-  return useQuery(queryKey, async () => await vault.getTokenData(), {
+  const queryKey = [QUERY_KEYS.vaultTokenData, [vault?.id]]
+
+  const result = useQuery(queryKey, async () => await vault.getTokenData(), {
     enabled: !!vault,
-    ...NO_REFETCH
+    ...NO_REFETCH,
+    onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
   })
+
+  return { ...result, data: result.data?.[vault?.id] }
 }

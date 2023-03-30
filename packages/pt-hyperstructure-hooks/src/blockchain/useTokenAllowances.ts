@@ -85,5 +85,5 @@ export const useTokenAllowance = (
     [tokenAddress],
     refetchInterval
   )
-  return { ...result, data: result.data as unknown as BigNumber }
+  return { ...result, data: result.data?.[tokenAddress] }
 }

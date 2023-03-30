@@ -17,7 +17,7 @@ export const VaultList = (props: VaultListProps) => {
 
   const tableHeaders: TableProps['headers'] = [
     <span className='block text-left'>Token</span>,
-    'Vault % Chance', // TODO: add icon with tooltip next to prize power header
+    'Vault Chance', // TODO: add icon with tooltip next to prize power header
     'Total Deposits',
     'Manage'
   ]
