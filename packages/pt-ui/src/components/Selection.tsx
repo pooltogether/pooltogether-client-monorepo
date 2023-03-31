@@ -1,10 +1,11 @@
 import classNames from 'classnames'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { Button, ButtonProps } from './Button'
 
 export interface SelectionItem {
   id: string
   content: ReactNode
+  onClick?: () => void
   disabled?: boolean
   hidden?: boolean
   className?: string
@@ -12,23 +13,13 @@ export interface SelectionItem {
 
 export interface SelectionProps {
   items: SelectionItem[]
-  onSelect: (id: string) => void
-  defaultSelected?: string
+  activeItem: string
   className?: string
   buttonColor?: ButtonProps['color']
 }
 
 export const Selection = (props: SelectionProps) => {
-  const { items, onSelect, defaultSelected, className, buttonColor } = props
-
-  const [itemSelected, setItemSelected] = useState(defaultSelected ?? items[0]?.id)
-
-  const handleClick = (id: string) => {
-    if (id !== itemSelected) {
-      setItemSelected(id)
-      onSelect(id)
-    }
-  }
+  const { items, activeItem, className, buttonColor } = props
 
   return (
     <div className={classNames('flex gap-4', className)}>
@@ -37,11 +28,11 @@ export const Selection = (props: SelectionProps) => {
           <Button
             key={`sl-${item.id}`}
             color={buttonColor}
-            outline={item.id !== itemSelected}
+            outline={item.id !== activeItem}
             className={item.className}
             disabled={item.disabled}
             hidden={item.hidden}
-            onClick={() => handleClick(item.id)}
+            onClick={item.onClick}
           >
             {item.content}
           </Button>

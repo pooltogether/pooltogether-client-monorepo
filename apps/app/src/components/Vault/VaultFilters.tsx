@@ -1,8 +1,10 @@
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
+import { useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { useAccount } from 'wagmi'
+import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
 import {
   useProviders,
@@ -12,21 +14,21 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
+import { filteredVaultsAtom } from '@atoms'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 
 interface VaultFiltersProps {
-  onFilter: (filteredVaultIds: string[]) => void
   className?: string
 }
 
 export const VaultFilters = (props: VaultFiltersProps) => {
-  const { onFilter, className } = props
+  const { className } = props
 
   const router = useRouter()
 
   const networks = useNetworks()
-  const { vaults } = useSelectedVaults()
+  const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
 
   const providers = useProviders()
 
@@ -39,95 +41,125 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
+  const setFilteredVaults = useSetAtom(filteredVaultsAtom)
+
   const [filterId, setFilterId] = useState<string>('all')
+
+  // Getting filter ID from URL query:
+  useEffect(() => {
+    const rawUrlNetwork = router.query['network']
+    const chainId =
+      !!rawUrlNetwork && typeof rawUrlNetwork === 'string' ? parseInt(rawUrlNetwork) : undefined
+    !!chainId && chainId in NETWORK && setFilterId(chainId.toString())
+  }, [])
+
+  const filterOnClick = (id: string, filter: (vaults: Vault[]) => Vault[] | undefined) => {
+    setFilterId(id)
+    const filteredVaultsArray = isFetchedVaultData
+      ? filter(Object.values(vaults.vaults)).filter(
+          (vault) => !!vault.shareData && !!vault.tokenData && vault.decimals !== undefined
+        )
+      : Object.values(vaults.vaults)
+    const filteredVaultsByChain = formatVaultsByChain(networks, filteredVaultsArray)
+    setFilteredVaults(filteredVaultsByChain)
+  }
 
   const filterItems: SelectionItem[] = useMemo(
     () => [
-      { id: 'all', content: 'Show All' },
-      { id: 'popular', content: 'Popular', disabled: !isFetchedTokenPrices },
-      { id: 'userWallet', content: 'In My Wallet', disabled: !isFetchedUserTokenBalances },
-      { id: 'stablecoin', content: 'Stablecoins' },
+      {
+        id: 'all',
+        content: 'Show All',
+        onClick: () => filterOnClick('all', (vaults) => vaults)
+      },
+      {
+        id: 'popular',
+        content: 'Popular',
+        disabled: !isFetchedTokenPrices || !isFetchedVaultBalances,
+        onClick: () =>
+          filterOnClick('popular', (vaults) =>
+            vaults.filter((vault) => {
+              const usdPrice = getTokenPriceFromObject(
+                vault.chainId,
+                vault.tokenContract.address,
+                tokenPrices
+              )
+              const tokenAmount = vaultBalances?.[vault.id] ?? BigNumber.from(0)
+              const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
+              const totalUsdBalance = formattedTokenAmount * usdPrice
+              return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
+            })
+          )
+      },
+      {
+        id: 'userWallet',
+        content: 'In My Wallet',
+        disabled: !isFetchedUserTokenBalances,
+        onClick: () =>
+          filterOnClick('userWallet', (vaults) =>
+            vaults.filter((vault) => {
+              const userWalletBalance = BigNumber.from(
+                userTokenBalances?.[vault.chainId]?.[vault.tokenContract.address]?.balance ?? 0
+              )
+              return !userWalletBalance.isZero()
+            })
+          )
+      },
+      {
+        id: 'stablecoin',
+        content: 'Stablecoins',
+        onClick: () =>
+          filterOnClick('stablecoin', (vaults) =>
+            vaults.filter((vault) =>
+              STABLECOIN_ADDRESSES[vault.chainId].includes(
+                vault.tokenContract.address.toLowerCase()
+              )
+            )
+          )
+      },
       ...networks.map((network) => {
         return {
           id: network.toString(),
-          content: <NetworkIcon chainId={network} className='h-5 w-5' />
+          content: <NetworkIcon chainId={network} className='h-5 w-5' />,
+          onClick: () =>
+            filterOnClick(network.toString(), (vaults) =>
+              vaults.filter((vault) => vault.chainId === network)
+            )
         }
       })
     ],
-    [networks, isFetchedTokenPrices, isFetchedUserTokenBalances]
+    [networks, isFetchedTokenPrices, isFetchedVaultBalances, isFetchedUserTokenBalances]
   )
 
-  // Getting default filter from URL query:
-  const defaultFilter = useMemo(() => {
-    const rawUrlNetwork = router.query['network']
-    const urlNetwork =
-      !!rawUrlNetwork && typeof rawUrlNetwork === 'string' ? parseInt(rawUrlNetwork) : undefined
-
-    if (!!urlNetwork && urlNetwork in NETWORK) {
-      const filter = urlNetwork.toString()
-      setFilterId(filter)
-      return filter
-    }
-  }, [router])
-
   useEffect(() => {
-    let filteredVaultIds: string[] = Object.keys(vaults.vaults)
-
-    const stringNetworks = networks.map((network) => network.toString())
-    const vaultIds = Object.keys(vaults.vaults)
-
-    if (filterId === 'popular' && !!vaults.underlyingTokenAddresses) {
-      filteredVaultIds = vaultIds.filter((vaultId) => {
-        const vault = vaults.vaults[vaultId]
-        const usdPrice = getTokenPriceFromObject(
-          vault.chainId,
-          vaults.underlyingTokenAddresses.byVault[vault.id],
-          tokenPrices
-        )
-        const tokenAmount =
-          isFetchedVaultBalances && !!vaultBalances && vaultBalances[vault.id]
-            ? vaultBalances[vault.id]
-            : BigNumber.from(0)
-        const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
-        const totalUsdBalance = formattedTokenAmount * usdPrice
-        return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
-      })
-    } else if (filterId === 'userWallet' && !!vaults.underlyingTokenAddresses) {
-      // TODO: this filter isn't 100% reliable - userTokenBalances sometimes take an extra tick to load in
-      filteredVaultIds = vaultIds.filter((vaultId) => {
-        const vault = vaults.vaults[vaultId]
-        const userWalletBalance = BigNumber.from(
-          userTokenBalances?.[vault.chainId]?.[vaults.underlyingTokenAddresses.byVault[vault.id]]
-            ?.balance ?? 0
-        )
-        return !userWalletBalance.isZero()
-      })
-    } else if (filterId === 'stablecoin' && !!vaults.underlyingTokenAddresses) {
-      filteredVaultIds = vaultIds.filter((vaultId) => {
-        const vault = vaults.vaults[vaultId]
-        return STABLECOIN_ADDRESSES[vault.chainId].includes(
-          vaults.underlyingTokenAddresses.byVault[vault.id].toLowerCase()
-        )
-      })
-    } else if (stringNetworks.includes(filterId)) {
-      filteredVaultIds = vaultIds.filter((vaultId) => {
-        const vault = vaults.vaults[vaultId]
-        return vault.chainId.toString() === filterId
-      })
-    }
-
-    onFilter(filteredVaultIds)
-  }, [filterId])
+    const filterItem = filterItems.find((item) => item.id === filterId)
+    !!filterItem && filterItem.onClick()
+  }, [filterItems])
 
   if (router.isReady) {
     return (
       <Selection
         items={filterItems}
-        defaultSelected={defaultFilter}
-        onSelect={setFilterId}
+        activeItem={filterId}
         className={classNames(className)}
         buttonColor='purple'
       />
     )
   }
+}
+
+const formatVaultsByChain = (
+  networks: NETWORK[],
+  vaultsArray: Vault[]
+): { [chainId: number]: Vault[] } => {
+  const vaultsByChain: { [chainId: number]: Vault[] } = {}
+
+  networks.forEach((network) => {
+    vaultsByChain[network] = []
+  })
+
+  vaultsArray.forEach((vault) => {
+    vaultsByChain[vault.chainId].push(vault)
+  })
+
+  return vaultsByChain
 }
