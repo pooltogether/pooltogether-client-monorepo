@@ -1,8 +1,13 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
-import { useAccount } from 'wagmi'
+import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useSendWithdrawTransaction, useUserVaultBalance } from 'pt-hyperstructure-hooks'
+import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import {
+  useSendWithdrawTransaction,
+  useTokenBalance,
+  useUserVaultBalance
+} from 'pt-hyperstructure-hooks'
 import { isValidFormInput } from '../Form/TxFormInput'
 import { withdrawFormShareAmountAtom } from '../Form/WithdrawForm'
 import { TransactionButton } from '../Transaction/TransactionButton'
@@ -18,10 +23,20 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
+  const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: vaultInfoWithBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
-    vault,
-    userAddress as `0x${string}`
+  const { setIsDepositModalOpen } = useIsDepositModalOpen()
+
+  const {
+    data: vaultInfoWithBalance,
+    isFetched: isFetchedVaultBalance,
+    refetch: refetchUserVaultBalance
+  } = useUserVaultBalance(vault, userAddress as `0x${string}`)
+
+  const { refetch: refetchTokenBalance } = useTokenBalance(
+    provider,
+    userAddress as `0x${string}`,
+    vault.tokenData?.address as string
   )
 
   const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
@@ -37,11 +52,17 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
   const {
-    data: withdrawTxData,
     isLoading: isWithdrawing,
     isSuccess: isSuccessfulWithdrawal,
+    txHash: withdrawTxHash,
     sendWithdrawTransaction
-  } = useSendWithdrawTransaction(withdrawAmount, vault)
+  } = useSendWithdrawTransaction(withdrawAmount, vault, {
+    onSuccess: () => {
+      refetchTokenBalance()
+      refetchUserVaultBalance()
+      setIsDepositModalOpen(false)
+    }
+  })
 
   const withdrawEnabled =
     !isDisconnected &&
@@ -60,7 +81,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
       isTxLoading={isWithdrawing}
       isTxSuccess={isSuccessfulWithdrawal}
       write={sendWithdrawTransaction}
-      txHash={withdrawTxData?.hash}
+      txHash={withdrawTxHash}
       txDescription={`${vault.shareData?.symbol} Withdrawal`}
       fullSized={true}
       disabled={!withdrawEnabled}

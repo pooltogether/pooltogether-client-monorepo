@@ -2,11 +2,13 @@ import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
+import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import {
   useSendApproveTransaction,
   useSendDepositTransaction,
   useTokenAllowance,
-  useTokenBalance
+  useTokenBalance,
+  useUserVaultBalance
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
@@ -27,6 +29,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
 
+  const { setIsDepositModalOpen } = useIsDepositModalOpen()
+
   const {
     data: allowance,
     isFetched: isFetchedAllowance,
@@ -38,10 +42,15 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     vault.tokenData?.address as string
   )
 
-  const { data: userBalance, isFetched: isFetchedUserBalance } = useTokenBalance(
-    provider,
-    userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+  const {
+    data: userBalance,
+    isFetched: isFetchedUserBalance,
+    refetch: refetchTokenBalance
+  } = useTokenBalance(provider, userAddress as `0x${string}`, vault.tokenData?.address as string)
+
+  const { refetch: refetchUserVaultBalance } = useUserVaultBalance(
+    vault,
+    userAddress as `0x${string}`
   )
 
   const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
@@ -60,24 +69,26 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
 
   // TODO: implement infinite approval?
   const {
-    data: approveTxData,
     isLoading: isApproving,
     isSuccess: isSuccessfulApproval,
+    txHash: approvalTxHash,
     sendApproveTransaction
   } = useSendApproveTransaction(depositAmount, vault, {
-    onSuccess: () => {
-      if (!!userAddress && !!vault.tokenData) {
-        refetchTokenAllowance()
-      }
-    }
+    onSuccess: refetchTokenAllowance
   })
 
   const {
-    data: depositTxData,
     isLoading: isDepositing,
     isSuccess: isSuccessfulDeposit,
+    txHash: depositTxHash,
     sendDepositTransaction
-  } = useSendDepositTransaction(depositAmount, vault)
+  } = useSendDepositTransaction(depositAmount, vault, {
+    onSuccess: () => {
+      refetchTokenBalance()
+      refetchUserVaultBalance()
+      setIsDepositModalOpen(false)
+    }
+  })
 
   const approvalEnabled =
     !isDisconnected &&
@@ -114,7 +125,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         isTxLoading={isApproving}
         isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
-        txHash={approveTxData?.hash}
+        txHash={approvalTxHash}
         txDescription={`${vault.tokenData?.symbol} Approval`}
         fullSized={true}
         disabled={!approvalEnabled}
@@ -134,7 +145,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         isTxLoading={isDepositing}
         isTxSuccess={isSuccessfulDeposit}
         write={sendDepositTransaction}
-        txHash={depositTxData?.hash}
+        txHash={depositTxHash}
         txDescription={`${vault.tokenData?.symbol} Deposit`}
         fullSized={true}
         disabled={!depositEnabled}

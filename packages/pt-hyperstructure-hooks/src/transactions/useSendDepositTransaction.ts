@@ -1,10 +1,12 @@
 import { BigNumber, providers, utils } from 'ethers'
+import { useEffect } from 'react'
 import {
   useAccount,
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useProvider
+  useProvider,
+  useWaitForTransaction
 } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
@@ -15,21 +17,22 @@ export const useSendDepositTransaction = (
   vault: Vault,
   options?: { onSuccess?: () => void; onError?: () => void }
 ): {
-  data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
   isLoading: boolean
   isSuccess: boolean
-  sendDepositTransaction: (() => void) | undefined
+  txHash?: `0x${string}`
+  txReceipt?: providers.TransactionReceipt
+  sendDepositTransaction?: () => void
 } => {
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
-  const provider = useProvider({ chainId: vault.chainId })
+  const provider = useProvider({ chainId: vault?.chainId })
 
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
     provider,
     userAddress,
-    vault.address,
-    vault.tokenData?.address
+    vault?.address,
+    vault?.tokenData?.address
   )
 
   const enabled =
@@ -43,17 +46,31 @@ export const useSendDepositTransaction = (
     allowance.gte(amount)
 
   const { config } = usePrepareContractWrite({
-    chainId: vault.chainId,
-    address: vault.address as `0x${string}`,
+    chainId: vault?.chainId,
+    address: vault?.address as `0x${string}`,
     abi: erc4626Abi,
     functionName: 'deposit',
     args: [amount, userAddress],
-    onSuccess: () => options?.onSuccess(),
-    onError: () => options?.onError(),
     enabled
   })
 
-  const { data, isLoading, isSuccess, write: sendDepositTransaction } = useContractWrite(config)
+  const { data: txSendData, write: sendDepositTransaction } = useContractWrite(config)
 
-  return { data, isLoading, isSuccess, sendDepositTransaction }
+  const txHash = txSendData?.hash
+
+  const {
+    data: txReceipt,
+    isLoading,
+    isSuccess,
+    isError
+  } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
+
+  useEffect(() => {
+    if (!!txReceipt) {
+      isSuccess && options?.onSuccess()
+      isError && options?.onError()
+    }
+  }, [txReceipt])
+
+  return { isLoading, isSuccess, txHash, txReceipt, sendDepositTransaction }
 }

@@ -1,5 +1,6 @@
 import { BigNumber, providers } from 'ethers'
-import { useContractWrite, useNetwork, usePrepareContractWrite } from 'wagmi'
+import { useEffect } from 'react'
+import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc20 as erc20Abi } from 'pt-utilities'
 
@@ -8,27 +9,42 @@ export const useSendApproveTransaction = (
   vault: Vault,
   options?: { onSuccess?: () => void; onError?: () => void }
 ): {
-  data: { hash: string; wait: providers.TransactionResponse['wait'] } | undefined
   isLoading: boolean
   isSuccess: boolean
-  sendApproveTransaction: (() => void) | undefined
+  txHash?: `0x${string}`
+  txReceipt?: providers.TransactionReceipt
+  sendApproveTransaction?: () => void
 } => {
   const { chain } = useNetwork()
 
   const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenContract.address
 
   const { config } = usePrepareContractWrite({
-    chainId: vault.chainId,
-    address: vault.tokenContract.address as `0x${string}`,
+    chainId: vault?.chainId,
+    address: vault?.tokenContract.address as `0x${string}`,
     abi: erc20Abi,
     functionName: 'approve',
-    args: [vault.address, amount],
-    onSuccess: () => options?.onSuccess(),
-    onError: () => options?.onError(),
+    args: [vault?.address, amount],
     enabled
   })
 
-  const { data, isLoading, isSuccess, write: sendApproveTransaction } = useContractWrite(config)
+  const { data: txSendData, write: sendApproveTransaction } = useContractWrite(config)
 
-  return { data, isLoading, isSuccess, sendApproveTransaction }
+  const txHash = txSendData?.hash
+
+  const {
+    data: txReceipt,
+    isLoading,
+    isSuccess,
+    isError
+  } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
+
+  useEffect(() => {
+    if (!!txReceipt) {
+      isSuccess && options?.onSuccess()
+      isError && options?.onError()
+    }
+  }, [txReceipt])
+
+  return { isLoading, isSuccess, txHash, txReceipt, sendApproveTransaction }
 }

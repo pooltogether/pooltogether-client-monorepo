@@ -72,7 +72,7 @@ export const TransactionButton = (props: TransactionButtonProps) => {
 
   return (
     <>
-      <Button {...rest} onClick={write} disabled={!write || isTxLoading || disabled} />
+      <Button onClick={write} disabled={!write || isTxLoading || disabled} {...rest} />
       {/* TODO: style receipt */}
       {isTxSuccess && showReceipt && !!txHash && (
         <a href={getBlockExplorerUrl(chainId, txHash, 'tx')}>Receipt</a>
