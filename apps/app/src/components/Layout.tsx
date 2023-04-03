@@ -5,16 +5,16 @@ import {
   useConnectModal
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom } from 'jotai'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
 import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
-import { useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
-import { selectedVaultIdAtom, settingsModalViewAtom } from '@atoms'
+import { settingsModalViewAtom } from '@atoms'
 
 interface LayoutProps {
   children: ReactNode
@@ -35,9 +35,7 @@ export const Layout = (props: LayoutProps) => {
   const { openChainModal } = useChainModal()
   const addRecentTransaction = useAddRecentTransaction()
 
-  const { vaults } = useSelectedVaults()
-  const selectedVaultId = useAtomValue(selectedVaultIdAtom)
-  const selectedVault = vaults.vaults[selectedVaultId]
+  const { vault } = useSelectedVault()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -105,19 +103,23 @@ export const Layout = (props: LayoutProps) => {
         disable={['language']}
       />
 
-      <DepositModal
-        vault={selectedVault}
-        openConnectModal={openConnectModal}
-        openChainModal={openChainModal}
-        addRecentTransaction={addRecentTransaction}
-      />
+      {!!vault && (
+        <DepositModal
+          vault={vault}
+          openConnectModal={openConnectModal}
+          openChainModal={openChainModal}
+          addRecentTransaction={addRecentTransaction}
+        />
+      )}
 
-      <WithdrawModal
-        vault={selectedVault}
-        openConnectModal={openConnectModal}
-        openChainModal={openChainModal}
-        addRecentTransaction={addRecentTransaction}
-      />
+      {!!vault && (
+        <WithdrawModal
+          vault={vault}
+          openConnectModal={openConnectModal}
+          openChainModal={openChainModal}
+          addRecentTransaction={addRecentTransaction}
+        />
+      )}
 
       <main
         className={classNames(
