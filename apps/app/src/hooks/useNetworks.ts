@@ -1,6 +1,6 @@
 import { useIsTestnets } from 'pt-generic-hooks'
 import { NETWORK } from 'pt-utilities'
-import { SUPPORTED_NETWORKS } from '@constants'
+import { SUPPORTED_NETWORKS } from '@constants/config'
 
 /**
  * Returns currently selected SUPPORTED_NETWORKS

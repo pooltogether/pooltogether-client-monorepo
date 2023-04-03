@@ -30,6 +30,7 @@ Open [http://localhost:3000](http://localhost:3000) on your browser to see the r
 - `pages` - All of the pages in the app!
 - `components` - React components that make up the contents of the pages.
 - `hooks` - App-specific hooks not included in other hook packages.
+- `constants` - Constant values, references and configurations to deploy and run this app.
 
 ## App Data Configuration
 

@@ -137,12 +137,15 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   if (router.isReady) {
     return (
-      <Selection
-        items={filterItems}
-        activeItem={filterId}
-        className={classNames(className)}
-        buttonColor='purple'
-      />
+      <div
+        className={classNames(
+          'w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg',
+          className
+        )}
+      >
+        <span className='text-lg font-semibold'>Filter</span>
+        <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
+      </div>
     )
   }
 }

@@ -1,13 +1,12 @@
-import { useSetAtom } from 'jotai'
 import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
-import { selectedVaultIdAtom } from '@atoms'
 
 interface DepositButtonProps {
   vault: Vault
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const DepositButton = (props: DepositButtonProps) => {
@@ -15,16 +14,12 @@ export const DepositButton = (props: DepositButtonProps) => {
 
   const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
-  const setSelectedVaultId = useSetAtom(selectedVaultIdAtom)
+  const { setSelectedVaultId } = useSelectedVault()
 
   const handleClick = () => {
     setSelectedVaultId(vault.id)
     setIsDepositModalOpen(true)
   }
 
-  return (
-    <>
-      <Button onClick={handleClick}>{children}</Button>
-    </>
-  )
+  return <Button onClick={handleClick}>{children ?? 'Deposit'}</Button>
 }

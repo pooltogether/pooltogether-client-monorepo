@@ -1,3 +1,4 @@
+import { atom, useAtom } from 'jotai'
 import { Vaults } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 import { getVaultId } from 'pt-utilities'
@@ -67,4 +68,24 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   const isFetched = isFetchedShareData && isFetchedTokenData && isFetchedTokenAddresses
 
   return { vaults, isFetched }
+}
+
+const selectedVaultIdAtom = atom<string>(undefined as string)
+
+/**
+ * Returns the currently selected `Vault` as well as a function to change this selection
+ *
+ * Wraps {@link useSelectedVaults}
+ *
+ * NOTE: `vault` is initially `undefined`.
+ * @returns
+ */
+export const useSelectedVault = () => {
+  const { vaults } = useSelectedVaults()
+
+  const [selectedVaultId, setSelectedVaultId] = useAtom(selectedVaultIdAtom)
+
+  const vault = selectedVaultId !== undefined ? vaults.vaults[selectedVaultId] : undefined
+
+  return { vault, setSelectedVaultId }
 }
