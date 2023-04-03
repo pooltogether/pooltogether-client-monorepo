@@ -1,59 +1,11 @@
-import { connectorsForWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
-import {
-  braveWallet,
-  coinbaseWallet,
-  injectedWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  safeWallet,
-  trustWallet,
-  walletConnectWallet
-} from '@rainbow-me/rainbowkit/dist/wallets/walletConnectors'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
-import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc'
-import { publicProvider } from 'wagmi/dist/providers/public'
 import { Flowbite } from 'pt-ui'
-import { RPC_URLS, WAGMI_CHAINS } from '@constants/config'
-import { ptRainbowTheme } from '@constants/theme'
-
-// App Name:
-const appName = 'PoolTogether'
-
-// Supported Networks:
-const supportedNetworks = Object.values(WAGMI_CHAINS)
-
-// Wagmi Config:
-const { chains, provider } = configureChains(supportedNetworks, [
-  jsonRpcProvider({ priority: 0, rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
-  publicProvider({ priority: 1 })
-])
-// TODO: update to new wallet connect connector (projectId: 358b98f0af3cd936fe09dc21064de51d)
-const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [
-      injectedWallet({ chains }),
-      metaMaskWallet({ chains }),
-      walletConnectWallet({ chains }),
-      rainbowWallet({ chains }),
-      coinbaseWallet({ appName, chains }),
-      braveWallet({ chains }),
-      safeWallet({ chains }),
-      trustWallet({ chains })
-    ]
-  }
-])
-const wagmiClient = createClient({ autoConnect: true, connectors, provider })
 
 // React Query Client:
 const queryClient = new QueryClient()
 
-// TODO: ideally this container is sent to the components package, and app-specific info is passed to it
-export interface AppContainerProps extends AppProps {}
-
-export const AppContainer = (props: AppContainerProps) => {
+export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props
 
   return (
@@ -85,19 +37,9 @@ export const AppContainer = (props: AppContainerProps) => {
         }
       }}
     >
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          chains={supportedNetworks}
-          theme={ptRainbowTheme()}
-          showRecentTransactions={true}
-          coolMode={true}
-          appInfo={{ appName }}
-        >
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </Flowbite>
   )
 }
