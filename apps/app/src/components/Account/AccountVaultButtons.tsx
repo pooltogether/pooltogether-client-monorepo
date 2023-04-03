@@ -11,8 +11,8 @@ export const AccountVaultButtons = (props: AccountVaultButtonsProps) => {
 
   return (
     <div className='flex justify-end gap-2'>
-      <DepositButton vault={vault}>Deposit</DepositButton>
-      <WithdrawButton vault={vault}>Withdraw</WithdrawButton>
+      <DepositButton vault={vault} />
+      <WithdrawButton vault={vault} />
     </div>
   )
 }

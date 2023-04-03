@@ -6,7 +6,7 @@ import { Button } from 'pt-ui'
 
 interface WithdrawButtonProps {
   vault: Vault
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const WithdrawButton = (props: WithdrawButtonProps) => {
@@ -22,10 +22,8 @@ export const WithdrawButton = (props: WithdrawButtonProps) => {
   }
 
   return (
-    <>
-      <Button onClick={handleClick} color='white' outline={true}>
-        {children}
-      </Button>
-    </>
+    <Button onClick={handleClick} color='white' outline={true}>
+      {children ?? 'Withdraw'}
+    </Button>
   )
 }

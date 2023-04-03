@@ -11,7 +11,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
 
   return (
     <div className='flex justify-end gap-2'>
-      <DepositButton vault={vault}>Deposit</DepositButton>
+      <DepositButton vault={vault} />
       {/* TODO: details button functionality */}
       <Button color='white' outline={true}>
         Details

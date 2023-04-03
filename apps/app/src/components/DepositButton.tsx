@@ -6,7 +6,7 @@ import { Button } from 'pt-ui'
 
 interface DepositButtonProps {
   vault: Vault
-  children: ReactNode
+  children?: ReactNode
 }
 
 export const DepositButton = (props: DepositButtonProps) => {
@@ -21,9 +21,5 @@ export const DepositButton = (props: DepositButtonProps) => {
     setIsDepositModalOpen(true)
   }
 
-  return (
-    <>
-      <Button onClick={handleClick}>{children}</Button>
-    </>
-  )
+  return <Button onClick={handleClick}>{children ?? 'Deposit'}</Button>
 }
