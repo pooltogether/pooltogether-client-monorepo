@@ -20,7 +20,7 @@ export default function MyApp(props: AppProps) {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider
-        chains={wagmiClient.chains}
+        chains={networks.map((id) => ({ id }))}
         theme={ptRainbowTheme()}
         showRecentTransactions={true}
         coolMode={true}

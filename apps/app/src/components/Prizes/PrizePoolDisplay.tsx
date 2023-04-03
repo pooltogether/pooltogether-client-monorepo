@@ -5,8 +5,8 @@ import { PrizePoolDropdown } from 'pt-components'
 import { usePrizePools, useSelectedVault, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
-import { formatPrizePools } from '@constants/config'
 import { useNetworks } from '@hooks/useNetworks'
+import { formatPrizePools } from '../../utils'
 import { PrizesTable } from './PrizesTable'
 
 export const PrizePoolDisplay = () => {

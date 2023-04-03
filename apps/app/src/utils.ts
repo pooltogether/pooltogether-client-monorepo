@@ -8,11 +8,11 @@ import {
   safeWallet,
   trustWallet,
   walletConnectWallet
-} from '@rainbow-me/rainbowkit/dist/wallets/walletConnectors'
+} from '@rainbow-me/rainbowkit/wallets'
 import { BigNumber } from 'ethers'
 import { Client, configureChains, createClient } from 'wagmi'
-import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc'
-import { publicProvider } from 'wagmi/dist/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
+import { publicProvider } from 'wagmi/providers/public'
 import { NETWORK } from 'pt-utilities'
 import { PRIZE_POOLS, WAGMI_CHAINS } from '@constants/config'
 

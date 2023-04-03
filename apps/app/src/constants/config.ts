@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers'
-import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/dist/chains'
+import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains'
 import { NETWORK } from 'pt-utilities'
 
 /**
