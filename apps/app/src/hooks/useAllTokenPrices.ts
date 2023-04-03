@@ -4,7 +4,8 @@ import {
 } from 'pt-generic-hooks'
 import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
-import { NETWORK, POOL_TOKEN_ADDRESSES } from 'pt-utilities'
+import { NETWORK } from 'pt-utilities'
+import { PRIZE_POOLS } from '@constants/config'
 
 /**
  * Returns token prices for all vaults' underlying tokens
@@ -19,19 +20,23 @@ export const useAllTokenPrices = (currencies: string[] = ['usd']) => {
   } = useCoingeckoSimpleTokenPrices(currencies)
 
   const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
+
   const tokenAddresses: { [chainId: number]: `0x${string}`[] } = {}
+
+  // Adding vault token addresses:
   if (!!vaults.underlyingTokenAddresses) {
     Object.assign(tokenAddresses, vaults.underlyingTokenAddresses.byChain)
   }
 
-  // Adding POOL token addresses:
+  // Adding prize token addresses:
   if (!!vaults.underlyingTokenAddresses) {
-    Object.keys(POOL_TOKEN_ADDRESSES).forEach((strChainId) => {
-      const chainId = parseInt(strChainId)
+    Object.entries(PRIZE_POOLS).forEach((prizePool) => {
+      const chainId = parseInt(prizePool[0])
+      const prizeTokenAddress = prizePool[1].prizeTokenAddress as `0x${string}`
       if (tokenAddresses[chainId] === undefined) {
-        tokenAddresses[chainId] = [POOL_TOKEN_ADDRESSES[chainId]]
-      } else if (!tokenAddresses[chainId].includes(POOL_TOKEN_ADDRESSES[chainId])) {
-        tokenAddresses[chainId].push(POOL_TOKEN_ADDRESSES[chainId])
+        tokenAddresses[chainId] = [prizeTokenAddress]
+      } else if (!tokenAddresses[chainId].includes(prizeTokenAddress)) {
+        tokenAddresses[chainId].push(prizeTokenAddress)
       }
     })
   }
