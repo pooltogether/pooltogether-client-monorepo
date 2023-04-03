@@ -12,18 +12,17 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/dist/chains'
 import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc'
 import { publicProvider } from 'wagmi/dist/providers/public'
 import { Flowbite } from 'pt-ui'
-import { RPC_URLS } from '@constants'
+import { RPC_URLS, WAGMI_CHAINS } from '@constants'
 import { ptRainbowTheme } from '../themes'
 
 // App Name:
 const appName = 'PoolTogether'
 
 // Supported Networks:
-const supportedNetworks = [mainnet, polygon, optimism, arbitrum, goerli]
+const supportedNetworks = Object.values(WAGMI_CHAINS)
 
 // Wagmi Config:
 const { chains, provider } = configureChains(supportedNetworks, [

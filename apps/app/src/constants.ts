@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers'
+import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/dist/chains'
 import { NETWORK } from 'pt-utilities'
 
 /**
@@ -8,6 +9,28 @@ export const SUPPORTED_NETWORKS = Object.freeze({
   mainnets: [NETWORK.mainnet, NETWORK.polygon, NETWORK.optimism, NETWORK.arbitrum],
   testnets: [NETWORK.goerli]
 })
+
+/**
+ * Wagmi networks
+ */
+export const WAGMI_CHAINS = Object.freeze({
+  [NETWORK.mainnet]: mainnet,
+  [NETWORK.polygon]: polygon,
+  [NETWORK.optimism]: optimism,
+  [NETWORK.arbitrum]: arbitrum,
+  [NETWORK.goerli]: goerli
+})
+
+/**
+ * RPCs
+ */
+export const RPC_URLS = {
+  [NETWORK.mainnet]: process.env.NEXT_PUBLIC_MAINNET_RPC_URL,
+  [NETWORK.polygon]: process.env.NEXT_PUBLIC_POLYGON_RPC_URL,
+  [NETWORK.optimism]: process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL,
+  [NETWORK.arbitrum]: process.env.NEXT_PUBLIC_ARBITRUM_RPC_URL,
+  [NETWORK.goerli]: process.env.NEXT_PUBLIC_GOERLI_RPC_URL
+}
 
 /**
  * Prize Pools
@@ -39,15 +62,4 @@ export const formatPrizePools = () => {
       }
     }
   })
-}
-
-/**
- * RPCs
- */
-export const RPC_URLS = {
-  [NETWORK.mainnet]: process.env.NEXT_PUBLIC_MAINNET_RPC_URL,
-  [NETWORK.polygon]: process.env.NEXT_PUBLIC_POLYGON_RPC_URL,
-  [NETWORK.optimism]: process.env.NEXT_PUBLIC_OPTIMISM_RPC_URL,
-  [NETWORK.arbitrum]: process.env.NEXT_PUBLIC_ARBITRUM_RPC_URL,
-  [NETWORK.goerli]: process.env.NEXT_PUBLIC_GOERLI_RPC_URL
 }
