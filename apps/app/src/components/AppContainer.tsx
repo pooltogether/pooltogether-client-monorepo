@@ -15,8 +15,8 @@ import { configureChains, createClient, WagmiConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/dist/providers/jsonRpc'
 import { publicProvider } from 'wagmi/dist/providers/public'
 import { Flowbite } from 'pt-ui'
-import { RPC_URLS, WAGMI_CHAINS } from '@constants'
-import { ptRainbowTheme } from '../themes'
+import { RPC_URLS, WAGMI_CHAINS } from '@constants/config'
+import { ptRainbowTheme } from '@constants/theme'
 
 // App Name:
 const appName = 'PoolTogether'

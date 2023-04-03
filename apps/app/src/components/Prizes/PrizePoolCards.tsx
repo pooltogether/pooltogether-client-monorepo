@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { PrizePoolCard } from 'pt-components'
 import { usePrizePools, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { formatPrizePools } from '@constants'
+import { formatPrizePools } from '@constants/config'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 export const PrizePoolCards = () => {

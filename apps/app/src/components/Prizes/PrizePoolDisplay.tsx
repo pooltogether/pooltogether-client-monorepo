@@ -5,7 +5,7 @@ import { PrizePoolDropdown } from 'pt-components'
 import { usePrizePools, useSelectedVault, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
-import { formatPrizePools } from '@constants'
+import { formatPrizePools } from '@constants/config'
 import { useNetworks } from '@hooks/useNetworks'
 import { PrizesTable } from './PrizesTable'
 

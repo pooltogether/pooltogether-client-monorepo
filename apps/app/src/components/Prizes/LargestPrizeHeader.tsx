@@ -3,7 +3,7 @@ import { CurrencyValue } from 'pt-components'
 import { useLargestGrandPrize, usePrizePools, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { formatPrizePools } from '@constants'
+import { formatPrizePools } from '@constants/config'
 import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 
 export const LargestPrizeHeader = () => {
