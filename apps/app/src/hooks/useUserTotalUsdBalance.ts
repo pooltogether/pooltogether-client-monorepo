@@ -32,17 +32,14 @@ export const useUserTotalUsdBalance = () => {
     isFetchedVaultData &&
     isFetchedTokenPrices &&
     isFetchedVaultBalances &&
-    isFetchedVaultExchangeRates
-
-  const enabled =
-    isFetched &&
+    isFetchedVaultExchangeRates &&
     !!tokenPrices &&
     !!vaultBalances &&
     !!vaultExchangeRates &&
     !!vaults.underlyingTokenAddresses
 
   const data = useMemo(() => {
-    if (enabled) {
+    if (isFetched) {
       let totalUsdBalance: number = 0
       for (const vaultId in vaultBalances) {
         if (!isNaN(vaultBalances[vaultId].decimals)) {
@@ -75,12 +72,14 @@ export const useUserTotalUsdBalance = () => {
       return 0
     }
   }, [
+    isFetchedVaultData,
     isFetchedTokenPrices,
     tokenPrices,
     isFetchedVaultBalances,
     vaultBalances,
     isFetchedVaultExchangeRates,
-    vaultExchangeRates
+    vaultExchangeRates,
+    vaults
   ])
 
   return { data, isFetched }
