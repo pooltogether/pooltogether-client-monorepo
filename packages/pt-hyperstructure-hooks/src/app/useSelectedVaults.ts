@@ -70,7 +70,7 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   return { vaults, isFetched }
 }
 
-const selectedVaultIdAtom = atom<string>(undefined as string)
+const selectedVaultIdAtom = atom<string>(undefined as unknown as string)
 
 /**
  * Returns the currently selected `Vault` as well as a function to change this selection

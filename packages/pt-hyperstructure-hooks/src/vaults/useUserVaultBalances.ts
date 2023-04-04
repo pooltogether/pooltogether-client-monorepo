@@ -49,7 +49,7 @@ export const useUserVaultBalance = (
   vault: Vault,
   userAddress: string,
   refetchInterval?: number
-): UseQueryResult<TokenWithBalance, unknown> => {
+) => {
   const queryClient = useQueryClient()
 
   const queryKey = [QUERY_KEYS.userVaultBalances, userAddress, [vault?.id]]
@@ -59,7 +59,7 @@ export const useUserVaultBalance = (
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
     onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
-  })
+  }) as UseQueryResult<{ [vaultId: string]: TokenWithBalance }>
 
   return { ...result, data: result.data?.[vault?.id] }
 }

@@ -18,11 +18,11 @@ export const useSendApproveTransaction = (
 } => {
   const { chain } = useNetwork()
 
-  const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenContract.address
+  const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenContract?.address
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
-    address: vault?.tokenContract.address as `0x${string}`,
+    address: vault?.tokenContract?.address as `0x${string}`,
     abi: erc20Abi,
     functionName: 'approve',
     args: [vault?.address, amount],
@@ -46,8 +46,8 @@ export const useSendApproveTransaction = (
 
   useEffect(() => {
     if (!!txReceipt) {
-      isSuccess && options?.onSuccess()
-      isError && options?.onError()
+      isSuccess && options?.onSuccess?.()
+      isError && options?.onError?.()
     }
   }, [txReceipt])
 

@@ -56,7 +56,7 @@ export const useTokens = (
 export const useToken = (
   readProvider: providers.Provider,
   tokenAddress: string
-): { data: TokenWithSupply } & Omit<
+): { data?: TokenWithSupply } & Omit<
   UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }>,
   'data'
 > => {

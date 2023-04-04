@@ -73,7 +73,7 @@ export const useTokenBalance = (
   address: string,
   tokenAddress: string,
   refetchInterval?: number
-): { data: TokenWithBalance } & Omit<
+): { data?: TokenWithBalance } & Omit<
   UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }>,
   'data'
 > => {

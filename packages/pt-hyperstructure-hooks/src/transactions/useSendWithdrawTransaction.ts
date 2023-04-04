@@ -54,8 +54,8 @@ export const useSendWithdrawTransaction = (
 
   useEffect(() => {
     if (!!txReceipt) {
-      isSuccess && options?.onSuccess()
-      isError && options?.onError()
+      isSuccess && options?.onSuccess?.()
+      isError && options?.onError?.()
     }
   }, [txReceipt])
 

@@ -31,9 +31,9 @@ export const useSendDepositTransaction = (
 
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
     provider,
-    userAddress,
+    userAddress as `0x${string}`,
     vault?.address,
-    vault?.tokenData?.address
+    vault?.tokenData?.address as string
   )
 
   const enabled =
@@ -72,8 +72,8 @@ export const useSendDepositTransaction = (
 
   useEffect(() => {
     if (!!txReceipt) {
-      isSuccess && options?.onSuccess()
-      isError && options?.onError()
+      isSuccess && options?.onSuccess?.()
+      isError && options?.onError?.()
     }
   }, [txReceipt])
 

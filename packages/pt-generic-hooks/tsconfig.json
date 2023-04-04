@@ -6,7 +6,6 @@
     "module": "esnext",
     "lib": ["dom", "esnext"],
     "rootDir": "./src",
-    "outDir": "dist",
-    "strict": false
+    "outDir": "dist"
   }
 }

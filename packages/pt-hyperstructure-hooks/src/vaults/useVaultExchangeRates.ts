@@ -38,10 +38,7 @@ export const useVaultExchangeRates = (
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
-export const useVaultExchangeRate = (
-  vault: Vault,
-  refetchInterval?: number
-): UseQueryResult<BigNumber, unknown> => {
+export const useVaultExchangeRate = (vault: Vault, refetchInterval?: number) => {
   const queryClient = useQueryClient()
 
   const queryKey = [QUERY_KEYS.vaultExchangeRates, [vault?.id]]
@@ -51,7 +48,7 @@ export const useVaultExchangeRate = (
     ...NO_REFETCH,
     refetchInterval: refetchInterval ?? false,
     onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
-  })
+  }) as UseQueryResult<{ [vaultId: string]: BigNumber }>
 
   return { ...result, data: result.data?.[vault?.id] }
 }

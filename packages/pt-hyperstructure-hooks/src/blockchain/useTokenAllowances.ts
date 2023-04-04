@@ -77,7 +77,7 @@ export const useTokenAllowance = (
   spenderAddress: string,
   tokenAddress: string,
   refetchInterval?: number
-): { data: BigNumber } & Omit<UseQueryResult<{ [tokenAddress: string]: BigNumber }>, 'data'> => {
+): { data?: BigNumber } & Omit<UseQueryResult<{ [tokenAddress: string]: BigNumber }>, 'data'> => {
   const result = useTokenAllowances(
     readProvider,
     address,

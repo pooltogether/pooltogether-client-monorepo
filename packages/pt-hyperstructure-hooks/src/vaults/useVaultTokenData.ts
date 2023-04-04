@@ -34,7 +34,7 @@ export const useVaultTokenData = (
  * @param vault instance of the `Vault` class
  * @returns
  */
-export const useSingleVaultTokenData = (vault: Vault): UseQueryResult<TokenWithSupply, unknown> => {
+export const useSingleVaultTokenData = (vault: Vault) => {
   const queryClient = useQueryClient()
 
   const queryKey = [QUERY_KEYS.vaultTokenData, [vault?.id]]
@@ -43,7 +43,7 @@ export const useSingleVaultTokenData = (vault: Vault): UseQueryResult<TokenWithS
     enabled: !!vault,
     ...NO_REFETCH,
     onSuccess: (data) => queryClient.setQueryData(queryKey, { [vault.id]: data })
-  })
+  }) as UseQueryResult<{ [vaultId: string]: TokenWithSupply }>
 
   return { ...result, data: result.data?.[vault?.id] }
 }
