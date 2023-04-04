@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useSelectedVaults, useUserVaultBalances } from 'pt-hyperstructure-hooks'
@@ -60,11 +60,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
           .filter((row) => !!row)
       : []
 
-  // NOTE: This is necessary due to hydration errors otherwise.
-  const [isBrowser, setIsBrowser] = useState(false)
-  useEffect(() => setIsBrowser(true), [])
-
-  if (isBrowser && userAddress === undefined) {
+  if (typeof window !== 'undefined' && userAddress === undefined) {
     return <span>Connect your wallet to check your vault balances.</span>
   } else if (noBalances) {
     return <span>You haven't deposited into any vaults yet.</span>
