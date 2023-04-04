@@ -1,6 +1,7 @@
+import classNames from 'classnames'
 import { useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
-import { Button, ButtonProps } from 'pt-ui'
+import { Button, ButtonProps, Spinner } from 'pt-ui'
 import { getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'pt-utilities'
 
 export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
@@ -30,6 +31,7 @@ export const TransactionButton = (props: TransactionButtonProps) => {
     openChainModal,
     addRecentTransaction,
     disabled,
+    children,
     ...rest
   } = props
 
@@ -72,7 +74,15 @@ export const TransactionButton = (props: TransactionButtonProps) => {
 
   return (
     <>
-      <Button onClick={write} disabled={!write || isTxLoading || disabled} {...rest} />
+      <Button
+        onClick={write}
+        disabled={!write || isTxLoading || disabled}
+        className={classNames({ 'text-opacity-0': isTxLoading })}
+        {...rest}
+      >
+        {children}
+        {isTxLoading && <Spinner />}
+      </Button>
       {/* TODO: style receipt */}
       {isTxSuccess && showReceipt && !!txHash && (
         <a href={getBlockExplorerUrl(chainId, txHash, 'tx')}>Receipt</a>

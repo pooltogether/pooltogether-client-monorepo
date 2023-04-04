@@ -14,10 +14,10 @@ export const DepositButton = (props: DepositButtonProps) => {
 
   const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
-  const { setSelectedVaultId } = useSelectedVault()
+  const { setSelectedVaultById } = useSelectedVault()
 
   const handleClick = () => {
-    setSelectedVaultId(vault.id)
+    setSelectedVaultById(vault.id)
     setIsDepositModalOpen(true)
   }
 

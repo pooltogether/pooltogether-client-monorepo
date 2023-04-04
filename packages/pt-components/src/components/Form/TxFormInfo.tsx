@@ -22,8 +22,7 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
     <div className='flex items-center justify-between gap-4 dark:bg-pt-transparent px-4 py-2 rounded-b-lg'>
       <span className='dark:text-pt-purple-200'>
         1 {vault.tokenData?.symbol ?? <Spinner />} ={' '}
-        {!!vaultExchangeRate &&
-          vault.decimals !== undefined &&
+        {!!vaultExchangeRate && vault.decimals !== undefined ? (
           formatBigNumberForDisplay(
             getSharesFromAssets(
               utils.parseUnits('1', vault.decimals),
@@ -32,7 +31,10 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
             ),
             vault.decimals,
             { hideZeroes: true }
-          )}{' '}
+          )
+        ) : (
+          <Spinner />
+        )}{' '}
         {vault.shareData?.symbol ?? <Spinner />}
       </span>
       {!!tokenAddress ? (

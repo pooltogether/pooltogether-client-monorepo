@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
 import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
-import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
 import { settingsModalViewAtom } from '@atoms'
 
@@ -34,8 +33,6 @@ export const Layout = (props: LayoutProps) => {
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
   const addRecentTransaction = useAddRecentTransaction()
-
-  const { vault } = useSelectedVault()
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -85,8 +82,7 @@ export const Layout = (props: LayoutProps) => {
           { href: '/extensions', name: 'Extensions' }
         ]}
         activePage={router.pathname}
-        // TODO: re-add if no longer breaking modal re-renders
-        // linksAs={Link}
+        linksAs={Link}
         walletConnectionButton={
           <ConnectButton
             showBalance={false}
@@ -103,23 +99,17 @@ export const Layout = (props: LayoutProps) => {
         disable={['language']}
       />
 
-      {!!vault && (
-        <DepositModal
-          vault={vault}
-          openConnectModal={openConnectModal}
-          openChainModal={openChainModal}
-          addRecentTransaction={addRecentTransaction}
-        />
-      )}
+      <DepositModal
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+      />
 
-      {!!vault && (
-        <WithdrawModal
-          vault={vault}
-          openConnectModal={openConnectModal}
-          openChainModal={openChainModal}
-          addRecentTransaction={addRecentTransaction}
-        />
-      )}
+      <WithdrawModal
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+      />
 
       <main
         className={classNames(

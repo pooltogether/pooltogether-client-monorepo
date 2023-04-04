@@ -89,7 +89,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
       openChainModal={openChainModal}
       addRecentTransaction={addRecentTransaction}
     >
-      {isWithdrawing ? 'Withdrawing...' : 'Withdraw'}
+      Withdraw
     </TransactionButton>
   )
 }

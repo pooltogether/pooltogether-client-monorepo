@@ -1,5 +1,6 @@
 import { BigNumber, utils } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
+import { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
@@ -56,8 +57,7 @@ export const DepositForm = (props: DepositFormProps) => {
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
-    defaultValues: { tokenAmount: '', shareAmount: '' },
-    shouldUnregister: true
+    defaultValues: { tokenAmount: '', shareAmount: '' }
   })
 
   const setFormTokenAmount = useSetAtom(depositFormTokenAmountAtom)
@@ -100,18 +100,30 @@ export const DepositForm = (props: DepositFormProps) => {
     }
   }
 
+  const tokenInputData = useMemo(() => {
+    if (vault.tokenData) {
+      return { ...vault.tokenData, balance: tokenBalance, usdPrice, logoURI: vault.tokenLogoURI }
+    }
+  }, [vault, tokenBalance, usdPrice])
+
+  const shareInputData = useMemo(() => {
+    if (vault.shareData) {
+      return {
+        ...vault.shareData,
+        balance: shareBalance,
+        usdPrice: shareUsdPrice,
+        logoURI: vault.logoURI
+      }
+    }
+  }, [vault, shareBalance, shareUsdPrice])
+
   return (
     <div className='flex flex-col'>
-      {!!vault.tokenData && !!vault.shareData && vault.decimals !== undefined && (
+      {!!tokenInputData && !!shareInputData && vault.decimals !== undefined && (
         <>
           <FormProvider {...formMethods}>
             <TxFormInput
-              token={{
-                ...vault.tokenData,
-                balance: tokenBalance,
-                usdPrice,
-                logoURI: vault.tokenLogoURI
-              }}
+              token={tokenInputData}
               formKey='tokenAmount'
               validate={{
                 isNotGreaterThanBalance: (v) =>
@@ -129,12 +141,7 @@ export const DepositForm = (props: DepositFormProps) => {
               className='mb-0.5'
             />
             <TxFormInput
-              token={{
-                ...vault.shareData,
-                balance: shareBalance,
-                usdPrice: shareUsdPrice,
-                logoURI: vault.logoURI
-              }}
+              token={shareInputData}
               formKey='shareAmount'
               onChange={calculateTokensForShares}
               className='my-0.5 rounded-b-none'

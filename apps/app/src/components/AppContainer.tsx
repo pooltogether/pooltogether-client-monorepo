@@ -5,6 +5,7 @@ import { Flowbite } from 'pt-ui'
 // React Query Client:
 const queryClient = new QueryClient()
 
+// TODO: find a way to abstract out this typing and move this component to the `pt-components` package
 export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props
 

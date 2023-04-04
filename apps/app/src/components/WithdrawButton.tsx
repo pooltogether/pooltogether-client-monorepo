@@ -14,10 +14,10 @@ export const WithdrawButton = (props: WithdrawButtonProps) => {
 
   const { setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
-  const { setSelectedVaultId } = useSelectedVault()
+  const { setSelectedVaultById } = useSelectedVault()
 
   const handleClick = () => {
-    setSelectedVaultId(vault.id)
+    setSelectedVaultById(vault.id)
     setIsWithdrawModalOpen(true)
   }
 

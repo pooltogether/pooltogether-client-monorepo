@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
 import { DepositModalBody } from './DepositModalBody'
 import { DepositModalFooter } from './DepositModalFooter'
 
 export interface DepositModalProps {
-  vault: Vault
   bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -14,7 +13,9 @@ export interface DepositModalProps {
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { vault, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+
+  const { vault } = useSelectedVault()
 
   const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
 
@@ -22,21 +23,23 @@ export const DepositModal = (props: DepositModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  if (isBrowser && !!vault) {
+  if (isBrowser) {
     return (
       <Modal
         show={isDepositModalOpen}
         dismissible={true}
         position='center'
         bgColor={bgColor}
-        bodyContent={<DepositModalBody vault={vault} />}
+        bodyContent={!!vault && <DepositModalBody vault={vault} />}
         footerContent={
-          <DepositModalFooter
-            vault={vault}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
+          !!vault && (
+            <DepositModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          )
         }
         onClose={() => setIsDepositModalOpen(false)}
       />

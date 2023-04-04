@@ -133,9 +133,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        {isApproving ? 'Approving' : 'Approve'} {formattedDepositAmount}{' '}
-        {vault.tokenData?.symbol ?? <Spinner />}
-        {isApproving && '...'}
+        Approve {formattedDepositAmount} {vault.tokenData?.symbol ?? <Spinner />}
       </TransactionButton>
     )
   } else {
@@ -153,7 +151,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        {isDepositing ? 'Depositing...' : 'Deposit'}
+        Deposit
       </TransactionButton>
     )
   }

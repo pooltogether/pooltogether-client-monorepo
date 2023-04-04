@@ -87,5 +87,5 @@ export const useSelectedVault = () => {
 
   const vault = selectedVaultId !== undefined ? vaults.vaults[selectedVaultId] : undefined
 
-  return { vault, setSelectedVaultId }
+  return { vault, setSelectedVaultById: setSelectedVaultId }
 }

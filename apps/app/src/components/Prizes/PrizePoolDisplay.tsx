@@ -15,7 +15,7 @@ export const PrizePoolDisplay = () => {
   const networks = useNetworks()
 
   const { vaults } = useSelectedVaults()
-  const { vault, setSelectedVaultId } = useSelectedVault()
+  const { vault, setSelectedVaultById } = useSelectedVault()
 
   const formattedPrizePoolInfo = formatPrizePools()
   const prizePools = usePrizePools(formattedPrizePoolInfo)
@@ -28,7 +28,7 @@ export const PrizePoolDisplay = () => {
       const firstVaultInChain = Object.values(vaults.vaults).find(
         (vault) => vault.chainId === chainId
       )
-      !!firstVaultInChain && setSelectedVaultId(firstVaultInChain.id)
+      !!firstVaultInChain && setSelectedVaultById(firstVaultInChain.id)
     }
   }
 

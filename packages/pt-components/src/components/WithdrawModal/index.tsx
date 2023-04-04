@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
+import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
 import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
 export interface WithdrawModalProps {
-  vault: Vault
   bgColor?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -14,7 +13,9 @@ export interface WithdrawModalProps {
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { vault, bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { bgColor, openConnectModal, openChainModal, addRecentTransaction } = props
+
+  const { vault } = useSelectedVault()
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
@@ -22,21 +23,23 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  if (isBrowser && !!vault) {
+  if (isBrowser) {
     return (
       <Modal
         show={isWithdrawModalOpen}
         dismissible={true}
         position='center'
         bgColor={bgColor}
-        bodyContent={<WithdrawModalBody vault={vault} />}
+        bodyContent={!!vault && <WithdrawModalBody vault={vault} />}
         footerContent={
-          <WithdrawModalFooter
-            vault={vault}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
+          !!vault && (
+            <WithdrawModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          )
         }
         onClose={() => setIsWithdrawModalOpen(false)}
       />
