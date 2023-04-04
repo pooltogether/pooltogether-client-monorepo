@@ -9,7 +9,8 @@ export const useSendApproveTransaction = (
   vault: Vault,
   options?: { onSuccess?: () => void; onError?: () => void }
 ): {
-  isLoading: boolean
+  isWaiting: boolean
+  isConfirming: boolean
   isSuccess: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
@@ -28,13 +29,17 @@ export const useSendApproveTransaction = (
     enabled
   })
 
-  const { data: txSendData, write: sendApproveTransaction } = useContractWrite(config)
+  const {
+    data: txSendData,
+    isLoading: isWaiting,
+    write: sendApproveTransaction
+  } = useContractWrite(config)
 
   const txHash = txSendData?.hash
 
   const {
     data: txReceipt,
-    isLoading,
+    isLoading: isConfirming,
     isSuccess,
     isError
   } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
@@ -46,5 +51,5 @@ export const useSendApproveTransaction = (
     }
   }, [txReceipt])
 
-  return { isLoading, isSuccess, txHash, txReceipt, sendApproveTransaction }
+  return { isWaiting, isConfirming, isSuccess, txHash, txReceipt, sendApproveTransaction }
 }

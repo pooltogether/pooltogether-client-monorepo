@@ -15,7 +15,8 @@ export const useSendWithdrawTransaction = (
   vault: Vault,
   options?: { onSuccess?: () => void; onError?: () => void }
 ): {
-  isLoading: boolean
+  isWaiting: boolean
+  isConfirming: boolean
   isSuccess: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
@@ -36,13 +37,17 @@ export const useSendWithdrawTransaction = (
     enabled
   })
 
-  const { data: txSendData, write: sendWithdrawTransaction } = useContractWrite(config)
+  const {
+    data: txSendData,
+    isLoading: isWaiting,
+    write: sendWithdrawTransaction
+  } = useContractWrite(config)
 
   const txHash = txSendData?.hash
 
   const {
     data: txReceipt,
-    isLoading,
+    isLoading: isConfirming,
     isSuccess,
     isError
   } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
@@ -54,5 +59,5 @@ export const useSendWithdrawTransaction = (
     }
   }, [txReceipt])
 
-  return { isLoading, isSuccess, txHash, txReceipt, sendWithdrawTransaction }
+  return { isWaiting, isConfirming, isSuccess, txHash, txReceipt, sendWithdrawTransaction }
 }

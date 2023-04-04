@@ -17,7 +17,8 @@ export const useSendDepositTransaction = (
   vault: Vault,
   options?: { onSuccess?: () => void; onError?: () => void }
 ): {
-  isLoading: boolean
+  isWaiting: boolean
+  isConfirming: boolean
   isSuccess: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
@@ -54,13 +55,17 @@ export const useSendDepositTransaction = (
     enabled
   })
 
-  const { data: txSendData, write: sendDepositTransaction } = useContractWrite(config)
+  const {
+    data: txSendData,
+    isLoading: isWaiting,
+    write: sendDepositTransaction
+  } = useContractWrite(config)
 
   const txHash = txSendData?.hash
 
   const {
     data: txReceipt,
-    isLoading,
+    isLoading: isConfirming,
     isSuccess,
     isError
   } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
@@ -72,5 +77,5 @@ export const useSendDepositTransaction = (
     }
   }, [txReceipt])
 
-  return { isLoading, isSuccess, txHash, txReceipt, sendDepositTransaction }
+  return { isWaiting, isConfirming, isSuccess, txHash, txReceipt, sendDepositTransaction }
 }

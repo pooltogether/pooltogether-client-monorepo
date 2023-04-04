@@ -69,7 +69,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
 
   // TODO: implement infinite approval?
   const {
-    isLoading: isApproving,
+    isWaiting: isWaitingApproval,
+    isConfirming: isConfirmingApproval,
     isSuccess: isSuccessfulApproval,
     txHash: approvalTxHash,
     sendApproveTransaction
@@ -78,7 +79,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
   })
 
   const {
-    isLoading: isDepositing,
+    isWaiting: isWaitingDeposit,
+    isConfirming: isConfirmingDeposit,
     isSuccess: isSuccessfulDeposit,
     txHash: depositTxHash,
     sendDepositTransaction
@@ -99,6 +101,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
+    BigNumber.from(userBalance.balance).gte(depositAmount) &&
     isValidFormTokenAmount &&
     vault.decimals !== undefined &&
     !!sendApproveTransaction
@@ -116,13 +119,13 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     allowance.gte(depositAmount) &&
     isValidFormTokenAmount &&
     vault.decimals !== undefined &&
-    sendDepositTransaction
+    !!sendDepositTransaction
 
   if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
     return (
       <TransactionButton
         chainId={vault.chainId}
-        isTxLoading={isApproving}
+        isTxLoading={isWaitingApproval || isConfirmingApproval}
         isTxSuccess={isSuccessfulApproval}
         write={sendApproveTransaction}
         txHash={approvalTxHash}
@@ -140,7 +143,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     return (
       <TransactionButton
         chainId={vault.chainId}
-        isTxLoading={isDepositing}
+        isTxLoading={isWaitingDeposit || isConfirmingDeposit}
         isTxSuccess={isSuccessfulDeposit}
         write={sendDepositTransaction}
         txHash={depositTxHash}

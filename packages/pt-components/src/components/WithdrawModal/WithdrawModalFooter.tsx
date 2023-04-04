@@ -52,7 +52,8 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
   const {
-    isLoading: isWithdrawing,
+    isWaiting: isWaitingWithdrawal,
+    isConfirming: isConfirmingWithdrawal,
     isSuccess: isSuccessfulWithdrawal,
     txHash: withdrawTxHash,
     sendWithdrawTransaction
@@ -73,12 +74,13 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     !withdrawAmount.isZero() &&
     BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
     isValidFormShareAmount &&
-    vault.decimals !== undefined
+    vault.decimals !== undefined &&
+    !!sendWithdrawTransaction
 
   return (
     <TransactionButton
       chainId={vault.chainId}
-      isTxLoading={isWithdrawing}
+      isTxLoading={isWaitingWithdrawal || isConfirmingWithdrawal}
       isTxSuccess={isSuccessfulWithdrawal}
       write={sendWithdrawTransaction}
       txHash={withdrawTxHash}

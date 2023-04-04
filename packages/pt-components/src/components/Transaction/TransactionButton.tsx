@@ -1,4 +1,3 @@
-import classNames from 'classnames'
 import { useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 import { Button, ButtonProps, Spinner } from 'pt-ui'
@@ -74,14 +73,9 @@ export const TransactionButton = (props: TransactionButtonProps) => {
 
   return (
     <>
-      <Button
-        onClick={write}
-        disabled={!write || isTxLoading || disabled}
-        className={classNames({ 'text-opacity-0': isTxLoading })}
-        {...rest}
-      >
-        {children}
+      <Button onClick={write} disabled={!write || isTxLoading || disabled} {...rest}>
         {isTxLoading && <Spinner />}
+        {!isTxLoading && children}
       </Button>
       {/* TODO: style receipt */}
       {isTxSuccess && showReceipt && !!txHash && (
