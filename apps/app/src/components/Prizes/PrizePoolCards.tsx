@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import Link from 'next/link'
 import { PrizePoolCard } from 'pt-components'
 import { usePrizePools, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
@@ -31,12 +32,13 @@ export const PrizePoolCards = () => {
     >
       {Object.values(prizePools).map((prizePool) => {
         return (
-          <PrizePoolCard
+          <Link
             key={`pp-${prizePool.id}`}
-            prizePool={prizePool}
-            tokenUsdPrice={prizeTokenUsdPrice}
             href={`/deposit?network=${prizePool.chainId}`}
-          />
+            passHref={true}
+          >
+            <PrizePoolCard prizePool={prizePool} tokenUsdPrice={prizeTokenUsdPrice} />
+          </Link>
         )
       })}
     </div>
