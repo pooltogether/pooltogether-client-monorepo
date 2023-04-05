@@ -65,8 +65,9 @@ export const useAllTokenPrices = () => {
   const isFetched =
     isFetchedCoingeckoSimpleTokenPrices && isFetchedVaultData && isFetchedCoingeckoTokenPrices
 
-  const refetch = async () => {
-    await Promise.all([refetchCoingeckoSimpleTokenPrices(), refetchCoingeckoTokenPrices()])
+  const refetch = () => {
+    refetchCoingeckoSimpleTokenPrices()
+    refetchCoingeckoTokenPrices()
   }
 
   return { data, isFetched, refetch }

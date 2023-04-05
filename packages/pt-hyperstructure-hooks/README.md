@@ -61,5 +61,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useVaultExchangeRate`
 - `useVaults`
 - `useVaultShareData`
+- `useVaultSharePrice`
 - `useVaultTokenAddress`
 - `useVaultTokenData`
+- `useVaultTokenPrice`

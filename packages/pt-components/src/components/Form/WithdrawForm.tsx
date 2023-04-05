@@ -1,12 +1,17 @@
-import { BigNumber, utils } from 'ethers'
+import { utils } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
 import { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useCoingeckoTokenPrices } from 'pt-generic-hooks'
-import { useTokenBalance, useUserVaultBalance, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
-import { getAssetsFromShares, getSharesFromAssets, getTokenPriceFromObject } from 'pt-utilities'
+import {
+  useTokenBalance,
+  useUserVaultBalance,
+  useVaultExchangeRate,
+  useVaultSharePrice,
+  useVaultTokenPrice
+} from 'pt-hyperstructure-hooks'
+import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
@@ -38,22 +43,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
   )
   const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.balance : '0'
 
-  const { data: tokenPrices } = useCoingeckoTokenPrices(vault.chainId, [
-    vault.tokenData?.address as string
-  ])
-  const tokenPrice = !!vault.tokenData
-    ? getTokenPriceFromObject(vault.chainId, vault.tokenData.address, {
-        [vault.chainId]: tokenPrices ?? {}
-      })
-    : 0
-  const sharePrice =
-    !!vaultExchangeRate && vault.decimals !== undefined
-      ? getAssetsFromShares(
-          BigNumber.from(Math.round(tokenPrice * 1000)),
-          vaultExchangeRate,
-          vault.decimals
-        ).toNumber() / 1000
-      : 0
+  const { tokenPrice } = useVaultTokenPrice(vault)
+  const { sharePrice } = useVaultSharePrice(vault)
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
@@ -105,7 +96,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       return {
         ...vault.shareData,
         balance: shareBalance,
-        price: sharePrice,
+        price: sharePrice ?? 0,
         logoURI: vault.logoURI
       }
     }
@@ -116,7 +107,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       return {
         ...vault.tokenData,
         balance: tokenBalance,
-        price: tokenPrice,
+        price: tokenPrice ?? 0,
         logoURI: vault.tokenLogoURI
       }
     }

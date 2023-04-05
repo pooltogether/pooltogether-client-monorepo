@@ -128,7 +128,7 @@ export const useTokenBalancesAcrossChains = (
 
   return useMemo(() => {
     const isFetched = results?.every((result) => result.isFetched)
-    const refetch = async () => results?.forEach((result) => result.refetch())
+    const refetch = () => results?.forEach((result) => result.refetch())
 
     const formattedData: { [chainId: number]: { [tokenAddress: string]: TokenWithBalance } } = {}
     results.forEach((result) => {

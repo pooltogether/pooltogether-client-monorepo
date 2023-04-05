@@ -29,7 +29,7 @@ export const useAllPrizeInfo = (prizePools: PrizePool[]) => {
 
   return useMemo(() => {
     const isFetched = results?.every((result) => result.isFetched)
-    const refetch = async () => results?.forEach((result) => result.refetch())
+    const refetch = () => results?.forEach((result) => result.refetch())
 
     const formattedData: { [prizePoolId: string]: PrizeInfo[] } = {}
     results.forEach((result) => {

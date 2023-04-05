@@ -5,7 +5,7 @@ import { TokenWithSupply } from 'pt-types'
 import { QUERY_KEYS } from '../constants'
 
 /**
- * Returns a vault's token data
+ * Returns a vault's underlying token data
  *
  * Stores queried token data in cache
  * @param vault instance of the `Vault` class

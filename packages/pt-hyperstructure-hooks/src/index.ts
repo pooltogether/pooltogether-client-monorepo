@@ -49,8 +49,10 @@ export * from './vaults/useVaultBalance'
 export * from './vaults/useVaultExchangeRate'
 export * from './vaults/useVaults'
 export * from './vaults/useVaultShareData'
+export * from './vaults/useVaultSharePrice'
 export * from './vaults/useVaultTokenAddress'
 export * from './vaults/useVaultTokenData'
+export * from './vaults/useVaultTokenPrice'
 
 /**
  * Utils

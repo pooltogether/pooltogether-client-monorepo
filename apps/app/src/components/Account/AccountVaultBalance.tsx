@@ -1,14 +1,9 @@
 import { BigNumber, utils } from 'ethers'
 import { Vault } from 'pt-client-js'
 import { CurrencyValue } from 'pt-components'
-import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
+import { useVaultExchangeRate, useVaultTokenPrice } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import {
-  formatBigNumberForDisplay,
-  getAssetsFromShares,
-  getTokenPriceFromObject
-} from 'pt-utilities'
-import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
+import { formatBigNumberForDisplay, getAssetsFromShares } from 'pt-utilities'
 
 interface AccountVaultBalanceProps {
   vault: Vault
@@ -18,10 +13,7 @@ interface AccountVaultBalanceProps {
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   const { vault, shareBalance } = props
 
-  const { data: tokenPrices } = useAllTokenPrices()
-  const tokenPrice = !!vault.tokenData
-    ? getTokenPriceFromObject(vault.chainId, vault.tokenData.address, tokenPrices)
-    : 0
+  const { tokenPrice } = useVaultTokenPrice(vault)
 
   const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
     useVaultExchangeRate(vault)
@@ -32,8 +24,8 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
       : BigNumber.from(0)
 
   const formattedTokenBalance =
-    vault.decimals !== undefined ? utils.formatUnits(tokenBalance, vault.decimals) : '0'
-  const tokenValue = Number(formattedTokenBalance) * tokenPrice
+    vault.decimals !== undefined ? Number(utils.formatUnits(tokenBalance, vault.decimals)) : 0
+  const tokenValue = !!tokenPrice ? formattedTokenBalance * tokenPrice : 0
 
   return (
     <div className='flex flex-col'>
