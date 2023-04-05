@@ -1,5 +1,5 @@
 import { Vault } from 'pt-client-js'
-import { useCoingeckoTokenPrices } from 'pt-generic-hooks'
+import { CURRENCY_ID, useCoingeckoTokenPrices } from 'pt-generic-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
 import { useVaultTokenAddress } from '..'
 
@@ -9,7 +9,7 @@ import { useVaultTokenAddress } from '..'
  * @param currency optional currency (default is 'eth')
  * @returns
  */
-export const useVaultTokenPrice = (vault: Vault, currency?: string) => {
+export const useVaultTokenPrice = (vault: Vault, currency?: CURRENCY_ID) => {
   const { data: tokenAddress, isFetched: isFetchedTokenAddress } = useVaultTokenAddress(vault)
 
   const {

@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { CoingeckoTokenPrices } from 'pt-types'
 import { getCoingeckoSimpleTokenPrices } from 'pt-utilities'
+import { CURRENCY_ID } from '../constants/currencies'
 import { QUERY_KEYS } from '../constants/keys'
 import { NO_REFETCH } from '../constants/query'
 
@@ -10,7 +11,7 @@ import { NO_REFETCH } from '../constants/query'
  * @returns
  */
 export const useCoingeckoSimpleTokenPrices = (
-  currencies?: string[]
+  currencies?: CURRENCY_ID[]
 ): UseQueryResult<CoingeckoTokenPrices, unknown> => {
   const enabled = currencies === undefined || currencies.length > 0
 

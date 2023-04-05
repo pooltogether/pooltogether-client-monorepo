@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { utils } from 'ethers'
-import { useCoingeckoSimpleTokenPrices } from 'pt-generic-hooks'
+import { CURRENCY_ID, useCoingeckoSimpleTokenPrices } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices, GasCostEstimates } from 'pt-types'
 import { COINGECKO_NATIVE_TOKEN_IDS, NETWORK } from 'pt-utilities'
 import { useGasPrices } from '..'
@@ -15,7 +15,7 @@ import { useGasPrices } from '..'
 export const useGasCostEstimates = (
   chainId: NETWORK,
   gasAmount: BigNumber,
-  currencies?: string[]
+  currencies?: CURRENCY_ID[]
 ): (GasCostEstimates & { isFetched: true }) | { isFetched: false } => {
   const { data: coingeckoPrices, isFetched: isFetchedCoingeckoPrices } =
     useCoingeckoSimpleTokenPrices(currencies)

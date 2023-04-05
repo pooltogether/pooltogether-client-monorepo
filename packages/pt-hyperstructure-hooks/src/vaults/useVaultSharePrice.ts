@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
+import { CURRENCY_ID } from 'pt-generic-hooks'
 import { getAssetsFromShares } from 'pt-utilities'
 import { useVaultExchangeRate, useVaultTokenPrice } from '..'
 
@@ -9,7 +10,7 @@ import { useVaultExchangeRate, useVaultTokenPrice } from '..'
  * @param currency optional currency (default is 'eth')
  * @returns
  */
-export const useVaultSharePrice = (vault: Vault, currency?: string) => {
+export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
   const {
     tokenPrice,
     isFetched: isFetchedTokenPrice,
