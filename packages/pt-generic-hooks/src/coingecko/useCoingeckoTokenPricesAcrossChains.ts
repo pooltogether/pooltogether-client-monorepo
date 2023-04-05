@@ -8,7 +8,7 @@ import { NO_REFETCH } from '../constants/query'
 /**
  * Returns token prices from CoinGecko across many chains
  * @param tokenAddresses token addresses to query prices for, indexed by chain ID
- * @param currencies optional currency override (default is ['usd'])
+ * @param currencies optional currency override (default is ['eth'])
  * @returns
  */
 export const useCoingeckoTokenPricesAcrossChains = (

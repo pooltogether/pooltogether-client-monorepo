@@ -9,7 +9,7 @@ import { useGasPrices } from '..'
  * Returns gas cost estimates in wei and any provided currencies
  * @param chainId chain ID to get gas prices from
  * @param gasAmount amount of gas to be spent
- * @param currencies optional currency override (default is ['usd'])
+ * @param currencies optional currency override (default is ['eth'])
  * @returns
  */
 export const useGasCostEstimates = (
@@ -45,14 +45,9 @@ export const useGasCostEstimates = (
         }
       })
     } else {
-      const totalUsdGasCost = calculateGasCostInCurrency(
-        coingeckoPrices,
-        chainId,
-        'usd',
-        totalGasWei
-      )
-      if (!!totalUsdGasCost) {
-        gasCostEstimates.totalGasCurrencies['usd'] = totalUsdGasCost
+      const totalGasCost = calculateGasCostInCurrency(coingeckoPrices, chainId, 'eth', totalGasWei)
+      if (!!totalGasCost) {
+        gasCostEstimates.totalGasCurrencies['eth'] = totalGasCost
       }
     }
 

@@ -2,7 +2,7 @@ import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { useFormContext } from 'react-hook-form'
-import { TokenWithBalance, TokenWithLogo, TokenWithUsdPrice } from 'pt-types'
+import { TokenWithBalance, TokenWithLogo, TokenWithPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '../Currency/CurrencyValue'
 import { TokenIcon } from '../Icons/TokenIcon'
@@ -13,7 +13,7 @@ export interface TxFormValues {
 }
 
 export interface TxFormInputProps {
-  token: TokenWithBalance & TokenWithUsdPrice & Partial<TokenWithLogo>
+  token: TokenWithBalance & TokenWithPrice & Partial<TokenWithLogo>
   formKey: keyof TxFormValues
   validate?: { [rule: string]: (v: any) => true | string }
   disabled?: boolean
@@ -34,9 +34,9 @@ export const TxFormInput = (props: TxFormInputProps) => {
   } = useFormContext<TxFormValues>()
 
   const formAmount = watch(formKey, '0')
-  const usdValue =
-    isValidFormInput(formAmount, token.decimals) && !!token.usdPrice
-      ? Number(formAmount) * token.usdPrice
+  const amountValue =
+    isValidFormInput(formAmount, token.decimals) && !!token.price
+      ? Number(formAmount) * token.price
       : 0
 
   const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
@@ -76,7 +76,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
         </div>
       </div>
       <div className='flex justify-between gap-6 text-pt-purple-100'>
-        <CurrencyValue baseValue={usdValue} />
+        <CurrencyValue baseValue={amountValue} />
         <div className='flex gap-1'>
           <span>Balance: {formattedBalance}</span>
           {showMaxButton && (

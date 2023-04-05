@@ -4,7 +4,7 @@ import { formatCurrencyNumberForDisplay } from './formatting'
 /**
  * Returns a converted and formatted currency value in string form
  *
- * NOTE: Assumes 'usd' as `baseCurrency` unless otherwise specified through `options`
+ * NOTE: Assumes 'eth' as `baseCurrency` unless otherwise specified through `options`
  * @param baseValue a currency value to convert and format
  * @param currency the currency to convert to
  * @param exchangeRates currency exchange rates to refer to
@@ -31,7 +31,7 @@ export const formatCurrencyValue = (
 /**
  * Returns a currency value converted to another currency
  *
- * NOTE: Assumes 'usd' as `baseCurrency` unless otherwise specified through `options`
+ * NOTE: Assumes 'eth' as `baseCurrency` unless otherwise specified through `options`
  * @param baseValue a currency value to convert
  * @param currency the currency to convert to
  * @param exchangeRates currency exchange rates to refer to
@@ -47,7 +47,7 @@ export const calculateCurrencyValue = (
   if (!!exchangeRates && !!exchangeRates[currency]) {
     const baseCurrencyValue = options?.baseCurrency
       ? exchangeRates[options.baseCurrency]?.value
-      : exchangeRates.usd?.value
+      : exchangeRates.eth?.value
     if (!!baseCurrencyValue) {
       const currencyExchangeRate = exchangeRates[currency].value / baseCurrencyValue
       const currencyValue = Number(baseValue) * currencyExchangeRate

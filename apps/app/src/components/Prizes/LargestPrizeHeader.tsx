@@ -20,7 +20,7 @@ export const LargestPrizeHeader = () => {
   )
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
-  const prizeTokenUsdPrice =
+  const prizeTokenPrice =
     isFetchedPrizeTokenData && !!prizeTokenData
       ? getTokenPriceFromObject(prizeTokenData.chainId, prizeTokenData.address, tokenPrices)
       : 0
@@ -31,16 +31,14 @@ export const LargestPrizeHeader = () => {
       : '0'
   )
 
-  const usdLargestGrandPrize = !!prizeTokenUsdPrice
-    ? formattedLargestGrandPrize * prizeTokenUsdPrice
-    : 0
+  const prizeValue = !!prizeTokenPrice ? formattedLargestGrandPrize * prizeTokenPrice : 0
 
   return (
     <div className='flex flex-col items-center gap-3'>
       <span className='text-5xl font-averta font-semibold'>
         Deposit for a chance to win up to{' '}
         {isFetchedLargestGrandPrize && isFetchedPrizeTokenData && isFetchedTokenPrices ? (
-          <CurrencyValue baseValue={usdLargestGrandPrize} hideZeroes={true} />
+          <CurrencyValue baseValue={prizeValue} hideZeroes={true} />
         ) : (
           <Spinner />
         )}

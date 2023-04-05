@@ -10,10 +10,10 @@ import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from './useAllTokenPrices'
 
 /**
- * Returns a user's total balance in USD
+ * Returns a user's total balance in ETH
  * @returns
  */
-export const useUserTotalUsdBalance = () => {
+export const useUserTotalBalance = () => {
   const { address: userAddress } = useAccount()
 
   const { vaults, isFetched: isFetchedVaultData } = useSelectedVaults()
@@ -40,13 +40,13 @@ export const useUserTotalUsdBalance = () => {
 
   const data = useMemo(() => {
     if (isFetched) {
-      let totalUsdBalance: number = 0
+      let totalBalance: number = 0
       for (const vaultId in vaultBalances) {
         if (!isNaN(vaultBalances[vaultId].decimals)) {
           const vaultExchangeRate = vaultExchangeRates[vaultId]
 
           if (!!vaultExchangeRate) {
-            const usdPrice = getTokenPriceFromObject(
+            const tokenPrice = getTokenPriceFromObject(
               vaultBalances[vaultId].chainId,
               vaults.underlyingTokenAddresses.byVault[vaultId],
               tokenPrices
@@ -63,11 +63,11 @@ export const useUserTotalUsdBalance = () => {
               tokenBalance,
               vaultBalances[vaultId].decimals
             )
-            totalUsdBalance += Number(formattedTokenBalance) * usdPrice
+            totalBalance += Number(formattedTokenBalance) * tokenPrice
           }
         }
       }
-      return totalUsdBalance
+      return totalBalance
     } else {
       return 0
     }

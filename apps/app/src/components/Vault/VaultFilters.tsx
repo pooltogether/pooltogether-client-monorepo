@@ -78,15 +78,16 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         onClick: () =>
           filterOnClick('popular', (vaults) =>
             vaults.filter((vault) => {
-              const usdPrice = getTokenPriceFromObject(
+              const minValue = 5 // TODO: update this value to a reasonable number or set it dynamically
+              const tokenPrice = getTokenPriceFromObject(
                 vault.chainId,
                 vault.tokenContract.address,
                 tokenPrices
               )
               const tokenAmount = vaultBalances?.[vault.id] ?? BigNumber.from(0)
               const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
-              const totalUsdBalance = formattedTokenAmount * usdPrice
-              return totalUsdBalance > 100 // TODO: update this value to a reasonable number or set it dynamically
+              const totalValue = formattedTokenAmount * tokenPrice
+              return totalValue > minValue
             })
           )
       },

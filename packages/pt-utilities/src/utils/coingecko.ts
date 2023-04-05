@@ -10,7 +10,7 @@ import {
  * Returns all native token prices from CoinGecko
  *
  * NOTE: `ids` can be found through `COINGECKO_NATIVE_TOKEN_IDS`
- * @param currencies optional currency override (default is ['usd'])
+ * @param currencies optional currency override (default is ['eth'])
  * @returns
  */
 export const getCoingeckoSimpleTokenPrices = async (
@@ -20,7 +20,7 @@ export const getCoingeckoSimpleTokenPrices = async (
     const url = new URL(`${COINGECKO_API_URL}/simple/price`)
     const ids = Array.from(new Set(Object.values(COINGECKO_NATIVE_TOKEN_IDS)))
     url.searchParams.set('ids', ids.join(','))
-    url.searchParams.set('vs_currencies', currencies?.join(',') ?? 'usd')
+    url.searchParams.set('vs_currencies', currencies?.join(',') ?? 'eth')
     const response = await fetch(url.toString())
     const tokenPrices: CoingeckoTokenPrices = await response.json()
     return tokenPrices
@@ -36,7 +36,7 @@ export const getCoingeckoSimpleTokenPrices = async (
  * NOTE: Contract addresses returned are all lowercase
  * @param chainId chain ID where the token addresses provided are from
  * @param tokenAddresses token addresses to query prices for
- * @param currencies optional currency override (default is ['usd'])
+ * @param currencies optional currency override (default is ['eth'])
  * @returns
  */
 export const getCoingeckoTokenPrices = async (
@@ -48,7 +48,7 @@ export const getCoingeckoTokenPrices = async (
     const platform = COINGECKO_PLATFORMS[chainId]
     const url = new URL(`${COINGECKO_API_URL}/simple/token_price/${platform}`)
     url.searchParams.set('contract_addresses', tokenAddresses.join(','))
-    url.searchParams.set('vs_currencies', currencies?.join(',') ?? 'usd')
+    url.searchParams.set('vs_currencies', currencies?.join(',') ?? 'eth')
     const response = await fetch(url.toString())
     const tokenPrices: CoingeckoTokenPrices = await response.json()
     return tokenPrices
@@ -63,7 +63,7 @@ export const getCoingeckoTokenPrices = async (
  * @param chainId chain ID for the token requested
  * @param tokenAddress the token's address
  * @param tokenPrices all token prices returned from CoinGecko
- * @param currency optional currency override (default is 'usd')
+ * @param currency optional currency override (default is 'eth')
  * @returns
  */
 export const getTokenPriceFromObject = (
@@ -73,7 +73,7 @@ export const getTokenPriceFromObject = (
   currency?: string
 ) => {
   if (!!tokenPrices) {
-    return tokenPrices[chainId]?.[tokenAddress.toLowerCase()]?.[currency ?? 'usd'] ?? 0
+    return tokenPrices[chainId]?.[tokenAddress.toLowerCase()]?.[currency ?? 'eth'] ?? 0
   } else {
     return 0
   }

@@ -6,8 +6,8 @@ export interface Token {
   decimals: number
 }
 
-export interface TokenWithUsdPrice extends Token {
-  usdPrice: number
+export interface TokenWithPrice extends Token {
+  price: number
 }
 
 export interface TokenWithLogo extends Token {

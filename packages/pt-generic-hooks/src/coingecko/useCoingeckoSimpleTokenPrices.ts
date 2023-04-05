@@ -6,7 +6,7 @@ import { NO_REFETCH } from '../constants/query'
 
 /**
  * Returns native token prices from CoinGecko
- * @param currencies optional currency override (default is ['usd'])
+ * @param currencies optional currency override (default is ['eth'])
  * @returns
  */
 export const useCoingeckoSimpleTokenPrices = (

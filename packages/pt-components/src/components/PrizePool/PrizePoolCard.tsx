@@ -8,12 +8,12 @@ import { PrizePoolHeader } from './PrizePoolHeader'
 
 export interface PrizePoolCardProps {
   prizePool: PrizePool
-  tokenUsdPrice: number
+  tokenPrice: number
   href?: string
 }
 
 export const PrizePoolCard = (props: PrizePoolCardProps) => {
-  const { prizePool, tokenUsdPrice, href } = props
+  const { prizePool, tokenPrice, href } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const grandPrize =
@@ -36,7 +36,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
         {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
           <>
             <span className='text-4xl text-pt-teal'>
-              <CurrencyValue baseValue={formattedGrandPrize * tokenUsdPrice} hideZeroes={true} />
+              <CurrencyValue baseValue={formattedGrandPrize * tokenPrice} hideZeroes={true} />
             </span>
             <span className='font-light'>
               ≈ {formatNumberForDisplay(formattedGrandPrize, { hideZeroes: true })} POOL

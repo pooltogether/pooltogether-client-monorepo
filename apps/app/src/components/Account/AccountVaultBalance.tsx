@@ -19,7 +19,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   const { vault, shareBalance } = props
 
   const { data: tokenPrices } = useAllTokenPrices()
-  const usdPrice = !!vault.tokenData
+  const tokenPrice = !!vault.tokenData
     ? getTokenPriceFromObject(vault.chainId, vault.tokenData.address, tokenPrices)
     : 0
 
@@ -33,7 +33,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const formattedTokenBalance =
     vault.decimals !== undefined ? utils.formatUnits(tokenBalance, vault.decimals) : '0'
-  const usdBalance = Number(formattedTokenBalance) * usdPrice
+  const tokenValue = Number(formattedTokenBalance) * tokenPrice
 
   return (
     <div className='flex flex-col'>
@@ -43,7 +43,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
             {formatBigNumberForDisplay(tokenBalance, vault.decimals)}
           </span>
           <span className='text-sm text-pt-purple-100'>
-            <CurrencyValue baseValue={usdBalance} hideZeroes={true} />
+            <CurrencyValue baseValue={tokenValue} hideZeroes={true} />
           </span>
         </>
       ) : (

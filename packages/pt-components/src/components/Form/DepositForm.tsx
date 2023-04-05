@@ -41,15 +41,15 @@ export const DepositForm = (props: DepositFormProps) => {
   const { data: tokenPrices } = useCoingeckoTokenPrices(vault.chainId, [
     vault.tokenData?.address as string
   ])
-  const usdPrice = !!vault.tokenData
+  const tokenPrice = !!vault.tokenData
     ? getTokenPriceFromObject(vault.chainId, vault.tokenData.address, {
         [vault.chainId]: tokenPrices ?? {}
       })
     : 0
-  const shareUsdPrice =
+  const sharePrice =
     !!vaultExchangeRate && vault.decimals !== undefined
       ? getAssetsFromShares(
-          BigNumber.from(Math.round(usdPrice * 1000)),
+          BigNumber.from(Math.round(tokenPrice * 1000)),
           vaultExchangeRate,
           vault.decimals
         ).toNumber() / 1000
@@ -102,20 +102,25 @@ export const DepositForm = (props: DepositFormProps) => {
 
   const tokenInputData = useMemo(() => {
     if (vault.tokenData) {
-      return { ...vault.tokenData, balance: tokenBalance, usdPrice, logoURI: vault.tokenLogoURI }
+      return {
+        ...vault.tokenData,
+        balance: tokenBalance,
+        price: tokenPrice,
+        logoURI: vault.tokenLogoURI
+      }
     }
-  }, [vault, tokenBalance, usdPrice])
+  }, [vault, tokenBalance, tokenPrice])
 
   const shareInputData = useMemo(() => {
     if (vault.shareData) {
       return {
         ...vault.shareData,
         balance: shareBalance,
-        usdPrice: shareUsdPrice,
+        price: sharePrice,
         logoURI: vault.logoURI
       }
     }
-  }, [vault, shareBalance, shareUsdPrice])
+  }, [vault, shareBalance, sharePrice])
 
   return (
     <div className='flex flex-col'>

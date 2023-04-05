@@ -17,7 +17,7 @@ export const PrizePoolCards = () => {
   )
 
   const { data: tokenPrices } = useAllTokenPrices()
-  const prizeTokenUsdPrice =
+  const prizeTokenPrice =
     isFetchedPrizeTokenData && !!prizeTokenData
       ? getTokenPriceFromObject(prizeTokenData.chainId, prizeTokenData.address, tokenPrices)
       : 0
@@ -37,7 +37,7 @@ export const PrizePoolCards = () => {
             href={`/deposit?network=${prizePool.chainId}`}
             passHref={true}
           >
-            <PrizePoolCard prizePool={prizePool} tokenUsdPrice={prizeTokenUsdPrice} />
+            <PrizePoolCard prizePool={prizePool} tokenPrice={prizeTokenPrice} />
           </Link>
         )
       })}

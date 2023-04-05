@@ -15,7 +15,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
   const { vault, displayCurrency } = props
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
-  const usdPrice = !!vault.tokenData
+  const tokenPrice = !!vault.tokenData
     ? getTokenPriceFromObject(vault.chainId, vault.tokenData.address, tokenPrices)
     : 0
 
@@ -32,7 +32,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
 
     return (
       <span className='text-base font-normal'>
-        <CurrencyValue baseValue={formattedTokenAmount * usdPrice} hideZeroes={true} />
+        <CurrencyValue baseValue={formattedTokenAmount * tokenPrice} hideZeroes={true} />
       </span>
     )
   }

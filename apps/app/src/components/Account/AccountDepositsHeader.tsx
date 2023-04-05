@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { CurrencyValue } from 'pt-components'
 import { Spinner } from 'pt-ui'
-import { useUserTotalUsdBalance } from '@hooks/useUserTotalUsdBalance'
+import { useUserTotalBalance } from '@hooks/useUserTotalBalance'
 
 interface AccountDepositsHeaderProps {
   className?: string
@@ -13,16 +13,14 @@ export const AccountDepositsHeader = (props: AccountDepositsHeaderProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: totalUsdBalance, isFetched: isFetchedTotalUsdBalance } = useUserTotalUsdBalance()
+  const { data: totalBalance, isFetched: isFetchedTotalBalance } = useUserTotalBalance()
 
   return (
     <div className={classNames('flex flex-col items-center gap-2', className)}>
       <span className='text-pt-purple-100'>Your Deposits</span>
       <span className='text-3xl font-averta font-semibold'>
-        {!isFetchedTotalUsdBalance && !!userAddress && <Spinner />}
-        {isFetchedTotalUsdBalance && (
-          <CurrencyValue baseValue={totalUsdBalance} hideZeroes={true} />
-        )}
+        {!isFetchedTotalBalance && !!userAddress && <Spinner />}
+        {isFetchedTotalBalance && <CurrencyValue baseValue={totalBalance} hideZeroes={true} />}
       </span>
     </div>
   )
