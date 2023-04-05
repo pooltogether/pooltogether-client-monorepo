@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
-import { useSelectedVaults, useUserVaultBalances } from 'pt-hyperstructure-hooks'
+import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
@@ -22,7 +22,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   const { vaults } = useSelectedVaults()
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
     userAddress
   )

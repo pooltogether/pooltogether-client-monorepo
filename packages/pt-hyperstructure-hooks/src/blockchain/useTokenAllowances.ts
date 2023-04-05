@@ -2,9 +2,8 @@ import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { BigNumber, providers, utils } from 'ethers'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { getTokenAllowances } from 'pt-utilities'
+import { populateCachePerId, useProviderChainId } from '..'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
-import { useProviderChainId } from './useProviderChainId'
 
 /**
  * Returns a dictionary keyed by the token addresses with allowances to a specific

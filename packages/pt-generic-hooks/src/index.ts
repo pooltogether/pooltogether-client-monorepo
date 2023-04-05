@@ -16,6 +16,7 @@ export * from './coingecko/useCoingeckoExchangeRates'
 export * from './coingecko/useCoingeckoSimpleTokenPrices'
 export * from './coingecko/useCoingeckoTokenData'
 export * from './coingecko/useCoingeckoTokenPrices'
+export * from './coingecko/useCoingeckoTokenPricesAcrossChains'
 
 /**
  * Constants

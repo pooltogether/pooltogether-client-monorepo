@@ -2,11 +2,13 @@ import { atom, useAtom } from 'jotai'
 import { Vaults } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 import { getVaultId } from 'pt-utilities'
-import { useProvidersByChain } from '../blockchain/useProviders'
-import { useVaultShareData } from '../vaults/useVaultShareData'
-import { useVaultTokenAddresses } from '../vaults/useVaultTokenAddresses'
-import { useVaultTokenData } from '../vaults/useVaultTokenData'
-import { useSelectedVaultLists } from './useSelectedVaultLists'
+import {
+  useAllVaultShareData,
+  useAllVaultTokenAddresses,
+  useAllVaultTokenData,
+  useProvidersByChain,
+  useSelectedVaultLists
+} from '..'
 
 /**
  * Returns an instance of a `Vaults` class with only selected vault lists' vaults
@@ -35,10 +37,10 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   // TODO: ideally if we return the same cached/memoized instance of `Vaults` we can avoid re-assigning data
   const vaults = new Vaults(selectedVaultInfo, providers)
 
-  const { data: shareData, isFetched: isFetchedShareData } = useVaultShareData(vaults)
-  const { data: tokenData, isFetched: isFetchedTokenData } = useVaultTokenData(vaults)
+  const { data: shareData, isFetched: isFetchedShareData } = useAllVaultShareData(vaults)
+  const { data: tokenData, isFetched: isFetchedTokenData } = useAllVaultTokenData(vaults)
   const { data: tokenAddresses, isFetched: isFetchedTokenAddresses } =
-    useVaultTokenAddresses(vaults)
+    useAllVaultTokenAddresses(vaults)
 
   if (!!shareData) {
     Object.keys(shareData).forEach((vaultId) => {

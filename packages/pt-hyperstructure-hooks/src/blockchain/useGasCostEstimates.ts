@@ -3,7 +3,7 @@ import { utils } from 'ethers'
 import { useCoingeckoSimpleTokenPrices } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices, GasCostEstimates } from 'pt-types'
 import { COINGECKO_NATIVE_TOKEN_IDS, NETWORK } from 'pt-utilities'
-import { useGasPrices } from './useGasPrices'
+import { useGasPrices } from '..'
 
 /**
  * Returns gas cost estimates in wei and any provided currencies

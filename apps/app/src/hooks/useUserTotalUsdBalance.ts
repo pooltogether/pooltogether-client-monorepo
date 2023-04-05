@@ -2,9 +2,9 @@ import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import {
-  useSelectedVaults,
-  useUserVaultBalances,
-  useVaultExchangeRates
+  useAllUserVaultBalances,
+  useAllVaultExchangeRates,
+  useSelectedVaults
 } from 'pt-hyperstructure-hooks'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from './useAllTokenPrices'
@@ -20,13 +20,13 @@ export const useUserTotalUsdBalance = () => {
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useUserVaultBalances(
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
     userAddress
   )
 
   const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
-    useVaultExchangeRates(vaults)
+    useAllVaultExchangeRates(vaults)
 
   const isFetched =
     isFetchedVaultData &&

@@ -18,13 +18,16 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useCachedVaultLists`
 - `useSelectedVaultLists`
 - `useSelectedVaults`
+- `useSelectedVault`
 
 ## Blockchain Hooks
 
 - `useGasCostEstimates`
 - `useGasPrices`
 - `useProviderChainId`
+- `useProviderChainIds`
 - `useProviders`
+- `useProvidersByChain`
 - `useTokenAllowances`
 - `useTokenBalances`
 - `useTokens`
@@ -46,10 +49,17 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 
 ## Vault Hooks
 
-- `useUserVaultBalances`
-- `useVaultBalances`
-- `useVaultExchangeRates`
+- `useAllUserVaultBalances`
+- `useAllVaultBalances`
+- `useAllVaultExchangeRates`
+- `useAllVaultShareData`
+- `useAllVaultTokenAddresses`
+- `useAllVaultTokenData`
+- `useUserVaultBalance`
+- `useVault`
+- `useVaultBalance`
+- `useVaultExchangeRate`
 - `useVaults`
 - `useVaultShareData`
-- `useVaultTokenAddresses`
+- `useVaultTokenAddress`
 - `useVaultTokenData`

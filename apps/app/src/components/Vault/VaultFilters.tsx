@@ -7,10 +7,10 @@ import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
 import {
+  useAllVaultBalances,
   useProviders,
   useSelectedVaults,
-  useTokenBalancesAcrossChains,
-  useVaultBalances
+  useTokenBalancesAcrossChains
 } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
 import { getTokenPriceFromObject, NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
@@ -34,7 +34,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useVaultBalances(vaults)
+  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllVaultBalances(vaults)
 
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses?.byChain)

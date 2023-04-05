@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { useProvider } from 'wagmi'
 import { PrizePool } from 'pt-client-js'
-import { useProvidersByChain } from '../blockchain/useProviders'
+import { useProvidersByChain } from '..'
 
 /**
  * Returns a keyed object of prize pool IDs and `PrizePool` instances

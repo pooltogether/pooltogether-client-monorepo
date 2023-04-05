@@ -26,6 +26,7 @@ A shared React hooks library for PoolTogether.
 - `useCoingeckoSimpleTokenPrices`
 - `useCoingeckoTokenData`
 - `useCoingeckoTokenPrices`
+- `useCoingeckoTokenPricesAcrossChains`
 
 ## Constants
 

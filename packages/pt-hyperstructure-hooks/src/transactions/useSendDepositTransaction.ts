@@ -10,7 +10,7 @@ import {
 } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
-import { useTokenAllowance } from '../blockchain/useTokenAllowances'
+import { useTokenAllowance } from '..'
 
 export const useSendDepositTransaction = (
   amount: BigNumber,

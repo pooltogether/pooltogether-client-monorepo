@@ -4,9 +4,8 @@ import { useMemo } from 'react'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithBalance } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
+import { populateCachePerId, useProviderChainId, useProviderChainIds } from '..'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
-import { useProviderChainId, useProviderChainIds } from './useProviderChainId'
 
 /**
  * Returns an address's token balances

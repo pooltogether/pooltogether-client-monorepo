@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers'
 import { PrizePool } from 'pt-client-js'
-import { useAllPrizeInfo } from './useAllPrizeInfo'
+import { useAllPrizeInfo } from '..'
 
 /**
  * Returns the largest grand prize out of all prize pools given
