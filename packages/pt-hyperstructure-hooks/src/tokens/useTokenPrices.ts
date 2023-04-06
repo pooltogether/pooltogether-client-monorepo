@@ -1,6 +1,6 @@
 import { CURRENCY_ID, useCoingeckoTokenPrices } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices } from 'pt-types'
-import { TESTNET_TOKEN_PRICES } from 'pt-utilities'
+import { COINGECKO_PLATFORMS, TESTNET_TOKEN_PRICES } from 'pt-utilities'
 
 /**
  * Returns token prices
@@ -23,16 +23,26 @@ export const useTokenPrices = (
   } = useCoingeckoTokenPrices(chainId, tokenAddresses, currencies)
 
   // TODO: identify missing token prices and query them on-chain
+  const onchainTokenPrices = {}
+  const isFetchedOnchainTokenPrices = true
 
-  const data: { [chainId: number]: CoingeckoTokenPrices } = {
+  const data: CoingeckoTokenPrices = {
     ...coingeckoTokenPrices,
-    ...TESTNET_TOKEN_PRICES
+    ...onchainTokenPrices
   }
 
-  const isFetched = isFetchedCoingeckoTokenPrices
+  if (chainId in TESTNET_TOKEN_PRICES) {
+    // @ts-ignore
+    Object.assign(data, TESTNET_TOKEN_PRICES[chainId])
+  }
+
+  const isFetched =
+    (!(chainId in COINGECKO_PLATFORMS) || isFetchedCoingeckoTokenPrices) &&
+    isFetchedOnchainTokenPrices
 
   const refetch = () => {
     refetchCoingeckoTokenPrices()
+    // refetchOnchainTokenPrices()
   }
 
   return { data, isFetched, refetch }

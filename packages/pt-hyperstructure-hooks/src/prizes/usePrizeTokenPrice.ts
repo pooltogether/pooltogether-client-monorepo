@@ -1,7 +1,7 @@
 import { PrizePool } from 'pt-client-js'
-import { CURRENCY_ID, useCoingeckoTokenPrices } from 'pt-generic-hooks'
+import { CURRENCY_ID } from 'pt-generic-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { usePrizeTokenData } from '..'
+import { usePrizeTokenData, useTokenPrices } from '..'
 
 /**
  * Returns the price of the token awarded by a prize pool
@@ -16,7 +16,7 @@ export const usePrizeTokenPrice = (prizePool: PrizePool, currency?: CURRENCY_ID)
     data: tokenPrices,
     isFetched: isFetchedTokenPrices,
     refetch
-  } = useCoingeckoTokenPrices(prizePool?.chainId, !!prizeToken ? [prizeToken.address] : [], [
+  } = useTokenPrices(prizePool?.chainId, !!prizeToken ? [prizeToken.address] : [], [
     currency ?? 'eth'
   ])
 

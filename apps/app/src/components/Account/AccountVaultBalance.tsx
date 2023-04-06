@@ -1,6 +1,6 @@
-import { BigNumber, utils } from 'ethers'
+import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
-import { CurrencyValue } from 'pt-components'
+import { TokenValue } from 'pt-components'
 import { useVaultExchangeRate, useVaultTokenPrice } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getAssetsFromShares } from 'pt-utilities'
@@ -23,19 +23,18 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
       ? getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals)
       : BigNumber.from(0)
 
-  const formattedTokenBalance =
-    vault.decimals !== undefined ? Number(utils.formatUnits(tokenBalance, vault.decimals)) : 0
-  const tokenValue = !!tokenPrice ? formattedTokenBalance * tokenPrice : 0
-
   return (
     <div className='flex flex-col'>
-      {vault.decimals !== undefined ? (
+      {!!vault.tokenData ? (
         <>
           <span className='text-base'>
             {formatBigNumberForDisplay(tokenBalance, vault.decimals)}
           </span>
           <span className='text-sm text-pt-purple-100'>
-            <CurrencyValue baseValue={tokenValue} hideZeroes={true} />
+            <TokenValue
+              token={{ ...vault.tokenData, price: tokenPrice, balance: tokenBalance.toString() }}
+              hideZeroes={true}
+            />
           </span>
         </>
       ) : (

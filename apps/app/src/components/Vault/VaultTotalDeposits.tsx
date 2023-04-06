@@ -1,6 +1,5 @@
-import { utils } from 'ethers'
 import { Vault } from 'pt-client-js'
-import { CurrencyValue } from 'pt-components'
+import { TokenValue } from 'pt-components'
 import { useVaultBalance, useVaultTokenPrice } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
@@ -21,14 +20,17 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
     return <Spinner />
   }
 
-  if (displayCurrency && tokenPrice !== undefined) {
-    const formattedTokenAmount = !!totalDeposits
-      ? Number(utils.formatUnits(totalDeposits, vault.decimals))
-      : 0
-
+  if (displayCurrency) {
     return (
       <span className='text-base font-normal'>
-        <CurrencyValue baseValue={formattedTokenAmount * tokenPrice} hideZeroes={true} />
+        {!!vault.tokenData ? (
+          <TokenValue
+            token={{ ...vault.tokenData, price: tokenPrice, balance: totalDeposits?.toString() }}
+            hideZeroes={true}
+          />
+        ) : (
+          <Spinner />
+        )}
       </span>
     )
   }

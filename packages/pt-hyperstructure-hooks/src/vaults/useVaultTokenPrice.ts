@@ -1,7 +1,7 @@
 import { Vault } from 'pt-client-js'
-import { CURRENCY_ID, useCoingeckoTokenPrices } from 'pt-generic-hooks'
+import { CURRENCY_ID } from 'pt-generic-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { useVaultTokenAddress } from '..'
+import { useTokenPrices, useVaultTokenAddress } from '..'
 
 /**
  * Returns a vault's underlying token price
@@ -16,9 +16,7 @@ export const useVaultTokenPrice = (vault: Vault, currency?: CURRENCY_ID) => {
     data: tokenPrices,
     isFetched: isFetchedTokenPrices,
     refetch
-  } = useCoingeckoTokenPrices(vault.chainId, !!tokenAddress ? [tokenAddress] : [], [
-    currency ?? 'eth'
-  ])
+  } = useTokenPrices(vault.chainId, !!tokenAddress ? [tokenAddress] : [], [currency ?? 'eth'])
 
   const tokenPrice = !!tokenAddress
     ? getTokenPriceFromObject(
