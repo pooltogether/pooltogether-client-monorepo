@@ -152,4 +152,18 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
 /**
  * Default Vault list ID
  */
-export const defaultVaultListId = getVaultListId(defaultVaultList)
+export const DEFAULT_VAULT_LIST_ID = getVaultListId(defaultVaultList)
+
+/**
+ * Hardcoded testnet token prices
+ */
+export const TESTNET_TOKEN_PRICES = Object.freeze({
+  [NETWORK.goerli]: {
+    '0xb49f1bbd905a7a869dd50c1df7d42e7907bce7b4': { eth: 0.00052801 }, // DAI
+    '0xa07af90b215b4edccabc99dd45cca6d1127790ec': { eth: 0.00052801 }, // USDC
+    '0x0ea26b1023ace3dcbbc2a11343b7a188bc4b5b9c': { eth: 0.00052801 }, // GUSD
+    '0x50f7638aae955ec17d1173d8aaca69923923afc6': { eth: 14.764395 }, // WBTC
+    '0xe322f82175964b8dfaebac6c448442a176eef492': { eth: 0.99929941 }, // WETH
+    '0xc26ef73d0cdf27d5f184df3e05ac6e2f490ccedf': { eth: 0.00052918 } // POOL
+  }
+})

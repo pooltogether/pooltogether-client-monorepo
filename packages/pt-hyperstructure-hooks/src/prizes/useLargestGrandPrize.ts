@@ -3,7 +3,7 @@ import { PrizePool } from 'pt-client-js'
 import { useAllPrizeInfo } from '..'
 
 /**
- * Returns the largest grand prize out of all prize pools given
+ * Returns the prize pool with the largest grand prize
  *
  * Wraps {@link useAllPrizeInfo}
  * @param prizePools instances of `PrizePool` to check
@@ -11,20 +11,22 @@ import { useAllPrizeInfo } from '..'
  */
 export const useLargestGrandPrize = (
   prizePools: PrizePool[]
-): { data?: BigNumber; isFetched: boolean } => {
+): { data?: { prizePoolId: string; grandPrize: BigNumber }; isFetched: boolean } => {
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo(prizePools)
 
   if (isFetchedAllPrizeInfo && !!allPrizeInfo) {
-    let largestGrandPrize = BigNumber.from(0)
+    let prizePoolId = ''
+    let grandPrize = BigNumber.from(0)
 
-    Object.values(allPrizeInfo).forEach((prizes) => {
-      const grandPrize = prizes[0].amount
-      if (grandPrize.gt(largestGrandPrize)) {
-        largestGrandPrize = grandPrize
+    for (const id in allPrizeInfo) {
+      const prize = allPrizeInfo[id][0].amount
+      if (prize.gt(grandPrize) || prizePoolId === '') {
+        prizePoolId = id
+        grandPrize = prize
       }
-    })
+    }
 
-    return { data: largestGrandPrize, isFetched: true }
+    return { data: { prizePoolId, grandPrize }, isFetched: true }
   } else {
     return { isFetched: false }
   }

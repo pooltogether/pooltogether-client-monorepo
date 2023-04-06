@@ -28,9 +28,6 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useProviderChainIds`
 - `useProviders`
 - `useProvidersByChain`
-- `useTokenAllowances`
-- `useTokenBalances`
-- `useTokens`
 
 ## Prize Pool Hooks
 
@@ -38,6 +35,14 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useLargestGrandPrize`
 - `usePrizePools`
 - `usePrizeTokenData`
+- `usePrizeTokenPrice`
+
+## Token Hooks
+
+- `useTokenAllowances`
+- `useTokenBalances`
+- `useTokenPrices`
+- `useTokens`
 
 ## Transaction Hooks
 

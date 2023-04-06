@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { useCachedVaultLists, useSelectedVaultLists } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
-import { defaultVaultList, defaultVaultListId, getVaultListId } from 'pt-utilities'
+import { DEFAULT_VAULT_LIST_ID, defaultVaultList, getVaultListId } from 'pt-utilities'
 import { ImportedBadge } from '../Badges/ImportedBadge'
 
 export const VaultListSelector = () => {
@@ -37,10 +37,10 @@ export const VaultListSelector = () => {
       />
 
       <VaultListItem
-        key={`vl-item-${defaultVaultListId}`}
+        key={`vl-item-${DEFAULT_VAULT_LIST_ID}`}
         vaultList={defaultVaultList}
-        id={defaultVaultListId}
-        checked={selectedVaultListIds.includes(defaultVaultListId)}
+        id={DEFAULT_VAULT_LIST_ID}
+        checked={selectedVaultListIds.includes(DEFAULT_VAULT_LIST_ID)}
         disabled={cachedVaultLists.length === 0}
       />
       {cachedVaultLists.map((vaultList) => {
@@ -70,7 +70,7 @@ const VaultListItem = (props: VaultListItemProps) => {
 
   const { addVaultList, removeVaultList } = useSelectedVaultLists()
 
-  const isImported = useMemo(() => id !== defaultVaultListId, [id])
+  const isImported = useMemo(() => id !== DEFAULT_VAULT_LIST_ID, [id])
 
   const handleChange = (checked: boolean) => {
     if (checked) {

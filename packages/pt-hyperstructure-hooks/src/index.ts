@@ -13,9 +13,6 @@ export * from './blockchain/useGasPrices'
 export * from './blockchain/useProviderChainId'
 export * from './blockchain/useProviderChainIds'
 export * from './blockchain/useProviders'
-export * from './blockchain/useTokenAllowances'
-export * from './blockchain/useTokenBalances'
-export * from './blockchain/useTokens'
 
 /**
  * Prize Pool Hooks
@@ -24,6 +21,15 @@ export * from './prizes/useAllPrizeInfo'
 export * from './prizes/useLargestGrandPrize'
 export * from './prizes/usePrizePools'
 export * from './prizes/usePrizeTokenData'
+export * from './prizes/usePrizeTokenPrice'
+
+/**
+ * Token Hooks
+ */
+export * from './tokens/useTokenAllowances'
+export * from './tokens/useTokenBalances'
+export * from './tokens/useTokenPrices'
+export * from './tokens/useTokens'
 
 /**
  * Transaction Hooks

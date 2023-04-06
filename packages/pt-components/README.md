@@ -24,6 +24,7 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 ## Currency Components
 
 - `CurrencyValue`
+- `TokenValue`
 
 ## Modals
 
