@@ -1,11 +1,6 @@
 import { useMemo } from 'react'
 import { TokenValue } from 'pt-components'
-import {
-  useLargestGrandPrize,
-  usePrizePools,
-  usePrizeTokenData,
-  usePrizeTokenPrice
-} from 'pt-hyperstructure-hooks'
+import { useLargestGrandPrize, usePrizePools, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatPrizePools } from '../../utils'
 
@@ -24,18 +19,14 @@ export const LargestPrizeHeader = () => {
 
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
-  const { tokenPrice: prizeTokenPrice, isFetched: isFetchedPrizeTokenPrice } =
-    usePrizeTokenPrice(prizePool)
-
   return (
     <div className='flex flex-col items-center gap-3'>
       <span className='text-5xl font-averta font-semibold'>
         Deposit for a chance to win up to{' '}
-        {isFetchedLargestGrandPrize && isFetchedPrizeTokenData && isFetchedPrizeTokenPrice ? (
+        {isFetchedLargestGrandPrize && isFetchedPrizeTokenData ? (
           <TokenValue
             token={{
               ...prizeTokenData,
-              price: prizeTokenPrice,
               amount: largestGrandPrizeData.grandPrize.toString()
             }}
             hideZeroes={true}

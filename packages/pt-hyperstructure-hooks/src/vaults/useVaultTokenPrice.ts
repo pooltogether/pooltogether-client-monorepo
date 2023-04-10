@@ -16,7 +16,11 @@ export const useVaultTokenPrice = (vault: Vault, currency?: CURRENCY_ID) => {
     data: tokenPrices,
     isFetched: isFetchedTokenPrices,
     refetch
-  } = useTokenPrices(vault.chainId, !!tokenAddress ? [tokenAddress] : [], [currency ?? 'eth'])
+  } = useTokenPrices(
+    vault.chainId,
+    !!tokenAddress ? [tokenAddress] : [],
+    !!currency ? [currency] : undefined
+  )
 
   const tokenPrice = !!tokenAddress
     ? getTokenPriceFromObject(

@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
 import { TokenValue } from 'pt-components'
-import { useVaultExchangeRate, useVaultTokenPrice } from 'pt-hyperstructure-hooks'
+import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay, getAssetsFromShares } from 'pt-utilities'
 
@@ -12,8 +12,6 @@ interface AccountVaultBalanceProps {
 
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   const { vault, shareBalance } = props
-
-  const { tokenPrice } = useVaultTokenPrice(vault)
 
   const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
     useVaultExchangeRate(vault)
@@ -32,7 +30,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
           </span>
           <span className='text-sm text-pt-purple-100'>
             <TokenValue
-              token={{ ...vault.tokenData, price: tokenPrice, amount: tokenBalance.toString() }}
+              token={{ ...vault.tokenData, amount: tokenBalance.toString() }}
               hideZeroes={true}
             />
           </span>

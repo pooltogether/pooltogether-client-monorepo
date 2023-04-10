@@ -8,12 +8,11 @@ import { PrizePoolHeader } from './PrizePoolHeader'
 
 export interface PrizePoolCardProps {
   prizePool: PrizePool
-  tokenPrice: number
   href?: string
 }
 
 export const PrizePoolCard = (props: PrizePoolCardProps) => {
-  const { prizePool, tokenPrice, href } = props
+  const { prizePool, href } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const grandPrize =
@@ -32,7 +31,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
           <>
             <span className='text-4xl text-pt-teal'>
               <TokenValue
-                token={{ ...prizeTokenData, price: tokenPrice, amount: grandPrize.toString() }}
+                token={{ ...prizeTokenData, amount: grandPrize.toString() }}
                 hideZeroes={true}
               />
             </span>

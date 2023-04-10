@@ -19,12 +19,14 @@ export const useTokenPrices = (
   const {
     data: coingeckoTokenPrices,
     isFetched: isFetchedCoingeckoTokenPrices,
+    isFetching: isFetchingCoingeckoTokenPrices,
     refetch: refetchCoingeckoTokenPrices
   } = useCoingeckoTokenPrices(chainId, tokenAddresses, currencies)
 
   // TODO: identify missing token prices and query them on-chain
   const onchainTokenPrices = {}
   const isFetchedOnchainTokenPrices = true
+  const isFetchingOnchainTokenPrices = false
 
   const data: CoingeckoTokenPrices = {
     ...coingeckoTokenPrices,
@@ -40,10 +42,12 @@ export const useTokenPrices = (
     (!(chainId in COINGECKO_PLATFORMS) || isFetchedCoingeckoTokenPrices) &&
     isFetchedOnchainTokenPrices
 
+  const isFetching = isFetchingCoingeckoTokenPrices || isFetchingOnchainTokenPrices
+
   const refetch = () => {
     refetchCoingeckoTokenPrices()
     // refetchOnchainTokenPrices()
   }
 
-  return { data, isFetched, refetch }
+  return { data, isFetched, isFetching, refetch }
 }

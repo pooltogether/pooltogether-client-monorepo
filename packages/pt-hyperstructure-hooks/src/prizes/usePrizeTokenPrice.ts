@@ -16,9 +16,11 @@ export const usePrizeTokenPrice = (prizePool: PrizePool, currency?: CURRENCY_ID)
     data: tokenPrices,
     isFetched: isFetchedTokenPrices,
     refetch
-  } = useTokenPrices(prizePool?.chainId, !!prizeToken ? [prizeToken.address] : [], [
-    currency ?? 'eth'
-  ])
+  } = useTokenPrices(
+    prizePool?.chainId,
+    !!prizeToken ? [prizeToken.address] : [],
+    !!currency ? [currency] : undefined
+  )
 
   const tokenPrice = !!prizeToken
     ? getTokenPriceFromObject(
