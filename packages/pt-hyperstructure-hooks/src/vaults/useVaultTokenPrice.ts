@@ -31,7 +31,7 @@ export const useVaultTokenPrice = (vault: Vault, currency?: CURRENCY_ID) => {
         },
         currency
       )
-    : 0
+    : undefined
 
   const isFetched = isFetchedTokenAddress && isFetchedTokenPrices
 

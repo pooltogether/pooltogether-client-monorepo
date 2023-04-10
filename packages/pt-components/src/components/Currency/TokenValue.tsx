@@ -33,14 +33,16 @@ export const TokenValue = (props: TokenValueProps) => {
         },
         baseCurrency
       )
-    : 0
+    : undefined
 
   const tokenValue = useMemo(() => {
-    const amount = BigNumber.from(token.amount ?? 0)
-    const decimals = token.decimals ?? tokenData?.decimals
-    if (!amount.isZero() && decimals !== undefined) {
-      const formattedAmount = parseFloat(utils.formatUnits(amount, decimals))
-      return formattedAmount * tokenPrice
+    if (!!tokenPrice) {
+      const amount = BigNumber.from(token.amount ?? 0)
+      const decimals = token.decimals ?? tokenData?.decimals
+      if (!amount.isZero() && decimals !== undefined) {
+        const formattedAmount = parseFloat(utils.formatUnits(amount, decimals))
+        return formattedAmount * tokenPrice
+      }
     }
 
     return 0

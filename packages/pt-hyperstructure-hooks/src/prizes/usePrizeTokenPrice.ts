@@ -31,7 +31,7 @@ export const usePrizeTokenPrice = (prizePool: PrizePool, currency?: CURRENCY_ID)
         },
         currency
       )
-    : 0
+    : undefined
 
   const isFetched = isFetchedPrizeToken && isFetchedTokenPrices
 

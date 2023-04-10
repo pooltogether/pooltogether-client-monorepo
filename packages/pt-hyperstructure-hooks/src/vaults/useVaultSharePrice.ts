@@ -24,13 +24,13 @@ export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
   } = useVaultExchangeRate(vault)
 
   const sharePrice =
-    !!exchangeRate && vault.decimals !== undefined
+    !!exchangeRate && vault.decimals !== undefined && tokenPrice !== undefined
       ? getAssetsFromShares(
           BigNumber.from(Math.round(tokenPrice * 1000)),
           exchangeRate,
           vault.decimals
         ).toNumber() / 1000
-      : 0
+      : undefined
 
   const isFetched = isFetchedTokenPrice && isFetchedExchangeRate
 
