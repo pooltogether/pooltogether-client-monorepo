@@ -3,7 +3,8 @@ import { BigNumber, Contract, providers, utils } from 'ethers'
 import { PrizeInfo } from 'pt-types'
 import { prizePool as prizePoolAbi } from '../abis/prizePool'
 import { SECONDS_PER_DAY } from '../constants'
-import { divideBigNumbers } from './math'
+import { formatStringWithPrecision } from './formatting'
+import { calculatePercentageOfBigNumber, divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
 
 /**
@@ -225,10 +226,14 @@ export const getPrizePoolAllPrizeInfo = async (
   const tierShares = BigNumber.from(multicallResults[prizePoolAddress]['tierShares']?.[0] ?? 0)
   const totalShares = BigNumber.from(multicallResults[prizePoolAddress]['totalShares']?.[0] ?? 0)
   const tierSharePercentage = divideBigNumbers(tierShares, totalShares)
+  const formattedTierSharePercentage = parseFloat(
+    formatStringWithPrecision(tierSharePercentage.toString(), 4)
+  )
 
-  const tierContributionPerDraw = totalContributions
-    .mul(tierSharePercentage)
-    .div(BigNumber.from(considerPastDraws))
+  const tierContributionPerDraw = calculatePercentageOfBigNumber(
+    totalContributions,
+    formattedTierSharePercentage
+  ).div(BigNumber.from(considerPastDraws))
 
   tiers.forEach((tier) => {
     const tierPrizeCount = 4 ** tier

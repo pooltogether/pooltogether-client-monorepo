@@ -1,5 +1,4 @@
 import { BigNumber, utils } from 'ethers'
-import { formatStringWithPrecision } from './formatting'
 
 /**
  * Pads two BigNumbers with a set precision then divides them
@@ -9,9 +8,8 @@ import { formatStringWithPrecision } from './formatting'
  * @returns
  */
 export const divideBigNumbers = (a: BigNumber, b: BigNumber, precision: number = 4) => {
-  if (a.isZero() || b.isZero()) return BigNumber.from(0)
-  const result = utils.formatUnits(a.mul(10 ** precision).div(b), String(precision))
-  return BigNumber.from(formatStringWithPrecision(result, 0))
+  if (a.isZero() || b.isZero()) return 0
+  return parseFloat(utils.formatUnits(a.mul(10 ** precision).div(b), String(precision)))
 }
 
 /**
