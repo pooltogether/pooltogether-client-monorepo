@@ -33,6 +33,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 
 - `useAllPrizeInfo`
 - `useLargestGrandPrize`
+- `useNextDrawTimestamp`
 - `usePrizePools`
 - `usePrizeTokenData`
 - `usePrizeTokenPrice`

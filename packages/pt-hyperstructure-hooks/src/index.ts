@@ -19,6 +19,7 @@ export * from './blockchain/useProviders'
  */
 export * from './prizes/useAllPrizeInfo'
 export * from './prizes/useLargestGrandPrize'
+export * from './prizes/useNextDrawTimestamp'
 export * from './prizes/usePrizePools'
 export * from './prizes/usePrizeTokenData'
 export * from './prizes/usePrizeTokenPrice'

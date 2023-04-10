@@ -11,7 +11,7 @@ export const TimeDigits = (props: TimeDigitsProps) => {
   return (
     <div className='flex flex-col items-center gap-2 text-sm text-gray-300 uppercase'>
       <div className='flex items-center justify-center min-w-[46px] text-2xl font-semibold bg-pt-purple-100 text-pt-pink-dark px-2 py-1 rounded-lg'>
-        {value?.toLocaleString(undefined, { minimumIntegerDigits: 2 })}
+        {value?.toLocaleString(undefined, { minimumIntegerDigits: 2 }) ?? '00'}
       </div>
       {type === TimeUnit.day && <span>Days</span>}
       {type === TimeUnit.hour && <span>Hrs</span>}
