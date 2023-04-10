@@ -43,8 +43,8 @@ export const DepositForm = (props: DepositFormProps) => {
   )
   const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.amount : '0'
 
-  const { tokenPrice } = useVaultTokenPrice(vault)
-  const { sharePrice } = useVaultSharePrice(vault)
+  const { data: tokenWithPrice } = useVaultTokenPrice(vault)
+  const { data: shareWithPrice } = useVaultSharePrice(vault)
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
@@ -96,22 +96,22 @@ export const DepositForm = (props: DepositFormProps) => {
       return {
         ...vault.tokenData,
         amount: tokenBalance,
-        price: tokenPrice ?? 0,
+        price: tokenWithPrice?.price ?? 0,
         logoURI: vault.tokenLogoURI
       }
     }
-  }, [vault, tokenBalance, tokenPrice])
+  }, [vault, tokenBalance, tokenWithPrice])
 
   const shareInputData = useMemo(() => {
     if (vault.shareData) {
       return {
         ...vault.shareData,
         amount: shareBalance,
-        price: sharePrice ?? 0,
+        price: shareWithPrice?.price ?? 0,
         logoURI: vault.logoURI
       }
     }
-  }, [vault, shareBalance, sharePrice])
+  }, [vault, shareBalance, shareWithPrice])
 
   return (
     <div className='flex flex-col'>

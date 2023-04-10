@@ -1,5 +1,6 @@
 import { PrizePool } from 'pt-client-js'
 import { CURRENCY_ID } from 'pt-generic-hooks'
+import { TokenWithPrice } from 'pt-types'
 import { getTokenPriceFromObject } from 'pt-utilities'
 import { usePrizeTokenData, useTokenPrices } from '..'
 
@@ -35,5 +36,8 @@ export const usePrizeTokenPrice = (prizePool: PrizePool, currency?: CURRENCY_ID)
 
   const isFetched = isFetchedPrizeToken && isFetchedTokenPrices
 
-  return { tokenPrice, isFetched, refetch }
+  const data: TokenWithPrice | undefined =
+    !!prizeToken && tokenPrice !== undefined ? { ...prizeToken, price: tokenPrice } : undefined
+
+  return { data, isFetched, refetch }
 }

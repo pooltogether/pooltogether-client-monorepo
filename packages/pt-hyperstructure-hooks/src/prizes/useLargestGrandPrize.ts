@@ -1,9 +1,11 @@
 import { BigNumber } from 'ethers'
+import { useMemo } from 'react'
 import { PrizePool } from 'pt-client-js'
-import { useAllPrizeInfo } from '..'
+import { TokenWithAmount, TokenWithPrice } from 'pt-types'
+import { useAllPrizeInfo, usePrizeTokenPrice } from '..'
 
 /**
- * Returns the prize pool with the largest grand prize
+ * Returns data on the largest grand prize, along with the prize pool it belongs to
  *
  * Wraps {@link useAllPrizeInfo}
  * @param prizePools instances of `PrizePool` to check
@@ -11,23 +13,43 @@ import { useAllPrizeInfo } from '..'
  */
 export const useLargestGrandPrize = (
   prizePools: PrizePool[]
-): { data?: { prizePoolId: string; grandPrize: BigNumber }; isFetched: boolean } => {
+): {
+  data?: { prizePool: PrizePool; token: TokenWithAmount & TokenWithPrice }
+  isFetched: boolean
+} => {
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo(prizePools)
 
-  if (isFetchedAllPrizeInfo && !!allPrizeInfo) {
-    let prizePoolId = ''
-    let grandPrize = BigNumber.from(0)
+  let largestGrandPrizeAmount = BigNumber.from(0)
+
+  const prizePoolId = useMemo(() => {
+    let largestGrandPrizePoolId = ''
 
     for (const id in allPrizeInfo) {
-      const prize = allPrizeInfo[id][0].amount
-      if (prize.gt(grandPrize) || prizePoolId === '') {
-        prizePoolId = id
-        grandPrize = prize
+      const prizeAmount = allPrizeInfo[id][0].amount
+      if (prizeAmount.gt(largestGrandPrizeAmount) || largestGrandPrizePoolId === '') {
+        largestGrandPrizePoolId = id
+        largestGrandPrizeAmount = prizeAmount
       }
     }
 
-    return { data: { prizePoolId, grandPrize }, isFetched: true }
-  } else {
-    return { isFetched: false }
-  }
+    return largestGrandPrizePoolId
+  }, [allPrizeInfo])
+
+  const prizePool = prizePools.find((pool) => pool.id === prizePoolId)
+
+  const { data: tokenWithPrice, isFetched: isFetchedTokenPrice } = usePrizeTokenPrice(
+    prizePool as PrizePool
+  )
+
+  const isFetched = isFetchedAllPrizeInfo && isFetchedTokenPrice
+
+  const data =
+    !!prizePool && !!tokenWithPrice
+      ? {
+          prizePool: prizePool,
+          token: { ...tokenWithPrice, amount: largestGrandPrizeAmount.toString() }
+        }
+      : undefined
+
+  return { data, isFetched }
 }
