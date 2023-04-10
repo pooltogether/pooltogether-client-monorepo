@@ -229,6 +229,7 @@ export class Vaults {
     return shareBalances
   }
 
+  // TODO: this method (and underlying functions) should return `TokenWithAmount` instead of BigNumber
   /**
    * Returns the total amount of underlying assets deposited in each vault
    * @param chainIds optional chain IDs to query (by default queries all)
