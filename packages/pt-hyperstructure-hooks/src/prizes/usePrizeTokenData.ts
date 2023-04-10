@@ -6,7 +6,7 @@ import { QUERY_KEYS } from '../constants'
 
 /**
  * Returns basic data about the token awarded by a prize pool
- * @param prizePool
+ * @param prizePool instance of the `PrizePool` class
  * @returns
  */
 export const usePrizeTokenData = (

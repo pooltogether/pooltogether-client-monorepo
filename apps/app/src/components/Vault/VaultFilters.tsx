@@ -99,7 +99,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           filterOnClick('userWallet', (vaults) =>
             vaults.filter((vault) => {
               const userWalletBalance = BigNumber.from(
-                userTokenBalances?.[vault.chainId]?.[vault.tokenContract.address]?.balance ?? 0
+                userTokenBalances?.[vault.chainId]?.[vault.tokenContract.address]?.amount ?? 0
               )
               return !userWalletBalance.isZero()
             })

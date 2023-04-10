@@ -2,7 +2,7 @@ import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/
 import { providers, utils } from 'ethers'
 import { useMemo } from 'react'
 import { NO_REFETCH } from 'pt-generic-hooks'
-import { TokenWithBalance } from 'pt-types'
+import { TokenWithAmount } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
 import { populateCachePerId, useProviderChainId, useProviderChainIds } from '..'
 import { QUERY_KEYS } from '../constants'
@@ -22,7 +22,7 @@ export const useTokenBalances = (
   address: string,
   tokenAddresses: string[],
   refetchInterval?: number
-): UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }, unknown> => {
+): UseQueryResult<{ [tokenAddress: string]: TokenWithAmount }, unknown> => {
   const queryClient = useQueryClient()
 
   const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
@@ -72,8 +72,8 @@ export const useTokenBalance = (
   address: string,
   tokenAddress: string,
   refetchInterval?: number
-): { data?: TokenWithBalance } & Omit<
-  UseQueryResult<{ [tokenAddress: string]: TokenWithBalance }>,
+): { data?: TokenWithAmount } & Omit<
+  UseQueryResult<{ [tokenAddress: string]: TokenWithAmount }>,
   'data'
 > => {
   const result = useTokenBalances(readProvider, address, [tokenAddress], refetchInterval)
@@ -130,7 +130,7 @@ export const useTokenBalancesAcrossChains = (
     const isFetched = results?.every((result) => result.isFetched)
     const refetch = () => results?.forEach((result) => result.refetch())
 
-    const formattedData: { [chainId: number]: { [tokenAddress: string]: TokenWithBalance } } = {}
+    const formattedData: { [chainId: number]: { [tokenAddress: string]: TokenWithAmount } } = {}
     results.forEach((result) => {
       if (result.data && result.data.chainId) {
         formattedData[result.data.chainId] = result.data.tokenBalances

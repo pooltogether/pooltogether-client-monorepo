@@ -29,7 +29,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
 
   const noBalances =
     isFetchedVaultBalances && !!vaultBalances
-      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].balance === '0')
+      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].amount === '0')
       : false
 
   const tableHeaders: TableProps['headers'] = [
@@ -45,7 +45,7 @@ export const AccountVaultList = (props: AccountVaultListProps) => {
       ? Object.keys(vaultBalances)
           .map((vaultId) => {
             const vault = vaults.vaults[vaultId]
-            const shareBalance = BigNumber.from(vaultBalances[vaultId]?.balance ?? 0)
+            const shareBalance = BigNumber.from(vaultBalances[vaultId]?.amount ?? 0)
             if (!!vaultBalances[vaultId] && shareBalance.gt(0) && vault.decimals !== undefined) {
               const cells: ReactNode[] = [
                 <VaultBadge vault={vault} />,

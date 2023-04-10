@@ -1,5 +1,5 @@
 import { BigNumber, Contract, providers } from 'ethers'
-import { TokenWithBalance, TokenWithSupply, VaultInfo } from 'pt-types'
+import { TokenWithAmount, TokenWithSupply, VaultInfo } from 'pt-types'
 import {
   erc20 as erc20Abi,
   getTokenBalances,
@@ -154,9 +154,9 @@ export class Vaults {
   async getUserTokenBalances(
     userAddress: string,
     chainIds?: number[]
-  ): Promise<{ [vaultId: string]: TokenWithBalance }> {
+  ): Promise<{ [vaultId: string]: TokenWithAmount }> {
     const source = `Vaults [getUserTokenBalances]`
-    const tokenBalances: { [vaultId: string]: TokenWithBalance } = {}
+    const tokenBalances: { [vaultId: string]: TokenWithAmount } = {}
     const networksToQuery = chainIds ?? this.chainIds
     validateAddress(userAddress, source)
 
@@ -196,9 +196,9 @@ export class Vaults {
   async getUserShareBalances(
     userAddress: string,
     chainIds?: number[]
-  ): Promise<{ [vaultId: string]: TokenWithBalance }> {
+  ): Promise<{ [vaultId: string]: TokenWithAmount }> {
     const source = `Vaults [getUserShareBalances]`
-    const shareBalances: { [vaultId: string]: TokenWithBalance } = {}
+    const shareBalances: { [vaultId: string]: TokenWithAmount } = {}
     const networksToQuery = chainIds ?? this.chainIds
     validateAddress(userAddress, source)
 
@@ -229,6 +229,7 @@ export class Vaults {
     return shareBalances
   }
 
+  // TODO: this method (and underlying functions) should return `TokenWithAmount` instead of BigNumber
   /**
    * Returns the total amount of underlying assets deposited in each vault
    * @param chainIds optional chain IDs to query (by default queries all)

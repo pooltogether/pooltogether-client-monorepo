@@ -2,7 +2,7 @@ import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { useFormContext } from 'react-hook-form'
-import { TokenWithBalance, TokenWithLogo, TokenWithPrice } from 'pt-types'
+import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from 'pt-types'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '../Currency/CurrencyValue'
 import { TokenIcon } from '../Icons/TokenIcon'
@@ -13,7 +13,7 @@ export interface TxFormValues {
 }
 
 export interface TxFormInputProps {
-  token: TokenWithBalance & TokenWithPrice & Partial<TokenWithLogo>
+  token: TokenWithAmount & TokenWithPrice & Partial<TokenWithLogo>
   formKey: keyof TxFormValues
   validate?: { [rule: string]: (v: any) => true | string }
   disabled?: boolean
@@ -39,7 +39,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       ? Number(formAmount) * token.price
       : 0
 
-  const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.balance), token.decimals)
+  const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.amount), token.decimals)
 
   const error =
     !!errors[formKey]?.message && typeof errors[formKey]?.message === 'string'
@@ -47,7 +47,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       : null
 
   const setFormAmountToMax = () => {
-    const formattedAmount = utils.formatUnits(token.balance, token.decimals)
+    const formattedAmount = utils.formatUnits(token.amount, token.decimals)
     setValue(
       formKey,
       formattedAmount.endsWith('.0') ? formattedAmount.slice(0, -2) : formattedAmount,

@@ -9,6 +9,7 @@ export * from './components/Badges/VaultBadge'
  * Currency
  */
 export * from './components/Currency/CurrencyValue'
+export * from './components/Currency/TokenValue'
 
 /**
  * Deposit Modal

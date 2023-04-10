@@ -1,19 +1,18 @@
-import { BigNumber, utils } from 'ethers'
+import { BigNumber } from 'ethers'
 import { PrizePool } from 'pt-client-js'
 import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Card, Spinner } from 'pt-ui'
-import { formatNumberForDisplay } from 'pt-utilities'
-import { CurrencyValue } from '../Currency/CurrencyValue'
+import { formatBigNumberForDisplay } from 'pt-utilities'
+import { TokenValue } from '../Currency/TokenValue'
 import { PrizePoolHeader } from './PrizePoolHeader'
 
 export interface PrizePoolCardProps {
   prizePool: PrizePool
-  tokenPrice: number
   href?: string
 }
 
 export const PrizePoolCard = (props: PrizePoolCardProps) => {
-  const { prizePool, tokenPrice, href } = props
+  const { prizePool, href } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const grandPrize =
@@ -22,24 +21,24 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
       : BigNumber.from(0)
 
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
-  const formattedGrandPrize = parseFloat(
-    isFetchedPrizeTokenData && !!prizeTokenData
-      ? utils.formatUnits(grandPrize, prizeTokenData.decimals)
-      : '0'
-  )
 
   return (
     <Card href={href} className='gap-16'>
       <PrizePoolHeader chainId={prizePool.chainId} />
       <div className='flex flex-col gap-0.5 text-pt-purple-100'>
         <span className='text-sm uppercase'>Grand Prize</span>
-        {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
+        {isFetchedAllPrizeInfo && isFetchedPrizeTokenData && !!prizeTokenData ? (
           <>
             <span className='text-4xl text-pt-teal'>
-              <CurrencyValue baseValue={formattedGrandPrize * tokenPrice} hideZeroes={true} />
+              <TokenValue
+                token={{ ...prizeTokenData, amount: grandPrize.toString() }}
+                hideZeroes={true}
+              />
             </span>
             <span className='font-light'>
-              ≈ {formatNumberForDisplay(formattedGrandPrize, { hideZeroes: true })} POOL
+              ≈{' '}
+              {formatBigNumberForDisplay(grandPrize, prizeTokenData.decimals, { hideZeroes: true })}{' '}
+              POOL
             </span>
           </>
         ) : (

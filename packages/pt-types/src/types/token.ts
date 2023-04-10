@@ -18,6 +18,6 @@ export interface TokenWithSupply extends Token {
   totalSupply: string
 }
 
-export interface TokenWithBalance extends Token {
-  balance: string
+export interface TokenWithAmount extends Token {
+  amount: string
 }

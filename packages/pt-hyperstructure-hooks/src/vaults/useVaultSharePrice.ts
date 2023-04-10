@@ -1,8 +1,9 @@
 import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
 import { CURRENCY_ID } from 'pt-generic-hooks'
+import { TokenWithPrice } from 'pt-types'
 import { getAssetsFromShares } from 'pt-utilities'
-import { useVaultExchangeRate, useVaultTokenPrice } from '..'
+import { useVaultExchangeRate, useVaultShareData, useVaultTokenPrice } from '..'
 
 /**
  * Returns a vault's share price
@@ -11,8 +12,10 @@ import { useVaultExchangeRate, useVaultTokenPrice } from '..'
  * @returns
  */
 export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
+  const { data: shareData, isFetched: isFetchedShareData } = useVaultShareData(vault)
+
   const {
-    tokenPrice,
+    data: tokenWithPrice,
     isFetched: isFetchedTokenPrice,
     refetch: refetchTokenPrice
   } = useVaultTokenPrice(vault, currency)
@@ -24,20 +27,23 @@ export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
   } = useVaultExchangeRate(vault)
 
   const sharePrice =
-    !!exchangeRate && vault.decimals !== undefined
+    !!tokenWithPrice && !!exchangeRate
       ? getAssetsFromShares(
-          BigNumber.from(Math.round(tokenPrice * 1000)),
+          BigNumber.from(Math.round(tokenWithPrice.price * 1000)),
           exchangeRate,
-          vault.decimals
+          tokenWithPrice.decimals
         ).toNumber() / 1000
-      : 0
+      : undefined
 
-  const isFetched = isFetchedTokenPrice && isFetchedExchangeRate
+  const isFetched = isFetchedShareData && isFetchedTokenPrice && isFetchedExchangeRate
+
+  const data: TokenWithPrice | undefined =
+    !!shareData && sharePrice !== undefined ? { ...shareData, price: sharePrice } : undefined
 
   const refetch = () => {
     refetchTokenPrice()
     refetchExchangeRate()
   }
 
-  return { sharePrice, isFetched, refetch }
+  return { data, isFetched, refetch }
 }

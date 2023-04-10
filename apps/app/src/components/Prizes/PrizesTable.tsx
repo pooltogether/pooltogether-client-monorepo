@@ -1,6 +1,5 @@
-import { utils } from 'ethers'
 import { PrizePool } from 'pt-client-js'
-import { CurrencyValue } from 'pt-components'
+import { TokenValue } from 'pt-components'
 import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
@@ -13,7 +12,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
   const { prizePool } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
-  const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
+  const { data: tokenData, isFetched: isFetchedTokenData } = usePrizeTokenData(prizePool)
 
   return (
     <>
@@ -21,12 +20,9 @@ export const PrizesTable = (props: PrizesTableProps) => {
         <span className='flex-grow pl-16 text-left'>Estimated Prize Value</span>
         <span className='flex-grow pr-16 text-right'>Estimated Frequency</span>
       </div>
-      {isFetchedAllPrizeInfo && isFetchedPrizeTokenData ? (
+      {isFetchedAllPrizeInfo && isFetchedTokenData ? (
         <div className='flex flex-col gap-3 mb-8'>
           {Object.values(allPrizeInfo)[0].map((prize, i) => {
-            const formattedPrizeAmount = Number(
-              utils.formatUnits(prize.amount, prizeTokenData.decimals)
-            )
             const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
 
             return (
@@ -35,8 +31,10 @@ export const PrizesTable = (props: PrizesTableProps) => {
                 className='flex w-[36rem] items-center'
               >
                 <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
-                  {/* TODO: multiply amount by POOL token price */}
-                  <CurrencyValue baseValue={formattedPrizeAmount} hideZeroes={true} />
+                  <TokenValue
+                    token={{ ...tokenData, amount: prize.amount.toString() }}
+                    hideZeroes={true}
+                  />
                 </span>
                 <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
                   {getPrizeTextFromFrequency(frequency, 'daily')}

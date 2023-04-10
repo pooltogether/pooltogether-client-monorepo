@@ -101,7 +101,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
-    BigNumber.from(userBalance.balance).gte(depositAmount) &&
+    BigNumber.from(userBalance.amount).gte(depositAmount) &&
     isValidFormTokenAmount &&
     vault.decimals !== undefined &&
     !!sendApproveTransaction
@@ -115,7 +115,7 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     isFetchedAllowance &&
     !!allowance &&
     !depositAmount.isZero() &&
-    BigNumber.from(userBalance.balance).gte(depositAmount) &&
+    BigNumber.from(userBalance.amount).gte(depositAmount) &&
     allowance.gte(depositAmount) &&
     isValidFormTokenAmount &&
     vault.decimals !== undefined &&

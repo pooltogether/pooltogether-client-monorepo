@@ -1,7 +1,8 @@
 import { Vault } from 'pt-client-js'
-import { CURRENCY_ID, useCoingeckoTokenPrices } from 'pt-generic-hooks'
+import { CURRENCY_ID } from 'pt-generic-hooks'
+import { TokenWithPrice } from 'pt-types'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { useVaultTokenAddress } from '..'
+import { useTokenPrices, useVaultTokenData } from '..'
 
 /**
  * Returns a vault's underlying token price
@@ -10,28 +11,33 @@ import { useVaultTokenAddress } from '..'
  * @returns
  */
 export const useVaultTokenPrice = (vault: Vault, currency?: CURRENCY_ID) => {
-  const { data: tokenAddress, isFetched: isFetchedTokenAddress } = useVaultTokenAddress(vault)
+  const { data: tokenData, isFetched: isFetchedTokenData } = useVaultTokenData(vault)
 
   const {
     data: tokenPrices,
     isFetched: isFetchedTokenPrices,
     refetch
-  } = useCoingeckoTokenPrices(vault.chainId, !!tokenAddress ? [tokenAddress] : [], [
-    currency ?? 'eth'
-  ])
+  } = useTokenPrices(
+    vault.chainId,
+    !!tokenData ? [tokenData.address] : [],
+    !!currency ? [currency] : undefined
+  )
 
-  const tokenPrice = !!tokenAddress
+  const tokenPrice = !!tokenData
     ? getTokenPriceFromObject(
         vault.chainId,
-        tokenAddress,
+        tokenData.address,
         {
           [vault.chainId]: tokenPrices ?? {}
         },
         currency
       )
-    : 0
+    : undefined
 
-  const isFetched = isFetchedTokenAddress && isFetchedTokenPrices
+  const isFetched = isFetchedTokenData && isFetchedTokenPrices
 
-  return { tokenPrice, isFetched, refetch }
+  const data: TokenWithPrice | undefined =
+    !!tokenData && tokenPrice !== undefined ? { ...tokenData, price: tokenPrice } : undefined
+
+  return { data, isFetched, refetch }
 }

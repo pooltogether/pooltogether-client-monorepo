@@ -30,21 +30,21 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
 
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: tokenWithBalance, isFetched: isFetchedTokenBalance } = useTokenBalance(
+  const { data: tokenWithAmount, isFetched: isFetchedTokenBalance } = useTokenBalance(
     provider,
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )
-  const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
+  const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : '0'
 
   const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
     vault,
     userAddress as `0x${string}`
   )
-  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.balance : '0'
+  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.amount : '0'
 
-  const { tokenPrice } = useVaultTokenPrice(vault)
-  const { sharePrice } = useVaultSharePrice(vault)
+  const { data: tokenWithPrice } = useVaultTokenPrice(vault)
+  const { data: shareWithPrice } = useVaultSharePrice(vault)
 
   const formMethods = useForm<TxFormValues>({
     mode: 'onChange',
@@ -95,23 +95,23 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     if (vault.shareData) {
       return {
         ...vault.shareData,
-        balance: shareBalance,
-        price: sharePrice ?? 0,
+        amount: shareBalance,
+        price: shareWithPrice?.price ?? 0,
         logoURI: vault.logoURI
       }
     }
-  }, [vault, shareBalance, sharePrice])
+  }, [vault, shareBalance, shareWithPrice])
 
   const tokenInputData = useMemo(() => {
     if (vault.tokenData) {
       return {
         ...vault.tokenData,
-        balance: tokenBalance,
-        price: tokenPrice ?? 0,
+        amount: tokenBalance,
+        price: tokenWithPrice?.price ?? 0,
         logoURI: vault.tokenLogoURI
       }
     }
-  }, [vault, tokenBalance, tokenPrice])
+  }, [vault, tokenBalance, tokenWithPrice])
 
   return (
     <div className='flex flex-col'>
