@@ -33,7 +33,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
               >
                 <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
                   <TokenValue
-                    token={{ ...tokenData, price: tokenPrice, balance: prize.amount.toString() }}
+                    token={{ ...tokenData, price: tokenPrice, amount: prize.amount.toString() }}
                     hideZeroes={true}
                   />
                 </span>

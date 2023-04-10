@@ -48,7 +48,7 @@ export const useUserTotalBalance = () => {
           if (!!exchangeRate) {
             const chainId = vaultBalances[vaultId].chainId
             const tokenAddress = vaults.underlyingTokenAddresses.byVault[vaultId]
-            const shareBalance = BigNumber.from(vaultBalances[vaultId].balance)
+            const shareBalance = BigNumber.from(vaultBalances[vaultId].amount)
 
             const tokenPrice = getTokenPriceFromObject(chainId, tokenAddress, tokenPrices)
             const tokenBalance = getAssetsFromShares(shareBalance, exchangeRate, decimals)

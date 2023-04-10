@@ -1,5 +1,5 @@
 import { BigNumber, Contract, providers, Signer, utils } from 'ethers'
-import { TokenWithBalance, TokenWithSupply } from 'pt-types'
+import { TokenWithAmount, TokenWithSupply } from 'pt-types'
 import {
   erc20 as erc20Abi,
   erc4626 as erc4626Abi,
@@ -131,7 +131,7 @@ export class Vault {
    * @param userAddress the user's address to get a balance for
    * @returns
    */
-  async getUserTokenBalance(userAddress: string): Promise<TokenWithBalance> {
+  async getUserTokenBalance(userAddress: string): Promise<TokenWithAmount> {
     const source = 'Vault [getUserTokenBalance]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
@@ -151,7 +151,7 @@ export class Vault {
    * @param userAddress the user's address to get a balance for
    * @returns
    */
-  async getUserShareBalance(userAddress: string): Promise<TokenWithBalance> {
+  async getUserShareBalance(userAddress: string): Promise<TokenWithAmount> {
     const source = 'Vault [getUserShareBalance]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)

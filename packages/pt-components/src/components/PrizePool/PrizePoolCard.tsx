@@ -32,7 +32,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
           <>
             <span className='text-4xl text-pt-teal'>
               <TokenValue
-                token={{ ...prizeTokenData, price: tokenPrice, balance: grandPrize.toString() }}
+                token={{ ...prizeTokenData, price: tokenPrice, amount: grandPrize.toString() }}
                 hideZeroes={true}
               />
             </span>

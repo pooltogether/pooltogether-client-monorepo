@@ -1,5 +1,5 @@
 import { BigNumber, providers } from 'ethers'
-import { TokenWithBalance, TokenWithSupply } from 'pt-types'
+import { TokenWithAmount, TokenWithSupply } from 'pt-types'
 import { erc20 as erc20Abi } from '../abis/erc20'
 import { getMulticallResults } from './multicall'
 
@@ -90,8 +90,8 @@ export const getTokenBalances = async (
   readProvider: providers.Provider,
   address: string,
   tokenAddresses: string[]
-): Promise<{ [tokenAddress: string]: TokenWithBalance }> => {
-  const formattedResult: { [tokenAddress: string]: TokenWithBalance } = {}
+): Promise<{ [tokenAddress: string]: TokenWithAmount }> => {
+  const formattedResult: { [tokenAddress: string]: TokenWithAmount } = {}
 
   if (tokenAddresses?.length > 0) {
     const multicallResults = await getMulticallResults(readProvider, tokenAddresses, erc20Abi, [
@@ -107,7 +107,7 @@ export const getTokenBalances = async (
       const symbol = multicallResults[tokenAddress]['symbol']?.[0]
       const name = multicallResults[tokenAddress]['name']?.[0]
       const decimals = parseInt(multicallResults[tokenAddress]['decimals']?.[0])
-      const balance = BigNumber.from(
+      const amount = BigNumber.from(
         multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0
       ).toString()
 
@@ -121,7 +121,7 @@ export const getTokenBalances = async (
         symbol,
         name,
         decimals,
-        balance
+        amount
       }
     })
   }

@@ -2,11 +2,11 @@ import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
 import { useProvider } from 'wagmi'
 import { useToken } from 'pt-hyperstructure-hooks'
-import { TokenWithBalance, TokenWithPrice } from 'pt-types'
+import { TokenWithAmount, TokenWithPrice } from 'pt-types'
 import { CurrencyValue, CurrencyValueProps } from './CurrencyValue'
 
 export interface TokenValueProps extends Omit<CurrencyValueProps, 'baseValue'> {
-  token: { chainId: number; address: string } & Partial<TokenWithPrice> & Partial<TokenWithBalance>
+  token: { chainId: number; address: string } & Partial<TokenWithPrice> & Partial<TokenWithAmount>
 }
 
 export const TokenValue = (props: TokenValueProps) => {
@@ -18,7 +18,7 @@ export const TokenValue = (props: TokenValueProps) => {
 
   const tokenValue = useMemo(() => {
     if (!!token?.price) {
-      const amount = BigNumber.from(token.balance ?? 0)
+      const amount = BigNumber.from(token.amount ?? 0)
       const decimals = token.decimals ?? tokenData?.decimals
       if (!amount.isZero() && decimals !== undefined) {
         const formattedAmount = parseFloat(utils.formatUnits(amount, decimals))

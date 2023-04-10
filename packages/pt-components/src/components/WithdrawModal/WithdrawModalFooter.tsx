@@ -28,7 +28,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
   const {
-    data: vaultInfoWithBalance,
+    data: vaultInfoWithAmount,
     isFetched: isFetchedVaultBalance,
     refetch: refetchUserVaultBalance
   } = useUserVaultBalance(vault, userAddress as `0x${string}`)
@@ -70,9 +70,9 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     !!userAddress &&
     !!vault.shareData &&
     isFetchedVaultBalance &&
-    !!vaultInfoWithBalance &&
+    !!vaultInfoWithAmount &&
     !withdrawAmount.isZero() &&
-    BigNumber.from(vaultInfoWithBalance.balance).gte(withdrawAmount) &&
+    BigNumber.from(vaultInfoWithAmount.amount).gte(withdrawAmount) &&
     isValidFormShareAmount &&
     vault.decimals !== undefined &&
     !!sendWithdrawTransaction

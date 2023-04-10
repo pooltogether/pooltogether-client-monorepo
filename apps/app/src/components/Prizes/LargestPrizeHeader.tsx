@@ -36,7 +36,7 @@ export const LargestPrizeHeader = () => {
             token={{
               ...prizeTokenData,
               price: prizeTokenPrice,
-              balance: largestGrandPrizeData.grandPrize.toString()
+              amount: largestGrandPrizeData.grandPrize.toString()
             }}
             hideZeroes={true}
           />

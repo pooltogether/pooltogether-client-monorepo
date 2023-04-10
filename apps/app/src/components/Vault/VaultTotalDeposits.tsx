@@ -25,7 +25,7 @@ export const VaultTotalDeposits = (props: VaultTotalDepositsProps) => {
       <span className='text-base font-normal'>
         {!!vault.tokenData ? (
           <TokenValue
-            token={{ ...vault.tokenData, price: tokenPrice, balance: totalDeposits?.toString() }}
+            token={{ ...vault.tokenData, price: tokenPrice, amount: totalDeposits?.toString() }}
             hideZeroes={true}
           />
         ) : (

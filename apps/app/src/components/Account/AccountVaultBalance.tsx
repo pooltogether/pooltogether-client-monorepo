@@ -32,7 +32,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
           </span>
           <span className='text-sm text-pt-purple-100'>
             <TokenValue
-              token={{ ...vault.tokenData, price: tokenPrice, balance: tokenBalance.toString() }}
+              token={{ ...vault.tokenData, price: tokenPrice, amount: tokenBalance.toString() }}
               hideZeroes={true}
             />
           </span>

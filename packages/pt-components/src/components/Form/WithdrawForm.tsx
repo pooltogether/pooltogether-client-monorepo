@@ -30,18 +30,18 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
 
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { data: tokenWithBalance, isFetched: isFetchedTokenBalance } = useTokenBalance(
+  const { data: tokenWithAmount, isFetched: isFetchedTokenBalance } = useTokenBalance(
     provider,
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )
-  const tokenBalance = isFetchedTokenBalance && !!tokenWithBalance ? tokenWithBalance.balance : '0'
+  const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : '0'
 
   const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
     vault,
     userAddress as `0x${string}`
   )
-  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.balance : '0'
+  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.amount : '0'
 
   const { tokenPrice } = useVaultTokenPrice(vault)
   const { sharePrice } = useVaultSharePrice(vault)
@@ -95,7 +95,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     if (vault.shareData) {
       return {
         ...vault.shareData,
-        balance: shareBalance,
+        amount: shareBalance,
         price: sharePrice ?? 0,
         logoURI: vault.logoURI
       }
@@ -106,7 +106,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     if (vault.tokenData) {
       return {
         ...vault.tokenData,
-        balance: tokenBalance,
+        amount: tokenBalance,
         price: tokenPrice ?? 0,
         logoURI: vault.tokenLogoURI
       }
