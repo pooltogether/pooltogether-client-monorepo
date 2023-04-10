@@ -4,14 +4,14 @@ import { NO_REFETCH } from 'pt-generic-hooks'
 import { QUERY_KEYS } from '../constants'
 
 /**
- * Returns the start timestamp of a prize pool's next draw (in seconds)
+ * Returns a prize pool's draw period (in seconds)
  * @param prizePool instance of the `PrizePool` class
  * @returns
  */
-export const useNextDrawTimestamp = (prizePool: PrizePool): UseQueryResult<number, unknown> => {
-  const queryKey = [QUERY_KEYS.nextDrawTimestamp, prizePool?.id]
+export const useDrawPeriod = (prizePool: PrizePool): UseQueryResult<number, unknown> => {
+  const queryKey = [QUERY_KEYS.drawPeriod, prizePool?.id]
 
-  return useQuery(queryKey, async () => await prizePool.getNextDrawStartTimestamp(), {
+  return useQuery(queryKey, async () => await prizePool.getDrawPeriodInSeconds(), {
     enabled: !!prizePool,
     ...NO_REFETCH
   })

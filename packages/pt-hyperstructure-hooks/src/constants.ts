@@ -4,6 +4,7 @@ import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from 'pt-generic-hoo
  * Query keys for various hooks
  */
 export const QUERY_KEYS = Object.freeze({
+  drawPeriod: 'drawPeriod',
   nextDrawTimestamp: 'nextDrawTimestamp',
   prizeInfo: 'prizeInfo',
   prizeTokenData: 'prizeTokenData',
