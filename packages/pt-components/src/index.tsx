@@ -36,7 +36,6 @@ export * from './components/Icons/TokenIcon'
  */
 export * from './components/PrizePool/PrizePoolCard'
 export * from './components/PrizePool/PrizePoolDropdown'
-export * from './components/PrizePool/PrizePoolHeader'
 
 /**
  * Settings Modal

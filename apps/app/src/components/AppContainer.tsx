@@ -21,7 +21,9 @@ export const AppContainer = (props: AppProps) => {
               teal: 'text-pt-purple-800 bg-pt-teal hover:bg-pt-teal-dark focus:ring-pt-teal-dark',
               purple:
                 'text-pt-purple-700 bg-pt-purple-100 hover:bg-pt-purple-200 focus:ring-pt-purple-50',
-              white: 'text-gray-900 bg-white hover:bg-gray-100 focus:ring-gray-100'
+              white: 'text-gray-900 bg-white hover:bg-gray-100 focus:ring-gray-100',
+              transparent:
+                'text-pt-purple-100 bg-pt-transparent border border-pt-transparent hover:bg-pt-purple-50/20 focus:ring-pt-purple-50'
             },
             outline: {
               color: {
@@ -29,7 +31,9 @@ export const AppContainer = (props: AppProps) => {
                 purple:
                   '!text-pt-purple-100 border-pt-purple-100 border bg-opacity-0 hover:!bg-pt-transparent hover:bg-opacity-100',
                 white:
-                  '!text-white border-white border bg-opacity-0 hover:!text-gray-900 hover:bg-opacity-100'
+                  '!text-white border-white border bg-opacity-0 hover:!text-gray-900 hover:bg-opacity-100',
+                transparent:
+                  '!text-pt-purple-50 border-pt-transparent border bg-opacity-0 hover:!text-pt-purple-100 hover:bg-opacity-100'
               },
               on: 'flex justify-center'
             },

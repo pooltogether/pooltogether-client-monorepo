@@ -1,16 +1,14 @@
-import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
 import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
-import { Button } from 'pt-ui'
+import { Button, ButtonProps } from 'pt-ui'
 
-interface WithdrawButtonProps {
+interface WithdrawButtonProps extends Omit<ButtonProps, 'onClick'> {
   vault: Vault
-  children?: ReactNode
 }
 
 export const WithdrawButton = (props: WithdrawButtonProps) => {
-  const { vault, children } = props
+  const { vault, children, ...rest } = props
 
   const { setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
@@ -22,7 +20,7 @@ export const WithdrawButton = (props: WithdrawButtonProps) => {
   }
 
   return (
-    <Button onClick={handleClick} color='white' outline={true}>
+    <Button onClick={handleClick} {...rest}>
       {children ?? 'Withdraw'}
     </Button>
   )

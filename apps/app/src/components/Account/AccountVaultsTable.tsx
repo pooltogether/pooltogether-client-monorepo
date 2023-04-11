@@ -1,4 +1,5 @@
 import { BigNumber } from 'ethers'
+import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { NetworkBadge, VaultBadge } from 'pt-components'
 import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
@@ -14,6 +15,8 @@ interface AccountVaultsTableProps {
 // TODO: add sorting when clicking headers
 export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
   const { className } = props
+
+  const router = useRouter()
 
   const { address: userAddress } = useAccount()
 
@@ -47,7 +50,14 @@ export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
                   // TODO: add onclick to vaultbadge (go to detailed vault page)
                   token: { content: <VaultBadge vault={vault} /> },
                   prizePool: {
-                    content: <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' />
+                    content: (
+                      <NetworkBadge
+                        chainId={vault.chainId}
+                        appendText='Prize Pool'
+                        onClick={() => router.push(`/prizes?network=${vault.chainId}`)}
+                      />
+                    ),
+                    position: 'center'
                   },
                   deposited: {
                     content: <AccountVaultBalance vault={vault} shareBalance={shareBalance} />,

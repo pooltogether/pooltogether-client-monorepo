@@ -22,17 +22,12 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
       : BigNumber.from(0)
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col items-center'>
       {!!vault.tokenData ? (
         <>
-          <span className='text-base'>
-            {formatBigNumberForDisplay(tokenBalance, vault.decimals)}
-          </span>
-          <span className='text-sm text-pt-purple-100'>
-            <TokenValue
-              token={{ ...vault.tokenData, amount: tokenBalance.toString() }}
-              hideZeroes={true}
-            />
+          <TokenValue token={{ ...vault.tokenData, amount: tokenBalance.toString() }} />
+          <span className='text-sm text-pt-purple-200'>
+            {formatBigNumberForDisplay(tokenBalance, vault.decimals)} {vault.tokenData.symbol}
           </span>
         </>
       ) : (
