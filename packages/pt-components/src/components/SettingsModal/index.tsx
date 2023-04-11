@@ -8,7 +8,7 @@ import { LanguageSelector } from './LanguageSelector'
 import { SettingsMenu } from './SettingsMenu'
 import { VaultListSelector } from './VaultListSelector'
 
-export type SettingsModalOption = 'currency' | 'language' | 'vaultLists'
+export type SettingsModalOption = 'currency' | 'language' | 'extensions' | 'vaultLists'
 
 export type SettingsModalView = 'menu' | SettingsModalOption
 
@@ -35,6 +35,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
     menu: <SettingsMenu setView={setView} theme={theme} disable={disable} hide={hide} />,
     currency: <CurrencySelector setView={setView} theme={theme} />,
     language: <LanguageSelector setView={setView} theme={theme} />,
+    extensions: <></>, // TODO: implement extensions view
     vaultLists: <VaultListSelector />
   }
 
