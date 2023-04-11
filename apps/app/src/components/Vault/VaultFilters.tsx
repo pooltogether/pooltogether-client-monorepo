@@ -144,7 +144,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           className
         )}
       >
-        <span className='text-lg font-semibold'>Filter</span>
+        <span className='text-lg'>Filter</span>
         <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
       </div>
     )
