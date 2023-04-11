@@ -48,9 +48,11 @@ export const Table = (props: TableProps) => {
           {Object.values(data.headers).map((header, i) => (
             <span
               key={`${keyPrefix}-header-${i}`}
-              className={classNames('flex items-center px-4 py-6', {
+              className={classNames('flex items-center px-3 py-6', {
                 'justify-center': header.position === 'center',
-                'justify-end': header.position === 'right'
+                'justify-end': header.position === 'right',
+                'pl-8': i === 0 && (header.position === 'left' || header.position === undefined),
+                'pr-8': i === columns - 1 && header.position === 'right'
               })}
             >
               {header.content}

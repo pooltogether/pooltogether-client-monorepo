@@ -42,7 +42,7 @@ export const getTimeBreakdown = (totalSeconds: number | string) => {
 
   let seconds = 0
   if (minutes || diff >= 1) {
-    seconds = diff
+    seconds = Math.floor(diff)
   }
 
   return {

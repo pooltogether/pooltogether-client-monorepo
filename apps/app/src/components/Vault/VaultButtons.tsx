@@ -1,5 +1,4 @@
 import { Vault } from 'pt-client-js'
-import { Button } from 'pt-ui'
 import { DepositButton } from '@components/DepositButton'
 
 interface VaultButtonsProps {
@@ -12,10 +11,6 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   return (
     <div className='flex justify-end gap-2'>
       <DepositButton vault={vault} />
-      {/* TODO: details button functionality */}
-      <Button color='white' outline={true}>
-        Details
-      </Button>
     </div>
   )
 }

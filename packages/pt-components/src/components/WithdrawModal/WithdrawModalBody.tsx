@@ -19,7 +19,7 @@ export const WithdrawModalBody = (props: WithdrawModalBodyProps) => {
         Withdraw from {vault.name ?? <Spinner />} on {networkName}
       </span>
       <div className='flex flex-col items-center gap-1'>
-        <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' hideIcon={true} />
+        <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' />
       </div>
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <WithdrawForm vault={vault} />

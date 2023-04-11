@@ -22,6 +22,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
     },
     rows: vaults.map((vault) => ({
       cells: {
+        // TODO: add onclick to vaultbadge (go to detailed vault page)
         token: { content: <VaultBadge vault={vault} /> },
         vaultChance: { content: <VaultPrizePower vault={vault} />, position: 'center' },
         totalDeposits: {

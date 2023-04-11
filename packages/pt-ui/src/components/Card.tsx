@@ -9,6 +9,7 @@ export const Card = (props: CardProps) => {
   const { wrapperClassName, className, ...rest } = props
 
   return (
+    // TODO: hover bg color not updating
     <FlowbiteCard
       theme={{
         root: {
