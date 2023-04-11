@@ -5,7 +5,7 @@ import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { filteredVaultsAtom } from '@atoms'
 import { useNetworks } from '@hooks/useNetworks'
-import { VaultList } from './VaultList'
+import { VaultsTable } from './VaultsTable'
 
 export const VaultsDisplay = () => {
   const networks = useNetworks()
@@ -37,7 +37,7 @@ export const VaultsDisplay = () => {
               className='ml-4 mb-6'
               headerClassName='font-averta'
             />
-            <VaultList vaults={filteredVaults[network]} />
+            <VaultsTable vaults={filteredVaults[network]} />
           </div>
         )
       })}
