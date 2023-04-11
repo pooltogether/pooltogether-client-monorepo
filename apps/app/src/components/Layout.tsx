@@ -77,9 +77,8 @@ export const Layout = (props: LayoutProps) => {
       <Navbar
         links={[
           { href: '/prizes', name: 'Prizes' },
-          { href: '/deposit', name: 'Deposit' },
-          { href: '/account', name: 'Account' },
-          { href: '/extensions', name: 'Extensions' }
+          { href: '/vaults', name: 'Vaults' },
+          { href: '/account', name: 'Account' }
         ]}
         activePage={router.pathname}
         linksAs={Link}

@@ -1,4 +1,4 @@
-import { Cog8ToothIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { Navbar as FlowbiteNavbar } from 'flowbite-react'
 import { ReactNode } from 'react'
@@ -51,7 +51,7 @@ export const Navbar = (props: NavbarProps) => {
       <div className='flex gap-2 items-center md:order-2 z-20'>
         {walletConnectionButton}
         {onClickSettings !== undefined && (
-          <Cog8ToothIcon
+          <Bars3Icon
             className='h-6 w-6 text-pt-purple-50 hover:text-pt-purple-200 cursor-pointer'
             onClick={onClickSettings}
           />
