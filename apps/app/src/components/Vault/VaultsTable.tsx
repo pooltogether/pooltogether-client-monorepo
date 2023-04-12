@@ -26,7 +26,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
         token: { content: <VaultBadge vault={vault} /> },
         vaultChance: { content: <VaultPrizePower vault={vault} />, position: 'center' },
         totalDeposits: {
-          content: <VaultTotalDeposits vault={vault} displayCurrency={true} />,
+          content: <VaultTotalDeposits vault={vault} />,
           position: 'center'
         },
         manage: { content: <VaultButtons vault={vault} />, position: 'right' }

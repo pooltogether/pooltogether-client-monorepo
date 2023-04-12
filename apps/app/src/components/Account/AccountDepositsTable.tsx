@@ -7,14 +7,12 @@ import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 
-interface AccountVaultsTableProps {
-  className?: string
-}
+interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {}
 
 // TODO: sort by balance by default
 // TODO: add sorting when clicking headers
-export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
-  const { className } = props
+export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
+  const { ...rest } = props
 
   const router = useRouter()
 
@@ -27,17 +25,12 @@ export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
     userAddress
   )
 
-  const noBalances =
-    isFetchedVaultBalances && !!vaultBalances
-      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].amount === '0')
-      : false
-
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
       prizePool: { content: 'Prize Pool', position: 'center' },
       deposited: { content: 'Deposited', position: 'center' },
-      manage: { content: 'Manage', position: 'right' }
+      manage: { content: 'Manage', position: 'center' }
     },
     rows:
       isFetchedVaultBalances && !!vaultBalances
@@ -63,7 +56,7 @@ export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
                     content: <AccountVaultBalance vault={vault} shareBalance={shareBalance} />,
                     position: 'center'
                   },
-                  manage: { content: <AccountVaultButtons vault={vault} />, position: 'right' }
+                  manage: { content: <AccountVaultButtons vault={vault} />, position: 'center' }
                 }
                 return { cells }
               }
@@ -72,15 +65,5 @@ export const AccountVaultsTable = (props: AccountVaultsTableProps) => {
         : []
   }
 
-  if (typeof window !== 'undefined' && userAddress === undefined) {
-    return <span>Connect your wallet to check your vault balances.</span>
-  } else if (noBalances) {
-    return <span>You haven't deposited into any vaults yet.</span>
-  }
-
-  if (isFetchedVaultBalances && !!vaultBalances) {
-    return (
-      <Table data={tableData} keyPrefix='accountVaultsTable' rounded={true} className={className} />
-    )
-  }
+  return <Table data={tableData} keyPrefix='accountVaultsTable' {...rest} />
 }

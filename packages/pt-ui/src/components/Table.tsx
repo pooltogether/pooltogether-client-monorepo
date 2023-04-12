@@ -40,19 +40,17 @@ export const Table = (props: TableProps) => {
         {/* Table Headers */}
         <div
           className={classNames(
-            'grid gap-3 text-sm text-pt-purple-100',
-            `grid-cols-${columns}`,
+            'text-sm px-3 py-6 text-pt-purple-100',
+            `grid grid-cols-${columns} gap-3`,
             headerClassName
           )}
         >
           {Object.values(data.headers).map((header, i) => (
             <span
               key={`${keyPrefix}-header-${i}`}
-              className={classNames('flex items-center px-3 py-6', {
+              className={classNames('flex items-center px-4', {
                 'justify-center': header.position === 'center',
-                'justify-end': header.position === 'right',
-                'pl-8': i === 0 && (header.position === 'left' || header.position === undefined),
-                'pr-8': i === columns - 1 && header.position === 'right'
+                'justify-end': header.position === 'right'
               })}
             >
               {header.content}
