@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { usePrizePools } from 'pt-hyperstructure-hooks'
-import { ExternalLink } from 'pt-ui'
+import { ExternalLink, LINKS } from 'pt-ui'
 import { useAllUserPrizePoolWins } from '@hooks/useAllUserPrizePoolWins'
 import { formatPrizePools } from '../../utils'
 import { AccountWinningsHeader } from './AccountWinningsHeader'
@@ -49,9 +49,8 @@ const NoWinsCard = (props: NoWinsCardProps) => {
     <div className={classNames('w-full p-4 bg-pt-bg-purple rounded-lg', className)}>
       <div className='inline-flex w-full gap-3 items-center justify-center p-3 text-lg font-medium bg-pt-transparent rounded-lg'>
         <span className='text-pt-purple-100'>You haven't won any prizes recently.</span>
-        {/* TODO: add link href */}
         <ExternalLink
-          href='#'
+          href={LINKS.docs}
           text='Learn how PoolTogether works'
           size='lg'
           className='text-pt-teal'
