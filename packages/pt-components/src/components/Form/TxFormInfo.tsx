@@ -41,6 +41,7 @@ export const TxFormInfo = (props: TxFormInfoProps) => {
         <ExternalLink
           href={getBlockExplorerUrl(vault.chainId, tokenAddress, 'token')}
           text={`View ${tokenDisplayName}`}
+          size='sm'
           className='text-pt-teal'
         />
       ) : (

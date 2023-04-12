@@ -133,7 +133,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <BasicIcon content={iconContent} size='large' theme={theme === 'dark' ? 'light' : 'dark'} />
+      <BasicIcon content={iconContent} size='lg' theme={theme === 'dark' ? 'light' : 'dark'} />
       <span className='flex items-center text-pt-purple-50'>{title}</span>
     </div>
   )

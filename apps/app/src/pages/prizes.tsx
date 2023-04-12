@@ -12,7 +12,6 @@ export default function PrizesPage() {
       <ExternalLink
         href='#'
         text='Learn more about how prizes work'
-        size='medium'
         className='text-pt-purple-300'
       />
       <PrizePoolWinners />

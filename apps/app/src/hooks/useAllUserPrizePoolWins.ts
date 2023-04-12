@@ -37,5 +37,6 @@ export const useAllUserPrizePoolWins = (prizePools: PrizePool[], userAddress: st
     }
   ]
 
-  return { data: mockData, isFetched: true }
+  // return { data: mockData, isFetched: true }
+  return { data: [], isFetched: true }
 }
