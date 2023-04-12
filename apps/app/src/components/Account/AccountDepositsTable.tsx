@@ -40,8 +40,11 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
               const shareBalance = BigNumber.from(vaultBalances[vaultId]?.amount ?? 0)
               if (!!vaultBalances[vaultId] && shareBalance.gt(0) && vault.decimals !== undefined) {
                 const cells: TableProps['data']['rows'][0]['cells'] = {
-                  // TODO: add onclick to vaultbadge (go to detailed vault page)
-                  token: { content: <VaultBadge vault={vault} /> },
+                  token: {
+                    content: (
+                      <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
+                    )
+                  },
                   prizePool: {
                     content: (
                       <NetworkBadge

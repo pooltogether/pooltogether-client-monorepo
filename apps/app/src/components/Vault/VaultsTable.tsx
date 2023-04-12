@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { Vault } from 'pt-client-js'
 import { VaultBadge } from 'pt-components'
 import { Table, TableProps } from 'pt-ui'
@@ -13,6 +14,8 @@ interface VaultsTableProps {
 export const VaultsTable = (props: VaultsTableProps) => {
   const { vaults, className } = props
 
+  const router = useRouter()
+
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
@@ -22,8 +25,9 @@ export const VaultsTable = (props: VaultsTableProps) => {
     },
     rows: vaults.map((vault) => ({
       cells: {
-        // TODO: add onclick to vaultbadge (go to detailed vault page)
-        token: { content: <VaultBadge vault={vault} /> },
+        token: {
+          content: <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
+        },
         vaultChance: { content: <VaultPrizePower vault={vault} />, position: 'center' },
         totalDeposits: {
           content: <VaultTotalDeposits vault={vault} />,
