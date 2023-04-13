@@ -53,16 +53,17 @@ export const VaultsTable = (props: VaultsTableProps) => {
           position: 'center'
         },
         balance: {
-          content: !!vaultBalances ? (
-            <>
-              {shareBalance.gt(0) && (
-                <AccountVaultBalance vault={vault} shareBalance={shareBalance} />
-              )}
-              {shareBalance.isZero() && '-'}
-            </>
-          ) : (
-            <Spinner />
-          ),
+          content:
+            !!vaultBalances || !userAddress ? (
+              <>
+                {shareBalance.gt(0) && (
+                  <AccountVaultBalance vault={vault} shareBalance={shareBalance} />
+                )}
+                {shareBalance.isZero() && '-'}
+              </>
+            ) : (
+              <Spinner />
+            ),
           position: 'center'
         },
         manage: { content: <VaultButtons vault={vault} />, position: 'right' }
