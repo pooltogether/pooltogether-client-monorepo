@@ -12,8 +12,8 @@ export const VaultPrizePower = (props: VaultPrizePowerProps) => {
   const prizePower: number = 4.2
 
   return (
-    <span className='text-xl font-semibold text-pt-purple-400'>
-      {formatNumberForDisplay(prizePower, { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %
-    </span>
+    <>
+      {formatNumberForDisplay(prizePower, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+    </>
   )
 }

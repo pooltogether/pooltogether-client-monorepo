@@ -21,7 +21,7 @@ export const PrizePoolCards = () => {
         return (
           <Link
             key={`pp-${prizePool.id}`}
-            href={`/deposit?network=${prizePool.chainId}`}
+            href={`/vaults?network=${prizePool.chainId}`}
             passHref={true}
           >
             <PrizePoolCard prizePool={prizePool} />

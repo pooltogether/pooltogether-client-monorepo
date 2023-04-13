@@ -1,12 +1,12 @@
-import { AccountDepositsHeader } from '@components/Account/AccountDepositsHeader'
-import { AccountVaultList } from '@components/Account/AccountVaultList'
+import { AccountDeposits } from '@components/Account/AccountDeposits'
+import { AccountWinnings } from '@components/Account/AccountWinnings'
 import { Layout } from '@components/Layout'
 
 export default function AccountPage() {
   return (
     <Layout className='gap-6'>
-      <AccountDepositsHeader />
-      <AccountVaultList />
+      <AccountDeposits className='w-full' />
+      <AccountWinnings className='w-full' />
     </Layout>
   )
 }

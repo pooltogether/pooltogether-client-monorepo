@@ -1,7 +1,6 @@
 import { Dropdown, DropdownItem, DropdownProps } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
-import { PrizePoolHeader } from './PrizePoolHeader'
 
 export interface PrizePoolDropdownProps {
   networks: NETWORK[]
@@ -19,7 +18,8 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
       content: (
         <NetworkBadge
           chainId={network}
-          className='w-full !justify-start p-2 !bg-none hover:!bg-pt-purple-100/40'
+          hideBg={true}
+          className='w-full !justify-start p-2 hover:!bg-pt-purple-100/40'
           textClassName='text-pt-purple-600'
         />
       ),
@@ -29,7 +29,16 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
 
   return (
     <Dropdown
-      label={<PrizePoolHeader chainId={selectedNetwork} headerClassName='font-averta' />}
+      label={
+        <NetworkBadge
+          chainId={selectedNetwork}
+          appendText='Prize Pool'
+          hideBg={true}
+          className='gap-2'
+          iconClassName='h-8 w-8'
+          textClassName='text-2xl font-semibold font-averta'
+        />
+      }
       items={dropdownItems}
       header={
         <span className='text-sm font-semibold text-pt-purple-400 px-3 mb-2'>

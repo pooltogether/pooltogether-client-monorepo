@@ -1,6 +1,7 @@
 import { ExternalLink } from 'pt-ui'
 import { Layout } from '@components/Layout'
 import { PrizePoolDisplay } from '@components/Prizes/PrizePoolDisplay'
+import { PrizePoolWinners } from '@components/Prizes/PrizePoolWinners'
 
 export default function PrizesPage() {
   return (
@@ -11,9 +12,9 @@ export default function PrizesPage() {
       <ExternalLink
         href='#'
         text='Learn more about how prizes work'
-        size='medium'
         className='text-pt-purple-300'
       />
+      <PrizePoolWinners />
     </Layout>
   )
 }

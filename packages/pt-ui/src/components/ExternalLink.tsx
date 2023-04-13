@@ -4,7 +4,7 @@ import classNames from 'classnames'
 export interface ExternalLinkProps {
   href: string
   text: string
-  size?: 'small' | 'medium'
+  size?: 'sm' | 'md' | 'lg'
   className?: string
 }
 
@@ -18,15 +18,18 @@ export const ExternalLink = (props: ExternalLinkProps) => {
       rel='noreferrer'
       className={classNames(
         'inline-flex items-center gap-1',
-        { 'text-sm': size === 'small' || size === undefined },
+        { 'text-sm': size === 'sm' },
+        { 'text-base': size === 'md' || !size },
+        { 'text-lg': size === 'lg' },
         className
       )}
     >
       {text}
       <ArrowTopRightOnSquareIcon
         className={classNames('text-inherit', {
-          'h-4 w-4': size === 'small' || size === undefined,
-          'h-5 w-5': size === 'medium'
+          'h-4 w-4': size === 'sm',
+          'h-5 w-5': size === 'md' || !size,
+          'h-6 w-6': size === 'lg'
         })}
       />
     </a>

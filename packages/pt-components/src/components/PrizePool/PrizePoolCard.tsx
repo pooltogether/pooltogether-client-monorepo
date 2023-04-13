@@ -3,8 +3,8 @@ import { PrizePool } from 'pt-client-js'
 import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Card, Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { NetworkBadge } from '../Badges/NetworkBadge'
 import { TokenValue } from '../Currency/TokenValue'
-import { PrizePoolHeader } from './PrizePoolHeader'
 
 export interface PrizePoolCardProps {
   prizePool: PrizePool
@@ -24,7 +24,14 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
 
   return (
     <Card href={href} className='gap-16'>
-      <PrizePoolHeader chainId={prizePool.chainId} />
+      <NetworkBadge
+        chainId={prizePool.chainId}
+        appendText='Prize Pool'
+        hideBg={true}
+        className='gap-2'
+        iconClassName='h-8 w-8'
+        textClassName='text-2xl font-semibold'
+      />
       <div className='flex flex-col gap-0.5 text-pt-purple-100'>
         <span className='text-sm uppercase'>Grand Prize</span>
         {isFetchedAllPrizeInfo && isFetchedPrizeTokenData && !!prizeTokenData ? (

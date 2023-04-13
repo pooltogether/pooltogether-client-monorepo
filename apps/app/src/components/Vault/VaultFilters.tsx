@@ -1,5 +1,5 @@
 import classNames from 'classnames'
-import { BigNumber, utils } from 'ethers'
+import { BigNumber } from 'ethers'
 import { useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
@@ -7,15 +7,13 @@ import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
 import {
-  useAllVaultBalances,
   useProviders,
   useSelectedVaults,
   useTokenBalancesAcrossChains
 } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
-import { getTokenPriceFromObject, NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
+import { NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
 import { filteredVaultsAtom } from '@atoms'
-import { useAllTokenPrices } from '@hooks/useAllTokenPrices'
 import { useNetworks } from '@hooks/useNetworks'
 
 interface VaultFiltersProps {
@@ -34,12 +32,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllVaultBalances(vaults)
-
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses?.byChain)
-
-  const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 
   const setFilteredVaults = useSetAtom(filteredVaultsAtom)
 
@@ -70,26 +64,6 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         id: 'all',
         content: 'Show All',
         onClick: () => filterOnClick('all', (vaults) => vaults)
-      },
-      {
-        id: 'popular',
-        content: 'Popular',
-        disabled: !isFetchedTokenPrices || !isFetchedVaultBalances,
-        onClick: () =>
-          filterOnClick('popular', (vaults) =>
-            vaults.filter((vault) => {
-              const minValue = 5 // TODO: update this value to a reasonable number or set it dynamically
-              const tokenPrice = getTokenPriceFromObject(
-                vault.chainId,
-                vault.tokenContract.address,
-                tokenPrices
-              )
-              const tokenAmount = vaultBalances?.[vault.id] ?? BigNumber.from(0)
-              const formattedTokenAmount = Number(utils.formatUnits(tokenAmount, vault.decimals))
-              const totalValue = formattedTokenAmount * tokenPrice
-              return totalValue > minValue
-            })
-          )
       },
       {
         id: 'userWallet',
@@ -128,7 +102,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         }
       })
     ],
-    [networks, isFetchedTokenPrices, isFetchedVaultBalances, isFetchedUserTokenBalances]
+    [networks, isFetchedUserTokenBalances]
   )
 
   useEffect(() => {
@@ -144,7 +118,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           className
         )}
       >
-        <span className='text-lg font-semibold'>Filter</span>
+        <span className='text-lg'>Filter</span>
         <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
       </div>
     )

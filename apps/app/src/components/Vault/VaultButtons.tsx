@@ -1,6 +1,8 @@
+import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { Button } from 'pt-ui'
+import { useUserVaultBalance } from 'pt-hyperstructure-hooks'
 import { DepositButton } from '@components/DepositButton'
+import { WithdrawButton } from '@components/WithdrawButton'
 
 interface VaultButtonsProps {
   vault: Vault
@@ -9,13 +11,16 @@ interface VaultButtonsProps {
 export const VaultButtons = (props: VaultButtonsProps) => {
   const { vault } = props
 
+  const { address: userAddress } = useAccount()
+
+  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
+
+  const shareBalance = parseFloat(vaultBalance?.amount ?? '0')
+
   return (
     <div className='flex justify-end gap-2'>
+      {shareBalance > 0 && <WithdrawButton vault={vault} color='transparent' />}
       <DepositButton vault={vault} />
-      {/* TODO: details button functionality */}
-      <Button color='white' outline={true}>
-        Details
-      </Button>
     </div>
   )
 }

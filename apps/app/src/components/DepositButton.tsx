@@ -1,16 +1,14 @@
-import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
 import { useIsDepositModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
-import { Button } from 'pt-ui'
+import { Button, ButtonProps } from 'pt-ui'
 
-interface DepositButtonProps {
+interface DepositButtonProps extends Omit<ButtonProps, 'onClick'> {
   vault: Vault
-  children?: ReactNode
 }
 
 export const DepositButton = (props: DepositButtonProps) => {
-  const { vault, children } = props
+  const { vault, children, ...rest } = props
 
   const { setIsDepositModalOpen } = useIsDepositModalOpen()
 
@@ -21,5 +19,9 @@ export const DepositButton = (props: DepositButtonProps) => {
     setIsDepositModalOpen(true)
   }
 
-  return <Button onClick={handleClick}>{children ?? 'Deposit'}</Button>
+  return (
+    <Button onClick={handleClick} {...rest}>
+      {children ?? 'Deposit'}
+    </Button>
+  )
 }

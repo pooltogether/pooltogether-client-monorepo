@@ -1,90 +1,113 @@
 import classNames from 'classnames'
-import { Table as FlowbiteTable, TableProps as FlowbiteTableProps } from 'flowbite-react'
 import { ReactNode } from 'react'
 
-export interface TableProps extends FlowbiteTableProps {
-  headers: ReactNode[]
-  rows: { cells: ReactNode[]; className?: string }[]
+interface TableItem {
+  content: ReactNode
+  position?: 'left' | 'center' | 'right'
+}
+
+export interface TableData {
+  headers: { [id: string]: TableItem }
+  rows: {
+    cells: { [headerId: string]: TableItem }
+    className?: string
+  }[]
+}
+
+export interface TableProps {
+  data: TableData
   keyPrefix: string
-  roundedRows?: boolean
+  rounded?: boolean
+  className?: string
   headerClassName?: string
-  headerCellClassName?: string
-  bodyClassName?: string
   rowClassName?: string
-  cellClassName?: string
 }
 
 export const Table = (props: TableProps) => {
-  const {
-    headers,
-    rows,
-    keyPrefix,
-    roundedRows,
-    className,
-    headerClassName,
-    headerCellClassName,
-    bodyClassName,
-    rowClassName,
-    cellClassName,
-    ...rest
-  } = props
+  const { data, keyPrefix, rounded, className, headerClassName, rowClassName } = props
 
-  return (
-    <FlowbiteTable
-      theme={{
-        root: {
-          base: 'w-full table-fixed text-left text-sm text-pt-purple-50 border-separate border-spacing-0 border-spacing-y-4',
-          wrapper: 'relative overflow-x-hidden'
-        }
-      }}
-      className={classNames(className)}
-      {...rest}
-    >
-      <FlowbiteTable.Head
-        // TODO: once theme is fixed, can use it instead of manual className
-        // theme={{ base: 'text-sm font-normal text-pt-purple-100 py-2 text-center' }}
+  const columns = Object.keys(data.headers).length
+
+  const getGridCols = (columns: number) => {
+    switch (columns) {
+      case 1:
+        return 'grid-cols-1'
+      case 2:
+        return 'grid-cols-2'
+      case 3:
+        return 'grid-cols-3'
+      case 4:
+        return 'grid-cols-4'
+      case 5:
+        return 'grid-cols-5'
+      case 6:
+        return 'grid-cols-6'
+    }
+  }
+
+  if (columns > 0 && data.rows.length > 0) {
+    return (
+      <div
         className={classNames(
-          'dark:text-pt-purple-100 dark:bg-transparent py-2 text-center !text-sm normal-case',
-          headerClassName
+          'bg-pt-bg-purple-dark px-4 pb-4',
+          { 'rounded-lg': rounded },
+          className
         )}
       >
-        {headers.map((header, i) => (
-          <FlowbiteTable.HeadCell
-            key={`${keyPrefix}-th-${i}`}
-            className={classNames(headerCellClassName)}
-          >
-            {/* @ts-ignore */}
-            {header}
-          </FlowbiteTable.HeadCell>
-        ))}
-      </FlowbiteTable.Head>
-      <FlowbiteTable.Body className={classNames(bodyClassName)}>
-        {rows
-          .filter((row) => !!row)
-          .map((row, i) => (
-            <FlowbiteTable.Row
-              key={`${keyPrefix}-tr-${i}`}
-              className={classNames('bg-pt-transparent', rowClassName, row.className)}
+        {/* Table Headers */}
+        <div
+          className={classNames(
+            'text-sm px-3 py-6 text-pt-purple-100 grid gap-3',
+            getGridCols(columns),
+            headerClassName
+          )}
+        >
+          {Object.values(data.headers).map((header, i) => (
+            <span
+              key={`${keyPrefix}-header-${i}`}
+              className={classNames('flex items-center px-4', {
+                'justify-center': header.position === 'center',
+                'justify-end': header.position === 'right'
+              })}
             >
-              {row.cells.map((cell, j) => (
-                <FlowbiteTable.Cell
-                  key={`${keyPrefix}-tc-${i}-${j}`}
-                  theme={{ base: 'text-pt-purple-50 text-center px-6 py-4' }}
-                  className={classNames(
-                    {
-                      'rounded-l-lg': roundedRows && j === 0,
-                      'rounded-r-lg': roundedRows && j === row.cells.length - 1
-                    },
-                    cellClassName
-                  )}
-                >
-                  {/* @ts-ignore */}
-                  {cell}
-                </FlowbiteTable.Cell>
-              ))}
-            </FlowbiteTable.Row>
+              {header.content}
+            </span>
           ))}
-      </FlowbiteTable.Body>
-    </FlowbiteTable>
-  )
+        </div>
+
+        {/* Table Rows */}
+        <ul className='flex flex-col gap-4'>
+          {data.rows.map((row, i) => (
+            <div
+              key={`${keyPrefix}-row-${i}`}
+              className={classNames(
+                'grid p-3 bg-pt-transparent',
+                getGridCols(columns),
+                { 'rounded-lg': rounded },
+                rowClassName,
+                row.className
+              )}
+            >
+              {/* Table Cells */}
+              {Object.keys(data.headers).map((header) => {
+                const cell = row.cells[header]
+
+                return (
+                  <span
+                    key={`${keyPrefix}-cell-${header}-${i}`}
+                    className={classNames('flex items-center px-4', {
+                      'justify-center': cell?.position === 'center',
+                      'justify-end': cell?.position === 'right'
+                    })}
+                  >
+                    {cell?.content ?? '-'}
+                  </span>
+                )
+              })}
+            </div>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 }

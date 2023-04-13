@@ -1,13 +1,15 @@
 import { useAtomValue } from 'jotai'
-import Link from 'next/link'
-import { PrizePoolHeader } from 'pt-components'
+import { useRouter } from 'next/router'
+import { NetworkBadge } from 'pt-components'
 import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { filteredVaultsAtom } from '@atoms'
 import { useNetworks } from '@hooks/useNetworks'
-import { VaultList } from './VaultList'
+import { VaultsTable } from './VaultsTable'
 
 export const VaultsDisplay = () => {
+  const router = useRouter()
+
   const networks = useNetworks()
 
   const { isFetched: isFetchedVaultData } = useSelectedVaults()
@@ -23,21 +25,14 @@ export const VaultsDisplay = () => {
       {networks.map((network) => {
         if (filteredVaults[network] === undefined || filteredVaults[network].length === 0) return
         return (
-          <div key={`pp-${network}`}>
-            <PrizePoolHeader
+          <div key={`pp-${network}`} className='flex flex-col items-center gap-6'>
+            <NetworkBadge
               chainId={network}
-              appendItem={
-                <Link
-                  href={`/prizes?network=${network}`}
-                  className='text-sm text-pt-purple-400 my-auto'
-                >
-                  See Prize Details
-                </Link>
-              }
-              className='ml-4 mb-6'
-              headerClassName='font-averta'
+              appendText='Prize Pool'
+              textClassName='text-lg font-medium'
+              onClick={() => router.push(`/prizes?network=${network}`)}
             />
-            <VaultList vaults={filteredVaults[network]} />
+            <VaultsTable vaults={filteredVaults[network]} />
           </div>
         )
       })}

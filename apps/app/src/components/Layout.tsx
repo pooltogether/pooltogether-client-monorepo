@@ -77,9 +77,8 @@ export const Layout = (props: LayoutProps) => {
       <Navbar
         links={[
           { href: '/prizes', name: 'Prizes' },
-          { href: '/deposit', name: 'Deposit' },
-          { href: '/account', name: 'Account' },
-          { href: '/extensions', name: 'Extensions' }
+          { href: '/vaults', name: 'Vaults' },
+          { href: '/account', name: 'Account' }
         ]}
         activePage={router.pathname}
         linksAs={Link}
@@ -96,7 +95,7 @@ export const Layout = (props: LayoutProps) => {
       <SettingsModal
         view={settingsModalView}
         setView={setSettingsModalView}
-        disable={['language']}
+        disable={['language', 'extensions']}
       />
 
       <DepositModal

@@ -8,7 +8,7 @@ export default function HomePage() {
   return (
     <Layout className='gap-8'>
       <LargestPrizeHeader />
-      <Link href='/deposit' passHref={true}>
+      <Link href='/vaults' passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
       <PrizePoolCards />

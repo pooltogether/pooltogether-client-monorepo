@@ -48,7 +48,7 @@ export const PrizePoolDisplay = () => {
         selectedNetwork={selectedNetwork}
         onSelect={handleNetworkChange}
       />
-      <Link href={`/deposit?network=${selectedNetwork}`} passHref={true}>
+      <Link href={`/vaults?network=${selectedNetwork}`} passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
       {!!selectedPrizePool && <PrizesTable prizePool={selectedPrizePool} />}

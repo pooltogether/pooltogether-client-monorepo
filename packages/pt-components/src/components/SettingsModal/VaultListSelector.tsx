@@ -22,7 +22,6 @@ export const VaultListSelector = () => {
         <ExternalLink
           href='#'
           text='Learn more about prize asset lists'
-          size='medium'
           className='text-pt-purple-200'
         />
       </div>
