@@ -28,7 +28,14 @@ export const VaultsTable = (props: VaultsTableProps) => {
         token: {
           content: <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
         },
-        vaultChance: { content: <VaultPrizePower vault={vault} />, position: 'center' },
+        vaultChance: {
+          content: (
+            <span className='text-xl font-semibold text-pt-purple-400'>
+              <VaultPrizePower vault={vault} />
+            </span>
+          ),
+          position: 'center'
+        },
         totalDeposits: {
           content: <VaultTotalDeposits vault={vault} />,
           position: 'center'
