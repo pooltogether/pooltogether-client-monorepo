@@ -1,11 +1,12 @@
 import classNames from 'classnames'
+import { BigNumber } from 'ethers'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { TokenValue } from 'pt-components'
-import { useUserVaultBalance } from 'pt-hyperstructure-hooks'
+import { useUserVaultBalance, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
 import { ExternalLink, Spinner } from 'pt-ui'
-import { getBlockExplorerUrl, shorten } from 'pt-utilities'
+import { getAssetsFromShares, getBlockExplorerUrl, shorten } from 'pt-utilities'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
@@ -19,9 +20,6 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
-  const shareBalance = !!vaultBalance ? parseFloat(vaultBalance.amount) : 0
-
   const odds = 'X' // TODO: calculate odds
 
   return (
@@ -29,13 +27,7 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
       {!!userAddress && (
         <VaultInfoRow
           name='My Balance'
-          data={
-            !!vault.tokenData && !!vaultBalance ? (
-              <TokenValue token={{ ...vault.tokenData, amount: shareBalance.toString() }} />
-            ) : (
-              <Spinner />
-            )
-          }
+          data={<VaultInfoBalance vault={vault} userAddress={userAddress} />}
         />
       )}
       {/* TODO: add tooltip */}
@@ -71,6 +63,32 @@ const VaultInfoRow = (props: VaultInfoRowProps) => {
   )
 }
 
+interface VaultInfoBalanceProps {
+  vault: Vault
+  userAddress: string
+}
+
+const VaultInfoBalance = (props: VaultInfoBalanceProps) => {
+  const { vault, userAddress } = props
+
+  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
+  const shareBalance = BigNumber.from(vaultBalance?.amount ?? 0)
+
+  const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
+    useVaultExchangeRate(vault)
+
+  const tokenBalance =
+    isFetchedVaultExchangeRate && !!vaultExchangeRate && vault.decimals !== undefined
+      ? getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals).toString()
+      : '0'
+
+  if (!vault.tokenData || !vaultBalance || !vaultExchangeRate) {
+    return <Spinner />
+  }
+
+  return <TokenValue token={{ ...vault.tokenData, amount: tokenBalance }} />
+}
+
 interface VaultInfoTokenProps {
   token: { chainId: number; address: string; symbol: string }
 }
@@ -79,7 +97,7 @@ const VaultInfoToken = (props: VaultInfoTokenProps) => {
   const { token } = props
 
   return (
-    <div>
+    <span>
       {token.symbol} |{' '}
       <ExternalLink
         href={getBlockExplorerUrl(token.chainId, token.address, 'token')}
@@ -87,6 +105,6 @@ const VaultInfoToken = (props: VaultInfoTokenProps) => {
         size='sm'
         className='font-normal text-pt-purple-200'
       />
-    </div>
+    </span>
   )
 }

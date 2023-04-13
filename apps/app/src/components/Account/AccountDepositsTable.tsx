@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
-import { NetworkBadge, VaultBadge } from 'pt-components'
+import { VaultBadge } from 'pt-components'
 import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
@@ -25,11 +25,13 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
     userAddress
   )
 
+  const odds = 'X' // TODO: calculate odds
+
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
-      prizePool: { content: 'Prize Pool', position: 'center' },
-      deposited: { content: 'Deposited', position: 'center' },
+      odds: { content: 'My Win Chance', position: 'center' },
+      balance: { content: 'My Balance', position: 'center' },
       manage: { content: 'Manage', position: 'center' }
     },
     rows:
@@ -45,17 +47,11 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                       <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
                     )
                   },
-                  prizePool: {
-                    content: (
-                      <NetworkBadge
-                        chainId={vault.chainId}
-                        appendText='Prize Pool'
-                        onClick={() => router.push(`/prizes?network=${vault.chainId}`)}
-                      />
-                    ),
+                  odds: {
+                    content: `1 in ${odds}`,
                     position: 'center'
                   },
-                  deposited: {
+                  balance: {
                     content: <AccountVaultBalance vault={vault} shareBalance={shareBalance} />,
                     position: 'center'
                   },
