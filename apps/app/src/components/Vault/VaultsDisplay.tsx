@@ -1,7 +1,6 @@
 import { useAtomValue } from 'jotai'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { NetworkBadge, PrizePoolHeader } from 'pt-components'
+import { NetworkBadge } from 'pt-components'
 import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { filteredVaultsAtom } from '@atoms'
