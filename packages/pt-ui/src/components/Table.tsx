@@ -28,6 +28,23 @@ export const Table = (props: TableProps) => {
 
   const columns = Object.keys(data.headers).length
 
+  const getGridCols = (columns: number) => {
+    switch (columns) {
+      case 1:
+        return 'grid-cols-1'
+      case 2:
+        return 'grid-cols-2'
+      case 3:
+        return 'grid-cols-3'
+      case 4:
+        return 'grid-cols-4'
+      case 5:
+        return 'grid-cols-5'
+      case 6:
+        return 'grid-cols-6'
+    }
+  }
+
   if (columns > 0 && data.rows.length > 0) {
     return (
       <div
@@ -40,8 +57,8 @@ export const Table = (props: TableProps) => {
         {/* Table Headers */}
         <div
           className={classNames(
-            'text-sm px-3 py-6 text-pt-purple-100',
-            `grid grid-cols-${columns} gap-3`,
+            'text-sm px-3 py-6 text-pt-purple-100 grid gap-3',
+            getGridCols(columns),
             headerClassName
           )}
         >
@@ -65,7 +82,7 @@ export const Table = (props: TableProps) => {
               key={`${keyPrefix}-row-${i}`}
               className={classNames(
                 'grid p-3 bg-pt-transparent',
-                `grid-cols-${columns}`,
+                getGridCols(columns),
                 { 'rounded-lg': rounded },
                 rowClassName,
                 row.className
