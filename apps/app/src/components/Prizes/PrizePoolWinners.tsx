@@ -1,25 +1,72 @@
-import { useMemo } from 'react'
-import { useSelectedVault } from 'pt-hyperstructure-hooks'
-import { useNetworks } from '@hooks/useNetworks'
+import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { BigNumber } from 'ethers'
+import { useState } from 'react'
+import { TokenValue } from 'pt-components'
+import { usePrizePools, useSelectedVault } from 'pt-hyperstructure-hooks'
+import { PrizePoolDraw, usePrizePoolDraws } from '@hooks/usePrizePoolDraws'
+import { formatPrizePools } from '../../utils'
 
 export const PrizePoolWinners = () => {
-  const networks = useNetworks()
-
   const { vault } = useSelectedVault()
 
-  const selectedNetwork = useMemo(() => vault?.chainId ?? networks[0], [vault])
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const selectedPrizePool = !!vault
+    ? Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
+    : Object.values(prizePools)[0]
 
-  // TODO: logic to expand currently displayed list
-  const onClickShowMore = () => {}
+  const { data: draws } = usePrizePoolDraws(selectedPrizePool)
+
+  const baseNumDraws = 6
+  const [numDraws, setNumDraws] = useState<number>(baseNumDraws)
+
+  if (!!draws && draws.length > 0) {
+    return (
+      <div className='flex flex-col w-[36rem] gap-4 items-center px-11 py-8 bg-pt-transparent rounded-lg'>
+        <span className='text-xl font-semibold'>Recent Prize Pool Winners</span>
+        <ul className='flex flex-col w-full gap-4 px-3 py-2'>
+          {draws.slice(0, numDraws).map((draw) => {
+            return <DrawRow key={`dr-${draw.id}`} draw={draw} />
+          })}
+        </ul>
+        {draws.length > numDraws && (
+          <span
+            className='font-semibold text-pt-purple-200 cursor-pointer'
+            onClick={() => setNumDraws(numDraws + baseNumDraws)}
+          >
+            Show More
+          </span>
+        )}
+      </div>
+    )
+  }
+}
+
+interface DrawRowProps {
+  draw: PrizePoolDraw
+}
+
+const DrawRow = (props: DrawRowProps) => {
+  const { draw } = props
+
+  const uniqueWallets = new Set<string>(draw.prizes.map((prize) => prize.winner))
+  const totalPrizeAmount = draw.prizes.reduce((a, b) => a.add(b.token.amount), BigNumber.from(0))
+
+  const token = draw.prizes[0]?.token
 
   return (
-    <div className='flex flex-col w-[36rem] gap-4 items-center px-11 py-8 bg-pt-transparent rounded-lg'>
-      <span className='text-xl font-semibold'>Recent Prize Pool Winners</span>
-      {/* TODO: list of winners per draw */}
-      <ul>=== UNDER CONSTRUCTION ===</ul>
-      <span className='font-semibold text-pt-purple-200 cursor-pointer' onClick={onClickShowMore}>
-        Show More
-      </span>
+    <div className='inline-flex gap-4 justify-between font-semibold text-pt-purple-100 whitespace-nowrap'>
+      <span>Draw #{draw.id}</span>
+      {!!token && (
+        <span className='inline-flex gap-2'>
+          {uniqueWallets.size} wallet{uniqueWallets.size === 1 ? '' : 's'} won{' '}
+          <span className='text-pt-purple-50'>
+            <TokenValue token={{ ...token, amount: totalPrizeAmount.toString() }} />
+          </span>{' '}
+          in prizes <ChevronRightIcon className='h-6 w-6' />
+        </span>
+      )}
+      {!token && <>-</>}
     </div>
   )
 }
