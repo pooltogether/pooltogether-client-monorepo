@@ -46,6 +46,8 @@ interface DrawRowProps {
   draw: PrizePoolDraw
 }
 
+// TODO: row hover effect
+// TODO: open draw info modal when row clicked
 const DrawRow = (props: DrawRowProps) => {
   const { draw } = props
 
