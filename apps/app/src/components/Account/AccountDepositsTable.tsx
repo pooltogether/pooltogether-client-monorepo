@@ -52,7 +52,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                     position: 'center'
                   },
                   balance: {
-                    content: <AccountVaultBalance vault={vault} shareBalance={shareBalance} />,
+                    content: <AccountVaultBalance vault={vault} />,
                     position: 'center'
                   },
                   manage: { content: <AccountVaultButtons vault={vault} />, position: 'center' }

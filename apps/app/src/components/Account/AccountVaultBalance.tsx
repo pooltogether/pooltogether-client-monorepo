@@ -1,33 +1,39 @@
 import { BigNumber } from 'ethers'
+import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
+import { useUserVaultBalance, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { getAssetsFromShares } from 'pt-utilities'
 import { TokenValueAndAmount } from '@components/TokenValueAndAmount'
 
 interface AccountVaultBalanceProps {
   vault: Vault
-  shareBalance: BigNumber
 }
 
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
-  const { vault, shareBalance } = props
+  const { vault } = props
 
-  const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
-    useVaultExchangeRate(vault)
+  const { address: userAddress } = useAccount()
 
-  const tokenBalance =
-    isFetchedVaultExchangeRate && !!vaultExchangeRate && vault.decimals !== undefined
-      ? getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals).toString()
-      : '0'
+  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
 
-  return (
-    <div className='flex flex-col items-center'>
-      {!!vault.tokenData ? (
-        <TokenValueAndAmount token={{ ...vault.tokenData, amount: tokenBalance }} />
-      ) : (
-        <Spinner />
-      )}
-    </div>
-  )
+  const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
+
+  if (!userAddress) {
+    return <>-</>
+  }
+
+  // TODO: remove some flickering when first loading data here
+  if (!vault.tokenData || !vaultBalance || !vaultExchangeRate) {
+    return <Spinner />
+  }
+
+  const shareBalance = BigNumber.from(vaultBalance.amount)
+  const amount = getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals).toString()
+
+  if (shareBalance.gt(0)) {
+    return <TokenValueAndAmount token={{ ...vault.tokenData, amount }} />
+  }
+
+  return <>-</>
 }

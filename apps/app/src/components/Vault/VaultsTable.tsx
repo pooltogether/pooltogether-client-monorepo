@@ -1,10 +1,7 @@
-import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
-import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { VaultBadge } from 'pt-components'
-import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner, Table, TableProps } from 'pt-ui'
+import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
@@ -20,12 +17,6 @@ export const VaultsTable = (props: VaultsTableProps) => {
 
   const router = useRouter()
 
-  const { address: userAddress } = useAccount()
-
-  const { vaults: selectedVaults } = useSelectedVaults()
-
-  const { data: vaultBalances } = useAllUserVaultBalances(selectedVaults, userAddress)
-
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
@@ -34,9 +25,8 @@ export const VaultsTable = (props: VaultsTableProps) => {
       balance: { content: 'My Balance', position: 'center' },
       manage: { content: 'Manage', position: 'right' }
     },
-    rows: vaults.map((vault) => {
-      const shareBalance = BigNumber.from(vaultBalances?.[vault.id]?.amount ?? 0)
-      const cells: TableProps['data']['rows'][0]['cells'] = {
+    rows: vaults.map((vault) => ({
+      cells: {
         token: {
           content: <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
         },
@@ -53,23 +43,12 @@ export const VaultsTable = (props: VaultsTableProps) => {
           position: 'center'
         },
         balance: {
-          content:
-            !!vaultBalances || !userAddress ? (
-              <>
-                {shareBalance.gt(0) && (
-                  <AccountVaultBalance vault={vault} shareBalance={shareBalance} />
-                )}
-                {shareBalance.isZero() && '-'}
-              </>
-            ) : (
-              <Spinner />
-            ),
+          content: <AccountVaultBalance vault={vault} />,
           position: 'center'
         },
         manage: { content: <VaultButtons vault={vault} />, position: 'right' }
       }
-      return { cells }
-    })
+    }))
   }
 
   return <Table data={tableData} keyPrefix='vaultsTable' rounded={true} className={className} />
