@@ -43,6 +43,7 @@ export const AppContainer = (props: AppProps) => {
       }}
     >
       <QueryClientProvider client={queryClient}>
+        <div id='modal-root' />
         <Component {...pageProps} />
       </QueryClientProvider>
     </Flowbite>
