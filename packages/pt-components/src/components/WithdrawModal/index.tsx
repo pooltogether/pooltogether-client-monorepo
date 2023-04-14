@@ -18,22 +18,23 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
 
-  return (
-    <Modal
-      isOpen={isWithdrawModalOpen}
-      theme={theme}
-      bodyContent={!!vault && <WithdrawModalBody vault={vault} />}
-      footerContent={
-        !!vault && (
-          <WithdrawModalFooter
-            vault={vault}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
-        )
-      }
-      onClose={() => setIsWithdrawModalOpen(false)}
-    />
-  )
+  if (isWithdrawModalOpen) {
+    return (
+      <Modal
+        theme={theme}
+        bodyContent={!!vault && <WithdrawModalBody vault={vault} />}
+        footerContent={
+          !!vault && (
+            <WithdrawModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          )
+        }
+        onClose={() => setIsWithdrawModalOpen(false)}
+      />
+    )
+  }
 }

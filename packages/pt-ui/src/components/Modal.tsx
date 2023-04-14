@@ -1,10 +1,9 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
-import { Dialog } from '@reach/dialog'
 import classNames from 'classnames'
-import { ReactNode } from 'react'
+import { ReactNode, useLayoutEffect, useState } from 'react'
+import ReactDOM from 'react-dom'
 
 export interface ModalProps {
-  isOpen: boolean
   headerContent?: ReactNode
   bodyContent: ReactNode
   footerContent?: ReactNode
@@ -13,13 +12,12 @@ export interface ModalProps {
   headerClassName?: string
   bodyClassName?: string
   footerClassName?: string
-  onClose?: () => void
+  onClose: () => void
   hideHeader?: boolean
 }
 
 export const Modal = (props: ModalProps) => {
   const {
-    isOpen,
     headerContent,
     bodyContent,
     footerContent,
@@ -32,19 +30,35 @@ export const Modal = (props: ModalProps) => {
     hideHeader
   } = props
 
-  return (
-    <Dialog isOpen={isOpen} onDismiss={onClose}>
+  const [el] = useState<HTMLDivElement>(document.createElement('div'))
+
+  useLayoutEffect(() => {
+    const modalRoot = document.getElementById('modal-root')
+    if (!!modalRoot) {
+      modalRoot.appendChild(el)
+      return () => {
+        modalRoot.removeChild(el)
+      }
+    }
+  }, [])
+
+  return ReactDOM.createPortal(
+    <div
+      className='z-40 fixed flex inset-0 items-center justify-center bg-black/70'
+      onClick={onClose}
+    >
       <div
         className={classNames(
-          'flex flex-col mx-auto relative p-8 text-pt-purple-50 rounded-lg shadow overflow-y-auto',
+          'flex flex-col relative p-8 text-pt-purple-50 rounded-lg shadow-xl overflow-y-auto',
           'h-screen sm:h-auto sm:max-h-[90vh]',
           'w-screen sm:w-full sm:max-w-lg',
           {
-            'bg-pt-bg-purple-light': theme === 'light' || theme === undefined,
+            'bg-pt-bg-purple-light': theme === 'light' || !theme,
             'bg-pt-purple-900': theme === 'dark'
           },
           className
         )}
+        onClick={(e) => e.stopPropagation()}
       >
         {!hideHeader && (
           <ModalHeader theme={theme} className={headerClassName} onClose={onClose}>
@@ -54,7 +68,8 @@ export const Modal = (props: ModalProps) => {
         <ModalBody className={bodyClassName}>{bodyContent}</ModalBody>
         {!!footerContent && <ModalFooter className={footerClassName}>{footerContent}</ModalFooter>}
       </div>
-    </Dialog>
+    </div>,
+    el
   )
 }
 
@@ -73,7 +88,7 @@ const ModalHeader = (props: ModalHeaderProps) => {
       className={classNames(
         'flex items-end justify-between pb-4',
         {
-          'text-pt-purple-50': theme === 'light' || theme === undefined,
+          'text-pt-purple-50': theme === 'light' || !theme,
           'text-pt-purple-100': theme === 'dark'
         },
         className

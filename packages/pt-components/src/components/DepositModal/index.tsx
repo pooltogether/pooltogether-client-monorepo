@@ -18,22 +18,23 @@ export const DepositModal = (props: DepositModalProps) => {
 
   const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
 
-  return (
-    <Modal
-      isOpen={isDepositModalOpen}
-      theme={theme}
-      bodyContent={!!vault && <DepositModalBody vault={vault} />}
-      footerContent={
-        !!vault && (
-          <DepositModalFooter
-            vault={vault}
-            openConnectModal={openConnectModal}
-            openChainModal={openChainModal}
-            addRecentTransaction={addRecentTransaction}
-          />
-        )
-      }
-      onClose={() => setIsDepositModalOpen(false)}
-    />
-  )
+  if (isDepositModalOpen) {
+    return (
+      <Modal
+        theme={theme}
+        bodyContent={!!vault && <DepositModalBody vault={vault} />}
+        footerContent={
+          !!vault && (
+            <DepositModalFooter
+              vault={vault}
+              openConnectModal={openConnectModal}
+              openChainModal={openChainModal}
+              addRecentTransaction={addRecentTransaction}
+            />
+          )
+        }
+        onClose={() => setIsDepositModalOpen(false)}
+      />
+    )
+  }
 }

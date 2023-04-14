@@ -34,26 +34,27 @@ export const SettingsModal = (props: SettingsModalProps) => {
     vaultLists: <VaultListSelector />
   }
 
-  return (
-    <Modal
-      isOpen={isSettingsModalOpen}
-      theme={theme}
-      headerContent={
-        view !== 'menu' ? (
-          <ArrowLeftIcon
-            className={classNames('h-6 w-6 cursor-pointer', {
-              'text-pt-purple-50': theme === 'light' || theme === undefined,
-              'text-pt-purple-100': theme === 'dark'
-            })}
-            onClick={() => setView('menu')}
-          />
-        ) : undefined
-      }
-      bodyContent={modalViews[view]}
-      onClose={() => {
-        setIsSettingsModalOpen(false)
-        setView('menu')
-      }}
-    />
-  )
+  if (isSettingsModalOpen) {
+    return (
+      <Modal
+        theme={theme}
+        headerContent={
+          view !== 'menu' ? (
+            <ArrowLeftIcon
+              className={classNames('h-6 w-6 cursor-pointer', {
+                'text-pt-purple-50': theme === 'light' || theme === undefined,
+                'text-pt-purple-100': theme === 'dark'
+              })}
+              onClick={() => setView('menu')}
+            />
+          ) : undefined
+        }
+        bodyContent={modalViews[view]}
+        onClose={() => {
+          setIsSettingsModalOpen(false)
+          setView('menu')
+        }}
+      />
+    )
+  }
 }
