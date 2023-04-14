@@ -20,8 +20,7 @@ export const VaultBadge = (props: VaultBadgeProps) => {
       className={classNames(
         'inline-flex items-center gap-2 shrink-0 px-3 py-2 bg-pt-transparent rounded-lg whitespace-nowrap',
         'border border-pt-transparent',
-        'hover:bg-pt-purple-50/20',
-        { 'cursor-pointer': !!onClick },
+        { 'cursor-pointer select-none hover:bg-pt-purple-50/20': !!onClick },
         className
       )}
       onClick={onClick}

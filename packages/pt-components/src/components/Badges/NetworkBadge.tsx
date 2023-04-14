@@ -32,8 +32,8 @@ export const NetworkBadge = (props: NetworkBadgeProps) => {
       className={classNames(
         'inline-flex items-center gap-1 px-3 py-2 text-sm rounded-lg',
         {
-          'bg-pt-transparent border border-pt-transparent hover:bg-pt-purple-50/20': !hideBg,
-          'cursor-pointer': !!onClick
+          'bg-pt-transparent border border-pt-transparent': !hideBg,
+          'cursor-pointer select-none hover:bg-pt-purple-50/20': !!onClick
         },
         className
       )}
