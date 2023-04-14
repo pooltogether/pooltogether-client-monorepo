@@ -86,7 +86,7 @@ const ModalHeader = (props: ModalHeaderProps) => {
   return (
     <div
       className={classNames(
-        'flex items-end justify-between pb-4',
+        'flex pb-4',
         {
           'text-pt-purple-50': theme === 'light' || !theme,
           'text-pt-purple-100': theme === 'dark'
@@ -95,7 +95,7 @@ const ModalHeader = (props: ModalHeaderProps) => {
       )}
     >
       {children}
-      <XMarkIcon className='h-6 w-6 cursor-pointer' onClick={onClose} />
+      <XMarkIcon className='h-6 w-6 ml-auto cursor-pointer' onClick={onClose} />
     </div>
   )
 }

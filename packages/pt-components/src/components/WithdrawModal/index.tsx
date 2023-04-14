@@ -1,4 +1,4 @@
-import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
 import { WithdrawModalBody } from './WithdrawModalBody'
@@ -16,9 +16,9 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const { vault } = useSelectedVault()
 
-  const { isWithdrawModalOpen, setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
+  const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.withdraw)
 
-  if (isWithdrawModalOpen) {
+  if (isModalOpen) {
     return (
       <Modal
         theme={theme}
@@ -33,7 +33,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
             />
           )
         }
-        onClose={() => setIsWithdrawModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
       />
     )
   }

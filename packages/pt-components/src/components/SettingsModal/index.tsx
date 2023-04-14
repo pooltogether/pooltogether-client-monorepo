@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { useIsSettingsModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { Modal } from 'pt-ui'
 import { CurrencySelector } from './CurrencySelector'
 import { LanguageSelector } from './LanguageSelector'
@@ -25,7 +25,7 @@ export interface SettingsModalProps {
 export const SettingsModal = (props: SettingsModalProps) => {
   const { view, setView, theme, disable, hide } = props
 
-  const { isSettingsModalOpen, setIsSettingsModalOpen } = useIsSettingsModalOpen()
+  const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   const modalViews: Record<SettingsModalView, ReactNode> = {
     menu: <SettingsMenu setView={setView} theme={theme} disable={disable} hide={hide} />,
@@ -35,7 +35,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
     vaultLists: <VaultListSelector />
   }
 
-  if (isSettingsModalOpen) {
+  if (isModalOpen) {
     return (
       <Modal
         theme={theme}
@@ -52,7 +52,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
         }
         bodyContent={modalViews[view]}
         onClose={() => {
-          setIsSettingsModalOpen(false)
+          setIsModalOpen(false)
           setView('menu')
         }}
       />

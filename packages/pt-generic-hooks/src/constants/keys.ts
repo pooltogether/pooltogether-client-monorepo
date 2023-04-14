@@ -16,3 +16,12 @@ export const LOCAL_STORAGE_KEYS = Object.freeze({
   selectedCurrency: 'selectedCurrency',
   selectedLanguage: 'selectedLanguage'
 })
+
+/**
+ * Modal keys
+ */
+export const MODAL_KEYS = Object.freeze({
+  deposit: 'deposit',
+  settings: 'settings',
+  withdraw: 'withdraw'
+})

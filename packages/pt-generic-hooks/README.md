@@ -13,10 +13,8 @@ A shared React hooks library for PoolTogether.
 ## App Hooks
 
 - `useCountdown`
-- `useIsDepositModalOpen`
-- `useIsSettingsModalOpen`
+- `useIsModalOpen`
 - `useIsTestnets`
-- `useIsWithdrawModalOpen`
 - `useSelectedCurrency`
 - `useSelectedLanguage`
 

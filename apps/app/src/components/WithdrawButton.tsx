@@ -1,5 +1,5 @@
 import { Vault } from 'pt-client-js'
-import { useIsWithdrawModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Button, ButtonProps } from 'pt-ui'
 
@@ -10,13 +10,13 @@ interface WithdrawButtonProps extends Omit<ButtonProps, 'onClick'> {
 export const WithdrawButton = (props: WithdrawButtonProps) => {
   const { vault, children, ...rest } = props
 
-  const { setIsWithdrawModalOpen } = useIsWithdrawModalOpen()
+  const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.withdraw)
 
   const { setSelectedVaultById } = useSelectedVault()
 
   const handleClick = () => {
     setSelectedVaultById(vault.id)
-    setIsWithdrawModalOpen(true)
+    setIsModalOpen(true)
   }
 
   return (

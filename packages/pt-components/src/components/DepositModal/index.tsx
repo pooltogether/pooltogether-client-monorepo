@@ -1,4 +1,4 @@
-import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
 import { DepositModalBody } from './DepositModalBody'
@@ -16,9 +16,9 @@ export const DepositModal = (props: DepositModalProps) => {
 
   const { vault } = useSelectedVault()
 
-  const { isDepositModalOpen, setIsDepositModalOpen } = useIsDepositModalOpen()
+  const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.deposit)
 
-  if (isDepositModalOpen) {
+  if (isModalOpen) {
     return (
       <Modal
         theme={theme}
@@ -33,7 +33,7 @@ export const DepositModal = (props: DepositModalProps) => {
             />
           )
         }
-        onClose={() => setIsDepositModalOpen(false)}
+        onClose={() => setIsModalOpen(false)}
       />
     )
   }

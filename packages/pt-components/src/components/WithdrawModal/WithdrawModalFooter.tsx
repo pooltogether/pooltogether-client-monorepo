@@ -2,7 +2,7 @@ import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import {
   useSendWithdrawTransaction,
   useTokenBalance,
@@ -25,7 +25,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
 
-  const { setIsDepositModalOpen } = useIsDepositModalOpen()
+  const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.withdraw)
 
   const {
     data: vaultInfoWithAmount,
@@ -61,7 +61,7 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     onSuccess: () => {
       refetchTokenBalance()
       refetchUserVaultBalance()
-      setIsDepositModalOpen(false)
+      setIsModalOpen(false)
     }
   })
 

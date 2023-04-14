@@ -1,5 +1,5 @@
 import { Vault } from 'pt-client-js'
-import { useIsDepositModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Button, ButtonProps } from 'pt-ui'
 
@@ -10,13 +10,13 @@ interface DepositButtonProps extends Omit<ButtonProps, 'onClick'> {
 export const DepositButton = (props: DepositButtonProps) => {
   const { vault, children, ...rest } = props
 
-  const { setIsDepositModalOpen } = useIsDepositModalOpen()
+  const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.deposit)
 
   const { setSelectedVaultById } = useSelectedVault()
 
   const handleClick = () => {
     setSelectedVaultById(vault.id)
-    setIsDepositModalOpen(true)
+    setIsModalOpen(true)
   }
 
   return (
