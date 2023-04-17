@@ -12,6 +12,8 @@ export const useCountdown = (targetEpochTimestampInSeconds: number) => {
 
   useEffect(() => {
     if (targetTimestampInMs > 0) {
+      setCountdownInMs(targetTimestampInMs - new Date().getTime())
+
       const interval = setInterval(() => {
         setCountdownInMs(targetTimestampInMs - new Date().getTime())
       }, 1_000)
@@ -20,11 +22,9 @@ export const useCountdown = (targetEpochTimestampInSeconds: number) => {
     }
   }, [targetTimestampInMs])
 
-  if (countdownInMs <= 0) {
-    return { years: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
-  } else if (targetTimestampInMs > 0) {
+  if (countdownInMs > 0) {
     return getTimeBreakdown(msToS(countdownInMs))
   } else {
-    return { years: null, days: null, hours: null, minutes: null, seconds: null }
+    return { years: 0, days: 0, hours: 0, minutes: 0, seconds: 0 }
   }
 }
