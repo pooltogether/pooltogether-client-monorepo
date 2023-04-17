@@ -1,8 +1,8 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
+import { useEffect } from 'react'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import {
   useSendApproveTransaction,
   useSendDepositTransaction,
@@ -12,24 +12,32 @@ import {
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { DepositModalView } from '.'
 import { depositFormTokenAmountAtom } from '../Form/DepositForm'
 import { isValidFormInput } from '../Form/TxFormInput'
 import { TransactionButton } from '../Transaction/TransactionButton'
 
-interface DepositModalFooterProps {
+interface DepositTxButtonProps {
   vault: Vault
+  setModalView: (view: DepositModalView) => void
+  setDepositTxHash: (txHash: string) => void
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
-export const DepositModalFooter = (props: DepositModalFooterProps) => {
-  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
+export const DepositTxButton = (props: DepositTxButtonProps) => {
+  const {
+    vault,
+    setModalView,
+    setDepositTxHash,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction
+  } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
-
-  const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.deposit)
 
   const {
     data: allowance,
@@ -75,7 +83,8 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     txHash: approvalTxHash,
     sendApproveTransaction
   } = useSendApproveTransaction(depositAmount, vault, {
-    onSuccess: refetchTokenAllowance
+    onSuccess: () => refetchTokenAllowance(),
+    onError: () => setModalView('error')
   })
 
   const {
@@ -85,12 +94,25 @@ export const DepositModalFooter = (props: DepositModalFooterProps) => {
     txHash: depositTxHash,
     sendDepositTransaction
   } = useSendDepositTransaction(depositAmount, vault, {
+    onSend: () => {
+      setModalView('waiting')
+    },
     onSuccess: () => {
       refetchTokenBalance()
       refetchUserVaultBalance()
-      setIsModalOpen(false)
+      setModalView('success')
+    },
+    onError: () => {
+      setModalView('error')
     }
   })
+
+  useEffect(() => {
+    if (!!depositTxHash && isConfirmingDeposit && !isWaitingDeposit && !isSuccessfulDeposit) {
+      setDepositTxHash(depositTxHash)
+      setModalView('confirming')
+    }
+  }, [depositTxHash, isConfirmingDeposit])
 
   const approvalEnabled =
     !isDisconnected &&

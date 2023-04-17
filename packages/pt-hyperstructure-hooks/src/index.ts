@@ -37,9 +37,7 @@ export * from './tokens/useTokens'
  * Transaction Hooks
  */
 export * from './transactions/useSendApproveTransaction'
-export * from './transactions/useSendDepositToTransaction'
 export * from './transactions/useSendDepositTransaction'
-export * from './transactions/useSendWithdrawToTransaction'
 export * from './transactions/useSendWithdrawTransaction'
 
 /**
