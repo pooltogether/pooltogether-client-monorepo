@@ -20,7 +20,12 @@ export const SuccessView = (props: SuccessViewProps) => {
   return (
     <div className='flex flex-col gap-6'>
       <SuccessViewHeader vault={vault} />
-      <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' className='mx-auto' />
+      <NetworkBadge
+        chainId={vault.chainId}
+        appendText='Prize Pool'
+        hideBorder={true}
+        className='!py-1 mx-auto'
+      />
       <span className='text-center'>You are now eligible for all future draws in this pool.</span>
       <div className='flex flex-col w-full gap-6'>
         <ExternalLink

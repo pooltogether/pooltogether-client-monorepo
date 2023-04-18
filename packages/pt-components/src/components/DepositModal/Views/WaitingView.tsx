@@ -18,7 +18,12 @@ export const WaitingView = (props: WaitingViewProps) => {
   return (
     <div className='flex flex-col gap-6'>
       <span className='text-xl font-semibold text-center'>Confirm Transaction in Wallet</span>
-      <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' className='mx-auto' />
+      <NetworkBadge
+        chainId={vault.chainId}
+        appendText='Prize Pool'
+        hideBorder={true}
+        className='!py-1 mx-auto'
+      />
       <span className='text-center'>
         Depositing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>

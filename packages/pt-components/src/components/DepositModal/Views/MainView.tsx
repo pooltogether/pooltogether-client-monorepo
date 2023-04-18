@@ -20,7 +20,12 @@ export const MainView = (props: MainViewProps) => {
       <span className='text-xl font-semibold text-center'>
         Deposit to {vault.name ?? <Spinner />} on {networkName}
       </span>
-      <NetworkBadge chainId={vault.chainId} appendText='Prize Pool' className='mx-auto' />
+      <NetworkBadge
+        chainId={vault.chainId}
+        appendText='Prize Pool'
+        hideBorder={true}
+        className='!py-1 mx-auto'
+      />
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <DepositForm vault={vault} />
       )}

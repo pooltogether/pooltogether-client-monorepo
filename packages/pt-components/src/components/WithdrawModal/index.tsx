@@ -5,14 +5,13 @@ import { WithdrawModalBody } from './WithdrawModalBody'
 import { WithdrawModalFooter } from './WithdrawModalFooter'
 
 export interface WithdrawModalProps {
-  theme?: 'light' | 'dark'
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { theme, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { vault } = useSelectedVault()
 
@@ -21,7 +20,6 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   if (isModalOpen) {
     return (
       <Modal
-        theme={theme}
         bodyContent={!!vault && <WithdrawModalBody vault={vault} />}
         footerContent={
           !!vault && (

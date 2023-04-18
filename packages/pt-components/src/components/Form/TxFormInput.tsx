@@ -1,4 +1,3 @@
-import { ArrowDownIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { BigNumber, utils } from 'ethers'
 import { useFormContext } from 'react-hook-form'
@@ -19,13 +18,11 @@ export interface TxFormInputProps {
   disabled?: boolean
   onChange?: (v: string) => void
   showMaxButton?: boolean
-  showDownArrow?: boolean
   className?: string
 }
 
 export const TxFormInput = (props: TxFormInputProps) => {
-  const { token, formKey, validate, disabled, onChange, showMaxButton, showDownArrow, className } =
-    props
+  const { token, formKey, validate, disabled, onChange, showMaxButton, className } = props
 
   const {
     watch,
@@ -61,7 +58,12 @@ export const TxFormInput = (props: TxFormInputProps) => {
   }
 
   return (
-    <div className={classNames('relative bg-pt-transparent p-4 rounded-lg', className)}>
+    <div
+      className={classNames(
+        'relative bg-pt-transparent p-4 rounded-lg border border-transparent focus-within:border-pt-transparent',
+        className
+      )}
+    >
       <div className='flex justify-between gap-6'>
         <Input
           formKey={formKey}
@@ -89,12 +91,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
           )}
         </div>
       </div>
-      {!!error && <span className='text-sm text-pt-warning'>{error}</span>}
-      {showDownArrow && (
-        <div className='absolute -bottom-4 left-0 right-0 mx-auto flex items-center justify-center h-8 w-8 bg-pt-bg-purple-light border-2 border-pt-purple-50 rounded-lg z-10'>
-          <ArrowDownIcon className='h-5 w-5 text-pt-purple-100' />
-        </div>
-      )}
+      {!!error && <span className='text-sm text-pt-warning-light'>{error}</span>}
     </div>
   )
 }

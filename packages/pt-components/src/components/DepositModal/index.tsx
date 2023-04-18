@@ -13,7 +13,6 @@ import { WaitingView } from './Views/WaitingView'
 export type DepositModalView = 'main' | 'waiting' | 'confirming' | 'success' | 'error'
 
 export interface DepositModalProps {
-  theme?: 'light' | 'dark'
   onGoToAccount?: () => void
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -21,7 +20,7 @@ export interface DepositModalProps {
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { theme, onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } = props
 
   const { vault } = useSelectedVault()
 
@@ -56,7 +55,6 @@ export const DepositModal = (props: DepositModalProps) => {
 
     return (
       <Modal
-        theme={theme}
         bodyContent={modalViews[view]}
         footerContent={
           <div
@@ -76,6 +74,7 @@ export const DepositModal = (props: DepositModalProps) => {
           </div>
         }
         onClose={handleClose}
+        hideHeader={true}
       />
     )
   }

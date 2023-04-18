@@ -133,7 +133,6 @@ export const DepositForm = (props: DepositFormProps) => {
                 calculateSharesForTokens(tokenAmount)
               }}
               showMaxButton={true}
-              showDownArrow={true}
               className='mb-0.5'
             />
             <TxFormInput
@@ -143,7 +142,7 @@ export const DepositForm = (props: DepositFormProps) => {
               className='my-0.5 rounded-b-none'
             />
           </FormProvider>
-          <TxFormInfo vault={vault} linkType='share' />
+          <TxFormInfo vault={vault} />
         </>
       )}
     </div>
