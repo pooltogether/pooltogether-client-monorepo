@@ -24,7 +24,7 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
         Depositing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
       <Spinner className='w-24 h-24 mx-auto after:border-y-pt-teal' />
-      <div className='flex flex-col w-full gap-6 mt-auto'>
+      <div className='flex flex-col w-full justify-end h-36 gap-6'>
         <ExternalLink
           href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
           text='View TX'

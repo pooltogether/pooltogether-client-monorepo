@@ -16,7 +16,7 @@ export const ErrorView = (props: ErrorViewProps) => {
         fullSized={true}
         color='transparent'
         onClick={() => setModalView('main')}
-        className='mt-auto'
+        className='mt-32'
       >
         Try Again
       </Button>

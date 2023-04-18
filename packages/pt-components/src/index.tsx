@@ -29,6 +29,7 @@ export * from './components/Form/WithdrawForm'
  */
 export * from './components/Icons/ClipboardListIcon'
 export * from './components/Icons/NetworkIcon'
+export * from './components/Icons/SuccessIcon'
 export * from './components/Icons/TokenIcon'
 
 /**

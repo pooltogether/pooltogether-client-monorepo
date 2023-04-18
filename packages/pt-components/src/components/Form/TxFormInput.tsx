@@ -89,8 +89,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
           )}
         </div>
       </div>
-      {/* TODO: style error message or outline */}
-      {!!error && <span>{error}</span>}
+      {!!error && <span className='text-sm text-pt-warning'>{error}</span>}
       {showDownArrow && (
         <div className='absolute -bottom-4 left-0 right-0 mx-auto flex items-center justify-center h-8 w-8 bg-pt-bg-purple-light border-2 border-pt-purple-50 rounded-lg z-10'>
           <ArrowDownIcon className='h-5 w-5 text-pt-purple-100' />

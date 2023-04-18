@@ -1,6 +1,5 @@
 import classNames from 'classnames'
 import { ReactNode, useState } from 'react'
-import { Vault } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
@@ -37,48 +36,28 @@ export const DepositModal = (props: DepositModalProps) => {
     setView('main')
   }
 
-  const getModalBodyView = (view: DepositModalView, vault: Vault): ReactNode => {
-    if (!!vault) {
-      switch (view) {
-        case 'main': {
-          return <MainView vault={vault} />
-        }
-        case 'waiting': {
-          return <WaitingView vault={vault} closeModal={handleClose} />
-        }
-        case 'confirming': {
-          return (
-            <ConfirmingView
-              vault={vault}
-              txHash={depositTxHash as string}
-              closeModal={handleClose}
-            />
-          )
-        }
-        case 'success': {
-          return (
-            <SuccessView
-              vault={vault}
-              txHash={depositTxHash as string}
-              closeModal={handleClose}
-              onGoToAccount={onGoToAccount}
-            />
-          )
-        }
-        case 'error': {
-          return <ErrorView setModalView={setView} />
-        }
-      }
-    } else {
-      return <></>
-    }
-  }
-
   if (isModalOpen && !!vault) {
+    const modalViews: Record<DepositModalView, ReactNode> = {
+      main: <MainView vault={vault} />,
+      waiting: <WaitingView vault={vault} closeModal={handleClose} />,
+      confirming: (
+        <ConfirmingView vault={vault} txHash={depositTxHash as string} closeModal={handleClose} />
+      ),
+      success: (
+        <SuccessView
+          vault={vault}
+          txHash={depositTxHash as string}
+          closeModal={handleClose}
+          goToAccount={onGoToAccount}
+        />
+      ),
+      error: <ErrorView setModalView={setView} />
+    }
+
     return (
       <Modal
         theme={theme}
-        bodyContent={getModalBodyView(view, vault)}
+        bodyContent={modalViews[view]}
         footerContent={
           <div
             className={classNames('flex flex-col items-center gap-6', {
@@ -93,14 +72,20 @@ export const DepositModal = (props: DepositModalProps) => {
               openChainModal={openChainModal}
               addRecentTransaction={addRecentTransaction}
             />
-            <span className='text-xs text-pt-purple-100 px-6'>
-              By clicking "Deposit", you agree to PoolTogether's Terms of Service and acknowledge
-              that you have read and understand the PoolTogether protocol disclaimer.
-            </span>
+            <DepositDisclaimer />
           </div>
         }
         onClose={handleClose}
       />
     )
   }
+}
+
+const DepositDisclaimer = () => {
+  return (
+    <span className='text-xs text-pt-purple-100 px-6'>
+      By clicking "Deposit", you agree to PoolTogether's Terms of Service and acknowledge that you
+      have read and understand the PoolTogether protocol disclaimer.
+    </span>
+  )
 }

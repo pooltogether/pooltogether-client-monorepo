@@ -23,9 +23,11 @@ export const WaitingView = (props: WaitingViewProps) => {
         Depositing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
       <Spinner className='w-24 h-24 mx-auto after:border-y-pt-teal' />
-      <Button fullSized={true} color='transparent' onClick={closeModal} className='mt-auto'>
-        Close
-      </Button>
+      <div className='flex items-end h-36'>
+        <Button fullSized={true} color='transparent' onClick={closeModal}>
+          Close
+        </Button>
+      </div>
     </div>
   )
 }
