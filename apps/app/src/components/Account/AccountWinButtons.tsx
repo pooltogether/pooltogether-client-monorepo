@@ -15,7 +15,7 @@ export const AccountWinButtons = (props: AccountWinButtonsProps) => {
       <Button color='transparent'>
         <ExternalLink
           href={getBlockExplorerUrl(win.prizePool.chainId, win.txHash, 'tx')}
-          text={`View TX`}
+          text='View TX'
           size='sm'
           className='text-pt-purple-100'
         />

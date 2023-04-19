@@ -102,6 +102,7 @@ export const Layout = (props: LayoutProps) => {
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
+        onGoToAccount={() => router.push('/account')}
       />
 
       <WithdrawModal

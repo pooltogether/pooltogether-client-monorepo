@@ -133,7 +133,6 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
                 calculateTokensForShares(shareAmount)
               }}
               showMaxButton={true}
-              showDownArrow={true}
               className='mb-0.5'
             />
             <TxFormInput
@@ -143,7 +142,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
               className='my-0.5 rounded-b-none'
             />
           </FormProvider>
-          <TxFormInfo vault={vault} linkType='token' />
+          <TxFormInfo vault={vault} />
         </>
       )}
     </div>

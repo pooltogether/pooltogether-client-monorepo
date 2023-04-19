@@ -1,31 +1,39 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
+import { useEffect } from 'react'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import {
   useSendWithdrawTransaction,
   useTokenBalance,
   useUserVaultBalance
 } from 'pt-hyperstructure-hooks'
-import { isValidFormInput } from '../Form/TxFormInput'
-import { withdrawFormShareAmountAtom } from '../Form/WithdrawForm'
-import { TransactionButton } from '../Transaction/TransactionButton'
+import { WithdrawModalView } from '.'
+import { isValidFormInput } from '../../Form/TxFormInput'
+import { withdrawFormShareAmountAtom } from '../../Form/WithdrawForm'
+import { TransactionButton } from '../../Transaction/TransactionButton'
 
-interface WithdrawModalFooterProps {
+interface WithdrawTxButtonProps {
   vault: Vault
+  setModalView: (view: WithdrawModalView) => void
+  setWithdrawTxHash: (txHash: string) => void
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
-export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
-  const { vault, openConnectModal, openChainModal, addRecentTransaction } = props
+export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
+  const {
+    vault,
+    setModalView,
+    setWithdrawTxHash,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction
+  } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
   const provider = useProvider({ chainId: vault.chainId })
-
-  const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.withdraw)
 
   const {
     data: vaultInfoWithAmount,
@@ -58,12 +66,30 @@ export const WithdrawModalFooter = (props: WithdrawModalFooterProps) => {
     txHash: withdrawTxHash,
     sendWithdrawTransaction
   } = useSendWithdrawTransaction(withdrawAmount, vault, {
+    onSend: () => {
+      setModalView('waiting')
+    },
     onSuccess: () => {
       refetchTokenBalance()
       refetchUserVaultBalance()
-      setIsModalOpen(false)
+      setModalView('success')
+    },
+    onError: () => {
+      setModalView('error')
     }
   })
+
+  useEffect(() => {
+    if (
+      !!withdrawTxHash &&
+      isConfirmingWithdrawal &&
+      !isWaitingWithdrawal &&
+      !isSuccessfulWithdrawal
+    ) {
+      setWithdrawTxHash(withdrawTxHash)
+      setModalView('confirming')
+    }
+  }, [withdrawTxHash, isConfirmingWithdrawal])
 
   const withdrawEnabled =
     !isDisconnected &&

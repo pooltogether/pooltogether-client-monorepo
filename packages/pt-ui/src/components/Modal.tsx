@@ -7,7 +7,6 @@ export interface ModalProps {
   headerContent?: ReactNode
   bodyContent: ReactNode
   footerContent?: ReactNode
-  theme?: 'light' | 'dark'
   className?: string
   headerClassName?: string
   bodyClassName?: string
@@ -21,7 +20,6 @@ export const Modal = (props: ModalProps) => {
     headerContent,
     bodyContent,
     footerContent,
-    theme,
     className,
     headerClassName,
     bodyClassName,
@@ -49,19 +47,16 @@ export const Modal = (props: ModalProps) => {
     >
       <div
         className={classNames(
-          'flex flex-col relative p-8 text-pt-purple-50 rounded-lg shadow-xl overflow-y-auto',
+          'flex flex-col relative p-8 rounded-lg shadow-xl overflow-y-auto',
+          'bg-pt-purple-700 text-pt-purple-50',
           'h-screen sm:h-auto sm:max-h-[90vh]',
           'w-screen sm:w-full sm:max-w-lg',
-          {
-            'bg-pt-bg-purple-light': theme === 'light' || !theme,
-            'bg-pt-purple-900': theme === 'dark'
-          },
           className
         )}
         onClick={(e) => e.stopPropagation()}
       >
         {!hideHeader && (
-          <ModalHeader theme={theme} className={headerClassName} onClose={onClose}>
+          <ModalHeader className={headerClassName} onClose={onClose}>
             {headerContent}
           </ModalHeader>
         )}
@@ -75,25 +70,15 @@ export const Modal = (props: ModalProps) => {
 
 interface ModalHeaderProps {
   children?: ReactNode
-  theme?: 'light' | 'dark'
   className?: string
   onClose?: () => void
 }
 
 const ModalHeader = (props: ModalHeaderProps) => {
-  const { children, theme, className, onClose } = props
+  const { children, className, onClose } = props
 
   return (
-    <div
-      className={classNames(
-        'flex pb-4',
-        {
-          'text-pt-purple-50': theme === 'light' || !theme,
-          'text-pt-purple-100': theme === 'dark'
-        },
-        className
-      )}
-    >
+    <div className={classNames('flex pb-4 text-pt-purple-50', className)}>
       {children}
       <XMarkIcon className='h-6 w-6 ml-auto cursor-pointer' onClick={onClose} />
     </div>

@@ -13,11 +13,12 @@ import { erc4626 as erc4626Abi } from 'pt-utilities'
 export const useSendWithdrawTransaction = (
   amount: BigNumber,
   vault: Vault,
-  options?: { onSuccess?: () => void; onError?: () => void }
+  options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
   isWaiting: boolean
   isConfirming: boolean
   isSuccess: boolean
+  isError: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
   sendWithdrawTransaction?: () => void
@@ -40,8 +41,16 @@ export const useSendWithdrawTransaction = (
   const {
     data: txSendData,
     isLoading: isWaiting,
-    write: sendWithdrawTransaction
+    isError: isSendingError,
+    write
   } = useContractWrite(config)
+
+  const sendWithdrawTransaction = !!write
+    ? () => {
+        write()
+        options?.onSend?.()
+      }
+    : undefined
 
   const txHash = txSendData?.hash
 
@@ -49,15 +58,22 @@ export const useSendWithdrawTransaction = (
     data: txReceipt,
     isLoading: isConfirming,
     isSuccess,
-    isError
+    isError: isConfirmingError
   } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
 
-  useEffect(() => {
-    if (!!txReceipt) {
-      isSuccess && options?.onSuccess?.()
-      isError && options?.onError?.()
-    }
-  }, [txReceipt])
+  const isError = isSendingError || isConfirmingError
 
-  return { isWaiting, isConfirming, isSuccess, txHash, txReceipt, sendWithdrawTransaction }
+  useEffect(() => {
+    if (!!txReceipt && isSuccess) {
+      options?.onSuccess?.()
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isError) {
+      options?.onError?.()
+    }
+  }, [isError])
+
+  return { isWaiting, isConfirming, isSuccess, isError, txHash, txReceipt, sendWithdrawTransaction }
 }

@@ -7,11 +7,12 @@ import { erc20 as erc20Abi } from 'pt-utilities'
 export const useSendApproveTransaction = (
   amount: BigNumber,
   vault: Vault,
-  options?: { onSuccess?: () => void; onError?: () => void }
+  options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
   isWaiting: boolean
   isConfirming: boolean
   isSuccess: boolean
+  isError: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
   sendApproveTransaction?: () => void
@@ -32,8 +33,16 @@ export const useSendApproveTransaction = (
   const {
     data: txSendData,
     isLoading: isWaiting,
-    write: sendApproveTransaction
+    isError: isSendingError,
+    write
   } = useContractWrite(config)
+
+  const sendApproveTransaction = !!write
+    ? () => {
+        write()
+        options?.onSend?.()
+      }
+    : undefined
 
   const txHash = txSendData?.hash
 
@@ -41,15 +50,22 @@ export const useSendApproveTransaction = (
     data: txReceipt,
     isLoading: isConfirming,
     isSuccess,
-    isError
+    isError: isConfirmingError
   } = useWaitForTransaction({ chainId: vault?.chainId, hash: txHash })
 
-  useEffect(() => {
-    if (!!txReceipt) {
-      isSuccess && options?.onSuccess?.()
-      isError && options?.onError?.()
-    }
-  }, [txReceipt])
+  const isError = isSendingError || isConfirmingError
 
-  return { isWaiting, isConfirming, isSuccess, txHash, txReceipt, sendApproveTransaction }
+  useEffect(() => {
+    if (!!txReceipt && isSuccess) {
+      options?.onSuccess?.()
+    }
+  }, [isSuccess])
+
+  useEffect(() => {
+    if (isError) {
+      options?.onError?.()
+    }
+  }, [isError])
+
+  return { isWaiting, isConfirming, isSuccess, isError, txHash, txReceipt, sendApproveTransaction }
 }

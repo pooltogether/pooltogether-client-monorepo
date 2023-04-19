@@ -8,17 +8,16 @@ import {
   useSelectedLanguage
 } from 'pt-generic-hooks'
 import { BasicIcon, LINKS } from 'pt-ui'
-import { SettingsModalOption, SettingsModalTheme, SettingsModalView } from '.'
-import { ClipboardListIcon } from '../Icons/ClipboardListIcon'
+import { SettingsModalOption, SettingsModalView } from '..'
+import { ClipboardListIcon } from '../../../Icons/ClipboardListIcon'
 
-interface SettingsMenuProps {
+interface MenuViewProps {
   setView: (view: SettingsModalView) => void
-  theme?: SettingsModalTheme
   disable?: SettingsModalOption[]
   hide?: SettingsModalOption[]
 }
 
-export const SettingsMenu = (props: SettingsMenuProps) => {
+export const MenuView = (props: MenuViewProps) => {
   const { setView, disable, hide } = props
 
   const { selectedCurrency } = useSelectedCurrency()
@@ -76,22 +75,14 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
 interface SettingsMenuSectionProps {
   title: string
   items: SettingsMenuItemProps[]
-  theme?: SettingsModalTheme
 }
 
 const SettingsMenuSection = (props: SettingsMenuSectionProps) => {
-  const { title, items, theme } = props
+  const { title, items } = props
 
   return (
     <div className='flex flex-col gap-4'>
-      <span
-        className={classNames('text-2xl font-semibold', {
-          'text-pt-purple-50': theme === 'light' || theme === undefined,
-          'text-pt-purple-300': theme === 'dark'
-        })}
-      >
-        {title}
-      </span>
+      <span className='text-2xl font-semibold text-pt-purple-50'>{title}</span>
       {items.map((item) => {
         return (
           <SettingsMenuItem
@@ -108,22 +99,17 @@ interface SettingsMenuItemProps {
   iconContent: ReactNode
   title: string
   onClick: () => void
-  theme?: SettingsModalTheme
   disabled?: boolean
   hidden?: boolean
 }
 
 const SettingsMenuItem = (props: SettingsMenuItemProps) => {
-  const { iconContent, title, onClick, theme, disabled, hidden } = props
+  const { iconContent, title, onClick, disabled, hidden } = props
 
   return (
     <div
       className={classNames(
-        'flex gap-3 w-full rounded-lg px-8 py-4 select-none relative',
-        {
-          'bg-pt-transparent hover:bg-pt-transparent/5': theme === 'light' || theme === undefined,
-          'bg-pt-purple-600/40 hover:bg-pt-purple-600/60': theme === 'dark'
-        },
+        'flex gap-3 w-full rounded-lg px-8 py-4 select-none relative bg-pt-transparent hover:bg-pt-transparent/5',
         { 'cursor-pointer': !disabled, 'brightness-50': disabled },
         { hidden: hidden }
       )}
@@ -133,7 +119,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <BasicIcon content={iconContent} size='lg' theme={theme === 'dark' ? 'light' : 'dark'} />
+      <BasicIcon content={iconContent} size='lg' theme='dark' />
       <span className='flex items-center text-pt-purple-50'>{title}</span>
     </div>
   )

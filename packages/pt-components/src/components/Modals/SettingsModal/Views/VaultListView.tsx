@@ -4,9 +4,9 @@ import { useCachedVaultLists, useSelectedVaultLists } from 'pt-hyperstructure-ho
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
 import { DEFAULT_VAULT_LIST_ID, defaultVaultList, getVaultListId } from 'pt-utilities'
-import { ImportedBadge } from '../Badges/ImportedBadge'
+import { ImportedBadge } from '../../../Badges/ImportedBadge'
 
-export const VaultListSelector = () => {
+export const VaultListView = () => {
   const { cachedVaultLists } = useCachedVaultLists()
   const { selectedVaultListIds } = useSelectedVaultLists()
 

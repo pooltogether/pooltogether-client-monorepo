@@ -29,8 +29,8 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 ## Modals
 
 - `DepositModal`
-- `WithdrawModal`
 - `SettingsModal`
+- `WithdrawModal`
 
 ## Form Components
 
@@ -43,6 +43,7 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 
 - `ClipboardListIcon`
 - `NetworkIcon`
+- `SuccessIcon`
 - `TokenIcon`
 
 ## Prize Pool Components

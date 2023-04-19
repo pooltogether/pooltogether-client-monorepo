@@ -12,11 +12,6 @@ export * from './components/Currency/CurrencyValue'
 export * from './components/Currency/TokenValue'
 
 /**
- * Deposit Modal
- */
-export * from './components/DepositModal'
-
-/**
  * Form
  */
 export * from './components/Form/DepositForm'
@@ -29,18 +24,21 @@ export * from './components/Form/WithdrawForm'
  */
 export * from './components/Icons/ClipboardListIcon'
 export * from './components/Icons/NetworkIcon'
+export * from './components/Icons/SuccessIcon'
 export * from './components/Icons/TokenIcon'
+
+/**
+ * Modals
+ */
+export * from './components/Modals/DepositModal'
+export * from './components/Modals/SettingsModal'
+export * from './components/Modals/WithdrawModal'
 
 /**
  * Prize Pool
  */
 export * from './components/PrizePool/PrizePoolCard'
 export * from './components/PrizePool/PrizePoolDropdown'
-
-/**
- * Settings Modal
- */
-export * from './components/SettingsModal'
 
 /**
  * Time
@@ -52,11 +50,6 @@ export * from './components/Time/TimeDigits'
  * Transaction
  */
 export * from './components/Transaction/TransactionButton'
-
-/**
- * Withdraw Modal
- */
-export * from './components/WithdrawModal'
 
 /**
  * Constants
