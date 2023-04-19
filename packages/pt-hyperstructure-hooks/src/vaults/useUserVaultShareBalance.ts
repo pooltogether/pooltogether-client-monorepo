@@ -13,7 +13,7 @@ import { QUERY_KEYS } from '../constants'
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
-export const useUserVaultBalance = (
+export const useUserVaultShareBalance = (
   vault: Vault,
   userAddress: string,
   refetchInterval?: number

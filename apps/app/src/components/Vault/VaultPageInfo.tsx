@@ -1,12 +1,11 @@
 import classNames from 'classnames'
-import { BigNumber } from 'ethers'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { TokenValue } from 'pt-components'
-import { useUserVaultBalance, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
+import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
 import { ExternalLink, Spinner } from 'pt-ui'
-import { getAssetsFromShares, getBlockExplorerUrl, shorten } from 'pt-utilities'
+import { getBlockExplorerUrl, shorten } from 'pt-utilities'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
@@ -71,22 +70,13 @@ interface VaultInfoBalanceProps {
 const VaultInfoBalance = (props: VaultInfoBalanceProps) => {
   const { vault, userAddress } = props
 
-  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
-  const shareBalance = BigNumber.from(vaultBalance?.amount ?? 0)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
 
-  const { data: vaultExchangeRate, isFetched: isFetchedVaultExchangeRate } =
-    useVaultExchangeRate(vault)
-
-  const tokenBalance =
-    isFetchedVaultExchangeRate && !!vaultExchangeRate && vault.decimals !== undefined
-      ? getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals).toString()
-      : '0'
-
-  if (!vault.tokenData || !vaultBalance || !vaultExchangeRate) {
+  if (!tokenBalance) {
     return <Spinner />
   }
 
-  return <TokenValue token={{ ...vault.tokenData, amount: tokenBalance }} />
+  return <TokenValue token={tokenBalance} />
 }
 
 interface VaultInfoTokenProps {

@@ -1,6 +1,6 @@
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useUserVaultBalance } from 'pt-hyperstructure-hooks'
+import { useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
 import { DepositButton } from '@components/DepositButton'
 import { WithdrawButton } from '@components/WithdrawButton'
 
@@ -13,7 +13,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
+  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress)
 
   const shareBalance = parseFloat(vaultBalance?.amount ?? '0')
 

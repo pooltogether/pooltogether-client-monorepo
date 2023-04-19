@@ -3,7 +3,7 @@ import { Vault } from 'pt-client-js'
 import { Button, Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
-import { withdrawFormShareAmountAtom } from '../../../Form/WithdrawForm'
+import { withdrawFormTokenAmountAtom } from '../../../Form/WithdrawForm'
 
 interface WaitingViewProps {
   vault: Vault
@@ -13,7 +13,7 @@ interface WaitingViewProps {
 export const WaitingView = (props: WaitingViewProps) => {
   const { vault, closeModal } = props
 
-  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
+  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
 
   return (
     <div className='flex flex-col gap-6'>
@@ -25,9 +25,9 @@ export const WaitingView = (props: WaitingViewProps) => {
         className='!py-1 mx-auto'
       />
       <span className='text-center'>
-        Withdrawing {formatNumberForDisplay(formShareAmount)} {vault.shareData?.symbol}...
+        Withdrawing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
-      <Spinner className='w-24 h-24 mx-auto after:border-y-pt-teal' />
+      <Spinner size='lg' className='mx-auto after:border-y-pt-teal' />
       <div className='flex items-end h-36'>
         <Button fullSized={true} color='transparent' onClick={closeModal}>
           Close

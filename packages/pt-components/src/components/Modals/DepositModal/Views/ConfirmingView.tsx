@@ -28,7 +28,7 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
       <span className='text-center'>
         Depositing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
-      <Spinner className='w-24 h-24 mx-auto after:border-y-pt-teal' />
+      <Spinner size='lg' className='mx-auto after:border-y-pt-teal' />
       <div className='flex flex-col w-full justify-end h-36 gap-6'>
         {!!txHash && (
           <ExternalLink

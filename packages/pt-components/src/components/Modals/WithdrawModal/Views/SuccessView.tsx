@@ -4,7 +4,7 @@ import { Vault } from 'pt-client-js'
 import { Button, ExternalLink } from 'pt-ui'
 import { formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
-import { withdrawFormShareAmountAtom } from '../../../Form/WithdrawForm'
+import { withdrawFormTokenAmountAtom } from '../../../Form/WithdrawForm'
 import { SuccessIcon } from '../../../Icons/SuccessIcon'
 
 interface SuccessViewProps {
@@ -60,14 +60,14 @@ interface SuccessViewHeaderProps {
 const SuccessViewHeader = (props: SuccessViewHeaderProps) => {
   const { vault, className } = props
 
-  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
+  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
 
   return (
     <div className={classNames('flex flex-col items-center gap-3', className)}>
       <div className='flex flex-col text-center text-xl font-medium'>
         <span>Success!</span>
         <span>
-          You withdrew {formatNumberForDisplay(formShareAmount)} {vault.shareData?.symbol}
+          You withdrew {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
         </span>
       </div>
       <SuccessIcon />

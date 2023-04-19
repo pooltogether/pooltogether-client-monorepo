@@ -6,11 +6,11 @@ import { Vault } from 'pt-client-js'
 import {
   useSendWithdrawTransaction,
   useTokenBalance,
-  useUserVaultBalance
+  useUserVaultTokenBalance
 } from 'pt-hyperstructure-hooks'
 import { WithdrawModalView } from '.'
 import { isValidFormInput } from '../../Form/TxFormInput'
-import { withdrawFormShareAmountAtom } from '../../Form/WithdrawForm'
+import { withdrawFormTokenAmountAtom } from '../../Form/WithdrawForm'
 import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface WithdrawTxButtonProps {
@@ -36,10 +36,10 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   const provider = useProvider({ chainId: vault.chainId })
 
   const {
-    data: vaultInfoWithAmount,
-    isFetched: isFetchedVaultBalance,
-    refetch: refetchUserVaultBalance
-  } = useUserVaultBalance(vault, userAddress as `0x${string}`)
+    data: vaultTokenBalance,
+    isFetched: isFetchedVaultTokenBalance,
+    refetch: refetchVaultTokenBalance
+  } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
 
   const { refetch: refetchTokenBalance } = useTokenBalance(
     provider,
@@ -47,17 +47,14 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     vault.tokenData?.address as string
   )
 
-  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
-  const withdrawAmount =
-    vault.decimals !== undefined
-      ? utils.parseUnits(
-          isValidFormInput(formShareAmount, vault.decimals) ? formShareAmount : '0',
-          vault.decimals
-        )
-      : BigNumber.from(0)
+  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
 
-  const isValidFormShareAmount =
-    vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
+  const isValidFormTokenAmount =
+    vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
+
+  const withdrawAmount = isValidFormTokenAmount
+    ? utils.parseUnits(formTokenAmount, vault.decimals)
+    : BigNumber.from(0)
 
   const {
     isWaiting: isWaitingWithdrawal,
@@ -71,7 +68,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     },
     onSuccess: () => {
       refetchTokenBalance()
-      refetchUserVaultBalance()
+      refetchVaultTokenBalance()
       setModalView('success')
     },
     onError: () => {
@@ -95,12 +92,11 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     !isDisconnected &&
     !!userAddress &&
     !!vault.shareData &&
-    isFetchedVaultBalance &&
-    !!vaultInfoWithAmount &&
+    isFetchedVaultTokenBalance &&
+    !!vaultTokenBalance &&
+    isValidFormTokenAmount &&
     !withdrawAmount.isZero() &&
-    BigNumber.from(vaultInfoWithAmount.amount).gte(withdrawAmount) &&
-    isValidFormShareAmount &&
-    vault.decimals !== undefined &&
+    BigNumber.from(vaultTokenBalance.amount).gte(withdrawAmount) &&
     !!sendWithdrawTransaction
 
   return (

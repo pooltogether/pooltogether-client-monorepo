@@ -6,7 +6,7 @@ import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useTokenBalance,
-  useUserVaultBalance,
+  useUserVaultShareBalance,
   useVaultExchangeRate,
   useVaultSharePrice,
   useVaultTokenPrice
@@ -15,7 +15,7 @@ import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
-export const withdrawFormShareAmountAtom = atom<string>('')
+export const withdrawFormTokenAmountAtom = atom<string>('')
 
 export interface WithdrawFormProps {
   vault: Vault
@@ -37,7 +37,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
   )
   const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : '0'
 
-  const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
+  const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultShareBalance(
     vault,
     userAddress as `0x${string}`
   )
@@ -51,17 +51,20 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     defaultValues: { shareAmount: '', tokenAmount: '' }
   })
 
-  const setFormShareAmount = useSetAtom(withdrawFormShareAmountAtom)
+  const setFormTokenAmount = useSetAtom(withdrawFormTokenAmountAtom)
 
-  const calculateSharesForTokens = (tokenAmount: string) => {
+  const handleTokenAmountChange = (tokenAmount: string) => {
     if (
       !!vaultExchangeRate &&
       vault.decimals !== undefined &&
       isValidFormInput(tokenAmount, vault.decimals)
     ) {
+      setFormTokenAmount(tokenAmount)
+
       const tokens = utils.parseUnits(tokenAmount, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
       const formattedShares = utils.formatUnits(shares, vault.decimals)
+
       formMethods.setValue(
         'shareAmount',
         formattedShares.endsWith('.0') ? formattedShares.slice(0, -2) : formattedShares,
@@ -72,7 +75,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     }
   }
 
-  const calculateTokensForShares = (shareAmount: string) => {
+  const handleShareAmountChange = (shareAmount: string) => {
     if (
       !!vaultExchangeRate &&
       vault.decimals !== undefined &&
@@ -81,6 +84,9 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       const shares = utils.parseUnits(shareAmount, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
       const formattedTokens = utils.formatUnits(tokens, vault.decimals)
+
+      setFormTokenAmount(formattedTokens)
+
       formMethods.setValue(
         'tokenAmount',
         formattedTokens.endsWith('.0') ? formattedTokens.slice(0, -2) : formattedTokens,
@@ -128,17 +134,14 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
                   !vaultBalance ||
                   `Not enough ${vault.shareData?.symbol} in wallet`
               }}
-              onChange={(shareAmount: string) => {
-                setFormShareAmount(shareAmount)
-                calculateTokensForShares(shareAmount)
-              }}
+              onChange={handleShareAmountChange}
               showMaxButton={true}
               className='mb-0.5'
             />
             <TxFormInput
               token={tokenInputData}
               formKey='tokenAmount'
-              onChange={calculateSharesForTokens}
+              onChange={handleTokenAmountChange}
               className='my-0.5 rounded-b-none'
             />
           </FormProvider>

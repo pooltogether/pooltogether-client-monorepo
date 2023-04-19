@@ -3,7 +3,7 @@ import { Vault } from 'pt-client-js'
 import { Button, ExternalLink, Spinner } from 'pt-ui'
 import { formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
-import { withdrawFormShareAmountAtom } from '../../../Form/WithdrawForm'
+import { withdrawFormTokenAmountAtom } from '../../../Form/WithdrawForm'
 
 interface ConfirmingViewProps {
   vault: Vault
@@ -14,7 +14,7 @@ interface ConfirmingViewProps {
 export const ConfirmingView = (props: ConfirmingViewProps) => {
   const { vault, txHash, closeModal } = props
 
-  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
+  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
 
   return (
     <div className='flex flex-col gap-6'>
@@ -26,9 +26,9 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
         className='!py-1 mx-auto'
       />
       <span className='text-center'>
-        Withdrawing {formatNumberForDisplay(formShareAmount)} {vault.shareData?.symbol}...
+        Withdrawing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
-      <Spinner className='w-24 h-24 mx-auto after:border-y-pt-teal' />
+      <Spinner size='lg' className='mx-auto after:border-y-pt-teal' />
       <div className='flex flex-col w-full justify-end h-36 gap-6'>
         {!!txHash && (
           <ExternalLink

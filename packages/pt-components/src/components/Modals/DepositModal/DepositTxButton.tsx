@@ -8,7 +8,7 @@ import {
   useSendDepositTransaction,
   useTokenAllowance,
   useTokenBalance,
-  useUserVaultBalance
+  useUserVaultTokenBalance
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
@@ -56,7 +56,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     refetch: refetchTokenBalance
   } = useTokenBalance(provider, userAddress as `0x${string}`, vault.tokenData?.address as string)
 
-  const { refetch: refetchUserVaultBalance } = useUserVaultBalance(
+  const { refetch: refetchUserVaultTokenBalance } = useUserVaultTokenBalance(
     vault,
     userAddress as `0x${string}`
   )
@@ -99,7 +99,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     },
     onSuccess: () => {
       refetchTokenBalance()
-      refetchUserVaultBalance()
+      refetchUserVaultTokenBalance()
       setModalView('success')
     },
     onError: () => {

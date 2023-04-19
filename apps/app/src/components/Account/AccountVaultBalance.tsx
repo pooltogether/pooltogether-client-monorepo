@@ -1,9 +1,8 @@
 import { BigNumber } from 'ethers'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useUserVaultBalance, useVaultExchangeRate } from 'pt-hyperstructure-hooks'
+import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { getAssetsFromShares } from 'pt-utilities'
 import { TokenValueAndAmount } from '@components/TokenValueAndAmount'
 
 interface AccountVaultBalanceProps {
@@ -15,24 +14,18 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalance } = useUserVaultBalance(vault, userAddress)
-
-  const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
 
   if (!userAddress) {
     return <>-</>
   }
 
-  // TODO: remove some flickering when first loading data here
-  if (!vault.tokenData || !vaultBalance || !vaultExchangeRate) {
+  if (!tokenBalance) {
     return <Spinner />
   }
 
-  const shareBalance = BigNumber.from(vaultBalance.amount)
-  const amount = getAssetsFromShares(shareBalance, vaultExchangeRate, vault.decimals).toString()
-
-  if (shareBalance.gt(0)) {
-    return <TokenValueAndAmount token={{ ...vault.tokenData, amount }} />
+  if (BigNumber.from(tokenBalance.amount).gt(0)) {
+    return <TokenValueAndAmount token={tokenBalance} />
   }
 
   return <>-</>
