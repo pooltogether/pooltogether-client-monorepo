@@ -2,8 +2,8 @@ import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
 import { Button, Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
-import { NetworkBadge } from '../../Badges/NetworkBadge'
-import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
+import { NetworkBadge } from '../../../Badges/NetworkBadge'
+import { depositFormTokenAmountAtom } from '../../../Form/DepositForm'
 
 interface WaitingViewProps {
   vault: Vault

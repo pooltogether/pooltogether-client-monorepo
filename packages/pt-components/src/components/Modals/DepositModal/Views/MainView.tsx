@@ -1,8 +1,8 @@
 import { Vault } from 'pt-client-js'
 import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
-import { NetworkBadge } from '../../Badges/NetworkBadge'
-import { DepositForm } from '../../Form/DepositForm'
+import { NetworkBadge } from '../../../Badges/NetworkBadge'
+import { DepositForm } from '../../../Form/DepositForm'
 
 interface MainViewProps {
   vault: Vault

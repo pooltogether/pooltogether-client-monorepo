@@ -8,16 +8,16 @@ import {
   useSelectedLanguage
 } from 'pt-generic-hooks'
 import { BasicIcon, LINKS } from 'pt-ui'
-import { SettingsModalOption, SettingsModalView } from '.'
-import { ClipboardListIcon } from '../Icons/ClipboardListIcon'
+import { SettingsModalOption, SettingsModalView } from '..'
+import { ClipboardListIcon } from '../../../Icons/ClipboardListIcon'
 
-interface SettingsMenuProps {
+interface MenuViewProps {
   setView: (view: SettingsModalView) => void
   disable?: SettingsModalOption[]
   hide?: SettingsModalOption[]
 }
 
-export const SettingsMenu = (props: SettingsMenuProps) => {
+export const MenuView = (props: MenuViewProps) => {
   const { setView, disable, hide } = props
 
   const { selectedCurrency } = useSelectedCurrency()

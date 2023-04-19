@@ -13,9 +13,9 @@ import {
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
 import { DepositModalView } from '.'
-import { depositFormTokenAmountAtom } from '../Form/DepositForm'
-import { isValidFormInput } from '../Form/TxFormInput'
-import { TransactionButton } from '../Transaction/TransactionButton'
+import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
+import { isValidFormInput } from '../../Form/TxFormInput'
+import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface DepositTxButtonProps {
   vault: Vault

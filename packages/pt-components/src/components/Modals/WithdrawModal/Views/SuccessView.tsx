@@ -3,14 +3,14 @@ import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
 import { Button, ExternalLink } from 'pt-ui'
 import { formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
-import { NetworkBadge } from '../../Badges/NetworkBadge'
-import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
-import { SuccessIcon } from '../../Icons/SuccessIcon'
+import { NetworkBadge } from '../../../Badges/NetworkBadge'
+import { withdrawFormShareAmountAtom } from '../../../Form/WithdrawForm'
+import { SuccessIcon } from '../../../Icons/SuccessIcon'
 
 interface SuccessViewProps {
   vault: Vault
-  txHash: string
   closeModal: () => void
+  txHash?: string
   goToAccount?: () => void
 }
 
@@ -26,22 +26,15 @@ export const SuccessView = (props: SuccessViewProps) => {
         hideBorder={true}
         className='!py-1 mx-auto'
       />
-      <span className='text-center'>You are now eligible for all future draws in this pool.</span>
       <div className='flex flex-col w-full gap-6'>
-        <ExternalLink
-          href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
-          text='View TX'
-          size='sm'
-          className='mx-auto text-pt-purple-100'
-        />
-        {/* TODO: implement twitter sharing and enable button */}
-        <Button fullSized={true} disabled>
-          Share Tweet
-        </Button>
-        {/* TODO: implement lenster sharing and enable button */}
-        <Button fullSized={true} disabled>
-          Share on Lenster
-        </Button>
+        {!!txHash && (
+          <ExternalLink
+            href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
+            text='View TX'
+            size='sm'
+            className='mx-auto text-pt-purple-100'
+          />
+        )}
         {!!goToAccount && (
           <Button
             fullSized={true}
@@ -67,14 +60,14 @@ interface SuccessViewHeaderProps {
 const SuccessViewHeader = (props: SuccessViewHeaderProps) => {
   const { vault, className } = props
 
-  const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
+  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
 
   return (
-    <div className={classNames('flex flex-col items-center', className)}>
+    <div className={classNames('flex flex-col items-center gap-3', className)}>
       <div className='flex flex-col text-center text-xl font-medium'>
         <span>Success!</span>
         <span>
-          You deposited {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
+          You withdrew {formatNumberForDisplay(formShareAmount)} {vault.shareData?.symbol}
         </span>
       </div>
       <SuccessIcon />

@@ -1,13 +1,13 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { LANGUAGE_ID, SUPPORTED_LANGUAGES, useSelectedLanguage } from 'pt-generic-hooks'
-import { SettingsModalView } from '.'
+import { SettingsModalView } from '..'
 
-interface LanguageSelectorProps {
+interface LanguageViewProps {
   setView: (view: SettingsModalView) => void
 }
 
-export const LanguageSelector = (props: LanguageSelectorProps) => {
+export const LanguageView = (props: LanguageViewProps) => {
   const { setView } = props
 
   const languages = Object.keys(SUPPORTED_LANGUAGES) as LANGUAGE_ID[]

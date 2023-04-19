@@ -1,13 +1,13 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
 import { CURRENCY_ID, SUPPORTED_CURRENCIES, useSelectedCurrency } from 'pt-generic-hooks'
-import { SettingsModalView } from '.'
+import { SettingsModalView } from '..'
 
-interface CurrencySelectorProps {
+interface CurrencyViewProps {
   setView: (view: SettingsModalView) => void
 }
 
-export const CurrencySelector = (props: CurrencySelectorProps) => {
+export const CurrencyView = (props: CurrencyViewProps) => {
   const { setView } = props
 
   const currencies = Object.keys(SUPPORTED_CURRENCIES) as CURRENCY_ID[]
