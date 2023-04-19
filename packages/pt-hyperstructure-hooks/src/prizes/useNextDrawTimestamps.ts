@@ -1,16 +1,18 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { PrizePool } from 'pt-client-js'
-import { NO_REFETCH } from 'pt-generic-hooks'
+import { sToMs } from 'pt-utilities'
 import { QUERY_KEYS } from '../constants'
 import { useDrawPeriod } from './useDrawPeriod'
 
 /**
  * Returns the start and end timestamps of a prize pool's next draw (in seconds)
  * @param prizePool instance of the `PrizePool` class
+ * @param refetchInterval optional refetch interval in ms (default is 300000ms or 5mins)
  * @returns
  */
 export const useNextDrawTimestamps = (
-  prizePool: PrizePool
+  prizePool: PrizePool,
+  refetchInterval?: number
 ): UseQueryResult<{ start: number; end: number }, unknown> => {
   const { data: drawPeriod, isFetched: isFetchedDrawPeriod } = useDrawPeriod(prizePool)
 
@@ -26,8 +28,8 @@ export const useNextDrawTimestamps = (
       return { start, end }
     },
     {
-      enabled,
-      ...NO_REFETCH
+      refetchInterval: refetchInterval ?? sToMs(300),
+      enabled
     }
   )
 }

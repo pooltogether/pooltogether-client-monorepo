@@ -9,6 +9,7 @@ import {
 } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
+import { useUserVaultBalance } from '..'
 
 export const useSendWithdrawTransaction = (
   amount: BigNumber,
@@ -26,8 +27,19 @@ export const useSendWithdrawTransaction = (
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
+  const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultBalance(
+    vault,
+    userAddress as `0x${string}`
+  )
+
   const enabled =
-    !!vault && !!userAddress && utils.isAddress(userAddress) && chain?.id === vault.chainId
+    !!vault &&
+    !!userAddress &&
+    utils.isAddress(userAddress) &&
+    chain?.id === vault.chainId &&
+    isFetchedVaultBalance &&
+    !!vaultBalance &&
+    amount.gte(vaultBalance.amount)
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
