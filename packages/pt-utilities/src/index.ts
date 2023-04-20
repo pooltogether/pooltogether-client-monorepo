@@ -23,12 +23,14 @@ export * from './utils/providers'
 export * from './utils/time'
 export * from './utils/tokens'
 export * from './utils/validation'
+export * from './utils/vaultLists'
 export * from './utils/vaults'
 export * from './utils/web'
 
 /**
  * Vault Lists
  */
+export * from './vaultLists/schema'
 export * from './vaultLists/defaultVaultList'
 
 /**

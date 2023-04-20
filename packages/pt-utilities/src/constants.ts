@@ -1,4 +1,4 @@
-import { getVaultListId } from './utils/vaults'
+import { getVaultListId } from './utils/vaultLists'
 import { defaultVaultList } from './vaultLists/defaultVaultList'
 
 /**
