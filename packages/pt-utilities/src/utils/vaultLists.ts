@@ -18,14 +18,14 @@ export const getVaultListId = (vaultList: VaultList | { name: string; version: V
 }
 
 /**
- * Returns a vault list object from a HTTPS URL, IPFS/IPNS hash or ENS domain
+ * Returns a vault list object from an HTTP URL, IPFS/IPNS hash or ENS domain
  * @param src the source of the vault list
  * @returns
  */
 export const getVaultList = async (src: string) => {
   let vaultList: VaultList | undefined
 
-  if (src.startsWith('https://')) {
+  if (src.startsWith('http://') || src.startsWith('https://')) {
     const response = await fetch(src)
     vaultList = await response.json()
   } else if (src.startsWith('ipfs://')) {
@@ -34,7 +34,7 @@ export const getVaultList = async (src: string) => {
   } else if (src.startsWith('ipns://')) {
     const response = await fetch(`https://dweb.link/ipns/${src.slice(7)}`)
     vaultList = await response.json()
-  } else {
+  } else if (src.endsWith('.eth')) {
     // TODO: ens resolution
   }
 

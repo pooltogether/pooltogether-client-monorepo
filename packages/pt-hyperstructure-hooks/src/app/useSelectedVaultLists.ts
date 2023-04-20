@@ -14,7 +14,7 @@ const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
     const foundVersion = selectedIds[foundIndex].split('-').slice(-1)[0]
     if (foundVersion !== defaultVaultListVersion) {
       selectedIds[foundIndex] = DEFAULT_VAULT_LIST_ID
-      localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, selectedIds.toString())
+      localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, JSON.stringify(selectedIds))
     }
     selectedAndCachedVaultLists.push(defaultVaultList)
   }
@@ -22,8 +22,8 @@ const getSelectedAndCachedVaultLists = (selectedIds: string[]) => {
   // Adding other cached vault lists:
   const cachedVaultLists = localStorage.getItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
   if (!!cachedVaultLists) {
-    cachedVaultLists.split(',').forEach((strVaultList) => {
-      const vaultList: VaultList = JSON.parse(strVaultList)
+    const vaultLists: VaultList[] = JSON.parse(cachedVaultLists)
+    vaultLists.forEach((vaultList) => {
       const vaultListId = getVaultListId(vaultList)
       if (selectedIds.includes(vaultListId)) {
         selectedAndCachedVaultLists.push(vaultList)
@@ -38,9 +38,13 @@ const getInitialSelectedVaultLists = (): VaultList[] => {
   if (typeof window === 'undefined') return [defaultVaultList]
   const cachedSelectedVaultListIds = localStorage.getItem(LOCAL_STORAGE_KEYS.selectedVaultListIds)
   if (!!cachedSelectedVaultListIds) {
-    return getSelectedAndCachedVaultLists(cachedSelectedVaultListIds.split(','))
+    const selectedIds: string[] = JSON.parse(cachedSelectedVaultListIds)
+    return getSelectedAndCachedVaultLists(selectedIds)
   } else {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, DEFAULT_VAULT_LIST_ID)
+    localStorage.setItem(
+      LOCAL_STORAGE_KEYS.selectedVaultListIds,
+      JSON.stringify([DEFAULT_VAULT_LIST_ID])
+    )
     return [defaultVaultList]
   }
 }
@@ -60,23 +64,22 @@ export const useSelectedVaultLists = () => {
 
   const setSelectedVaultLists = (vaultLists: VaultList[]) => {
     const ids = vaultLists.map((list) => getVaultListId(list))
-    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, ids.toString())
+    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, JSON.stringify(ids))
     _setSelectedVaultLists(vaultLists)
   }
 
-  const addVaultList = (vaultList: VaultList) => {
+  const selectVaultList = (vaultList: VaultList) => {
     const newVaultLists = [...selectedVaultLists, vaultList]
     const ids = newVaultLists.map((list) => getVaultListId(list))
-    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, ids.toString())
+    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, JSON.stringify(ids))
     _setSelectedVaultLists(newVaultLists)
   }
 
-  const removeVaultList = (vaultList: VaultList) => {
-    const newVaultLists = selectedVaultLists.filter(
-      (list) => !(list.name === vaultList.name && list.version === vaultList.version)
-    )
+  const unselectVaultList = (vaultList: VaultList) => {
+    const vaultListId = getVaultListId(vaultList)
+    const newVaultLists = selectedVaultLists.filter((list) => getVaultListId(list) !== vaultListId)
     const ids = newVaultLists.map((list) => getVaultListId(list))
-    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, ids.toString())
+    localStorage.setItem(LOCAL_STORAGE_KEYS.selectedVaultListIds, JSON.stringify(ids))
     _setSelectedVaultLists(newVaultLists)
   }
 
@@ -84,7 +87,7 @@ export const useSelectedVaultLists = () => {
     selectedVaultLists,
     selectedVaultListIds,
     setSelectedVaultLists,
-    addVaultList,
-    removeVaultList
+    selectVaultList,
+    unselectVaultList
   }
 }

@@ -25,13 +25,13 @@ export const useCachedVaultLists = () => {
   const [cachedVaultLists, _setCachedVaultLists] = useAtom(cachedVaultListsAtom)
 
   const setCachedVaultLists = (vaultLists: VaultList[]) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, getStrVaultLists(vaultLists))
+    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(vaultLists))
     _setCachedVaultLists(vaultLists)
   }
 
   const cacheVaultList = (vaultList: VaultList) => {
     const newVaultLists = [...cachedVaultLists, vaultList]
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, getStrVaultLists(newVaultLists))
+    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
     _setCachedVaultLists(newVaultLists)
   }
 
@@ -39,7 +39,7 @@ export const useCachedVaultLists = () => {
     const newVaultLists = cachedVaultLists.filter(
       (list) => !(list.name === vaultList.name && list.version === vaultList.version)
     )
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, getStrVaultLists(newVaultLists))
+    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
     _setCachedVaultLists(newVaultLists)
   }
 
@@ -55,8 +55,4 @@ export const useCachedVaultLists = () => {
     removeCachedVaultList,
     clearCachedVaultLists
   }
-}
-
-const getStrVaultLists = (vaultLists: VaultList[]) => {
-  return vaultLists.map((vaultList) => JSON.stringify(vaultList)).toString()
 }

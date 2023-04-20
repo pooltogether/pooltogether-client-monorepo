@@ -1,6 +1,6 @@
-import { Cog8ToothIcon } from '@heroicons/react/20/solid'
-import { useMemo } from 'react'
-import { useCachedVaultLists, useSelectedVaultLists } from 'pt-hyperstructure-hooks'
+import { useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useCachedVaultLists, useSelectedVaultLists, useVaultList } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
 import { DEFAULT_VAULT_LIST_ID, defaultVaultList, getVaultListId } from 'pt-utilities'
@@ -9,6 +9,28 @@ import { ImportedBadge } from '../../../Badges/ImportedBadge'
 export const VaultListView = () => {
   const { cachedVaultLists } = useCachedVaultLists()
   const { selectedVaultListIds } = useSelectedVaultLists()
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm<{ src: string }>({
+    mode: 'onSubmit',
+    defaultValues: { src: '' }
+  })
+
+  const error =
+    !!errors.src?.message && typeof errors.src?.message === 'string' ? errors.src?.message : null
+
+  const [newVaultList, setNewVaultList] = useState<{ src: string }>({ src: '' })
+  useVaultList(newVaultList.src)
+
+  // TODO: the form should display some form of loading indicator instead of simply resetting on successful query
+  const onSubmit = (data: { src: string }) => {
+    setNewVaultList(data)
+    reset()
+  }
 
   return (
     <div className='flex flex-col gap-8 px-4'>
@@ -26,14 +48,26 @@ export const VaultListView = () => {
         />
       </div>
 
-      {/* TODO: vault list input functionality (fetching URL, IPFS & ENS data + caching) */}
-      <input
-        id='vaultListInput'
-        type='text'
-        className='w-full text-sm bg-gray-50 text-pt-purple-900 px-4 py-3 rounded-lg focus:outline-none'
-        placeholder='https:// or ipfs:// or ENS name'
-        disabled
-      />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          {...register('src', {
+            validate: {
+              isValidSrc: (v) =>
+                v.startsWith('http://') ||
+                v.startsWith('https://') ||
+                v.startsWith('ipfs://') ||
+                v.startsWith('ipns://') ||
+                v.endsWith('.eth') ||
+                'Not a valid URL or ENS domain'
+            }
+          })}
+          id='vaultListInput'
+          type='text'
+          className='w-full text-sm bg-gray-50 text-pt-purple-900 px-4 py-3 rounded-lg focus:outline-none'
+          placeholder='https:// or ipfs:// or ENS name'
+        />
+        {!!error && <span className='text-sm text-pt-warning-light'>{error}</span>}
+      </form>
 
       <VaultListItem
         key={`vl-item-${DEFAULT_VAULT_LIST_ID}`}
@@ -67,15 +101,15 @@ interface VaultListItemProps {
 const VaultListItem = (props: VaultListItemProps) => {
   const { vaultList, id, checked, disabled } = props
 
-  const { addVaultList, removeVaultList } = useSelectedVaultLists()
+  const { selectVaultList, unselectVaultList } = useSelectedVaultLists()
 
   const isImported = useMemo(() => id !== DEFAULT_VAULT_LIST_ID, [id])
 
   const handleChange = (checked: boolean) => {
     if (checked) {
-      addVaultList(vaultList)
+      selectVaultList(vaultList)
     } else {
-      removeVaultList(vaultList)
+      unselectVaultList(vaultList)
     }
   }
 
@@ -90,12 +124,10 @@ const VaultListItem = (props: VaultListItemProps) => {
             <span className='font-medium'>{vaultList.name}</span>{' '}
             <span className='text-xs'>{version}</span>
           </span>
-          <div className='flex items-center gap-1 text-pt-purple-100'>
+          <div className='flex items-center gap-2 text-pt-purple-100'>
             <span className='text-xs'>
               {vaultList.tokens.length} Token{vaultList.tokens.length > 1 ? 's' : ''}
             </span>
-            {/* TODO: re-add cog once functionality is in place */}
-            {/* <Cog8ToothIcon className='h-5 w-5 text-inherit cursor-pointer' /> */}
             {isImported && <ImportedBadge />}
           </div>
         </div>
