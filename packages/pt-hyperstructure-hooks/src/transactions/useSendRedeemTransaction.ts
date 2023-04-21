@@ -5,21 +5,20 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useProvider,
   useWaitForTransaction
 } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
-import { useTokenAllowance } from '..'
+import { useUserVaultShareBalance } from '..'
 
 /**
- * Prepares and submits a `deposit` transaction to a vault
- * @param amount the amount to deposit
- * @param vault the vault to deposit into
+ * Prepares and submits a `redeem` transaction to a vault
+ * @param amount the amount of shares to redeem
+ * @param vault the vault to redeem from
  * @param options optional callbacks
  * @returns
  */
-export const useSendDepositTransaction = (
+export const useSendRedeemTransaction = (
   amount: BigNumber,
   vault: Vault,
   options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
@@ -30,36 +29,29 @@ export const useSendDepositTransaction = (
   isError: boolean
   txHash?: `0x${string}`
   txReceipt?: providers.TransactionReceipt
-  sendDepositTransaction?: () => void
+  sendRedeemTransaction?: () => void
 } => {
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
-  const provider = useProvider({ chainId: vault?.chainId })
-
-  const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
-    provider,
-    userAddress as `0x${string}`,
-    vault?.address,
-    vault?.tokenData?.address as string
-  )
+  const { data: vaultShareBalance, isFetched: isFetchedVaultShareBalance } =
+    useUserVaultShareBalance(vault, userAddress as `0x${string}`)
 
   const enabled =
     !!vault &&
-    !!vault.tokenData &&
     !!userAddress &&
     utils.isAddress(userAddress) &&
     chain?.id === vault.chainId &&
-    isFetchedAllowance &&
-    !!allowance &&
-    allowance.gte(amount)
+    isFetchedVaultShareBalance &&
+    !!vaultShareBalance &&
+    amount.lte(vaultShareBalance.amount)
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
     address: vault?.address as `0x${string}`,
     abi: erc4626Abi,
-    functionName: 'deposit',
-    args: [amount, userAddress],
+    functionName: 'redeem',
+    args: [amount, userAddress, userAddress],
     enabled
   })
 
@@ -70,7 +62,7 @@ export const useSendDepositTransaction = (
     write
   } = useContractWrite(config)
 
-  const sendDepositTransaction = !!write
+  const sendRedeemTransaction = !!write
     ? () => {
         write()
         options?.onSend?.()
@@ -100,5 +92,5 @@ export const useSendDepositTransaction = (
     }
   }, [isError])
 
-  return { isWaiting, isConfirming, isSuccess, isError, txHash, txReceipt, sendDepositTransaction }
+  return { isWaiting, isConfirming, isSuccess, isError, txHash, txReceipt, sendRedeemTransaction }
 }

@@ -15,6 +15,7 @@ import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
 import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
+export const withdrawFormShareAmountAtom = atom<string>('')
 export const withdrawFormTokenAmountAtom = atom<string>('')
 
 export interface WithdrawFormProps {
@@ -51,6 +52,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     defaultValues: { shareAmount: '', tokenAmount: '' }
   })
 
+  const setFormShareAmount = useSetAtom(withdrawFormShareAmountAtom)
   const setFormTokenAmount = useSetAtom(withdrawFormTokenAmountAtom)
 
   const handleTokenAmountChange = (tokenAmount: string) => {
@@ -64,6 +66,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       const tokens = utils.parseUnits(tokenAmount, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
       const formattedShares = utils.formatUnits(shares, vault.decimals)
+
+      setFormShareAmount(formattedShares)
 
       formMethods.setValue(
         'shareAmount',
@@ -81,6 +85,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       vault.decimals !== undefined &&
       isValidFormInput(shareAmount, vault.decimals)
     ) {
+      setFormShareAmount(shareAmount)
+
       const shares = utils.parseUnits(shareAmount, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
       const formattedTokens = utils.formatUnits(tokens, vault.decimals)

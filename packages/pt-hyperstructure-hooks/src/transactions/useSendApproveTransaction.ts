@@ -4,6 +4,13 @@ import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransa
 import { Vault } from 'pt-client-js'
 import { erc20 as erc20Abi } from 'pt-utilities'
 
+/**
+ * Prepares and submits an `approve` transaction for the underlying asset of a vault
+ * @param amount the amount to be approved
+ * @param vault the vault to approve spending to
+ * @param options optional callbacks
+ * @returns
+ */
 export const useSendApproveTransaction = (
   amount: BigNumber,
   vault: Vault,

@@ -39,6 +39,7 @@ export * from './tokens/useTokens'
  */
 export * from './transactions/useSendApproveTransaction'
 export * from './transactions/useSendDepositTransaction'
+export * from './transactions/useSendRedeemTransaction'
 export * from './transactions/useSendWithdrawTransaction'
 
 /**

@@ -4,13 +4,13 @@ import { useEffect } from 'react'
 import { useAccount, useProvider } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
-  useSendWithdrawTransaction,
+  useSendRedeemTransaction,
   useTokenBalance,
-  useUserVaultTokenBalance
+  useUserVaultShareBalance
 } from 'pt-hyperstructure-hooks'
 import { WithdrawModalView } from '.'
 import { isValidFormInput } from '../../Form/TxFormInput'
-import { withdrawFormTokenAmountAtom } from '../../Form/WithdrawForm'
+import { withdrawFormShareAmountAtom } from '../../Form/WithdrawForm'
 import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface WithdrawTxButtonProps {
@@ -36,10 +36,10 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   const provider = useProvider({ chainId: vault.chainId })
 
   const {
-    data: vaultTokenBalance,
-    isFetched: isFetchedVaultTokenBalance,
-    refetch: refetchVaultTokenBalance
-  } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
+    data: vaultShareBalance,
+    isFetched: isFetchedVaultShareBalance,
+    refetch: refetchVaultShareBalance
+  } = useUserVaultShareBalance(vault, userAddress as `0x${string}`)
 
   const { refetch: refetchTokenBalance } = useTokenBalance(
     provider,
@@ -47,13 +47,13 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     vault.tokenData?.address as string
   )
 
-  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
+  const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
 
-  const isValidFormTokenAmount =
-    vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
+  const isValidFormShareAmount =
+    vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
-  const withdrawAmount = isValidFormTokenAmount
-    ? utils.parseUnits(formTokenAmount, vault.decimals)
+  const withdrawAmount = isValidFormShareAmount
+    ? utils.parseUnits(formShareAmount, vault.decimals)
     : BigNumber.from(0)
 
   const {
@@ -61,14 +61,14 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     isConfirming: isConfirmingWithdrawal,
     isSuccess: isSuccessfulWithdrawal,
     txHash: withdrawTxHash,
-    sendWithdrawTransaction
-  } = useSendWithdrawTransaction(withdrawAmount, vault, {
+    sendRedeemTransaction
+  } = useSendRedeemTransaction(withdrawAmount, vault, {
     onSend: () => {
       setModalView('waiting')
     },
     onSuccess: () => {
       refetchTokenBalance()
-      refetchVaultTokenBalance()
+      refetchVaultShareBalance()
       setModalView('success')
     },
     onError: () => {
@@ -92,19 +92,19 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     !isDisconnected &&
     !!userAddress &&
     !!vault.shareData &&
-    isFetchedVaultTokenBalance &&
-    !!vaultTokenBalance &&
-    isValidFormTokenAmount &&
+    isFetchedVaultShareBalance &&
+    !!vaultShareBalance &&
+    isValidFormShareAmount &&
     !withdrawAmount.isZero() &&
-    BigNumber.from(vaultTokenBalance.amount).gte(withdrawAmount) &&
-    !!sendWithdrawTransaction
+    BigNumber.from(vaultShareBalance.amount).gte(withdrawAmount) &&
+    !!sendRedeemTransaction
 
   return (
     <TransactionButton
       chainId={vault.chainId}
       isTxLoading={isWaitingWithdrawal || isConfirmingWithdrawal}
       isTxSuccess={isSuccessfulWithdrawal}
-      write={sendWithdrawTransaction}
+      write={sendRedeemTransaction}
       txHash={withdrawTxHash}
       txDescription={`${vault.shareData?.symbol} Withdrawal`}
       fullSized={true}

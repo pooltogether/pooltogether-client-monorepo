@@ -153,6 +153,50 @@ export class User extends Vault {
   }
 
   /**
+   * Submits a transaction to redeem shares from the vault
+   * @param amount an unformatted share amount (w/ decimals)
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async redeem(amount: BigNumber, overrides?: Overrides): Promise<providers.TransactionResponse> {
+    const source = 'User [redeem]'
+    const userAddress = await this.signer.getAddress()
+    validateAddress(userAddress, source)
+    await validateSignerNetwork(this.chainId, this.signer, source)
+
+    if (!!overrides) {
+      return this.vaultContract.redeem(amount, userAddress, userAddress, overrides)
+    } else {
+      return this.vaultContract.redeem(amount, userAddress, userAddress)
+    }
+  }
+
+  /**
+   * Submits a transaction to redeem shares from the vault and send underlying assets to another address
+   * @param amount an unformatted share amount (w/ decimals)
+   * @param receiver the address to send assets to
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async redeemTo(
+    amount: BigNumber,
+    receiver: string,
+    overrides?: Overrides
+  ): Promise<providers.TransactionResponse> {
+    const source = 'User [redeemTo]'
+    const userAddress = await this.signer.getAddress()
+    validateAddress(userAddress, source)
+    validateAddress(receiver, source)
+    await validateSignerNetwork(this.chainId, this.signer, source)
+
+    if (!!overrides) {
+      return this.vaultContract.redeem(amount, receiver, userAddress, overrides)
+    } else {
+      return this.vaultContract.redeem(amount, receiver, userAddress)
+    }
+  }
+
+  /**
    * Submits a transaction to set an allowance for vault deposits
    * @param amount an unformatted token amount (w/ decimals)
    * @param overrides optional overrides for this transaction

@@ -11,6 +11,13 @@ import { Vault } from 'pt-client-js'
 import { erc4626 as erc4626Abi } from 'pt-utilities'
 import { useUserVaultTokenBalance } from '..'
 
+/**
+ * Prepares and submits a `withdraw` transaction to a vault
+ * @param amount the amount of tokens to withdraw
+ * @param vault the vault to withdraw from
+ * @param options optional callbacks
+ * @returns
+ */
 export const useSendWithdrawTransaction = (
   amount: BigNumber,
   vault: Vault,

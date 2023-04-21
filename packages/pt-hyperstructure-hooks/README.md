@@ -51,6 +51,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 
 - `useSendApproveTransaction`
 - `useSendDepositTransaction`
+- `useSendRedeemTransaction`
 - `useSendWithdrawTransaction`
 
 ## Vault Hooks
