@@ -19,12 +19,12 @@ import {
 export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   const providers = useProvidersByChain()
 
-  const { selectedVaultLists } = useSelectedVaultLists()
+  const { localVaultLists, importedVaultLists } = useSelectedVaultLists()
 
   const selectedVaultInfo: VaultInfo[] = []
   const selectedVaultIds = new Set<string>()
 
-  selectedVaultLists.forEach((vaultList) => {
+  Object.values({ ...localVaultLists, ...importedVaultLists }).forEach((vaultList) => {
     vaultList.tokens.forEach((vaultInfo) => {
       const vaultId = getVaultId(vaultInfo)
       if (!selectedVaultIds.has(vaultId)) {

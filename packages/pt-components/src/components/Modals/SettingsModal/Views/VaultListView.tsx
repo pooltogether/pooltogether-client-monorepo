@@ -1,14 +1,20 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useCachedVaultLists, useSelectedVaultLists, useVaultList } from 'pt-hyperstructure-hooks'
+import { useCachedVaultLists, useSelectedVaultListIds, useVaultList } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
 import { ExternalLink, Toggle } from 'pt-ui'
-import { DEFAULT_VAULT_LIST_ID, defaultVaultList, getVaultListId } from 'pt-utilities'
 import { ImportedBadge } from '../../../Badges/ImportedBadge'
 
-export const VaultListView = () => {
+interface VaultListViewProps {
+  localVaultLists?: { [id: string]: VaultList }
+}
+
+export const VaultListView = (props: VaultListViewProps) => {
+  const { localVaultLists } = props
+
   const { cachedVaultLists } = useCachedVaultLists()
-  const { selectedVaultListIds } = useSelectedVaultLists()
+
+  const { localIds, importedIds } = useSelectedVaultListIds()
 
   const {
     register,
@@ -69,47 +75,48 @@ export const VaultListView = () => {
         {!!error && <span className='text-sm text-pt-warning-light'>{error}</span>}
       </form>
 
-      <VaultListItem
-        key={`vl-item-${DEFAULT_VAULT_LIST_ID}`}
-        vaultList={defaultVaultList}
-        id={DEFAULT_VAULT_LIST_ID}
-        checked={selectedVaultListIds.includes(DEFAULT_VAULT_LIST_ID)}
-        disabled={cachedVaultLists.length === 0}
-      />
-      {cachedVaultLists.map((vaultList) => {
-        const vaultListId = getVaultListId(vaultList)
-        return (
+      {!!localVaultLists &&
+        Object.keys(localVaultLists).map((id) => (
           <VaultListItem
-            key={`vl-item-${vaultListId}`}
-            vaultList={vaultList}
-            id={vaultListId}
-            checked={selectedVaultListIds.includes(vaultListId)}
+            key={`vl-item-${id}`}
+            id={id}
+            vaultList={localVaultLists[id]}
+            isChecked={localIds.includes(id)}
           />
-        )
-      })}
+        ))}
+      {Object.keys(cachedVaultLists).map(
+        (id) =>
+          !!cachedVaultLists[id] && (
+            <VaultListItem
+              key={`vl-item-${id}`}
+              id={id}
+              vaultList={cachedVaultLists[id] as VaultList}
+              isChecked={importedIds.includes(id)}
+              isImported={true}
+            />
+          )
+      )}
     </div>
   )
 }
 
 interface VaultListItemProps {
-  vaultList: VaultList
   id: string
-  checked: boolean
-  disabled?: boolean
+  vaultList: VaultList
+  isChecked?: boolean
+  isImported?: boolean
 }
 
 const VaultListItem = (props: VaultListItemProps) => {
-  const { vaultList, id, checked, disabled } = props
+  const { vaultList, id, isChecked, isImported } = props
 
-  const { selectVaultList, unselectVaultList } = useSelectedVaultLists()
-
-  const isImported = useMemo(() => id !== DEFAULT_VAULT_LIST_ID, [id])
+  const { select, unselect } = useSelectedVaultListIds()
 
   const handleChange = (checked: boolean) => {
     if (checked) {
-      selectVaultList(vaultList)
+      select(id, isImported ? 'imported' : 'local')
     } else {
-      unselectVaultList(vaultList)
+      unselect(id, isImported ? 'imported' : 'local')
     }
   }
 
@@ -132,7 +139,7 @@ const VaultListItem = (props: VaultListItemProps) => {
           </div>
         </div>
       </div>
-      <Toggle checked={checked} onChange={handleChange} disabled={disabled} />
+      <Toggle checked={!!isChecked} onChange={handleChange} />
     </div>
   )
 }

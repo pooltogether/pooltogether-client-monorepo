@@ -1,21 +1,9 @@
 import Ajv from 'ajv'
-import { VaultList, Version } from 'pt-types'
-import { vaultListSchema } from '../vaultLists/schema'
+import { VaultList } from 'pt-types'
+import { VAULT_LIST_SCHEMA } from '../constants'
 
 const ajv = new Ajv()
-const isValidVaultList = ajv.compile(vaultListSchema)
-
-/**
- * Returns a unique vault list ID
- * @param vaultList basic vault list info: name and version
- * @returns
- */
-export const getVaultListId = (vaultList: VaultList | { name: string; version: Version }) => {
-  const vaultName = vaultList.name.toLowerCase().replaceAll(' ', '-')
-  const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
-  const id = `${vaultName}-${version}`
-  return id
-}
+const isValidVaultList = ajv.compile(VAULT_LIST_SCHEMA)
 
 /**
  * Returns a vault list object from an HTTP URL, IPFS/IPNS hash or ENS domain
