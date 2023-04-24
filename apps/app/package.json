@@ -14,7 +14,7 @@
     "classnames": "^2.3.2",
     "ethers": "^5.7.2",
     "jotai": "^1.13.1",
-    "next": "latest",
+    "next": "13.3.0",
     "pt-client-js": "workspace:*",
     "pt-components": "workspace:*",
     "pt-generic-hooks": "workspace:*",
