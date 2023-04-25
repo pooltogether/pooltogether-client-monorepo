@@ -9,6 +9,7 @@ export interface ToggleProps {
   labelClassName?: string
 }
 
+// TODO: BUG - tabbing through these toggles `checked` property
 export const Toggle = (props: ToggleProps) => {
   const { checked, onChange, label, disabled, className, labelClassName } = props
 

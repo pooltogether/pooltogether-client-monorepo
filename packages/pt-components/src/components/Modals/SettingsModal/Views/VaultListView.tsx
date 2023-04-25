@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCachedVaultLists, useSelectedVaultListIds, useVaultList } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
@@ -37,6 +37,17 @@ export const VaultListView = (props: VaultListViewProps) => {
     setNewVaultList(data)
     reset()
   }
+
+  const importedVaultLists = useMemo(() => {
+    const localVaultListIds = Object.keys(localVaultLists ?? {})
+    const newVaultLists: { [id: string]: VaultList } = {}
+    Object.keys(cachedVaultLists).forEach((key) => {
+      if (!localVaultListIds.includes(key) && !!cachedVaultLists[key]) {
+        newVaultLists[key] = cachedVaultLists[key] as VaultList
+      }
+    })
+    return newVaultLists
+  }, [localVaultLists, cachedVaultLists])
 
   return (
     <div className='flex flex-col gap-8 px-4'>
@@ -84,18 +95,16 @@ export const VaultListView = (props: VaultListViewProps) => {
             isChecked={localIds.includes(id)}
           />
         ))}
-      {Object.keys(cachedVaultLists).map(
-        (id) =>
-          !!cachedVaultLists[id] && (
-            <VaultListItem
-              key={`vl-imported-item-${id}`}
-              id={id}
-              vaultList={cachedVaultLists[id] as VaultList}
-              isChecked={importedIds.includes(id)}
-              isImported={true}
-            />
-          )
-      )}
+
+      {Object.keys(importedVaultLists).map((id) => (
+        <VaultListItem
+          key={`vl-imported-item-${id}`}
+          id={id}
+          vaultList={importedVaultLists[id]}
+          isChecked={importedIds.includes(id)}
+          isImported={true}
+        />
+      ))}
     </div>
   )
 }
