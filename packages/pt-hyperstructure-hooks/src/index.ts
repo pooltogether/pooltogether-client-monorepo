@@ -2,6 +2,7 @@
  * App Hooks
  */
 export * from './app/useCachedVaultLists'
+export * from './app/useSelectedVaultListIds'
 export * from './app/useSelectedVaultLists'
 export * from './app/useSelectedVaults'
 export * from './app/useVaultList'

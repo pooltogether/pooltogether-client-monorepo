@@ -16,6 +16,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 ## App Hooks
 
 - `useCachedVaultLists`
+- `useSelectedVaultListIds`
 - `useSelectedVaultLists`
 - `useSelectedVaults`
 - `useSelectedVault`

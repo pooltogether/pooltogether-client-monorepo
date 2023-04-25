@@ -12,8 +12,10 @@ import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
+import { useCachedVaultLists, useSelectedVaultListIds } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
 import { settingsModalViewAtom } from '@atoms'
+import { DEFAULT_VAULT_LISTS } from '@constants/config'
 
 interface LayoutProps {
   children: ReactNode
@@ -33,6 +35,18 @@ export const Layout = (props: LayoutProps) => {
   const { openConnectModal } = useConnectModal()
   const { openChainModal } = useChainModal()
   const addRecentTransaction = useAddRecentTransaction()
+
+  const { cachedVaultLists, cache } = useCachedVaultLists()
+  const { select } = useSelectedVaultListIds()
+
+  useEffect(() => {
+    Object.keys(DEFAULT_VAULT_LISTS).forEach((key) => {
+      if (!cachedVaultLists[key]) {
+        cache(key, DEFAULT_VAULT_LISTS[key])
+        select(key, 'local')
+      }
+    })
+  }, [])
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
@@ -95,6 +109,7 @@ export const Layout = (props: LayoutProps) => {
       <SettingsModal
         view={settingsModalView}
         setView={setSettingsModalView}
+        localVaultLists={DEFAULT_VAULT_LISTS}
         disable={['language', 'extensions']}
       />
 

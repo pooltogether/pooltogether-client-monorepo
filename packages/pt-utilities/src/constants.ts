@@ -1,5 +1,5 @@
-import { getVaultListId } from './utils/vaultLists'
-import { defaultVaultList } from './vaultLists/defaultVaultList'
+import { JSONSchemaType } from 'ajv'
+import { VaultList } from 'pt-types'
 
 /**
  * Network IDs
@@ -150,11 +150,6 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
 })
 
 /**
- * Default Vault list ID
- */
-export const DEFAULT_VAULT_LIST_ID = getVaultListId(defaultVaultList)
-
-/**
  * Hardcoded testnet token prices
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
@@ -167,3 +162,59 @@ export const TESTNET_TOKEN_PRICES = Object.freeze({
     '0xc26ef73d0cdf27d5f184df3e05ac6e2f490ccedf': { eth: 0.00052918 } // POOL
   }
 })
+
+/**
+ * Vault list schema
+ */
+export const VAULT_LIST_SCHEMA: JSONSchemaType<VaultList> = {
+  type: 'object',
+  properties: {
+    name: { type: 'string' },
+    version: {
+      type: 'object',
+      properties: {
+        major: { type: 'integer' },
+        minor: { type: 'integer' },
+        patch: { type: 'integer' }
+      },
+      required: ['major', 'minor', 'patch']
+    },
+    timestamp: { type: 'string' },
+    tokens: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          chainId: { type: 'integer' },
+          address: { type: 'string' },
+          name: { type: 'string', nullable: true },
+          decimals: { type: 'integer', nullable: true },
+          symbol: { type: 'string', nullable: true },
+          extensions: {
+            type: 'object',
+            properties: {
+              underlyingAsset: {
+                type: 'object',
+                properties: {
+                  address: { type: 'string', nullable: true },
+                  symbol: { type: 'string', nullable: true },
+                  name: { type: 'string', nullable: true },
+                  logoURI: { type: 'string', nullable: true }
+                },
+                nullable: true
+              }
+            },
+            nullable: true
+          },
+          tags: { type: 'array', items: { type: 'string' }, nullable: true },
+          logoURI: { type: 'string', nullable: true }
+        },
+        required: ['chainId', 'address']
+      }
+    },
+    keywords: { type: 'array', items: { type: 'string' }, nullable: true },
+    tags: { type: 'object', properties: {}, required: [], nullable: true },
+    logoURI: { type: 'string', nullable: true }
+  },
+  required: ['name', 'version', 'timestamp', 'tokens']
+}

@@ -1,58 +1,55 @@
 import { atom, useAtom } from 'jotai'
+import { useEffect } from 'react'
 import { VaultList } from 'pt-types'
 import { LOCAL_STORAGE_KEYS } from '../constants'
 
-const getInitialCachedVaultLists = (): VaultList[] => {
-  if (typeof window === 'undefined') return []
+const getInitialCachedVaultLists = (): { [id: string]: VaultList } => {
+  if (typeof window === 'undefined') return {}
   const cachedVaultLists = localStorage.getItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
-  if (!!cachedVaultLists) {
-    return JSON.parse(cachedVaultLists)
-  } else {
-    return []
-  }
+  return JSON.parse(cachedVaultLists ?? '{}')
 }
 
-const cachedVaultListsAtom = atom<VaultList[]>(getInitialCachedVaultLists())
+const cachedVaultListsAtom = atom<{ [id: string]: VaultList | undefined }>(
+  getInitialCachedVaultLists()
+)
 
 // TODO: use service worker cache instead of localstorage to store cached vault lists
 /**
- * Returns the state of `cachedVaultListsAtom` as well as a method to change it
+ * Returns currently cached vault lists
  *
  * Stores state in local storage
  * @returns
  */
 export const useCachedVaultLists = () => {
-  const [cachedVaultLists, _setCachedVaultLists] = useAtom(cachedVaultListsAtom)
+  const [cachedVaultLists, setCachedVaultLists] = useAtom(cachedVaultListsAtom)
 
-  const setCachedVaultLists = (vaultLists: VaultList[]) => {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(vaultLists))
-    _setCachedVaultLists(vaultLists)
+  const set = (vaultLists: { [id: string]: VaultList }) => {
+    setCachedVaultLists(vaultLists)
   }
 
-  const cacheVaultList = (vaultList: VaultList) => {
-    const newVaultLists = [...cachedVaultLists, vaultList]
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
-    _setCachedVaultLists(newVaultLists)
+  const cache = (id: string, vaultList: VaultList) => {
+    setCachedVaultLists((prev) => ({ ...prev, [id]: vaultList }))
   }
 
-  const removeCachedVaultList = (vaultList: VaultList) => {
-    const newVaultLists = cachedVaultLists.filter(
-      (list) => !(list.name === vaultList.name && list.version === vaultList.version)
-    )
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
-    _setCachedVaultLists(newVaultLists)
+  const remove = (id: string) => {
+    setCachedVaultLists((prev) => ({ ...prev, [id]: undefined }))
   }
 
-  const clearCachedVaultLists = () => {
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
-    _setCachedVaultLists([])
+  const clear = () => {
+    setCachedVaultLists({})
   }
+
+  useEffect(
+    () =>
+      localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(cachedVaultLists)),
+    [cachedVaultLists]
+  )
 
   return {
     cachedVaultLists,
-    setCachedVaultLists,
-    cacheVaultList,
-    removeCachedVaultList,
-    clearCachedVaultLists
+    set,
+    cache,
+    remove,
+    clear
   }
 }

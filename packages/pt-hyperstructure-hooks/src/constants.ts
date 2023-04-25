@@ -24,10 +24,16 @@ export const QUERY_KEYS = Object.freeze({
 })
 
 /**
+ * Local storage key suffix (update for breaking updates)
+ */
+const LOCAL_STORAGE_KEY_SUFFIX = '-alpha.1'
+
+/**
  * Local storage keys
  */
 export const LOCAL_STORAGE_KEYS = Object.freeze({
   ...GENERIC_LOCAL_STORAGE_KEYS,
-  cachedVaultLists: 'cachedVaultLists',
-  selectedVaultListIds: 'selectedVaultListIds'
+  cachedVaultLists: `cachedVaultLists${LOCAL_STORAGE_KEY_SUFFIX}`,
+  localVaultListIds: `localVaultListIds${LOCAL_STORAGE_KEY_SUFFIX}`,
+  importedVaultListIds: `importedVaultListIds${LOCAL_STORAGE_KEY_SUFFIX}`
 })

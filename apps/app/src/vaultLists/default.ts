@@ -1,6 +1,6 @@
 import { VaultList } from 'pt-types'
 
-export const defaultVaultList: VaultList = {
+const defaultVaultList: VaultList = {
   name: 'PoolTogether Testnet Vault List',
   keywords: ['pooltogether'],
   version: {
@@ -110,3 +110,5 @@ export const defaultVaultList: VaultList = {
     }
   ]
 }
+
+export default defaultVaultList

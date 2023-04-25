@@ -7,6 +7,7 @@ import { filteredVaultsAtom } from '@atoms'
 import { useNetworks } from '@hooks/useNetworks'
 import { VaultsTable } from './VaultsTable'
 
+// TODO: there should be a "no vaults" empty state that pushes the user towards vault list management
 export const VaultsDisplay = () => {
   const router = useRouter()
 

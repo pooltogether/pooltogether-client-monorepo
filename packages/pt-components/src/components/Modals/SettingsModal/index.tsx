@@ -1,6 +1,7 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { ReactNode } from 'react'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
+import { VaultList } from 'pt-types'
 import { Modal } from 'pt-ui'
 import { CurrencyView } from './Views/CurrencyView'
 import { LanguageView } from './Views/LanguageView'
@@ -14,12 +15,13 @@ export type SettingsModalView = 'menu' | SettingsModalOption
 export interface SettingsModalProps {
   view: SettingsModalView
   setView: (view: SettingsModalView) => void
+  localVaultLists?: { [id: string]: VaultList }
   disable?: SettingsModalOption[]
   hide?: SettingsModalOption[]
 }
 
 export const SettingsModal = (props: SettingsModalProps) => {
-  const { view, setView, disable, hide } = props
+  const { view, setView, localVaultLists, disable, hide } = props
 
   const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
@@ -28,7 +30,7 @@ export const SettingsModal = (props: SettingsModalProps) => {
     currency: <CurrencyView setView={setView} />,
     language: <LanguageView setView={setView} />,
     extensions: <></>, // TODO: implement extensions view
-    vaultLists: <VaultListView />
+    vaultLists: <VaultListView localVaultLists={localVaultLists} />
   }
 
   if (isModalOpen) {
