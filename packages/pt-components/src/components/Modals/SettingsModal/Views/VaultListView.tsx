@@ -78,7 +78,7 @@ export const VaultListView = (props: VaultListViewProps) => {
       {!!localVaultLists &&
         Object.keys(localVaultLists).map((id) => (
           <VaultListItem
-            key={`vl-item-${id}`}
+            key={`vl-local-item-${id}`}
             id={id}
             vaultList={localVaultLists[id]}
             isChecked={localIds.includes(id)}
@@ -88,7 +88,7 @@ export const VaultListView = (props: VaultListViewProps) => {
         (id) =>
           !!cachedVaultLists[id] && (
             <VaultListItem
-              key={`vl-item-${id}`}
+              key={`vl-imported-item-${id}`}
               id={id}
               vaultList={cachedVaultLists[id] as VaultList}
               isChecked={importedIds.includes(id)}

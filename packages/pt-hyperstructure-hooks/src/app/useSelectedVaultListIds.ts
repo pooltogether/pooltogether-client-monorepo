@@ -1,4 +1,5 @@
 import { atom, useAtom } from 'jotai'
+import { useEffect } from 'react'
 import { LOCAL_STORAGE_KEYS } from '../constants'
 
 type VaultListType = 'local' | 'imported'
@@ -33,11 +34,9 @@ export const useSelectedVaultListIds = () => {
   const set = (ids: { local?: string[]; imported?: string[] }) => {
     if (!!ids.local) {
       setLocalIds(ids.local)
-      localStorage.setItem(LOCAL_STORAGE_KEYS.localVaultListIds, JSON.stringify(ids.local))
     }
     if (!!ids.imported) {
       setImportedIds(ids.imported)
-      localStorage.setItem(LOCAL_STORAGE_KEYS.importedVaultListIds, JSON.stringify(ids.imported))
     }
   }
 
@@ -45,20 +44,15 @@ export const useSelectedVaultListIds = () => {
     switch (type) {
       case 'local': {
         if (!localIds.includes(id)) {
-          const newLocalIds = [...localIds, id]
-          setLocalIds(newLocalIds)
-          localStorage.setItem(LOCAL_STORAGE_KEYS.localVaultListIds, JSON.stringify(newLocalIds))
+          setLocalIds((prev) => [...prev, id])
         }
+        break
       }
       case 'imported': {
         if (!importedIds.includes(id)) {
-          const newImportedIds = [...importedIds, id]
-          setImportedIds(newImportedIds)
-          localStorage.setItem(
-            LOCAL_STORAGE_KEYS.importedVaultListIds,
-            JSON.stringify(newImportedIds)
-          )
+          setImportedIds((prev) => [...prev, id])
         }
+        break
       }
     }
   }
@@ -66,20 +60,26 @@ export const useSelectedVaultListIds = () => {
   const unselect = (id: string, type: VaultListType) => {
     switch (type) {
       case 'local': {
-        const newLocalIds = localIds.filter((localId) => localId !== id)
-        setLocalIds(newLocalIds)
-        localStorage.setItem(LOCAL_STORAGE_KEYS.localVaultListIds, JSON.stringify(newLocalIds))
+        setLocalIds((prev) => prev.filter((prevId) => prevId !== id))
+        break
       }
       case 'imported': {
-        const newImportedIds = importedIds.filter((importedId) => importedId !== id)
-        setImportedIds(newImportedIds)
-        localStorage.setItem(
-          LOCAL_STORAGE_KEYS.importedVaultListIds,
-          JSON.stringify(newImportedIds)
-        )
+        setImportedIds((prev) => prev.filter((prevId) => prevId !== id))
+        break
       }
     }
   }
+
+  useEffect(
+    () => localStorage.setItem(LOCAL_STORAGE_KEYS.localVaultListIds, JSON.stringify(localIds)),
+    [localIds]
+  )
+
+  useEffect(
+    () =>
+      localStorage.setItem(LOCAL_STORAGE_KEYS.importedVaultListIds, JSON.stringify(importedIds)),
+    [importedIds]
+  )
 
   return { localIds, importedIds, set, select, unselect }
 }

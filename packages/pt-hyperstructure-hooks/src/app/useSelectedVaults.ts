@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai'
 import { Vaults } from 'pt-client-js'
-import { VaultInfo } from 'pt-types'
+import { VaultInfo, VaultList } from 'pt-types'
 import { getVaultId } from 'pt-utilities'
 import {
   useAllVaultShareData,
@@ -21,10 +21,10 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
 
   const { localVaultLists, importedVaultLists } = useSelectedVaultLists()
 
-  const selectedVaultInfo: VaultInfo[] = []
   const selectedVaultIds = new Set<string>()
+  const selectedVaultInfo: VaultInfo[] = []
 
-  Object.values({ ...localVaultLists, ...importedVaultLists }).forEach((vaultList) => {
+  const addTokens = (vaultList: VaultList) => {
     vaultList.tokens.forEach((vaultInfo) => {
       const vaultId = getVaultId(vaultInfo)
       if (!selectedVaultIds.has(vaultId)) {
@@ -32,6 +32,14 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
         selectedVaultInfo.push(vaultInfo)
       }
     })
+  }
+
+  Object.values(localVaultLists).forEach((localVaultList) => {
+    addTokens(localVaultList)
+  })
+
+  Object.values(importedVaultLists).forEach((importedVaultList) => {
+    addTokens(importedVaultList)
   })
 
   // TODO: ideally if we return the same cached/memoized instance of `Vaults` we can avoid re-assigning data

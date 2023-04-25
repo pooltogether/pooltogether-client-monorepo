@@ -1,4 +1,5 @@
 import { atom, useAtom } from 'jotai'
+import { useEffect } from 'react'
 import { VaultList } from 'pt-types'
 import { LOCAL_STORAGE_KEYS } from '../constants'
 
@@ -24,25 +25,25 @@ export const useCachedVaultLists = () => {
 
   const set = (vaultLists: { [id: string]: VaultList }) => {
     setCachedVaultLists(vaultLists)
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(vaultLists))
   }
 
   const cache = (id: string, vaultList: VaultList) => {
-    const newVaultLists = { ...cachedVaultLists, [id]: vaultList }
-    setCachedVaultLists(newVaultLists)
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
+    setCachedVaultLists((prev) => ({ ...prev, [id]: vaultList }))
   }
 
   const remove = (id: string) => {
-    const newVaultLists = { ...cachedVaultLists, [id]: undefined }
-    setCachedVaultLists(newVaultLists)
-    localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(newVaultLists))
+    setCachedVaultLists((prev) => ({ ...prev, [id]: undefined }))
   }
 
   const clear = () => {
     setCachedVaultLists({})
-    localStorage.removeItem(LOCAL_STORAGE_KEYS.cachedVaultLists)
   }
+
+  useEffect(
+    () =>
+      localStorage.setItem(LOCAL_STORAGE_KEYS.cachedVaultLists, JSON.stringify(cachedVaultLists)),
+    [cachedVaultLists]
+  )
 
   return {
     cachedVaultLists,

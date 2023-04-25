@@ -1,6 +1,8 @@
 import { BigNumber } from 'ethers'
 import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains'
 import { NETWORK } from 'pt-utilities'
+import defaultVaultList from '../vaultLists/default'
+import testVaultList from '../vaultLists/test'
 
 /**
  * Supported networks
@@ -42,4 +44,12 @@ export const PRIZE_POOLS = Object.freeze({
     drawPeriodInSeconds: 7_200,
     tierShares: BigNumber.from('100000000000000000000')
   }
+})
+
+/**
+ * Default Vault Lists
+ */
+export const DEFAULT_VAULT_LISTS = Object.freeze({
+  default: defaultVaultList,
+  test: testVaultList
 })
