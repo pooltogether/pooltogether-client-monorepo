@@ -14,7 +14,7 @@ export const BasicIcon = (props: BasicIconProps) => {
   return (
     <div
       className={classNames(
-        'rounded-full flex shrink-0 items-center justify-center text-xs h-6 w-6',
+        'rounded-full flex shrink-0 items-center justify-center',
         {
           'bg-pt-purple-100 text-pt-purple-800': theme === 'light' || !theme,
           'bg-pt-purple-400 text-pt-purple-100': theme === 'dark',

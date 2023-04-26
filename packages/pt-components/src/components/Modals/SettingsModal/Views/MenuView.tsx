@@ -37,6 +37,7 @@ export const MenuView = (props: MenuViewProps) => {
           },
           {
             iconContent: selectedLanguage.toUpperCase(),
+            iconClassName: '!text-base font-semibold',
             title: `${SUPPORTED_LANGUAGES[selectedLanguage].nativeName} (${SUPPORTED_LANGUAGES[selectedLanguage].name})`,
             onClick: () => setView('language'),
             disabled: disable?.includes('language'),
@@ -63,6 +64,7 @@ export const MenuView = (props: MenuViewProps) => {
         items={[
           {
             iconContent: '?',
+            iconClassName: 'font-semibold',
             title: 'Get Help w/ Using PoolTogether',
             onClick: () => window.open(LINKS.docs)
           }
@@ -99,12 +101,13 @@ interface SettingsMenuItemProps {
   iconContent: ReactNode
   title: string
   onClick: () => void
+  iconClassName?: string
   disabled?: boolean
   hidden?: boolean
 }
 
 const SettingsMenuItem = (props: SettingsMenuItemProps) => {
-  const { iconContent, title, onClick, disabled, hidden } = props
+  const { iconContent, title, onClick, iconClassName, disabled, hidden } = props
 
   return (
     <div
@@ -119,7 +122,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
         }
       }}
     >
-      <BasicIcon content={iconContent} size='lg' theme='dark' />
+      <BasicIcon content={iconContent} size='lg' theme='dark' className={iconClassName} />
       <span className='flex items-center text-pt-purple-50'>{title}</span>
     </div>
   )
