@@ -165,7 +165,7 @@ export class PrizePool {
     vaultAddresses: string[],
     startDrawId: number,
     endDrawId: number
-  ): Promise<{ [vaultAddress: string]: BigNumber }> {
+  ): Promise<{ [vaultId: string]: BigNumber }> {
     const source = 'Prize Pool [getVaultContributedAmounts]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
 
@@ -196,7 +196,7 @@ export class PrizePool {
     vaultAddresses: string[],
     startDrawId: number,
     endDrawId: number
-  ): Promise<{ [vaultAddress: string]: number }> {
+  ): Promise<{ [vaultId: string]: number }> {
     const source = 'Prize Pool [getVaultContributedPercentages]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
 
@@ -267,7 +267,7 @@ export class PrizePool {
   async checkWins(
     vaultAddresses: string[],
     userAddress: string
-  ): Promise<{ [vaultAddress: string]: number[] }> {
+  ): Promise<{ [vaultId: string]: number[] }> {
     const source = 'Prize Pool [isWinner]'
     validateAddress(userAddress, source)
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
@@ -354,9 +354,21 @@ export class PrizePool {
     return allPrizeInfo
   }
 
-  // TODO: this function would calculate the prize power for any given vault addresses
-  async getVaultPrizePower(): Promise<{ [vaultAddress: `0x${string}`]: number }> {
-    return { '0x': 0 }
+  /**
+   * Returns given vaults' prize power (percentage of latest contributions)
+   * @param vaultAddresses vault addresses to get prize power from
+   * @returns
+   */
+  async getVaultPrizePowers(vaultAddresses: string[]): Promise<{ [vaultId: string]: number }> {
+    const lastDrawId = await this.getLastDrawId()
+
+    const prizePowers = await this.getVaultContributedPercentages(
+      vaultAddresses,
+      lastDrawId,
+      lastDrawId + 1
+    )
+
+    return prizePowers
   }
 
   /* ============================== Write Functions ============================== */

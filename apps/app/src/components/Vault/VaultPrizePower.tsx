@@ -1,5 +1,8 @@
 import { Vault } from 'pt-client-js'
+import { usePrizePools, useVaultPrizePower } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
+import { formatPrizePools } from '../../utils'
 
 interface VaultPrizePowerProps {
   vault: Vault
@@ -8,12 +11,21 @@ interface VaultPrizePowerProps {
 export const VaultPrizePower = (props: VaultPrizePowerProps) => {
   const { vault } = props
 
-  // TODO: calculate vault prize power
-  const prizePower: number = 4.2
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+
+  const prizePool =
+    !!vault && Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
+
+  const { data: prizePower, isFetched: isFetchedPrizePower } = useVaultPrizePower(vault, prizePool)
+
+  if (!isFetchedPrizePower) {
+    return <Spinner />
+  }
 
   return (
     <>
-      {formatNumberForDisplay(prizePower, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
+      {formatNumberForDisplay(prizePower, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
     </>
   )
 }

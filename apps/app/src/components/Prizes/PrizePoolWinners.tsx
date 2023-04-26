@@ -2,18 +2,11 @@ import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { BigNumber } from 'ethers'
 import { useState } from 'react'
 import { TokenValue } from 'pt-components'
-import { usePrizePools, useSelectedVault } from 'pt-hyperstructure-hooks'
 import { PrizePoolDraw, usePrizePoolDraws } from '@hooks/usePrizePoolDraws'
-import { formatPrizePools } from '../../utils'
+import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 
 export const PrizePoolWinners = () => {
-  const { vault } = useSelectedVault()
-
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
-  const selectedPrizePool = !!vault
-    ? Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
-    : Object.values(prizePools)[0]
+  const { selectedPrizePool } = useSelectedPrizePool()
 
   const { data: draws } = usePrizePoolDraws(selectedPrizePool)
 

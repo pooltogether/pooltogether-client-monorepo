@@ -2,11 +2,11 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
 import { PrizePoolDropdown } from 'pt-components'
-import { usePrizePools, useSelectedVault, useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { useSelectedVault, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
 import { useNetworks } from '@hooks/useNetworks'
-import { formatPrizePools } from '../../utils'
+import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 import { PrizesTable } from './PrizesTable'
 
 export const PrizePoolDisplay = () => {
@@ -17,11 +17,7 @@ export const PrizePoolDisplay = () => {
   const { vaults } = useSelectedVaults()
   const { vault, setSelectedVaultById } = useSelectedVault()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
-  const selectedPrizePool = !!vault
-    ? Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
-    : Object.values(prizePools)[0]
+  const { selectedPrizePool } = useSelectedPrizePool()
 
   const handleNetworkChange = (chainId: number) => {
     if (!!chainId && chainId in NETWORK) {

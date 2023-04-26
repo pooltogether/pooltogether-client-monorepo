@@ -6,6 +6,8 @@ import { SECONDS_PER_DAY } from '../constants'
 import { formatStringWithPrecision } from './formatting'
 import { calculatePercentageOfBigNumber, divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
+import { getChainIdFromSignerOrProvider } from './providers'
+import { getVaultId } from './vaults'
 
 /**
  * Returns a unique prize pool ID
@@ -32,14 +34,16 @@ export const getPrizePoolContributionAmounts = async (
   vaultAddresses: string[],
   startDrawId: number,
   endDrawId: number
-): Promise<{ [vaultAddress: string]: BigNumber }> => {
-  const contributionAmounts: { [vaultAddress: string]: BigNumber } = {}
+): Promise<{ [vaultId: string]: BigNumber }> => {
+  const contributionAmounts: { [vaultId: string]: BigNumber } = {}
+
+  const chainId = await getChainIdFromSignerOrProvider(readProvider)
 
   if (vaultAddresses.length > 0) {
     const queries: ContractCallContext[] = vaultAddresses.map((vaultAddress) => {
       const calls: ContractCallContext['calls'] = [
         {
-          reference: 'getContributedBetween',
+          reference: vaultAddress,
           methodName: 'getContributedBetween',
           methodParameters: [vaultAddress, startDrawId, endDrawId]
         }
@@ -55,9 +59,10 @@ export const getPrizePoolContributionAmounts = async (
 
     vaultAddresses.forEach((vaultAddress) => {
       const vaultContribution: string | undefined =
-        multicallResults[prizePoolAddress]['getContributedBetween']?.[0]
+        multicallResults[prizePoolAddress][vaultAddress]?.[0]
       if (!!vaultContribution) {
-        contributionAmounts[vaultAddress] = BigNumber.from(vaultContribution)
+        const vaultId = getVaultId({ chainId, address: vaultAddress })
+        contributionAmounts[vaultId] = BigNumber.from(vaultContribution)
       }
     })
   }
@@ -82,14 +87,16 @@ export const getPrizePoolContributionPercentages = async (
   vaultAddresses: string[],
   startDrawId: number,
   endDrawId: number
-): Promise<{ [vaultAddress: string]: number }> => {
-  const contributionPercentages: { [vaultAddress: string]: number } = {}
+): Promise<{ [vaultId: string]: number }> => {
+  const contributionPercentages: { [vaultId: string]: number } = {}
+
+  const chainId = await getChainIdFromSignerOrProvider(readProvider)
 
   if (vaultAddresses.length > 0) {
     const queries: ContractCallContext[] = vaultAddresses.map((vaultAddress) => {
       const calls: ContractCallContext['calls'] = [
         {
-          reference: 'getVaultPortion',
+          reference: vaultAddress,
           methodName: 'getVaultPortion',
           methodParameters: [vaultAddress, startDrawId, endDrawId]
         }
@@ -105,9 +112,10 @@ export const getPrizePoolContributionPercentages = async (
 
     vaultAddresses.forEach((vaultAddress) => {
       const vaultContribution = BigNumber.from(
-        multicallResults[prizePoolAddress]['getVaultPortion']?.[0] ?? 0
+        multicallResults[prizePoolAddress][vaultAddress]?.[0] ?? 0
       ).toString()
-      contributionPercentages[vaultAddress] = parseFloat(utils.formatUnits(vaultContribution, 18))
+      const vaultId = getVaultId({ chainId, address: vaultAddress })
+      contributionPercentages[vaultId] = parseFloat(utils.formatUnits(vaultContribution, 18))
     })
   }
 
@@ -130,9 +138,11 @@ export const checkPrizePoolWins = async (
   userAddress: string,
   tiers: number[]
 ): Promise<{
-  [vaultAddress: string]: number[]
+  [vaultId: string]: number[]
 }> => {
-  const wins: { [vaultAddress: string]: number[] } = {}
+  const wins: { [vaultId: string]: number[] } = {}
+
+  const chainId = await getChainIdFromSignerOrProvider(readProvider)
 
   if (vaultAddresses.length > 0 && tiers.length > 0) {
     const calls: ContractCallContext['calls'] = []
@@ -158,10 +168,11 @@ export const checkPrizePoolWins = async (
       tiers.forEach((tier) => {
         const isWinner: boolean = multicallResults[prizePoolAddress][`${vaultAddress}-${tier}`]?.[0]
         if (isWinner) {
-          if (wins[vaultAddress] === undefined) {
-            wins[vaultAddress] = []
+          const vaultId = getVaultId({ chainId, address: vaultAddress })
+          if (wins[vaultId] === undefined) {
+            wins[vaultId] = []
           }
-          wins[vaultAddress].push(tier)
+          wins[vaultId].push(tier)
         }
       })
     })
