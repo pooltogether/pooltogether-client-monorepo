@@ -1,3 +1,4 @@
+import { TrashIcon } from '@heroicons/react/24/outline'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCachedVaultLists, useSelectedVaultListIds, useVaultList } from 'pt-hyperstructure-hooks'
@@ -12,9 +13,9 @@ interface VaultListViewProps {
 export const VaultListView = (props: VaultListViewProps) => {
   const { localVaultLists } = props
 
-  const { cachedVaultLists } = useCachedVaultLists()
+  const { cachedVaultLists, remove } = useCachedVaultLists()
 
-  const { localIds, importedIds } = useSelectedVaultListIds()
+  const { localIds, importedIds, unselect } = useSelectedVaultListIds()
 
   const {
     register,
@@ -48,6 +49,14 @@ export const VaultListView = (props: VaultListViewProps) => {
     })
     return newVaultLists
   }, [localVaultLists, cachedVaultLists])
+
+  const handleClearAll = () => {
+    const ids = Object.keys(importedVaultLists)
+    ids.forEach((id) => {
+      unselect(id, 'imported')
+      remove(id)
+    })
+  }
 
   return (
     <div className='flex flex-col gap-8 px-4'>
@@ -105,6 +114,15 @@ export const VaultListView = (props: VaultListViewProps) => {
           isImported={true}
         />
       ))}
+
+      {Object.keys(importedVaultLists).length > 0 && (
+        <span
+          onClick={handleClearAll}
+          className='w-full text-center text-sm text-pt-purple-200 cursor-pointer'
+        >
+          Clear all imported vault lists
+        </span>
+      )}
     </div>
   )
 }
@@ -119,6 +137,8 @@ interface VaultListItemProps {
 const VaultListItem = (props: VaultListItemProps) => {
   const { vaultList, id, isChecked, isImported } = props
 
+  const { remove } = useCachedVaultLists()
+
   const { select, unselect } = useSelectedVaultListIds()
 
   const handleChange = (checked: boolean) => {
@@ -127,6 +147,11 @@ const VaultListItem = (props: VaultListItemProps) => {
     } else {
       unselect(id, isImported ? 'imported' : 'local')
     }
+  }
+
+  const handleDelete = () => {
+    unselect(id, isImported ? 'imported' : 'local')
+    remove(id)
   }
 
   const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
@@ -148,7 +173,12 @@ const VaultListItem = (props: VaultListItemProps) => {
           </div>
         </div>
       </div>
-      <Toggle checked={!!isChecked} onChange={handleChange} />
+      <div className='flex items-center gap-2'>
+        {isImported && (
+          <TrashIcon onClick={handleDelete} className='h-5 w-5 text-pt-purple-200 cursor-pointer' />
+        )}
+        <Toggle checked={!!isChecked} onChange={handleChange} />
+      </div>
     </div>
   )
 }

@@ -2,7 +2,6 @@ import { BigNumber } from 'ethers'
 import { arbitrum, goerli, mainnet, optimism, polygon } from 'wagmi/chains'
 import { NETWORK } from 'pt-utilities'
 import defaultVaultList from '../vaultLists/default'
-import testVaultList from '../vaultLists/test'
 
 /**
  * Supported networks
@@ -50,6 +49,5 @@ export const PRIZE_POOLS = Object.freeze({
  * Default Vault Lists
  */
 export const DEFAULT_VAULT_LISTS = Object.freeze({
-  default: defaultVaultList,
-  test: testVaultList
+  default: defaultVaultList
 })

@@ -44,13 +44,13 @@ export const useSelectedVaultListIds = () => {
     switch (type) {
       case 'local': {
         if (!localIds.includes(id)) {
-          setLocalIds((prev) => [...prev, id])
+          setLocalIds((prev) => Array.from(new Set<string>([...prev, id])))
         }
         break
       }
       case 'imported': {
         if (!importedIds.includes(id)) {
-          setImportedIds((prev) => [...prev, id])
+          setImportedIds((prev) => Array.from(new Set<string>([...prev, id])))
         }
         break
       }
