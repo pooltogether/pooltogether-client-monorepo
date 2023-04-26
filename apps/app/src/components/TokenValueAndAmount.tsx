@@ -1,5 +1,4 @@
 import { BigNumber } from 'ethers'
-import { useProvider } from 'wagmi'
 import { TokenValue } from 'pt-components'
 import { useToken } from 'pt-hyperstructure-hooks'
 import { TokenWithAmount } from 'pt-types'
@@ -14,9 +13,10 @@ export interface TokenValueAndAmountProps {
 export const TokenValueAndAmount = (props: TokenValueAndAmountProps) => {
   const { token } = props
 
-  const provider = useProvider({ chainId: token.chainId })
-
-  const { data: tokenData, isFetching: isFetchingTokenData } = useToken(provider, token.address)
+  const { data: tokenData, isFetching: isFetchingTokenData } = useToken(
+    token.chainId,
+    token.address
+  )
 
   const amount = BigNumber.from(token.amount ?? 0)
   const decimals = token.decimals ?? tokenData?.decimals

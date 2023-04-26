@@ -1,6 +1,5 @@
 import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
-import { useProvider } from 'wagmi'
 import { useToken, useTokenPrices } from 'pt-hyperstructure-hooks'
 import { TokenWithAmount } from 'pt-types'
 import { Spinner } from 'pt-ui'
@@ -14,9 +13,10 @@ export interface TokenValueProps extends Omit<CurrencyValueProps, 'baseValue'> {
 export const TokenValue = (props: TokenValueProps) => {
   const { token, baseCurrency, ...rest } = props
 
-  const provider = useProvider({ chainId: token.chainId })
-
-  const { data: tokenData, isFetching: isFetchingTokenData } = useToken(provider, token.address)
+  const { data: tokenData, isFetching: isFetchingTokenData } = useToken(
+    token.chainId,
+    token.address
+  )
 
   const { data: tokenPrices, isFetching: isFetchingTokenPrices } = useTokenPrices(
     token.chainId,

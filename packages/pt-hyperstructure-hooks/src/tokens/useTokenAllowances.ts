@@ -1,8 +1,9 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { BigNumber, providers, utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
+import { useProvider } from 'wagmi'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { getTokenAllowances } from 'pt-utilities'
-import { populateCachePerId, useProviderChainId } from '..'
+import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
 
 /**
@@ -10,7 +11,7 @@ import { QUERY_KEYS } from '../constants'
  * contract for each token
  *
  * Stores queried allowances in cache
- * @param readProvider read-capable provider to query token allowances through
+ * @param chainId chain ID
  * @param address address that issues the allowance
  * @param spenderAddress wallet address that spends the allowance
  * @param tokenAddresses token addresses to query allowances for
@@ -18,7 +19,7 @@ import { QUERY_KEYS } from '../constants'
  * @returns
  */
 export const useTokenAllowances = (
-  readProvider: providers.Provider,
+  chainId: number,
   address: string,
   spenderAddress: string,
   tokenAddresses: string[],
@@ -26,18 +27,16 @@ export const useTokenAllowances = (
 ): UseQueryResult<{ [tokenAddress: string]: BigNumber }, unknown> => {
   const queryClient = useQueryClient()
 
-  const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
+  const provider = useProvider({ chainId })
 
   const enabled =
+    !!chainId &&
     !!address &&
     !!spenderAddress &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!readProvider &&
-    readProvider._isProvider &&
-    isFetchedChainId &&
-    !!chainId
+    !!provider
 
   const getQueryKey = (val: (string | number)[]) => [
     QUERY_KEYS.tokenAllowances,
@@ -49,7 +48,7 @@ export const useTokenAllowances = (
 
   return useQuery(
     getQueryKey(tokenAddresses),
-    async () => await getTokenAllowances(readProvider, address, spenderAddress, tokenAddresses),
+    async () => await getTokenAllowances(provider, address, spenderAddress, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,
@@ -63,7 +62,7 @@ export const useTokenAllowances = (
  * Returns a token's allowance for a given address and spender contract
  *
  * Wraps {@link useTokenAllowances}
- * @param chainId read-capable provider to query token allowances through
+ * @param chainId chain ID
  * @param address address that issues the allowance
  * @param spenderAddress wallet address that spends the allowance
  * @param tokenAddress token address to query allowance for
@@ -71,14 +70,14 @@ export const useTokenAllowances = (
  * @returns
  */
 export const useTokenAllowance = (
-  readProvider: providers.Provider,
+  chainId: number,
   address: string,
   spenderAddress: string,
   tokenAddress: string,
   refetchInterval?: number
 ): { data?: BigNumber } & Omit<UseQueryResult<{ [tokenAddress: string]: BigNumber }>, 'data'> => {
   const result = useTokenAllowances(
-    readProvider,
+    chainId,
     address,
     spenderAddress,
     [tokenAddress],

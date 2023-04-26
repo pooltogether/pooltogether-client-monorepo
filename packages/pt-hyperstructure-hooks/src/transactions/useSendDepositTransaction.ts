@@ -5,7 +5,6 @@ import {
   useContractWrite,
   useNetwork,
   usePrepareContractWrite,
-  useProvider,
   useWaitForTransaction
 } from 'wagmi'
 import { Vault } from 'pt-client-js'
@@ -35,10 +34,8 @@ export const useSendDepositTransaction = (
   const { address: userAddress } = useAccount()
   const { chain } = useNetwork()
 
-  const provider = useProvider({ chainId: vault?.chainId })
-
   const { data: allowance, isFetched: isFetchedAllowance } = useTokenAllowance(
-    provider,
+    vault?.chainId,
     userAddress as `0x${string}`,
     vault?.address,
     vault?.tokenData?.address as string

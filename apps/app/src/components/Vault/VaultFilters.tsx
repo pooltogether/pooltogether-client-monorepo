@@ -6,11 +6,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
-import {
-  useProviders,
-  useSelectedVaults,
-  useTokenBalancesAcrossChains
-} from 'pt-hyperstructure-hooks'
+import { useSelectedVaults, useTokenBalancesAcrossChains } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
 import { NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
 import { filteredVaultsAtom } from '@atoms'
@@ -30,12 +26,10 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { vaults } = useSelectedVaults()
   const vaultsArray = useMemo(() => Object.values(vaults.vaults), [vaults])
 
-  const providers = useProviders()
-
   const { address: userAddress } = useAccount()
 
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
-    useTokenBalancesAcrossChains(providers, userAddress, vaults.underlyingTokenAddresses?.byChain)
+    useTokenBalancesAcrossChains(networks, userAddress, vaults.underlyingTokenAddresses?.byChain)
 
   const setFilteredVaults = useSetAtom(filteredVaultsAtom)
 

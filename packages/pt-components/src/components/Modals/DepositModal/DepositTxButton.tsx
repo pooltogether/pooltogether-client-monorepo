@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useSendApproveTransaction,
@@ -37,14 +37,13 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
-  const provider = useProvider({ chainId: vault.chainId })
 
   const {
     data: allowance,
     isFetched: isFetchedAllowance,
     refetch: refetchTokenAllowance
   } = useTokenAllowance(
-    provider,
+    vault.chainId,
     userAddress as `0x${string}`,
     vault.address,
     vault.tokenData?.address as string
@@ -54,7 +53,11 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     data: userBalance,
     isFetched: isFetchedUserBalance,
     refetch: refetchTokenBalance
-  } = useTokenBalance(provider, userAddress as `0x${string}`, vault.tokenData?.address as string)
+  } = useTokenBalance(
+    vault.chainId,
+    userAddress as `0x${string}`,
+    vault.tokenData?.address as string
+  )
 
   const { refetch: refetchUserVaultTokenBalance } = useUserVaultTokenBalance(
     vault,

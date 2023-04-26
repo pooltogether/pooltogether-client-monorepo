@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useSendRedeemTransaction,
@@ -33,7 +33,6 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
-  const provider = useProvider({ chainId: vault.chainId })
 
   const {
     data: vaultShareBalance,
@@ -42,7 +41,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   } = useUserVaultShareBalance(vault, userAddress as `0x${string}`)
 
   const { refetch: refetchTokenBalance } = useTokenBalance(
-    provider,
+    vault.chainId,
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )

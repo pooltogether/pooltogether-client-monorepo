@@ -1,41 +1,40 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { providers, utils } from 'ethers'
+import { utils } from 'ethers'
+import { useProvider } from 'wagmi'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithSupply } from 'pt-types'
 import { getTokenInfo } from 'pt-utilities'
-import { populateCachePerId, useProviderChainId } from '..'
+import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
 
 /**
  * Returns a dictionary keyed by the token addresses with basic token data
  *
  * Stores queried token data in cache
- * @param readProvider read-capable provider to query token info through
+ * @param chainId chain ID
  * @param tokenAddresses token addresses to query info for
  * @returns
  */
 export const useTokens = (
-  readProvider: providers.Provider,
+  chainId: number,
   tokenAddresses: string[]
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }, unknown> => {
   const queryClient = useQueryClient()
 
-  const { data: chainId, isFetched: isFetchedChainId } = useProviderChainId(readProvider)
+  const provider = useProvider({ chainId })
 
   const enabled =
+    !!chainId &&
     tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!readProvider &&
-    readProvider._isProvider &&
-    isFetchedChainId &&
-    !!chainId
+    !!provider
 
   const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.tokens, chainId, val]
 
   return useQuery(
     getQueryKey(tokenAddresses),
-    async () => await getTokenInfo(readProvider, tokenAddresses),
+    async () => await getTokenInfo(provider, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,
@@ -48,17 +47,17 @@ export const useTokens = (
  * Returns basic token data for one token
  *
  * Wraps {@link useTokens}
- * @param readProvider read-capable provider to query token info through
+ * @param chainId chain ID
  * @param tokenAddress token address to query info for
  * @returns
  */
 export const useToken = (
-  readProvider: providers.Provider,
+  chainId: number,
   tokenAddress: string
 ): { data?: TokenWithSupply } & Omit<
   UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }>,
   'data'
 > => {
-  const result = useTokens(readProvider, [tokenAddress])
+  const result = useTokens(chainId, [tokenAddress])
   return { ...result, data: result.data?.[tokenAddress] }
 }

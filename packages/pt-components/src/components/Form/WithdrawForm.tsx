@@ -2,7 +2,7 @@ import { utils } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
 import { useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { useAccount, useProvider } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useTokenBalance,
@@ -29,10 +29,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const provider = useProvider({ chainId: vault.chainId })
-
   const { data: tokenWithAmount, isFetched: isFetchedTokenBalance } = useTokenBalance(
-    provider,
+    vault.chainId,
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )
