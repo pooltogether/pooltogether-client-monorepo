@@ -57,7 +57,7 @@ const VaultInfoRow = (props: VaultInfoRowProps) => {
   return (
     <div className='inline-flex w-full items-center justify-between'>
       <span className='text-pt-purple-100'>{name}</span>
-      <span className='font-semibold'>{data}</span>
+      <span>{data}</span>
     </div>
   )
 }
@@ -93,7 +93,7 @@ const VaultInfoToken = (props: VaultInfoTokenProps) => {
         href={getBlockExplorerUrl(token.chainId, token.address, 'token')}
         text={shorten(token.address, { short: true })}
         size='sm'
-        className='font-normal text-pt-purple-200'
+        className='text-pt-purple-200'
       />
     </span>
   )
