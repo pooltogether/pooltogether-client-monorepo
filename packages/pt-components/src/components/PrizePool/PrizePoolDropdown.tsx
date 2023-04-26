@@ -34,7 +34,7 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
           chainId={selectedNetwork}
           appendText='Prize Pool'
           hideBg={true}
-          className='gap-2'
+          className='gap-2 pr-0'
           iconClassName='h-8 w-8'
           textClassName='text-2xl font-semibold font-averta'
         />

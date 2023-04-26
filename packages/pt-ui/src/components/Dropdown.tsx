@@ -29,7 +29,8 @@ export const Dropdown = (props: DropdownProps) => {
           style: {
             auto: 'bg-pt-purple-50'
           }
-        }
+        },
+        arrowIcon: 'ml-2 h-4 w-4 stroke-[4]'
       }}
       // @ts-ignore
       label={label}
