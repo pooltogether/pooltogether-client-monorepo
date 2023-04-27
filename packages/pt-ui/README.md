@@ -13,6 +13,7 @@ Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used 
 - `BasicIcon`
 - `Button`
 - `Card`
+- `CountUp`
 - `Dropdown`
 - `ExternalLink`
 - `Footer`
