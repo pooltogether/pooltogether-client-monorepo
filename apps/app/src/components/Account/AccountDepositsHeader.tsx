@@ -20,7 +20,7 @@ export const AccountDepositsHeader = (props: AccountDepositsHeaderProps) => {
       <span className='text-pt-purple-100'>Your Deposits</span>
       <span className='text-3xl font-averta font-semibold'>
         {!isFetchedTotalBalance && !!userAddress && <Spinner />}
-        {isFetchedTotalBalance && <CurrencyValue baseValue={totalBalance} />}
+        {isFetchedTotalBalance && <CurrencyValue baseValue={totalBalance} countUp={true} />}
       </span>
     </div>
   )

@@ -21,7 +21,7 @@ export const AccountWinningsHeader = (props: AccountWinningsHeaderProps) => {
       <span className='text-pt-purple-100'>Your Winnings</span>
       <span className='text-3xl font-averta font-semibold'>
         {!isFetchedTotalWinnings && !!userAddress && <Spinner />}
-        {isFetchedTotalWinnings && <CurrencyValue baseValue={totalWinnings} />}
+        {isFetchedTotalWinnings && <CurrencyValue baseValue={totalWinnings} countUp={true} />}
       </span>
     </div>
   )

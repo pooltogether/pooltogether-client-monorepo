@@ -1,6 +1,11 @@
 import { useMemo } from 'react'
-import { CURRENCY_ID, useCoingeckoExchangeRates, useSelectedCurrency } from 'pt-generic-hooks'
-import { Spinner } from 'pt-ui'
+import {
+  CURRENCY_ID,
+  SUPPORTED_CURRENCIES,
+  useCoingeckoExchangeRates,
+  useSelectedCurrency
+} from 'pt-generic-hooks'
+import { CountUp, Spinner } from 'pt-ui'
 import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'pt-utilities'
 
 export interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
@@ -15,7 +20,6 @@ export interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'styl
   hideZeroes?: boolean
 }
 
-// TODO: implement CountUp in pt-ui package and uncomment the relevant code here
 export const CurrencyValue = (props: CurrencyValueProps) => {
   const { baseValue, baseCurrency, countUp, decimals, hideCountUpSymbol, hideLoading, ...rest } =
     props
@@ -34,16 +38,16 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
   if (!isFetchedExchangeRates) {
     if (!hideLoading) {
       return <Spinner />
-      // } else if (options?.countUp) {
-      //   return (
-      //     <>
-      //       {!options?.hideCountUpSymbol && SUPPORTED_CURRENCIES[currency]?.symbol}
-      //       <CountUp countTo={currencyValue} decimals={options?.decimals ?? 0} />
-      //     </>
-      //   )
     } else {
       return null
     }
+  } else if (countUp) {
+    return (
+      <>
+        {!hideCountUpSymbol && SUPPORTED_CURRENCIES[selectedCurrency]?.symbol}
+        <CountUp countTo={currencyValue} decimals={decimals} />
+      </>
+    )
   } else {
     return <>{formatCurrencyNumberForDisplay(currencyValue, selectedCurrency, { ...rest })}</>
   }
