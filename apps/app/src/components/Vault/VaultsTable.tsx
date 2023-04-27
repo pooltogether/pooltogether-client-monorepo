@@ -28,7 +28,13 @@ export const VaultsTable = (props: VaultsTableProps) => {
     rows: vaults.map((vault) => ({
       cells: {
         token: {
-          content: <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
+          content: (
+            <VaultBadge
+              vault={vault}
+              onClick={() => router.push(`/vault/${vault.id}`)}
+              className='isolate'
+            />
+          )
         },
         prizePower: {
           content: (
