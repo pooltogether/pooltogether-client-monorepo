@@ -229,15 +229,18 @@ export class Vaults {
     return shareBalances
   }
 
-  // TODO: this method (and underlying functions) should return `TokenWithAmount` instead of BigNumber
   /**
    * Returns the total amount of underlying assets deposited in each vault
    * @param chainIds optional chain IDs to query (by default queries all)
    * @returns
    */
-  async getTotalTokenBalances(chainIds?: number[]): Promise<{ [vaultId: string]: BigNumber }> {
-    const tokenBalances: { [vaultId: string]: BigNumber } = {}
+  async getTotalTokenBalances(
+    chainIds?: number[]
+  ): Promise<{ [vaultId: string]: TokenWithAmount }> {
+    const tokenBalances: { [vaultId: string]: TokenWithAmount } = {}
     const networksToQuery = chainIds ?? this.chainIds
+
+    const tokenData = await this.getTokenData()
 
     await Promise.all(
       networksToQuery.map((chainId) =>
@@ -248,7 +251,13 @@ export class Vaults {
             await validateProviderNetwork(chainId, provider, source)
             const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
             const chainTokenBalances = await getVaultBalances(provider, chainVaults)
-            Object.assign(tokenBalances, chainTokenBalances)
+
+            Object.keys(chainTokenBalances).forEach((vaultId) => {
+              tokenBalances[vaultId] = {
+                ...tokenData[vaultId],
+                amount: chainTokenBalances[vaultId].toString()
+              }
+            })
           }
         })()
       )

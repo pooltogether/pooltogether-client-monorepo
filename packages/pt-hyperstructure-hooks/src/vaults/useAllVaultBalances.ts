@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { BigNumber } from 'ethers'
 import { Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
+import { TokenWithAmount } from 'pt-types'
 import { QUERY_KEYS } from '../constants'
 import { populateCachePerId } from '../utils/populateCachePerId'
 
@@ -16,7 +16,7 @@ import { populateCachePerId } from '../utils/populateCachePerId'
 export const useAllVaultBalances = (
   vaults: Vaults,
   refetchInterval?: number
-): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
+): UseQueryResult<{ [vaultId: string]: TokenWithAmount }, unknown> => {
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []

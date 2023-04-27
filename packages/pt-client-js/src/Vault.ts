@@ -218,13 +218,15 @@ export class Vault {
    * Returns the total amount of underlying assets deposited in the vault
    * @returns
    */
-  async getTotalTokenBalance(): Promise<BigNumber> {
+  async getTotalTokenBalance(): Promise<TokenWithAmount> {
     const source = 'Vault [getTotalTokenBalance]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
 
-    const totalAssets: string = await this.vaultContract.totalAssets()
+    const tokenData = await this.getTokenData()
 
-    return BigNumber.from(totalAssets)
+    const totalAssets = BigNumber.from(await this.vaultContract.totalAssets())
+
+    return { ...tokenData, amount: totalAssets.toString() }
   }
 
   /**
