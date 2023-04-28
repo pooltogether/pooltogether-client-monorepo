@@ -1,7 +1,8 @@
 import classNames from 'classnames'
+import { useCoingeckoTokenData } from 'pt-generic-hooks'
 import { TokenWithLogo } from 'pt-types'
-import { BasicIcon } from 'pt-ui'
-import { NETWORK } from 'pt-utilities'
+import { BasicIcon, Spinner } from 'pt-ui'
+import { COINGECKO_PLATFORMS, NETWORK } from 'pt-utilities'
 import { TOKEN_LOGO_OVERRIDES } from '../../constants'
 
 export interface TokenIconProps {
@@ -41,13 +42,64 @@ export const TokenIcon = (props: TokenIconProps) => {
       )
     }
 
-    // TODO: fetch token data from coingecko and display token icon
+    if (token.chainId in COINGECKO_PLATFORMS) {
+      return (
+        <CoingeckoTokenIcon
+          chainId={token.chainId}
+          tokenAddress={token.address}
+          altText={altText}
+          symbol={token.symbol}
+          className={className}
+        />
+      )
+    }
   }
 
+  return <FallbackTokenIcon symbol={token.symbol} className={className} />
+}
+
+interface CoingeckoTokenIconProps {
+  chainId: number
+  tokenAddress: string
+  altText?: string
+  symbol?: string
+  className?: string
+}
+
+const CoingeckoTokenIcon = (props: CoingeckoTokenIconProps) => {
+  const { chainId, tokenAddress, altText, symbol, className } = props
+
+  const { data: tokenData, isFetched: isFetchedTokenData } = useCoingeckoTokenData(
+    chainId,
+    tokenAddress
+  )
+
+  if (!isFetchedTokenData) {
+    return <Spinner />
+  }
+
+  if (!!tokenData?.image?.small) {
+    return (
+      <img
+        src={tokenData.image.small}
+        alt={altText}
+        className={classNames('h-6 w-6 rounded-full', className)}
+      />
+    )
+  }
+
+  return <FallbackTokenIcon symbol={symbol} className={className} />
+}
+
+interface FallbackTokenIconProps {
+  symbol?: string
+  className?: string
+}
+
+const FallbackTokenIcon = (props: FallbackTokenIconProps) => {
+  const { symbol, className } = props
+
   return (
-    <BasicIcon
-      content={!!token.symbol ? token.symbol.slice(0, 2).toUpperCase() : '?'}
-      className={classNames(className)}
-    />
+    <BasicIcon content={!!symbol ? symbol.slice(0, 2).toUpperCase() : '?'} className={className} />
   )
 }
