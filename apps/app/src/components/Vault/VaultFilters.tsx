@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
-import { useSetAtom } from 'jotai'
+import { atom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -9,8 +9,9 @@ import { NetworkIcon } from 'pt-components'
 import { useSelectedVaults, useTokenBalancesAcrossChains } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
 import { NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
-import { filteredVaultsAtom } from '@atoms'
 import { useNetworks } from '@hooks/useNetworks'
+
+export const filteredVaultsAtom = atom<{ [chainId: number]: Vault[] }>({})
 
 interface VaultFiltersProps {
   className?: string

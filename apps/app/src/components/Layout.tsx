@@ -5,16 +5,14 @@ import {
   useConnectModal
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { useAtom } from 'jotai'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import { DepositModal, SettingsModal, WithdrawModal } from 'pt-components'
+import { DepositModal, SettingsModal, SettingsModalView, WithdrawModal } from 'pt-components'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
 import { useCachedVaultLists, useSelectedVaultListIds } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
-import { settingsModalViewAtom } from '@atoms'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 
 interface LayoutProps {
@@ -28,7 +26,7 @@ export const Layout = (props: LayoutProps) => {
   const router = useRouter()
 
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
-  const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
+  const [settingsModalView, setSettingsModalView] = useState<SettingsModalView>('menu')
 
   const { isTestnets, setIsTestnets } = useIsTestnets()
 

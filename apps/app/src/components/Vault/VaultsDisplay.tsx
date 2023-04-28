@@ -3,8 +3,8 @@ import { useRouter } from 'next/router'
 import { NetworkBadge } from 'pt-components'
 import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { filteredVaultsAtom } from '@atoms'
 import { useNetworks } from '@hooks/useNetworks'
+import { filteredVaultsAtom } from './VaultFilters'
 import { VaultsTable } from './VaultsTable'
 
 // TODO: there should be a "no vaults" empty state that pushes the user towards vault list management
