@@ -9,13 +9,11 @@ export const Card = (props: CardProps) => {
   const { wrapperClassName, className, ...rest } = props
 
   return (
-    // TODO: hover bg color not updating
     <FlowbiteCard
       theme={{
         root: {
           base: 'flex bg-pt-transparent rounded-lg shadow-md',
-          children: classNames('flex h-full flex-col justify-center p-8', className),
-          href: 'hover:bg-pt-purple-50/20'
+          children: classNames('flex h-full flex-col justify-center p-8', className)
         }
       }}
       className={classNames(wrapperClassName)}

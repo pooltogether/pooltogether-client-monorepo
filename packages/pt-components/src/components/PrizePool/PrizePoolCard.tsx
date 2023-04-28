@@ -8,11 +8,10 @@ import { TokenValue } from '../Currency/TokenValue'
 
 export interface PrizePoolCardProps {
   prizePool: PrizePool
-  href?: string
 }
 
 export const PrizePoolCard = (props: PrizePoolCardProps) => {
-  const { prizePool, href } = props
+  const { prizePool } = props
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const grandPrize =
@@ -23,7 +22,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
   return (
-    <Card href={href} className='gap-16'>
+    <Card wrapperClassName='hover:bg-pt-purple-50/20' className='gap-16'>
       <NetworkBadge
         chainId={prizePool.chainId}
         appendText='Prize Pool'

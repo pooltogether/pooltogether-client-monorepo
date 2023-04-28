@@ -11,7 +11,7 @@ export const PrizePoolCards = () => {
 
   return (
     <div
-      className={classNames('grid gap-4 bg-pt-bg-purple-dark p-4 rounded-lg', {
+      className={classNames('grid gap-4 p-4 rounded-lg', {
         'grid-cols-1': numPrizePools === 1,
         'grid-cols-2': numPrizePools % 2 === 0 && numPrizePools % 3 !== 0,
         'grid-cols-3': numPrizePools % 3 === 0
@@ -19,11 +19,7 @@ export const PrizePoolCards = () => {
     >
       {Object.values(prizePools).map((prizePool) => {
         return (
-          <Link
-            key={`pp-${prizePool.id}`}
-            href={`/vaults?network=${prizePool.chainId}`}
-            passHref={true}
-          >
+          <Link key={`pp-${prizePool.id}`} href={`/vaults?network=${prizePool.chainId}`}>
             <PrizePoolCard prizePool={prizePool} />
           </Link>
         )
