@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
 import { Button, ExternalLink, Spinner } from 'pt-ui'
-import { formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
+import { formatNumberForDisplay, getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { depositFormTokenAmountAtom } from '../../../Form/DepositForm'
 
@@ -33,7 +33,7 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
         {!!txHash && (
           <ExternalLink
             href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
-            text='View TX'
+            text={`View on ${getBlockExplorerName(vault.chainId)}`}
             size='sm'
             className='mx-auto text-pt-purple-100'
           />

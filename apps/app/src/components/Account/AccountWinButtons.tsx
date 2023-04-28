@@ -1,5 +1,5 @@
 import { Button, ExternalLink } from 'pt-ui'
-import { getBlockExplorerUrl } from 'pt-utilities'
+import { getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
 import { PrizePoolWin } from '@hooks/useAllUserPrizePoolWins'
 
 interface AccountWinButtonsProps {
@@ -15,7 +15,7 @@ export const AccountWinButtons = (props: AccountWinButtonsProps) => {
       <Button color='transparent'>
         <ExternalLink
           href={getBlockExplorerUrl(win.prizePool.chainId, win.txHash, 'tx')}
-          text='View TX'
+          text={`View on ${getBlockExplorerName(win.prizePool.chainId)}`}
           size='sm'
           className='text-pt-purple-100'
         />

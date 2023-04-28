@@ -13,9 +13,18 @@ export const getBlockExplorerUrl = (
   type: 'address' | 'token' | 'tx' | 'block' = 'address'
 ): string => {
   if (chainId in BLOCK_EXPLORERS) {
-    const baseUrl = BLOCK_EXPLORERS[chainId as keyof typeof BLOCK_EXPLORERS]
-    return `${baseUrl}${type}/${value}`
+    const blockExplorer = BLOCK_EXPLORERS[chainId as keyof typeof BLOCK_EXPLORERS]
+    return `${blockExplorer.url}${type}/${value}`
   } else {
     return '#'
+  }
+}
+
+export const getBlockExplorerName = (chainId: number): string => {
+  if (chainId in BLOCK_EXPLORERS) {
+    const blockExplorer = BLOCK_EXPLORERS[chainId as keyof typeof BLOCK_EXPLORERS]
+    return blockExplorer.name
+  } else {
+    return '?'
   }
 }

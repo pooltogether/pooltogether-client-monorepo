@@ -31,7 +31,7 @@ export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
   [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
-  [NETWORK.goerli]: '0xc26EF73D0cdF27D5F184DF3e05ac6e2f490ccEDf'
+  [NETWORK.goerli]: '0x77C4F17Acf61C3B5983a3Fb8BaCBDE899998CC0B'
 })
 
 /**
@@ -96,25 +96,25 @@ export const COINGECKO_NATIVE_TOKEN_IDS: Record<NETWORK, string> = Object.freeze
 export const POOLTOGETHER_API_URL = 'https://pooltogether-api.com'
 
 /**
- * Block explorer URLs
+ * Block explorer mapping
  */
-export const BLOCK_EXPLORERS: Record<NETWORK, string> = Object.freeze({
-  [NETWORK.mainnet]: 'https://etherscan.io/',
-  [NETWORK.goerli]: 'https://goerli.etherscan.io/',
-  [NETWORK.sepolia]: 'https://sepolia.etherscan.io/',
-  [NETWORK.bsc]: 'https://bscscan.com/',
-  [NETWORK['bsc-testnet']]: 'https://testnet.bscscan.com/',
-  [NETWORK.xdai]: 'https://gnosisscan.io/',
-  [NETWORK.polygon]: 'https://polygonscan.com/',
-  [NETWORK.mumbai]: 'https://mumbai.polygonscan.com/',
-  [NETWORK.optimism]: 'https://optimistic.etherscan.io/',
-  [NETWORK['optimism-goerli']]: 'https://goerli-optimism.etherscan.io/',
-  [NETWORK.avalanche]: 'https://snowtrace.io/',
-  [NETWORK.fuji]: 'https://testnet.snowtrace.io/',
-  [NETWORK.celo]: 'https://celoscan.io/',
-  [NETWORK['celo-testnet']]: 'https://alfajores.celoscan.io/',
-  [NETWORK.arbitrum]: 'https://arbiscan.io/',
-  [NETWORK['arbitrum-goerli']]: 'https://goerli.arbiscan.io/'
+export const BLOCK_EXPLORERS: Record<NETWORK, { name: string; url: string }> = Object.freeze({
+  [NETWORK.mainnet]: { name: 'Etherscan', url: 'https://etherscan.io/' },
+  [NETWORK.goerli]: { name: 'Etherscan', url: 'https://goerli.etherscan.io/' },
+  [NETWORK.sepolia]: { name: 'Etherscan', url: 'https://sepolia.etherscan.io/' },
+  [NETWORK.bsc]: { name: 'BscScan', url: 'https://bscscan.com/' },
+  [NETWORK['bsc-testnet']]: { name: 'BscScan', url: 'https://testnet.bscscan.com/' },
+  [NETWORK.xdai]: { name: 'GnosisScan', url: 'https://gnosisscan.io/' },
+  [NETWORK.polygon]: { name: 'PolygonScan', url: 'https://polygonscan.com/' },
+  [NETWORK.mumbai]: { name: 'PolygonScan', url: 'https://mumbai.polygonscan.com/' },
+  [NETWORK.optimism]: { name: 'Etherscan', url: 'https://optimistic.etherscan.io/' },
+  [NETWORK['optimism-goerli']]: { name: 'Etherscan', url: 'https://goerli-optimism.etherscan.io/' },
+  [NETWORK.avalanche]: { name: 'Snowtrace', url: 'https://snowtrace.io/' },
+  [NETWORK.fuji]: { name: 'Snowtrace', url: 'https://testnet.snowtrace.io/' },
+  [NETWORK.celo]: { name: 'CeloScan', url: 'https://celoscan.io/' },
+  [NETWORK['celo-testnet']]: { name: 'CeloScan', url: 'https://alfajores.celoscan.io/' },
+  [NETWORK.arbitrum]: { name: 'ArbiScan', url: 'https://arbiscan.io/' },
+  [NETWORK['arbitrum-goerli']]: { name: 'ArbiScan', url: 'https://goerli.arbiscan.io/' }
 })
 
 /**
@@ -129,9 +129,9 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
     '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd' // GUSD
   ],
   [NETWORK.goerli]: [
-    '0xb49f1bbd905a7a869dd50c1df7d42e7907bce7b4', // DAI
-    '0xa07af90b215b4edccabc99dd45cca6d1127790ec', // USDC
-    '0x0ea26b1023ace3dcbbc2a11343b7a188bc4b5b9c' // GUSD
+    '0xef8743fb2f5bea4a6e6e821895d479042a9bb5ca', // DAI
+    '0x62a918876ad2135bdcd35149c9787311d4417912', // USDC
+    '0x1d0cde537d5ee72fb43a16027874626dd82741f3' // GUSD
   ],
   [NETWORK.sepolia]: [],
   [NETWORK.bsc]: [],
@@ -151,15 +151,17 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
 
 /**
  * Hardcoded testnet token prices
+ *
+ * NOTE: All addresses are lowercase
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
   [NETWORK.goerli]: {
-    '0xb49f1bbd905a7a869dd50c1df7d42e7907bce7b4': { eth: 0.00052801 }, // DAI
-    '0xa07af90b215b4edccabc99dd45cca6d1127790ec': { eth: 0.00052801 }, // USDC
-    '0x0ea26b1023ace3dcbbc2a11343b7a188bc4b5b9c': { eth: 0.00052801 }, // GUSD
-    '0x50f7638aae955ec17d1173d8aaca69923923afc6': { eth: 14.764395 }, // WBTC
-    '0xe322f82175964b8dfaebac6c448442a176eef492': { eth: 0.99929941 }, // WETH
-    '0xc26ef73d0cdf27d5f184df3e05ac6e2f490ccedf': { eth: 0.00052918 } // POOL
+    '0xef8743fb2f5bea4a6e6e821895d479042a9bb5ca': { eth: 0.00052681 }, // DAI
+    '0x62a918876ad2135bdcd35149c9787311d4417912': { eth: 0.0005265 }, // USDC
+    '0x1d0cde537d5ee72fb43a16027874626dd82741f3': { eth: 0.00052792 }, // GUSD
+    '0x6bc6556e16654f72c097f6863418926510aa3006': { eth: 15.450051 }, // WBTC
+    '0xe86425cfb3a55e9eb1d5f2a79f6b583e94921071': { eth: 0.99838028 }, // WETH
+    '0x77c4f17acf61c3b5983a3fb8bacbde899998cc0b': { eth: 0.00045293 } // POOL
   }
 })
 

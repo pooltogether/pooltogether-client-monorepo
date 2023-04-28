@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
 import { Button, ExternalLink } from 'pt-ui'
-import { formatNumberForDisplay, getBlockExplorerUrl } from 'pt-utilities'
+import { formatNumberForDisplay, getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { withdrawFormTokenAmountAtom } from '../../../Form/WithdrawForm'
 import { SuccessIcon } from '../../../Icons/SuccessIcon'
@@ -30,7 +30,7 @@ export const SuccessView = (props: SuccessViewProps) => {
         {!!txHash && (
           <ExternalLink
             href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
-            text='View TX'
+            text={`View on ${getBlockExplorerName(vault.chainId)}`}
             size='sm'
             className='mx-auto text-pt-purple-100'
           />

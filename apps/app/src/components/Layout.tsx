@@ -13,6 +13,7 @@ import { DepositModal, SettingsModal, SettingsModalView, WithdrawModal } from 'p
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
 import { useCachedVaultLists, useSelectedVaultListIds } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
+import { isNewerVersion } from 'pt-utilities'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 
 interface LayoutProps {
@@ -39,7 +40,10 @@ export const Layout = (props: LayoutProps) => {
 
   useEffect(() => {
     Object.keys(DEFAULT_VAULT_LISTS).forEach((key) => {
-      if (!cachedVaultLists[key]) {
+      if (
+        !cachedVaultLists[key] ||
+        isNewerVersion(DEFAULT_VAULT_LISTS[key].version, cachedVaultLists[key].version)
+      ) {
         cache(key, DEFAULT_VAULT_LISTS[key])
         select(key, 'local')
       }

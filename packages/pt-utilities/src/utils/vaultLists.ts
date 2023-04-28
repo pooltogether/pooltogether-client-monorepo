@@ -1,5 +1,5 @@
 import Ajv from 'ajv'
-import { VaultList } from 'pt-types'
+import { VaultList, Version } from 'pt-types'
 import { VAULT_LIST_SCHEMA } from '../constants'
 
 const ajv = new Ajv()
@@ -27,4 +27,18 @@ export const getVaultList = async (src: string) => {
   }
 
   return isValidVaultList(vaultList) ? vaultList : undefined
+}
+
+/**
+ * Returns true if version `A` is newer (more recent, higher value) than version `B`
+ * @param a version A
+ * @param b version B
+ * @returns
+ */
+export const isNewerVersion = (a: Version, b: Version) => {
+  return (
+    a.major > b.major ||
+    (a.major === b.major && a.minor > b.minor) ||
+    (a.major === b.major && a.minor === b.minor && a.patch > b.patch)
+  )
 }

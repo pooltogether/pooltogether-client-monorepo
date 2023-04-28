@@ -38,8 +38,8 @@ export const RPC_URLS = {
  */
 export const PRIZE_POOLS = Object.freeze({
   [NETWORK.goerli]: {
-    address: '0x13231cAe073c27F9274c15c883c51E257F5B10a2',
-    prizeTokenAddress: '0xc26EF73D0cdF27D5F184DF3e05ac6e2f490ccEDf',
+    address: '0x3de3ddb0B06701a586a704E9e808a77a89f9bA14',
+    prizeTokenAddress: '0x77C4F17Acf61C3B5983a3Fb8BaCBDE899998CC0B',
     drawPeriodInSeconds: 7_200,
     tierShares: BigNumber.from('100000000000000000000')
   }
