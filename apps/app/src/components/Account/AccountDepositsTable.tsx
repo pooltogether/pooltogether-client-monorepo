@@ -6,6 +6,7 @@ import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-ho
 import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
+import { AccountVaultOdds } from './AccountVaultOdds'
 
 interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {}
 
@@ -24,8 +25,6 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
     vaults,
     userAddress
   )
-
-  const odds = 'X' // TODO: calculate odds
 
   const tableData: TableProps['data'] = {
     headers: {
@@ -48,7 +47,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                     )
                   },
                   odds: {
-                    content: `1 in ${odds}`,
+                    content: <AccountVaultOdds vault={vault} />,
                     position: 'center'
                   },
                   balance: {

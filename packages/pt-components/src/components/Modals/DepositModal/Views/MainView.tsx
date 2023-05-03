@@ -13,8 +13,6 @@ export const MainView = (props: MainViewProps) => {
 
   const networkName = getNiceNetworkNameByChainId(vault.chainId)
 
-  const odds = 'X' // TODO: calculate odds
-
   return (
     <div className='flex flex-col gap-6'>
       <span className='text-xl font-semibold text-center'>
@@ -29,11 +27,25 @@ export const MainView = (props: MainViewProps) => {
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <DepositForm vault={vault} />
       )}
-      <div className='flex flex-col items-center gap-2'>
-        <span className='text-xs font-semibold text-pt-purple-100'>Weekly Chance of Winning</span>
-        <span className='text-sm text-pt-purple-50'>1 in {odds}</span>
-      </div>
+      <WeeklyOdds vault={vault} />
       {/* TODO: add estimated network gas fees */}
+    </div>
+  )
+}
+
+interface WeeklyOddsProps {
+  vault: Vault
+}
+
+const WeeklyOdds = (props: WeeklyOddsProps) => {
+  const { vault } = props
+
+  const odds = 'X' // TODO: calculate odds
+
+  return (
+    <div className='flex flex-col items-center gap-2'>
+      <span className='text-xs font-semibold text-pt-purple-100'>Weekly Chance of Winning</span>
+      <span className='text-sm text-pt-purple-50'>1 in {odds}</span>
     </div>
   )
 }

@@ -7,7 +7,7 @@ interface AccountDepositsOddsProps {
 export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
   const { className } = props
 
-  const odds = 'X' // TODO: calculate odds
+  const odds = 'X' // TODO: calculate odds to win any prize within X time
 
   return (
     <div

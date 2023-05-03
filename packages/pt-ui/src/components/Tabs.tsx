@@ -23,11 +23,9 @@ export const Tabs = (props: TabsProps) => {
           <FlowbiteTabs.Item
             key={`tab-${item.name.toLowerCase().replaceAll(' ', '-')}-${i}`}
             active={i === defaultActiveTab ?? 0}
-            // @ts-ignore
             title={item.title}
             disabled={item.disabled}
           >
-            {/* @ts-ignore */}
             {item.content}
           </FlowbiteTabs.Item>
         )

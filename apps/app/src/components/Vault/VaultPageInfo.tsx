@@ -30,7 +30,7 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
         />
       )}
       {/* TODO: add tooltip */}
-      {!!userAddress && <VaultInfoRow name='My Win Chance' data={`1 in ${odds}`} />}
+      {!!userAddress && <VaultInfoRow name='My Win Chance' data={`1 in ${odds ?? <Spinner />}`} />}
       {/* TODO: add tooltip */}
       <VaultInfoRow name='Prize Power' data={<VaultPrizePower vault={vault} />} />
       <VaultInfoRow name='TVL' data={<VaultTotalDeposits vault={vault} />} />
