@@ -32,6 +32,7 @@ export const Dropdown = (props: DropdownProps) => {
         },
         arrowIcon: 'ml-2 h-4 w-4 stroke-[4]'
       }}
+      // @ts-ignore
       label={label}
       className={classNames(className)}
       {...rest}
@@ -45,6 +46,7 @@ export const Dropdown = (props: DropdownProps) => {
               theme={{ base: 'flex items-center justify-center w-full cursor-pointer' }}
               onClick={() => item.onClick(item.id)}
             >
+              {/* @ts-ignore */}
               {item.content}
             </FlowbiteDropdown.Item>
           )
