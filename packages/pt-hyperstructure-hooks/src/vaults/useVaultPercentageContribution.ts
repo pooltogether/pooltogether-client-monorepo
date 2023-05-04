@@ -21,6 +21,7 @@ export const useVaultPercentageContribution = (
   const getQueryKey = (val: (string | number)[]) => [
     QUERY_KEYS.vaultPercentageContributions,
     prizePool?.id,
+    numDraws,
     val
   ]
 

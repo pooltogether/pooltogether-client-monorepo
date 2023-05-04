@@ -1,46 +1,60 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQueries } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { PrizePool, Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
- * Returns each vault's percentage contribution to a prize pool
- * @param prizePool instance of the `PrizePool` class
+ * Returns all vault percentage contributions to each of their respective prize pools
+ * @param prizePools array of instances of the `PrizePool` class
  * @param vaults instance of the `Vaults` class
  * @param numDraws number of past draws to consider (default is `7`)
  * @returns
  */
 export const useAllVaultPercentageContributions = (
-  prizePool: PrizePool,
+  prizePools: PrizePool[],
   vaults: Vaults,
   numDraws: number = 7
 ) => {
-  const queryClient = useQueryClient()
+  const results = useQueries({
+    queries: prizePools.map((prizePool) => {
+      const getQueryKey = (val: (string | number)[]) => [
+        QUERY_KEYS.vaultPercentageContributions,
+        prizePool?.id,
+        numDraws,
+        val
+      ]
 
-  const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []
-  const getQueryKey = (val: (string | number)[]) => [
-    QUERY_KEYS.vaultPercentageContributions,
-    prizePool?.id,
-    val
-  ]
-
-  return useQuery(
-    getQueryKey(vaultIds),
-    async () => {
-      const lastDrawId = await prizePool.getLastDrawId()
-      const vaultAddresses = Object.values(vaults.vaults).map((vault) => vault.address)
-      const contributionPercentages = await prizePool.getVaultContributedPercentages(
-        vaultAddresses,
-        lastDrawId > numDraws ? lastDrawId - numDraws : 1,
-        lastDrawId + 1
+      const vaultIds = Object.keys(vaults.vaults).filter(
+        (vaultId) => vaults.vaults[vaultId].chainId === prizePool.chainId
       )
-      return contributionPercentages
-    },
-    {
-      enabled: !!prizePool && !!vaults,
-      ...NO_REFETCH,
-      onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, data)
-    }
-  )
+
+      return {
+        queryKey: getQueryKey(vaultIds),
+        queryFn: async () => {
+          const lastDrawId = await prizePool.getLastDrawId()
+          const contributionPercentages = await prizePool.getVaultContributedPercentages(
+            vaultIds.map((vaultId) => vaults.vaults[vaultId].address),
+            lastDrawId > numDraws ? lastDrawId - numDraws : 1,
+            lastDrawId + 1
+          )
+          return contributionPercentages
+        },
+        enabled: !!prizePool && !!vaults,
+        ...NO_REFETCH
+      }
+    })
+  })
+
+  return useMemo(() => {
+    const isFetched = results?.every((result) => result.isFetched)
+    const refetch = () => results?.forEach((result) => result.refetch())
+
+    const data: { [vaultId: string]: number } = Object.assign(
+      {},
+      ...results.map((result) => result.data)
+    )
+
+    return { isFetched, refetch, data }
+  }, [results])
 }

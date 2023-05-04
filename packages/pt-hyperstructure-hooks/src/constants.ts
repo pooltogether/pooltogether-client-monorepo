@@ -9,6 +9,7 @@ export const QUERY_KEYS = Object.freeze({
   gasPrices: 'gasPrices',
   nextDrawTimestamp: 'nextDrawTimestamp',
   prizeInfo: 'prizeInfo',
+  prizeOdds: 'prizeOdds',
   prizeTokenData: 'prizeTokenData',
   providerChainId: 'providerChainId',
   selectedVaults: 'selectedVaults',

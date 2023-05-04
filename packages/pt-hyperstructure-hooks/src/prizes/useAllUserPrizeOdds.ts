@@ -1,60 +1,81 @@
+import { useQueries } from '@tanstack/react-query'
 import { BigNumber } from 'ethers'
+import { useMemo } from 'react'
 import { PrizePool, Vaults } from 'pt-client-js'
+import { NO_REFETCH } from 'pt-generic-hooks'
 import { calculateOdds, calculateUnionProbability } from 'pt-utilities'
+import { QUERY_KEYS } from '../constants'
 import { useAllUserVaultBalances } from '../vaults/useAllUserVaultBalances'
 import { useAllVaultPercentageContributions } from '../vaults/useAllVaultPercentageContributions'
 import { useAllVaultShareData } from '../vaults/useAllVaultShareData'
-import { useEstimatedPrizeCount } from './useEstimatedPrizeCount'
 
-// TODO: refactor this to take multiple prize pools
 /**
- * Returns a user's odds of winning any prize within any one draw, in any vault
- * @param prizePool instance of the `PrizePool` class
+ * Return the odds of a user winning any prize within any one draw for any prize pool or vault
+ * @param prizePools array of instances of the `PrizePool` class
  * @param vaults instance of the `Vaults` class
- * @param userAddress the user address to calculate odds for
+ * @param userAddress the user's wallet address
  * @returns
  */
 export const useAllUserPrizeOdds = (
-  prizePool: PrizePool,
+  prizePools: PrizePool[],
   vaults: Vaults,
   userAddress: string
 ): { data?: { percent: number; oneInX: number }; isFetched: boolean } => {
-  const { data: shareData, isFetched: isFetchedShareData } = useAllVaultShareData(vaults)
+  const { data: shareData } = useAllVaultShareData(vaults)
 
-  const { data: vaultContributions, isFetched: isFetchedVaultContributions } =
-    useAllVaultPercentageContributions(prizePool, vaults)
+  const { data: shareBalances } = useAllUserVaultBalances(vaults, userAddress)
 
-  const { data: prizeCount, isFetched: isFetchedPrizeCount } = useEstimatedPrizeCount(prizePool)
+  const { data: vaultContributions } = useAllVaultPercentageContributions(prizePools, vaults)
 
-  const { data: shareBalances, isFetched: isFetchedShareBalances } = useAllUserVaultBalances(
-    vaults,
-    userAddress
-  )
+  const results = useQueries({
+    queries: prizePools.map((prizePool) => {
+      const vaultIds = Object.keys(vaults.vaults).filter(
+        (vaultId) => vaults.vaults[vaultId].chainId === prizePool.chainId
+      )
+      const queryKey = [QUERY_KEYS.prizeOdds, prizePool?.id, vaultIds, userAddress]
 
-  const isFetched =
-    isFetchedShareData &&
-    isFetchedVaultContributions &&
-    isFetchedPrizeCount &&
-    isFetchedShareBalances
+      const enabled =
+        !!prizePool &&
+        !!vaults &&
+        !!userAddress &&
+        !!shareData &&
+        !!shareBalances &&
+        !!vaultContributions
 
-  const probabilities =
-    !!shareData && !!vaultContributions && prizeCount !== undefined && !!shareBalances
-      ? Object.keys(shareData).map((vaultId) => {
-          return calculateOdds(
-            BigNumber.from(shareBalances[vaultId]?.amount ?? 0),
-            BigNumber.from(shareData[vaultId].totalSupply),
-            shareData[vaultId].decimals,
-            vaultContributions[vaultId],
-            prizeCount
-          )
-        })
-      : []
+      return {
+        queryKey: queryKey,
+        queryFn: async () => {
+          const numPrizes = await prizePool.getEstimatedPrizeCount()
 
-  const percent = calculateUnionProbability(probabilities)
+          const probabilities = vaultIds.map((vaultId) => {
+            if (!!shareData && !!shareBalances) {
+              const userShares = BigNumber.from(shareBalances[vaultId].amount)
+              const totalShares = BigNumber.from(shareData[vaultId].totalSupply)
+              const decimals = shareData[vaultId].decimals
+              const vaultContribution = vaultContributions[vaultId]
 
-  const oneInX = Math.round(1 / percent)
+              return calculateOdds(userShares, totalShares, decimals, vaultContribution, numPrizes)
+            } else {
+              return 0
+            }
+          })
 
-  const data = { percent, oneInX }
+          return calculateUnionProbability(probabilities)
+        },
+        enabled,
+        ...NO_REFETCH
+      }
+    })
+  })
 
-  return { data, isFetched }
+  return useMemo(() => {
+    const isFetched = results?.every((result) => result.isFetched)
+    const refetch = () => results?.forEach((result) => result.refetch())
+
+    const probabilities = results.map((result) => result.data ?? 0)
+    const percent = calculateUnionProbability(probabilities)
+    const oneInX = 1 / percent
+
+    return { isFetched, refetch, data: { percent, oneInX } }
+  }, [results])
 }
