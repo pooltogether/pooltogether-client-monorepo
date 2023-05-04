@@ -1,5 +1,6 @@
 import classNames from 'classnames'
-import { ReactNode, useState } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
+import { PrizePool } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
 import { Modal } from 'pt-ui'
@@ -13,6 +14,7 @@ import { WaitingView } from './Views/WaitingView'
 export type DepositModalView = 'main' | 'waiting' | 'confirming' | 'success' | 'error'
 
 export interface DepositModalProps {
+  prizePools: PrizePool[]
   onGoToAccount?: () => void
   openConnectModal?: () => void
   openChainModal?: () => void
@@ -20,7 +22,8 @@ export interface DepositModalProps {
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } = props
+  const { prizePools, onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } =
+    props
 
   const { vault } = useSelectedVault()
 
@@ -30,6 +33,12 @@ export const DepositModal = (props: DepositModalProps) => {
 
   const [depositTxHash, setDepositTxHash] = useState<string>()
 
+  const prizePool = useMemo(() => {
+    if (!!vault) {
+      return prizePools.find((prizePool) => prizePool.chainId === vault.chainId)
+    }
+  }, [prizePools, vault])
+
   const handleClose = () => {
     setIsModalOpen(false)
     setView('main')
@@ -37,7 +46,7 @@ export const DepositModal = (props: DepositModalProps) => {
 
   if (isModalOpen && !!vault) {
     const modalViews: Record<DepositModalView, ReactNode> = {
-      main: <MainView vault={vault} />,
+      main: <MainView vault={vault} prizePool={prizePool as PrizePool} />,
       waiting: <WaitingView vault={vault} closeModal={handleClose} />,
       confirming: <ConfirmingView vault={vault} txHash={depositTxHash} closeModal={handleClose} />,
       success: (

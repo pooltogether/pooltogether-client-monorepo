@@ -1,7 +1,8 @@
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
+import { usePrizeOdds, usePrizePool, useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
+import { formatPrizePools } from '../../utils'
 
 interface AccountVaultOddsProps {
   vault: Vault
@@ -12,17 +13,34 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  // const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
+  const { data: shareBalance, isFetched: isFetchedShareBalance } = useUserVaultShareBalance(
+    vault,
+    userAddress
+  )
 
-  const odds = 'X' // TODO: calculate odds of winning a prize on this vault per draw? or per X time
+  const formattedPrizePoolInfo = formatPrizePools()
+  const foundPrizePoolInfo = formattedPrizePoolInfo.find(
+    (prizePool) => prizePool.chainId === vault.chainId
+  )
+  const prizePool = usePrizePool(
+    foundPrizePoolInfo.chainId,
+    foundPrizePoolInfo.address,
+    foundPrizePoolInfo.options
+  )
+
+  const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = usePrizeOdds(
+    prizePool,
+    vault,
+    shareBalance?.amount ?? '0'
+  )
 
   if (!userAddress) {
     return <>-</>
   }
 
-  if (!odds) {
+  if (!isFetchedShareBalance || !isFetchedPrizeOdds) {
     return <Spinner />
   }
 
-  return <>1 in {odds}</>
+  return <>1 in {prizeOdds.oneInX}</>
 }

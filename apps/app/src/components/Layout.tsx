@@ -11,10 +11,15 @@ import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { DepositModal, SettingsModal, SettingsModalView, WithdrawModal } from 'pt-components'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
-import { useCachedVaultLists, useSelectedVaultListIds } from 'pt-hyperstructure-hooks'
+import {
+  useCachedVaultLists,
+  usePrizePools,
+  useSelectedVaultListIds
+} from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
 import { isNewerVersion } from 'pt-utilities'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
+import { formatPrizePools } from '../utils'
 
 interface LayoutProps {
   children: ReactNode
@@ -53,6 +58,10 @@ export const Layout = (props: LayoutProps) => {
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
+
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePoolsArray = Object.values(prizePools)
 
   const extraFooterContent: FooterItem[] = [
     {
@@ -116,6 +125,7 @@ export const Layout = (props: LayoutProps) => {
       />
 
       <DepositModal
+        prizePools={prizePoolsArray}
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}

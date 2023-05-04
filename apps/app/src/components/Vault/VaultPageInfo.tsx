@@ -3,9 +3,15 @@ import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { TokenValue } from 'pt-components'
-import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
+import {
+  usePrizeOdds,
+  usePrizePool,
+  useUserVaultShareBalance,
+  useUserVaultTokenBalance
+} from 'pt-hyperstructure-hooks'
 import { ExternalLink, Spinner } from 'pt-ui'
 import { getBlockExplorerUrl, shorten } from 'pt-utilities'
+import { formatPrizePools } from '../../utils'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
@@ -19,7 +25,26 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const odds = 'X' // TODO: calculate odds
+  const { data: shareBalance, isFetched: isFetchedShareBalance } = useUserVaultShareBalance(
+    vault,
+    userAddress
+  )
+
+  const formattedPrizePoolInfo = formatPrizePools()
+  const foundPrizePoolInfo = formattedPrizePoolInfo.find(
+    (prizePool) => prizePool.chainId === vault.chainId
+  )
+  const prizePool = usePrizePool(
+    foundPrizePoolInfo.chainId,
+    foundPrizePoolInfo.address,
+    foundPrizePoolInfo.options
+  )
+
+  const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = usePrizeOdds(
+    prizePool,
+    vault,
+    shareBalance?.amount ?? '0'
+  )
 
   return (
     <div className={classNames('flex flex-col w-full max-w-screen-md gap-2', className)}>
@@ -30,7 +55,14 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
         />
       )}
       {/* TODO: add tooltip */}
-      {!!userAddress && <VaultInfoRow name='My Win Chance' data={`1 in ${odds ?? <Spinner />}`} />}
+      {!!userAddress && (
+        <VaultInfoRow
+          name='My Win Chance'
+          data={
+            isFetchedShareBalance && isFetchedPrizeOdds ? `1 in ${prizeOdds.oneInX}` : <Spinner />
+          }
+        />
+      )}
       {/* TODO: add tooltip */}
       <VaultInfoRow name='Prize Power' data={<VaultPrizePower vault={vault} />} />
       <VaultInfoRow name='TVL' data={<VaultTotalDeposits vault={vault} />} />

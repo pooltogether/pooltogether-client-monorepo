@@ -20,6 +20,7 @@ export * from './blockchain/useProviders'
  * Prize Pool Hooks
  */
 export * from './prizes/useAllPrizeInfo'
+export * from './prizes/useAllUserPrizeOdds'
 export * from './prizes/useDrawPeriod'
 export * from './prizes/useEstimatedPrizeCount'
 export * from './prizes/useLargestGrandPrize'
