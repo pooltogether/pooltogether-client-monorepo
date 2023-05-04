@@ -16,6 +16,7 @@ import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
 export const depositFormTokenAmountAtom = atom<string>('')
+export const depositFormShareAmountAtom = atom<string>('')
 
 export interface DepositFormProps {
   vault: Vault
@@ -50,6 +51,7 @@ export const DepositForm = (props: DepositFormProps) => {
   })
 
   const setFormTokenAmount = useSetAtom(depositFormTokenAmountAtom)
+  const setFormShareAmount = useSetAtom(depositFormShareAmountAtom)
 
   const handleTokenAmountChange = (tokenAmount: string) => {
     if (
@@ -62,6 +64,8 @@ export const DepositForm = (props: DepositFormProps) => {
       const tokens = utils.parseUnits(tokenAmount, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
       const formattedShares = utils.formatUnits(shares, vault.decimals)
+
+      setFormShareAmount(formattedShares)
 
       formMethods.setValue(
         'shareAmount',
@@ -79,6 +83,8 @@ export const DepositForm = (props: DepositFormProps) => {
       vault.decimals !== undefined &&
       isValidFormInput(shareAmount, vault.decimals)
     ) {
+      setFormShareAmount(shareAmount)
+
       const shares = utils.parseUnits(shareAmount, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
       const formattedTokens = utils.formatUnits(tokens, vault.decimals)

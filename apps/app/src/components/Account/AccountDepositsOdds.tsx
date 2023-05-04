@@ -1,6 +1,7 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { Spinner } from 'pt-ui'
+import { formatNumberForDisplay } from 'pt-utilities'
 
 interface AccountDepositsOddsProps {
   className?: string
@@ -23,7 +24,13 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
       )}
     >
       <span>Daily Prize Odds</span>
-      <span>{isFetchedPrizeOdds && !!prizeOdds ? `1 in ${prizeOdds.oneInX}` : <Spinner />}</span>
+      <span>
+        {isFetchedPrizeOdds && !!prizeOdds ? (
+          `1 in ${formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}`
+        ) : (
+          <Spinner />
+        )}
+      </span>
     </div>
   )
 }

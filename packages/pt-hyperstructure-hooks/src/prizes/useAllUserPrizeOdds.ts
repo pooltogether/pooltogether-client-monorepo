@@ -6,6 +6,7 @@ import { useAllVaultPercentageContributions } from '../vaults/useAllVaultPercent
 import { useAllVaultShareData } from '../vaults/useAllVaultShareData'
 import { useEstimatedPrizeCount } from './useEstimatedPrizeCount'
 
+// TODO: refactor this to take multiple prize pools
 /**
  * Returns a user's odds of winning any prize within any one draw, in any vault
  * @param prizePool instance of the `PrizePool` class

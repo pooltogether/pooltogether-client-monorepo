@@ -32,6 +32,10 @@ export const calculateOdds = (
   const userSharesFloat = Number(utils.formatUnits(userShares, decimals))
   const totalSharesFloat = Number(utils.formatUnits(totalShares, decimals))
 
+  if (userSharesFloat >= totalSharesFloat) {
+    return 1
+  }
+
   return 1 - Math.pow((totalSharesFloat - userSharesFloat) / totalSharesFloat, numPrizes)
 }
 

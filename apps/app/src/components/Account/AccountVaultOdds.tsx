@@ -2,6 +2,7 @@ import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { usePrizeOdds, usePrizePool, useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
+import { formatNumberForDisplay } from 'pt-utilities'
 import { formatPrizePools } from '../../utils'
 
 interface AccountVaultOddsProps {
@@ -34,7 +35,7 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
     shareBalance?.amount ?? '0'
   )
 
-  if (!userAddress) {
+  if (!userAddress || shareBalance?.amount === '0') {
     return <>-</>
   }
 
@@ -42,5 +43,5 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
     return <Spinner />
   }
 
-  return <>1 in {prizeOdds.oneInX}</>
+  return <>1 in {formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}</>
 }

@@ -343,7 +343,7 @@ export class PrizePool {
     const source = 'Prize Pool [getEstimatedPrizeCount]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
 
-    const estimatedPrizeCount = parseInt(await this.prizePoolContract.estimatedPrizeCount())
+    const estimatedPrizeCount = parseInt(await this.prizePoolContract['estimatedPrizeCount()']())
 
     return estimatedPrizeCount
   }

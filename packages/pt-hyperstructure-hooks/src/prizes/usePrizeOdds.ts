@@ -10,12 +10,14 @@ import { useEstimatedPrizeCount } from './useEstimatedPrizeCount'
  * @param prizePool instance of the `PrizePool` class
  * @param vault instance of the `Vault` class
  * @param shares share amount to calculate odds for
+ * @param options optional settings
  * @returns
  */
 export const usePrizeOdds = (
   prizePool: PrizePool,
   vault: Vault,
-  shares: string
+  shares: string,
+  options?: { isCumulative?: boolean }
 ): { data?: { percent: number; oneInX: number }; isFetched: boolean } => {
   const { data: shareData, isFetched: isFetchedShareData } = useVaultShareData(vault)
 
@@ -27,17 +29,19 @@ export const usePrizeOdds = (
   const isFetched = isFetchedShareData && isFetchedVaultContribution && isFetchedPrizeCount
 
   const percent =
-    !!shareData && vaultContribution !== undefined && prizeCount !== undefined
+    !!shareData && vaultContribution !== undefined && prizeCount !== undefined && !!shares
       ? calculateOdds(
-          BigNumber.from(shares ?? 0),
-          BigNumber.from(shareData.totalSupply),
+          BigNumber.from(shares),
+          BigNumber.from(shareData.totalSupply).add(
+            options?.isCumulative ? BigNumber.from(shares) : 0
+          ),
           shareData.decimals,
           vaultContribution,
           prizeCount
         )
       : 0
 
-  const oneInX = Math.round(1 / percent)
+  const oneInX = 1 / percent
 
   const data = { percent, oneInX }
 
