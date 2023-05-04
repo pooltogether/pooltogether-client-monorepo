@@ -1,5 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
+import { useRouter } from 'next/router'
+import { useFathom } from 'pt-generic-hooks'
 import { Flowbite } from 'pt-ui'
 
 // React Query Client:
@@ -8,6 +10,16 @@ const queryClient = new QueryClient()
 // TODO: find a way to abstract out this typing and move this component to the `pt-components` package
 export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props
+
+  const router = useRouter()
+
+  // Initialize Fathom Analytics
+  useFathom(
+    process.env.NEXT_PUBLIC_FATHOM_SITE_ID,
+    ['https://mvp-pt-app.netlify.app/'],
+    router.events?.on,
+    router.events?.off
+  )
 
   return (
     <Flowbite
