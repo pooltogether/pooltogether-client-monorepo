@@ -1,6 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 
 // TODO: this assumes every prize has the same odds of being won - a better algorithm may be more precise
+// TODO: also have to decide if its ok for this function to consider canary prizes
 /**
  * Calculates the odds of a user winning any prize on any one draw for a specific vault
  * @param userShares the amount of shares the user has deposited in the vault
@@ -33,10 +34,12 @@ export const calculateOdds = (
   const totalSharesFloat = Number(utils.formatUnits(totalShares, decimals))
 
   if (userSharesFloat >= totalSharesFloat) {
-    return 1
+    return 1 - Math.pow(1 - vaultPercentageContribution, numPrizes)
   }
 
-  return 1 - Math.pow((totalSharesFloat - userSharesFloat) / totalSharesFloat, numPrizes)
+  const userPercentageShares = userSharesFloat / totalSharesFloat
+
+  return 1 - Math.pow(1 - userPercentageShares * vaultPercentageContribution, numPrizes)
 }
 
 /**
