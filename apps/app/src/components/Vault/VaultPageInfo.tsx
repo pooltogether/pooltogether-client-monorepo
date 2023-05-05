@@ -6,6 +6,7 @@ import { TokenValue } from 'pt-components'
 import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
 import { ExternalLink, Spinner } from 'pt-ui'
 import { getBlockExplorerUrl, shorten } from 'pt-utilities'
+import { AccountVaultOdds } from '@components/Account/AccountVaultOdds'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
 
@@ -19,8 +20,6 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const odds = 'X' // TODO: calculate odds
-
   return (
     <div className={classNames('flex flex-col w-full max-w-screen-md gap-2', className)}>
       {!!userAddress && (
@@ -30,7 +29,9 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
         />
       )}
       {/* TODO: add tooltip */}
-      {!!userAddress && <VaultInfoRow name='My Win Chance' data={`1 in ${odds}`} />}
+      {!!userAddress && (
+        <VaultInfoRow name='My Win Chance' data={<AccountVaultOdds vault={vault} />} />
+      )}
       {/* TODO: add tooltip */}
       <VaultInfoRow name='Prize Power' data={<VaultPrizePower vault={vault} />} />
       <VaultInfoRow name='TVL' data={<VaultTotalDeposits vault={vault} />} />

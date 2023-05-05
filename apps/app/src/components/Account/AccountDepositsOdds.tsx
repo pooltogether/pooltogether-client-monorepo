@@ -1,4 +1,9 @@
 import classNames from 'classnames'
+import { useAccount } from 'wagmi'
+import { useAllUserPrizeOdds, usePrizePools, useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { Spinner } from 'pt-ui'
+import { formatNumberForDisplay } from 'pt-utilities'
+import { formatPrizePools } from '../../utils'
 
 interface AccountDepositsOddsProps {
   className?: string
@@ -7,7 +12,19 @@ interface AccountDepositsOddsProps {
 export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
   const { className } = props
 
-  const odds = 'X' // TODO: calculate odds
+  const { address: userAddress } = useAccount()
+
+  const { vaults } = useSelectedVaults()
+
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePoolsArray = Object.values(prizePools)
+
+  const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = useAllUserPrizeOdds(
+    prizePoolsArray,
+    vaults,
+    userAddress
+  )
 
   return (
     <div
@@ -17,7 +34,13 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
       )}
     >
       <span>Daily Prize Odds</span>
-      <span>1 in {odds}</span>
+      <span>
+        {isFetchedPrizeOdds && !!prizeOdds ? (
+          `1 in ${formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}`
+        ) : (
+          <Spinner />
+        )}
+      </span>
     </div>
   )
 }

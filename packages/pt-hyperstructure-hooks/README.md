@@ -34,9 +34,12 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 ## Prize Pool Hooks
 
 - `useAllPrizeInfo`
+- `useAllUserPrizeOdds`
 - `useDrawPeriod`
+- `useEstimatedPrizeCount`
 - `useLargestGrandPrize`
 - `useNextDrawTimestamps`
+- `usePrizeOdds`
 - `usePrizePools`
 - `usePrizeTokenData`
 - `usePrizeTokenPrice`
@@ -60,6 +63,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useAllUserVaultBalances`
 - `useAllVaultBalances`
 - `useAllVaultExchangeRates`
+- `useAllVaultPercentageContributions`
 - `useAllVaultPrizePowers`
 - `useAllVaultShareData`
 - `useAllVaultTokenAddresses`
@@ -69,6 +73,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useVault`
 - `useVaultBalance`
 - `useVaultExchangeRate`
+- `useVaultPercentageContribution`
 - `useVaultPrizePower`
 - `useVaults`
 - `useVaultShareData`

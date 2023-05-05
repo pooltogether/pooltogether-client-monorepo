@@ -5,10 +5,12 @@ import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from 'pt-generic-hoo
  */
 export const QUERY_KEYS = Object.freeze({
   drawPeriod: 'drawPeriod',
+  estimatedPrizeCount: 'estimatedPrizeCount',
+  gasPrices: 'gasPrices',
   nextDrawTimestamp: 'nextDrawTimestamp',
   prizeInfo: 'prizeInfo',
+  prizeOdds: 'prizeOdds',
   prizeTokenData: 'prizeTokenData',
-  gasPrices: 'gasPrices',
   providerChainId: 'providerChainId',
   selectedVaults: 'selectedVaults',
   tokenAllowances: 'tokenAllowances',
@@ -18,6 +20,7 @@ export const QUERY_KEYS = Object.freeze({
   vaultBalances: 'vaultBalances',
   vaultExchangeRates: 'vaultExchangeRates',
   vaultList: 'vaultList',
+  vaultPercentageContributions: 'vaultPercentageContributions',
   vaultPrizePower: 'vaultPrizePower',
   vaultShareData: 'vaultShareData',
   vaultTokenAddresses: 'vaultTokenAddresses',

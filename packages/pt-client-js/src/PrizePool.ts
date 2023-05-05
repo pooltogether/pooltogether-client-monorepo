@@ -336,6 +336,19 @@ export class PrizePool {
   }
 
   /**
+   * Returns the estimated number of prizes awarded based on number of tiers active
+   * @returns
+   */
+  async getEstimatedPrizeCount(): Promise<number> {
+    const source = 'Prize Pool [getEstimatedPrizeCount]'
+    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+
+    const estimatedPrizeCount = parseInt(await this.prizePoolContract['estimatedPrizeCount()']())
+
+    return estimatedPrizeCount
+  }
+
+  /**
    * Returns estimated prize amounts and frequency for all prize tiers
    * @returns
    */
