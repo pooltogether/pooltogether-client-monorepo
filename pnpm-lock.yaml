@@ -24,6 +24,7 @@ importers:
       autoprefixer: ^10.4.13
       classnames: ^2.3.2
       ethers: ^5.7.2
+      fathom-client: ^3.5.0
       jotai: ^1.13.1
       next: 13.3.0
       postcss: ^8.4.21
@@ -47,6 +48,7 @@ importers:
       '@tanstack/react-query': 4.29.5_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
       ethers: 5.7.2
+      fathom-client: 3.5.0
       jotai: 1.13.1_react@18.2.0
       next: 13.3.0_biqbaboplfbrettd7655fr4n2y
       pt-client-js: link:../../packages/pt-client-js
@@ -66,7 +68,7 @@ importers:
       postcss: 8.4.23
       pt-types: link:../../packages/pt-types
       tailwind-config: link:../../packages/tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
@@ -93,7 +95,7 @@ importers:
       '@rainbow-me/rainbowkit': 0.11.1_3pm646xcsvbnobortf5tz3las4
       ethers: 5.7.2
       jotai: 1.13.1_react@18.2.0
-      next: 13.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 13.3.4_biqbaboplfbrettd7655fr4n2y
       pt-ui: link:../../packages/pt-ui
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -105,7 +107,7 @@ importers:
       autoprefixer: 10.4.14_postcss@8.4.23
       postcss: 8.4.23
       tailwind-config: link:../../packages/tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
@@ -132,7 +134,7 @@ importers:
       '@rainbow-me/rainbowkit': 0.11.1_3pm646xcsvbnobortf5tz3las4
       ethers: 5.7.2
       jotai: 1.13.1_react@18.2.0
-      next: 13.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 13.3.4_biqbaboplfbrettd7655fr4n2y
       pt-ui: link:../../packages/pt-ui
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -144,7 +146,7 @@ importers:
       autoprefixer: 10.4.14_postcss@8.4.23
       postcss: 8.4.23
       tailwind-config: link:../../packages/tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
@@ -171,7 +173,7 @@ importers:
       '@rainbow-me/rainbowkit': 0.11.1_3pm646xcsvbnobortf5tz3las4
       ethers: 5.7.2
       jotai: 1.13.1_react@18.2.0
-      next: 13.3.1_biqbaboplfbrettd7655fr4n2y
+      next: 13.3.4_biqbaboplfbrettd7655fr4n2y
       pt-ui: link:../../packages/pt-ui
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -183,7 +185,7 @@ importers:
       autoprefixer: 10.4.14_postcss@8.4.23
       postcss: 8.4.23
       tailwind-config: link:../../packages/tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
@@ -253,7 +255,7 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tailwind-config: link:../tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../tsconfig
       tsup: 6.7.0_l4dqjfpio6vprhp23b7ka4ihxi
       typescript: 4.9.5
@@ -264,6 +266,7 @@ importers:
       '@tanstack/react-query': ^4.24.10
       '@types/react': ^17.0.53
       '@types/react-dom': ^17.0.19
+      fathom-client: ^3.5.0
       jotai: ^1.13.1
       pt-types: workspace:*
       pt-utilities: workspace:*
@@ -278,6 +281,7 @@ importers:
       '@tanstack/react-query': 4.29.5_biqbaboplfbrettd7655fr4n2y
       '@types/react': 17.0.58
       '@types/react-dom': 17.0.19
+      fathom-client: 3.5.0
       pt-types: link:../pt-types
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -361,7 +365,7 @@ importers:
       '@types/react': 17.0.58
       '@types/react-dom': 17.0.19
       tailwind-config: link:../tailwind-config
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../tsconfig
       typescript: 4.9.5
 
@@ -371,6 +375,7 @@ importers:
       ajv: ^8.12.0
       ethereum-multicall: ^2.15.0
       ethers: ^5.7.2
+      fathom-client: ^3.5.0
       pt-types: workspace:*
       tsconfig: workspace:*
       tslib: ^2.5.0
@@ -381,6 +386,7 @@ importers:
       ethers: 5.7.2
     devDependencies:
       '@types/node': 17.0.45
+      fathom-client: 3.5.0
       pt-types: link:../pt-types
       tsconfig: link:../tsconfig
       tslib: 2.5.0
@@ -390,7 +396,7 @@ importers:
     specifiers:
       tailwindcss: ^3.3.1
     devDependencies:
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
 
   packages/tsconfig:
     specifiers: {}
@@ -1673,10 +1679,10 @@ packages:
       }
     dev: false
 
-  /@next/env/13.3.1:
+  /@next/env/13.3.4:
     resolution:
       {
-        integrity: sha512-EDtCoedIZC7JlUQ3uaQpSc4aVmyhbLHmQVALg7pFfQgOTjgSnn7mKtA0DiCMkYvvsx6aFb5octGMtWrOtGXW9A==
+        integrity: sha512-oTK/wRV2qga86m/4VdrR1+/56UA6U1Qv3sIgowB+bZjahniZLEG5BmmQjfoGv7ZuLXBZ8Eec6hkL9BqJcrEL2g==
       }
     dev: false
 
@@ -1692,10 +1698,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-darwin-arm64/13.3.1:
+  /@next/swc-darwin-arm64/13.3.4:
     resolution:
       {
-        integrity: sha512-UXPtriEc/pBP8luSLSCZBcbzPeVv+SSjs9cH/KygTbhmACye8/OOXRZO13Z2Wq1G0gLmEAIHQAOuF+vafPd2lw==
+        integrity: sha512-vux7RWfzxy1lD21CMwZsy9Ej+0+LZdIIj1gEhVmzOQqQZ5N56h8JamrjIVCfDL+Lpj8KwOmFZbPHE8qaYnL2pg==
       }
     engines: { node: '>= 10' }
     cpu: [arm64]
@@ -1716,10 +1722,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-darwin-x64/13.3.1:
+  /@next/swc-darwin-x64/13.3.4:
     resolution:
       {
-        integrity: sha512-lT36yYxosCfLtplFzJWgo0hrPu6/do8+msgM7oQkPeohDNdhjtjFUgOOwdSnPublLR6Mo2Ym4P/wl5OANuD2bw==
+        integrity: sha512-1tb+6JT98+t7UIhVQpKL7zegKnCs9RKU6cKNyj+DYKuC/NVl49/JaIlmwCwK8Ibl+RXxJrK7uSXSIO71feXsgw==
       }
     engines: { node: '>= 10' }
     cpu: [x64]
@@ -1740,10 +1746,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-gnu/13.3.1:
+  /@next/swc-linux-arm64-gnu/13.3.4:
     resolution:
       {
-        integrity: sha512-wRb76nLWJhonH8s3kxC/1tFguEkeOPayIwe9mkaz1G/yeS3OrjeyKMJsb4+Kdg0zbTo53bNCOl59NNtDM7yyyw==
+        integrity: sha512-UqcKkYTKslf5YAJNtZ5XV1D5MQJIkVtDHL8OehDZERHzqOe7jvy41HFto33IDPPU8gJiP5eJb3V9U26uifqHjw==
       }
     engines: { node: '>= 10' }
     cpu: [arm64]
@@ -1764,10 +1770,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-arm64-musl/13.3.1:
+  /@next/swc-linux-arm64-musl/13.3.4:
     resolution:
       {
-        integrity: sha512-qz3BzjJRZ16Iq/jrp+pjiYOc0jTjHlfmxQmZk9x/+5uhRP6/eWQSTAPVJ33BMo6oK5O5N4644OgTAbzXzorecg==
+        integrity: sha512-HE/FmE8VvstAfehyo/XsrhGgz97cEr7uf9IfkgJ/unqSXE0CDshDn/4as6rRid74eDR8/exi7c2tdo49Tuqxrw==
       }
     engines: { node: '>= 10' }
     cpu: [arm64]
@@ -1788,10 +1794,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-gnu/13.3.1:
+  /@next/swc-linux-x64-gnu/13.3.4:
     resolution:
       {
-        integrity: sha512-6mgkLmwlyWlomQmpl21I3hxgqE5INoW4owTlcLpNsd1V4wP+J46BlI/5zV5KWWbzjfncIqzXoeGs5Eg+1GHODA==
+        integrity: sha512-xU+ugaupGA4SL5aK1ZYEqVHrW3TPOhxVcpaJLfpANm2443J4GfxCmOacu9XcSgy5c51Mq7C9uZ1LODKHfZosRQ==
       }
     engines: { node: '>= 10' }
     cpu: [x64]
@@ -1812,10 +1818,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-linux-x64-musl/13.3.1:
+  /@next/swc-linux-x64-musl/13.3.4:
     resolution:
       {
-        integrity: sha512-uqm5sielhQmKJM+qayIhgZv1KlS5pqTdQ99b+Z7hMWryXS96qE0DftTmMZowBcUL6x7s2vSXyH5wPtO1ON7LBg==
+        integrity: sha512-cZvmf5KcYeTfIK6bCypfmxGUjme53Ep7hx94JJtGrYgCA1VwEuYdh+KouubJaQCH3aqnNE7+zGnVEupEKfoaaA==
       }
     engines: { node: '>= 10' }
     cpu: [x64]
@@ -1836,10 +1842,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-arm64-msvc/13.3.1:
+  /@next/swc-win32-arm64-msvc/13.3.4:
     resolution:
       {
-        integrity: sha512-WomIiTj/v3LevltlibNQKmvrOymNRYL+a0dp5R73IwPWN5FvXWwSELN/kiNALig/+T3luc4qHNTyvMCp9L6U5Q==
+        integrity: sha512-7dL+CAUAjmgnVbjXPIpdj7/AQKFqEUL3bKtaOIE1JzJ5UMHHAXCPwzQtibrsvQpf9MwcAmiv8aburD3xH1xf8w==
       }
     engines: { node: '>= 10' }
     cpu: [arm64]
@@ -1860,10 +1866,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-ia32-msvc/13.3.1:
+  /@next/swc-win32-ia32-msvc/13.3.4:
     resolution:
       {
-        integrity: sha512-M+PoH+0+q658wRUbs285RIaSTYnGBSTdweH/0CdzDgA6Q4rBM0sQs4DHmO3BPP0ltCO/vViIoyG7ks66XmCA5g==
+        integrity: sha512-qplTyzEl1vPkS+/DRK3pKSL0HeXrPHkYsV7U6gboHYpfqoHY+bcLUj3gwVUa9PEHRIoq4vXvPzx/WtzE6q52ng==
       }
     engines: { node: '>= 10' }
     cpu: [ia32]
@@ -1884,10 +1890,10 @@ packages:
     dev: false
     optional: true
 
-  /@next/swc-win32-x64-msvc/13.3.1:
+  /@next/swc-win32-x64-msvc/13.3.4:
     resolution:
       {
-        integrity: sha512-Sl1F4Vp5Z1rNXWZYqJwMuWRRol4bqOB6+/d7KqkgQ4AcafKPN1PZmpkCoxv4UFHtFNIB7EotnuIhtXu3zScicQ==
+        integrity: sha512-usdvZT7JHrTuXC+4OKN5mCzUkviFkCyJJTkEz8jhBpucg+T7s83e7owm3oNFzmj5iKfvxU2St6VkcnSgpFvEYA==
       }
     engines: { node: '>= 10' }
     cpu: [x64]
@@ -2291,10 +2297,10 @@ packages:
       tslib: 2.5.0
     dev: false
 
-  /@swc/helpers/0.5.0:
+  /@swc/helpers/0.5.1:
     resolution:
       {
-        integrity: sha512-SjY/p4MmECVVEWspzSRpQEM3sjR17sP8PbGxELWrT+YZMBfiUyt1MRUNjMV23zohwlG2HYtCQOsCwsTHguXkyg==
+        integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==
       }
     dependencies:
       tslib: 2.5.0
@@ -4764,6 +4770,12 @@ packages:
     dependencies:
       reusify: 1.0.4
 
+  /fathom-client/3.5.0:
+    resolution:
+      {
+        integrity: sha512-BiRDS9Q9a8Zma0H717FWC5cvf545K/CsxBpxKT22TcSl1EbRhhlHWIJgrdeiQUfdorBK2ppy09TwMOhRsbos/A==
+      }
+
   /file-uri-to-path/1.0.0:
     resolution:
       {
@@ -4843,7 +4855,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.8.0_react@18.2.0
       react-indiana-drag-scroll: 2.2.0_biqbaboplfbrettd7655fr4n2y
-      tailwindcss: 3.3.1
+      tailwindcss: 3.3.1_postcss@8.4.23
     dev: false
 
   /flowbite/1.6.5:
@@ -5321,13 +5333,13 @@ packages:
       '@types/connect': 3.4.35
       '@types/node': 12.20.55
       '@types/ws': 7.4.7
+      JSONStream: 1.3.5
       commander: 2.20.3
       delay: 5.0.0
       es6-promisify: 5.0.0
       eyes: 0.1.8
       isomorphic-ws: 4.0.1_ws@7.5.9
       json-stringify-safe: 5.0.1
-      JSONStream: 1.3.5
       lodash: 4.17.21
       uuid: 8.3.2
       ws: 7.5.9
@@ -5856,12 +5868,12 @@ packages:
       - babel-plugin-macros
     dev: false
 
-  /next/13.3.1_biqbaboplfbrettd7655fr4n2y:
+  /next/13.3.4_biqbaboplfbrettd7655fr4n2y:
     resolution:
       {
-        integrity: sha512-eByWRxPzKHs2oQz1yE41LX35umhz86ZSZ+mYyXBqn2IBi2hyUqxBA88avywdr4uyH+hCJczegGsDGWbzQA5Rqw==
+        integrity: sha512-sod7HeokBSvH5QV0KB+pXeLfcXUlLrGnVUXxHpmhilQ+nQYT3Im2O8DswD5e4uqbR8Pvdu9pcWgb1CbXZQZlmQ==
       }
-    engines: { node: '>=14.18.0' }
+    engines: { node: '>=16.8.0' }
     hasBin: true
     peerDependencies:
       '@opentelemetry/api': ^1.1.0
@@ -5880,8 +5892,8 @@ packages:
       sass:
         optional: true
     dependencies:
-      '@next/env': 13.3.1
-      '@swc/helpers': 0.5.0
+      '@next/env': 13.3.4
+      '@swc/helpers': 0.5.1
       busboy: 1.6.0
       caniuse-lite: 1.0.30001481
       postcss: 8.4.14
@@ -5889,15 +5901,15 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       styled-jsx: 5.1.1_react@18.2.0
     optionalDependencies:
-      '@next/swc-darwin-arm64': 13.3.1
-      '@next/swc-darwin-x64': 13.3.1
-      '@next/swc-linux-arm64-gnu': 13.3.1
-      '@next/swc-linux-arm64-musl': 13.3.1
-      '@next/swc-linux-x64-gnu': 13.3.1
-      '@next/swc-linux-x64-musl': 13.3.1
-      '@next/swc-win32-arm64-msvc': 13.3.1
-      '@next/swc-win32-ia32-msvc': 13.3.1
-      '@next/swc-win32-x64-msvc': 13.3.1
+      '@next/swc-darwin-arm64': 13.3.4
+      '@next/swc-darwin-x64': 13.3.4
+      '@next/swc-linux-arm64-gnu': 13.3.4
+      '@next/swc-linux-arm64-musl': 13.3.4
+      '@next/swc-linux-x64-gnu': 13.3.4
+      '@next/swc-linux-x64-musl': 13.3.4
+      '@next/swc-win32-arm64-msvc': 13.3.4
+      '@next/swc-win32-ia32-msvc': 13.3.4
+      '@next/swc-win32-x64-msvc': 13.3.4
     transitivePeerDependencies:
       - '@babel/core'
       - babel-plugin-macros
@@ -7189,13 +7201,15 @@ packages:
       }
     dev: false
 
-  /tailwindcss/3.3.1:
+  /tailwindcss/3.3.1_postcss@8.4.23:
     resolution:
       {
         integrity: sha512-Vkiouc41d4CEq0ujXl6oiGFQ7bA3WEhUZdTgXAhtKxSy49OmKs8rEfQmupsfF0IGW8fv2iQkp1EVUuapCFrZ9g==
       }
     engines: { node: '>=12.13.0' }
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3

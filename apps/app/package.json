@@ -13,6 +13,7 @@
     "@tanstack/react-query": "^4.24.10",
     "classnames": "^2.3.2",
     "ethers": "^5.7.2",
+    "fathom-client": "^3.5.0",
     "jotai": "^1.13.1",
     "next": "13.3.0",
     "pt-client-js": "workspace:*",

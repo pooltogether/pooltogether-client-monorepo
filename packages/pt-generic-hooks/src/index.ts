@@ -2,6 +2,7 @@
  * App Hooks
  */
 export * from './app/useCountdown'
+export * from './app/useFathom'
 export * from './app/useIsModalOpen'
 export * from './app/useIsTestnets'
 export * from './app/useSelectedCurrency'
