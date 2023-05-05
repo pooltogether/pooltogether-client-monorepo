@@ -21,11 +21,15 @@ export const useAllUserPrizeOdds = (
   vaults: Vaults,
   userAddress: string
 ): { data?: { percent: number; oneInX: number }; isFetched: boolean } => {
-  const { data: shareData } = useAllVaultShareData(vaults)
+  const { data: shareData, isFetched: isFetchedShareData } = useAllVaultShareData(vaults)
 
-  const { data: shareBalances } = useAllUserVaultBalances(vaults, userAddress)
+  const { data: shareBalances, isFetched: isFetchedShareBalance } = useAllUserVaultBalances(
+    vaults,
+    userAddress
+  )
 
-  const { data: vaultContributions } = useAllVaultPercentageContributions(prizePools, vaults)
+  const { data: vaultContributions, isFetched: isFetchedVaultContributions } =
+    useAllVaultPercentageContributions(prizePools, vaults)
 
   const results = useQueries({
     queries: prizePools.map((prizePool) => {
@@ -38,6 +42,9 @@ export const useAllUserPrizeOdds = (
         !!prizePool &&
         !!vaults &&
         !!userAddress &&
+        isFetchedShareData &&
+        isFetchedShareBalance &&
+        isFetchedVaultContributions &&
         !!shareData &&
         !!shareBalances &&
         !!vaultContributions
@@ -48,7 +55,7 @@ export const useAllUserPrizeOdds = (
           const numPrizes = await prizePool.getEstimatedPrizeCount()
 
           const probabilities = vaultIds.map((vaultId) => {
-            if (!!shareData && !!shareBalances) {
+            if (!!shareData && !!shareBalances && !!vaultContributions) {
               const userShares = BigNumber.from(shareBalances[vaultId].amount)
               const totalShares = BigNumber.from(shareData[vaultId].totalSupply)
               const decimals = shareData[vaultId].decimals

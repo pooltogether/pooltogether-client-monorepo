@@ -31,19 +31,19 @@ export const MainView = (props: MainViewProps) => {
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <DepositForm vault={vault} />
       )}
-      <WeeklyOdds vault={vault} prizePool={prizePool} />
+      <Odds vault={vault} prizePool={prizePool} />
       {/* TODO: add estimated network gas fees */}
     </div>
   )
 }
 
-interface WeeklyOddsProps {
+interface OddsProps {
   vault: Vault
   prizePool: PrizePool
 }
 
 // TODO: BUG - not fully resetting when switching between vaults (showing non infinite value at 0 shares)
-const WeeklyOdds = (props: WeeklyOddsProps) => {
+const Odds = (props: OddsProps) => {
   const { vault, prizePool } = props
 
   const formShareAmount = useAtomValue(depositFormShareAmountAtom)
@@ -61,7 +61,7 @@ const WeeklyOdds = (props: WeeklyOddsProps) => {
 
   return (
     <div className='flex flex-col items-center gap-2'>
-      <span className='text-xs font-semibold text-pt-purple-100'>Weekly Chance of Winning</span>
+      <span className='text-xs font-semibold text-pt-purple-100'>Daily Chance of Winning</span>
       <span className='text-sm text-pt-purple-50'>
         {isFetchedPrizeOdds && !!prizeOdds ? (
           formShareAmount !== '0' ? (

@@ -1,7 +1,9 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
+import { useAllUserPrizeOdds, usePrizePools, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
+import { formatPrizePools } from '../../utils'
 
 interface AccountDepositsOddsProps {
   className?: string
@@ -12,9 +14,17 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  // TODO: need hook for multiple prize pools and vaults (across chains?)
-  const prizeOdds = { percent: 0.0238, oneInX: 42 }
-  const isFetchedPrizeOdds = true
+  const { vaults } = useSelectedVaults()
+
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePoolsArray = Object.values(prizePools)
+
+  const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = useAllUserPrizeOdds(
+    prizePoolsArray,
+    vaults,
+    userAddress
+  )
 
   return (
     <div

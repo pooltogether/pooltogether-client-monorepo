@@ -1,8 +1,7 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { PrizePool, Vault } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns a vault's percentage contribution to a prize pool
@@ -16,17 +15,10 @@ export const useVaultPercentageContribution = (
   vault: Vault,
   numDraws: number = 7
 ) => {
-  const queryClient = useQueryClient()
-
-  const getQueryKey = (val: (string | number)[]) => [
-    QUERY_KEYS.vaultPercentageContributions,
-    prizePool?.id,
-    numDraws,
-    val
-  ]
+  const queryKey = [QUERY_KEYS.vaultPercentageContributions, prizePool?.id, vault?.id, numDraws]
 
   return useQuery(
-    getQueryKey([vault.id]),
+    queryKey,
     async () => {
       const lastDrawId = await prizePool.getLastDrawId()
       const contributionPercentages = await prizePool.getVaultContributedPercentages(
@@ -39,8 +31,7 @@ export const useVaultPercentageContribution = (
     },
     {
       enabled: !!prizePool && !!vault,
-      ...NO_REFETCH,
-      onSuccess: (data) => populateCachePerId(queryClient, getQueryKey, { [vault.id]: data })
+      ...NO_REFETCH
     }
   )
 }
