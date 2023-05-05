@@ -103,6 +103,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     onSuccess: () => {
       refetchTokenBalance()
       refetchUserVaultTokenBalance()
+      // TODO: need to also refetch `useAllUserVaultBalances`
       setModalView('success')
     },
     onError: () => {

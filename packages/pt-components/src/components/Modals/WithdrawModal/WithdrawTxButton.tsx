@@ -68,6 +68,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     onSuccess: () => {
       refetchTokenBalance()
       refetchVaultShareBalance()
+      // TODO: need to also refetch `useAllUserVaultBalances`
       setModalView('success')
     },
     onError: () => {
