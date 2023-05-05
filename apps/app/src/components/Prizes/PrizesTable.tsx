@@ -22,26 +22,28 @@ export const PrizesTable = (props: PrizesTableProps) => {
       </div>
       {isFetchedAllPrizeInfo && isFetchedTokenData ? (
         <div className='flex flex-col gap-3 mb-8'>
-          {Object.values(allPrizeInfo)[0].map((prize, i) => {
-            const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
+          {Object.values(allPrizeInfo)[0]
+            .slice(0, -1)
+            .map((prize, i) => {
+              const frequency = formatDailyCountToFrequency(prize.dailyFrequency)
 
-            return (
-              <div
-                key={`pp-prizes-${prizePool.chainId}-${i}`}
-                className='flex w-[36rem] items-center'
-              >
-                <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
-                  <TokenValue
-                    token={{ ...tokenData, amount: prize.amount.toString() }}
-                    hideZeroes={true}
-                  />
-                </span>
-                <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
-                  {getPrizeTextFromFrequency(frequency, 'daily')}
-                </span>
-              </div>
-            )
-          })}
+              return (
+                <div
+                  key={`pp-prizes-${prizePool.chainId}-${i}`}
+                  className='flex w-[36rem] items-center'
+                >
+                  <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
+                    <TokenValue
+                      token={{ ...tokenData, amount: prize.amount.toString() }}
+                      hideZeroes={true}
+                    />
+                  </span>
+                  <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
+                    {getPrizeTextFromFrequency(frequency, 'daily')}
+                  </span>
+                </div>
+              )
+            })}
         </div>
       ) : (
         <Spinner />
