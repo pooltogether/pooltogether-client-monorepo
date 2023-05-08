@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/nextjs'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
