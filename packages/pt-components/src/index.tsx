@@ -20,6 +20,11 @@ export * from './components/Form/TxFormInput'
 export * from './components/Form/WithdrawForm'
 
 /**
+ * Graphics
+ */
+export * from './components/Graphics/ErrorPooly'
+
+/**
  * Icons
  */
 export * from './components/Icons/ClipboardListIcon'
