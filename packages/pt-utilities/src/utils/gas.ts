@@ -8,10 +8,7 @@ import { POOLTOGETHER_API_URL } from '../constants'
  */
 export const getGasPrices = async (chainId: number) => {
   const result = await fetch(`${POOLTOGETHER_API_URL}/gas/${chainId}`)
-  const gasPrices: { result: PoolTogetherApiGasPrices } | null = (await result.json())?.result
-  if (!!gasPrices) {
-    return gasPrices.result
-  } else {
-    return undefined
-  }
+  const jsonData = await result.json()
+  const gasPrices: PoolTogetherApiGasPrices = jsonData?.result
+  return gasPrices
 }

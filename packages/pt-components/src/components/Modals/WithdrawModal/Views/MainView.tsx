@@ -3,6 +3,7 @@ import { Spinner } from 'pt-ui'
 import { getNiceNetworkNameByChainId } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { WithdrawForm } from '../../../Form/WithdrawForm'
+import { NetworkFees } from '../../NetworkFees'
 
 interface MainViewProps {
   vault: Vault
@@ -27,7 +28,7 @@ export const MainView = (props: MainViewProps) => {
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <WithdrawForm vault={vault} />
       )}
-      {/* TODO: add estimated network gas fees */}
+      <NetworkFees vault={vault} />
     </div>
   )
 }

@@ -48,3 +48,12 @@ export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: string]: string }
   [NETWORK.arbitrum]: {},
   [NETWORK['arbitrum-goerli']]: {}
 })
+
+/**
+ * TX Gas Amount Estimates
+ */
+export const TX_GAS_ESTIMATES = Object.freeze({
+  approve: 50_000,
+  deposit: 250_000,
+  withdraw: 200_000
+})

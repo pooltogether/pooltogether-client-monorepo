@@ -16,7 +16,7 @@ export const useGasCostEstimates = (
   chainId: NETWORK,
   gasAmount: BigNumber,
   currencies?: CURRENCY_ID[]
-): (GasCostEstimates & { isFetched: true }) | { isFetched: false } => {
+): { data?: GasCostEstimates; isFetched: boolean } => {
   const { data: coingeckoPrices, isFetched: isFetchedCoingeckoPrices } =
     useCoingeckoSimpleTokenPrices(currencies)
 
@@ -30,7 +30,7 @@ export const useGasCostEstimates = (
       .div(1000)
     const totalGasWei = gasPriceWei.mul(gasAmount)
 
-    const gasCostEstimates: GasCostEstimates = { totalGasWei, totalGasCurrencies: {} }
+    const data: GasCostEstimates = { totalGasWei, totalGasCurrencies: {} }
 
     if (!!currencies && currencies.length > 0) {
       currencies.forEach((currency) => {
@@ -41,17 +41,17 @@ export const useGasCostEstimates = (
           totalGasWei
         )
         if (!!totalGasCost) {
-          gasCostEstimates.totalGasCurrencies[currency] = totalGasCost
+          data.totalGasCurrencies[currency] = totalGasCost
         }
       })
     } else {
       const totalGasCost = calculateGasCostInCurrency(coingeckoPrices, chainId, 'eth', totalGasWei)
       if (!!totalGasCost) {
-        gasCostEstimates.totalGasCurrencies['eth'] = totalGasCost
+        data.totalGasCurrencies['eth'] = totalGasCost
       }
     }
 
-    return { ...gasCostEstimates, isFetched }
+    return { data, isFetched }
   } else {
     return { isFetched: false }
   }
