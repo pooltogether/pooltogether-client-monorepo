@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 import { Button, ButtonProps, Spinner } from 'pt-ui'
-import { getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'pt-utilities'
+import { getNiceNetworkNameByChainId } from 'pt-utilities'
 
 export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
   chainId: number
@@ -10,7 +10,6 @@ export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
   write?: () => void
   txHash?: string
   txDescription?: string
-  showReceipt?: boolean
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
@@ -25,7 +24,6 @@ export const TransactionButton = (props: TransactionButtonProps) => {
     write,
     txHash,
     txDescription,
-    showReceipt,
     openConnectModal,
     openChainModal,
     addRecentTransaction,
@@ -72,15 +70,9 @@ export const TransactionButton = (props: TransactionButtonProps) => {
   }
 
   return (
-    <>
-      <Button onClick={write} disabled={!write || isTxLoading || disabled} {...rest}>
-        {isTxLoading && <Spinner />}
-        {!isTxLoading && children}
-      </Button>
-      {/* TODO: style receipt */}
-      {isTxSuccess && showReceipt && !!txHash && (
-        <a href={getBlockExplorerUrl(chainId, txHash, 'tx')}>Receipt</a>
-      )}
-    </>
+    <Button onClick={write} disabled={!write || isTxLoading || disabled} {...rest}>
+      {isTxLoading && <Spinner />}
+      {!isTxLoading && children}
+    </Button>
   )
 }

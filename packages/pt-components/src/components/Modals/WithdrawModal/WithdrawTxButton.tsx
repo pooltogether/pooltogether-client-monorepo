@@ -20,6 +20,7 @@ interface WithdrawTxButtonProps {
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
+  refetchUserBalances?: () => void
 }
 
 export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
@@ -29,7 +30,8 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     setWithdrawTxHash,
     openConnectModal,
     openChainModal,
-    addRecentTransaction
+    addRecentTransaction,
+    refetchUserBalances
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
@@ -68,7 +70,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     onSuccess: () => {
       refetchTokenBalance()
       refetchVaultShareBalance()
-      // TODO: need to also refetch `useAllUserVaultBalances`
+      refetchUserBalances?.()
       setModalView('success')
     },
     onError: () => {

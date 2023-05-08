@@ -9,12 +9,15 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
+import { useAccount } from 'wagmi'
 import { DepositModal, SettingsModal, SettingsModalView, WithdrawModal } from 'pt-components'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
 import {
+  useAllUserVaultBalances,
   useCachedVaultLists,
   usePrizePools,
-  useSelectedVaultListIds
+  useSelectedVaultListIds,
+  useSelectedVaults
 } from 'pt-hyperstructure-hooks'
 import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
 import { isNewerVersion } from 'pt-utilities'
@@ -42,6 +45,10 @@ export const Layout = (props: LayoutProps) => {
 
   const { cachedVaultLists, cache } = useCachedVaultLists()
   const { select } = useSelectedVaultListIds()
+
+  const { vaults } = useSelectedVaults()
+  const { address: userAddress } = useAccount()
+  const { refetch: refetchUserBalances } = useAllUserVaultBalances(vaults, userAddress)
 
   useEffect(() => {
     Object.keys(DEFAULT_VAULT_LISTS).forEach((key) => {
@@ -130,12 +137,14 @@ export const Layout = (props: LayoutProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
         onGoToAccount={() => router.push('/account')}
+        refetchUserBalances={refetchUserBalances}
       />
 
       <WithdrawModal
         openConnectModal={openConnectModal}
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
+        refetchUserBalances={refetchUserBalances}
       />
 
       <main

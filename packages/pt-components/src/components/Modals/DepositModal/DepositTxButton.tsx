@@ -1,4 +1,4 @@
-import { BigNumber, utils } from 'ethers'
+import { BigNumber, constants, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { useAccount } from 'wagmi'
@@ -11,7 +11,6 @@ import {
   useUserVaultTokenBalance
 } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { formatBigNumberForDisplay } from 'pt-utilities'
 import { DepositModalView } from '.'
 import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
 import { isValidFormInput } from '../../Form/TxFormInput'
@@ -24,6 +23,7 @@ interface DepositTxButtonProps {
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
+  refetchUserBalances?: () => void
 }
 
 export const DepositTxButton = (props: DepositTxButtonProps) => {
@@ -33,7 +33,8 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     setDepositTxHash,
     openConnectModal,
     openChainModal,
-    addRecentTransaction
+    addRecentTransaction,
+    refetchUserBalances
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
@@ -72,20 +73,28 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
           vault.decimals
         )
       : BigNumber.from(0)
-  const formattedDepositAmount =
-    vault.decimals !== undefined ? formatBigNumberForDisplay(depositAmount, vault.decimals) : '0'
 
   const isValidFormTokenAmount =
     vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
 
-  // TODO: implement infinite approval?
   const {
-    isWaiting: isWaitingApproval,
-    isConfirming: isConfirmingApproval,
-    isSuccess: isSuccessfulApproval,
-    txHash: approvalTxHash,
-    sendApproveTransaction
+    isWaiting: isWaitingExactApproval,
+    isConfirming: isConfirmingExactApproval,
+    isSuccess: isSuccessfulExactApproval,
+    txHash: exactApprovalTxHash,
+    sendApproveTransaction: sendExactApproveTransaction
   } = useSendApproveTransaction(depositAmount, vault, {
+    onSuccess: () => refetchTokenAllowance(),
+    onError: () => setModalView('error')
+  })
+
+  const {
+    isWaiting: isWaitingInfiniteApproval,
+    isConfirming: isConfirmingInfiniteApproval,
+    isSuccess: isSuccessfulInfiniteApproval,
+    txHash: infiniteApprovalTxHash,
+    sendApproveTransaction: sendInfiniteApproveTransaction
+  } = useSendApproveTransaction(constants.MaxUint256, vault, {
     onSuccess: () => refetchTokenAllowance(),
     onError: () => setModalView('error')
   })
@@ -103,7 +112,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     onSuccess: () => {
       refetchTokenBalance()
       refetchUserVaultTokenBalance()
-      // TODO: need to also refetch `useAllUserVaultBalances`
+      refetchUserBalances?.()
       setModalView('success')
     },
     onError: () => {
@@ -130,7 +139,8 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     BigNumber.from(userBalance.amount).gte(depositAmount) &&
     isValidFormTokenAmount &&
     vault.decimals !== undefined &&
-    !!sendApproveTransaction
+    !!sendExactApproveTransaction &&
+    !!sendInfiniteApproveTransaction
 
   const depositEnabled =
     !isDisconnected &&
@@ -147,23 +157,41 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     vault.decimals !== undefined &&
     !!sendDepositTransaction
 
-  if (!isFetchedAllowance || (isFetchedAllowance && allowance?.lt(depositAmount))) {
+  if (isFetchedAllowance && allowance?.lt(depositAmount)) {
     return (
-      <TransactionButton
-        chainId={vault.chainId}
-        isTxLoading={isWaitingApproval || isConfirmingApproval}
-        isTxSuccess={isSuccessfulApproval}
-        write={sendApproveTransaction}
-        txHash={approvalTxHash}
-        txDescription={`${vault.tokenData?.symbol} Approval`}
-        fullSized={true}
-        disabled={!approvalEnabled}
-        openConnectModal={openConnectModal}
-        openChainModal={openChainModal}
-        addRecentTransaction={addRecentTransaction}
-      >
-        Approve {formattedDepositAmount} {vault.tokenData?.symbol ?? <Spinner />}
-      </TransactionButton>
+      <div className='flex flex-col w-full gap-6'>
+        <TransactionButton
+          chainId={vault.chainId}
+          isTxLoading={isWaitingExactApproval || isConfirmingExactApproval}
+          isTxSuccess={isSuccessfulExactApproval}
+          write={sendExactApproveTransaction}
+          txHash={exactApprovalTxHash}
+          txDescription={`Exact ${vault.tokenData?.symbol} Approval`}
+          fullSized={true}
+          disabled={!approvalEnabled}
+          openConnectModal={openConnectModal}
+          openChainModal={openChainModal}
+          addRecentTransaction={addRecentTransaction}
+        >
+          Approve exact amount of {vault.tokenData?.symbol ?? <Spinner />}
+        </TransactionButton>
+        <TransactionButton
+          chainId={vault.chainId}
+          isTxLoading={isWaitingInfiniteApproval || isConfirmingInfiniteApproval}
+          isTxSuccess={isSuccessfulInfiniteApproval}
+          write={sendInfiniteApproveTransaction}
+          txHash={infiniteApprovalTxHash}
+          txDescription={`Infinite ${vault.tokenData?.symbol} Approval`}
+          fullSized={true}
+          disabled={!approvalEnabled}
+          openConnectModal={openConnectModal}
+          openChainModal={openChainModal}
+          addRecentTransaction={addRecentTransaction}
+          color='transparent'
+        >
+          Approve unlimited amount of {vault.tokenData?.symbol ?? <Spinner />}
+        </TransactionButton>
+      </div>
     )
   } else {
     return (

@@ -19,11 +19,18 @@ export interface DepositModalProps {
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
+  refetchUserBalances?: () => void
 }
 
 export const DepositModal = (props: DepositModalProps) => {
-  const { prizePools, onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } =
-    props
+  const {
+    prizePools,
+    onGoToAccount,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction,
+    refetchUserBalances
+  } = props
 
   const { vault } = useSelectedVault()
 
@@ -76,6 +83,7 @@ export const DepositModal = (props: DepositModalProps) => {
               openConnectModal={openConnectModal}
               openChainModal={openChainModal}
               addRecentTransaction={addRecentTransaction}
+              refetchUserBalances={refetchUserBalances}
             />
             <DepositDisclaimer />
           </div>

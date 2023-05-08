@@ -17,10 +17,17 @@ export interface WithdrawModalProps {
   openConnectModal?: () => void
   openChainModal?: () => void
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
+  refetchUserBalances?: () => void
 }
 
 export const WithdrawModal = (props: WithdrawModalProps) => {
-  const { onGoToAccount, openConnectModal, openChainModal, addRecentTransaction } = props
+  const {
+    onGoToAccount,
+    openConnectModal,
+    openChainModal,
+    addRecentTransaction,
+    refetchUserBalances
+  } = props
 
   const { vault } = useSelectedVault()
 
@@ -67,6 +74,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
               openConnectModal={openConnectModal}
               openChainModal={openChainModal}
               addRecentTransaction={addRecentTransaction}
+              refetchUserBalances={refetchUserBalances}
             />
           </div>
         }
