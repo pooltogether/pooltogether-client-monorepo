@@ -17,7 +17,7 @@ export const AppContainer = (props: AppProps) => {
   // Initialize Fathom Analytics
   useFathom(
     process.env.NEXT_PUBLIC_FATHOM_SITE_ID,
-    ['https://mvp-pt-app.netlify.app/'],
+    ['mvp-pt-app.netlify.app/'],
     router.events?.on,
     router.events?.off
   )

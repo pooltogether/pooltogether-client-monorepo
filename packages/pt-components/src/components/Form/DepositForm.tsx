@@ -1,6 +1,6 @@
 import { utils } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
@@ -52,6 +52,11 @@ export const DepositForm = (props: DepositFormProps) => {
 
   const setFormTokenAmount = useSetAtom(depositFormTokenAmountAtom)
   const setFormShareAmount = useSetAtom(depositFormShareAmountAtom)
+
+  useEffect(() => {
+    setFormTokenAmount('')
+    setFormShareAmount('')
+  }, [])
 
   const handleTokenAmountChange = (tokenAmount: string) => {
     if (

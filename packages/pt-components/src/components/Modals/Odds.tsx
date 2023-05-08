@@ -11,7 +11,6 @@ interface OddsProps {
   prizePool: PrizePool
 }
 
-// TODO: BUG - not fully resetting when switching between vaults (showing non infinite value at 0 shares)
 export const Odds = (props: OddsProps) => {
   const { vault, prizePool } = props
 

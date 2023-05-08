@@ -15,7 +15,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
   return (
     <div className='flex flex-col items-center gap-2 font-semibold'>
       <span className='text-sm text-pt-purple-100'>Estimated Network Fees</span>
-      <div className='flex flex-col w-[75%] text-xs'>
+      <div className='flex flex-col text-xs'>
         <TXFeeEstimate
           name='Approval'
           chainId={vault?.chainId}
@@ -53,7 +53,7 @@ const TXFeeEstimate = (props: TXFeeEstimateProps) => {
   const txCost = gasEstimates?.totalGasCurrencies?.['eth'] ?? '0'
 
   return (
-    <span className='flex justify-between items-center'>
+    <span className='flex justify-between items-center gap-6'>
       <span className='font-normal text-pt-purple-100'>{name}</span>
       <span className='text-pt-purple-50'>
         {isFetchedGasEstimates ? (
