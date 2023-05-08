@@ -3,6 +3,7 @@ import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 import { useFathom } from 'pt-generic-hooks'
 import { Flowbite } from 'pt-ui'
+import { useSentryUser } from '../hooks/useSentryUser'
 
 // React Query Client:
 const queryClient = new QueryClient()
@@ -20,6 +21,9 @@ export const AppContainer = (props: AppProps) => {
     router.events?.on,
     router.events?.off
   )
+
+  // Initialize Sentry User
+  useSentryUser()
 
   return (
     <Flowbite
