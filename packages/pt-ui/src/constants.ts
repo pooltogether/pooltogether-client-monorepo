@@ -10,5 +10,6 @@ export const LINKS = Object.freeze({
   twitter: 'https://twitter.com/PoolTogether_',
   discord: 'https://pooltogether.com/discord',
   github: 'https://github.com/pooltogether',
-  medium: 'https://medium.com/pooltogether'
+  medium: 'https://medium.com/pooltogether',
+  ecosystem: '#' // TODO: add ecosystem app link
 })

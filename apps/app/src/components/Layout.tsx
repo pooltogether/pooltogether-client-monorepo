@@ -128,7 +128,7 @@ export const Layout = (props: LayoutProps) => {
         view={settingsModalView}
         setView={setSettingsModalView}
         localVaultLists={DEFAULT_VAULT_LISTS}
-        disable={['language', 'extensions']}
+        disable={['language']}
       />
 
       <DepositModal

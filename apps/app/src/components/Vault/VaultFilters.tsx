@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import { BigNumber } from 'ethers'
-import { atom, useSetAtom } from 'jotai'
+import { atom, useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
@@ -10,6 +10,8 @@ import { useSelectedVaults, useTokenBalancesAcrossChains } from 'pt-hyperstructu
 import { Selection, SelectionItem } from 'pt-ui'
 import { NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
 import { useNetworks } from '@hooks/useNetworks'
+
+export const filterIdAtom = atom<string>('all')
 
 export const filteredVaultsAtom = atom<{ [chainId: number]: Vault[] }>({})
 
@@ -32,9 +34,9 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
     useTokenBalancesAcrossChains(networks, userAddress, vaults.underlyingTokenAddresses?.byChain)
 
-  const setFilteredVaults = useSetAtom(filteredVaultsAtom)
+  const [filterId, setFilterId] = useAtom(filterIdAtom)
 
-  const [filterId, setFilterId] = useState<string>('all')
+  const setFilteredVaults = useSetAtom(filteredVaultsAtom)
 
   // Getting filter ID from URL query:
   useEffect(() => {

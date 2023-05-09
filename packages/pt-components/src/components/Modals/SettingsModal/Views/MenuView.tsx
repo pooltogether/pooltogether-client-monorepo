@@ -45,10 +45,8 @@ export const MenuView = (props: MenuViewProps) => {
           },
           {
             iconContent: <SparklesIcon className='h-6 w-6 text-pt-purple-100' />,
-            title: 'View Extensions',
-            onClick: () => setView('extensions'),
-            disabled: disable?.includes('extensions'),
-            hidden: hide?.includes('extensions')
+            title: 'View Ecosystem',
+            onClick: () => window.open(LINKS.ecosystem)
           },
           {
             iconContent: <ClipboardListIcon className='h-6 w-6 text-pt-purple-100' />,

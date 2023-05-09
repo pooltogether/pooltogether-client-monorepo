@@ -1,13 +1,13 @@
-import { useAtomValue } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { NetworkBadge } from 'pt-components'
-import { useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
+import { useSelectedVaultListIds, useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { Button, Spinner } from 'pt-ui'
 import { useNetworks } from '@hooks/useNetworks'
-import { filteredVaultsAtom } from './VaultFilters'
+import { filteredVaultsAtom, filterIdAtom } from './VaultFilters'
 import { VaultsTable } from './VaultsTable'
 
-// TODO: there should be a "no vaults" empty state that pushes the user towards vault list management
 export const VaultsDisplay = () => {
   const router = useRouter()
 
@@ -15,10 +15,26 @@ export const VaultsDisplay = () => {
 
   const { isFetched: isFetchedVaultData } = useSelectedVaults()
 
+  const { localIds, importedIds } = useSelectedVaultListIds()
+
   const filteredVaults = useAtomValue(filteredVaultsAtom)
 
   if (!isFetchedVaultData) {
     return <Spinner />
+  }
+
+  const noSelectedVaultLists = localIds.length + importedIds.length === 0
+
+  if (noSelectedVaultLists) {
+    return <NoSelectedVaultListsCard />
+  }
+
+  const noValidVaults =
+    Object.keys(filteredVaults).length === 0 ||
+    Object.values(filteredVaults).every((array) => array.length === 0)
+
+  if (noValidVaults) {
+    return <NoValidVaultsCard />
   }
 
   return (
@@ -40,3 +56,79 @@ export const VaultsDisplay = () => {
     </>
   )
 }
+
+const NoSelectedVaultListsCard = () => {
+  const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
+
+  return (
+    <div className='flex flex-col items-center min-w-[480px] p-6 bg-pt-transparent rounded-lg'>
+      <DocumentSVG />
+      <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
+      <span className='text-pt-purple-100'>
+        It looks like you don't have any valid vault lists enabled.
+      </span>
+      <Button onClick={() => setIsSettingsModalOpen(true)} color='transparent' className='mt-6'>
+        Manage Vault Lists
+      </Button>
+    </div>
+  )
+}
+
+const NoValidVaultsCard = () => {
+  const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
+
+  const setFilterId = useSetAtom(filterIdAtom)
+
+  return (
+    <div className='flex flex-col items-center min-w-[480px] p-6 bg-pt-transparent rounded-lg'>
+      <GaugesSVG />
+      <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
+      <span className='text-pt-purple-100'>There are no vaults that match your filters.</span>
+      <div className='flex flex-col gap-2 mt-6'>
+        <Button onClick={() => setFilterId('all')} color='transparent' fullSized={true}>
+          Clear Filters
+        </Button>
+        <Button onClick={() => setIsSettingsModalOpen(true)} color='transparent' fullSized={true}>
+          Manage Vault Lists
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+const DocumentSVG = () => (
+  <svg width='48' height='60' viewBox='0 0 48 60' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      fillRule='evenodd'
+      clipRule='evenodd'
+      d='M2.39941 10.0688V59.7133H47.4213V0H12.4348L2.39941 10.0688Z'
+      fill='#35F0D0'
+    />
+    <path
+      d='M2.39953 9.95235L12.3449 9.95235L12.3517 5.75455e-05L2.39953 9.95235Z'
+      fill='#0DC5A5'
+    />
+    <circle cx='10.4219' cy='14' r='2' fill='#0DC5A5' />
+    <circle cx='10.4219' cy='23' r='2' fill='#0DC5A5' />
+    <circle cx='10.4219' cy='32' r='2' fill='#0DC5A5' />
+    <circle cx='10.4219' cy='41' r='2' fill='#0DC5A5' />
+    <circle cx='10.4219' cy='50' r='2' fill='#0DC5A5' />
+    <path d='M15.4219 13.5H42.4219' stroke='#0DC5A5' strokeLinecap='round' />
+    <path d='M15.4219 23H42.4219' stroke='#0DC5A5' strokeLinecap='round' />
+    <path d='M15.4219 32H42.4219' stroke='#0DC5A5' strokeLinecap='round' />
+    <path d='M15.4219 41H42.4219' stroke='#0DC5A5' strokeLinecap='round' />
+    <path d='M15.4219 50H42.4219' stroke='#0DC5A5' strokeLinecap='round' />
+  </svg>
+)
+
+const GaugesSVG = () => (
+  <svg width='60' height='60' viewBox='0 0 60 60' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <rect width='60' height='60' rx='8' fill='#35F0D0' />
+    <path d='M11.5 11L11.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+    <path d='M30.5 11L30.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+    <path d='M49.5 11L49.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+    <path d='M7 19.5H16' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+    <path d='M26 42H35' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+    <path d='M45 29H54' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
+  </svg>
+)
