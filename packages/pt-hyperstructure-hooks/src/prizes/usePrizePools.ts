@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useProvider } from 'wagmi'
 import { PrizePool } from 'pt-client-js'
 import { useProvidersByChain } from '..'
@@ -12,7 +11,7 @@ export const usePrizePools = (
   data: {
     chainId: number
     address: string
-    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: BigNumber }
+    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: number }
   }[]
 ): { [prizePoolId: string]: PrizePool } => {
   const providers = useProvidersByChain()
@@ -44,7 +43,7 @@ export const usePrizePools = (
 export const usePrizePool = (
   chainId: number,
   address: string,
-  options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: BigNumber }
+  options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: number }
 ): PrizePool => {
   const provider = useProvider({ chainId })
 

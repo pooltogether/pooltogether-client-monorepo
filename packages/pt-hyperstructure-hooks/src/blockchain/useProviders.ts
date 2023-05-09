@@ -17,7 +17,7 @@ export const useProviders = (): providers.Provider[] => {
       useProvider({ chainId: NETWORK.optimism }),
       useProvider({ chainId: NETWORK.arbitrum })
     ],
-    testnets: [useProvider({ chainId: NETWORK.goerli })]
+    testnets: [useProvider({ chainId: NETWORK.mumbai })]
   }
 
   if (isTestnets) {
@@ -45,7 +45,7 @@ export const useProvidersByChain = (): { [chainId: number]: providers.Provider }
       [NETWORK.arbitrum]: useProvider({ chainId: NETWORK.arbitrum })
     },
     testnets: {
-      [NETWORK.goerli]: useProvider({ chainId: NETWORK.goerli })
+      [NETWORK.mumbai]: useProvider({ chainId: NETWORK.mumbai })
     }
   }
 

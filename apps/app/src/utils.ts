@@ -9,7 +9,6 @@ import {
   trustWallet,
   walletConnectWallet
 } from '@rainbow-me/rainbowkit/wallets'
-import { BigNumber } from 'ethers'
 import { Client, configureChains, createClient } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
@@ -26,7 +25,7 @@ export const formatPrizePools = () => {
       address: string
       prizeTokenAddress?: string
       drawPeriodInSeconds?: number
-      tierShares?: BigNumber
+      tierShares?: number
     }
     return {
       chainId: parseInt(network),

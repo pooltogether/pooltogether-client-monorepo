@@ -20,13 +20,7 @@ export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: string]: string }
   [NETWORK.mainnet]: {
     '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': tokenLogoUrls.usdc
   },
-  [NETWORK.goerli]: {
-    '0xef8743fb2f5bea4a6e6e821895d479042a9bb5ca': tokenLogoUrls.dai,
-    '0x62a918876ad2135bdcd35149c9787311d4417912': tokenLogoUrls.usdc,
-    '0x1d0cde537d5ee72fb43a16027874626dd82741f3': tokenLogoUrls.gusd,
-    '0x6bc6556e16654f72c097f6863418926510aa3006': tokenLogoUrls.wbtc,
-    '0xe86425cfb3a55e9eb1d5f2a79f6b583e94921071': tokenLogoUrls.weth
-  },
+  [NETWORK.goerli]: {},
   [NETWORK.sepolia]: {},
   [NETWORK.bsc]: {},
   [NETWORK['bsc-testnet']]: {},
@@ -34,7 +28,13 @@ export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: string]: string }
   [NETWORK.polygon]: {
     '0x2791bca1f2de4661ed88a30c99a7a9449aa84174': tokenLogoUrls.usdc
   },
-  [NETWORK.mumbai]: {},
+  [NETWORK.mumbai]: {
+    '0x2990cf846ec4738a672273df204cd93196d98d5f': tokenLogoUrls.dai,
+    '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add': tokenLogoUrls.usdc,
+    '0x0e3ca10c2e675ee8a93a1331d54981d99107e6e8': tokenLogoUrls.gusd,
+    '0x14e8733e7f178c77ed99faa08bbf042100da4268': tokenLogoUrls.wbtc,
+    '0x5617889c4030db7c3fad0e4a015460e0430b454c': tokenLogoUrls.weth
+  },
   [NETWORK.optimism]: {
     '0x4200000000000000000000000000000000000006': tokenLogoUrls.weth
   },

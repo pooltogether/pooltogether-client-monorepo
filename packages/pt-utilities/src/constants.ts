@@ -31,7 +31,7 @@ export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
   [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
-  [NETWORK.goerli]: '0x77C4F17Acf61C3B5983a3Fb8BaCBDE899998CC0B'
+  [NETWORK.mumbai]: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7'
 })
 
 /**
@@ -128,17 +128,17 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
     '0x6b175474e89094c44da98b954eedeac495271d0f', // DAI
     '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd' // GUSD
   ],
-  [NETWORK.goerli]: [
-    '0xef8743fb2f5bea4a6e6e821895d479042a9bb5ca', // DAI
-    '0x62a918876ad2135bdcd35149c9787311d4417912', // USDC
-    '0x1d0cde537d5ee72fb43a16027874626dd82741f3' // GUSD
-  ],
+  [NETWORK.goerli]: [],
   [NETWORK.sepolia]: [],
   [NETWORK.bsc]: [],
   [NETWORK['bsc-testnet']]: [],
   [NETWORK.xdai]: [],
   [NETWORK.polygon]: [],
-  [NETWORK.mumbai]: [],
+  [NETWORK.mumbai]: [
+    '0x2990cf846ec4738a672273df204cd93196d98d5f', // DAI
+    '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add', // USDC
+    '0x0e3ca10c2e675ee8a93a1331d54981d99107e6e8' // GUSD
+  ],
   [NETWORK.optimism]: [],
   [NETWORK['optimism-goerli']]: [],
   [NETWORK.avalanche]: [],
@@ -155,13 +155,13 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
  * NOTE: All addresses are lowercase
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
-  [NETWORK.goerli]: {
-    '0xef8743fb2f5bea4a6e6e821895d479042a9bb5ca': { eth: 0.00052681 }, // DAI
-    '0x62a918876ad2135bdcd35149c9787311d4417912': { eth: 0.0005265 }, // USDC
-    '0x1d0cde537d5ee72fb43a16027874626dd82741f3': { eth: 0.00052792 }, // GUSD
-    '0x6bc6556e16654f72c097f6863418926510aa3006': { eth: 15.450051 }, // WBTC
-    '0xe86425cfb3a55e9eb1d5f2a79f6b583e94921071': { eth: 0.99838028 }, // WETH
-    '0x77c4f17acf61c3b5983a3fb8bacbde899998cc0b': { eth: 0.00045293 } // POOL
+  [NETWORK.mumbai]: {
+    '0x2990cf846ec4738a672273df204cd93196d98d5f': { eth: 0.00052681 }, // DAI
+    '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add': { eth: 0.0005265 }, // USDC
+    '0x0e3ca10c2e675ee8a93a1331d54981d99107e6e8': { eth: 0.00052792 }, // GUSD
+    '0x14e8733e7f178c77ed99faa08bbf042100da4268': { eth: 15.450051 }, // WBTC
+    '0x5617889c4030db7c3fad0e4a015460e0430b454c': { eth: 0.99838028 }, // WETH
+    '0xc138a7c89c357d8fa5a9b7ce775e612b766153e7': { eth: 0.00045293 } // POOL
   }
 })
 

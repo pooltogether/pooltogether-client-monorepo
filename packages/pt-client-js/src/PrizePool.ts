@@ -23,7 +23,7 @@ export class PrizePool {
   readonly id: string
   prizeTokenContract: Contract | undefined
   drawPeriodInSeconds: number | undefined
-  tierShares: BigNumber | undefined
+  tierShares: number | undefined
 
   /**
    * Creates an instance of a Prize Pool with a given signer or provider
@@ -38,7 +38,7 @@ export class PrizePool {
     public chainId: number,
     public address: string,
     public signerOrProvider: Signer | providers.Provider,
-    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: BigNumber }
+    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: number }
   ) {
     this.prizePoolContract = new Contract(address, prizePoolAbi, signerOrProvider)
     this.id = getPrizePoolId(chainId, address)
@@ -96,13 +96,13 @@ export class PrizePool {
    * Returns the number of shares allocated to each prize tier
    * @returns
    */
-  async getTierShares(): Promise<BigNumber> {
+  async getTierShares(): Promise<number> {
     if (this.tierShares !== undefined) return this.tierShares
 
     const source = 'Prize Pool [getTierShares]'
     await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
 
-    const tierShares = BigNumber.from(await this.prizePoolContract.tierShares())
+    const tierShares = parseInt(await this.prizePoolContract.tierShares())
     this.tierShares = tierShares
 
     return tierShares
@@ -301,20 +301,6 @@ export class PrizePool {
     const currentPrizeSize: string = await this.prizePoolContract.calculatePrizeSize(tier)
 
     return BigNumber.from(currentPrizeSize)
-  }
-
-  /**
-   * Returns the token liquidity of a given tier
-   * @param tier prize tier
-   * @returns
-   */
-  async getTierLiquidity(tier: number): Promise<BigNumber> {
-    const source = 'Prize Pool [getTierLiquidity]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
-
-    const tierLiquidity: string = await this.prizePoolContract.getTierLiquidity(tier)
-
-    return BigNumber.from(tierLiquidity)
   }
 
   /**

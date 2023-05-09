@@ -1,5 +1,12 @@
 export const prizePool = [
   {
+    inputs: [],
+    name: 'accountedBalance',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
     inputs: [{ internalType: 'address', name: '_claimer', type: 'address' }],
     name: 'balanceOfClaimRewards',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
@@ -54,7 +61,7 @@ export const prizePool = [
   {
     inputs: [],
     name: 'canaryShares',
-    outputs: [{ internalType: 'uint96', name: '', type: 'uint96' }],
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
     stateMutability: 'view',
     type: 'function'
   },
@@ -157,15 +164,15 @@ export const prizePool = [
   },
   {
     inputs: [{ internalType: 'uint8', name: '_tier', type: 'uint8' }],
-    name: 'getTierAccrualDurationInDraws',
-    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
+    name: 'getRemainingTierLiquidity',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
   },
   {
     inputs: [{ internalType: 'uint8', name: '_tier', type: 'uint8' }],
-    name: 'getTierLiquidity',
-    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    name: 'getTierAccrualDurationInDraws',
+    outputs: [{ internalType: 'uint32', name: '', type: 'uint32' }],
     stateMutability: 'view',
     type: 'function'
   },
@@ -182,6 +189,13 @@ export const prizePool = [
       { internalType: 'uint32', name: '_endDrawIdInclusive', type: 'uint32' }
     ],
     name: 'getTotalContributedBetween',
+    outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [],
+    name: 'getTotalContributionsForCompletedDraw',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
@@ -323,7 +337,7 @@ export const prizePool = [
   {
     inputs: [],
     name: 'prizeTokenPerShare',
-    outputs: [{ internalType: 'UD60x18', name: '', type: 'uint256' }],
+    outputs: [{ internalType: 'UD34x4', name: '', type: 'uint128' }],
     stateMutability: 'view',
     type: 'function'
   },
@@ -344,7 +358,7 @@ export const prizePool = [
   {
     inputs: [],
     name: 'reserveShares',
-    outputs: [{ internalType: 'uint96', name: '', type: 'uint96' }],
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
     stateMutability: 'view',
     type: 'function'
   },
@@ -365,13 +379,13 @@ export const prizePool = [
   {
     inputs: [],
     name: 'tierShares',
-    outputs: [{ internalType: 'uint96', name: '', type: 'uint96' }],
+    outputs: [{ internalType: 'uint8', name: '', type: 'uint8' }],
     stateMutability: 'view',
     type: 'function'
   },
   {
     inputs: [],
-    name: 'totalDrawLiquidity',
+    name: 'totalClaimedPrizes',
     outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
     stateMutability: 'view',
     type: 'function'
@@ -392,6 +406,16 @@ export const prizePool = [
   },
   {
     inputs: [
+      { internalType: 'address', name: '_winner', type: 'address' },
+      { internalType: 'uint8', name: '_tier', type: 'uint8' }
+    ],
+    name: 'wasClaimed',
+    outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+    stateMutability: 'view',
+    type: 'function'
+  },
+  {
+    inputs: [
       { internalType: 'address', name: '_to', type: 'address' },
       { internalType: 'uint256', name: '_amount', type: 'uint256' }
     ],
@@ -403,7 +427,7 @@ export const prizePool = [
   {
     inputs: [
       { internalType: 'address', name: '_to', type: 'address' },
-      { internalType: 'uint256', name: '_amount', type: 'uint256' }
+      { internalType: 'uint104', name: '_amount', type: 'uint104' }
     ],
     name: 'withdrawReserve',
     outputs: [],
