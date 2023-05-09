@@ -6,6 +6,7 @@ import { VaultPageButtons } from '@components/Vault/VaultPageButtons'
 import { VaultPageHeader } from '@components/Vault/VaultPageHeader'
 import { VaultPageInfo } from '@components/Vault/VaultPageInfo'
 
+// TODO: need to be able to load a vault not in selected vault lists
 export default function VaultPage() {
   const router = useRouter()
 
@@ -17,12 +18,16 @@ export default function VaultPage() {
     return vaults?.vaults[vaultId as string]
   }, [vaultId, vaults])
 
-  if (router.isReady && !!vault) {
+  if (router.isReady) {
     return (
       <Layout className='gap-12'>
-        <VaultPageHeader vault={vault} />
-        <VaultPageInfo vault={vault} />
-        <VaultPageButtons vault={vault} />
+        {!!vault && (
+          <>
+            <VaultPageHeader vault={vault} />
+            <VaultPageInfo vault={vault} />
+            <VaultPageButtons vault={vault} />
+          </>
+        )}
       </Layout>
     )
   }
