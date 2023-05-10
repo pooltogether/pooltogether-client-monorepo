@@ -60,6 +60,13 @@ This Turborepo has some additional tools already setup:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [Prettier](https://prettier.io) for code formatting
 
+### Adding New Network
+
+1. Update the `constants.ts` file in `pt-utilities` with values and addresses for the new network.
+2. Make sure the `useProviders` and `useProvidersByChain` hooks in `pt-hyperstructure-hooks` include the new network.
+3. Update the `config.ts` file and ENVs for any app you want to use this new network on.
+4. Optionally add any token logo overrides in the `constants.ts` file in `pt-components`.
+
 ### Known Issues / Fixes
 
 When adding/updating apps and/or packages, duplicate dependencies may be created, creating versioning issues. This can be resolved through running `pnpm up -r` as described [here](https://github.com/pnpm/pnpm/issues/2443), or just looking through `pnpm-lock.yaml` to identify version discrepancies.
