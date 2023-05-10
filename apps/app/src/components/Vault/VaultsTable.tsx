@@ -23,7 +23,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
       prizePower: { content: 'Prize Power', position: 'center' }, // TODO: add tooltip
       totalDeposits: { content: 'Total Deposits', position: 'center' },
       balance: { content: 'My Balance', position: 'center' },
-      manage: { content: 'Manage', position: 'right' }
+      manage: { content: <span className='mr-[18px]'>Manage</span>, position: 'right' }
     },
     rows: vaults.map((vault) => ({
       cells: {
