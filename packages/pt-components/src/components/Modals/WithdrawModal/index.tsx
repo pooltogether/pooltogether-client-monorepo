@@ -6,11 +6,12 @@ import { Modal } from 'pt-ui'
 import { ConfirmingView } from './Views/ConfirmingView'
 import { ErrorView } from './Views/ErrorView'
 import { MainView } from './Views/MainView'
+import { ReviewView } from './Views/ReviewView'
 import { SuccessView } from './Views/SuccessView'
 import { WaitingView } from './Views/WaitingView'
 import { WithdrawTxButton } from './WithdrawTxButton'
 
-export type WithdrawModalView = 'main' | 'waiting' | 'confirming' | 'success' | 'error'
+export type WithdrawModalView = 'main' | 'review' | 'waiting' | 'confirming' | 'success' | 'error'
 
 export interface WithdrawModalProps {
   onGoToAccount?: () => void
@@ -20,6 +21,7 @@ export interface WithdrawModalProps {
   refetchUserBalances?: () => void
 }
 
+// TODO: if the modal is closed and there is a tx ongoing, status should move to toast
 export const WithdrawModal = (props: WithdrawModalProps) => {
   const {
     onGoToAccount,
@@ -45,6 +47,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
   if (isModalOpen && !!vault) {
     const modalViews: Record<WithdrawModalView, ReactNode> = {
       main: <MainView vault={vault} />,
+      review: <ReviewView vault={vault} />,
       waiting: <WaitingView vault={vault} closeModal={handleClose} />,
       confirming: <ConfirmingView vault={vault} txHash={withdrawTxHash} closeModal={handleClose} />,
       success: (
@@ -64,11 +67,12 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
         footerContent={
           <div
             className={classNames('flex flex-col items-center gap-6', {
-              hidden: view !== 'main'
+              hidden: view !== 'main' && view !== 'review'
             })}
           >
             <WithdrawTxButton
               vault={vault}
+              modalView={view}
               setModalView={setView}
               setWithdrawTxHash={setWithdrawTxHash}
               openConnectModal={openConnectModal}

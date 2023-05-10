@@ -15,7 +15,6 @@ export * from './components/Currency/TokenValue'
  * Form
  */
 export * from './components/Form/DepositForm'
-export * from './components/Form/TxFormInfo'
 export * from './components/Form/TxFormInput'
 export * from './components/Form/WithdrawForm'
 
@@ -23,6 +22,7 @@ export * from './components/Form/WithdrawForm'
  * Graphics
  */
 export * from './components/Graphics/ErrorPooly'
+export * from './components/Graphics/SuccessPooly'
 
 /**
  * Icons

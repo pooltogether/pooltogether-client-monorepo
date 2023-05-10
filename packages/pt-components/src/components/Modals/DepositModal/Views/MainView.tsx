@@ -28,7 +28,7 @@ export const MainView = (props: MainViewProps) => {
         className='!py-1 mx-auto'
       />
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <DepositForm vault={vault} />
+        <DepositForm vault={vault} showInputInfoRows={true} />
       )}
       <div className='flex gap-9 mx-auto'>
         <Odds vault={vault} prizePool={prizePool} />

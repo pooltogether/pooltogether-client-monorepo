@@ -12,7 +12,6 @@ import {
   useVaultTokenPrice
 } from 'pt-hyperstructure-hooks'
 import { getAssetsFromShares, getSharesFromAssets } from 'pt-utilities'
-import { TxFormInfo } from './TxFormInfo'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'
 
 export const withdrawFormShareAmountAtom = atom<string>('')
@@ -20,10 +19,11 @@ export const withdrawFormTokenAmountAtom = atom<string>('')
 
 export interface WithdrawFormProps {
   vault: Vault
+  showInputInfoRows?: boolean
 }
 
 export const WithdrawForm = (props: WithdrawFormProps) => {
-  const { vault } = props
+  const { vault, showInputInfoRows } = props
 
   const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
 
@@ -69,16 +69,15 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       const tokens = utils.parseUnits(tokenAmount, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
       const formattedShares = utils.formatUnits(shares, vault.decimals)
+      const slicedShares = formattedShares.endsWith('.0')
+        ? formattedShares.slice(0, -2)
+        : formattedShares
 
-      setFormShareAmount(formattedShares)
+      setFormShareAmount(slicedShares)
 
-      formMethods.setValue(
-        'shareAmount',
-        formattedShares.endsWith('.0') ? formattedShares.slice(0, -2) : formattedShares,
-        {
-          shouldValidate: true
-        }
-      )
+      formMethods.setValue('shareAmount', slicedShares, {
+        shouldValidate: true
+      })
     }
   }
 
@@ -93,16 +92,15 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
       const shares = utils.parseUnits(shareAmount, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
       const formattedTokens = utils.formatUnits(tokens, vault.decimals)
+      const slicedTokens = formattedTokens.endsWith('.0')
+        ? formattedTokens.slice(0, -2)
+        : formattedTokens
 
-      setFormTokenAmount(formattedTokens)
+      setFormTokenAmount(slicedTokens)
 
-      formMethods.setValue(
-        'tokenAmount',
-        formattedTokens.endsWith('.0') ? formattedTokens.slice(0, -2) : formattedTokens,
-        {
-          shouldValidate: true
-        }
-      )
+      formMethods.setValue('tokenAmount', slicedTokens, {
+        shouldValidate: true
+      })
     }
   }
 
@@ -144,6 +142,7 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
                   `Not enough ${vault.shareData?.symbol} in wallet`
               }}
               onChange={handleShareAmountChange}
+              showInfoRow={showInputInfoRows}
               showMaxButton={true}
               className='mb-0.5'
             />
@@ -151,10 +150,10 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
               token={tokenInputData}
               formKey='tokenAmount'
               onChange={handleTokenAmountChange}
-              className='my-0.5 rounded-b-none'
+              showInfoRow={showInputInfoRows}
+              className='my-0.5'
             />
           </FormProvider>
-          <TxFormInfo vault={vault} />
         </>
       )}
     </div>

@@ -17,12 +17,14 @@ export interface TxFormInputProps {
   validate?: { [rule: string]: (v: any) => true | string }
   disabled?: boolean
   onChange?: (v: string) => void
+  showInfoRow?: boolean
   showMaxButton?: boolean
   className?: string
 }
 
 export const TxFormInput = (props: TxFormInputProps) => {
-  const { token, formKey, validate, disabled, onChange, showMaxButton, className } = props
+  const { token, formKey, validate, disabled, onChange, showInfoRow, showMaxButton, className } =
+    props
 
   const {
     watch,
@@ -77,20 +79,22 @@ export const TxFormInput = (props: TxFormInputProps) => {
           <span className='text-2xl font-semibold'>{token.symbol}</span>
         </div>
       </div>
-      <div className='flex justify-between gap-6 text-pt-purple-100'>
-        <CurrencyValue baseValue={amountValue} />
-        <div className='flex gap-1'>
-          <span>Balance: {formattedBalance}</span>
-          {showMaxButton && (
-            <span
-              onClick={setFormAmountToMax}
-              className='text-pt-purple-200 cursor-pointer select-none'
-            >
-              Max
-            </span>
-          )}
+      {showInfoRow && (
+        <div className='flex justify-between gap-6 text-pt-purple-100'>
+          <CurrencyValue baseValue={amountValue} />
+          <div className='flex gap-1'>
+            <span>Balance: {formattedBalance}</span>
+            {showMaxButton && (
+              <span
+                onClick={setFormAmountToMax}
+                className='text-pt-purple-200 cursor-pointer select-none'
+              >
+                Max
+              </span>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       {!!error && <span className='text-sm text-pt-warning-light'>{error}</span>}
     </div>
   )

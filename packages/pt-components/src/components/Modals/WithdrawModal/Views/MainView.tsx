@@ -26,7 +26,7 @@ export const MainView = (props: MainViewProps) => {
         className='!py-1 mx-auto'
       />
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
-        <WithdrawForm vault={vault} />
+        <WithdrawForm vault={vault} showInputInfoRows={true} />
       )}
       <NetworkFees vault={vault} />
     </div>

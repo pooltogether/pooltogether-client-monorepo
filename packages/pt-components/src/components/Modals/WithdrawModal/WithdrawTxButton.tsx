@@ -8,6 +8,7 @@ import {
   useTokenBalance,
   useUserVaultShareBalance
 } from 'pt-hyperstructure-hooks'
+import { Button } from 'pt-ui'
 import { WithdrawModalView } from '.'
 import { isValidFormInput } from '../../Form/TxFormInput'
 import { withdrawFormShareAmountAtom } from '../../Form/WithdrawForm'
@@ -15,6 +16,7 @@ import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface WithdrawTxButtonProps {
   vault: Vault
+  modalView: string
   setModalView: (view: WithdrawModalView) => void
   setWithdrawTxHash: (txHash: string) => void
   openConnectModal?: () => void
@@ -23,9 +25,11 @@ interface WithdrawTxButtonProps {
   refetchUserBalances?: () => void
 }
 
+// TODO: BUG - buttons should not be clickable (enabled) if there are any form errors
 export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   const {
     vault,
+    modalView,
     setModalView,
     setWithdrawTxHash,
     openConnectModal,
@@ -101,21 +105,35 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     BigNumber.from(vaultShareBalance.amount).gte(withdrawAmount) &&
     !!sendRedeemTransaction
 
-  return (
-    <TransactionButton
-      chainId={vault.chainId}
-      isTxLoading={isWaitingWithdrawal || isConfirmingWithdrawal}
-      isTxSuccess={isSuccessfulWithdrawal}
-      write={sendRedeemTransaction}
-      txHash={withdrawTxHash}
-      txDescription={`${vault.shareData?.symbol} Withdrawal`}
-      fullSized={true}
-      disabled={!withdrawEnabled}
-      openConnectModal={openConnectModal}
-      openChainModal={openChainModal}
-      addRecentTransaction={addRecentTransaction}
-    >
-      Withdraw
-    </TransactionButton>
-  )
+  if (withdrawAmount.isZero()) {
+    return (
+      <Button color='transparent' fullSized={true} disabled={true}>
+        Enter an amount
+      </Button>
+    )
+  } else if (modalView === 'main') {
+    return (
+      <Button onClick={() => setModalView('review')} fullSized={true} disabled={!withdrawEnabled}>
+        Review Withdrawal
+      </Button>
+    )
+  } else {
+    return (
+      <TransactionButton
+        chainId={vault.chainId}
+        isTxLoading={isWaitingWithdrawal || isConfirmingWithdrawal}
+        isTxSuccess={isSuccessfulWithdrawal}
+        write={sendRedeemTransaction}
+        txHash={withdrawTxHash}
+        txDescription={`${vault.shareData?.symbol} Withdrawal`}
+        fullSized={true}
+        disabled={!withdrawEnabled}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+      >
+        Confirm Withdrawal
+      </TransactionButton>
+    )
+  }
 }
