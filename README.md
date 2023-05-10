@@ -8,6 +8,8 @@ Make sure you have [pnpm](https://pnpm.io/) installed, as it is the package mana
 
 `pnpm install`
 
+---
+
 ### Development
 
 `pnpm dev`
@@ -27,6 +29,8 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 **Repo Links:** [App](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/app) | [Ecosystem](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/ecosystem) | [Landing Page](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/landing-page) | [Tools](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/apps/tools)
 
+---
+
 ### External Packages
 
 - `pt-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Ethers](https://ethers.org/).
@@ -34,6 +38,8 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 - `pt-types`: Shared Typescript types.
 
 **Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-hyperstructure-hooks) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-types)
+
+---
 
 ### Internal Packages
 
@@ -46,11 +52,15 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 **Repo Links:** [Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-components) | [Generic Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-generic-hooks) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/pt-utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tsconfig)
 
+---
+
 ### Package Notes
 
 All packages above are written in [TypeScript](https://www.typescriptlang.org/).
 
 When making changes to packages, running `pnpm i` will run the `prepare` scripts on each one, properly building them for use in the apps.
+
+---
 
 ### Utilities
 
@@ -60,12 +70,16 @@ This Turborepo has some additional tools already setup:
 - [TypeScript](https://www.typescriptlang.org/) for static type checking
 - [Prettier](https://prettier.io) for code formatting
 
+---
+
 ### Adding New Network
 
 1. Update the `constants.ts` file in `pt-utilities` with values and addresses for the new network.
 2. Make sure the `useProviders` and `useProvidersByChain` hooks in `pt-hyperstructure-hooks` include the new network.
 3. Update the `config.ts` file and ENVs for any app you want to use this new network on.
 4. Optionally add any token logo overrides in the `constants.ts` file in `pt-components`.
+
+---
 
 ### Known Issues / Fixes
 
