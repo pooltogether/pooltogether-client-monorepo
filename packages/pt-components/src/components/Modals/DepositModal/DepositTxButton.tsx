@@ -10,7 +10,7 @@ import {
   useTokenBalance,
   useUserVaultTokenBalance
 } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { Button, Spinner } from 'pt-ui'
 import { DepositModalView } from '.'
 import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
 import { isValidFormInput } from '../../Form/TxFormInput'
@@ -18,6 +18,7 @@ import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface DepositTxButtonProps {
   vault: Vault
+  modalView: string
   setModalView: (view: DepositModalView) => void
   setDepositTxHash: (txHash: string) => void
   openConnectModal?: () => void
@@ -26,9 +27,11 @@ interface DepositTxButtonProps {
   refetchUserBalances?: () => void
 }
 
+// TODO: BUG - buttons should not be clickable (enabled) if there are any form errors
 export const DepositTxButton = (props: DepositTxButtonProps) => {
   const {
     vault,
+    modalView,
     setModalView,
     setDepositTxHash,
     openConnectModal,
@@ -157,7 +160,13 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     vault.decimals !== undefined &&
     !!sendDepositTransaction
 
-  if (isFetchedAllowance && allowance?.lt(depositAmount)) {
+  if (depositAmount.isZero()) {
+    return (
+      <Button color='transparent' fullSized={true} disabled={true}>
+        Enter an amount
+      </Button>
+    )
+  } else if (isFetchedAllowance && allowance?.lt(depositAmount)) {
     return (
       <div className='flex flex-col w-full gap-6'>
         <TransactionButton
@@ -193,6 +202,12 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
         </TransactionButton>
       </div>
     )
+  } else if (modalView === 'main') {
+    return (
+      <Button onClick={() => setModalView('review')} fullSized={true} disabled={!depositEnabled}>
+        Review Deposit
+      </Button>
+    )
   } else {
     return (
       <TransactionButton
@@ -208,7 +223,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
         openChainModal={openChainModal}
         addRecentTransaction={addRecentTransaction}
       >
-        Deposit
+        Confirm Deposit
       </TransactionButton>
     )
   }

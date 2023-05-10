@@ -15,7 +15,6 @@ export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
-// TODO: add toasts
 export const TransactionButton = (props: TransactionButtonProps) => {
   const {
     chainId,

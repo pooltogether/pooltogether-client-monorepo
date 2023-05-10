@@ -36,12 +36,12 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 
 - `DepositForm`
 - `WithdrawForm`
-- `TxFormInfo`
 - `TxFormInput`
 
 ## Graphic Components
 
 - `ErrorPooly`
+- `SuccessPooly`
 
 ## Icon Components
 

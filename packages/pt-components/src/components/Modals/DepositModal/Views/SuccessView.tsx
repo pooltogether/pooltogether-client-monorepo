@@ -1,11 +1,10 @@
-import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
 import { Button, ExternalLink } from 'pt-ui'
 import { formatNumberForDisplay, getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { depositFormTokenAmountAtom } from '../../../Form/DepositForm'
-import { SuccessIcon } from '../../../Icons/SuccessIcon'
+import { SuccessPooly } from '../../../Graphics/SuccessPooly'
 
 interface SuccessViewProps {
   vault: Vault
@@ -17,69 +16,54 @@ interface SuccessViewProps {
 export const SuccessView = (props: SuccessViewProps) => {
   const { vault, txHash, closeModal, goToAccount } = props
 
-  return (
-    <div className='flex flex-col gap-6'>
-      <SuccessViewHeader vault={vault} />
-      <NetworkBadge
-        chainId={vault.chainId}
-        appendText='Prize Pool'
-        hideBorder={true}
-        className='!py-1 mx-auto'
-      />
-      <span className='text-center'>You are now eligible for all future draws in this pool.</span>
-      <div className='flex flex-col w-full gap-6'>
-        {!!txHash && (
-          <ExternalLink
-            href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
-            text={`View on ${getBlockExplorerName(vault.chainId)}`}
-            size='sm'
-            className='mx-auto text-pt-purple-100'
-          />
-        )}
-        {/* TODO: implement twitter sharing and enable button */}
-        <Button fullSized={true} disabled>
-          Share Tweet
-        </Button>
-        {/* TODO: implement lenster sharing and enable button */}
-        <Button fullSized={true} disabled>
-          Share on Lenster
-        </Button>
-        {!!goToAccount && (
-          <Button
-            fullSized={true}
-            color='transparent'
-            onClick={() => {
-              goToAccount()
-              closeModal()
-            }}
-          >
-            View Account
-          </Button>
-        )}
-      </div>
-    </div>
-  )
-}
-
-interface SuccessViewHeaderProps {
-  vault: Vault
-  className?: string
-}
-
-const SuccessViewHeader = (props: SuccessViewHeaderProps) => {
-  const { vault, className } = props
-
   const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
 
   return (
-    <div className={classNames('flex flex-col items-center gap-3', className)}>
-      <div className='flex flex-col text-center text-xl font-medium'>
-        <span>Success!</span>
-        <span>
-          You deposited {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
-        </span>
+    <div className='flex flex-col gap-6 items-center'>
+      <div className='flex flex-col gap-3 items-center'>
+        <div className='flex flex-col items-center text-xl font-medium text-center'>
+          <span className='text-pt-teal'>Success!</span>
+          <span>
+            You deposited {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
+          </span>
+        </div>
+        <NetworkBadge
+          chainId={vault.chainId}
+          appendText='Prize Pool'
+          hideBorder={true}
+          className='!py-1'
+        />
+        <SuccessPooly className='mt-3' />
       </div>
-      <SuccessIcon />
+      <span className='text-center'>You are now eligible for all future draws in this pool.</span>
+      {!!txHash && (
+        <ExternalLink
+          href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
+          text={`View on ${getBlockExplorerName(vault.chainId)}`}
+          size='sm'
+          className='text-pt-purple-100'
+        />
+      )}
+      {/* TODO: implement twitter sharing and enable button */}
+      <Button fullSized={true} disabled>
+        Share Tweet
+      </Button>
+      {/* TODO: implement lenster sharing and enable button */}
+      <Button fullSized={true} disabled>
+        Share on Lenster
+      </Button>
+      {!!goToAccount && (
+        <Button
+          fullSized={true}
+          color='transparent'
+          onClick={() => {
+            goToAccount()
+            closeModal()
+          }}
+        >
+          View Account
+        </Button>
+      )}
     </div>
   )
 }
