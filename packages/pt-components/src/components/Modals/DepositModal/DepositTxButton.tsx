@@ -1,7 +1,7 @@
 import { BigNumber, constants, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useSendApproveTransaction,
@@ -43,6 +43,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
 
   const {
     data: allowance,
@@ -168,7 +169,12 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
         Enter an amount
       </Button>
     )
-  } else if (isFetchedAllowance && allowance?.lt(depositAmount)) {
+  } else if (
+    !isDisconnected &&
+    chain?.id === vault.chainId &&
+    isFetchedAllowance &&
+    allowance?.lt(depositAmount)
+  ) {
     return (
       <div className='flex flex-col w-full gap-6'>
         <TransactionButton
@@ -209,7 +215,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
         </TransactionButton>
       </div>
     )
-  } else if (modalView === 'main') {
+  } else if (!isDisconnected && chain?.id === vault.chainId && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!depositEnabled}>
         Review Deposit

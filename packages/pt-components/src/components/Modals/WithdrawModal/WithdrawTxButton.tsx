@@ -1,7 +1,7 @@
 import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { useAccount } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
   useSendRedeemTransaction,
@@ -39,6 +39,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   } = props
 
   const { address: userAddress, isDisconnected } = useAccount()
+  const { chain } = useNetwork()
 
   const {
     data: vaultShareBalance,
@@ -111,7 +112,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
         Enter an amount
       </Button>
     )
-  } else if (modalView === 'main') {
+  } else if (!isDisconnected && chain?.id === vault.chainId && modalView === 'main') {
     return (
       <Button onClick={() => setModalView('review')} fullSized={true} disabled={!withdrawEnabled}>
         Review Withdrawal
