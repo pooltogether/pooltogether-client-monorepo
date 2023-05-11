@@ -26,5 +26,6 @@ Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used 
 - `Table`
 - `Tabs`
 - `Toggle`
+- `Tooltip`
 
 This package also exports the `Flowbite` object for use elsewhere if necessary.

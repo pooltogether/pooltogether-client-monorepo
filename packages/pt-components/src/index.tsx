@@ -52,6 +52,14 @@ export * from './components/Time/NextDrawCountdown'
 export * from './components/Time/TimeDigits'
 
 /**
+ * Tooltips
+ */
+export * from './components/Tooltips/ExactApprovalTooltip'
+export * from './components/Tooltips/InfiniteApprovalTooltip'
+export * from './components/Tooltips/PrizePowerTooltip'
+export * from './components/Tooltips/WinChanceTooltip'
+
+/**
  * Transaction
  */
 export * from './components/Transaction/TransactionButton'

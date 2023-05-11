@@ -22,6 +22,7 @@ export * from './components/Spinner'
 export * from './components/Table'
 export * from './components/Tabs'
 export * from './components/Toggle'
+export * from './components/Tooltip'
 
 /**
  * Constants

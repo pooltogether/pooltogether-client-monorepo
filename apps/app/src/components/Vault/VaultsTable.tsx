@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Vault } from 'pt-client-js'
-import { VaultBadge } from 'pt-components'
+import { PrizePowerTooltip, VaultBadge } from 'pt-components'
 import { Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { VaultButtons } from './VaultButtons'
@@ -20,10 +20,10 @@ export const VaultsTable = (props: VaultsTableProps) => {
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
-      prizePower: { content: 'Prize Power', position: 'center' }, // TODO: add tooltip
+      prizePower: { content: <PrizePowerHeader />, position: 'center' },
       totalDeposits: { content: 'Total Deposits', position: 'center' },
       balance: { content: 'My Balance', position: 'center' },
-      manage: { content: <span className='mr-[18px]'>Manage</span>, position: 'right' }
+      manage: { content: <ManageHeader />, position: 'right' }
     },
     rows: vaults.map((vault) => ({
       cells: {
@@ -58,4 +58,16 @@ export const VaultsTable = (props: VaultsTableProps) => {
   }
 
   return <Table data={tableData} keyPrefix='vaultsTable' rounded={true} className={className} />
+}
+
+const PrizePowerHeader = () => {
+  return (
+    <span className='flex gap-1 items-center'>
+      Prize Power <PrizePowerTooltip iconSize='lg' />
+    </span>
+  )
+}
+
+const ManageHeader = () => {
+  return <span className='mr-[18px]'>Manage</span>
 }

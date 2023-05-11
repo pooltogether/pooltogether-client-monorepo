@@ -14,6 +14,8 @@ import { Button, Spinner } from 'pt-ui'
 import { DepositModalView } from '.'
 import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
 import { isValidFormInput } from '../../Form/TxFormInput'
+import { ExactApprovalTooltip } from '../../Tooltips/ExactApprovalTooltip'
+import { InfiniteApprovalTooltip } from '../../Tooltips/InfiniteApprovalTooltip'
 import { TransactionButton } from '../../Transaction/TransactionButton'
 
 interface DepositTxButtonProps {
@@ -183,6 +185,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
           addRecentTransaction={addRecentTransaction}
         >
           Approve exact amount of {vault.tokenData?.symbol ?? <Spinner />}
+          <ExactApprovalTooltip tokenSymbol={vault.tokenData?.symbol ?? '?'} iconClassName='ml-3' />
         </TransactionButton>
         <TransactionButton
           chainId={vault.chainId}
@@ -199,6 +202,10 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
           color='transparent'
         >
           Approve unlimited amount of {vault.tokenData?.symbol ?? <Spinner />}
+          <InfiniteApprovalTooltip
+            tokenSymbol={vault.tokenData?.symbol ?? '?'}
+            iconClassName='ml-3'
+          />
         </TransactionButton>
       </div>
     )

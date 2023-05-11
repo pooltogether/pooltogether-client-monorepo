@@ -60,6 +60,13 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 - `NextDrawCountdown`
 - `TimeDigits`
 
+## Tooltip Components
+
+- `ExactApprovalTooltip`
+- `InfiniteApprovalTooltip`
+- `PrizePowerTooltip`
+- `WinChanceTooltip`
+
 ## Transaction Components
 
 - `TransactionButton`

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { TokenValue } from 'pt-components'
+import { PrizePowerTooltip, TokenValue, WinChanceTooltip } from 'pt-components'
 import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
 import { ExternalLink, Spinner } from 'pt-ui'
 import { getBlockExplorerUrl, shorten } from 'pt-utilities'
@@ -28,12 +28,24 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
           data={<VaultInfoBalance vault={vault} userAddress={userAddress} />}
         />
       )}
-      {/* TODO: add tooltip */}
       {!!userAddress && (
-        <VaultInfoRow name='My Win Chance' data={<AccountVaultOdds vault={vault} />} />
+        <VaultInfoRow
+          name={
+            <span className='flex gap-2 items-center'>
+              My Win Chance <WinChanceTooltip iconSize='sm' iconClassName='text-pt-purple-200' />
+            </span>
+          }
+          data={<AccountVaultOdds vault={vault} />}
+        />
       )}
-      {/* TODO: add tooltip */}
-      <VaultInfoRow name='Prize Power' data={<VaultPrizePower vault={vault} />} />
+      <VaultInfoRow
+        name={
+          <span className='flex gap-2 items-center'>
+            Prize Power <PrizePowerTooltip iconSize='sm' iconClassName='text-pt-purple-200' />
+          </span>
+        }
+        data={<VaultPrizePower vault={vault} />}
+      />
       <VaultInfoRow name='TVL' data={<VaultTotalDeposits vault={vault} />} />
       <VaultInfoRow
         name='Deposit Asset'
