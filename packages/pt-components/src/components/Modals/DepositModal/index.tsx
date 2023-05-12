@@ -1,9 +1,13 @@
 import classNames from 'classnames'
+import { useAtomValue } from 'jotai'
 import { ReactNode, useMemo, useState } from 'react'
 import { PrizePool } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
-import { Modal } from 'pt-ui'
+import { Modal, toast } from 'pt-ui'
+import { formatNumberForDisplay } from 'pt-utilities'
+import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
+import { TransactionToast } from '../../Toasts/TransactionToast'
 import { DepositTxButton } from './DepositTxButton'
 import { ConfirmingView } from './Views/ConfirmingView'
 import { ErrorView } from './Views/ErrorView'
@@ -23,7 +27,6 @@ export interface DepositModalProps {
   refetchUserBalances?: () => void
 }
 
-// TODO: if the modal is closed and there is a tx ongoing, status should move to toast
 export const DepositModal = (props: DepositModalProps) => {
   const {
     prizePools,
@@ -42,13 +45,30 @@ export const DepositModal = (props: DepositModalProps) => {
 
   const [depositTxHash, setDepositTxHash] = useState<string>()
 
+  const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
+
   const prizePool = useMemo(() => {
     if (!!vault) {
       return prizePools.find((prizePool) => prizePool.chainId === vault.chainId)
     }
   }, [prizePools, vault])
 
+  const createToast = () => {
+    if (!!vault && !!depositTxHash && view !== 'success' && view !== 'error') {
+      toast.custom((id) => (
+        <TransactionToast
+          id={id}
+          type='deposit'
+          vault={vault}
+          txHash={depositTxHash}
+          formattedAmount={formatNumberForDisplay(formTokenAmount)}
+        />
+      ))
+    }
+  }
+
   const handleClose = () => {
+    createToast()
     setIsModalOpen(false)
     setView('main')
   }

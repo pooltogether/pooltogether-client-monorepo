@@ -25,7 +25,8 @@ Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used 
 - `Spinner`
 - `Table`
 - `Tabs`
+- `Toaster`
 - `Toggle`
 - `Tooltip`
 
-This package also exports the `Flowbite` object for use elsewhere if necessary.
+This package also exports the `Flowbite` and `toast` objects.

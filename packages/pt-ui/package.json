@@ -19,7 +19,8 @@
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.4.2",
     "react": "^18.2.0",
-    "react-countup": "^6.4.2"
+    "react-countup": "^6.4.2",
+    "sonner": "^0.3.5"
   },
   "devDependencies": {
     "@types/react": "^17.0.53",

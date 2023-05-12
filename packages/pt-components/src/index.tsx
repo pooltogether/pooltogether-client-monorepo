@@ -52,6 +52,11 @@ export * from './components/Time/NextDrawCountdown'
 export * from './components/Time/TimeDigits'
 
 /**
+ * Toasts
+ */
+export * from './components/Toasts/TransactionToast'
+
+/**
  * Tooltips
  */
 export * from './components/Tooltips/ExactApprovalTooltip'
