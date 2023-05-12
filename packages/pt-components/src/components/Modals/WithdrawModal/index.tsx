@@ -1,8 +1,12 @@
 import classNames from 'classnames'
+import { useAtomValue } from 'jotai'
 import { ReactNode, useState } from 'react'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
-import { Modal } from 'pt-ui'
+import { Modal, toast } from 'pt-ui'
+import { formatNumberForDisplay } from 'pt-utilities'
+import { withdrawFormTokenAmountAtom } from '../../Form/WithdrawForm'
+import { TransactionToast } from '../../Toasts/TransactionToast'
 import { ConfirmingView } from './Views/ConfirmingView'
 import { ErrorView } from './Views/ErrorView'
 import { MainView } from './Views/MainView'
@@ -21,7 +25,6 @@ export interface WithdrawModalProps {
   refetchUserBalances?: () => void
 }
 
-// TODO: if the modal is closed and there is a tx ongoing, status should move to toast
 export const WithdrawModal = (props: WithdrawModalProps) => {
   const {
     onGoToAccount,
@@ -39,7 +42,24 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const [withdrawTxHash, setWithdrawTxHash] = useState<string>()
 
+  const formTokenAmount = useAtomValue(withdrawFormTokenAmountAtom)
+
+  const createToast = () => {
+    if (!!vault && !!withdrawTxHash && view !== 'success' && view !== 'error') {
+      toast.custom((id) => (
+        <TransactionToast
+          id={id}
+          type='withdraw'
+          vault={vault}
+          txHash={withdrawTxHash}
+          formattedAmount={formatNumberForDisplay(formTokenAmount)}
+        />
+      ))
+    }
+  }
+
   const handleClose = () => {
+    createToast()
     setIsModalOpen(false)
     setView('main')
   }

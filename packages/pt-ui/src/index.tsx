@@ -4,6 +4,11 @@
 export { Flowbite } from 'flowbite-react'
 
 /**
+ * Sonner Toasts
+ */
+export { toast } from 'sonner'
+
+/**
  * Components
  */
 export * from './components/BasicIcon'
@@ -21,6 +26,7 @@ export * from './components/SocialIcon'
 export * from './components/Spinner'
 export * from './components/Table'
 export * from './components/Tabs'
+export * from './components/Toaster'
 export * from './components/Toggle'
 export * from './components/Tooltip'
 

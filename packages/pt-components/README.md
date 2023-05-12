@@ -60,6 +60,10 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 - `NextDrawCountdown`
 - `TimeDigits`
 
+## Toast Components
+
+- `TransactionToast`
+
 ## Tooltip Components
 
 - `ExactApprovalTooltip`

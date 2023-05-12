@@ -1,7 +1,5 @@
 export const SuccessPooly = (props: { className?: string }) => (
   <svg
-    width='168'
-    height='118'
     viewBox='0 0 168 118'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'

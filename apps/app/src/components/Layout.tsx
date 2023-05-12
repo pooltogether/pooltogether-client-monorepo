@@ -19,7 +19,7 @@ import {
   useSelectedVaultListIds,
   useSelectedVaults
 } from 'pt-hyperstructure-hooks'
-import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
+import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'pt-ui'
 import { isNewerVersion } from 'pt-utilities'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 import { formatPrizePools } from '../utils'
@@ -147,6 +147,8 @@ export const Layout = (props: LayoutProps) => {
         onGoToAccount={() => router.push('/account')}
         refetchUserBalances={refetchUserBalances}
       />
+
+      <Toaster />
 
       <main
         className={classNames(

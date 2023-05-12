@@ -1,7 +1,5 @@
 export const ErrorPooly = (props: { className?: string }) => (
   <svg
-    width='166'
-    height='118'
     viewBox='0 0 166 118'
     fill='none'
     xmlns='http://www.w3.org/2000/svg'

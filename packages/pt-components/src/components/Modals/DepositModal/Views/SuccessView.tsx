@@ -33,7 +33,7 @@ export const SuccessView = (props: SuccessViewProps) => {
           hideBorder={true}
           className='!py-1'
         />
-        <SuccessPooly className='mt-3' />
+        <SuccessPooly className='w-40 h-auto mt-3' />
       </div>
       <span className='text-center'>You are now eligible for all future draws in this pool.</span>
       {!!txHash && (

@@ -15,7 +15,7 @@ export const ErrorView = (props: ErrorViewProps) => {
         <span className='text-[#EA8686]'>Uh oh!</span>
         <span>Something went wrong...</span>
       </div>
-      <ErrorPooly />
+      <ErrorPooly className='w-40 h-auto' />
       <Button
         fullSized={true}
         color='transparent'
