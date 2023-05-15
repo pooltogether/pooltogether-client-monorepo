@@ -1,8 +1,8 @@
 import { ContractCallContext } from 'ethereum-multicall'
 import { BigNumber, Contract, providers, utils } from 'ethers'
-import { PrizeInfo } from 'pt-types'
+import { PrizeInfo, SubgraphPrizePoolDraw } from 'pt-types'
 import { prizePool as prizePoolAbi } from '../abis/prizePool'
-import { SECONDS_PER_DAY } from '../constants'
+import { PRIZE_POOL_GRAPH_API_URLS, SECONDS_PER_DAY } from '../constants'
 import { formatStringWithPrecision } from './formatting'
 import { calculatePercentageOfBigNumber, divideBigNumbers } from './math'
 import { getComplexMulticallResults, getMulticallResults } from './multicall'
@@ -261,4 +261,57 @@ export const getPrizePoolAllPrizeInfo = async (
   })
 
   return prizes
+}
+
+/**
+ * Returns historical prize pool draws and their winners
+ *
+ * NOTE: By default queries the last 100 draws
+ * @param readProvider a read-capable provider for the prize pool's chain
+ * @param options optional parameters
+ * @returns
+ */
+export const getPrizePoolHistoricalWins = async (
+  readProvider: providers.Provider,
+  options?: { first?: number; skip?: number; orderDirection?: 'asc' | 'desc' }
+): Promise<SubgraphPrizePoolDraw[]> => {
+  const chainId = await getChainIdFromSignerOrProvider(readProvider)
+
+  if (!!chainId && chainId in PRIZE_POOL_GRAPH_API_URLS) {
+    const subgraphUrl = PRIZE_POOL_GRAPH_API_URLS[chainId as keyof typeof PRIZE_POOL_GRAPH_API_URLS]
+
+    const headers = { 'Content-Type': 'application/json' }
+
+    const body = JSON.stringify({
+      query: `query($first: Int, $skip: Int, $orderDirection: OrderDirection, $orderBy: Draw_orderBy) {
+        draws(first: $first, skip: $skip, orderDirection: $orderDirection, orderBy: $orderBy) {
+          id
+          prizeClaims {
+            id
+            winner { id }
+            tier
+            payout
+            fee
+            feeRecipient { id }
+            timestamp
+          }
+        }
+      }`,
+      variables: {
+        first: options?.first ?? 100,
+        skip: options?.skip ?? 0,
+        orderDirection: options?.orderDirection ?? 'desc',
+        orderBy: 'id'
+      }
+    })
+
+    const result = await fetch(subgraphUrl, { method: 'POST', headers, body })
+    const jsonData = await result.json()
+    const draws: SubgraphPrizePoolDraw[] = jsonData?.data?.draws ?? []
+
+    return draws
+  } else {
+    console.warn(`Could not find subgraph URL for chain ID: ${chainId}`)
+    return []
+  }
 }

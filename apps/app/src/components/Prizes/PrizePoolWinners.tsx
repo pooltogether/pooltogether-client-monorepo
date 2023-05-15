@@ -1,25 +1,27 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { BigNumber } from 'ethers'
 import { useState } from 'react'
+import { PrizePool } from 'pt-client-js'
 import { TokenValue } from 'pt-components'
-import { PrizePoolDraw, usePrizePoolDraws } from '@hooks/usePrizePoolDraws'
+import { usePrizeDrawWinners, usePrizeTokenData } from 'pt-hyperstructure-hooks'
+import { SubgraphPrizePoolDraw } from 'pt-types'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 
 export const PrizePoolWinners = () => {
   const { selectedPrizePool } = useSelectedPrizePool()
 
-  const { data: draws } = usePrizePoolDraws(selectedPrizePool)
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool)
 
   const baseNumDraws = 6
   const [numDraws, setNumDraws] = useState<number>(baseNumDraws)
 
-  if (!!draws && draws.length > 0) {
+  if (!!selectedPrizePool && !!draws && draws.length > 0) {
     return (
       <div className='flex flex-col w-[36rem] gap-4 items-center px-11 py-8 bg-pt-transparent rounded-lg'>
         <span className='text-xl font-semibold'>Recent Prize Pool Winners</span>
         <ul className='flex flex-col w-full gap-4 px-3 py-2'>
           {draws.slice(0, numDraws).map((draw) => {
-            return <DrawRow key={`dr-${draw.id}`} draw={draw} />
+            return <DrawRow key={`dr-${draw.id}`} draw={draw} prizePool={selectedPrizePool} />
           })}
         </ul>
         {draws.length > numDraws && (
@@ -36,32 +38,33 @@ export const PrizePoolWinners = () => {
 }
 
 interface DrawRowProps {
-  draw: PrizePoolDraw
+  draw: SubgraphPrizePoolDraw
+  prizePool: PrizePool
 }
 
 // TODO: row hover effect
 // TODO: open draw info modal when row clicked
 const DrawRow = (props: DrawRowProps) => {
-  const { draw } = props
+  const { draw, prizePool } = props
 
-  const uniqueWallets = new Set<string>(draw.prizes.map((prize) => prize.winner))
-  const totalPrizeAmount = draw.prizes.reduce((a, b) => a.add(b.token.amount), BigNumber.from(0))
+  const { data: tokenData } = usePrizeTokenData(prizePool)
 
-  const token = draw.prizes[0]?.token
+  const uniqueWallets = new Set<string>(draw.prizeClaims.map((claim) => claim.winner.id))
+  const totalPrizeAmount = draw.prizeClaims.reduce((a, b) => a.add(b.payout), BigNumber.from(0))
 
   return (
     <div className='inline-flex gap-4 justify-between font-semibold text-pt-purple-100 whitespace-nowrap'>
       <span>Draw #{draw.id}</span>
-      {!!token && (
+      {!!tokenData && (
         <span className='inline-flex gap-2'>
           {uniqueWallets.size} wallet{uniqueWallets.size === 1 ? '' : 's'} won{' '}
           <span className='text-pt-purple-50'>
-            <TokenValue token={{ ...token, amount: totalPrizeAmount.toString() }} />
+            <TokenValue token={{ ...tokenData, amount: totalPrizeAmount.toString() }} />
           </span>{' '}
           in prizes <ChevronRightIcon className='h-6 w-6' />
         </span>
       )}
-      {!token && <>-</>}
+      {!tokenData && <>-</>}
     </div>
   )
 }

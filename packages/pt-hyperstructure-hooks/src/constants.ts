@@ -5,6 +5,7 @@ import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from 'pt-generic-hoo
  */
 export const QUERY_KEYS = Object.freeze({
   drawPeriod: 'drawPeriod',
+  drawWinners: 'drawWinners',
   estimatedPrizeCount: 'estimatedPrizeCount',
   gasPrices: 'gasPrices',
   nextDrawTimestamp: 'nextDrawTimestamp',
