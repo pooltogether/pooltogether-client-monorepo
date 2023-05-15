@@ -148,7 +148,8 @@ export const Layout = (props: LayoutProps) => {
         refetchUserBalances={refetchUserBalances}
       />
 
-      <Toaster />
+      {/* NOTE: passing the `expand` flag while Sonner has a re-sizing toast bug - can be reverted once fixed */}
+      <Toaster expand={true} />
 
       <main
         className={classNames(

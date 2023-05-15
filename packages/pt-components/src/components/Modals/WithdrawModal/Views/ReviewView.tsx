@@ -38,7 +38,7 @@ export const ReviewView = (props: ReviewViewProps) => {
           />
         </div>
       )}
-      <NetworkFees vault={vault} />
+      <NetworkFees vault={vault} show={['withdraw']} />
     </div>
   )
 }

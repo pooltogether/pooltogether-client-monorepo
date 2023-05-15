@@ -7,30 +7,37 @@ import { CurrencyValue } from '../Currency/CurrencyValue'
 
 interface NetworkFeesProps {
   vault: Vault
+  show?: ('approve' | 'deposit' | 'withdraw')[]
 }
 
 export const NetworkFees = (props: NetworkFeesProps) => {
-  const { vault } = props
+  const { vault, show } = props
 
   return (
     <div className='flex flex-col items-center gap-2 font-semibold'>
       <span className='text-sm text-pt-purple-100'>Estimated Network Fees</span>
       <div className='flex flex-col text-xs'>
-        <TXFeeEstimate
-          name='Approval'
-          chainId={vault?.chainId}
-          gasAmount={BigNumber.from(TX_GAS_ESTIMATES.approve)}
-        />
-        <TXFeeEstimate
-          name='Deposit'
-          chainId={vault?.chainId}
-          gasAmount={BigNumber.from(TX_GAS_ESTIMATES.deposit)}
-        />
-        <TXFeeEstimate
-          name='Withdrawal'
-          chainId={vault?.chainId}
-          gasAmount={BigNumber.from(TX_GAS_ESTIMATES.withdraw)}
-        />
+        {(!show || show.includes('approve')) && (
+          <TXFeeEstimate
+            name='Approval'
+            chainId={vault?.chainId}
+            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.approve)}
+          />
+        )}
+        {(!show || show.includes('deposit')) && (
+          <TXFeeEstimate
+            name='Deposit'
+            chainId={vault?.chainId}
+            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.deposit)}
+          />
+        )}
+        {(!show || show.includes('withdraw')) && (
+          <TXFeeEstimate
+            name='Withdrawal'
+            chainId={vault?.chainId}
+            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.withdraw)}
+          />
+        )}
       </div>
     </div>
   )

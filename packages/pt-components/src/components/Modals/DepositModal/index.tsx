@@ -62,6 +62,7 @@ export const DepositModal = (props: DepositModalProps) => {
           vault={vault}
           txHash={depositTxHash}
           formattedAmount={formatNumberForDisplay(formTokenAmount)}
+          addRecentTransaction={addRecentTransaction}
         />
       ))
     }

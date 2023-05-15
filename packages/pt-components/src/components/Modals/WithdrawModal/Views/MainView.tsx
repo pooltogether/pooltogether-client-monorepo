@@ -28,7 +28,7 @@ export const MainView = (props: MainViewProps) => {
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <WithdrawForm vault={vault} showInputInfoRows={true} />
       )}
-      <NetworkFees vault={vault} />
+      <NetworkFees vault={vault} show={['withdraw']} />
     </div>
   )
 }

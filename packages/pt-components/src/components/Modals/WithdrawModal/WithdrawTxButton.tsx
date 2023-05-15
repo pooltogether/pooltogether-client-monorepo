@@ -126,7 +126,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
         isTxSuccess={isSuccessfulWithdrawal}
         write={sendRedeemTransaction}
         txHash={withdrawTxHash}
-        txDescription={`${vault.shareData?.symbol} Withdrawal`}
+        txDescription={`${vault.tokenData?.symbol} Withdrawal`}
         fullSized={true}
         disabled={!withdrawEnabled}
         openConnectModal={openConnectModal}

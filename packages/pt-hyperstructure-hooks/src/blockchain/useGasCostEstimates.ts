@@ -2,7 +2,12 @@ import { BigNumber } from 'ethers'
 import { utils } from 'ethers'
 import { CURRENCY_ID, useCoingeckoSimpleTokenPrices } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices, GasCostEstimates } from 'pt-types'
-import { COINGECKO_NATIVE_TOKEN_IDS, NETWORK } from 'pt-utilities'
+import {
+  calculatePercentageOfBigNumber,
+  COINGECKO_NATIVE_TOKEN_IDS,
+  getMaxPrecision,
+  NETWORK
+} from 'pt-utilities'
 import { useGasPrices } from '..'
 
 /**
@@ -72,9 +77,10 @@ const calculateGasCostInCurrency = (
   totalGasWei: BigNumber
 ) => {
   const tokenPrice = coingeckoPrices[COINGECKO_NATIVE_TOKEN_IDS[chainId]]?.[currency]
+
   if (!!tokenPrice) {
     const totalGasCost = utils.formatUnits(
-      totalGasWei.mul(Math.round(tokenPrice * 100).toString()).div(100),
+      calculatePercentageOfBigNumber(totalGasWei, tokenPrice, getMaxPrecision(tokenPrice)),
       18
     )
     return totalGasCost

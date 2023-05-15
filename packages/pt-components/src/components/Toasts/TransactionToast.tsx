@@ -1,4 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { useEffect } from 'react'
 import { useWaitForTransaction } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
@@ -20,15 +21,30 @@ export interface TransactionToastProps {
   vault: Vault
   txHash: string
   formattedAmount: string
+  addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
 }
 
 export const TransactionToast = (props: TransactionToastProps) => {
-  const { id, type, vault, txHash, formattedAmount } = props
+  const { id, type, vault, txHash, formattedAmount, addRecentTransaction } = props
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
     chainId: vault.chainId,
     hash: txHash as `0x${string}`
   })
+
+  useEffect(() => {
+    if (isSuccess && !!txHash && !!addRecentTransaction) {
+      const networkName = getNiceNetworkNameByChainId(vault.chainId)
+      const txDescription = `${vault.tokenData?.symbol} ${
+        type === 'deposit' ? 'Deposit' : 'Withdrawal'
+      }`
+
+      addRecentTransaction({
+        hash: txHash,
+        description: `${networkName}: ${txDescription}`
+      })
+    }
+  }, [isSuccess, txHash])
 
   return (
     <div className='relative flex flex-col gap-2 items-center text-center'>

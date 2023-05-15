@@ -35,12 +35,16 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
     }
   }, [isFetchedExchangeRates, exchangeRates, baseValue, selectedCurrency, baseCurrency])
 
+  const minValue = 1 / 10 ** (decimals ?? 2)
+
   if (!isFetchedExchangeRates) {
     if (!hideLoading) {
       return <Spinner />
     } else {
       return null
     }
+  } else if (currencyValue > 0 && currencyValue < minValue) {
+    return <>{`< ${formatCurrencyNumberForDisplay(minValue, selectedCurrency, { ...rest })}`}</>
   } else if (countUp) {
     return (
       <>
