@@ -20,7 +20,7 @@ export const MainView = (props: MainViewProps) => {
   const { draw, prizePool } = props
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-6 mb-6'>
       <MainViewHeader draw={draw} />
       <NetworkBadge chainId={prizePool.chainId} appendText='Prize Pool' className='mx-auto' />
       {/* TODO: add "you were eligible for this draw" message when applicable */}

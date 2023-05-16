@@ -2,6 +2,7 @@ import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { CurrencyValue } from 'pt-components'
 import { Spinner } from 'pt-ui'
+import { useUserTotalWinnings } from '@hooks/useUserTotalWinnings'
 
 interface AccountWinningsHeaderProps {
   className?: string
@@ -12,9 +13,7 @@ export const AccountWinningsHeader = (props: AccountWinningsHeaderProps) => {
 
   const { address: userAddress } = useAccount()
 
-  // TODO: get total winnings for a given account (need hook to aggregate results and pricing similar to `useUserTotalBalance`)
-  const totalWinnings = 0
-  const isFetchedTotalWinnings = true
+  const { data: totalWinnings, isFetched: isFetchedTotalWinnings } = useUserTotalWinnings()
 
   return (
     <div className={classNames('flex flex-col items-center gap-2', className)}>
