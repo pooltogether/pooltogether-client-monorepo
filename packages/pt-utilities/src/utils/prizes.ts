@@ -330,10 +330,10 @@ export const getUserPrizePoolHistoricalWins = async (
     const headers = { 'Content-Type': 'application/json' }
 
     const body = JSON.stringify({
-      query: `query($id: Bytes, $orderDirection: OrderDirection, $orderBy: PrizeClaim_orderBy) {
+      query: `query($id: Bytes) {
         account(id: $id) {
           id
-          prizesReceived(orderDirection: $orderDirection, orderBy: $orderBy) {
+          prizesReceived {
             id
             draw { id }
             tier
@@ -345,9 +345,7 @@ export const getUserPrizePoolHistoricalWins = async (
         }
       }`,
       variables: {
-        id: userAddress,
-        orderDirection: 'desc',
-        orderBy: 'draw__id'
+        id: userAddress
       }
     })
 
