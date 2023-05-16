@@ -28,7 +28,6 @@ export const DrawModal = (props: DrawModalProps) => {
           </Button>
         }
         onClose={handleClose}
-        hideHeader={true}
         className='sm:!max-w-2xl'
       />
     )
