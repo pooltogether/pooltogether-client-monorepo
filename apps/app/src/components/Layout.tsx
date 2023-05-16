@@ -5,16 +5,24 @@ import {
   useConnectModal
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
+import { useAtomValue } from 'jotai'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { DepositModal, SettingsModal, SettingsModalView, WithdrawModal } from 'pt-components'
+import {
+  DepositModal,
+  DrawModal,
+  SettingsModal,
+  SettingsModalView,
+  WithdrawModal
+} from 'pt-components'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
 import {
   useAllUserVaultBalances,
   useCachedVaultLists,
+  usePrizeDrawWinners,
   usePrizePools,
   useSelectedVaultListIds,
   useSelectedVaults
@@ -22,7 +30,9 @@ import {
 import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'pt-ui'
 import { isNewerVersion } from 'pt-utilities'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
+import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 import { formatPrizePools } from '../utils'
+import { drawIdAtom } from './Prizes/PrizePoolWinners'
 
 interface LayoutProps {
   children: ReactNode
@@ -49,6 +59,12 @@ export const Layout = (props: LayoutProps) => {
   const { vaults } = useSelectedVaults()
   const { address: userAddress } = useAccount()
   const { refetch: refetchUserBalances } = useAllUserVaultBalances(vaults, userAddress)
+
+  const { selectedPrizePool } = useSelectedPrizePool()
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool)
+
+  const selectedDrawId = useAtomValue(drawIdAtom)
+  const selectedDraw = draws?.find((draw) => draw.id === selectedDrawId)
 
   useEffect(() => {
     Object.keys(DEFAULT_VAULT_LISTS).forEach((key) => {
@@ -147,6 +163,8 @@ export const Layout = (props: LayoutProps) => {
         onGoToAccount={() => router.push('/account')}
         refetchUserBalances={refetchUserBalances}
       />
+
+      <DrawModal draw={selectedDraw} prizePool={selectedPrizePool} />
 
       {/* NOTE: passing the `expand` flag while Sonner has a re-sizing toast bug - can be reverted once fixed */}
       <Toaster expand={true} />

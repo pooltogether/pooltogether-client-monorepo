@@ -36,6 +36,7 @@ export * from './components/Icons/TokenIcon'
  * Modals
  */
 export * from './components/Modals/DepositModal'
+export * from './components/Modals/DrawModal'
 export * from './components/Modals/SettingsModal'
 export * from './components/Modals/WithdrawModal'
 
