@@ -21,10 +21,16 @@ React component library utilizing some simpler components from `pt-ui`, using [W
 - `NetworkBadge`
 - `VaultBadge`
 
+## Button Components
+
+- `DepositButton`
+- `WithdrawButton`
+
 ## Currency Components
 
 - `CurrencyValue`
 - `TokenValue`
+- `TokenValueAndAmount`
 
 ## Modals
 

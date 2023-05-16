@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { Vault } from 'pt-client-js'
-import { DepositButton } from '@components/DepositButton'
-import { WithdrawButton } from '@components/WithdrawButton'
+import { DepositButton, WithdrawButton } from 'pt-components'
 
 interface VaultPageButtonsProps {
   vault: Vault

@@ -1,15 +1,14 @@
 import { BigNumber } from 'ethers'
-import { TokenValue } from 'pt-components'
 import { useToken } from 'pt-hyperstructure-hooks'
 import { TokenWithAmount } from 'pt-types'
 import { Spinner } from 'pt-ui'
 import { formatBigNumberForDisplay } from 'pt-utilities'
+import { TokenValue } from './TokenValue'
 
 export interface TokenValueAndAmountProps {
   token: { chainId: number; address: string } & Partial<TokenWithAmount>
 }
 
-// TODO: send this component to `pt-components` package
 export const TokenValueAndAmount = (props: TokenValueAndAmountProps) => {
   const { token } = props
 

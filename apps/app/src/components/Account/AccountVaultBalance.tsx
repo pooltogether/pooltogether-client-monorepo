@@ -1,9 +1,9 @@
 import { BigNumber } from 'ethers'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
+import { TokenValueAndAmount } from 'pt-components'
 import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { TokenValueAndAmount } from '@components/TokenValueAndAmount'
 
 interface AccountVaultBalanceProps {
   vault: Vault

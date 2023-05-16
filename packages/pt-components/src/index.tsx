@@ -6,10 +6,17 @@ export * from './components/Badges/NetworkBadge'
 export * from './components/Badges/VaultBadge'
 
 /**
+ * Buttons
+ */
+export * from './components/Buttons/DepositButton'
+export * from './components/Buttons/WithdrawButton'
+
+/**
  * Currency
  */
 export * from './components/Currency/CurrencyValue'
 export * from './components/Currency/TokenValue'
+export * from './components/Currency/TokenValueAndAmount'
 
 /**
  * Form

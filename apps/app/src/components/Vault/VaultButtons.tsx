@@ -1,8 +1,7 @@
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
+import { DepositButton, WithdrawButton } from 'pt-components'
 import { useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
-import { DepositButton } from '@components/DepositButton'
-import { WithdrawButton } from '@components/WithdrawButton'
 
 interface VaultButtonsProps {
   vault: Vault

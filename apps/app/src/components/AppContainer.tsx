@@ -8,13 +8,12 @@ import { useSentryUser } from '../hooks/useSentryUser'
 // React Query Client:
 const queryClient = new QueryClient()
 
-// TODO: find a way to abstract out this typing and move this component to the `pt-components` package
 export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props
 
   const router = useRouter()
 
-  // Initialize Fathom Analytics
+  // Fathom Analytics
   useFathom(
     process.env.NEXT_PUBLIC_FATHOM_SITE_ID,
     ['mvp-pt-app.netlify.app/'],
@@ -22,7 +21,7 @@ export const AppContainer = (props: AppProps) => {
     router.events?.off
   )
 
-  // Initialize Sentry User
+  // Sentry User Setup
   useSentryUser()
 
   return (
