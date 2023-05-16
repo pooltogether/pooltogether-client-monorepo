@@ -54,6 +54,14 @@ export const MINUTES_PER_DAY = 1_440
 export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3'
 
 /**
+ * Prize Pool Graph API URLs
+ */
+export const PRIZE_POOL_GRAPH_API_URLS = Object.freeze({
+  [NETWORK.mumbai]:
+    'https://api.thegraph.com/subgraphs/name/pooltogether/v5-polygon-mumbai-prize-pool'
+})
+
+/**
  * CoinGecko platform IDs
  */
 export const COINGECKO_PLATFORMS = Object.freeze({

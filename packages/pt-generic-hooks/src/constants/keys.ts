@@ -22,6 +22,7 @@ export const LOCAL_STORAGE_KEYS = Object.freeze({
  */
 export const MODAL_KEYS = Object.freeze({
   deposit: 'deposit',
+  drawWinners: 'drawWinners',
   settings: 'settings',
   withdraw: 'withdraw'
 })
