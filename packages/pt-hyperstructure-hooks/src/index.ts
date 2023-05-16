@@ -21,6 +21,7 @@ export * from './blockchain/useProviders'
  */
 export * from './prizes/useAllPrizeInfo'
 export * from './prizes/useAllUserPrizeOdds'
+export * from './prizes/useAllUserPrizePoolWins'
 export * from './prizes/useDrawPeriod'
 export * from './prizes/useEstimatedPrizeCount'
 export * from './prizes/useLargestGrandPrize'

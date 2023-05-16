@@ -1,8 +1,7 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
-import { usePrizePools } from 'pt-hyperstructure-hooks'
+import { useAllUserPrizePoolWins, usePrizePools } from 'pt-hyperstructure-hooks'
 import { ExternalLink, LINKS } from 'pt-ui'
-import { useAllUserPrizePoolWins } from '@hooks/useAllUserPrizePoolWins'
 import { formatPrizePools } from '../../utils'
 import { AccountWinningsHeader } from './AccountWinningsHeader'
 import { AccountWinningsTable } from './AccountWinningsTable'
@@ -25,14 +24,24 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
     userAddress
   )
 
-  const isEmpty = isFetchedWins && !!wins ? wins.length === 0 : false
+  const isEmpty =
+    isFetchedWins && !!wins
+      ? Object.values(wins).every((chainWins) => chainWins.length === 0)
+      : false
 
   if (typeof window !== 'undefined' && !!userAddress && isFetchedWins && !!wins) {
     return (
       <div className={className}>
         <AccountWinningsHeader />
         {isEmpty && <NoWinsCard className='mt-4' />}
-        {!isEmpty && <AccountWinningsTable rounded={true} className='mt-8' />}
+        {!isEmpty && (
+          <AccountWinningsTable
+            wins={wins}
+            prizePools={prizePoolsArray}
+            rounded={true}
+            className='mt-8'
+          />
+        )}
       </div>
     )
   }

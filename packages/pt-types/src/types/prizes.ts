@@ -17,3 +17,16 @@ export interface SubgraphPrizePoolDraw {
     timestamp: string
   }[]
 }
+
+export interface SubgraphPrizePoolAccount {
+  id: string
+  prizesReceived: {
+    id: string
+    draw: { id: string }
+    tier: number
+    payout: string
+    fee: string
+    feeRecipient: { id: string }
+    timestamp: string
+  }[]
+}

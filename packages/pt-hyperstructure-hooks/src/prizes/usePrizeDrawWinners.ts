@@ -1,5 +1,4 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { useProvider } from 'wagmi'
 import { PrizePool } from 'pt-client-js'
 import { SubgraphPrizePoolDraw } from 'pt-types'
 import { getPrizePoolHistoricalWins } from 'pt-utilities'
@@ -20,14 +19,14 @@ export const usePrizeDrawWinners = (
     refetchInterval?: number
   }
 ): UseQueryResult<SubgraphPrizePoolDraw[], unknown> => {
-  const provider = useProvider({ chainId: prizePool?.chainId })
-
-  const enabled = !!prizePool && !!provider
-
   const queryKey = [QUERY_KEYS.drawWinners, prizePool?.chainId, JSON.stringify(options)]
 
-  return useQuery(queryKey, async () => await getPrizePoolHistoricalWins(provider, options), {
-    refetchInterval: options?.refetchInterval,
-    enabled
-  })
+  return useQuery(
+    queryKey,
+    async () => await getPrizePoolHistoricalWins(prizePool?.chainId, options),
+    {
+      refetchInterval: options?.refetchInterval,
+      enabled: !!prizePool
+    }
+  )
 }
