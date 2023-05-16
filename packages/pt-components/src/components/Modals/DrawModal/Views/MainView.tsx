@@ -3,7 +3,12 @@ import { PrizePool } from 'pt-client-js'
 import { usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { SubgraphPrizePoolDraw } from 'pt-types'
 import { ExternalLink, Spinner } from 'pt-ui'
-import { formatBigNumberForDisplay, getBlockExplorerUrl, shorten } from 'pt-utilities'
+import {
+  formatBigNumberForDisplay,
+  getBlockExplorerUrl,
+  shorten,
+  sortByBigNumberDesc
+} from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 
 interface MainViewProps {
@@ -95,31 +100,32 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
         <span className='flex-grow'>Winner</span>
         <span className='flex-grow'>Prize</span>
       </div>
-      {/* TODO: sort prizes by amount descending */}
       {!!draw && !!tokenData ? (
         <div className='flex flex-col w-full max-h-52 gap-3 overflow-y-auto'>
-          {draw.prizeClaims.map((prize) => {
-            return (
-              <div key={prize.id} className='flex w-full items-center'>
-                <span className='flex-grow'>
-                  <ExternalLink
-                    href={getBlockExplorerUrl(prizePool.chainId, prize.winner.id, 'address')}
-                    text={shorten(prize.winner.id, { short: true }) as string}
-                  />
-                </span>
-                <span className='flex-grow whitespace-nowrap'>
-                  {!!tokenData ? (
-                    `${formatBigNumberForDisplay(
-                      BigNumber.from(prize.payout),
-                      tokenData.decimals
-                    )} ${tokenData.symbol}`
-                  ) : (
-                    <Spinner />
-                  )}
-                </span>
-              </div>
-            )
-          })}
+          {draw.prizeClaims
+            .sort((a, b) => sortByBigNumberDesc(BigNumber.from(a.payout), BigNumber.from(b.payout)))
+            .map((prize) => {
+              return (
+                <div key={prize.id} className='flex w-full items-center'>
+                  <span className='flex-grow'>
+                    <ExternalLink
+                      href={getBlockExplorerUrl(prizePool.chainId, prize.winner.id, 'address')}
+                      text={shorten(prize.winner.id, { short: true }) as string}
+                    />
+                  </span>
+                  <span className='flex-grow whitespace-nowrap'>
+                    {!!tokenData ? (
+                      `${formatBigNumberForDisplay(
+                        BigNumber.from(prize.payout),
+                        tokenData.decimals
+                      )} ${tokenData.symbol}`
+                    ) : (
+                      <Spinner />
+                    )}
+                  </span>
+                </div>
+              )
+            })}
         </div>
       ) : (
         <Spinner />
