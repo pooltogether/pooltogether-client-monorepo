@@ -49,7 +49,7 @@ export const VaultsDisplay = () => {
               textClassName='text-lg font-medium'
               onClick={() => router.push(`/prizes?network=${network}`)}
             />
-            <VaultsTable vaults={filteredVaults[network]} />
+            <VaultsTable chainId={network} vaults={filteredVaults[network]} />
           </div>
         )
       })}

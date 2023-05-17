@@ -10,8 +10,7 @@ import { AccountVaultOdds } from './AccountVaultOdds'
 
 interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {}
 
-// TODO: sort by balance by default
-// TODO: add sorting when clicking headers
+// TODO: sort vaults by balance
 export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
   const { ...rest } = props
 
