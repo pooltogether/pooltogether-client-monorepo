@@ -17,7 +17,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
   const shareBalance = parseFloat(vaultBalance?.amount ?? '0')
 
   return (
-    <div className='flex justify-end gap-2'>
+    <div className='flex justify-end items-center gap-2'>
       {shareBalance > 0 && <WithdrawButton vault={vault} color='transparent' />}
       <DepositButton vault={vault} />
     </div>

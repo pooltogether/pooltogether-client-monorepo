@@ -3,14 +3,14 @@ import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { VaultBadge } from 'pt-components'
 import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Table, TableProps } from 'pt-ui'
+import { Spinner, Table, TableProps } from 'pt-ui'
+import { useSortedVaults } from '@hooks/useSortedVaults'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 import { AccountVaultOdds } from './AccountVaultOdds'
 
 interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {}
 
-// TODO: sort vaults by balance
 export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
   const { ...rest } = props
 
@@ -25,6 +25,14 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
     userAddress
   )
 
+  const { sortedVaults, isFetched } = useSortedVaults(Object.values(vaults.vaults), {
+    defaultSortId: 'myBalance'
+  })
+
+  if (!isFetched) {
+    return <Spinner />
+  }
+
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
@@ -34,11 +42,10 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
     },
     rows:
       isFetchedVaultBalances && !!vaultBalances
-        ? Object.keys(vaultBalances)
-            .map((vaultId) => {
-              const vault = vaults.vaults[vaultId]
-              const shareBalance = BigNumber.from(vaultBalances[vaultId]?.amount ?? 0)
-              if (!!vaultBalances[vaultId] && shareBalance.gt(0) && vault.decimals !== undefined) {
+        ? sortedVaults
+            .map((vault) => {
+              const shareBalance = BigNumber.from(vaultBalances[vault.id]?.amount ?? 0)
+              if (!!vaultBalances[vault.id] && shareBalance.gt(0) && vault.decimals !== undefined) {
                 const cells: TableProps['data']['rows'][0]['cells'] = {
                   token: {
                     content: (

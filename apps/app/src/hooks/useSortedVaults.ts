@@ -1,18 +1,16 @@
 import { BigNumber, utils } from 'ethers'
 import { useMemo, useState } from 'react'
 import { useAccount } from 'wagmi'
-import { Vault } from 'pt-client-js'
+import { PrizePool, Vault } from 'pt-client-js'
 import {
   useAllUserVaultBalances,
   useAllVaultBalances,
   useAllVaultExchangeRates,
   useAllVaultPrizePowers,
-  usePrizePools,
   useSelectedVaults
 } from 'pt-hyperstructure-hooks'
 import { CoingeckoTokenPrices, TokenWithAmount } from 'pt-types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
-import { formatPrizePools } from '../utils'
 import { useAllTokenPrices } from './useAllTokenPrices'
 
 export type SortId = 'prizePower' | 'totalDeposits' | 'myBalance'
@@ -20,19 +18,22 @@ type SortDirection = 'asc' | 'desc'
 
 /**
  * Returns a sorted array of vaults
- * @param chainId the chain ID the vaults belong to
+ *
+ * NOTE: In order to sort by prize power, provide a prize pool in `options`.
  * @param vaults an unsorted array of vaults
+ * @param options optional settings
  * @returns
  */
-export const useSortedVaults = (chainId: number, vaults: Vault[]) => {
-  const [sortVaultsBy, setSortVaultsBy] = useState<SortId>('prizePower')
-  const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
+export const useSortedVaults = (
+  vaults: Vault[],
+  options?: { prizePool?: PrizePool; defaultSortId?: SortId; defaultSortDirection?: SortDirection }
+) => {
+  const [sortVaultsBy, setSortVaultsBy] = useState<SortId>(options?.defaultSortId ?? 'prizePower')
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    options?.defaultSortDirection ?? 'desc'
+  )
 
   const { address: userAddress } = useAccount()
-
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
-  const prizePool = Object.values(prizePools).find((prizePool) => prizePool.chainId === chainId)
 
   const { vaults: selectedVaults, isFetched: isFetchedSelectedVaults } = useSelectedVaults()
 
@@ -44,7 +45,7 @@ export const useSortedVaults = (chainId: number, vaults: Vault[]) => {
 
   const { data: allPrizePowers, isFetched: isFetchedAllPrizePowers } = useAllVaultPrizePowers(
     selectedVaults,
-    prizePool
+    options?.prizePool
   )
 
   const { data: allVaultExchangeRates, isFetched: isFetchedAllVaultExchangeRates } =
@@ -56,16 +57,14 @@ export const useSortedVaults = (chainId: number, vaults: Vault[]) => {
     isFetchedSelectedVaults &&
     isFetchedAllVaultBalances &&
     (isFetchedAllUserVaultBalances || !userAddress) &&
-    isFetchedAllPrizePowers &&
+    (isFetchedAllPrizePowers || !options?.prizePool) &&
     isFetchedAllVaultExchangeRates &&
     isFetchedAllTokenPrices
 
   // TODO: take into account sortDirection
   const sortedVaults = useMemo(() => {
     if (isFetched) {
-      let sortedVaults = vaults.sort(
-        (a, b) => (allPrizePowers[b.id] ?? 0) - (allPrizePowers[a.id] ?? 0)
-      )
+      let sortedVaults = sortVaultsByPrizePower(vaults, allPrizePowers)
       if (sortVaultsBy === 'totalDeposits') {
         sortedVaults = sortVaultsByTotalDeposits(sortedVaults, allVaultBalances, allTokenPrices)
       } else if (sortVaultsBy === 'myBalance' && !!allUserVaultBalances) {
@@ -95,6 +94,14 @@ export const useSortedVaults = (chainId: number, vaults: Vault[]) => {
     setSortDirection,
     toggleSortDirection,
     isFetched
+  }
+}
+
+const sortVaultsByPrizePower = (vaults: Vault[], prizePowers: { [vaultId: string]: number }) => {
+  if (!!prizePowers) {
+    return vaults.sort((a, b) => (prizePowers[b.id] ?? 0) - (prizePowers[a.id] ?? 0))
+  } else {
+    return vaults
   }
 }
 

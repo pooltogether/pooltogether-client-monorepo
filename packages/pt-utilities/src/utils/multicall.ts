@@ -42,7 +42,7 @@ export const getMulticallResults = async (
   const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
   contractAddresses.forEach((contractAddress) => {
     formattedResults[contractAddress] = {}
-    response.results[contractAddress].callsReturnContext.forEach((result) => {
+    response.results[contractAddress]?.callsReturnContext.forEach((result) => {
       formattedResults[contractAddress][result.reference] = result.returnValues
     })
   })
@@ -82,7 +82,7 @@ export const getComplexMulticallResults = async (
     if (formattedResults[query.contractAddress] === undefined) {
       formattedResults[query.contractAddress] = {}
     }
-    response.results[query.reference].callsReturnContext.forEach((result) => {
+    response.results[query.reference]?.callsReturnContext.forEach((result) => {
       formattedResults[query.contractAddress][result.reference] = result.returnValues
     })
   })

@@ -112,7 +112,7 @@ export const getTokenBalances = async (
       ).toString()
 
       if (!symbol || Number.isNaN(decimals)) {
-        console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
+        console.warn(`Invalid ERC20 token: ${tokenAddress} on chain ID ${chainId}.`)
       }
 
       formattedResult[tokenAddress] = {

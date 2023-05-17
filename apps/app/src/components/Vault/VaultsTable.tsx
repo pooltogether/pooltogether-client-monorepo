@@ -1,9 +1,11 @@
 import { useRouter } from 'next/router'
 import { Vault } from 'pt-client-js'
 import { PrizePowerTooltip, VaultBadge } from 'pt-components'
+import { usePrizePools } from 'pt-hyperstructure-hooks'
 import { Spinner, Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { SortId, useSortedVaults } from '@hooks/useSortedVaults'
+import { formatPrizePools } from '../../utils'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
@@ -19,7 +21,11 @@ export const VaultsTable = (props: VaultsTableProps) => {
 
   const router = useRouter()
 
-  const { sortedVaults, setSortVaultsBy, isFetched } = useSortedVaults(chainId, vaults)
+  const formattedPrizePoolInfo = formatPrizePools()
+  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePool = Object.values(prizePools).find((prizePool) => prizePool.chainId === chainId)
+
+  const { sortedVaults, setSortVaultsBy, isFetched } = useSortedVaults(vaults, { prizePool })
 
   if (!isFetched) {
     return <Spinner />
