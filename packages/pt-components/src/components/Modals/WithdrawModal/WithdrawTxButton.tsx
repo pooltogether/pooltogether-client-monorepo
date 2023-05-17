@@ -6,7 +6,8 @@ import { Vault } from 'pt-client-js'
 import {
   useSendRedeemTransaction,
   useTokenBalance,
-  useUserVaultShareBalance
+  useUserVaultShareBalance,
+  useVaultBalance
 } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
 import { WithdrawModalView } from '.'
@@ -53,6 +54,8 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     vault.tokenData?.address as string
   )
 
+  const { refetch: refetchVaultBalance } = useVaultBalance(vault)
+
   const formShareAmount = useAtomValue(withdrawFormShareAmountAtom)
 
   const isValidFormShareAmount =
@@ -74,6 +77,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     },
     onSuccess: () => {
       refetchTokenBalance()
+      refetchVaultBalance()
       refetchVaultShareBalance()
       refetchUserBalances?.()
       setModalView('success')

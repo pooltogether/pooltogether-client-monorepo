@@ -8,7 +8,8 @@ import {
   useSendDepositTransaction,
   useTokenAllowance,
   useTokenBalance,
-  useUserVaultTokenBalance
+  useUserVaultTokenBalance,
+  useVaultBalance
 } from 'pt-hyperstructure-hooks'
 import { Button, Spinner } from 'pt-ui'
 import { DepositModalView } from '.'
@@ -66,6 +67,8 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     vault.tokenData?.address as string
   )
 
+  const { refetch: refetchVaultBalance } = useVaultBalance(vault)
+
   const { refetch: refetchUserVaultTokenBalance } = useUserVaultTokenBalance(
     vault,
     userAddress as `0x${string}`
@@ -117,6 +120,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     },
     onSuccess: () => {
       refetchTokenBalance()
+      refetchVaultBalance()
       refetchUserVaultTokenBalance()
       refetchUserBalances?.()
       setModalView('success')

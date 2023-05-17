@@ -54,6 +54,7 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
           txHash={withdrawTxHash}
           formattedAmount={formatNumberForDisplay(formTokenAmount)}
           addRecentTransaction={addRecentTransaction}
+          refetchUserBalances={refetchUserBalances}
         />
       ))
     }

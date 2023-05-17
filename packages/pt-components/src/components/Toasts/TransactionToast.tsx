@@ -1,9 +1,15 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { useEffect } from 'react'
-import { useWaitForTransaction } from 'wagmi'
+import { useAccount, useWaitForTransaction } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
-import { useSelectedVault } from 'pt-hyperstructure-hooks'
+import {
+  useSelectedVault,
+  useTokenBalance,
+  useUserVaultShareBalance,
+  useUserVaultTokenBalance,
+  useVaultBalance
+} from 'pt-hyperstructure-hooks'
 import { Spinner, toast } from 'pt-ui'
 import {
   getBlockExplorerName,
@@ -22,27 +28,57 @@ export interface TransactionToastProps {
   txHash: string
   formattedAmount: string
   addRecentTransaction?: (tx: { hash: string; description: string; confirmations?: number }) => void
+  refetchUserBalances?: () => void
 }
 
 export const TransactionToast = (props: TransactionToastProps) => {
-  const { id, type, vault, txHash, formattedAmount, addRecentTransaction } = props
+  const { id, type, vault, txHash, formattedAmount, addRecentTransaction, refetchUserBalances } =
+    props
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
     chainId: vault.chainId,
     hash: txHash as `0x${string}`
   })
 
-  useEffect(() => {
-    if (isSuccess && !!txHash && !!addRecentTransaction) {
-      const networkName = getNiceNetworkNameByChainId(vault.chainId)
-      const txDescription = `${vault.tokenData?.symbol} ${
-        type === 'deposit' ? 'Deposit' : 'Withdrawal'
-      }`
+  const { address: userAddress } = useAccount()
 
-      addRecentTransaction({
-        hash: txHash,
-        description: `${networkName}: ${txDescription}`
-      })
+  const { refetch: refetchTokenBalance } = useTokenBalance(
+    vault.chainId,
+    userAddress as `0x${string}`,
+    vault.tokenData?.address as string
+  )
+
+  const { refetch: refetchVaultBalance } = useVaultBalance(vault)
+
+  const { refetch: refetchUserVaultShareBalance } = useUserVaultShareBalance(
+    vault,
+    userAddress as `0x${string}`
+  )
+
+  const { refetch: refetchUserVaultTokenBalance } = useUserVaultTokenBalance(
+    vault,
+    userAddress as `0x${string}`
+  )
+
+  useEffect(() => {
+    if (isSuccess && !!txHash) {
+      if (!!addRecentTransaction) {
+        const networkName = getNiceNetworkNameByChainId(vault.chainId)
+        const txDescription = `${vault.tokenData?.symbol} ${
+          type === 'deposit' ? 'Deposit' : 'Withdrawal'
+        }`
+
+        addRecentTransaction({
+          hash: txHash,
+          description: `${networkName}: ${txDescription}`
+        })
+      }
+
+      refetchTokenBalance()
+      refetchVaultBalance()
+      refetchUserVaultShareBalance()
+      refetchUserVaultTokenBalance()
+      refetchUserBalances?.()
     }
   }, [isSuccess, txHash])
 

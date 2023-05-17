@@ -63,6 +63,7 @@ export const DepositModal = (props: DepositModalProps) => {
           txHash={depositTxHash}
           formattedAmount={formatNumberForDisplay(formTokenAmount)}
           addRecentTransaction={addRecentTransaction}
+          refetchUserBalances={refetchUserBalances}
         />
       ))
     }
