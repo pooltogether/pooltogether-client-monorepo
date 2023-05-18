@@ -6,6 +6,7 @@ import { useEffect, useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
+import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVaults, useTokenBalancesAcrossChains } from 'pt-hyperstructure-hooks'
 import { Selection, SelectionItem } from 'pt-ui'
 import { NETWORK, STABLECOIN_ADDRESSES } from 'pt-utilities'
@@ -37,6 +38,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const [filterId, setFilterId] = useAtom(filterIdAtom)
 
   const setFilteredVaults = useSetAtom(filteredVaultsAtom)
+
+  const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   // Getting filter ID from URL query:
   useEffect(() => {
@@ -113,12 +116,20 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     return (
       <div
         className={classNames(
-          'w-full flex items-center gap-8 dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg',
+          'w-full flex justify-between items-center dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg',
           className
         )}
       >
-        <span className='text-lg'>Filter</span>
-        <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
+        <div className='flex items-center gap-8'>
+          <span className='text-lg'>Filter</span>
+          <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
+        </div>
+        <span
+          onClick={() => setIsSettingsModalOpen(true)}
+          className='text-lg text-pt-purple-100 cursor-pointer'
+        >
+          Manage Vault Lists
+        </span>
       </div>
     )
   }
