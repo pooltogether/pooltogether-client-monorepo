@@ -1,10 +1,11 @@
 import { useRouter } from 'next/router'
+import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
-import { PrizePowerTooltip, VaultBadge } from 'pt-components'
+import { PrizePowerTooltip, SortIcon, VaultBadge } from 'pt-components'
 import { usePrizePools } from 'pt-hyperstructure-hooks'
 import { Spinner, Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
-import { SortId, useSortedVaults } from '@hooks/useSortedVaults'
+import { SortDirection, SortId, useSortedVaults } from '@hooks/useSortedVaults'
 import { formatPrizePools } from '../../utils'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
@@ -25,7 +26,30 @@ export const VaultsTable = (props: VaultsTableProps) => {
   const prizePools = usePrizePools(formattedPrizePoolInfo)
   const prizePool = Object.values(prizePools).find((prizePool) => prizePool.chainId === chainId)
 
-  const { sortedVaults, setSortVaultsBy, isFetched } = useSortedVaults(vaults, { prizePool })
+  const {
+    sortedVaults,
+    sortVaultsBy,
+    setSortVaultsBy,
+    sortDirection,
+    setSortDirection,
+    toggleSortDirection,
+    isFetched
+  } = useSortedVaults(vaults, { prizePool })
+
+  const handleHeaderClick = (id: SortId) => {
+    if (sortVaultsBy === id) {
+      toggleSortDirection()
+    } else {
+      setSortDirection('desc')
+      setSortVaultsBy(id)
+    }
+  }
+
+  const getDirection = (id: SortId) => {
+    if (sortVaultsBy === id) {
+      return sortDirection
+    }
+  }
 
   if (!isFetched) {
     return <Spinner />
@@ -34,13 +58,38 @@ export const VaultsTable = (props: VaultsTableProps) => {
   const tableData: TableProps['data'] = {
     headers: {
       token: { content: 'Token' },
-      prizePower: { content: <PrizePowerHeader onClick={setSortVaultsBy} />, position: 'center' },
-      totalDeposits: {
-        content: <TotalDepositsHeader onClick={setSortVaultsBy} />,
+      prizePower: {
+        content: (
+          <SortableHeader
+            id='prizePower'
+            onClick={handleHeaderClick}
+            direction={getDirection('prizePower')}
+            append={<PrizePowerTooltip iconSize='lg' />}
+          />
+        ),
         position: 'center'
       },
-      balance: { content: <MyBalanceHeader onClick={setSortVaultsBy} />, position: 'center' },
-      manage: { content: <ManageHeader />, position: 'right' }
+      totalDeposits: {
+        content: (
+          <SortableHeader
+            id='totalBalance'
+            onClick={handleHeaderClick}
+            direction={getDirection('totalBalance')}
+          />
+        ),
+        position: 'center'
+      },
+      balance: {
+        content: (
+          <SortableHeader
+            id='userBalance'
+            onClick={handleHeaderClick}
+            direction={getDirection('userBalance')}
+          />
+        ),
+        position: 'center'
+      },
+      manage: { content: <span className='mr-[18px]'>Manage</span>, position: 'right' }
     },
     rows: sortedVaults.map((vault) => ({
       cells: {
@@ -77,40 +126,32 @@ export const VaultsTable = (props: VaultsTableProps) => {
   return <Table data={tableData} keyPrefix='vaultsTable' rounded={true} className={className} />
 }
 
-interface HeaderProps {
+interface SortableHeaderProps {
+  id: SortId
   onClick: (id: SortId) => void
+  direction?: SortDirection
+  append?: ReactNode
 }
 
-const PrizePowerHeader = (props: HeaderProps) => {
-  const { onClick } = props
+const SortableHeader = (props: SortableHeaderProps) => {
+  const { id, onClick, direction, append } = props
+
+  const names: Record<SortId, string> = {
+    prizePower: 'Prize Power',
+    totalBalance: 'Total Deposits',
+    userBalance: 'My Balance'
+  }
 
   return (
-    <span onClick={() => onClick('prizePower')} className='flex gap-1 items-center cursor-pointer'>
-      Prize Power <PrizePowerTooltip iconSize='lg' />
-    </span>
+    <div className='flex gap-1 items-center'>
+      <div
+        onClick={() => onClick(id)}
+        className='flex gap-1 items-center cursor-pointer select-none'
+      >
+        <SortIcon direction={direction} className='w-4 h-auto' />
+        {names[id]}
+      </div>
+      {append}
+    </div>
   )
-}
-
-const TotalDepositsHeader = (props: HeaderProps) => {
-  const { onClick } = props
-
-  return (
-    <span onClick={() => onClick('totalDeposits')} className='cursor-pointer'>
-      Total Deposits
-    </span>
-  )
-}
-
-const MyBalanceHeader = (props: HeaderProps) => {
-  const { onClick } = props
-
-  return (
-    <span onClick={() => onClick('myBalance')} className='cursor-pointer'>
-      My Balance
-    </span>
-  )
-}
-
-const ManageHeader = () => {
-  return <span className='mr-[18px]'>Manage</span>
 }

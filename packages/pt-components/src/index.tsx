@@ -36,6 +36,7 @@ export * from './components/Graphics/SuccessPooly'
  */
 export * from './components/Icons/ClipboardListIcon'
 export * from './components/Icons/NetworkIcon'
+export * from './components/Icons/SortIcon'
 export * from './components/Icons/SuccessIcon'
 export * from './components/Icons/TokenIcon'
 

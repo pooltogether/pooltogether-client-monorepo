@@ -13,8 +13,8 @@ import { CoingeckoTokenPrices, TokenWithAmount } from 'pt-types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import { useAllTokenPrices } from './useAllTokenPrices'
 
-export type SortId = 'prizePower' | 'totalDeposits' | 'myBalance'
-type SortDirection = 'asc' | 'desc'
+export type SortId = 'prizePower' | 'totalBalance' | 'userBalance'
+export type SortDirection = 'asc' | 'desc'
 
 /**
  * Returns a sorted array of vaults
@@ -61,13 +61,12 @@ export const useSortedVaults = (
     isFetchedAllVaultExchangeRates &&
     isFetchedAllTokenPrices
 
-  // TODO: take into account sortDirection
   const sortedVaults = useMemo(() => {
     if (isFetched) {
       let sortedVaults = sortVaultsByPrizePower(vaults, allPrizePowers)
-      if (sortVaultsBy === 'totalDeposits') {
+      if (sortVaultsBy === 'totalBalance') {
         sortedVaults = sortVaultsByTotalDeposits(sortedVaults, allVaultBalances, allTokenPrices)
-      } else if (sortVaultsBy === 'myBalance' && !!allUserVaultBalances) {
+      } else if (sortVaultsBy === 'userBalance' && !!allUserVaultBalances) {
         sortedVaults = sortVaultsByUserBalances(
           sortedVaults,
           allVaultBalances,
@@ -76,11 +75,16 @@ export const useSortedVaults = (
           allVaultExchangeRates
         )
       }
+
+      if (sortDirection === 'asc') {
+        sortedVaults.reverse()
+      }
+
       return sortedVaults
     } else {
       return []
     }
-  }, [vaults, sortVaultsBy, isFetched])
+  }, [vaults, sortVaultsBy, sortDirection, isFetched])
 
   const toggleSortDirection = () => {
     setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')

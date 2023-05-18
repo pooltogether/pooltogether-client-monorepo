@@ -26,7 +26,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
   )
 
   const { sortedVaults, isFetched } = useSortedVaults(Object.values(vaults.vaults), {
-    defaultSortId: 'myBalance'
+    defaultSortId: 'userBalance'
   })
 
   if (!isFetched) {
