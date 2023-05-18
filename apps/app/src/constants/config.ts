@@ -37,6 +37,26 @@ export const WAGMI_CHAINS = Object.freeze({
 })
 
 /**
+ * Wallets
+ */
+export const WALLETS: {
+  [wallet: string]: (data: { appName: string; chains: Chain[]; projectId: string }) => Wallet
+} = Object.freeze({
+  metamask: metaMaskWallet,
+  walletconnect: walletConnectWallet,
+  rainbow: rainbowWallet,
+  injected: injectedWallet,
+  argent: argentWallet,
+  coinbase: coinbaseWallet,
+  ledger: ledgerWallet,
+  taho: tahoWallet,
+  trust: trustWallet,
+  zerion: zerionWallet,
+  brave: braveWallet,
+  safe: safeWallet
+})
+
+/**
  * RPCs
  */
 export const RPC_URLS = {
@@ -65,24 +85,4 @@ export const PRIZE_POOLS = Object.freeze({
  */
 export const DEFAULT_VAULT_LISTS = Object.freeze({
   default: defaultVaultList
-})
-
-/**
- * Wallets
- */
-export const WALLETS: {
-  [wallet: string]: (data: { appName: string; chains: Chain[]; projectId: string }) => Wallet
-} = Object.freeze({
-  metamask: metaMaskWallet,
-  walletconnect: walletConnectWallet,
-  rainbow: rainbowWallet,
-  injected: injectedWallet,
-  argent: argentWallet,
-  coinbase: coinbaseWallet,
-  ledger: ledgerWallet,
-  taho: tahoWallet,
-  trust: trustWallet,
-  zerion: zerionWallet,
-  brave: braveWallet,
-  safe: safeWallet
 })

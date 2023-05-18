@@ -81,6 +81,14 @@ This Turborepo has some additional tools already setup:
 
 ---
 
+### Wallet Support
+
+Want your wallet in any of our apps? We rely on [RainbowKit](https://www.rainbowkit.com/) and [WAGMI](https://wagmi.sh) for wallet connection. If you have a suitable [wallet connector](https://github.com/rainbow-me/rainbowkit/tree/main/packages/rainbowkit/src/wallets/walletConnectors) we can add your wallet and give you a custom link to highlight your wallet for your users.
+
+Append `?wallet=<wallet key>` to any app's links to highlight your wallet. Keys are visible on each app's `config.ts` file. Example: [App Config](https://github.com/pooltogether/pooltogether-client-monorepo/blob/main/apps/app/src/constants/config.ts).
+
+---
+
 ### Known Issues / Fixes
 
 When adding/updating apps and/or packages, duplicate dependencies may be created, creating versioning issues. This can be resolved through running `pnpm up -r` as described [here](https://github.com/pnpm/pnpm/issues/2443), or just looking through `pnpm-lock.yaml` to identify version discrepancies.
