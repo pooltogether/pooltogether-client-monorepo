@@ -1,19 +1,9 @@
-import { connectorsForWallets } from '@rainbow-me/rainbowkit'
-import {
-  braveWallet,
-  coinbaseWallet,
-  injectedWallet,
-  metaMaskWallet,
-  rainbowWallet,
-  safeWallet,
-  trustWallet,
-  walletConnectWallet
-} from '@rainbow-me/rainbowkit/wallets'
-import { Client, configureChains, createClient } from 'wagmi'
+import { connectorsForWallets, Wallet } from '@rainbow-me/rainbowkit'
+import { Chain, Client, configureChains, Connector, createClient } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
-import { NETWORK } from 'pt-utilities'
-import { PRIZE_POOLS, WAGMI_CHAINS } from '@constants/config'
+import { NETWORK, parseQueryParam } from 'pt-utilities'
+import { PRIZE_POOLS, RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
 
 /**
  * Returns prize pools in a format compatible with the `usePrizePools()` hook
@@ -41,41 +31,68 @@ export const formatPrizePools = () => {
 
 /**
  * Returns a Wagmi client with the given networks and RPCs
- * @param appName the app's name
  * @param networks the networks to support throughout the app
- * @param rpcs RPC URLs for each of the networks provided
  * @returns
  */
-export const createCustomWagmiClient = (
-  appName: string,
-  networks: NETWORK[],
-  rpcs: { [chainId: number]: string }
-): Client => {
+export const createCustomWagmiClient = (networks: NETWORK[]): Client => {
   const supportedNetworks = Object.values(WAGMI_CHAINS).filter(
-    (chain) => networks.includes(chain.id) && !!rpcs[chain.id]
+    (chain) => networks.includes(chain.id) && !!RPC_URLS[chain.id]
   )
 
   const { chains, provider } = configureChains(supportedNetworks, [
-    jsonRpcProvider({ priority: 0, rpc: (chain) => ({ http: rpcs[chain.id] }) }),
+    jsonRpcProvider({ priority: 0, rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
     publicProvider({ priority: 1 })
   ])
 
-  // TODO: update to new wallet connect connector (projectId: 358b98f0af3cd936fe09dc21064de51d)
-  const connectors = connectorsForWallets([
-    {
-      groupName: 'Recommended',
-      wallets: [
-        injectedWallet({ chains }),
-        metaMaskWallet({ chains }),
-        walletConnectWallet({ chains }),
-        rainbowWallet({ chains }),
-        coinbaseWallet({ appName, chains }),
-        braveWallet({ chains }),
-        safeWallet({ chains }),
-        trustWallet({ chains })
-      ]
-    }
-  ])
+  const connectors = getWalletConnectors(chains)
 
   return createClient({ autoConnect: true, connectors, provider })
+}
+
+/**
+ * Returns a function to get wallet connectors for Wagmi & RainbowKit
+ * @param chains array of `Chain` objects
+ * @returns
+ */
+const getWalletConnectors = (chains: Chain[]): (() => Connector[]) => {
+  const appName = 'PoolTogether'
+  const projectId = '358b98f0af3cd936fe09dc21064de51d'
+
+  const walletGroups: { groupName: string; wallets: Wallet[] }[] = []
+
+  const defaultWallets = ['metamask', 'walletconnect', 'rainbow', 'injected', 'coinbase']
+  const otherWallets = ['argent', 'ledger', 'taho', 'trust', 'zerion', 'brave', 'safe']
+
+  const highlightedWallet = parseQueryParam('wallet', { validValues: Object.keys(WALLETS) })
+
+  // NOTE: Don't highlight solely the injected wallet since it might be something sketchy.
+  if (!!highlightedWallet && highlightedWallet !== 'injected') {
+    walletGroups.push({
+      groupName: 'Recommended',
+      wallets: [WALLETS[highlightedWallet]({ appName, chains, projectId })]
+    })
+    walletGroups.push({
+      groupName: 'Default',
+      wallets: defaultWallets
+        .filter((wallet) => wallet !== highlightedWallet)
+        .map((wallet) => WALLETS[wallet]({ appName, chains, projectId }))
+    })
+    walletGroups.push({
+      groupName: 'Other',
+      wallets: otherWallets
+        .filter((wallet) => wallet !== highlightedWallet)
+        .map((wallet) => WALLETS[wallet]({ appName, chains, projectId }))
+    })
+  } else {
+    walletGroups.push({
+      groupName: 'Recommended',
+      wallets: defaultWallets.map((wallet) => WALLETS[wallet]({ appName, chains, projectId }))
+    })
+    walletGroups.push({
+      groupName: 'Other',
+      wallets: otherWallets.map((wallet) => WALLETS[wallet]({ appName, chains, projectId }))
+    })
+  }
+
+  return connectorsForWallets(walletGroups)
 }

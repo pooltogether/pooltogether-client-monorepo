@@ -1,4 +1,19 @@
-import { arbitrum, mainnet, optimism, polygon, polygonMumbai } from 'wagmi/chains'
+import { Wallet } from '@rainbow-me/rainbowkit'
+import {
+  argentWallet,
+  braveWallet,
+  coinbaseWallet,
+  injectedWallet,
+  ledgerWallet,
+  metaMaskWallet,
+  rainbowWallet,
+  safeWallet,
+  tahoWallet,
+  trustWallet,
+  walletConnectWallet,
+  zerionWallet
+} from '@rainbow-me/rainbowkit/wallets'
+import { arbitrum, Chain, mainnet, optimism, polygon, polygonMumbai } from 'wagmi/chains'
 import { NETWORK } from 'pt-utilities'
 import defaultVaultList from '../vaultLists/default'
 
@@ -50,4 +65,24 @@ export const PRIZE_POOLS = Object.freeze({
  */
 export const DEFAULT_VAULT_LISTS = Object.freeze({
   default: defaultVaultList
+})
+
+/**
+ * Wallets
+ */
+export const WALLETS: {
+  [wallet: string]: (data: { appName: string; chains: Chain[]; projectId: string }) => Wallet
+} = Object.freeze({
+  metamask: metaMaskWallet,
+  walletconnect: walletConnectWallet,
+  rainbow: rainbowWallet,
+  injected: injectedWallet,
+  argent: argentWallet,
+  coinbase: coinbaseWallet,
+  ledger: ledgerWallet,
+  taho: tahoWallet,
+  trust: trustWallet,
+  zerion: zerionWallet,
+  brave: braveWallet,
+  safe: safeWallet
 })
