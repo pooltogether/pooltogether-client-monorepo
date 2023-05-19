@@ -9,11 +9,10 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "@rainbow-me/rainbowkit": "^0.12.4",
+    "@rainbow-me/rainbowkit": "^1.0.0",
     "@sentry/nextjs": "^7.51.0",
     "@tanstack/react-query": "^4.24.10",
     "classnames": "^2.3.2",
-    "ethers": "^5.7.2",
     "fathom-client": "^3.5.0",
     "jotai": "^1.13.1",
     "next": "13.3.0",
@@ -25,7 +24,8 @@
     "pt-utilities": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^0.12.6"
+    "viem": "^0.3.30",
+    "wagmi": "^1.0.5"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
@@ -37,6 +37,6 @@
     "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
     "tsconfig": "workspace:*",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   }
 }
