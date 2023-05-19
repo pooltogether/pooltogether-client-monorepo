@@ -1,5 +1,3 @@
-import { BigNumber } from 'ethers'
-
 export interface PoolTogetherApiGasPrices {
   SafeGasPrice: number
   ProposeGasPrice: number
@@ -7,7 +5,7 @@ export interface PoolTogetherApiGasPrices {
 }
 
 export interface GasCostEstimates {
-  totalGasWei: BigNumber
+  totalGasWei: bigint
   totalGasCurrencies: {
     [currency: string]: string
   }

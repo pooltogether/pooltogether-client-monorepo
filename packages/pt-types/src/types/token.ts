@@ -15,9 +15,9 @@ export interface TokenWithLogo extends Token {
 }
 
 export interface TokenWithSupply extends Token {
-  totalSupply: string
+  totalSupply: bigint
 }
 
 export interface TokenWithAmount extends Token {
-  amount: string
+  amount: bigint
 }
