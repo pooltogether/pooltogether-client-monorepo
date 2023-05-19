@@ -9,9 +9,6 @@
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
-    "viem": "^0.3.30"
-  },
   "devDependencies": {
     "@types/node": "^17.0.45",
     "tsconfig": "workspace:*",
