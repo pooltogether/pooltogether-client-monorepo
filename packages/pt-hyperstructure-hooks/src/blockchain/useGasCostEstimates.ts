@@ -30,9 +30,9 @@ export const useGasCostEstimates = (
   const isFetched = isFetchedCoingeckoPrices && isFetchedGasPrices
 
   if (!!coingeckoPrices && !!gasPrices && isFetched) {
-    const gasPriceWei = BigNumber.from(Math.round(gasPrices.ProposeGasPrice * 1000))
+    const gasPriceWei = BigNumber.from(Math.round(gasPrices.ProposeGasPrice * 1_000))
       .mul(utils.parseUnits('1', 9))
-      .div(1000)
+      .div(1_000)
     const totalGasWei = gasPriceWei.mul(gasAmount)
 
     const data: GasCostEstimates = { totalGasWei, totalGasCurrencies: {} }
