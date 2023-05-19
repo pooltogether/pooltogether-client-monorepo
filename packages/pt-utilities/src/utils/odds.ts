@@ -1,4 +1,4 @@
-import { BigNumber, utils } from 'ethers'
+import { formatUnits } from 'viem'
 
 // TODO: this assumes every prize has the same odds of being won - a better algorithm may be more precise
 // TODO: also have to decide if its ok for this function to consider canary prizes
@@ -12,17 +12,15 @@ import { BigNumber, utils } from 'ethers'
  * @returns
  */
 export const calculateOdds = (
-  userShares: BigNumber,
-  totalShares: BigNumber,
+  userShares: bigint,
+  totalShares: bigint,
   decimals: number,
   vaultPercentageContribution: number,
   numPrizes: number
 ): number => {
   if (
     !userShares ||
-    userShares.isZero() ||
     !totalShares ||
-    totalShares.isZero() ||
     decimals === undefined ||
     !vaultPercentageContribution ||
     !numPrizes
@@ -30,8 +28,8 @@ export const calculateOdds = (
     return 0
   }
 
-  const userSharesFloat = Number(utils.formatUnits(userShares, decimals))
-  const totalSharesFloat = Number(utils.formatUnits(totalShares, decimals))
+  const userSharesFloat = Number(formatUnits(userShares, decimals))
+  const totalSharesFloat = Number(formatUnits(totalShares, decimals))
 
   if (userSharesFloat >= totalSharesFloat) {
     return 1 - Math.pow(1 - vaultPercentageContribution, numPrizes)

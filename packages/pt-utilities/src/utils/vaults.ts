@@ -1,5 +1,5 @@
 import { ContractCallContext } from 'ethereum-multicall'
-import { BigNumber, providers, utils } from 'ethers'
+import { formatUnits, parseUnits, PublicClient } from 'viem'
 import { VaultInfo } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
 import { formatStringWithPrecision } from './formatting'
@@ -26,23 +26,25 @@ export const getVaultsByChainId = (chainId: number, vaults: VaultInfo[]) => {
 
 /**
  * Returns exchange rates to calculate shares to assets in each vault from a given chain
- * @param readProvider a read-capable provider for the chain that should be queried
+ * @param publicClient a public Viem client for the chain that should be queried
  * @param vaults vaults to query through
  * @returns
  */
 export const getVaultExchangeRates = async (
-  readProvider: providers.Provider,
+  publicClient: PublicClient,
   vaults: VaultInfo[]
 ): Promise<{
-  [vaultId: string]: BigNumber
+  [vaultId: string]: bigint
 }> => {
-  const vaultExchangeRates: { [vaultId: string]: BigNumber } = {}
-  const chainId = (await readProvider.getNetwork())?.chainId
-  const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
+  const vaultExchangeRates: { [vaultId: string]: bigint } = {}
+  const chainId = await publicClient.getChainId()
+  const filteredVaults = !!chainId
+    ? vaults.filter((vault) => vault.chainId === chainId && vault.decimals !== undefined)
+    : []
 
   if (filteredVaults.length > 0) {
     const queries: ContractCallContext[] = filteredVaults.map((vault) => {
-      const oneShare = utils.parseUnits('1', vault.decimals)
+      const oneShare = parseUnits('1', vault.decimals as number)
       const calls: ContractCallContext['calls'] = [
         {
           reference: 'convertToAssets',
@@ -57,11 +59,11 @@ export const getVaultExchangeRates = async (
         calls
       }
     })
-    const multicallResults = await getComplexMulticallResults(readProvider, queries)
+    const multicallResults = await getComplexMulticallResults(publicClient, queries)
 
     filteredVaults.forEach((vault) => {
       const vaultId = getVaultId(vault)
-      vaultExchangeRates[vaultId] = BigNumber.from(
+      vaultExchangeRates[vaultId] = BigInt(
         multicallResults[vault.address]['convertToAssets']?.[0] ?? 0
       )
     })
@@ -73,62 +75,52 @@ export const getVaultExchangeRates = async (
 /**
  * Returns an asset amount based on shares and a vault exchange rate
  * @param shares the share amount to convert to assets
- * @param exchangeRate the vault's exchange rate (unformatted BigNumber)
+ * @param exchangeRate the vault's exchange rate (unformatted BigInt)
  * @param decimals the vault's number of decimals
  * @returns
  */
-export const getAssetsFromShares = (
-  shares: BigNumber,
-  exchangeRate: BigNumber,
-  decimals: number
-) => {
-  const result = formatStringWithPrecision(utils.formatUnits(shares.mul(exchangeRate), decimals), 0)
-  return BigNumber.from(result)
+export const getAssetsFromShares = (shares: bigint, exchangeRate: bigint, decimals: number) => {
+  const result = BigInt(formatStringWithPrecision(formatUnits(shares * exchangeRate, decimals), 0))
+  return result
 }
 
 /**
  * Returns a share amount based on assets and a vault exchange rate
  * @param assets the asset amount to convert to shares
- * @param exchangeRate the vault's exchange rate (unformatted BigNumber)
+ * @param exchangeRate the vault's exchange rate (unformatted BigInt)
  * @param decimals the vault's number of decimals
  * @returns
  */
-export const getSharesFromAssets = (
-  assets: BigNumber,
-  exchangeRate: BigNumber,
-  decimals: number
-) => {
-  const result = assets.mul(utils.parseUnits('1', decimals)).div(exchangeRate).toString()
-  return BigNumber.from(result)
+export const getSharesFromAssets = (assets: bigint, exchangeRate: bigint, decimals: number) => {
+  const result = (assets * parseUnits('1', decimals)) / exchangeRate
+  return result
 }
 
 /**
  * Returns the total underlying token amount deposited in each vault from a given chain
- * @param readProvider a read-capable provider for the chain that should be queried
+ * @param publicClient a public Viem client for the chain that should be queried
  * @param vaults vaults to query through
  * @returns
  */
 export const getVaultBalances = async (
-  readProvider: providers.Provider,
+  publicClient: PublicClient,
   vaults: VaultInfo[]
 ): Promise<{
-  [vaultId: string]: BigNumber
+  [vaultId: string]: bigint
 }> => {
-  const vaultBalances: { [vaultId: string]: BigNumber } = {}
-  const chainId = (await readProvider.getNetwork())?.chainId
+  const vaultBalances: { [vaultId: string]: bigint } = {}
+  const chainId = await publicClient.getChainId()
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 
   if (filteredVaults.length > 0) {
     const vaultAddresses = filteredVaults.map((vault) => vault.address)
-    const multicallResults = await getMulticallResults(readProvider, vaultAddresses, erc4626Abi, [
+    const multicallResults = await getMulticallResults(publicClient, vaultAddresses, erc4626Abi, [
       { reference: 'totalAssets', methodName: 'totalAssets', methodParameters: [] }
     ])
 
     filteredVaults.forEach((vault) => {
       const vaultId = getVaultId(vault)
-      vaultBalances[vaultId] = BigNumber.from(
-        multicallResults[vault.address]['totalAssets']?.[0] ?? 0
-      )
+      vaultBalances[vaultId] = BigInt(multicallResults[vault.address]['totalAssets']?.[0] ?? 0)
     })
   }
 
@@ -157,17 +149,17 @@ export const getVaultAddresses = (vaults: VaultInfo[]): { [chainId: number]: `0x
 
 /**
  * Returns the underlying token addresses for each vault from a given chain
- * @param readProvider a read-capable provider for the chain that should be queried
+ * @param publicClient a public Viem client for the chain that should be queried
  * @param vaults vaults' info
  * @returns
  */
 export const getVaultUnderlyingTokenAddresses = async (
-  readProvider: providers.Provider,
+  publicClient: PublicClient,
   vaults: VaultInfo[]
 ): Promise<{ [vaultId: string]: `0x${string}` }> => {
   const tokenAddresses: { [vaultId: string]: `0x${string}` } = {}
 
-  const chainId = (await readProvider.getNetwork())?.chainId
+  const chainId = await publicClient.getChainId()
   const filteredVaults = !!chainId ? vaults.filter((vault) => vault.chainId === chainId) : []
 
   if (filteredVaults.length > 0) {
@@ -183,7 +175,7 @@ export const getVaultUnderlyingTokenAddresses = async (
 
     if (vaultAddresses.size > 0) {
       const multicallResults = await getMulticallResults(
-        readProvider,
+        publicClient,
         Array.from(vaultAddresses),
         erc4626Abi,
         [{ reference: 'asset', methodName: 'asset', methodParameters: [] }]
