@@ -1,8 +1,8 @@
 import classNames from 'classnames'
-import { BigNumber, utils } from 'ethers'
 import { useFormContext } from 'react-hook-form'
+import { formatUnits } from 'viem'
 import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from 'pt-types'
-import { formatBigNumberForDisplay } from 'pt-utilities'
+import { formatBigIntForDisplay } from 'pt-utilities'
 import { CurrencyValue } from '../Currency/CurrencyValue'
 import { TokenIcon } from '../Icons/TokenIcon'
 
@@ -38,7 +38,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       ? Number(formAmount) * token.price
       : 0
 
-  const formattedBalance = formatBigNumberForDisplay(BigNumber.from(token.amount), token.decimals)
+  const formattedBalance = formatBigIntForDisplay(token.amount, token.decimals)
 
   const error =
     !!errors[formKey]?.message && typeof errors[formKey]?.message === 'string'
@@ -46,7 +46,7 @@ export const TxFormInput = (props: TxFormInputProps) => {
       : null
 
   const setFormAmountToMax = () => {
-    const formattedAmount = utils.formatUnits(token.amount, token.decimals)
+    const formattedAmount = formatUnits(token.amount, token.decimals)
     setValue(
       formKey,
       formattedAmount.endsWith('.0') ? formattedAmount.slice(0, -2) : formattedAmount,

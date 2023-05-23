@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai'
 import { Vault } from 'pt-client-js'
-import { TokenWithAmount, TokenWithLogo } from 'pt-types'
+import { Token, TokenWithLogo } from 'pt-types'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import {
   withdrawFormShareAmountAtom,
@@ -44,7 +44,7 @@ export const ReviewView = (props: ReviewViewProps) => {
 }
 
 interface BasicWithdrawFormInputProps {
-  token: TokenWithAmount & Partial<TokenWithLogo>
+  token: Token & Partial<TokenWithLogo> & { amount: string }
 }
 
 const BasicWithdrawFormInput = (props: BasicWithdrawFormInputProps) => {

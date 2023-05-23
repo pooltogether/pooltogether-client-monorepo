@@ -1,7 +1,7 @@
-import { utils } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
 import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
+import { formatUnits, parseUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -34,13 +34,13 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     userAddress as `0x${string}`,
     vault.tokenData?.address as string
   )
-  const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : '0'
+  const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : 0n
 
   const { data: vaultBalance, isFetched: isFetchedVaultBalance } = useUserVaultShareBalance(
     vault,
     userAddress as `0x${string}`
   )
-  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.amount : '0'
+  const shareBalance = isFetchedVaultBalance && !!vaultBalance ? vaultBalance.amount : 0n
 
   const { data: tokenWithPrice } = useVaultTokenPrice(vault)
   const { data: shareWithPrice } = useVaultSharePrice(vault)
@@ -66,9 +66,9 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     ) {
       setFormTokenAmount(tokenAmount)
 
-      const tokens = utils.parseUnits(tokenAmount, vault.decimals)
+      const tokens = parseUnits(`${parseFloat(tokenAmount)}`, vault.decimals)
       const shares = getSharesFromAssets(tokens, vaultExchangeRate, vault.decimals)
-      const formattedShares = utils.formatUnits(shares, vault.decimals)
+      const formattedShares = formatUnits(shares, vault.decimals)
       const slicedShares = formattedShares.endsWith('.0')
         ? formattedShares.slice(0, -2)
         : formattedShares
@@ -89,9 +89,9 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
     ) {
       setFormShareAmount(shareAmount)
 
-      const shares = utils.parseUnits(shareAmount, vault.decimals)
+      const shares = parseUnits(`${parseFloat(shareAmount)}`, vault.decimals)
       const tokens = getAssetsFromShares(shares, vaultExchangeRate, vault.decimals)
-      const formattedTokens = utils.formatUnits(tokens, vault.decimals)
+      const formattedTokens = formatUnits(tokens, vault.decimals)
       const slicedTokens = formattedTokens.endsWith('.0')
         ? formattedTokens.slice(0, -2)
         : formattedTokens
@@ -136,7 +136,8 @@ export const WithdrawForm = (props: WithdrawFormProps) => {
               formKey='shareAmount'
               validate={{
                 isNotGreaterThanShareBalance: (v) =>
-                  parseFloat(utils.formatUnits(shareBalance, vault.decimals)) >= parseFloat(v) ||
+                  parseFloat(formatUnits(shareBalance, vault.decimals as number)) >=
+                    parseFloat(v) ||
                   !isFetchedVaultBalance ||
                   !vaultBalance ||
                   `Not enough ${vault.shareData?.symbol} in wallet`

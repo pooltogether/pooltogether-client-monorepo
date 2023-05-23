@@ -1,6 +1,6 @@
 import { useAtomValue } from 'jotai'
 import { PrizePool, Vault } from 'pt-client-js'
-import { TokenWithAmount, TokenWithLogo } from 'pt-types'
+import { Token, TokenWithLogo } from 'pt-types'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { depositFormShareAmountAtom, depositFormTokenAmountAtom } from '../../../Form/DepositForm'
 import { TokenIcon } from '../../../Icons/TokenIcon'
@@ -47,7 +47,7 @@ export const ReviewView = (props: ReviewViewProps) => {
 }
 
 interface BasicDepositFormInputProps {
-  token: TokenWithAmount & Partial<TokenWithLogo>
+  token: Token & Partial<TokenWithLogo> & { amount: string }
 }
 
 const BasicDepositFormInput = (props: BasicDepositFormInputProps) => {

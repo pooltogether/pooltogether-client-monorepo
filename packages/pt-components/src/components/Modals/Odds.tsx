@@ -1,5 +1,5 @@
-import { utils } from 'ethers'
 import { useAtomValue } from 'jotai'
+import { parseUnits } from 'viem'
 import { PrizePool, Vault } from 'pt-client-js'
 import { usePrizeOdds, useVaultShareData } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
@@ -22,8 +22,8 @@ export const Odds = (props: OddsProps) => {
     prizePool,
     vault,
     !!shareData && !!formShareAmount
-      ? utils.parseUnits(formShareAmount, shareData.decimals).toString()
-      : '0',
+      ? parseUnits(`${parseFloat(formShareAmount)}`, shareData.decimals)
+      : 0n,
     { isCumulative: true }
   )
 

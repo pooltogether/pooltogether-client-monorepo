@@ -1,13 +1,12 @@
-import { BigNumber } from 'ethers'
 import { PrizePool } from 'pt-client-js'
 import { usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { SubgraphPrizePoolDraw } from 'pt-types'
 import { ExternalLink, Spinner } from 'pt-ui'
 import {
-  formatBigNumberForDisplay,
+  formatBigIntForDisplay,
   getBlockExplorerUrl,
   shorten,
-  sortByBigNumberDesc
+  sortByBigIntDesc
 } from 'pt-utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 
@@ -66,9 +65,9 @@ const DrawTotals = (props: DrawTotalsProps) => {
 
   const { data: tokenData } = usePrizeTokenData(prizePool)
 
-  const totalPrizeAmount = draw.prizeClaims.reduce((a, b) => a.add(b.payout), BigNumber.from(0))
+  const totalPrizeAmount = draw.prizeClaims.reduce((a, b) => a + BigInt(b.payout), 0n)
   const formattedTotalPrizeAmount = !!tokenData
-    ? formatBigNumberForDisplay(totalPrizeAmount, tokenData.decimals)
+    ? formatBigIntForDisplay(totalPrizeAmount, tokenData.decimals)
     : undefined
 
   return (
@@ -103,7 +102,7 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
       {!!draw && !!tokenData ? (
         <div className='flex flex-col w-full max-h-52 gap-3 overflow-y-auto'>
           {draw.prizeClaims
-            .sort((a, b) => sortByBigNumberDesc(BigNumber.from(a.payout), BigNumber.from(b.payout)))
+            .sort((a, b) => sortByBigIntDesc(BigInt(a.payout), BigInt(b.payout)))
             .map((prize) => {
               return (
                 <div key={prize.id} className='flex w-full items-center'>
@@ -115,10 +114,9 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
                   </span>
                   <span className='flex-grow whitespace-nowrap'>
                     {!!tokenData ? (
-                      `${formatBigNumberForDisplay(
-                        BigNumber.from(prize.payout),
-                        tokenData.decimals
-                      )} ${tokenData.symbol}`
+                      `${formatBigIntForDisplay(BigInt(prize.payout), tokenData.decimals)} ${
+                        tokenData.symbol
+                      }`
                     ) : (
                       <Spinner />
                     )}
