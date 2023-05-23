@@ -11,7 +11,7 @@ import { QUERY_KEYS } from '../constants'
 export const useClientChainId = (
   client: PublicClient | WalletClient
 ): UseQueryResult<number, unknown> => {
-  const queryKey = [QUERY_KEYS.providerChainId, client.key]
+  const queryKey = [QUERY_KEYS.clientChainId, client.key]
 
   return useQuery(queryKey, async () => await client.getChainId(), {
     ...NO_REFETCH

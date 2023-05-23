@@ -11,7 +11,7 @@ import { QUERY_KEYS } from '../constants'
 export const useClientChainIds = (
   clients: (PublicClient | WalletClient)[]
 ): UseQueryResult<number[], unknown> => {
-  const queryKey = [QUERY_KEYS.providerChainId, clients.map((client) => client.key)]
+  const queryKey = [QUERY_KEYS.clientChainId, clients.map((client) => client.key)]
 
   return useQuery(
     queryKey,

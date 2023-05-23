@@ -1,6 +1,6 @@
 # PoolTogether Client JS
 
-A JS client package for wrapping [Ethers](https://ethers.org/) contracts and providing a simple, unopinionated interface for interacting with the protocol on-chain.
+A JS client package for wrapping [Viem](https://viem.sh/) contracts and providing a simple, unopinionated interface for interacting with the protocol on-chain.
 
 ![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fpt-client-js%2Fpackage.json&color=brightgreen)
 

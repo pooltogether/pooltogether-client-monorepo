@@ -10,7 +10,7 @@ import { NETWORK } from 'pt-utilities'
 export const usePublicClients = (): PublicClient[] => {
   const { isTestnets } = useIsTestnets()
 
-  const providers: { mainnets: PublicClient[]; testnets: PublicClient[] } = {
+  const publicClients: { mainnets: PublicClient[]; testnets: PublicClient[] } = {
     mainnets: [
       usePublicClient({ chainId: NETWORK.mainnet }),
       usePublicClient({ chainId: NETWORK.polygon }),
@@ -21,10 +21,10 @@ export const usePublicClients = (): PublicClient[] => {
   }
 
   if (isTestnets) {
-    return providers.testnets
+    return publicClients.testnets
   }
 
-  return providers.mainnets
+  return publicClients.mainnets
 }
 
 /**
@@ -34,7 +34,7 @@ export const usePublicClients = (): PublicClient[] => {
 export const usePublicClientsByChain = (): Record<number, PublicClient> => {
   const { isTestnets } = useIsTestnets()
 
-  const providers: {
+  const publicClients: {
     mainnets: { [chainId: number]: PublicClient }
     testnets: { [chainId: number]: PublicClient }
   } = {
@@ -50,8 +50,8 @@ export const usePublicClientsByChain = (): Record<number, PublicClient> => {
   }
 
   if (isTestnets) {
-    return providers.testnets
+    return publicClients.testnets
   }
 
-  return providers.mainnets
+  return publicClients.mainnets
 }

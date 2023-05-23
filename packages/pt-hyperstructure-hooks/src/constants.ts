@@ -12,7 +12,7 @@ export const QUERY_KEYS = Object.freeze({
   prizeInfo: 'prizeInfo',
   prizeOdds: 'prizeOdds',
   prizeTokenData: 'prizeTokenData',
-  providerChainId: 'providerChainId',
+  clientChainId: 'clientChainId',
   selectedVaults: 'selectedVaults',
   tokenAllowances: 'tokenAllowances',
   tokenBalances: 'tokenBalances',

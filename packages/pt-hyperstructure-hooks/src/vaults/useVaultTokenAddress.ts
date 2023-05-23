@@ -17,8 +17,8 @@ export const useVaultTokenAddress = (vault: Vault): UseQueryResult<`0x${string}`
   return useQuery(
     queryKey,
     async () => {
-      const tokenContract = await vault.getTokenContract()
-      return tokenContract.address
+      const tokenAddress = await vault.getTokenAddress()
+      return tokenAddress
     },
     {
       enabled: !!vault,
