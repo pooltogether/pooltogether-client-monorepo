@@ -1,9 +1,8 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { BigNumber } from 'ethers'
 import { Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
+import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns exchange rates to calculate shares to assets in each vault
@@ -16,7 +15,7 @@ import { populateCachePerId } from '../utils/populateCachePerId'
 export const useAllVaultExchangeRates = (
   vaults: Vaults,
   refetchInterval?: number
-): UseQueryResult<{ [vaultId: string]: BigNumber }, unknown> => {
+): UseQueryResult<{ [vaultId: string]: bigint }, unknown> => {
   const queryClient = useQueryClient()
 
   const vaultIds = !!vaults ? Object.keys(vaults.vaults) : []

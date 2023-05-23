@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { utils } from 'ethers'
-import { useProvider } from 'wagmi'
+import { isAddress } from 'viem'
+import { usePublicClient } from 'wagmi'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithSupply } from 'pt-types'
 import { getTokenInfo } from 'pt-utilities'
@@ -21,20 +21,20 @@ export const useTokens = (
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }, unknown> => {
   const queryClient = useQueryClient()
 
-  const provider = useProvider({ chainId })
+  const publicClient = usePublicClient({ chainId })
 
   const enabled =
     !!chainId &&
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!provider
+    !!publicClient
 
   const getQueryKey = (val: (string | number)[]) => [QUERY_KEYS.tokens, chainId, val]
 
   return useQuery(
     getQueryKey(tokenAddresses),
-    async () => await getTokenInfo(provider, tokenAddresses),
+    async () => await getTokenInfo(publicClient, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,

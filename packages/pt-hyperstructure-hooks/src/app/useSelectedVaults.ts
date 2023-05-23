@@ -6,7 +6,7 @@ import {
   useAllVaultShareData,
   useAllVaultTokenAddresses,
   useAllVaultTokenData,
-  useProvidersByChain,
+  usePublicClientsByChain,
   useSelectedVaultLists
 } from '..'
 
@@ -17,7 +17,7 @@ import {
  * @returns
  */
 export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
-  const providers = useProvidersByChain()
+  const publicClients = usePublicClientsByChain()
 
   const { localVaultLists, importedVaultLists } = useSelectedVaultLists()
 
@@ -43,7 +43,7 @@ export const useSelectedVaults = (): { vaults: Vaults; isFetched: boolean } => {
   })
 
   // TODO: ideally if we return the same cached/memoized instance of `Vaults` we can avoid re-assigning data
-  const vaults = new Vaults(selectedVaultInfo, providers)
+  const vaults = new Vaults(selectedVaultInfo, publicClients)
 
   const { data: shareData, isFetched: isFetchedShareData } = useAllVaultShareData(vaults)
   const { data: tokenData, isFetched: isFetchedTokenData } = useAllVaultTokenData(vaults)

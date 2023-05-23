@@ -2,8 +2,8 @@ import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithSupply } from 'pt-types'
+import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns underlying token data for each vault

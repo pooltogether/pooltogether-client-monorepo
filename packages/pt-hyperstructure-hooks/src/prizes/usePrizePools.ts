@@ -1,6 +1,6 @@
-import { useProvider } from 'wagmi'
+import { usePublicClient } from 'wagmi'
 import { PrizePool } from 'pt-client-js'
-import { useProvidersByChain } from '..'
+import { usePublicClientsByChain } from '..'
 
 /**
  * Returns a keyed object of prize pool IDs and `PrizePool` instances
@@ -10,20 +10,24 @@ import { useProvidersByChain } from '..'
 export const usePrizePools = (
   data: {
     chainId: number
-    address: string
-    options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: number }
+    address: `0x${string}`
+    options?: {
+      prizeTokenAddress?: `0x${string}`
+      drawPeriodInSeconds?: number
+      tierShares?: number
+    }
   }[]
 ): { [prizePoolId: string]: PrizePool } => {
-  const providers = useProvidersByChain()
+  const publicClients = usePublicClientsByChain()
 
   const prizePools: { [prizePoolId: string]: PrizePool } = {}
   data.forEach((prizePoolData) => {
-    const provider = providers[prizePoolData.chainId]
-    if (!!provider) {
+    const publicClient = publicClients[prizePoolData.chainId]
+    if (!!publicClient) {
       const prizePool = new PrizePool(
         prizePoolData.chainId,
         prizePoolData.address,
-        provider,
+        publicClient,
         prizePoolData.options
       )
       prizePools[prizePool.id] = prizePool
@@ -42,10 +46,10 @@ export const usePrizePools = (
  */
 export const usePrizePool = (
   chainId: number,
-  address: string,
-  options?: { prizeTokenAddress?: string; drawPeriodInSeconds?: number; tierShares?: number }
+  address: `0x${string}`,
+  options?: { prizeTokenAddress?: `0x${string}`; drawPeriodInSeconds?: number; tierShares?: number }
 ): PrizePool => {
-  const provider = useProvider({ chainId })
+  const publicClient = usePublicClient({ chainId })
 
-  return new PrizePool(chainId, address, provider, options)
+  return new PrizePool(chainId, address, publicClient, options)
 }

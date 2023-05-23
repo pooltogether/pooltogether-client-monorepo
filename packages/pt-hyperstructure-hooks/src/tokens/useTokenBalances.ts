@@ -1,11 +1,11 @@
 import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { providers, utils } from 'ethers'
 import { useMemo } from 'react'
-import { useProvider } from 'wagmi'
+import { isAddress, PublicClient } from 'viem'
+import { usePublicClient } from 'wagmi'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithAmount } from 'pt-types'
 import { getTokenBalances } from 'pt-utilities'
-import { populateCachePerId, useProvidersByChain } from '..'
+import { populateCachePerId, usePublicClientsByChain } from '..'
 import { QUERY_KEYS } from '../constants'
 
 /**
@@ -26,16 +26,16 @@ export const useTokenBalances = (
 ): UseQueryResult<{ [tokenAddress: string]: TokenWithAmount }, unknown> => {
   const queryClient = useQueryClient()
 
-  const provider = useProvider({ chainId })
+  const publicClient = usePublicClient({ chainId })
 
   const enabled =
     !!chainId &&
     !!address &&
     !!tokenAddresses &&
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!provider
+    !!publicClient
 
   const getQueryKey = (val: (string | number)[]) => [
     QUERY_KEYS.tokenBalances,
@@ -46,7 +46,7 @@ export const useTokenBalances = (
 
   return useQuery(
     getQueryKey(tokenAddresses),
-    async () => await getTokenBalances(provider, address, tokenAddresses),
+    async () => await getTokenBalances(publicClient, address, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,
@@ -91,19 +91,19 @@ export const useTokenBalancesAcrossChains = (
   address: string,
   tokenAddresses: { [chainId: number]: string[] }
 ) => {
-  const providers = useProvidersByChain()
+  const publicClients = usePublicClientsByChain()
 
-  const filteredProviders: { [chainId: number]: providers.Provider } = {}
+  const filteredPublicClients: { [chainId: number]: PublicClient } = {}
   chainIds.forEach((chainId) => {
-    if (!!providers[chainId]) {
-      filteredProviders[chainId] = providers[chainId]
+    if (!!publicClients[chainId]) {
+      filteredPublicClients[chainId] = publicClients[chainId]
     }
   })
 
   const results = useQueries({
-    queries: Object.keys(filteredProviders).map((strChainId) => {
+    queries: Object.keys(filteredPublicClients).map((strChainId) => {
       const chainId = parseInt(strChainId)
-      const provider = filteredProviders[chainId]
+      const publicClient = filteredPublicClients[chainId]
 
       const chainTokenAddresses = !!chainId ? tokenAddresses?.[chainId] : []
 
@@ -111,19 +111,17 @@ export const useTokenBalancesAcrossChains = (
         !!chainId &&
         !!address &&
         !!chainTokenAddresses &&
-        chainTokenAddresses.every(
-          (tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)
-        ) &&
+        chainTokenAddresses.every((tokenAddress) => !!tokenAddress && isAddress(tokenAddress)) &&
         Array.isArray(chainTokenAddresses) &&
         chainTokenAddresses.length > 0 &&
-        !!provider
+        !!publicClient
 
       const queryKey = [QUERY_KEYS.tokenBalances, chainId, address, chainTokenAddresses]
 
       return {
         queryKey: queryKey,
         queryFn: async () => {
-          const tokenBalances = await getTokenBalances(provider, address, chainTokenAddresses)
+          const tokenBalances = await getTokenBalances(publicClient, address, chainTokenAddresses)
           return { chainId, tokenBalances }
         },
         enabled,

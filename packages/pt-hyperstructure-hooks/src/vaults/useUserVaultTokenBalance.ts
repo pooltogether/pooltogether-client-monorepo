@@ -1,10 +1,7 @@
-import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
 import { TokenWithAmount } from 'pt-types'
 import { getAssetsFromShares } from 'pt-utilities'
-import { useUserVaultShareBalance } from './useUserVaultShareBalance'
-import { useVaultExchangeRate } from './useVaultExchangeRate'
-import { useVaultTokenData } from './useVaultTokenData'
+import { useUserVaultShareBalance, useVaultExchangeRate, useVaultTokenData } from '..'
 
 /**
  * Returns a user's underlying token balance in a vault
@@ -40,11 +37,7 @@ export const useUserVaultTokenBalance = (
     isFetched && !!shareBalance && !!exchangeRate && !!tokenData
       ? {
           ...tokenData,
-          amount: getAssetsFromShares(
-            BigNumber.from(shareBalance.amount),
-            exchangeRate,
-            tokenData.decimals
-          ).toString()
+          amount: getAssetsFromShares(shareBalance.amount, exchangeRate, tokenData.decimals)
         }
       : undefined
 

@@ -1,8 +1,8 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { PrizePool } from 'pt-client-js'
 import { sToMs } from 'pt-utilities'
+import { useDrawPeriod } from '..'
 import { QUERY_KEYS } from '../constants'
-import { useDrawPeriod } from './useDrawPeriod'
 
 /**
  * Returns the start and end timestamps of a prize pool's next draw (in seconds)

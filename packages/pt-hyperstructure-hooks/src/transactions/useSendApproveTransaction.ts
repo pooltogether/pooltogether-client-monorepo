@@ -1,5 +1,5 @@
-import { BigNumber, providers } from 'ethers'
 import { useEffect } from 'react'
+import { TransactionReceipt } from 'viem'
 import { useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { erc20 as erc20Abi } from 'pt-utilities'
@@ -12,7 +12,7 @@ import { erc20 as erc20Abi } from 'pt-utilities'
  * @returns
  */
 export const useSendApproveTransaction = (
-  amount: BigNumber,
+  amount: bigint,
   vault: Vault,
   options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
@@ -21,16 +21,16 @@ export const useSendApproveTransaction = (
   isSuccess: boolean
   isError: boolean
   txHash?: `0x${string}`
-  txReceipt?: providers.TransactionReceipt
+  txReceipt?: TransactionReceipt
   sendApproveTransaction?: () => void
 } => {
   const { chain } = useNetwork()
 
-  const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenContract?.address
+  const enabled = !!vault && chain?.id === vault.chainId && !!vault.tokenAddress
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
-    address: vault?.tokenContract?.address as `0x${string}`,
+    address: vault?.tokenAddress,
     abi: erc20Abi,
     functionName: 'approve',
     args: [vault?.address, amount],

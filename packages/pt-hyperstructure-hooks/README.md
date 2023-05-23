@@ -24,12 +24,11 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 
 ## Blockchain Hooks
 
+- `useClientChainId`
+- `useClientChainIds`
+- `useClients`
 - `useGasCostEstimates`
 - `useGasPrices`
-- `useProviderChainId`
-- `useProviderChainIds`
-- `useProviders`
-- `useProvidersByChain`
 
 ## Prize Pool Hooks
 

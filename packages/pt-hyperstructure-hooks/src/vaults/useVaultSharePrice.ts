@@ -1,4 +1,4 @@
-import { utils } from 'ethers'
+import { formatEther, parseEther } from 'viem'
 import { Vault } from 'pt-client-js'
 import { CURRENCY_ID } from 'pt-generic-hooks'
 import { TokenWithPrice } from 'pt-types'
@@ -19,7 +19,7 @@ export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
     isFetched: isFetchedTokenPrice,
     refetch: refetchTokenPrice
   } = useVaultTokenPrice(vault, currency)
-  const tokenPrice = utils.parseEther(tokenWithPrice?.price.toString() ?? '0')
+  const tokenPrice = parseEther(`${tokenWithPrice?.price ?? 0}`)
 
   const {
     data: exchangeRate,
@@ -33,7 +33,7 @@ export const useVaultSharePrice = (vault: Vault, currency?: CURRENCY_ID) => {
 
   const sharePrice = enabled
     ? parseFloat(
-        utils.formatEther(getAssetsFromShares(tokenPrice, exchangeRate, tokenWithPrice.decimals))
+        formatEther(getAssetsFromShares(tokenPrice, exchangeRate, tokenWithPrice.decimals))
       )
     : undefined
 

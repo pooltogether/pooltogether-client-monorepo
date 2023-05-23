@@ -1,4 +1,4 @@
-import { useProvider } from 'wagmi'
+import { usePublicClient } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
 
@@ -8,9 +8,9 @@ import { VaultInfo } from 'pt-types'
  * @returns
  */
 export const useVault = (vaultInfo: VaultInfo): Vault => {
-  const provider = useProvider({ chainId: vaultInfo.chainId })
+  const publicClient = usePublicClient({ chainId: vaultInfo.chainId })
 
-  return new Vault(vaultInfo.chainId, vaultInfo.address, provider, {
+  return new Vault(vaultInfo.chainId, vaultInfo.address, publicClient, {
     decimals: vaultInfo.decimals,
     tokenAddress: vaultInfo.extensions?.underlyingAsset?.address
   })

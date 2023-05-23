@@ -1,5 +1,5 @@
-import { BigNumber, providers, utils } from 'ethers'
 import { useEffect } from 'react'
+import { isAddress, TransactionReceipt } from 'viem'
 import {
   useAccount,
   useContractWrite,
@@ -19,7 +19,7 @@ import { useUserVaultTokenBalance } from '..'
  * @returns
  */
 export const useSendWithdrawTransaction = (
-  amount: BigNumber,
+  amount: bigint,
   vault: Vault,
   options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
@@ -28,7 +28,7 @@ export const useSendWithdrawTransaction = (
   isSuccess: boolean
   isError: boolean
   txHash?: `0x${string}`
-  txReceipt?: providers.TransactionReceipt
+  txReceipt?: TransactionReceipt
   sendWithdrawTransaction?: () => void
 } => {
   const { address: userAddress } = useAccount()
@@ -40,15 +40,15 @@ export const useSendWithdrawTransaction = (
   const enabled =
     !!vault &&
     !!userAddress &&
-    utils.isAddress(userAddress) &&
+    isAddress(userAddress) &&
     chain?.id === vault.chainId &&
     isFetchedVaultTokenBalance &&
     !!vaultTokenBalance &&
-    amount.lte(vaultTokenBalance.amount)
+    amount <= vaultTokenBalance.amount
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
-    address: vault?.address as `0x${string}`,
+    address: vault?.address,
     abi: erc4626Abi,
     functionName: 'withdraw',
     args: [amount, userAddress, userAddress],
