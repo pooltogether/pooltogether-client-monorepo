@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { VaultBadge } from 'pt-components'
@@ -44,8 +43,8 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
       isFetchedVaultBalances && !!vaultBalances
         ? sortedVaults
             .map((vault) => {
-              const shareBalance = BigNumber.from(vaultBalances[vault.id]?.amount ?? 0)
-              if (!!vaultBalances[vault.id] && shareBalance.gt(0) && vault.decimals !== undefined) {
+              const shareBalance = vaultBalances[vault.id]?.amount ?? 0n
+              if (!!vaultBalances[vault.id] && shareBalance > 0n && vault.decimals !== undefined) {
                 const cells: TableProps['data']['rows'][0]['cells'] = {
                   token: {
                     content: (

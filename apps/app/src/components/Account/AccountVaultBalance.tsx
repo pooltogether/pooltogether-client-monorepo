@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import { TokenValueAndAmount } from 'pt-components'
@@ -24,7 +23,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
     return <Spinner />
   }
 
-  if (BigNumber.from(tokenBalance.amount).gt(0)) {
+  if (tokenBalance.amount > 0n) {
     return <TokenValueAndAmount token={tokenBalance} />
   }
 

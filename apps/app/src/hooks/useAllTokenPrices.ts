@@ -47,8 +47,6 @@ export const useAllTokenPrices = () => {
     refetch: refetchCoingeckoTokenPrices
   } = useCoingeckoTokenPricesAcrossChains(tokenAddresses)
 
-  // TODO: get token prices on-chain (those missing from coingecko)
-
   const data: { simple: CoingeckoTokenPrices; [chainId: number]: CoingeckoTokenPrices } = {
     simple: coingeckoSimpleTokenPrices,
     ...coingeckoTokenPrices,

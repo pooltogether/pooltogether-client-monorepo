@@ -6,16 +6,16 @@ import { AppContainer } from '@components/AppContainer'
 import { SUPPORTED_NETWORKS } from '@constants/config'
 import { ptRainbowTheme } from '@constants/theme'
 import '../styles/globals.css'
-import { createCustomWagmiClient } from '../utils'
+import { createCustomWagmiConfig } from '../utils'
 
 // TODO: only send mainnet networks while on normal mode, only testnets on testnet mode, etc.
 const networks = [...SUPPORTED_NETWORKS.mainnets, ...SUPPORTED_NETWORKS.testnets]
 
-const wagmiClient = createCustomWagmiClient(networks)
+const wagmiConfig = createCustomWagmiConfig(networks)
 
 export default function MyApp(props: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider
         chains={networks.map((id) => ({ id }))}
         theme={ptRainbowTheme()}

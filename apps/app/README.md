@@ -39,7 +39,7 @@ Most of the data on the app comes from the `useSelectedVaults()` hook from the `
 
 Using various other hooks from `pt-hyperstructure-hooks`, the app uses these `Vaults` or `Vault` objects to query all necessary data.
 
-Providers are configured through `wagmi` in the `/pages/_app.tsx` file. These can be fetched throughout the app with the `useProvider()` or `useProviders()` hooks.
+Viem Clients are configured through `wagmi` in the `/pages/_app.tsx` file. These can be fetched throughout the app with the `usePublicClient()` or `usePublicClients()` hooks.
 
 ## Environment Setup:
 
