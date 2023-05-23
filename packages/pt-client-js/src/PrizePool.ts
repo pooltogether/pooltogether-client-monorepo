@@ -113,7 +113,7 @@ export class PrizePool {
     const source = 'Prize Pool [getDrawPeriodInSeconds]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const drawPeriodInSeconds: number = await this.prizePoolContract.read.drawPeriodSeconds()
+    const drawPeriodInSeconds = Number(await this.prizePoolContract.read.drawPeriodSeconds())
     this.drawPeriodInSeconds = drawPeriodInSeconds
 
     return drawPeriodInSeconds
@@ -129,7 +129,7 @@ export class PrizePool {
     const source = 'Prize Pool [getTierShares]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const tierShares: number = await this.prizePoolContract.read.tierShares()
+    const tierShares = Number(await this.prizePoolContract.read.tierShares())
     this.tierShares = tierShares
 
     return tierShares
@@ -145,7 +145,7 @@ export class PrizePool {
     const source = 'Prize Pool [getNumberOfTiers]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const numberOfTiers: number = await this.prizePoolContract.read.numberOfTiers()
+    const numberOfTiers = Number(await this.prizePoolContract.read.numberOfTiers())
 
     return numberOfTiers
   }
@@ -158,7 +158,7 @@ export class PrizePool {
     const source = 'Prize Pool [getLastDrawId]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const lastDrawId: number = await this.prizePoolContract.read.getLastCompletedDrawId()
+    const lastDrawId = Number(await this.prizePoolContract.read.getLastCompletedDrawId())
 
     return lastDrawId
   }
@@ -243,7 +243,7 @@ export class PrizePool {
     const source = 'Prize Pool [getLastDrawStartTimestamp]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const startTimestamp: number = await this.prizePoolContract.read.lastCompletedDrawStartedAt()
+    const startTimestamp = Number(await this.prizePoolContract.read.lastCompletedDrawStartedAt())
 
     return startTimestamp
   }
@@ -256,7 +256,7 @@ export class PrizePool {
     const source = 'Prize Pool [getNextDrawStartTimestamp]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const startTimestamp: number = await this.prizePoolContract.read.nextDrawStartsAt()
+    const startTimestamp = Number(await this.prizePoolContract.read.nextDrawStartsAt())
 
     return startTimestamp
   }
@@ -334,9 +334,9 @@ export class PrizePool {
     const source = 'Prize Pool [getEstimatedTierAwardTime]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const estimatedDraws: number = await this.prizePoolContract.read.getTierAccrualDurationInDraws([
-      tier
-    ])
+    const estimatedDraws = Number(
+      await this.prizePoolContract.read.getTierAccrualDurationInDraws([tier])
+    )
 
     const drawPeriod = await this.getDrawPeriodInSeconds()
 
@@ -351,7 +351,7 @@ export class PrizePool {
     const source = 'Prize Pool [getEstimatedPrizeCount]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const estimatedPrizeCount: number = await this.prizePoolContract.read['estimatedPrizeCount()']()
+    const estimatedPrizeCount = Number(await this.prizePoolContract.read['estimatedPrizeCount()']())
 
     return estimatedPrizeCount
   }
