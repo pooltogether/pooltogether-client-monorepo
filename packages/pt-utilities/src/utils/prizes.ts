@@ -4,7 +4,7 @@ import { prizePool as prizePoolAbi } from '../abis/prizePool'
 import { PRIZE_POOL_GRAPH_API_URLS, SECONDS_PER_DAY } from '../constants'
 import { formatStringWithPrecision } from './formatting'
 import { calculatePercentageOfBigInt, divideBigInts } from './math'
-import { getComplexMulticallResults, getSimpleMulticallResults } from './multicall'
+import { getSimpleMulticallResults } from './multicall'
 import { getVaultId } from './vaults'
 
 /**
@@ -39,16 +39,20 @@ export const getPrizePoolContributionAmounts = async (
 
   if (vaultAddresses.length > 0) {
     const calls = vaultAddresses.map((vaultAddress) => ({
-      address: prizePoolAddress,
-      abi: prizePoolAbi,
       functionName: 'getContributedBetween',
       args: [vaultAddress, startDrawId, endDrawId]
     }))
 
-    const multicallResults = await getComplexMulticallResults(publicClient, calls)
+    const multicallResults = await getSimpleMulticallResults(
+      publicClient,
+      prizePoolAddress,
+      prizePoolAbi,
+      calls
+    )
 
-    vaultAddresses.forEach((vaultAddress) => {
-      const vaultContribution: bigint = multicallResults[prizePoolAddress]?.[vaultAddress] ?? 0n
+    vaultAddresses.forEach((vaultAddress, i) => {
+      const result = multicallResults[i]
+      const vaultContribution: bigint = typeof result === 'bigint' ? result : 0n
       const vaultId = getVaultId({ chainId, address: vaultAddress })
       contributionAmounts[vaultId] = vaultContribution
     })
@@ -81,16 +85,20 @@ export const getPrizePoolContributionPercentages = async (
 
   if (vaultAddresses.length > 0) {
     const calls = vaultAddresses.map((vaultAddress) => ({
-      address: prizePoolAddress,
-      abi: prizePoolAbi,
       functionName: 'getVaultPortion',
       args: [vaultAddress, startDrawId, endDrawId]
     }))
 
-    const multicallResults = await getComplexMulticallResults(publicClient, calls)
+    const multicallResults = await getSimpleMulticallResults(
+      publicClient,
+      prizePoolAddress,
+      prizePoolAbi,
+      calls
+    )
 
-    vaultAddresses.forEach((vaultAddress) => {
-      const vaultContribution: bigint = multicallResults[prizePoolAddress]?.[vaultAddress] ?? 0n
+    vaultAddresses.forEach((vaultAddress, i) => {
+      const result = multicallResults[i]
+      const vaultContribution: bigint = typeof result === 'bigint' ? result : 0n
       const vaultId = getVaultId({ chainId, address: vaultAddress })
       contributionPercentages[vaultId] = parseFloat(formatUnits(vaultContribution, 18))
     })
