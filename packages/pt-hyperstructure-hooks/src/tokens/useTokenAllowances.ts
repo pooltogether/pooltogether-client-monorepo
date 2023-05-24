@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { BigNumber, utils } from 'ethers'
-import { useProvider } from 'wagmi'
+import { isAddress } from 'viem'
+import { usePublicClient } from 'wagmi'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { getTokenAllowances } from 'pt-utilities'
 import { populateCachePerId } from '..'
@@ -20,23 +20,23 @@ import { QUERY_KEYS } from '../constants'
  */
 export const useTokenAllowances = (
   chainId: number,
-  address: string,
-  spenderAddress: string,
-  tokenAddresses: string[],
+  address: `0x${string}`,
+  spenderAddress: `0x${string}`,
+  tokenAddresses: `0x${string}`[],
   refetchInterval?: number
-): UseQueryResult<{ [tokenAddress: string]: BigNumber }, unknown> => {
+): UseQueryResult<{ [tokenAddress: `0x${string}`]: bigint }, unknown> => {
   const queryClient = useQueryClient()
 
-  const provider = useProvider({ chainId })
+  const publicClient = usePublicClient({ chainId })
 
   const enabled =
     !!chainId &&
     !!address &&
     !!spenderAddress &&
-    tokenAddresses.every((tokenAddress) => !!tokenAddress && utils.isAddress(tokenAddress)) &&
+    tokenAddresses.every((tokenAddress) => !!tokenAddress && isAddress(tokenAddress)) &&
     Array.isArray(tokenAddresses) &&
     tokenAddresses.length > 0 &&
-    !!provider
+    !!publicClient
 
   const getQueryKey = (val: (string | number)[]) => [
     QUERY_KEYS.tokenAllowances,
@@ -48,7 +48,7 @@ export const useTokenAllowances = (
 
   return useQuery(
     getQueryKey(tokenAddresses),
-    async () => await getTokenAllowances(provider, address, spenderAddress, tokenAddresses),
+    async () => await getTokenAllowances(publicClient, address, spenderAddress, tokenAddresses),
     {
       enabled,
       ...NO_REFETCH,
@@ -71,11 +71,11 @@ export const useTokenAllowances = (
  */
 export const useTokenAllowance = (
   chainId: number,
-  address: string,
-  spenderAddress: string,
-  tokenAddress: string,
+  address: `0x${string}`,
+  spenderAddress: `0x${string}`,
+  tokenAddress: `0x${string}`,
   refetchInterval?: number
-): { data?: BigNumber } & Omit<UseQueryResult<{ [tokenAddress: string]: BigNumber }>, 'data'> => {
+): { data?: bigint } & Omit<UseQueryResult<{ [tokenAddress: `0x${string}`]: bigint }>, 'data'> => {
   const result = useTokenAllowances(
     chainId,
     address,

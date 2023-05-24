@@ -1,6 +1,6 @@
 import { Vaults } from 'pt-client-js'
 import { VaultInfo } from 'pt-types'
-import { useProvidersByChain } from '../blockchain/useProviders'
+import { usePublicClientsByChain } from '..'
 
 /**
  * Returns an instance of a `Vaults` class
@@ -8,9 +8,9 @@ import { useProvidersByChain } from '../blockchain/useProviders'
  * @returns
  */
 export const useVaults = (allVaultInfo: VaultInfo[]): Vaults => {
-  const providers = useProvidersByChain()
+  const publicClients = usePublicClientsByChain()
 
-  const vaults = new Vaults(allVaultInfo, providers)
+  const vaults = new Vaults(allVaultInfo, publicClients)
 
   return vaults
 }

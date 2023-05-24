@@ -1,8 +1,7 @@
-import { BigNumber } from 'ethers'
 import { PrizePool } from 'pt-client-js'
 import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
 import { Card, Spinner } from 'pt-ui'
-import { formatBigNumberForDisplay } from 'pt-utilities'
+import { formatBigIntForDisplay } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 import { TokenValue } from '../Currency/TokenValue'
 
@@ -15,9 +14,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
 
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo([prizePool])
   const grandPrize =
-    isFetchedAllPrizeInfo && !!allPrizeInfo
-      ? allPrizeInfo[prizePool.id]?.[0].amount ?? BigNumber.from(0)
-      : BigNumber.from(0)
+    isFetchedAllPrizeInfo && !!allPrizeInfo ? allPrizeInfo[prizePool.id]?.[0].amount ?? 0n : 0n
 
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
@@ -36,14 +33,10 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
         {isFetchedAllPrizeInfo && isFetchedPrizeTokenData && !!prizeTokenData ? (
           <>
             <span className='text-4xl text-pt-teal'>
-              <TokenValue
-                token={{ ...prizeTokenData, amount: grandPrize.toString() }}
-                hideZeroes={true}
-              />
+              <TokenValue token={{ ...prizeTokenData, amount: grandPrize }} hideZeroes={true} />
             </span>
             <span className='font-light'>
-              ≈{' '}
-              {formatBigNumberForDisplay(grandPrize, prizeTokenData.decimals, { hideZeroes: true })}{' '}
+              ≈ {formatBigIntForDisplay(grandPrize, prizeTokenData.decimals, { hideZeroes: true })}{' '}
               POOL
             </span>
           </>

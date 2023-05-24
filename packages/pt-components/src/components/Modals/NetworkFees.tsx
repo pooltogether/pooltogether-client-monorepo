@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { Vault } from 'pt-client-js'
 import { useGasCostEstimates } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
@@ -21,21 +20,21 @@ export const NetworkFees = (props: NetworkFeesProps) => {
           <TXFeeEstimate
             name='Approval'
             chainId={vault?.chainId}
-            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.approve)}
+            gasAmount={BigInt(TX_GAS_ESTIMATES.approve)}
           />
         )}
         {(!show || show.includes('deposit')) && (
           <TXFeeEstimate
             name='Deposit'
             chainId={vault?.chainId}
-            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.deposit)}
+            gasAmount={BigInt(TX_GAS_ESTIMATES.deposit)}
           />
         )}
         {(!show || show.includes('withdraw')) && (
           <TXFeeEstimate
             name='Withdrawal'
             chainId={vault?.chainId}
-            gasAmount={BigNumber.from(TX_GAS_ESTIMATES.withdraw)}
+            gasAmount={BigInt(TX_GAS_ESTIMATES.withdraw)}
           />
         )}
       </div>
@@ -46,7 +45,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
 interface TXFeeEstimateProps {
   name: string
   chainId: number
-  gasAmount: BigNumber
+  gasAmount: bigint
 }
 
 const TXFeeEstimate = (props: TXFeeEstimateProps) => {

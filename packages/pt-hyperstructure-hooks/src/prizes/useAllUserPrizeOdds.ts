@@ -1,13 +1,14 @@
 import { useQueries } from '@tanstack/react-query'
-import { BigNumber } from 'ethers'
 import { useMemo } from 'react'
 import { PrizePool, Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { calculateOdds, calculateUnionProbability } from 'pt-utilities'
+import {
+  useAllUserVaultBalances,
+  useAllVaultPercentageContributions,
+  useAllVaultShareData
+} from '..'
 import { QUERY_KEYS } from '../constants'
-import { useAllUserVaultBalances } from '../vaults/useAllUserVaultBalances'
-import { useAllVaultPercentageContributions } from '../vaults/useAllVaultPercentageContributions'
-import { useAllVaultShareData } from '../vaults/useAllVaultShareData'
 
 /**
  * Return the odds of a user winning any prize within any one draw for any prize pool or vault
@@ -56,8 +57,8 @@ export const useAllUserPrizeOdds = (
 
           const probabilities = vaultIds.map((vaultId) => {
             if (!!shareData && !!shareBalances && !!vaultContributions) {
-              const userShares = BigNumber.from(shareBalances[vaultId].amount)
-              const totalShares = BigNumber.from(shareData[vaultId].totalSupply)
+              const userShares = shareBalances[vaultId].amount
+              const totalShares = shareData[vaultId].totalSupply
               const decimals = shareData[vaultId].decimals
               const vaultContribution = vaultContributions[vaultId]
 

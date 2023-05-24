@@ -1,90 +1,128 @@
-import { ContractCallContext, Multicall } from 'ethereum-multicall'
-import { ContractCallResults } from 'ethereum-multicall/dist/esm/models'
-import { providers, utils } from 'ethers'
+import { isAddress, PublicClient } from 'viem'
 
-// TODO: add batching in case of too many calls
+// TODO: need better ABI and multicall params/results typing throughout this file
+
+/**
+ * Returns the results of a simple multicall where many calls are made to a single contract address
+ * @param publicClient a public Viem client to query through
+ * @param contractAddress contract address to make calls to
+ * @param abi the ABI of the contract provided
+ * @param calls the calls to make to the contract
+ * @returns
+ */
+export const getSimpleMulticallResults = async (
+  publicClient: PublicClient,
+  contractAddress: `0x${string}`,
+  abi: any,
+  calls: { functionName: string; args?: any[] }[]
+): Promise<any[]> => {
+  if (!isAddress(contractAddress) || calls.length === 0) {
+    throw new Error('Multicall Error: Invalid parameters')
+  }
+
+  const chainId = await publicClient?.getChainId()
+  if (!chainId) {
+    throw new Error('Multicall Error: Could not get chain ID from client')
+  }
+
+  const contracts: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[] = []
+  calls.forEach((call) => {
+    contracts.push({ address: contractAddress, abi, ...call })
+  })
+
+  const results = await publicClient.multicall({ contracts })
+
+  return results.map((result) => result.result)
+}
+
 /**
  * Returns the results of a multicall where each call is made to every contract address provided
- * @param readProvider a read-capable provider to query through
+ * @param publicClient a public Viem client to query through
  * @param contractAddresses contract addresses to make calls to
  * @param abi the ABI of the contracts provided
  * @param calls the calls to make to each contract
  * @returns
  */
 export const getMulticallResults = async (
-  readProvider: providers.Provider,
-  contractAddresses: string[],
-  abi: ContractCallContext['abi'],
-  calls: ContractCallContext['calls']
+  publicClient: PublicClient,
+  contractAddresses: `0x${string}`[],
+  abi: any,
+  calls: { functionName: string; args?: any[] }[]
 ): Promise<{
-  [contractAddress: string]: {
-    [reference: string]: any[]
+  [contractAddress: `0x${string}`]: {
+    [functionName: string]: any
   }
 }> => {
-  const validAddresses = contractAddresses.every((address) => utils.isAddress(address))
+  const validAddresses = contractAddresses.every((address) => isAddress(address))
   if (contractAddresses.length === 0 || !validAddresses || calls.length === 0) {
     throw new Error('Multicall Error: Invalid parameters')
   }
 
-  const chainId = (await readProvider.getNetwork())?.chainId
+  const chainId = await publicClient?.getChainId()
   if (!chainId) {
-    throw new Error('Multicall Error: Could not get chainId from provider')
+    throw new Error('Multicall Error: Could not get chain ID from client')
   }
 
-  const queries: ContractCallContext[] = []
-  contractAddresses.forEach((contractAddress) => {
-    queries.push({ reference: contractAddress, contractAddress, abi, calls })
+  const contracts: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[] = []
+  calls.forEach((call) => {
+    contractAddresses.forEach((contractAddress) => {
+      contracts.push({ address: contractAddress, abi, ...call })
+    })
   })
 
-  const multicall = new Multicall({ ethersProvider: readProvider, tryAggregate: true })
-  const response: ContractCallResults = await multicall.call(queries)
+  const results = await publicClient.multicall({ contracts })
 
-  const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
-  contractAddresses.forEach((contractAddress) => {
-    formattedResults[contractAddress] = {}
-    response.results[contractAddress]?.callsReturnContext.forEach((result) => {
-      formattedResults[contractAddress][result.reference] = result.returnValues
-    })
+  const formattedResults: {
+    [contractAddress: `0x${string}`]: {
+      [functionName: string]: any
+    }
+  } = {}
+  contracts.forEach((contract, i) => {
+    if (formattedResults[contract.address] === undefined) {
+      formattedResults[contract.address] = {}
+    }
+    formattedResults[contract.address][contract.functionName] = results[i]?.result
   })
 
   return formattedResults
 }
 
 /**
- * Returns the results of a complex multicall where contract queries are provided instead of calls
- * @param readProvider a read-capable provider to query through
- * @param queries the contract queries to make
+ * Returns the results of a complex multicall where full call data is provided
+ * @param publicClient a public Viem client to query through
+ * @param calls the calls to make
  * @returns
  */
 export const getComplexMulticallResults = async (
-  readProvider: providers.Provider,
-  queries: ContractCallContext[]
+  publicClient: PublicClient,
+  calls: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[]
 ): Promise<{
   [contractAddress: string]: {
-    [reference: string]: any[]
+    [functionName: string]: any
   }
 }> => {
-  const validAddresses = queries.every((query) => utils.isAddress(query.contractAddress))
-  if (queries.length === 0 || !validAddresses) {
+  const validAddresses = calls.every((call) => isAddress(call.address))
+  if (calls.length === 0 || !validAddresses) {
     throw new Error('Multicall Error: Invalid parameters')
   }
 
-  const chainId = (await readProvider.getNetwork())?.chainId
+  const chainId = await publicClient.getChainId()
   if (!chainId) {
-    throw new Error('Multicall Error: Could not get chainId from provider')
+    throw new Error('Multicall Error: Could not get chain ID from client')
   }
 
-  const multicall = new Multicall({ ethersProvider: readProvider, tryAggregate: true })
-  const response: ContractCallResults = await multicall.call(queries)
+  const results = await publicClient.multicall({ contracts: calls })
 
-  const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
-  queries.forEach((query) => {
-    if (formattedResults[query.contractAddress] === undefined) {
-      formattedResults[query.contractAddress] = {}
+  const formattedResults: {
+    [contractAddress: `0x${string}`]: {
+      [functionName: string]: any
     }
-    response.results[query.reference]?.callsReturnContext.forEach((result) => {
-      formattedResults[query.contractAddress][result.reference] = result.returnValues
-    })
+  } = {}
+  calls.forEach((call, i) => {
+    if (formattedResults[call.address] === undefined) {
+      formattedResults[call.address] = {}
+    }
+    formattedResults[call.address][call.functionName] = results[i]?.result
   })
 
   return formattedResults

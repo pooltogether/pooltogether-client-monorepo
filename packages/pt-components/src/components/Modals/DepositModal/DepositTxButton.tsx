@@ -1,6 +1,6 @@
-import { BigNumber, constants, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
+import { parseUnits } from 'viem'
 import { useAccount, useNetwork } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -12,6 +12,7 @@ import {
   useVaultBalance
 } from 'pt-hyperstructure-hooks'
 import { Button, Spinner } from 'pt-ui'
+import { MAX_UINT_256 } from 'pt-utilities'
 import { DepositModalView } from '.'
 import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
 import { isValidFormInput } from '../../Form/TxFormInput'
@@ -54,7 +55,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     vault.chainId,
     userAddress as `0x${string}`,
     vault.address,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const {
@@ -64,7 +65,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
   } = useTokenBalance(
     vault.chainId,
     userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const { refetch: refetchVaultBalance } = useVaultBalance(vault)
@@ -77,11 +78,13 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
   const formTokenAmount = useAtomValue(depositFormTokenAmountAtom)
   const depositAmount =
     vault.decimals !== undefined
-      ? utils.parseUnits(
-          isValidFormInput(formTokenAmount, vault.decimals) ? formTokenAmount : '0',
+      ? parseUnits(
+          isValidFormInput(formTokenAmount, vault.decimals)
+            ? `${parseFloat(formTokenAmount)}`
+            : '0',
           vault.decimals
         )
-      : BigNumber.from(0)
+      : 0n
 
   const isValidFormTokenAmount =
     vault.decimals !== undefined ? isValidFormInput(formTokenAmount, vault.decimals) : false
@@ -103,7 +106,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     isSuccess: isSuccessfulInfiniteApproval,
     txHash: infiniteApprovalTxHash,
     sendApproveTransaction: sendInfiniteApproveTransaction
-  } = useSendApproveTransaction(constants.MaxUint256, vault, {
+  } = useSendApproveTransaction(MAX_UINT_256, vault, {
     onSuccess: () => refetchTokenAllowance(),
     onError: () => setModalView('error')
   })
@@ -144,13 +147,11 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
-    !!allowance &&
-    !depositAmount.isZero() &&
-    BigNumber.from(userBalance.amount).gte(depositAmount) &&
+    allowance !== undefined &&
+    !!depositAmount &&
+    userBalance.amount >= depositAmount &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined &&
-    !!sendExactApproveTransaction &&
-    !!sendInfiniteApproveTransaction
+    vault.decimals !== undefined
 
   const depositEnabled =
     !isDisconnected &&
@@ -160,14 +161,13 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     !!userBalance &&
     isFetchedAllowance &&
     !!allowance &&
-    !depositAmount.isZero() &&
-    BigNumber.from(userBalance.amount).gte(depositAmount) &&
-    allowance.gte(depositAmount) &&
+    !!depositAmount &&
+    userBalance.amount >= depositAmount &&
+    allowance >= depositAmount &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined &&
-    !!sendDepositTransaction
+    vault.decimals !== undefined
 
-  if (depositAmount.isZero()) {
+  if (depositAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
         Enter an amount
@@ -177,7 +177,8 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     !isDisconnected &&
     chain?.id === vault.chainId &&
     isFetchedAllowance &&
-    allowance?.lt(depositAmount)
+    allowance !== undefined &&
+    allowance < depositAmount
   ) {
     return (
       <div className='flex flex-col w-full gap-6'>

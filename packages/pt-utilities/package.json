@@ -15,16 +15,15 @@
   },
   "dependencies": {
     "ajv": "^8.12.0",
-    "ethereum-multicall": "^2.15.0",
-    "ethers": "^5.7.2"
+    "viem": "^0.3.30"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
+    "fathom-client": "^3.5.0",
     "pt-types": "workspace:*",
     "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
-    "typescript": "^4.9.5",
-    "fathom-client": "^3.5.0"
+    "typescript": "^5.0.4"
   },
   "peerDependencies": {
     "fathom-client": "^3.5.0"

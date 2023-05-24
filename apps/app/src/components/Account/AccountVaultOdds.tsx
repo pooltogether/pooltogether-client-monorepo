@@ -32,10 +32,10 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = usePrizeOdds(
     prizePool,
     vault,
-    shareBalance?.amount ?? '0'
+    shareBalance?.amount ?? 0n
   )
 
-  if (!userAddress || shareBalance?.amount === '0') {
+  if (!userAddress || shareBalance?.amount === 0n) {
     return <>-</>
   }
 

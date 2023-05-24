@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { VaultList } from 'pt-types'
-import { useCachedVaultLists } from './useCachedVaultLists'
-import { useSelectedVaultListIds } from './useSelectedVaultListIds'
+import { useCachedVaultLists, useSelectedVaultListIds } from '..'
 
 /**
  * Returns currently selected local and imported vault lists

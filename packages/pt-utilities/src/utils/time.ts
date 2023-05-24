@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { TimeUnit } from 'pt-types'
 import {
   MINUTES_PER_DAY,
@@ -57,17 +56,16 @@ export const getTimeBreakdown = (totalSeconds: number | string) => {
 /**
  * Converts milliseconds to seconds
  * @param milliseconds milliseconds as a number
- * @param options option to use bignumber math if necessary
  * @returns
  */
-export const msToS = (milliseconds: number, options?: { bigNumber?: boolean }) => {
-  if (!milliseconds) {
+export const msToS = (ms: number | bigint) => {
+  if (!ms) {
     return 0
   }
-  if (options?.bigNumber) {
-    return BigNumber.from(milliseconds).div(1000).toNumber()
+  if (typeof ms === 'bigint') {
+    return Number(ms / BigInt(1_000))
   } else {
-    return milliseconds / 1000
+    return ms / 1_000
   }
 }
 
@@ -80,7 +78,7 @@ export const sToMs = (seconds: number) => {
   if (!seconds) {
     return 0
   }
-  return seconds * 1000
+  return seconds * 1_000
 }
 
 /**
@@ -92,7 +90,7 @@ export const dToMs = (days: number) => {
   if (!days) {
     return 0
   }
-  return days * SECONDS_PER_DAY * 1000
+  return days * SECONDS_PER_DAY * 1_000
 }
 
 /**
@@ -104,7 +102,7 @@ export const msToD = (ms: number) => {
   if (!ms) {
     return 0
   }
-  return ms / 1000 / SECONDS_PER_DAY
+  return ms / 1_000 / SECONDS_PER_DAY
 }
 
 /**
@@ -168,26 +166,26 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
   let diff = msA - msB
 
   let days = 0
-  if (diff >= 86400000) {
-    days = diff / 86400000
-    diff -= days * 86400000
+  if (diff >= 86_400_000) {
+    days = diff / 86_400_000
+    diff -= days * 86_400_000
   }
 
   let hours = 0
-  if (days || diff >= 3600000) {
-    hours = diff / 3600000
-    diff -= hours * 3600000
+  if (days || diff >= 3_600_000) {
+    hours = diff / 3_600_000
+    diff -= hours * 3_600_000
   }
 
   let minutes = 0
-  if (hours || diff >= 60000) {
-    minutes = diff / 60000
-    diff -= minutes * 60000
+  if (hours || diff >= 60_000) {
+    minutes = diff / 60_000
+    diff -= minutes * 60_000
   }
 
   let seconds = 0
-  if (minutes || diff >= 1000) {
-    seconds = diff / 1000
+  if (minutes || diff >= 1_000) {
+    seconds = diff / 1_000
   }
 
   return {
@@ -202,7 +200,7 @@ export const subtractDates = (dateA: Date, dateB: Date) => {
  * Return seconds since Epoch as a number
  * @returns
  */
-export const getSecondsSinceEpoch = () => Number((Date.now() / 1000).toFixed(0))
+export const getSecondsSinceEpoch = () => Number((Date.now() / 1_000).toFixed(0))
 
 /**
  * Converts a daily event count into a frequency (every X days/weeks/months/years) with the most relevant unit of time

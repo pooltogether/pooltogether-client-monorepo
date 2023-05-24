@@ -1,60 +1,73 @@
-import { BigNumber, Contract, providers, Signer, utils } from 'ethers'
-import { TokenWithAmount, TokenWithSupply } from 'pt-types'
+import { getContract, parseUnits, PublicClient, WalletClient } from 'viem'
+import { TokenWithAmount, TokenWithSupply, TxOverrides } from 'pt-types'
 import {
   erc20 as erc20Abi,
   erc4626 as erc4626Abi,
-  getProviderFromSigner,
   getTokenAllowances,
   getTokenBalances,
   getTokenInfo,
   getVaultId,
   validateAddress,
-  validateSignerOrProviderNetwork
+  validateClientNetwork
 } from 'pt-utilities'
 
 /**
- * This class provides read-only functions to fetch on-chain data from a vault
+ * This class provides read and write functions to interact with a vault
  */
 export class Vault {
-  readonly vaultContract: Contract
+  readonly vaultContract: any // TODO: get proper contract typing
   readonly id: string
+  walletClient: WalletClient | undefined
   decimals: number | undefined
-  tokenContract: Contract | undefined
+  tokenAddress: `0x${string}` | undefined
+  tokenContract: any // TODO: get proper contract typing
   tokenData: TokenWithSupply | undefined
   shareData: TokenWithSupply | undefined
-  exchangeRate: BigNumber | undefined
+  exchangeRate: bigint | undefined
   name: string | undefined
   logoURI: string | undefined
   tokenLogoURI: string | undefined
 
   /**
-   * Creates an instance of a Vault with a given signer or provider to query on-chain data with
+   * Creates an instance of a Vault with a given public and optional wallet client
+   *
+   * NOTE: If initialized without a wallet Viem client, write functions will not be available
    * @param chainId the vault's chain ID
    * @param address the vault's address
-   * @param signerOrProvider a Signer or Provider for the network the vault is deployed on
-   * @param options optional parameters
+   * @param publicClient a public Viem client for the network the vault is deployed on
+   * @param options optional parameters (including wallet client)
    */
   constructor(
     public chainId: number,
-    public address: string,
-    public signerOrProvider: Signer | providers.Provider,
+    public address: `0x${string}`,
+    public publicClient: PublicClient,
     options?: {
+      walletClient?: WalletClient
       decimals?: number
-      tokenAddress?: string
+      tokenAddress?: `0x${string}`
       name?: string
       logoURI?: string
       tokenLogoURI?: string
     }
   ) {
-    this.vaultContract = new Contract(address, erc4626Abi, signerOrProvider)
+    this.vaultContract = getContract({ address, abi: erc4626Abi, publicClient })
     this.id = getVaultId({ address, chainId })
+
+    if (!!options?.walletClient) {
+      this.walletClient = options.walletClient
+    }
 
     if (!!options?.decimals) {
       this.decimals = options.decimals
     }
 
     if (!!options?.tokenAddress) {
-      this.tokenContract = new Contract(options.tokenAddress, erc20Abi, signerOrProvider)
+      this.tokenAddress = options.tokenAddress
+      this.tokenContract = getContract({
+        address: options.tokenAddress,
+        abi: erc20Abi,
+        publicClient
+      })
     }
 
     if (!!options?.name) {
@@ -73,6 +86,22 @@ export class Vault {
   /* ============================== Read Functions ============================== */
 
   /**
+   * Returns the address of the vault's underlying asset
+   * @returns
+   */
+  async getTokenAddress(): Promise<`0x${string}`> {
+    if (this.tokenAddress !== undefined) return this.tokenAddress
+
+    const source = 'Vault [getTokenAddress]'
+    await validateClientNetwork(this.chainId, this.publicClient, source)
+
+    const tokenAddress: `0x${string}` = await this.vaultContract.read.asset()
+
+    this.tokenAddress = tokenAddress
+    return this.tokenAddress
+  }
+
+  /**
    * Returns basic data about the vault's underlying asset
    * @returns
    */
@@ -80,14 +109,11 @@ export class Vault {
     if (this.tokenData !== undefined) return this.tokenData
 
     const source = 'Vault [getTokenData]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const tokenContract = await this.getTokenContract()
+    const tokenAddress = await this.getTokenAddress()
 
-    const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
-
-    const tokenData = (await getTokenInfo(provider, [tokenContract.address]))[tokenContract.address]
+    const tokenData = (await getTokenInfo(this.publicClient, [tokenAddress]))[tokenAddress]
 
     if (!!tokenData && !isNaN(tokenData.decimals)) {
       this.decimals = tokenData.decimals
@@ -105,12 +131,9 @@ export class Vault {
     if (this.shareData !== undefined) return this.shareData
 
     const source = 'Vault [getShareData]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
-
-    const shareData = (await getTokenInfo(provider, [this.address]))[this.address]
+    const shareData = (await getTokenInfo(this.publicClient, [this.address]))[this.address]
 
     if (!!shareData) {
       if (!isNaN(shareData.decimals)) {
@@ -134,16 +157,15 @@ export class Vault {
   async getUserTokenBalance(userAddress: string): Promise<TokenWithAmount> {
     const source = 'Vault [getUserTokenBalance]'
     validateAddress(userAddress, source)
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+    const tokenAddress = await this.getTokenAddress()
 
-    const tokenContract = await this.getTokenContract()
+    const tokenBalance = await getTokenBalances(this.publicClient, userAddress as `0x${string}`, [
+      tokenAddress
+    ])
 
-    const tokenBalance = await getTokenBalances(provider, userAddress, [tokenContract.address])
-
-    return tokenBalance[tokenContract.address]
+    return tokenBalance[tokenAddress]
   }
 
   /**
@@ -154,12 +176,11 @@ export class Vault {
   async getUserShareBalance(userAddress: string): Promise<TokenWithAmount> {
     const source = 'Vault [getUserShareBalance]'
     validateAddress(userAddress, source)
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
-
-    const shareBalance = await getTokenBalances(provider, userAddress, [this.address])
+    const shareBalance = await getTokenBalances(this.publicClient, userAddress as `0x${string}`, [
+      this.address
+    ])
 
     return shareBalance[this.address]
   }
@@ -169,21 +190,21 @@ export class Vault {
    * @param userAddress the user's address to get an allowance for
    * @returns
    */
-  async getUserTokenAllowance(userAddress: string): Promise<BigNumber> {
+  async getUserTokenAllowance(userAddress: string): Promise<bigint> {
     const source = 'Vault [getUserTokenAllowance]'
     validateAddress(userAddress, source)
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const provider = getProviderFromSigner(this.signerOrProvider)
-    if (provider === undefined) throw new Error(`${source} | Invalid Provider`)
+    const tokenAddress = await this.getTokenAddress()
 
-    const tokenContract = await this.getTokenContract()
+    const tokenAllowance = await getTokenAllowances(
+      this.publicClient,
+      userAddress as `0x${string}`,
+      this.address,
+      [tokenAddress]
+    )
 
-    const tokenAllowance = await getTokenAllowances(provider, userAddress, this.address, [
-      tokenContract.address
-    ])
-
-    return tokenAllowance[tokenContract.address]
+    return tokenAllowance[tokenAddress]
   }
 
   /**
@@ -191,13 +212,13 @@ export class Vault {
    * @param shares the amount of shares to convert
    * @returns
    */
-  async getAssetsFromShares(shares: BigNumber): Promise<BigNumber> {
+  async getAssetsFromShares(shares: bigint): Promise<bigint> {
     const source = 'Vault [getAssetsFromShares]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const assets: string = await this.vaultContract.convertToAssets(shares)
+    const assets: bigint = await this.vaultContract.read.convertToAssets([shares])
 
-    return BigNumber.from(assets)
+    return assets
   }
 
   /**
@@ -205,13 +226,13 @@ export class Vault {
    * @param assets the amount of assets to convert
    * @returns
    */
-  async getSharesFromAssets(assets: BigNumber): Promise<BigNumber> {
+  async getSharesFromAssets(assets: bigint): Promise<bigint> {
     const source = 'Vault [getSharesFromAssets]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const shares: string = await this.vaultContract.convertToShares(assets)
+    const shares: bigint = await this.vaultContract.read.convertToShares([assets])
 
-    return BigNumber.from(shares)
+    return shares
   }
 
   /**
@@ -220,46 +241,286 @@ export class Vault {
    */
   async getTotalTokenBalance(): Promise<TokenWithAmount> {
     const source = 'Vault [getTotalTokenBalance]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
     const tokenData = await this.getTokenData()
 
-    const totalAssets = BigNumber.from(await this.vaultContract.totalAssets())
+    const totalAssets: bigint = await this.vaultContract.read.totalAssets()
 
-    return { ...tokenData, amount: totalAssets.toString() }
+    return { ...tokenData, amount: totalAssets }
   }
 
   /**
    * Returns the exchange rate from 1 share to the vault's underlying asset
    * @returns
    */
-  async getExchangeRate(): Promise<BigNumber> {
+  async getExchangeRate(): Promise<bigint> {
     const source = 'Vault [getExchangeRate]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    await validateClientNetwork(this.chainId, this.publicClient, source)
 
     const decimals = this.decimals ?? (await this.getTokenData()).decimals
 
-    const exchangeRate = await this.getAssetsFromShares(utils.parseUnits('1', decimals))
+    const exchangeRate = await this.getAssetsFromShares(parseUnits('1', decimals))
 
     this.exchangeRate = exchangeRate
     return this.exchangeRate
   }
 
+  /* ============================== Write Functions ============================== */
+
+  /**
+   * Submits a transaction to deposit into the vault
+   * @param amount an unformatted token amount (w/ decimals)
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async deposit(amount: bigint, overrides?: TxOverrides) {
+    const source = 'User [deposit]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'deposit',
+      args: [amount, this.walletClient.account.address],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to deposit into the vault and send shares to another address
+   * @param amount an unformatted token amount (w/ decimals)
+   * @param receiver the address to send shares to
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async depositTo(amount: bigint, receiver: string, overrides?: TxOverrides) {
+    const source = 'User [depositTo]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    validateAddress(receiver, source)
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'deposit',
+      args: [amount, receiver],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to withdraw from the vault
+   * @param amount an unformatted token amount (w/ decimals)
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async withdraw(amount: bigint, overrides?: TxOverrides) {
+    const source = 'User [withdraw]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'withdraw',
+      args: [amount, this.walletClient.account.address, this.walletClient.account.address],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to withdraw from the vault and send underlying assets to another address
+   * @param amount an unformatted token amount (w/ decimals)
+   * @param receiver the address to send assets to
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async withdrawTo(amount: bigint, receiver: string, overrides?: TxOverrides) {
+    const source = 'User [withdrawTo]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    validateAddress(receiver, source)
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'withdraw',
+      args: [amount, receiver, this.walletClient.account.address],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to redeem shares from the vault
+   * @param amount an unformatted share amount (w/ decimals)
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async redeem(amount: bigint, overrides?: TxOverrides) {
+    const source = 'User [redeem]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'redeem',
+      args: [amount, this.walletClient.account.address, this.walletClient.account.address],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to redeem shares from the vault and send underlying assets to another address
+   * @param amount an unformatted share amount (w/ decimals)
+   * @param receiver the address to send assets to
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async redeemTo(amount: bigint, receiver: string, overrides?: TxOverrides) {
+    const source = 'User [redeemTo]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    validateAddress(receiver, source)
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: this.address,
+      abi: erc4626Abi,
+      functionName: 'redeem',
+      args: [amount, receiver, this.walletClient.account.address],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to set an allowance for vault deposits
+   * @param amount an unformatted token amount (w/ decimals)
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async approveDeposit(amount: bigint, overrides?: TxOverrides) {
+    const source = 'User [approveDeposit]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    const tokenAddress = await this.getTokenAddress()
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: tokenAddress,
+      abi: erc20Abi,
+      functionName: 'approve',
+      args: [this.address, amount],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
+  /**
+   * Submits a transaction to set an allowance of 0 for vault deposits
+   * @param overrides optional overrides for this transaction
+   * @returns
+   */
+  async revokeAllowance(overrides?: TxOverrides) {
+    const source = 'User [revokeAllowance]'
+
+    if (!this.walletClient?.account) {
+      throw new Error(`${source} | Invalid/Unavailable Viem Wallet Client`)
+    }
+
+    const tokenAddress = await this.getTokenAddress()
+
+    const { request } = await this.publicClient.simulateContract({
+      account: this.walletClient.account,
+      address: tokenAddress,
+      abi: erc20Abi,
+      functionName: 'approve',
+      args: [this.address, 0],
+      chain: this.walletClient.chain,
+      ...overrides
+    })
+
+    const txHash = await this.walletClient.writeContract(request)
+
+    return txHash
+  }
+
   /* =========================== Contract Initializers =========================== */
 
+  // TODO: get proper contract typing
   /**
    * Initializes a contract for the vault's underlying asset
    * @returns
    */
-  async getTokenContract(): Promise<Contract> {
+  async getTokenContract(): Promise<any> {
     if (this.tokenContract !== undefined) return this.tokenContract
 
-    const source = 'Vault [getTokenContract]'
-    await validateSignerOrProviderNetwork(this.chainId, this.signerOrProvider, source)
+    const tokenAddress = await this.getTokenAddress()
 
-    const tokenAddress: string = await this.vaultContract.asset()
-
-    const tokenContract = new Contract(tokenAddress, erc20Abi, this.signerOrProvider)
+    const tokenContract = getContract({
+      address: tokenAddress,
+      abi: erc20Abi,
+      publicClient: this.publicClient
+    })
 
     this.tokenContract = tokenContract
     return this.tokenContract

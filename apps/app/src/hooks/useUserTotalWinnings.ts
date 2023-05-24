@@ -1,6 +1,6 @@
 import { useQueries } from '@tanstack/react-query'
-import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
+import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import {
   NO_REFETCH,
@@ -33,10 +33,10 @@ export const useUserTotalWinnings = () => {
 
   const totalTokensWonByChain = useMemo(() => {
     if (!!wins) {
-      const totals: { [chainId: number]: BigNumber } = {}
+      const totals: { [chainId: number]: bigint } = {}
       for (const key in wins) {
         const chainId = parseInt(key)
-        totals[chainId] = wins[chainId].reduce((a, b) => a.add(b.payout), BigNumber.from(0))
+        totals[chainId] = wins[chainId].reduce((a, b) => a + BigInt(b.payout), 0n)
       }
       return totals
     }
@@ -72,7 +72,7 @@ export const useUserTotalWinnings = () => {
         if (!!tokenDataResult) {
           const tokenData = tokenDataResult.data
           const tokenAmount = parseFloat(
-            utils.formatUnits(totalTokensWonByChain[chainId], tokenData.decimals)
+            formatUnits(totalTokensWonByChain[chainId], tokenData.decimals)
           )
           const tokenPrice = getTokenPriceFromObject(chainId, tokenData.address, tokenPrices)
           totalWinnings += tokenAmount * tokenPrice

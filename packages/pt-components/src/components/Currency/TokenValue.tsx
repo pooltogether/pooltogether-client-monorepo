@@ -1,5 +1,5 @@
-import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
+import { formatUnits } from 'viem'
 import { useToken, useTokenPrices } from 'pt-hyperstructure-hooks'
 import { TokenWithAmount } from 'pt-types'
 import { Spinner } from 'pt-ui'
@@ -7,7 +7,7 @@ import { getTokenPriceFromObject } from 'pt-utilities'
 import { CurrencyValue, CurrencyValueProps } from './CurrencyValue'
 
 export interface TokenValueProps extends Omit<CurrencyValueProps, 'baseValue'> {
-  token: { chainId: number; address: string } & Partial<TokenWithAmount>
+  token: { chainId: number; address: `0x${string}` } & Partial<TokenWithAmount>
 }
 
 export const TokenValue = (props: TokenValueProps) => {
@@ -37,10 +37,10 @@ export const TokenValue = (props: TokenValueProps) => {
 
   const tokenValue = useMemo(() => {
     if (!!tokenPrice) {
-      const amount = BigNumber.from(token.amount ?? 0)
+      const amount = token.amount ?? 0n
       const decimals = token.decimals ?? tokenData?.decimals
-      if (!amount.isZero() && decimals !== undefined) {
-        const formattedAmount = parseFloat(utils.formatUnits(amount, decimals))
+      if (!!amount && decimals !== undefined) {
+        const formattedAmount = parseFloat(formatUnits(amount, decimals))
         return formattedAmount * tokenPrice
       }
     }

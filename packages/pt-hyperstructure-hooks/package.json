@@ -22,11 +22,11 @@
     ]
   },
   "dependencies": {
-    "ethers": "^5.7.2",
     "jotai": "^1.13.1",
     "pt-client-js": "workspace:*",
     "pt-generic-hooks": "workspace:*",
-    "pt-utilities": "workspace:*"
+    "pt-utilities": "workspace:*",
+    "viem": "^0.3.30"
   },
   "devDependencies": {
     "@tanstack/react-query": "^4.24.10",
@@ -38,13 +38,13 @@
     "react-dom": "^18.2.0",
     "tsconfig": "workspace:*",
     "tsup": "^6.6.3",
-    "typescript": "^4.9.5",
-    "wagmi": "^0.12.6"
+    "typescript": "^5.0.4",
+    "wagmi": "^1.0.5"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^4.24.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "wagmi": "^0.12.6"
+    "wagmi": "^1.0.5"
   }
 }

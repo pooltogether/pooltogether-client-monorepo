@@ -228,3 +228,8 @@ export const VAULT_LIST_SCHEMA: JSONSchemaType<VaultList> = {
   },
   required: ['name', 'version', 'timestamp', 'tokens']
 }
+
+/**
+ * Max uint256 value
+ */
+export const MAX_UINT_256 = 2n ** 256n - 1n

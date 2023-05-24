@@ -10,11 +10,11 @@ export * from './app/useVaultList'
 /**
  * Blockchain Hooks
  */
+export * from './blockchain/useClientChainId'
+export * from './blockchain/useClientChainIds'
+export * from './blockchain/useClients'
 export * from './blockchain/useGasCostEstimates'
 export * from './blockchain/useGasPrices'
-export * from './blockchain/useProviderChainId'
-export * from './blockchain/useProviderChainIds'
-export * from './blockchain/useProviders'
 
 /**
  * Prize Pool Hooks

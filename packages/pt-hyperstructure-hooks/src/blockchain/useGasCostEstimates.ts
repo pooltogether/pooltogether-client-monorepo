@@ -1,13 +1,7 @@
-import { BigNumber } from 'ethers'
-import { utils } from 'ethers'
+import { formatUnits, parseUnits } from 'viem'
 import { CURRENCY_ID, useCoingeckoSimpleTokenPrices } from 'pt-generic-hooks'
 import { CoingeckoTokenPrices, GasCostEstimates } from 'pt-types'
-import {
-  calculatePercentageOfBigNumber,
-  COINGECKO_NATIVE_TOKEN_IDS,
-  getMaxPrecision,
-  NETWORK
-} from 'pt-utilities'
+import { calculatePercentageOfBigInt, COINGECKO_NATIVE_TOKEN_IDS, NETWORK } from 'pt-utilities'
 import { useGasPrices } from '..'
 
 /**
@@ -19,7 +13,7 @@ import { useGasPrices } from '..'
  */
 export const useGasCostEstimates = (
   chainId: NETWORK,
-  gasAmount: BigNumber,
+  gasAmount: bigint,
   currencies?: CURRENCY_ID[]
 ): { data?: GasCostEstimates; isFetched: boolean } => {
   const { data: coingeckoPrices, isFetched: isFetchedCoingeckoPrices } =
@@ -30,10 +24,9 @@ export const useGasCostEstimates = (
   const isFetched = isFetchedCoingeckoPrices && isFetchedGasPrices
 
   if (!!coingeckoPrices && !!gasPrices && isFetched) {
-    const gasPriceWei = BigNumber.from(Math.round(gasPrices.ProposeGasPrice * 1000))
-      .mul(utils.parseUnits('1', 9))
-      .div(1000)
-    const totalGasWei = gasPriceWei.mul(gasAmount)
+    const gasPriceWei =
+      (BigInt(Math.round(gasPrices.ProposeGasPrice * 1_000)) * parseUnits('1', 9)) / BigInt(1_000)
+    const totalGasWei = gasPriceWei * gasAmount
 
     const data: GasCostEstimates = { totalGasWei, totalGasCurrencies: {} }
 
@@ -74,15 +67,12 @@ const calculateGasCostInCurrency = (
   coingeckoPrices: CoingeckoTokenPrices,
   chainId: NETWORK,
   currency: string,
-  totalGasWei: BigNumber
+  totalGasWei: bigint
 ) => {
   const tokenPrice = coingeckoPrices[COINGECKO_NATIVE_TOKEN_IDS[chainId]]?.[currency]
 
   if (!!tokenPrice) {
-    const totalGasCost = utils.formatUnits(
-      calculatePercentageOfBigNumber(totalGasWei, tokenPrice, getMaxPrecision(tokenPrice)),
-      18
-    )
+    const totalGasCost = formatUnits(calculatePercentageOfBigInt(totalGasWei, tokenPrice), 18)
     return totalGasCost
   } else {
     return undefined

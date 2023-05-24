@@ -1,9 +1,6 @@
-import { BigNumber } from 'ethers'
 import { PrizePool, Vault } from 'pt-client-js'
 import { calculateOdds } from 'pt-utilities'
-import { useVaultPercentageContribution } from '../vaults/useVaultPercentageContribution'
-import { useVaultShareData } from '../vaults/useVaultShareData'
-import { useEstimatedPrizeCount } from './useEstimatedPrizeCount'
+import { useEstimatedPrizeCount, useVaultPercentageContribution, useVaultShareData } from '..'
 
 /**
  * Returns the odds of winning any prize within any one draw for a specific vault, given a specific share balance
@@ -16,7 +13,7 @@ import { useEstimatedPrizeCount } from './useEstimatedPrizeCount'
 export const usePrizeOdds = (
   prizePool: PrizePool,
   vault: Vault,
-  shares: string,
+  shares: bigint,
   options?: { isCumulative?: boolean }
 ): { data?: { percent: number; oneInX: number }; isFetched: boolean } => {
   const { data: shareData, isFetched: isFetchedShareData } = useVaultShareData(vault)
@@ -31,10 +28,8 @@ export const usePrizeOdds = (
   const percent =
     !!shareData && vaultContribution !== undefined && prizeCount !== undefined && !!shares
       ? calculateOdds(
-          BigNumber.from(shares),
-          BigNumber.from(shareData.totalSupply).add(
-            options?.isCumulative ? BigNumber.from(shares) : 0
-          ),
+          shares,
+          shareData.totalSupply + (options?.isCumulative ? shares : 0n),
           shareData.decimals,
           vaultContribution,
           prizeCount

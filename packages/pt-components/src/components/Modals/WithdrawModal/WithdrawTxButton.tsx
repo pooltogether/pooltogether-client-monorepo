@@ -1,6 +1,6 @@
-import { BigNumber, utils } from 'ethers'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
+import { parseUnits } from 'viem'
 import { useAccount, useNetwork } from 'wagmi'
 import { Vault } from 'pt-client-js'
 import {
@@ -51,7 +51,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   const { refetch: refetchTokenBalance } = useTokenBalance(
     vault.chainId,
     userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const { refetch: refetchVaultBalance } = useVaultBalance(vault)
@@ -62,8 +62,8 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     vault.decimals !== undefined ? isValidFormInput(formShareAmount, vault.decimals) : false
 
   const withdrawAmount = isValidFormShareAmount
-    ? utils.parseUnits(formShareAmount, vault.decimals)
-    : BigNumber.from(0)
+    ? parseUnits(`${parseFloat(formShareAmount)}`, vault.decimals as number)
+    : 0n
 
   const {
     isWaiting: isWaitingWithdrawal,
@@ -106,11 +106,11 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
     isFetchedVaultShareBalance &&
     !!vaultShareBalance &&
     isValidFormShareAmount &&
-    !withdrawAmount.isZero() &&
-    BigNumber.from(vaultShareBalance.amount).gte(withdrawAmount) &&
+    !!withdrawAmount &&
+    vaultShareBalance.amount >= withdrawAmount &&
     !!sendRedeemTransaction
 
-  if (withdrawAmount.isZero()) {
+  if (withdrawAmount === 0n) {
     return (
       <Button color='transparent' fullSized={true} disabled={true}>
         Enter an amount

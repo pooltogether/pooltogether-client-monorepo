@@ -33,7 +33,7 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 ### External Packages
 
-- `pt-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Ethers](https://ethers.org/).
+- `pt-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Viem](https://viem.sh/).
 - `pt-hyperstructure-hooks`: Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
 - `pt-types`: Shared Typescript types.
 

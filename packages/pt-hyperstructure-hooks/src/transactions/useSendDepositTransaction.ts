@@ -1,5 +1,5 @@
-import { BigNumber, providers, utils } from 'ethers'
 import { useEffect } from 'react'
+import { isAddress, TransactionReceipt } from 'viem'
 import {
   useAccount,
   useContractWrite,
@@ -19,7 +19,7 @@ import { useTokenAllowance } from '..'
  * @returns
  */
 export const useSendDepositTransaction = (
-  amount: BigNumber,
+  amount: bigint,
   vault: Vault,
   options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
@@ -28,7 +28,7 @@ export const useSendDepositTransaction = (
   isSuccess: boolean
   isError: boolean
   txHash?: `0x${string}`
-  txReceipt?: providers.TransactionReceipt
+  txReceipt?: TransactionReceipt
   sendDepositTransaction?: () => void
 } => {
   const { address: userAddress } = useAccount()
@@ -38,22 +38,22 @@ export const useSendDepositTransaction = (
     vault?.chainId,
     userAddress as `0x${string}`,
     vault?.address,
-    vault?.tokenData?.address as string
+    vault?.tokenData?.address as `0x${string}`
   )
 
   const enabled =
     !!vault &&
     !!vault.tokenData &&
     !!userAddress &&
-    utils.isAddress(userAddress) &&
+    isAddress(userAddress) &&
     chain?.id === vault.chainId &&
     isFetchedAllowance &&
     !!allowance &&
-    allowance.gte(amount)
+    allowance >= amount
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
-    address: vault?.address as `0x${string}`,
+    address: vault?.address,
     abi: erc4626Abi,
     functionName: 'deposit',
     args: [amount, userAddress],

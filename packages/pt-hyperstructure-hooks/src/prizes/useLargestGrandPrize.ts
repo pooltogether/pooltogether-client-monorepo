@@ -1,4 +1,3 @@
-import { BigNumber } from 'ethers'
 import { useMemo } from 'react'
 import { PrizePool } from 'pt-client-js'
 import { TokenWithAmount, TokenWithPrice } from 'pt-types'
@@ -19,14 +18,14 @@ export const useLargestGrandPrize = (
 } => {
   const { data: allPrizeInfo, isFetched: isFetchedAllPrizeInfo } = useAllPrizeInfo(prizePools)
 
-  let largestGrandPrizeAmount = BigNumber.from(0)
+  let largestGrandPrizeAmount = 0n
 
   const prizePoolId = useMemo(() => {
     let largestGrandPrizePoolId = ''
 
     for (const id in allPrizeInfo) {
       const prizeAmount = allPrizeInfo[id][0].amount
-      if (prizeAmount.gt(largestGrandPrizeAmount) || largestGrandPrizePoolId === '') {
+      if (prizeAmount > largestGrandPrizeAmount || largestGrandPrizePoolId === '') {
         largestGrandPrizePoolId = id
         largestGrandPrizeAmount = prizeAmount
       }
@@ -47,7 +46,7 @@ export const useLargestGrandPrize = (
     !!prizePool && !!tokenWithPrice
       ? {
           prizePool: prizePool,
-          token: { ...tokenWithPrice, amount: largestGrandPrizeAmount.toString() }
+          token: { ...tokenWithPrice, amount: largestGrandPrizeAmount }
         }
       : undefined
 

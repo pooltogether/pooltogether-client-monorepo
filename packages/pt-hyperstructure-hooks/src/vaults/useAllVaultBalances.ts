@@ -2,8 +2,8 @@ import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { Vaults } from 'pt-client-js'
 import { NO_REFETCH } from 'pt-generic-hooks'
 import { TokenWithAmount } from 'pt-types'
+import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
-import { populateCachePerId } from '../utils/populateCachePerId'
 
 /**
  * Returns the total underlying token balance deposited in each vault

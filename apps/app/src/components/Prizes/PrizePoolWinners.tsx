@@ -1,5 +1,4 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
-import { BigNumber } from 'ethers'
 import { atom, useSetAtom } from 'jotai'
 import { useState } from 'react'
 import { PrizePool } from 'pt-client-js'
@@ -59,7 +58,7 @@ const DrawRow = (props: DrawRowProps) => {
   const setSelectedDrawId = useSetAtom(drawIdAtom)
 
   const uniqueWallets = new Set<string>(draw.prizeClaims.map((claim) => claim.winner.id))
-  const totalPrizeAmount = draw.prizeClaims.reduce((a, b) => a.add(b.payout), BigNumber.from(0))
+  const totalPrizeAmount = draw.prizeClaims.reduce((a, b) => a + BigInt(b.payout), 0n)
 
   const handleClick = () => {
     setSelectedDrawId(draw.id)
@@ -76,7 +75,7 @@ const DrawRow = (props: DrawRowProps) => {
         <span className='inline-flex gap-2'>
           {uniqueWallets.size} wallet{uniqueWallets.size === 1 ? '' : 's'} won{' '}
           <span className='text-pt-purple-50'>
-            <TokenValue token={{ ...tokenData, amount: totalPrizeAmount.toString() }} />
+            <TokenValue token={{ ...tokenData, amount: totalPrizeAmount }} />
           </span>{' '}
           in prizes <ChevronRightIcon className='h-6 w-6' />
         </span>

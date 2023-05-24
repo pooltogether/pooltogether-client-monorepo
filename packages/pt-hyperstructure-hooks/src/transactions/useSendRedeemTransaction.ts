@@ -1,5 +1,5 @@
-import { BigNumber, providers, utils } from 'ethers'
 import { useEffect } from 'react'
+import { isAddress, TransactionReceipt } from 'viem'
 import {
   useAccount,
   useContractWrite,
@@ -19,7 +19,7 @@ import { useUserVaultShareBalance } from '..'
  * @returns
  */
 export const useSendRedeemTransaction = (
-  amount: BigNumber,
+  amount: bigint,
   vault: Vault,
   options?: { onSend?: () => void; onSuccess?: () => void; onError?: () => void }
 ): {
@@ -28,7 +28,7 @@ export const useSendRedeemTransaction = (
   isSuccess: boolean
   isError: boolean
   txHash?: `0x${string}`
-  txReceipt?: providers.TransactionReceipt
+  txReceipt?: TransactionReceipt
   sendRedeemTransaction?: () => void
 } => {
   const { address: userAddress } = useAccount()
@@ -40,15 +40,15 @@ export const useSendRedeemTransaction = (
   const enabled =
     !!vault &&
     !!userAddress &&
-    utils.isAddress(userAddress) &&
+    isAddress(userAddress) &&
     chain?.id === vault.chainId &&
     isFetchedVaultShareBalance &&
     !!vaultShareBalance &&
-    amount.lte(vaultShareBalance.amount)
+    amount <= vaultShareBalance.amount
 
   const { config } = usePrepareContractWrite({
     chainId: vault?.chainId,
-    address: vault?.address as `0x${string}`,
+    address: vault?.address,
     abi: erc4626Abi,
     functionName: 'redeem',
     args: [amount, userAddress, userAddress],

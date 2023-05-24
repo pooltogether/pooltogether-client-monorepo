@@ -1,5 +1,5 @@
-import { BigNumber, utils } from 'ethers'
 import { useMemo, useState } from 'react'
+import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import { PrizePool, Vault } from 'pt-client-js'
 import {
@@ -115,8 +115,8 @@ const sortVaultsByTotalDeposits = (
   tokenPrices: { [chainId: number]: CoingeckoTokenPrices }
 ) => {
   return vaults.sort((a, b) => {
-    const aAmount = parseFloat(utils.formatUnits(vaultBalances[a.id]?.amount ?? '0', a.decimals))
-    const bAmount = parseFloat(utils.formatUnits(vaultBalances[b.id]?.amount ?? '0', b.decimals))
+    const aAmount = parseFloat(formatUnits(vaultBalances[a.id]?.amount ?? 0n, a.decimals))
+    const bAmount = parseFloat(formatUnits(vaultBalances[b.id]?.amount ?? 0n, b.decimals))
 
     const aPrice = getTokenPriceFromObject(a.chainId, vaultBalances[a.id]?.address, tokenPrices)
     const bPrice = getTokenPriceFromObject(b.chainId, vaultBalances[b.id]?.address, tokenPrices)
@@ -133,24 +133,24 @@ const sortVaultsByUserBalances = (
   vaultBalances: { [vaultId: string]: TokenWithAmount },
   tokenPrices: { [chainId: number]: CoingeckoTokenPrices },
   userBalances: { [vaultId: string]: TokenWithAmount },
-  exchangeRates: { [vaultId: string]: BigNumber }
+  exchangeRates: { [vaultId: string]: bigint }
 ) => {
   return vaults.sort((a, b) => {
     const aAmount = parseFloat(
-      utils.formatUnits(
+      formatUnits(
         getAssetsFromShares(
-          BigNumber.from(userBalances[a.id]?.amount ?? 0),
-          exchangeRates[a.id] ?? BigNumber.from(0),
+          userBalances[a.id]?.amount ?? 0n,
+          exchangeRates[a.id] ?? 0n,
           a.decimals
         ),
         a.decimals
       )
     )
     const bAmount = parseFloat(
-      utils.formatUnits(
+      formatUnits(
         getAssetsFromShares(
-          BigNumber.from(userBalances[b.id]?.amount ?? 0),
-          exchangeRates[b.id] ?? BigNumber.from(0),
+          userBalances[b.id]?.amount ?? 0n,
+          exchangeRates[b.id] ?? 0n,
           b.decimals
         ),
         b.decimals

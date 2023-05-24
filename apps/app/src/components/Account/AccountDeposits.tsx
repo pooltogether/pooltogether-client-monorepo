@@ -28,7 +28,7 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
 
   const isEmpty =
     isFetchedVaultBalances && !!vaultBalances
-      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].amount === '0')
+      ? Object.keys(vaultBalances).every((vaultId) => vaultBalances[vaultId].amount === 0n)
       : false
 
   if (typeof window !== 'undefined' && userAddress === undefined) {

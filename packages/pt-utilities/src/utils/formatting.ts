@@ -1,4 +1,4 @@
-import { BigNumber, utils } from 'ethers'
+import { formatUnits } from 'viem'
 
 /**
  * Formats a number string to the requested precision
@@ -7,8 +7,12 @@ import { BigNumber, utils } from 'ethers'
  * @returns
  */
 export const formatStringWithPrecision = (val: string, precision: number = 2) => {
-  if (precision === 0) return val.substring(0, val.indexOf('.'))
-  return val.substring(0, val.indexOf('.') + precision + 1)
+  const periodIndex = val.indexOf('.')
+  if (periodIndex !== -1) {
+    if (precision === 0) return val.substring(0, periodIndex)
+    return val.substring(0, periodIndex + precision + 1)
+  }
+  return val
 }
 
 /**
@@ -18,7 +22,7 @@ export const formatStringWithPrecision = (val: string, precision: number = 2) =>
  * @returns
  */
 export const formatNumberForDisplay = (
-  val: BigNumber | string | number,
+  val: string | number | bigint,
   options: Intl.NumberFormatOptions & {
     locale?: string
     round?: boolean
@@ -32,10 +36,8 @@ export const formatNumberForDisplay = (
     return ''
   } else if (typeof val === 'number') {
     _val = val
-  } else if (typeof val === 'string') {
+  } else if (typeof val === 'string' || typeof val === 'bigint') {
     _val = Number(val)
-  } else if (!!val._isBigNumber) {
-    _val = val.toNumber()
   } else {
     return ''
   }
@@ -60,14 +62,14 @@ export const formatNumberForDisplay = (
 }
 
 /**
- * Wraps {@link formatNumberForDisplay} and handles shifting decimals of a BigNumber
- * @param val BigNumber to format
+ * Wraps {@link formatNumberForDisplay} and handles shifting decimals of a BigInt
+ * @param val BigInt to format
  * @param decimals decimals to shift by
  * @param options formatting options
  * @returns
  */
-export const formatBigNumberForDisplay = (
-  val: BigNumber,
+export const formatBigIntForDisplay = (
+  val: bigint,
   decimals: number,
   options?: Intl.NumberFormatOptions & {
     locale?: string
@@ -75,8 +77,8 @@ export const formatBigNumberForDisplay = (
     hideZeroes?: boolean
   }
 ) => {
-  const shiftedBigNumber = utils.formatUnits(val, decimals)
-  return formatNumberForDisplay(shiftedBigNumber, options)
+  const shiftedBigInt = formatUnits(val, decimals)
+  return formatNumberForDisplay(shiftedBigInt, options)
 }
 
 /**

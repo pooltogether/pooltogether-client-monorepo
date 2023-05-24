@@ -1,5 +1,4 @@
 import classNames from 'classnames'
-import { BigNumber } from 'ethers'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
@@ -55,7 +54,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     filter: (vaults: Vault[]) => Vault[] | undefined
   ) => {
     setFilterId(id)
-    const filteredVaultsArray = filter(vaults.filter((vault) => !!vault.tokenContract))
+    const filteredVaultsArray = filter(vaults.filter((vault) => !!vault.tokenAddress))
     const filteredVaultsByChain = formatVaultsByChain(networks, filteredVaultsArray)
     setFilteredVaults(filteredVaultsByChain)
   }
@@ -74,10 +73,9 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         onClick: () =>
           filterOnClick('userWallet', vaultsArray, (vaults) =>
             vaults.filter((vault) => {
-              const userWalletBalance = BigNumber.from(
-                userTokenBalances?.[vault.chainId]?.[vault.tokenContract.address]?.amount ?? 0
-              )
-              return !userWalletBalance.isZero()
+              const userWalletBalance =
+                userTokenBalances?.[vault.chainId]?.[vault.tokenAddress]?.amount ?? 0n
+              return userWalletBalance > 0n
             })
           )
       },
@@ -87,9 +85,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         onClick: () =>
           filterOnClick('stablecoin', vaultsArray, (vaults) =>
             vaults.filter((vault) =>
-              STABLECOIN_ADDRESSES[vault.chainId].includes(
-                vault.tokenContract.address.toLowerCase()
-              )
+              STABLECOIN_ADDRESSES[vault.chainId].includes(vault.tokenAddress.toLowerCase())
             )
           )
       },

@@ -58,7 +58,7 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
               content: (
                 <AccountWinAmount
                   prizePool={prizePools.find((prizePool) => prizePool.chainId === win.chainId)}
-                  amount={win.payout}
+                  amount={BigInt(win.payout)}
                 />
               ),
               position: 'center'

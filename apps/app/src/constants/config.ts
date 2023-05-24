@@ -71,14 +71,21 @@ export const RPC_URLS = {
 /**
  * Prize Pools
  */
-export const PRIZE_POOLS = Object.freeze({
+export const PRIZE_POOLS: {
+  [chainId: number]: {
+    address: `0x${string}`
+    prizeTokenAddress: `0x${string}`
+    drawPeriodInSeconds: number
+    tierShares: number
+  }
+} = {
   [NETWORK.mumbai]: {
     address: '0xA32C8f94191c9295634f0034eb2b0e2749e77974',
     prizeTokenAddress: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7',
     drawPeriodInSeconds: 43_200,
     tierShares: 100
   }
-})
+}
 
 /**
  * Default Vault Lists

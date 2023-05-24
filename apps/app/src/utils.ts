@@ -1,5 +1,5 @@
 import { connectorsForWallets, Wallet } from '@rainbow-me/rainbowkit'
-import { Chain, Client, configureChains, Connector, createClient } from 'wagmi'
+import { Chain, Config, configureChains, Connector, createConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 import { NETWORK, parseQueryParam } from 'pt-utilities'
@@ -10,15 +10,11 @@ import { PRIZE_POOLS, RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
  * @returns
  */
 export const formatPrizePools = () => {
-  return Object.keys(PRIZE_POOLS).map((network) => {
-    const info = PRIZE_POOLS[network] as {
-      address: string
-      prizeTokenAddress?: string
-      drawPeriodInSeconds?: number
-      tierShares?: number
-    }
+  return Object.keys(PRIZE_POOLS).map((strChainId) => {
+    const chainId = parseInt(strChainId)
+    const info = PRIZE_POOLS[chainId]
     return {
-      chainId: parseInt(network),
+      chainId,
       address: info.address,
       options: {
         prizeTokenAddress: info.prizeTokenAddress,
@@ -30,23 +26,23 @@ export const formatPrizePools = () => {
 }
 
 /**
- * Returns a Wagmi client with the given networks and RPCs
+ * Returns a Wagmi config with the given networks and RPCs
  * @param networks the networks to support throughout the app
  * @returns
  */
-export const createCustomWagmiClient = (networks: NETWORK[]): Client => {
+export const createCustomWagmiConfig = (networks: NETWORK[]): Config => {
   const supportedNetworks = Object.values(WAGMI_CHAINS).filter(
     (chain) => networks.includes(chain.id) && !!RPC_URLS[chain.id]
   )
 
-  const { chains, provider } = configureChains(supportedNetworks, [
-    jsonRpcProvider({ priority: 0, rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
-    publicProvider({ priority: 1 })
+  const { chains, publicClient } = configureChains(supportedNetworks, [
+    jsonRpcProvider({ rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
+    publicProvider()
   ])
 
   const connectors = getWalletConnectors(chains)
 
-  return createClient({ autoConnect: true, connectors, provider })
+  return createConfig({ autoConnect: true, connectors, publicClient })
 }
 
 /**

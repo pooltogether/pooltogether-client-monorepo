@@ -5,7 +5,7 @@ import { Spinner } from 'pt-ui'
 
 interface AccountWinAmountProps {
   prizePool: PrizePool
-  amount: string
+  amount: bigint
 }
 
 export const AccountWinAmount = (props: AccountWinAmountProps) => {

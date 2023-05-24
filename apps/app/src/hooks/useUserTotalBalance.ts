@@ -1,5 +1,5 @@
-import { BigNumber, utils } from 'ethers'
 import { useMemo } from 'react'
+import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import {
   useAllUserVaultBalances,
@@ -48,12 +48,12 @@ export const useUserTotalBalance = () => {
           if (!!exchangeRate) {
             const chainId = vaultBalances[vaultId].chainId
             const tokenAddress = vaults.underlyingTokenAddresses.byVault[vaultId]
-            const shareBalance = BigNumber.from(vaultBalances[vaultId].amount)
+            const shareBalance = vaultBalances[vaultId].amount
 
             const tokenPrice = getTokenPriceFromObject(chainId, tokenAddress, tokenPrices)
             const tokenBalance = getAssetsFromShares(shareBalance, exchangeRate, decimals)
 
-            const formattedTokenBalance = utils.formatUnits(tokenBalance, decimals)
+            const formattedTokenBalance = formatUnits(tokenBalance, decimals)
             totalBalance += Number(formattedTokenBalance) * tokenPrice
           }
         }
