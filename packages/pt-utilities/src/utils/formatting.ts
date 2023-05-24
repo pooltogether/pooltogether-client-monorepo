@@ -7,8 +7,12 @@ import { formatUnits } from 'viem'
  * @returns
  */
 export const formatStringWithPrecision = (val: string, precision: number = 2) => {
-  if (precision === 0) return val.substring(0, val.indexOf('.'))
-  return val.substring(0, val.indexOf('.') + precision + 1)
+  const periodIndex = val.indexOf('.')
+  if (periodIndex !== -1) {
+    if (precision === 0) return val.substring(0, periodIndex)
+    return val.substring(0, periodIndex + precision + 1)
+  }
+  return val
 }
 
 /**

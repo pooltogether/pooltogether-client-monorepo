@@ -147,13 +147,11 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     isFetchedUserBalance &&
     !!userBalance &&
     isFetchedAllowance &&
-    !!allowance &&
+    allowance !== undefined &&
     !!depositAmount &&
     userBalance.amount >= depositAmount &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined &&
-    !!sendExactApproveTransaction &&
-    !!sendInfiniteApproveTransaction
+    vault.decimals !== undefined
 
   const depositEnabled =
     !isDisconnected &&
@@ -167,8 +165,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     userBalance.amount >= depositAmount &&
     allowance >= depositAmount &&
     isValidFormTokenAmount &&
-    vault.decimals !== undefined &&
-    !!sendDepositTransaction
+    vault.decimals !== undefined
 
   if (depositAmount === 0n) {
     return (

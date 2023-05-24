@@ -351,7 +351,7 @@ export class PrizePool {
     const source = 'Prize Pool [getEstimatedPrizeCount]'
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const estimatedPrizeCount = Number(await this.prizePoolContract.read['estimatedPrizeCount()']())
+    const estimatedPrizeCount = Number(await this.prizePoolContract.read.estimatedPrizeCount())
 
     return estimatedPrizeCount
   }
