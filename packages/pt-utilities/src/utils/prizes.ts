@@ -1,11 +1,10 @@
-import { ContractCallContext } from 'ethereum-multicall'
 import { formatUnits, getContract, PublicClient } from 'viem'
 import { PrizeInfo, SubgraphPrizePoolAccount, SubgraphPrizePoolDraw } from 'pt-types'
 import { prizePool as prizePoolAbi } from '../abis/prizePool'
 import { PRIZE_POOL_GRAPH_API_URLS, SECONDS_PER_DAY } from '../constants'
 import { formatStringWithPrecision } from './formatting'
 import { calculatePercentageOfBigInt, divideBigInts } from './math'
-import { getComplexMulticallResults, getMulticallResults } from './multicall'
+import { getComplexMulticallResults, getSimpleMulticallResults } from './multicall'
 import { getVaultId } from './vaults'
 
 /**
@@ -29,8 +28,8 @@ export const getPrizePoolId = (chainId: number, address: string) => {
  */
 export const getPrizePoolContributionAmounts = async (
   publicClient: PublicClient,
-  prizePoolAddress: string,
-  vaultAddresses: string[],
+  prizePoolAddress: `0x${string}`,
+  vaultAddresses: `0x${string}`[],
   startDrawId: number,
   endDrawId: number
 ): Promise<{ [vaultId: string]: bigint }> => {
@@ -39,30 +38,19 @@ export const getPrizePoolContributionAmounts = async (
   const chainId = await publicClient.getChainId()
 
   if (vaultAddresses.length > 0) {
-    const queries: ContractCallContext[] = vaultAddresses.map((vaultAddress) => {
-      const calls: ContractCallContext['calls'] = [
-        {
-          reference: vaultAddress,
-          methodName: 'getContributedBetween',
-          methodParameters: [vaultAddress, startDrawId, endDrawId]
-        }
-      ]
-      return {
-        reference: vaultAddress,
-        contractAddress: prizePoolAddress,
-        abi: prizePoolAbi,
-        calls
-      }
-    })
-    const multicallResults = await getComplexMulticallResults(publicClient, queries)
+    const calls = vaultAddresses.map((vaultAddress) => ({
+      address: prizePoolAddress,
+      abi: prizePoolAbi,
+      functionName: 'getContributedBetween',
+      args: [vaultAddress, startDrawId, endDrawId]
+    }))
+
+    const multicallResults = await getComplexMulticallResults(publicClient, calls)
 
     vaultAddresses.forEach((vaultAddress) => {
-      const vaultContribution: string | undefined =
-        multicallResults[prizePoolAddress][vaultAddress]?.[0]
-      if (!!vaultContribution) {
-        const vaultId = getVaultId({ chainId, address: vaultAddress })
-        contributionAmounts[vaultId] = BigInt(vaultContribution)
-      }
+      const vaultContribution: bigint = multicallResults[prizePoolAddress]?.[vaultAddress] ?? 0n
+      const vaultId = getVaultId({ chainId, address: vaultAddress })
+      contributionAmounts[vaultId] = vaultContribution
     })
   }
 
@@ -82,8 +70,8 @@ export const getPrizePoolContributionAmounts = async (
  */
 export const getPrizePoolContributionPercentages = async (
   publicClient: PublicClient,
-  prizePoolAddress: string,
-  vaultAddresses: string[],
+  prizePoolAddress: `0x${string}`,
+  vaultAddresses: `0x${string}`[],
   startDrawId: number,
   endDrawId: number
 ): Promise<{ [vaultId: string]: number }> => {
@@ -92,25 +80,17 @@ export const getPrizePoolContributionPercentages = async (
   const chainId = await publicClient.getChainId()
 
   if (vaultAddresses.length > 0) {
-    const queries: ContractCallContext[] = vaultAddresses.map((vaultAddress) => {
-      const calls: ContractCallContext['calls'] = [
-        {
-          reference: vaultAddress,
-          methodName: 'getVaultPortion',
-          methodParameters: [vaultAddress, startDrawId, endDrawId]
-        }
-      ]
-      return {
-        reference: vaultAddress,
-        contractAddress: prizePoolAddress,
-        abi: prizePoolAbi,
-        calls
-      }
-    })
-    const multicallResults = await getComplexMulticallResults(publicClient, queries)
+    const calls = vaultAddresses.map((vaultAddress) => ({
+      address: prizePoolAddress,
+      abi: prizePoolAbi,
+      functionName: 'getVaultPortion',
+      args: [vaultAddress, startDrawId, endDrawId]
+    }))
+
+    const multicallResults = await getComplexMulticallResults(publicClient, calls)
 
     vaultAddresses.forEach((vaultAddress) => {
-      const vaultContribution = BigInt(multicallResults[prizePoolAddress][vaultAddress]?.[0] ?? 0)
+      const vaultContribution: bigint = multicallResults[prizePoolAddress]?.[vaultAddress] ?? 0n
       const vaultId = getVaultId({ chainId, address: vaultAddress })
       contributionPercentages[vaultId] = parseFloat(formatUnits(vaultContribution, 18))
     })
@@ -130,9 +110,9 @@ export const getPrizePoolContributionPercentages = async (
  */
 export const checkPrizePoolWins = async (
   publicClient: PublicClient,
-  prizePoolAddress: string,
-  vaultAddresses: string[],
-  userAddress: string,
+  prizePoolAddress: `0x${string}`,
+  vaultAddresses: `0x${string}`[],
+  userAddress: `0x${string}`,
   tiers: number[]
 ): Promise<{
   [vaultId: string]: number[]
@@ -142,36 +122,35 @@ export const checkPrizePoolWins = async (
   const chainId = await publicClient.getChainId()
 
   if (vaultAddresses.length > 0 && tiers.length > 0) {
-    const calls: ContractCallContext['calls'] = []
+    const calls: { functionName: string; args?: any[] }[] = []
 
     vaultAddresses.forEach((vaultAddress) => {
       tiers.forEach((tier) => {
         calls.push({
-          reference: `${vaultAddress}-${tier}`,
-          methodName: 'isWinner',
-          methodParameters: [vaultAddress, userAddress, tier]
+          functionName: 'isWinner',
+          args: [vaultAddress, userAddress, tier]
         })
       })
     })
 
-    const multicallResults = await getMulticallResults(
+    const multicallResults = await getSimpleMulticallResults(
       publicClient,
-      [prizePoolAddress],
+      prizePoolAddress,
       prizePoolAbi,
       calls
     )
 
-    vaultAddresses.forEach((vaultAddress) => {
-      tiers.forEach((tier) => {
-        const isWinner: boolean = multicallResults[prizePoolAddress][`${vaultAddress}-${tier}`]?.[0]
-        if (isWinner) {
-          const vaultId = getVaultId({ chainId, address: vaultAddress })
-          if (wins[vaultId] === undefined) {
-            wins[vaultId] = []
-          }
-          wins[vaultId].push(tier)
+    calls.forEach((call, i) => {
+      const isWinner: boolean = multicallResults[i]
+      if (isWinner) {
+        const vaultAddress = call.args?.[0] as `0x${string}`
+        const tier = call.args?.[2] as number
+        const vaultId = getVaultId({ chainId, address: vaultAddress })
+        if (wins[vaultId] === undefined) {
+          wins[vaultId] = []
         }
-      })
+        wins[vaultId].push(tier)
+      }
     })
   }
 
@@ -198,28 +177,22 @@ export const getPrizePoolAllPrizeInfo = async (
     throw new Error(`Invalid number of past draws to consider: ${considerPastDraws}`)
   }
 
-  const calls: ContractCallContext['calls'] = [
-    { reference: 'drawPeriod', methodName: 'drawPeriodSeconds', methodParameters: [] },
-    { reference: 'tierShares', methodName: 'tierShares', methodParameters: [] },
-    { reference: 'totalShares', methodName: 'getTotalShares', methodParameters: [] },
-    { reference: 'lastDrawId', methodName: 'getLastCompletedDrawId', methodParameters: [] },
-    ...tiers.map((tier) => {
-      return {
-        reference: `accrualDraws-${tier}`,
-        methodName: 'getTierAccrualDurationInDraws',
-        methodParameters: [tier]
-      }
-    })
+  const calls: { functionName: string; args?: any[] }[] = [
+    { functionName: 'drawPeriodSeconds' },
+    { functionName: 'tierShares' },
+    { functionName: 'getTotalShares' },
+    { functionName: 'getLastCompletedDrawId' },
+    ...tiers.map((tier) => ({ functionName: 'getTierAccrualDurationInDraws', args: [tier] }))
   ]
 
-  const multicallResults = await getMulticallResults(
+  const multicallResults = await getSimpleMulticallResults(
     publicClient,
-    [prizePoolAddress],
+    prizePoolAddress,
     prizePoolAbi,
     calls
   )
 
-  const lastDrawId = parseInt(multicallResults[prizePoolAddress]['lastDrawId']?.[0] ?? '0')
+  const lastDrawId = Number(multicallResults[3] ?? 0)
   const startDrawId = considerPastDraws > lastDrawId ? 1 : lastDrawId - considerPastDraws + 1
 
   const prizePoolContract = getContract({
@@ -235,10 +208,10 @@ export const getPrizePoolAllPrizeInfo = async (
         ])) as bigint)
       : 0n
 
-  const drawPeriod = parseInt(multicallResults[prizePoolAddress]['drawPeriod']?.[0])
+  const drawPeriod = Number(multicallResults[0])
 
-  const tierShares = BigInt(multicallResults[prizePoolAddress]['tierShares']?.[0] ?? 0)
-  const totalShares = BigInt(multicallResults[prizePoolAddress]['totalShares']?.[0] ?? 0)
+  const tierShares = multicallResults[1] ?? 0n
+  const totalShares = multicallResults[2] ?? 0n
   const tierSharePercentage = divideBigInts(tierShares, totalShares)
   const formattedTierSharePercentage = parseFloat(
     formatStringWithPrecision(tierSharePercentage.toString(), 4)
@@ -251,7 +224,7 @@ export const getPrizePoolAllPrizeInfo = async (
   tiers.forEach((tier) => {
     const tierPrizeCount = 4 ** tier
 
-    const accrualDraws = parseInt(multicallResults[prizePoolAddress][`accrualDraws-${tier}`]?.[0])
+    const accrualDraws = Number(multicallResults[tier + 4])
     const accrualSeconds = accrualDraws * drawPeriod
     const accrualDays = accrualSeconds / SECONDS_PER_DAY
 

@@ -55,7 +55,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     vault.chainId,
     userAddress as `0x${string}`,
     vault.address,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const {
@@ -65,7 +65,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
   } = useTokenBalance(
     vault.chainId,
     userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const { refetch: refetchVaultBalance } = useVaultBalance(vault)

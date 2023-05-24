@@ -32,7 +32,7 @@ export const DepositForm = (props: DepositFormProps) => {
   const { data: tokenWithAmount, isFetched: isFetchedTokenBalance } = useTokenBalance(
     vault.chainId,
     userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
   const tokenBalance = isFetchedTokenBalance && !!tokenWithAmount ? tokenWithAmount.amount : 0n
 

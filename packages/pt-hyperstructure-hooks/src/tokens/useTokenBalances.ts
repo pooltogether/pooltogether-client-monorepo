@@ -20,10 +20,10 @@ import { QUERY_KEYS } from '../constants'
  */
 export const useTokenBalances = (
   chainId: number,
-  address: string,
-  tokenAddresses: string[],
+  address: `0x${string}`,
+  tokenAddresses: `0x${string}`[],
   refetchInterval?: number
-): UseQueryResult<{ [tokenAddress: string]: TokenWithAmount }, unknown> => {
+): UseQueryResult<{ [tokenAddress: `0x${string}`]: TokenWithAmount }, unknown> => {
   const queryClient = useQueryClient()
 
   const publicClient = usePublicClient({ chainId })
@@ -68,11 +68,11 @@ export const useTokenBalances = (
  */
 export const useTokenBalance = (
   chainId: number,
-  address: string,
-  tokenAddress: string,
+  address: `0x${string}`,
+  tokenAddress: `0x${string}`,
   refetchInterval?: number
 ): { data?: TokenWithAmount } & Omit<
-  UseQueryResult<{ [tokenAddress: string]: TokenWithAmount }>,
+  UseQueryResult<{ [tokenAddress: `0x${string}`]: TokenWithAmount }>,
   'data'
 > => {
   const result = useTokenBalances(chainId, address, [tokenAddress], refetchInterval)
@@ -88,8 +88,8 @@ export const useTokenBalance = (
  */
 export const useTokenBalancesAcrossChains = (
   chainIds: number[],
-  address: string,
-  tokenAddresses: { [chainId: number]: string[] }
+  address: `0x${string}`,
+  tokenAddresses: { [chainId: number]: `0x${string}`[] }
 ) => {
   const publicClients = usePublicClientsByChain()
 

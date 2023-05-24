@@ -161,7 +161,9 @@ export class Vault {
 
     const tokenAddress = await this.getTokenAddress()
 
-    const tokenBalance = await getTokenBalances(this.publicClient, userAddress, [tokenAddress])
+    const tokenBalance = await getTokenBalances(this.publicClient, userAddress as `0x${string}`, [
+      tokenAddress
+    ])
 
     return tokenBalance[tokenAddress]
   }
@@ -176,7 +178,9 @@ export class Vault {
     validateAddress(userAddress, source)
     await validateClientNetwork(this.chainId, this.publicClient, source)
 
-    const shareBalance = await getTokenBalances(this.publicClient, userAddress, [this.address])
+    const shareBalance = await getTokenBalances(this.publicClient, userAddress as `0x${string}`, [
+      this.address
+    ])
 
     return shareBalance[this.address]
   }
@@ -193,9 +197,12 @@ export class Vault {
 
     const tokenAddress = await this.getTokenAddress()
 
-    const tokenAllowance = await getTokenAllowances(this.publicClient, userAddress, this.address, [
-      tokenAddress
-    ])
+    const tokenAllowance = await getTokenAllowances(
+      this.publicClient,
+      userAddress as `0x${string}`,
+      this.address,
+      [tokenAddress]
+    )
 
     return tokenAllowance[tokenAddress]
   }

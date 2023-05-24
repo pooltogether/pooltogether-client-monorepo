@@ -1,9 +1,40 @@
-import { ContractCallContext, Multicall } from 'ethereum-multicall'
-import { ContractCallResults } from 'ethereum-multicall/dist/esm/models'
-import { createWalletClient, custom, isAddress, PublicClient } from 'viem'
+import { isAddress, PublicClient } from 'viem'
 
-// TODO: use viem built-in multicall
-// TODO: add batching in case of too many calls
+// TODO: need better ABI and multicall params/results typing throughout this file
+
+/**
+ * Returns the results of a simple multicall where many calls are made to a single contract address
+ * @param publicClient a public Viem client to query through
+ * @param contractAddress contract address to make calls to
+ * @param abi the ABI of the contract provided
+ * @param calls the calls to make to the contract
+ * @returns
+ */
+export const getSimpleMulticallResults = async (
+  publicClient: PublicClient,
+  contractAddress: `0x${string}`,
+  abi: any,
+  calls: { functionName: string; args?: any[] }[]
+): Promise<any[]> => {
+  if (!isAddress(contractAddress) || calls.length === 0) {
+    throw new Error('Multicall Error: Invalid parameters')
+  }
+
+  const chainId = await publicClient?.getChainId()
+  if (!chainId) {
+    throw new Error('Multicall Error: Could not get chain ID from client')
+  }
+
+  const contracts: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[] = []
+  calls.forEach((call) => {
+    contracts.push({ address: contractAddress, abi, ...call })
+  })
+
+  const results = await publicClient.multicall({ contracts })
+
+  return results.map((result) => result.result)
+}
+
 /**
  * Returns the results of a multicall where each call is made to every contract address provided
  * @param publicClient a public Viem client to query through
@@ -14,12 +45,12 @@ import { createWalletClient, custom, isAddress, PublicClient } from 'viem'
  */
 export const getMulticallResults = async (
   publicClient: PublicClient,
-  contractAddresses: string[],
-  abi: ContractCallContext['abi'],
-  calls: ContractCallContext['calls']
+  contractAddresses: `0x${string}`[],
+  abi: any,
+  calls: { functionName: string; args?: any[] }[]
 ): Promise<{
-  [contractAddress: string]: {
-    [reference: string]: any[]
+  [contractAddress: `0x${string}`]: {
+    [functionName: string]: any
   }
 }> => {
   const validAddresses = contractAddresses.every((address) => isAddress(address))
@@ -27,53 +58,51 @@ export const getMulticallResults = async (
     throw new Error('Multicall Error: Invalid parameters')
   }
 
-  const chainId = await publicClient.getChainId()
+  const chainId = await publicClient?.getChainId()
   if (!chainId) {
     throw new Error('Multicall Error: Could not get chain ID from client')
   }
 
-  const queries: ContractCallContext[] = []
-  contractAddresses.forEach((contractAddress) => {
-    queries.push({ reference: contractAddress, contractAddress, abi, calls })
-  })
-
-  // TODO: this is a hacky workaround - `ethereum-multicall` doesn't seem to support viem clients yet
-  const multicall = new Multicall({
-    web3Instance: createWalletClient({
-      chain: publicClient.chain,
-      transport: custom(publicClient)
-    }),
-    tryAggregate: true
-  })
-  const response: ContractCallResults = await multicall.call(queries)
-
-  const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
-  contractAddresses.forEach((contractAddress) => {
-    formattedResults[contractAddress] = {}
-    response.results[contractAddress]?.callsReturnContext.forEach((result) => {
-      formattedResults[contractAddress][result.reference] = result.returnValues
+  const contracts: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[] = []
+  calls.forEach((call) => {
+    contractAddresses.forEach((contractAddress) => {
+      contracts.push({ address: contractAddress, abi, ...call })
     })
+  })
+
+  const results = await publicClient.multicall({ contracts })
+
+  const formattedResults: {
+    [contractAddress: `0x${string}`]: {
+      [functionName: string]: any
+    }
+  } = {}
+  contracts.forEach((contract, i) => {
+    if (formattedResults[contract.address] === undefined) {
+      formattedResults[contract.address] = {}
+    }
+    formattedResults[contract.address][contract.functionName] = results[i]?.result
   })
 
   return formattedResults
 }
 
 /**
- * Returns the results of a complex multicall where contract queries are provided instead of calls
+ * Returns the results of a complex multicall where full call data is provided
  * @param publicClient a public Viem client to query through
- * @param queries the contract queries to make
+ * @param calls the calls to make
  * @returns
  */
 export const getComplexMulticallResults = async (
   publicClient: PublicClient,
-  queries: ContractCallContext[]
+  calls: { address: `0x${string}`; abi: any; functionName: string; args?: any[] }[]
 ): Promise<{
   [contractAddress: string]: {
-    [reference: string]: any[]
+    [functionName: string]: any
   }
 }> => {
-  const validAddresses = queries.every((query) => isAddress(query.contractAddress))
-  if (queries.length === 0 || !validAddresses) {
+  const validAddresses = calls.every((call) => isAddress(call.address))
+  if (calls.length === 0 || !validAddresses) {
     throw new Error('Multicall Error: Invalid parameters')
   }
 
@@ -82,24 +111,18 @@ export const getComplexMulticallResults = async (
     throw new Error('Multicall Error: Could not get chain ID from client')
   }
 
-  // TODO: this is a hacky workaround - `ethereum-multicall` doesn't seem to support viem clients yet
-  const multicall = new Multicall({
-    web3Instance: createWalletClient({
-      chain: publicClient.chain,
-      transport: custom(publicClient)
-    }),
-    tryAggregate: true
-  })
-  const response: ContractCallResults = await multicall.call(queries)
+  const results = await publicClient.multicall({ contracts: calls })
 
-  const formattedResults: { [contractAddress: string]: { [reference: string]: any[] } } = {}
-  queries.forEach((query) => {
-    if (formattedResults[query.contractAddress] === undefined) {
-      formattedResults[query.contractAddress] = {}
+  const formattedResults: {
+    [contractAddress: `0x${string}`]: {
+      [functionName: string]: any
     }
-    response.results[query.reference]?.callsReturnContext.forEach((result) => {
-      formattedResults[query.contractAddress][result.reference] = result.returnValues
-    })
+  } = {}
+  calls.forEach((call, i) => {
+    if (formattedResults[call.address] === undefined) {
+      formattedResults[call.address] = {}
+    }
+    formattedResults[call.address][call.functionName] = results[i]?.result
   })
 
   return formattedResults

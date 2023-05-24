@@ -11,25 +11,25 @@ import { getMulticallResults } from './multicall'
  */
 export const getTokenInfo = async (
   publicClient: PublicClient,
-  tokenAddresses: string[]
-): Promise<{ [tokenAddress: string]: TokenWithSupply }> => {
-  const formattedResult: { [tokenAddress: string]: TokenWithSupply } = {}
+  tokenAddresses: `0x${string}`[]
+): Promise<{ [tokenAddress: `0x${string}`]: TokenWithSupply }> => {
+  const formattedResult: { [tokenAddress: `0x${string}`]: TokenWithSupply } = {}
 
   if (tokenAddresses?.length > 0) {
     const multicallResults = await getMulticallResults(publicClient, tokenAddresses, erc20Abi, [
-      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-      { reference: 'name', methodName: 'name', methodParameters: [] },
-      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-      { reference: 'totalSupply', methodName: 'totalSupply', methodParameters: [] }
+      { functionName: 'symbol' },
+      { functionName: 'name' },
+      { functionName: 'decimals' },
+      { functionName: 'totalSupply' }
     ])
 
     const chainId = await publicClient.getChainId()
 
     tokenAddresses.forEach((address) => {
-      const symbol = multicallResults[address]['symbol']?.[0]
-      const name = multicallResults[address]['name']?.[0]
-      const decimals = parseInt(multicallResults[address]['decimals']?.[0])
-      const totalSupply = BigInt(multicallResults[address]['totalSupply']?.[0] ?? 0)
+      const symbol: string = multicallResults[address]?.['symbol']
+      const name: string = multicallResults[address]?.['name']
+      const decimals = Number(multicallResults[address]?.['decimals'])
+      const totalSupply: bigint = multicallResults[address]?.['totalSupply'] ?? 0n
 
       if (!symbol || Number.isNaN(decimals)) {
         console.warn(`Invalid ERC20 token: ${address} on chain ID ${chainId}.`)
@@ -52,23 +52,19 @@ export const getTokenInfo = async (
  */
 export const getTokenAllowances = async (
   publicClient: PublicClient,
-  address: string,
-  spenderAddress: string,
-  tokenAddresses: string[]
-): Promise<{ [tokenAddress: string]: bigint }> => {
-  const formattedResult: { [tokenAddress: string]: bigint } = {}
+  address: `0x${string}`,
+  spenderAddress: `0x${string}`,
+  tokenAddresses: `0x${string}`[]
+): Promise<{ [tokenAddress: `0x${string}`]: bigint }> => {
+  const formattedResult: { [tokenAddress: `0x${string}`]: bigint } = {}
 
   if (tokenAddresses?.length > 0) {
     const multicallResults = await getMulticallResults(publicClient, tokenAddresses, erc20Abi, [
-      {
-        reference: 'allowance',
-        methodName: 'allowance',
-        methodParameters: [address, spenderAddress]
-      }
+      { functionName: 'allowance', args: [address, spenderAddress] }
     ])
 
     tokenAddresses.forEach((tokenAddress) => {
-      formattedResult[tokenAddress] = BigInt(multicallResults[tokenAddress]['allowance']?.[0] ?? 0)
+      formattedResult[tokenAddress] = multicallResults[tokenAddress]?.['allowance'] ?? 0n
     })
   }
 
@@ -84,26 +80,26 @@ export const getTokenAllowances = async (
  */
 export const getTokenBalances = async (
   publicClient: PublicClient,
-  address: string,
-  tokenAddresses: string[]
-): Promise<{ [tokenAddress: string]: TokenWithAmount }> => {
-  const formattedResult: { [tokenAddress: string]: TokenWithAmount } = {}
+  address: `0x${string}`,
+  tokenAddresses: `0x${string}`[]
+): Promise<{ [tokenAddress: `0x${string}`]: TokenWithAmount }> => {
+  const formattedResult: { [tokenAddress: `0x${string}`]: TokenWithAmount } = {}
 
   if (tokenAddresses?.length > 0) {
     const multicallResults = await getMulticallResults(publicClient, tokenAddresses, erc20Abi, [
-      { reference: 'symbol', methodName: 'symbol', methodParameters: [] },
-      { reference: 'name', methodName: 'name', methodParameters: [] },
-      { reference: 'decimals', methodName: 'decimals', methodParameters: [] },
-      { reference: 'balanceOf', methodName: 'balanceOf', methodParameters: [address] }
+      { functionName: 'symbol' },
+      { functionName: 'name' },
+      { functionName: 'decimals' },
+      { functionName: 'balanceOf', args: [address] }
     ])
 
     const chainId = await publicClient.getChainId()
 
     tokenAddresses.forEach((tokenAddress) => {
-      const symbol = multicallResults[tokenAddress]['symbol']?.[0]
-      const name = multicallResults[tokenAddress]['name']?.[0]
-      const decimals = parseInt(multicallResults[tokenAddress]['decimals']?.[0])
-      const amount = BigInt(multicallResults[tokenAddress]['balanceOf']?.[0] ?? 0)
+      const symbol: string = multicallResults[tokenAddress]?.['symbol']
+      const name: string = multicallResults[tokenAddress]?.['name']
+      const decimals = Number(multicallResults[tokenAddress]?.['decimals'])
+      const amount: bigint = multicallResults[tokenAddress]?.['balanceOf'] ?? 0n
 
       if (!symbol || Number.isNaN(decimals)) {
         console.warn(`Invalid ERC20 token: ${tokenAddress} on chain ID ${chainId}.`)

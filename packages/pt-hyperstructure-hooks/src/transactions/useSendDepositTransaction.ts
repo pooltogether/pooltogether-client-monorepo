@@ -38,7 +38,7 @@ export const useSendDepositTransaction = (
     vault?.chainId,
     userAddress as `0x${string}`,
     vault?.address,
-    vault?.tokenData?.address as string
+    vault?.tokenData?.address as `0x${string}`
   )
 
   const enabled =

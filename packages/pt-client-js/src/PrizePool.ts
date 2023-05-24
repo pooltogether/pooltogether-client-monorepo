@@ -189,7 +189,7 @@ export class PrizePool {
    * @returns
    */
   async getVaultContributedAmounts(
-    vaultAddresses: string[],
+    vaultAddresses: `0x${string}`[],
     startDrawId: number,
     endDrawId: number
   ): Promise<{ [vaultId: string]: bigint }> {
@@ -217,7 +217,7 @@ export class PrizePool {
    * @returns
    */
   async getVaultContributedPercentages(
-    vaultAddresses: string[],
+    vaultAddresses: `0x${string}`[],
     startDrawId: number,
     endDrawId: number
   ): Promise<{ [vaultId: string]: number }> {
@@ -290,8 +290,8 @@ export class PrizePool {
    * @returns
    */
   async checkWins(
-    vaultAddresses: string[],
-    userAddress: string
+    vaultAddresses: `0x${string}`[],
+    userAddress: `0x${string}`
   ): Promise<{ [vaultId: string]: number[] }> {
     const source = 'Prize Pool [isWinner]'
     validateAddress(userAddress, source)
@@ -377,7 +377,9 @@ export class PrizePool {
    * @param vaultAddresses vault addresses to get prize power from
    * @returns
    */
-  async getVaultPrizePowers(vaultAddresses: string[]): Promise<{ [vaultId: string]: number }> {
+  async getVaultPrizePowers(
+    vaultAddresses: `0x${string}`[]
+  ): Promise<{ [vaultId: string]: number }> {
     const lastDrawId = await this.getLastDrawId()
 
     const prizePowers = await this.getVaultContributedPercentages(

@@ -170,7 +170,7 @@ export class Vaults {
             await validateClientNetwork(chainId, client, source + ` [${chainId}]`)
             const chainTokenBalances = await getTokenBalances(
               client,
-              userAddress,
+              userAddress as `0x${string}`,
               underlyingTokenAddresses.byChain[chainId]
             )
             const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
@@ -210,7 +210,11 @@ export class Vaults {
             const client = this.publicClients[chainId]
             if (!!client) {
               await validateClientNetwork(chainId, client, source + ` [${chainId}]`)
-              const chainShareBalances = await getTokenBalances(client, userAddress, vaultAddresses)
+              const chainShareBalances = await getTokenBalances(
+                client,
+                userAddress as `0x${string}`,
+                vaultAddresses
+              )
               const chainVaults = getVaultsByChainId(chainId, this.allVaultInfo)
               chainVaults.forEach((vault) => {
                 const vaultId = getVaultId(vault)

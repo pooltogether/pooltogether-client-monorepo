@@ -7,7 +7,7 @@ import { getTokenPriceFromObject } from 'pt-utilities'
 import { CurrencyValue, CurrencyValueProps } from './CurrencyValue'
 
 export interface TokenValueProps extends Omit<CurrencyValueProps, 'baseValue'> {
-  token: { chainId: number; address: string } & Partial<TokenWithAmount>
+  token: { chainId: number; address: `0x${string}` } & Partial<TokenWithAmount>
 }
 
 export const TokenValue = (props: TokenValueProps) => {

@@ -5,7 +5,7 @@ import { formatBigIntForDisplay } from 'pt-utilities'
 import { TokenValue } from './TokenValue'
 
 export interface TokenValueAndAmountProps {
-  token: { chainId: number; address: string } & Partial<TokenWithAmount>
+  token: { chainId: number; address: `0x${string}` } & Partial<TokenWithAmount>
 }
 
 export const TokenValueAndAmount = (props: TokenValueAndAmountProps) => {

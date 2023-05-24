@@ -20,11 +20,11 @@ import { QUERY_KEYS } from '../constants'
  */
 export const useTokenAllowances = (
   chainId: number,
-  address: string,
-  spenderAddress: string,
-  tokenAddresses: string[],
+  address: `0x${string}`,
+  spenderAddress: `0x${string}`,
+  tokenAddresses: `0x${string}`[],
   refetchInterval?: number
-): UseQueryResult<{ [tokenAddress: string]: bigint }, unknown> => {
+): UseQueryResult<{ [tokenAddress: `0x${string}`]: bigint }, unknown> => {
   const queryClient = useQueryClient()
 
   const publicClient = usePublicClient({ chainId })
@@ -71,11 +71,11 @@ export const useTokenAllowances = (
  */
 export const useTokenAllowance = (
   chainId: number,
-  address: string,
-  spenderAddress: string,
-  tokenAddress: string,
+  address: `0x${string}`,
+  spenderAddress: `0x${string}`,
+  tokenAddress: `0x${string}`,
   refetchInterval?: number
-): { data?: bigint } & Omit<UseQueryResult<{ [tokenAddress: string]: bigint }>, 'data'> => {
+): { data?: bigint } & Omit<UseQueryResult<{ [tokenAddress: `0x${string}`]: bigint }>, 'data'> => {
   const result = useTokenAllowances(
     chainId,
     address,

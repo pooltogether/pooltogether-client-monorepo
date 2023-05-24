@@ -17,8 +17,8 @@ import { QUERY_KEYS } from '../constants'
  */
 export const useTokens = (
   chainId: number,
-  tokenAddresses: string[]
-): UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }, unknown> => {
+  tokenAddresses: `0x${string}`[]
+): UseQueryResult<{ [tokenAddress: `0x${string}`]: TokenWithSupply }, unknown> => {
   const queryClient = useQueryClient()
 
   const publicClient = usePublicClient({ chainId })
@@ -53,9 +53,9 @@ export const useTokens = (
  */
 export const useToken = (
   chainId: number,
-  tokenAddress: string
+  tokenAddress: `0x${string}`
 ): { data?: TokenWithSupply } & Omit<
-  UseQueryResult<{ [tokenAddress: string]: TokenWithSupply }>,
+  UseQueryResult<{ [tokenAddress: `0x${string}`]: TokenWithSupply }>,
   'data'
 > => {
   const result = useTokens(chainId, [tokenAddress])

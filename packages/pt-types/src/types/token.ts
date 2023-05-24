@@ -1,6 +1,6 @@
 export interface Token {
   chainId: number
-  address: string
+  address: `0x${string}`
   symbol: string
   name: string
   decimals: number

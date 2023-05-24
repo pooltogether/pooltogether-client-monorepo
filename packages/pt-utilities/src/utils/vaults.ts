@@ -1,4 +1,3 @@
-import { ContractCallContext } from 'ethereum-multicall'
 import { formatUnits, parseUnits, PublicClient } from 'viem'
 import { VaultInfo } from 'pt-types'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
@@ -43,29 +42,18 @@ export const getVaultExchangeRates = async (
     : []
 
   if (filteredVaults.length > 0) {
-    const queries: ContractCallContext[] = filteredVaults.map((vault) => {
-      const oneShare = parseUnits('1', vault.decimals as number)
-      const calls: ContractCallContext['calls'] = [
-        {
-          reference: 'convertToAssets',
-          methodName: 'convertToAssets',
-          methodParameters: [oneShare]
-        }
-      ]
-      return {
-        reference: vault.address,
-        contractAddress: vault.address,
-        abi: erc4626Abi,
-        calls
-      }
-    })
-    const multicallResults = await getComplexMulticallResults(publicClient, queries)
+    const calls = filteredVaults.map((vault) => ({
+      address: vault.address,
+      abi: erc4626Abi,
+      functionName: 'convertToAssets',
+      args: [parseUnits('1', vault.decimals as number)]
+    }))
+
+    const multicallResults = await getComplexMulticallResults(publicClient, calls)
 
     filteredVaults.forEach((vault) => {
       const vaultId = getVaultId(vault)
-      vaultExchangeRates[vaultId] = BigInt(
-        multicallResults[vault.address]['convertToAssets']?.[0] ?? 0
-      )
+      vaultExchangeRates[vaultId] = multicallResults[vault.address]?.['convertToAssets'] ?? 0n
     })
   }
 
@@ -115,12 +103,12 @@ export const getVaultBalances = async (
   if (filteredVaults.length > 0) {
     const vaultAddresses = filteredVaults.map((vault) => vault.address)
     const multicallResults = await getMulticallResults(publicClient, vaultAddresses, erc4626Abi, [
-      { reference: 'totalAssets', methodName: 'totalAssets', methodParameters: [] }
+      { functionName: 'totalAssets' }
     ])
 
     filteredVaults.forEach((vault) => {
       const vaultId = getVaultId(vault)
-      vaultBalances[vaultId] = BigInt(multicallResults[vault.address]['totalAssets']?.[0] ?? 0)
+      vaultBalances[vaultId] = multicallResults[vault.address]?.['totalAssets'] ?? 0n
     })
   }
 
@@ -178,12 +166,12 @@ export const getVaultUnderlyingTokenAddresses = async (
         publicClient,
         Array.from(vaultAddresses),
         erc4626Abi,
-        [{ reference: 'asset', methodName: 'asset', methodParameters: [] }]
+        [{ functionName: 'asset' }]
       )
 
       vaultAddresses.forEach((address) => {
         const vaultId = getVaultId({ chainId, address })
-        tokenAddresses[vaultId] = multicallResults[address]['asset']?.[0]
+        tokenAddresses[vaultId] = multicallResults[address]?.['asset']
       })
     }
   }

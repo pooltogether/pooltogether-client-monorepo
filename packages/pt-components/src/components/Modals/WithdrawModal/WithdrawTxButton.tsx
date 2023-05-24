@@ -51,7 +51,7 @@ export const WithdrawTxButton = (props: WithdrawTxButtonProps) => {
   const { refetch: refetchTokenBalance } = useTokenBalance(
     vault.chainId,
     userAddress as `0x${string}`,
-    vault.tokenData?.address as string
+    vault.tokenData?.address as `0x${string}`
   )
 
   const { refetch: refetchVaultBalance } = useVaultBalance(vault)
