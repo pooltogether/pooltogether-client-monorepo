@@ -210,7 +210,7 @@ export const getPrizePoolAllPrizeInfo = async (
 
   const drawPeriod = Number(multicallResults[0])
 
-  const tierShares = multicallResults[1] ?? 0n
+  const tierShares = BigInt(multicallResults[1]) ?? 0n
   const totalShares = multicallResults[2] ?? 0n
   const tierSharePercentage = divideBigInts(tierShares, totalShares)
   const formattedTierSharePercentage = parseFloat(

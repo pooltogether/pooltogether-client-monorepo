@@ -20,12 +20,13 @@ export const useTokenPrices = (
     refetch: refetchCoingeckoTokenPrices
   } = useCoingeckoTokenPrices(chainId, tokenAddresses, currencies)
 
+  const data = { ...coingeckoTokenPrices }
+
   if (chainId in TESTNET_TOKEN_PRICES) {
     // @ts-ignore
     Object.assign(data, TESTNET_TOKEN_PRICES[chainId])
   }
 
-  const data = coingeckoTokenPrices
   const isFetched = !(chainId in COINGECKO_PLATFORMS) || isFetchedCoingeckoTokenPrices
   const isFetching = isFetchingCoingeckoTokenPrices
   const refetch = refetchCoingeckoTokenPrices
