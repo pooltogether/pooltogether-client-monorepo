@@ -75,7 +75,7 @@ This Turborepo has some additional tools already setup:
 ### Adding New Network
 
 1. Update the `constants.ts` file in `pt-utilities` with values and addresses for the new network.
-2. Make sure the `useProviders` and `useProvidersByChain` hooks in `pt-hyperstructure-hooks` include the new network.
+2. Make sure the `usePublicClients` and `usePublicClientsByChain` hooks in `pt-hyperstructure-hooks` include the new network.
 3. Update the `config.ts` file and ENVs for any app you want to use this new network on.
 4. Optionally add any token logo overrides in the `constants.ts` file in `pt-components`.
 

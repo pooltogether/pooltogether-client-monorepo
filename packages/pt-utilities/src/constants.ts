@@ -31,6 +31,7 @@ export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
   [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
+  [NETWORK.sepolia]: '0x7cB28bB4cDbBA6F509D5b9022108138D662042Bf',
   [NETWORK.mumbai]: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7'
 })
 
@@ -137,7 +138,11 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
     '0x056fd409e1d7a124bd7017459dfea2f387b6d5cd' // GUSD
   ],
   [NETWORK.goerli]: [],
-  [NETWORK.sepolia]: [],
+  [NETWORK.sepolia]: [
+    '0x501b79e61843b3432e5b48d59cb7e6a93185e50c', // DAI
+    '0x1977822061d8a394726803e2c2f6524a4e3e7aff', // USDC
+    '0xa577c58435e0334b5039f5e71ccb4a45641c3495' // GUSD
+  ],
   [NETWORK.bsc]: [],
   [NETWORK['bsc-testnet']]: [],
   [NETWORK.xdai]: [],
@@ -163,6 +168,14 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
  * NOTE: All addresses are lowercase
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
+  [NETWORK.sepolia]: {
+    '0x501b79e61843b3432e5b48d59cb7e6a93185e50c': { eth: 0.00052681 }, // DAI
+    '0x1977822061d8a394726803e2c2f6524a4e3e7aff': { eth: 0.0005265 }, // USDC
+    '0xa577c58435e0334b5039f5e71ccb4a45641c3495': { eth: 0.00052792 }, // GUSD
+    '0x3bd2312250c67ca96c442fe8490a27d24d70e41c': { eth: 15.450051 }, // WBTC
+    '0xa4de6eb323dd2f8a8b4d07b6b295dc57bb1de30a': { eth: 0.99838028 }, // WETH
+    '0x7cb28bb4cdbba6f509d5b9022108138d662042bf': { eth: 0.00045293 } // POOL
+  },
   [NETWORK.mumbai]: {
     '0x2990cf846ec4738a672273df204cd93196d98d5f': { eth: 0.00052681 }, // DAI
     '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add': { eth: 0.0005265 }, // USDC

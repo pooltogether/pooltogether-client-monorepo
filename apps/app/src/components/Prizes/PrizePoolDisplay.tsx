@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { PrizePoolDropdown } from 'pt-components'
 import { useSelectedVault, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Button } from 'pt-ui'
@@ -15,7 +15,7 @@ export const PrizePoolDisplay = () => {
   const networks = useNetworks()
 
   const { vaults } = useSelectedVaults()
-  const { vault, setSelectedVaultById } = useSelectedVault()
+  const { setSelectedVaultById } = useSelectedVault()
 
   const { selectedPrizePool } = useSelectedPrizePool()
 
@@ -35,16 +35,14 @@ export const PrizePoolDisplay = () => {
     handleNetworkChange(chainId)
   }, [router])
 
-  const selectedNetwork = useMemo(() => vault?.chainId ?? networks[0], [vault])
-
   return (
     <>
       <PrizePoolDropdown
         networks={networks}
-        selectedNetwork={selectedNetwork}
+        selectedNetwork={selectedPrizePool.chainId}
         onSelect={handleNetworkChange}
       />
-      <Link href={`/vaults?network=${selectedNetwork}`} passHref={true}>
+      <Link href={`/vaults?network=${selectedPrizePool.chainId}`} passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
       {!!selectedPrizePool && <PrizesTable prizePool={selectedPrizePool} />}
