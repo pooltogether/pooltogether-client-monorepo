@@ -61,7 +61,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                   },
                   manage: { content: <AccountVaultButtons vault={vault} />, position: 'center' }
                 }
-                return { cells }
+                return { id: vault.id, cells }
               }
             })
             .filter((row) => !!row)

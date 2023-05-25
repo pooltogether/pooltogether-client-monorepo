@@ -92,6 +92,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
       manage: { content: <span className='mr-[18px]'>Manage</span>, position: 'right' }
     },
     rows: sortedVaults.map((vault) => ({
+      id: vault.id,
       cells: {
         token: {
           content: (

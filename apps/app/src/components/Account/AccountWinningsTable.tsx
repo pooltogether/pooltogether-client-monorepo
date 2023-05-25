@@ -65,7 +65,7 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
             },
             info: { content: <AccountWinButtons win={win} />, position: 'center' }
           }
-          return { cells }
+          return { id: win.id, cells }
         }
       })
       .filter((row) => !!row)

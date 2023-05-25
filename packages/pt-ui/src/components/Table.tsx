@@ -9,6 +9,7 @@ interface TableItem {
 export interface TableData {
   headers: { [id: string]: TableItem }
   rows: {
+    id: string
     cells: { [headerId: string]: TableItem }
     className?: string
   }[]
@@ -62,24 +63,24 @@ export const Table = (props: TableProps) => {
             headerClassName
           )}
         >
-          {Object.values(data.headers).map((header, i) => (
+          {Object.keys(data.headers).map((headerId) => (
             <span
-              key={`${keyPrefix}-header-${i}`}
+              key={`${keyPrefix}-header-${headerId}`}
               className={classNames('flex items-center px-4', {
-                'justify-center': header.position === 'center',
-                'justify-end': header.position === 'right'
+                'justify-center': data.headers[headerId].position === 'center',
+                'justify-end': data.headers[headerId].position === 'right'
               })}
             >
-              {header.content}
+              {data.headers[headerId].content}
             </span>
           ))}
         </div>
 
         {/* Table Rows */}
         <ul className='flex flex-col gap-4'>
-          {data.rows.map((row, i) => (
+          {data.rows.map((row) => (
             <div
-              key={`${keyPrefix}-row-${i}`}
+              key={`${keyPrefix}-row-${row.id}`}
               className={classNames(
                 'grid p-3 bg-pt-transparent',
                 getGridCols(columns),
@@ -89,12 +90,12 @@ export const Table = (props: TableProps) => {
               )}
             >
               {/* Table Cells */}
-              {Object.keys(data.headers).map((header) => {
-                const cell = row.cells[header]
+              {Object.keys(data.headers).map((headerId, i) => {
+                const cell = row.cells[headerId]
 
                 return (
                   <span
-                    key={`${keyPrefix}-cell-${header}-${i}`}
+                    key={`${keyPrefix}-cell-${headerId}-${row.id}-${i}`}
                     className={classNames('flex items-center px-4', {
                       'justify-center': cell?.position === 'center',
                       'justify-end': cell?.position === 'right'
