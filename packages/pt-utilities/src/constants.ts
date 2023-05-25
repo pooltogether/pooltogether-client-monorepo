@@ -58,6 +58,7 @@ export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3'
  * Prize Pool Graph API URLs
  */
 export const PRIZE_POOL_GRAPH_API_URLS = Object.freeze({
+  [NETWORK.sepolia]: 'https://api.studio.thegraph.com/query/41211/v5-prize-pool-eth-sepolia/v0.0.1',
   [NETWORK.mumbai]:
     'https://api.thegraph.com/subgraphs/name/pooltogether/v5-polygon-mumbai-prize-pool'
 })
