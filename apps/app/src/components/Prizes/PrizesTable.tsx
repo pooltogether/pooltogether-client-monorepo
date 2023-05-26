@@ -16,12 +16,12 @@ export const PrizesTable = (props: PrizesTableProps) => {
 
   return (
     <>
-      <div className='flex w-[36rem] text-sm text-pt-purple-100/50 mt-8 pb-2 border-b-[0.5px] border-b-current'>
-        <span className='flex-grow pl-16 text-left'>Estimated Prize Value</span>
-        <span className='flex-grow pr-16 text-right'>Estimated Frequency</span>
+      <div className='flex w-full max-w-[36rem] text-xs text-pt-purple-100 pb-4 border-b-[0.5px] border-b-current md:text-sm md:text-pt-purple-100/50 md:mt-8 md:pb-2'>
+        <span className='flex-grow pl-6 text-left md:pl-16'>Estimated Prize Value</span>
+        <span className='flex-grow pr-6 text-right md:pr-16'>Estimated Frequency</span>
       </div>
       {isFetchedAllPrizeInfo && isFetchedTokenData ? (
-        <div className='flex flex-col gap-3 mb-8'>
+        <div className='flex flex-col w-full max-w-[36rem] gap-3'>
           {Object.values(allPrizeInfo)[0]
             .slice(0, -1)
             .map((prize, i) => {
@@ -30,12 +30,12 @@ export const PrizesTable = (props: PrizesTableProps) => {
               return (
                 <div
                   key={`pp-prizes-${prizePool.chainId}-${i}`}
-                  className='flex w-[36rem] items-center'
+                  className='flex w-full items-center'
                 >
-                  <span className='flex-grow text-3xl text-pt-teal pl-16 text-left'>
+                  <span className='flex-grow text-lg text-pt-teal pl-8 text-left md:text-3xl md:pl-16'>
                     <TokenValue token={{ ...tokenData, amount: prize.amount }} hideZeroes={true} />
                   </span>
-                  <span className='flex-grow text-xl text-pt-purple-100 pr-16 text-right'>
+                  <span className='flex-grow text-pt-purple-100 pr-8 text-right md:text-xl md:pr-16'>
                     {getPrizeTextFromFrequency(frequency, 'daily')}
                   </span>
                 </div>

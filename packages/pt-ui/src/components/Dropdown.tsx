@@ -17,12 +17,14 @@ export interface DropdownProps extends Omit<FlowbiteDropdownProps, 'label'> {
   header?: ReactNode
 }
 
+// TODO: on mobile, use dropdown modal instead of regular dropdown menu
 export const Dropdown = (props: DropdownProps) => {
   const { label, items, header, className, ...rest } = props
 
   return (
     <FlowbiteDropdown
       theme={{
+        inlineWrapper: 'flex items-center pr-3 border border-pt-purple-700 rounded-lg md:border-0',
         content: 'flex flex-col items-center',
         floating: {
           content: 'px-2 py-2',
