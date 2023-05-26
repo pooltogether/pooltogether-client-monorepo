@@ -74,7 +74,7 @@ export const Footer = (props: FooterProps) => {
     >
       <div
         className={classNames(
-          'w-full flex max-w-6xl justify-between gap-16 flex-wrap',
+          'w-full flex max-w-6xl justify-between gap-16 text-sm flex-wrap md:text-base',
           containerClassName
         )}
       >

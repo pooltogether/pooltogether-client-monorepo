@@ -43,7 +43,7 @@ export const NetworkBadge = (props: NetworkBadgeProps) => {
       onClick={onClick}
     >
       {!hideIcon && (
-        <NetworkIcon chainId={chainId} className={classNames('h-4 w-4', iconClassName)} />
+        <NetworkIcon chainId={chainId} className={classNames('h-4 w-4 shrink-0', iconClassName)} />
       )}
       <span className={classNames(textClassName)}>
         {networkName}

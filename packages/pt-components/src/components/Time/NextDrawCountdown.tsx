@@ -20,7 +20,9 @@ export const NextDrawCountdown = (props: NextDrawCountdownProps) => {
 
   return (
     <div className={classNames('flex flex-col items-center gap-4', className)}>
-      <span className='text-gray-200 font-semibold uppercase'>Next Draw In</span>
+      <span className='text-xs text-gray-200 font-semibold uppercase md:text-base'>
+        Next Draw In
+      </span>
       {!!nextDraw ? (
         <div className='flex gap-4'>
           <TimeDigits value={hours} type={TimeUnit.hour} />

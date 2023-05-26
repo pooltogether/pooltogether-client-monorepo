@@ -11,7 +11,7 @@ export const PrizePoolCards = () => {
 
   return (
     <div
-      className={classNames('grid gap-4 p-4 rounded-lg', {
+      className={classNames('flex flex-col w-full gap-4 rounded-lg md:grid md:w-auto md:p-4', {
         'grid-cols-1': numPrizePools === 1,
         'grid-cols-2': numPrizePools % 2 === 0 && numPrizePools % 3 !== 0,
         'grid-cols-3': numPrizePools % 3 === 0
