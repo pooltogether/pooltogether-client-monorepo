@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useToken } from 'pt-hyperstructure-hooks'
 import { TokenWithAmount } from 'pt-types'
 import { Spinner } from 'pt-ui'
@@ -6,10 +7,13 @@ import { TokenValue } from './TokenValue'
 
 export interface TokenValueAndAmountProps {
   token: { chainId: number; address: `0x${string}` } & Partial<TokenWithAmount>
+  className?: string
+  valueClassName?: string
+  amountClassName?: string
 }
 
 export const TokenValueAndAmount = (props: TokenValueAndAmountProps) => {
-  const { token } = props
+  const { token, className, valueClassName, amountClassName } = props
 
   const { data: tokenData, isFetching: isFetchingTokenData } = useToken(
     token.chainId,
@@ -25,9 +29,11 @@ export const TokenValueAndAmount = (props: TokenValueAndAmountProps) => {
   }
 
   return (
-    <div className='flex flex-col items-center'>
-      <TokenValue token={token} />
-      <span className='text-sm text-pt-purple-200'>
+    <div className={classNames('flex flex-col items-center', className)}>
+      <span className={valueClassName}>
+        <TokenValue token={token} />
+      </span>
+      <span className={classNames('text-pt-purple-200', amountClassName)}>
         {formatBigIntForDisplay(amount, decimals)} {symbol}
       </span>
     </div>

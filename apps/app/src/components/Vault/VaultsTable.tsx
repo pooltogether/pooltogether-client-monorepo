@@ -52,7 +52,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
   }
 
   if (!isFetched) {
-    return <Spinner />
+    return <Spinner className={className} />
   }
 
   const tableData: TableProps['data'] = {
@@ -119,7 +119,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
           content: <AccountVaultBalance vault={vault} />,
           position: 'center'
         },
-        manage: { content: <VaultButtons vault={vault} />, position: 'right' }
+        manage: { content: <VaultButtons vault={vault} inverseOrder={true} />, position: 'right' }
       }
     }))
   }

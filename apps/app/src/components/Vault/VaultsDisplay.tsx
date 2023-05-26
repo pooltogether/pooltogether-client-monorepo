@@ -5,6 +5,7 @@ import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVaultListIds, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Button, Spinner } from 'pt-ui'
 import { useNetworks } from '@hooks/useNetworks'
+import { VaultCards } from './VaultCards'
 import { filteredVaultsAtom, filterIdAtom } from './VaultFilters'
 import { VaultsTable } from './VaultsTable'
 
@@ -42,14 +43,19 @@ export const VaultsDisplay = () => {
       {networks.map((network) => {
         if (filteredVaults[network] === undefined || filteredVaults[network].length === 0) return
         return (
-          <div key={`pp-${network}`} className='flex flex-col items-center gap-6'>
+          <div key={`pp-${network}`} className='w-full flex flex-col items-center gap-4 md:gap-6'>
             <NetworkBadge
               chainId={network}
               appendText='Prize Pool'
               textClassName='text-lg font-medium'
               onClick={() => router.push(`/prizes?network=${network}`)}
             />
-            <VaultsTable chainId={network} vaults={filteredVaults[network]} />
+            <VaultsTable
+              chainId={network}
+              vaults={filteredVaults[network]}
+              className='hidden md:block'
+            />
+            <VaultCards chainId={network} vaults={filteredVaults[network]} className='md:hidden' />
           </div>
         )
       })}

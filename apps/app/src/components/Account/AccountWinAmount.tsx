@@ -17,5 +17,5 @@ export const AccountWinAmount = (props: AccountWinAmountProps) => {
     return <Spinner />
   }
 
-  return <TokenValueAndAmount token={{ ...tokenData, amount }} />
+  return <TokenValueAndAmount token={{ ...tokenData, amount }} amountClassName='text-sm' />
 }

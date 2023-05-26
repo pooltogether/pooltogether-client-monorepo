@@ -64,7 +64,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       {
         id: 'all',
         content: 'Show All',
-        onClick: () => filterOnClick('all', vaultsArray, (vaults) => vaults)
+        onClick: () => filterOnClick('all', vaultsArray, (vaults) => vaults),
+        className: 'whitespace-nowrap'
       },
       {
         id: 'userWallet',
@@ -77,7 +78,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
                 userTokenBalances?.[vault.chainId]?.[vault.tokenAddress]?.amount ?? 0n
               return userWalletBalance > 0n
             })
-          )
+          ),
+        className: 'whitespace-nowrap'
       },
       {
         id: 'stablecoin',
@@ -110,22 +112,25 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   if (router.isReady) {
     return (
-      <div
-        className={classNames(
-          'w-full flex justify-between items-center dark:bg-pt-bg-purple-dark px-6 py-5 rounded-lg',
-          className
-        )}
-      >
-        <div className='flex items-center gap-8'>
-          <span className='text-lg'>Filter</span>
-          <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
-        </div>
-        <span
-          onClick={() => setIsSettingsModalOpen(true)}
-          className='text-lg text-pt-purple-100 cursor-pointer'
+      <div className='w-full flex justify-center'>
+        <div
+          className={classNames(
+            'w-screen max-w-[36rem] flex justify-between items-center -mx-4 px-4 rounded-lg overflow-x-auto no-scrollbar',
+            'md:w-full md:max-w-none md:dark:bg-pt-bg-purple-dark md:mx-0 md:px-6 md:py-5',
+            className
+          )}
         >
-          Manage Vault Lists
-        </span>
+          <div className='flex items-center gap-8 py-0.5'>
+            <span className='hidden text-lg md:block'>Filter</span>
+            <Selection items={filterItems} activeItem={filterId} buttonColor='purple' />
+          </div>
+          <span
+            onClick={() => setIsSettingsModalOpen(true)}
+            className='hidden text-lg text-pt-purple-100 cursor-pointer whitespace-nowrap md:block'
+          >
+            Manage Vault Lists
+          </span>
+        </div>
       </div>
     )
   }
