@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { PrizePowerTooltip, TokenValue, WinChanceTooltip } from 'pt-components'
-import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
-import { ExternalLink, Spinner } from 'pt-ui'
+import { PrizePowerTooltip, WinChanceTooltip } from 'pt-components'
+import { ExternalLink } from 'pt-ui'
 import { getBlockExplorerUrl, shorten } from 'pt-utilities'
+import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { AccountVaultOdds } from '@components/Account/AccountVaultOdds'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
@@ -21,11 +21,16 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
   const { address: userAddress } = useAccount()
 
   return (
-    <div className={classNames('flex flex-col w-full max-w-screen-md gap-2', className)}>
+    <div
+      className={classNames(
+        'flex flex-col w-full max-w-screen-md gap-2 px-4 text-sm md:text-base',
+        className
+      )}
+    >
       {!!userAddress && (
         <VaultInfoRow
           name='My Balance'
-          data={<VaultInfoBalance vault={vault} userAddress={userAddress} />}
+          data={<AccountVaultBalance vault={vault} className='!flex-row gap-1' />}
         />
       )}
       {!!userAddress && (
@@ -73,23 +78,6 @@ const VaultInfoRow = (props: VaultInfoRowProps) => {
       <span>{data}</span>
     </div>
   )
-}
-
-interface VaultInfoBalanceProps {
-  vault: Vault
-  userAddress: string
-}
-
-const VaultInfoBalance = (props: VaultInfoBalanceProps) => {
-  const { vault, userAddress } = props
-
-  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
-
-  if (!tokenBalance) {
-    return <Spinner />
-  }
-
-  return <TokenValue token={tokenBalance} />
 }
 
 interface VaultInfoTokenProps {
