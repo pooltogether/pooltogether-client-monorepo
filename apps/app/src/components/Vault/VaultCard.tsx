@@ -35,7 +35,7 @@ export const VaultCard = (props: VaultCardProps) => {
         )}
         <div className='flex items-center justify-between'>
           <span className='flex gap-1 items-center text-xs text-pt-purple-200'>
-            Prize Power <PrizePowerTooltip />
+            Prize Power <PrizePowerTooltip className='text-xs' />
           </span>
           <span className='text-sm'>
             <VaultPrizePower vault={vault} />

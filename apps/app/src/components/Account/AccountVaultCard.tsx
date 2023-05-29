@@ -26,7 +26,7 @@ export const AccountVaultCard = (props: AccountVaultCardProps) => {
         </div>
         <div className='flex items-center justify-between'>
           <span className='flex gap-1 items-center text-xs text-pt-purple-200'>
-            My Win Chance <WinChanceTooltip />
+            My Win Chance <WinChanceTooltip className='text-xs' />
           </span>
           <span className='text-sm'>
             <AccountVaultOdds vault={vault} />

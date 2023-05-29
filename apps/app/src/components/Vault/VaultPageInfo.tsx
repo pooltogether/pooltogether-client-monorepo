@@ -37,7 +37,12 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
         <VaultInfoRow
           name={
             <span className='flex gap-2 items-center'>
-              My Win Chance <WinChanceTooltip iconSize='sm' iconClassName='text-pt-purple-200' />
+              My Win Chance{' '}
+              <WinChanceTooltip
+                iconSize='sm'
+                className='text-sm md:text-base'
+                iconClassName='text-pt-purple-200'
+              />
             </span>
           }
           data={<AccountVaultOdds vault={vault} />}
@@ -46,7 +51,12 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
       <VaultInfoRow
         name={
           <span className='flex gap-2 items-center'>
-            Prize Power <PrizePowerTooltip iconSize='sm' iconClassName='text-pt-purple-200' />
+            Prize Power{' '}
+            <PrizePowerTooltip
+              iconSize='sm'
+              className='text-sm md:text-base'
+              iconClassName='text-pt-purple-200'
+            />
           </span>
         }
         data={<VaultPrizePower vault={vault} />}
