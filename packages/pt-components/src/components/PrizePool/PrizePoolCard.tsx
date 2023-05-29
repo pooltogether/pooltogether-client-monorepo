@@ -31,7 +31,7 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
         iconClassName='h-8 w-8'
         textClassName='font-semibold md:text-2xl'
       />
-      <div className='flex flex-col gap-0.5 text-center text-pt-purple-100'>
+      <div className='flex flex-col gap-0.5 text-center text-pt-purple-100 md:text-start'>
         <span className='text-xs uppercase md:text-sm'>Grand Prize</span>
         {isFetchedAllPrizeInfo && isFetchedPrizeTokenData && !!prizeTokenData ? (
           <>

@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
 import { PrizePool } from 'pt-client-js'
 import { NetworkBadge } from 'pt-components'
 import { SubgraphPrizePoolAccount } from 'pt-types'
@@ -8,7 +7,7 @@ import { AccountWinAmount } from './AccountWinAmount'
 import { AccountWinButtons } from './AccountWinButtons'
 
 interface AccountWinningsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {
-  wins: { [chainId: number]: SubgraphPrizePoolAccount['prizesReceived'] }
+  wins: (SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number })[]
   prizePools: PrizePool[]
 }
 
@@ -16,18 +15,6 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
   const { wins, prizePools, ...rest } = props
 
   const router = useRouter()
-
-  const flattenedWins = useMemo(() => {
-    const flattenedWins: (SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number })[] =
-      []
-    for (const key in wins) {
-      const chainId = parseInt(key)
-      wins[chainId].forEach((win) => {
-        flattenedWins.push({ ...win, chainId })
-      })
-    }
-    return flattenedWins
-  }, [wins])
 
   const tableData: TableProps['data'] = {
     headers: {
@@ -37,7 +24,7 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
       info: { content: 'More Info', position: 'center' }
     },
     // TODO: sort wins by timestamp
-    rows: flattenedWins
+    rows: wins
       .map((win) => {
         const prizePool = prizePools.find((prizePool) => prizePool.chainId === win.chainId)
 

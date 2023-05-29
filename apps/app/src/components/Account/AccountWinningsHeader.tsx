@@ -16,9 +16,9 @@ export const AccountWinningsHeader = (props: AccountWinningsHeaderProps) => {
   const { data: totalWinnings, isFetched: isFetchedTotalWinnings } = useUserTotalWinnings()
 
   return (
-    <div className={classNames('flex flex-col items-center gap-2', className)}>
-      <span className='text-pt-purple-100'>Your Winnings</span>
-      <span className='text-3xl font-averta font-semibold'>
+    <div className={classNames('flex flex-col items-center gap-1 md:gap-2', className)}>
+      <span className='text-sm text-pt-purple-100 md:text-base'>Your Winnings</span>
+      <span className='text-2xl font-averta font-semibold md:text-3xl'>
         {!isFetchedTotalWinnings && !!userAddress && <Spinner />}
         {isFetchedTotalWinnings && <CurrencyValue baseValue={totalWinnings} countUp={true} />}
       </span>

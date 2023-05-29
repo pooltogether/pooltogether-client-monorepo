@@ -9,6 +9,7 @@ import { PrizePoolCards } from '@components/Prizes/PrizePoolCards'
 import { AccountDepositsHeader } from './AccountDepositsHeader'
 import { AccountDepositsOdds } from './AccountDepositsOdds'
 import { AccountDepositsTable } from './AccountDepositsTable'
+import { AccountVaultCards } from './AccountVaultCards'
 
 interface AccountDepositsProps {
   className?: string
@@ -45,7 +46,8 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
       <div className={className}>
         <AccountDepositsHeader />
         {isEmpty && <NoDepositsCard className='mt-4' />}
-        {!isEmpty && <AccountDepositsTable rounded={true} className='mt-8' />}
+        {!isEmpty && <AccountDepositsTable rounded={true} className='hidden mt-8 md:block' />}
+        {!isEmpty && <AccountVaultCards className='mt-2 md:hidden' />}
         {!isEmpty && <AccountDepositsOdds className='mt-4' />}
       </div>
     )
@@ -84,8 +86,8 @@ const NoDepositsCard = (props: NoDepositsCardProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('w-full p-4 bg-pt-bg-purple rounded-lg', className)}>
-      <div className='inline-flex w-full gap-3 items-center justify-center p-3 text-lg font-medium bg-pt-transparent rounded-lg'>
+    <div className={classNames('w-full rounded-lg md:p-4 md:bg-pt-bg-purple', className)}>
+      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 text-sm bg-pt-transparent rounded-lg md:flex-row md:gap-3 md:text-lg md:font-medium'>
         <span className='text-pt-purple-100'>You don't have any prize assets.</span>
         <Link href='/vaults' className='text-pt-teal'>
           Deposit now.

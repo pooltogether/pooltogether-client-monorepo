@@ -28,7 +28,7 @@ export const VaultCards = (props: VaultsCardsProps) => {
   return (
     <div className={classNames('w-full max-w-[36rem] flex flex-col gap-4', className)}>
       {sortedVaults.map((vault) => (
-        <VaultCard vault={vault} />
+        <VaultCard key={vault.id} vault={vault} />
       ))}
     </div>
   )
