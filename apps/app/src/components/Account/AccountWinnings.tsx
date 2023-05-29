@@ -43,7 +43,7 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
 
   if (typeof window !== 'undefined' && !!userAddress && isFetchedWins && !!wins) {
     return (
-      <div className={className}>
+      <div className={classNames('w-full flex flex-col items-center', className)}>
         <AccountWinningsHeader />
         {isEmpty && <NoWinsCard className='mt-4' />}
         {!isEmpty && (

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { VaultBadge } from 'pt-components'
 import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner, Table, TableProps } from 'pt-ui'
+import { Table, TableProps } from 'pt-ui'
 import { useSortedVaults } from '@hooks/useSortedVaults'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
@@ -11,7 +11,7 @@ import { AccountVaultOdds } from './AccountVaultOdds'
 interface AccountDepositsTableProps extends Omit<TableProps, 'data' | 'keyPrefix'> {}
 
 export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
-  const { ...rest } = props
+  const { className, ...rest } = props
 
   const router = useRouter()
 
@@ -28,19 +28,15 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
     defaultSortId: 'userBalance'
   })
 
-  if (!isFetched) {
-    return <Spinner />
-  }
-
-  const tableData: TableProps['data'] = {
-    headers: {
-      token: { content: 'Token' },
-      odds: { content: 'My Win Chance', position: 'center' },
-      balance: { content: 'My Balance', position: 'center' },
-      manage: { content: 'Manage', position: 'center' }
-    },
-    rows:
-      isFetchedVaultBalances && !!vaultBalances
+  if (isFetched && isFetchedVaultBalances) {
+    const tableData: TableProps['data'] = {
+      headers: {
+        token: { content: 'Token' },
+        odds: { content: 'My Win Chance', position: 'center' },
+        balance: { content: 'My Balance', position: 'center' },
+        manage: { content: 'Manage', position: 'center' }
+      },
+      rows: !!vaultBalances
         ? sortedVaults
             .map((vault) => {
               const shareBalance = vaultBalances[vault.id]?.amount ?? 0n
@@ -66,7 +62,8 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
             })
             .filter((row) => !!row)
         : []
-  }
+    }
 
-  return <Table data={tableData} keyPrefix='accountVaultsTable' {...rest} />
+    return <Table data={tableData} keyPrefix='accountVaultsTable' className={className} {...rest} />
+  }
 }

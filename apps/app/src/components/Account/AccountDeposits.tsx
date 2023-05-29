@@ -43,7 +43,7 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
 
   if (isFetchedVaultBalances && !!vaultBalances) {
     return (
-      <div className={className}>
+      <div className={classNames('w-full flex flex-col items-center', className)}>
         <AccountDepositsHeader />
         {isEmpty && <NoDepositsCard className='mt-4' />}
         {!isEmpty && <AccountDepositsTable rounded={true} className='hidden mt-8 md:block' />}

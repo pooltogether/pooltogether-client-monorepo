@@ -1,7 +1,6 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { useAllUserVaultBalances, useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
 import { useSortedVaults } from '@hooks/useSortedVaults'
 import { AccountVaultCard } from './AccountVaultCard'
 
@@ -25,19 +24,17 @@ export const AccountVaultCards = (props: AccountVaultsCardsProps) => {
     defaultSortId: 'userBalance'
   })
 
-  if (!isFetched || !isFetchedVaultBalances) {
-    return <Spinner className={className} />
+  if (isFetched && isFetchedVaultBalances) {
+    return (
+      <div className={classNames('w-full max-w-[36rem] flex flex-col gap-4', className)}>
+        {!!vaultBalances &&
+          sortedVaults.map((vault) => {
+            const shareBalance = vaultBalances[vault.id]?.amount ?? 0n
+            if (shareBalance > 0n && vault.decimals !== undefined) {
+              return <AccountVaultCard key={vault.id} vault={vault} />
+            }
+          })}
+      </div>
+    )
   }
-
-  return (
-    <div className={classNames('w-full max-w-[36rem] flex flex-col gap-4', className)}>
-      {!!vaultBalances &&
-        sortedVaults.map((vault) => {
-          const shareBalance = vaultBalances[vault.id]?.amount ?? 0n
-          if (shareBalance > 0n && vault.decimals !== undefined) {
-            return <AccountVaultCard key={vault.id} vault={vault} />
-          }
-        })}
-    </div>
-  )
 }
