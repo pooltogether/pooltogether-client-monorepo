@@ -65,7 +65,7 @@ const NoWalletCard = (props: NoWalletCardProps) => {
 
   return (
     <div className={classNames('flex flex-col max-w-md gap-6 items-center', className)}>
-      <span className='text-center text-4xl font-semibold'>
+      <span className='text-center text-2xl font-semibold md:text-4xl'>
         Connect your wallet to view account status
       </span>
       <Button onClick={openConnectModal}>

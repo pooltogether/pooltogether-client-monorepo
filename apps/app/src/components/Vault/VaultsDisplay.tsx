@@ -67,8 +67,8 @@ const NoSelectedVaultListsCard = () => {
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
 
   return (
-    <div className='flex flex-col items-center min-w-[480px] p-6 bg-pt-transparent rounded-lg'>
-      <DocumentSVG />
+    <div className='flex flex-col items-center text-center p-6 bg-pt-transparent rounded-lg md:min-w-[480px]'>
+      <DocumentSVG className='w-12 h-auto' />
       <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
       <span className='text-pt-purple-100'>
         It looks like you don't have any valid vault lists enabled.
@@ -86,8 +86,8 @@ const NoValidVaultsCard = () => {
   const setFilterId = useSetAtom(filterIdAtom)
 
   return (
-    <div className='flex flex-col items-center min-w-[480px] p-6 bg-pt-transparent rounded-lg'>
-      <GaugesSVG />
+    <div className='flex flex-col items-center text-center p-6 bg-pt-transparent rounded-lg md:min-w-[480px]'>
+      <GaugesSVG className='w-14 h-auto' />
       <span className='text-xl font-semibold py-2 text-pt-purple-400'>Oops!</span>
       <span className='text-pt-purple-100'>There are no vaults that match your filters.</span>
       <div className='flex flex-col gap-2 mt-6'>
@@ -102,8 +102,13 @@ const NoValidVaultsCard = () => {
   )
 }
 
-const DocumentSVG = () => (
-  <svg width='48' height='60' viewBox='0 0 48 60' fill='none' xmlns='http://www.w3.org/2000/svg'>
+const DocumentSVG = (props: { className?: string }) => (
+  <svg
+    viewBox='0 0 48 60'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    className={props.className}
+  >
     <path
       fillRule='evenodd'
       clipRule='evenodd'
@@ -127,9 +132,14 @@ const DocumentSVG = () => (
   </svg>
 )
 
-const GaugesSVG = () => (
-  <svg width='60' height='60' viewBox='0 0 60 60' fill='none' xmlns='http://www.w3.org/2000/svg'>
-    <rect width='60' height='60' rx='8' fill='#35F0D0' />
+const GaugesSVG = (props: { className?: string }) => (
+  <svg
+    viewBox='0 0 60 60'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+    className={props.className}
+  >
+    <rect width='100%' height='100%' rx='8' fill='#35F0D0' />
     <path d='M11.5 11L11.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
     <path d='M30.5 11L30.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
     <path d='M49.5 11L49.5 51' stroke='#0DC5A5' strokeWidth='2' strokeLinecap='round' />
