@@ -1,7 +1,11 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import classNames from 'classnames'
+import { AnimatePresence, AnimationProps, motion, useReducedMotion } from 'framer-motion'
 import { ReactNode, useLayoutEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
+import { SCREEN_SIZES, useScreenSize } from 'pt-generic-hooks'
+
+type MobileStyle = 'tab' | 'cover'
 
 export interface ModalProps {
   headerContent?: ReactNode
@@ -12,21 +16,14 @@ export interface ModalProps {
   bodyClassName?: string
   footerClassName?: string
   onClose: () => void
+  label: string
   hideHeader?: boolean
+  mobileStyle?: MobileStyle
 }
 
+// TODO: all mobile modals should be draggable back to the direction they came from
 export const Modal = (props: ModalProps) => {
-  const {
-    headerContent,
-    bodyContent,
-    footerContent,
-    className,
-    headerClassName,
-    bodyClassName,
-    footerClassName,
-    onClose,
-    hideHeader
-  } = props
+  const { className, onClose, label, mobileStyle, ...rest } = props
 
   const [el] = useState<HTMLDivElement>(document.createElement('div'))
 
@@ -40,31 +37,133 @@ export const Modal = (props: ModalProps) => {
     }
   }, [])
 
-  return ReactDOM.createPortal(
+  const { width: screenWidth, isFetched: isFetchedScreenSize } = useScreenSize()
+
+  const shouldReduceMotion = useReducedMotion()
+
+  const animations: Record<'desktop' | MobileStyle, AnimationProps> = {
+    desktop: {
+      initial: { opacity: 0 },
+      animate: { opacity: 1 },
+      exit: { opacity: 0 },
+      transition: { duration: shouldReduceMotion ? 0 : 0.1, ease: 'linear' }
+    },
+    tab: {
+      initial: { y: '100%' },
+      animate: { y: 0 },
+      exit: { y: '100%' },
+      transition: { duration: shouldReduceMotion ? 0 : 0.1, ease: 'easeInOut' }
+    },
+    cover: {
+      initial: { x: '100%' },
+      animate: { x: 0 },
+      exit: { x: '100%' },
+      transition: { duration: shouldReduceMotion ? 0 : 0.1, ease: 'easeInOut' }
+    }
+  }
+
+  const [isModalShown, setIsModalShown] = useState<boolean>(true)
+
+  if (isFetchedScreenSize && !!screenWidth) {
+    const isDesktop = screenWidth > SCREEN_SIZES.md
+    const animationProps = isDesktop
+      ? animations.desktop
+      : mobileStyle === 'cover'
+      ? animations.cover
+      : animations.tab
+
+    return ReactDOM.createPortal(
+      <ModalBackdrop label={label} onClose={() => setIsModalShown(false)}>
+        <AnimatePresence onExitComplete={onClose}>
+          {isModalShown && (
+            <motion.div
+              id='modal-animation-wrapper'
+              key={`modal-${label}`}
+              {...animationProps}
+              className={classNames(
+                'flex flex-col relative p-8 shadow-xl overflow-y-auto md:rounded-lg',
+                'bg-pt-purple-700 text-pt-purple-50',
+                'h-screen md:h-auto md:max-h-[90vh]',
+                'w-screen md:w-full md:max-w-lg',
+                {
+                  '!h-auto max-h-[90vh] rounded-t-lg': mobileStyle === 'tab' || !mobileStyle
+                },
+                className
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ModalContent
+                onClose={() => setIsModalShown(false)}
+                mobileStyle={mobileStyle}
+                {...rest}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </ModalBackdrop>,
+      el
+    )
+  }
+
+  return <></>
+}
+
+interface ModalBackdropProps {
+  label: string
+  onClose: () => void
+  children: ReactNode
+}
+
+const ModalBackdrop = (props: ModalBackdropProps) => {
+  const { label, onClose, children } = props
+
+  return (
     <div
-      className='z-40 fixed flex inset-0 items-center justify-center bg-black/70'
+      className='z-40 fixed flex inset-0 items-end justify-center bg-black/70 md:items-center'
       onClick={onClose}
+      aria-label={label}
     >
-      <div
-        className={classNames(
-          'flex flex-col relative p-8 rounded-lg shadow-xl overflow-y-auto',
-          'bg-pt-purple-700 text-pt-purple-50',
-          'h-screen sm:h-auto sm:max-h-[90vh]',
-          'w-screen sm:w-full sm:max-w-lg',
-          className
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {!hideHeader && (
-          <ModalHeader className={headerClassName} onClose={onClose}>
-            {headerContent}
-          </ModalHeader>
-        )}
-        <ModalBody className={bodyClassName}>{bodyContent}</ModalBody>
-        {!!footerContent && <ModalFooter className={footerClassName}>{footerContent}</ModalFooter>}
-      </div>
-    </div>,
-    el
+      {children}
+    </div>
+  )
+}
+
+interface ModalContentProps {
+  headerContent?: ReactNode
+  bodyContent: ReactNode
+  footerContent?: ReactNode
+  headerClassName?: string
+  bodyClassName?: string
+  footerClassName?: string
+  onClose: () => void
+  hideHeader?: boolean
+  mobileStyle?: MobileStyle
+}
+
+const ModalContent = (props: ModalContentProps) => {
+  const {
+    headerContent,
+    bodyContent,
+    footerContent,
+    headerClassName,
+    bodyClassName,
+    footerClassName,
+    onClose,
+    hideHeader,
+    mobileStyle
+  } = props
+
+  return (
+    <>
+      {mobileStyle === 'tab' && <ModalTabHandle />}
+      {!hideHeader && (
+        <ModalHeader className={headerClassName} onClose={onClose}>
+          {headerContent}
+        </ModalHeader>
+      )}
+      <ModalBody className={bodyClassName}>{bodyContent}</ModalBody>
+      {!!footerContent && <ModalFooter className={footerClassName}>{footerContent}</ModalFooter>}
+    </>
   )
 }
 
@@ -105,4 +204,10 @@ const ModalFooter = (props: ModalFooterProps) => {
   const { children, className } = props
 
   return <div className={classNames('pt-4', className)}>{children}</div>
+}
+
+const ModalTabHandle = () => {
+  return (
+    <hr className='absolute top-2 left-1/2 -translate-x-1/2 w-8 rounded border-1 border-pt-purple-200' />
+  )
 }

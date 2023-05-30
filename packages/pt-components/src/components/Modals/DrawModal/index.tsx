@@ -28,7 +28,9 @@ export const DrawModal = (props: DrawModalProps) => {
           </Button>
         }
         onClose={handleClose}
-        className='sm:!max-w-2xl'
+        label='draw-info'
+        className='md:!max-w-2xl'
+        mobileStyle='tab'
       />
     )
   }
