@@ -2,7 +2,7 @@ import { PrizePool } from 'pt-client-js'
 import { NetworkIcon } from 'pt-components'
 import { SubgraphPrizePoolAccount } from 'pt-types'
 import { ExternalLink } from 'pt-ui'
-import { getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
+import { getBlockExplorerUrl } from 'pt-utilities'
 import { AccountWinAmount } from './AccountWinAmount'
 
 interface AccountWinCardProps {
@@ -21,11 +21,17 @@ export const AccountWinCard = (props: AccountWinCardProps) => {
       <ExternalLink
         // href={getBlockExplorerUrl(win.chainId, win.txHash, 'tx')}
         href={getBlockExplorerUrl(win.chainId, '', 'tx')}
-        text={`View on ${getBlockExplorerName(win.chainId)}`}
+        text='View TX'
         size='xs'
         className='grow text-pt-purple-200'
       />
-      <AccountWinAmount prizePool={prizePool} amount={BigInt(win.payout)} />
+      <AccountWinAmount
+        prizePool={prizePool}
+        amount={BigInt(win.payout)}
+        className='!items-end lg:!items-center'
+        valueClassName='font-semibold lg:font-normal'
+        amountClassName='font-xs font-light lg:font-sm lg:font-normal'
+      />
     </div>
   )
 }

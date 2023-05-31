@@ -56,7 +56,7 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
             wins={flattenedWins}
             prizePools={prizePoolsArray}
             rounded={true}
-            className='hidden mt-8 lg:block'
+            className='hidden w-full mt-8 lg:block'
           />
         )}
         {!isEmpty && (
