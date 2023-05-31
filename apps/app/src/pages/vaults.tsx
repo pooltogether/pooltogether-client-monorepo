@@ -4,7 +4,7 @@ import { VaultsDisplay } from '@components/Vault/VaultsDisplay'
 
 export default function VaultsPage() {
   return (
-    <Layout className='gap-6 md:gap-14'>
+    <Layout className='gap-6 lg:gap-14'>
       <VaultFilters />
       <VaultsDisplay />
     </Layout>

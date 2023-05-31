@@ -26,7 +26,7 @@ export const AccountVaultCards = (props: AccountVaultsCardsProps) => {
 
   if (isFetched && isFetchedVaultBalances) {
     return (
-      <div className={classNames('w-full max-w-[36rem] flex flex-col gap-4', className)}>
+      <div className={classNames('w-full flex flex-col gap-4', className)}>
         {!!vaultBalances &&
           sortedVaults.map((vault) => {
             const shareBalance = vaultBalances[vault.id]?.amount ?? 0n

@@ -53,9 +53,9 @@ export const VaultsDisplay = () => {
             <VaultsTable
               chainId={network}
               vaults={filteredVaults[network]}
-              className='hidden md:block'
+              className='hidden lg:block'
             />
-            <VaultCards chainId={network} vaults={filteredVaults[network]} className='md:hidden' />
+            <VaultCards chainId={network} vaults={filteredVaults[network]} className='lg:hidden' />
           </div>
         )
       })}

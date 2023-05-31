@@ -110,7 +110,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
   return (
     <div
       className={classNames(
-        'flex gap-3 w-full rounded-lg px-8 py-4 select-none relative bg-pt-transparent hover:bg-pt-transparent/5',
+        'flex gap-3 w-full items-center rounded-lg px-8 py-4 select-none relative bg-pt-transparent hover:bg-pt-transparent/5',
         { 'cursor-pointer': !disabled, 'brightness-50': disabled },
         { hidden: hidden }
       )}

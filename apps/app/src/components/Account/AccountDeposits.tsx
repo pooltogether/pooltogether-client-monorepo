@@ -43,11 +43,16 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
 
   if (isFetchedVaultBalances && !!vaultBalances) {
     return (
-      <div className={classNames('w-full flex flex-col items-center', className)}>
+      <div
+        className={classNames(
+          'w-full max-w-xl flex flex-col items-center lg:max-w-none',
+          className
+        )}
+      >
         <AccountDepositsHeader />
         {isEmpty && <NoDepositsCard className='mt-4' />}
-        {!isEmpty && <AccountDepositsTable rounded={true} className='hidden mt-8 md:block' />}
-        {!isEmpty && <AccountVaultCards className='mt-2 md:hidden' />}
+        {!isEmpty && <AccountDepositsTable rounded={true} className='hidden mt-8 lg:block' />}
+        {!isEmpty && <AccountVaultCards className='mt-2 md:mt-4 lg:hidden' />}
         {!isEmpty && <AccountDepositsOdds className='mt-4' />}
       </div>
     )
@@ -86,8 +91,8 @@ const NoDepositsCard = (props: NoDepositsCardProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('w-full rounded-lg md:p-4 md:bg-pt-bg-purple', className)}>
-      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 text-sm bg-pt-transparent rounded-lg md:flex-row md:gap-3 md:text-lg md:font-medium'>
+    <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
+      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 text-sm bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:text-lg lg:font-medium'>
         <span className='text-pt-purple-100'>You don't have any prize assets.</span>
         <Link href='/vaults' className='text-pt-teal'>
           Deposit now.

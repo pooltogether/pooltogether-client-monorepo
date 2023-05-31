@@ -80,7 +80,7 @@ export const Modal = (props: ModalProps) => {
               key={`modal-${label}`}
               {...animationProps}
               className={classNames(
-                'flex flex-col relative p-8 shadow-xl overflow-y-auto md:rounded-lg',
+                'flex flex-col relative items-center p-8 shadow-xl overflow-y-auto md:rounded-lg',
                 'bg-pt-purple-700 text-pt-purple-50',
                 'h-screen md:h-auto md:max-h-[90vh]',
                 'w-screen md:w-full md:max-w-lg',
@@ -176,7 +176,7 @@ const ModalHeader = (props: ModalHeaderProps) => {
   const { children, className, onClose } = props
 
   return (
-    <div className={classNames('flex pb-4 text-pt-purple-50', className)}>
+    <div className={classNames('w-full flex pb-4 text-pt-purple-50', className)}>
       {children}
       <XMarkIcon className='h-6 w-6 ml-auto cursor-pointer' onClick={onClose} />
     </div>
@@ -191,7 +191,7 @@ interface ModalBodyProps {
 const ModalBody = (props: ModalBodyProps) => {
   const { children, className } = props
 
-  return <div className={classNames(className)}>{children}</div>
+  return <div className={classNames('w-full max-w-xl md:max-w-none', className)}>{children}</div>
 }
 
 interface ModalFooterProps {
@@ -202,7 +202,9 @@ interface ModalFooterProps {
 const ModalFooter = (props: ModalFooterProps) => {
   const { children, className } = props
 
-  return <div className={classNames('pt-4', className)}>{children}</div>
+  return (
+    <div className={classNames('w-full max-w-xl pt-4 md:max-w-none', className)}>{children}</div>
+  )
 }
 
 const ModalTabHandle = () => {

@@ -13,7 +13,7 @@ export const AccountWinCards = (props: AccountWinCardsProps) => {
   const { wins, prizePools, className } = props
 
   return (
-    <div className={classNames('w-full max-w-[36rem] flex flex-col gap-4', className)}>
+    <div className={classNames('w-full flex flex-col gap-4', className)}>
       {wins.map((win) => {
         const prizePool = prizePools.find((prizePool) => prizePool.chainId === win.chainId)
         if (!!prizePool) {

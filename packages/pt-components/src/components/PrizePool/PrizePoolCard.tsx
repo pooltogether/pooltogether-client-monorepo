@@ -27,9 +27,9 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
         chainId={prizePool.chainId}
         appendText='Prize Pool'
         hideBg={true}
-        className='gap-2 p-0'
+        className='gap-2 !p-0'
         iconClassName='h-8 w-8'
-        textClassName='font-semibold md:text-2xl'
+        textClassName='font-semibold whitespace-nowrap md:text-2xl'
       />
       <div className='flex flex-col gap-0.5 text-center text-pt-purple-100 md:text-start'>
         <span className='text-xs uppercase md:text-sm'>Grand Prize</span>

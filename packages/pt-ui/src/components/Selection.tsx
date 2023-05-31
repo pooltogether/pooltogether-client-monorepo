@@ -22,7 +22,7 @@ export const Selection = (props: SelectionProps) => {
   const { items, activeItem, className, buttonColor } = props
 
   return (
-    <div className={classNames('flex gap-2 md:gap-4', className)}>
+    <div className={classNames('flex gap-2 lg:gap-4', className)}>
       {items.map((item) => {
         return (
           <Button

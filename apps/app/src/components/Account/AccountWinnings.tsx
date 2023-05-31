@@ -43,7 +43,12 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
 
   if (typeof window !== 'undefined' && !!userAddress && isFetchedWins && !!wins) {
     return (
-      <div className={classNames('w-full flex flex-col items-center', className)}>
+      <div
+        className={classNames(
+          'w-full max-w-xl flex flex-col items-center lg:max-w-none',
+          className
+        )}
+      >
         <AccountWinningsHeader />
         {isEmpty && <NoWinsCard className='mt-4' />}
         {!isEmpty && (
@@ -51,14 +56,14 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
             wins={flattenedWins}
             prizePools={prizePoolsArray}
             rounded={true}
-            className='hidden mt-8 md:block'
+            className='hidden mt-8 lg:block'
           />
         )}
         {!isEmpty && (
           <AccountWinCards
             wins={flattenedWins}
             prizePools={prizePoolsArray}
-            className='mt-2 md:hidden'
+            className='mt-2 md:mt-4 lg:hidden'
           />
         )}
       </div>
@@ -74,17 +79,17 @@ const NoWinsCard = (props: NoWinsCardProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('w-full rounded-lg md:p-4 md:bg-pt-bg-purple', className)}>
-      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 bg-pt-transparent rounded-lg md:flex-row md:gap-3 md:font-medium'>
-        <span className='text-sm text-pt-purple-100 md:text-lg'>
+    <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
+      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:font-medium'>
+        <span className='text-sm text-pt-purple-100 lg:text-lg'>
           You haven't won any prizes recently.
         </span>
         <ExternalLink
           href={LINKS.docs}
           text='Learn how PoolTogether works'
           size='sm'
-          className='text-pt-teal md:text-lg'
-          iconClassName='md:h-6 md:w-6'
+          className='text-pt-teal lg:text-lg'
+          iconClassName='lg:h-6 lg:w-6'
         />
       </div>
     </div>
