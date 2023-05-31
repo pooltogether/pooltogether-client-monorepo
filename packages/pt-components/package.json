@@ -26,7 +26,6 @@
     "@heroicons/react": "^2.0.16",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
-    "flowbite-react": "^0.4.2",
     "jotai": "^1.13.1",
     "pt-client-js": "workspace:*",
     "pt-generic-hooks": "workspace:*",
