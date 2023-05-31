@@ -18,18 +18,18 @@ export const ConfirmingView = (props: ConfirmingViewProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-xl font-semibold text-center'>Transaction Submitted</span>
+      <span className='text-lg font-semibold text-center'>Transaction Submitted</span>
       <NetworkBadge
         chainId={vault.chainId}
         appendText='Prize Pool'
         hideBorder={true}
         className='!py-1 mx-auto'
       />
-      <span className='text-center'>
+      <span className='text-sm text-center md:text-base'>
         Withdrawing {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}...
       </span>
       <Spinner size='lg' className='mx-auto after:border-y-pt-teal' />
-      <div className='flex flex-col w-full justify-end h-36 gap-6'>
+      <div className='flex flex-col w-full justify-end h-24 gap-4 md:h-36 md:gap-6'>
         {!!txHash && (
           <ExternalLink
             href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}

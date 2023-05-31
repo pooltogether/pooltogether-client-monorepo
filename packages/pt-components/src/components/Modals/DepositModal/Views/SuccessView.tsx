@@ -21,7 +21,7 @@ export const SuccessView = (props: SuccessViewProps) => {
   return (
     <div className='flex flex-col gap-6 items-center'>
       <div className='flex flex-col gap-3 items-center'>
-        <div className='flex flex-col items-center text-xl font-medium text-center'>
+        <div className='flex flex-col items-center text-lg font-medium text-center'>
           <span className='text-pt-teal'>Success!</span>
           <span>
             You deposited {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
@@ -35,13 +35,15 @@ export const SuccessView = (props: SuccessViewProps) => {
         />
         <SuccessPooly className='w-40 h-auto mt-3' />
       </div>
-      <span className='text-center'>You are now eligible for all future draws in this pool.</span>
+      <span className='text-sm text-center md:text-base'>
+        You are now eligible for all future draws in this pool.
+      </span>
       {!!txHash && (
         <ExternalLink
           href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
           text={`View on ${getBlockExplorerName(vault.chainId)}`}
           size='sm'
-          className='text-pt-purple-100'
+          className='text-pt-teal'
         />
       )}
       {/* TODO: implement twitter sharing and enable button */}

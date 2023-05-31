@@ -18,8 +18,9 @@ export const MainView = (props: MainViewProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-xl font-semibold text-center'>
-        Deposit to {vault.name ?? <Spinner />} on {networkName}
+      <span className='text-lg font-semibold text-center'>
+        Deposit to {vault.name ?? <Spinner />}{' '}
+        <span className='hidden md:inline-block'>on {networkName}</span>
       </span>
       <NetworkBadge
         chainId={vault.chainId}
@@ -30,9 +31,9 @@ export const MainView = (props: MainViewProps) => {
       {!!vault.shareData && !!vault.tokenData && vault.decimals !== undefined && (
         <DepositForm vault={vault} showInputInfoRows={true} />
       )}
-      <div className='flex gap-9 mx-auto'>
+      <div className='flex flex-col gap-4 mx-auto md:flex-row md:gap-9'>
         <Odds vault={vault} prizePool={prizePool} />
-        <NetworkFees vault={vault} />
+        <NetworkFees vault={vault} show={['approve', 'deposit']} />
       </div>
     </div>
   )

@@ -62,7 +62,8 @@ export const TxFormInput = (props: TxFormInputProps) => {
   return (
     <div
       className={classNames(
-        'relative bg-pt-transparent p-4 rounded-lg border border-transparent focus-within:border-pt-transparent',
+        'relative bg-pt-transparent p-3 rounded-lg md:p-4',
+        'border border-transparent focus-within:border-pt-transparent',
         className
       )}
     >
@@ -76,11 +77,11 @@ export const TxFormInput = (props: TxFormInputProps) => {
         />
         <div className='flex shrink-0 items-center gap-1'>
           <TokenIcon token={token} />
-          <span className='text-2xl font-semibold'>{token.symbol}</span>
+          <span className='text-lg font-semibold md:text-2xl'>{token.symbol}</span>
         </div>
       </div>
       {showInfoRow && (
-        <div className='flex justify-between gap-6 text-pt-purple-100'>
+        <div className='flex justify-between gap-6 text-xs text-pt-purple-100 md:text-base'>
           <CurrencyValue baseValue={amountValue} />
           <div className='flex gap-1'>
             <span>Balance: {formattedBalance}</span>
@@ -128,7 +129,7 @@ const Input = (props: InputProps) => {
         onChange: (e) => onChange?.(e.target.value as string)
       })}
       placeholder='0'
-      className='min-w-0 flex-grow text-2xl font-semibold bg-transparent text-pt-purple-50 focus:outline-none'
+      className='min-w-0 flex-grow text-lg font-semibold bg-transparent text-pt-purple-50 focus:outline-none md:text-2xl'
       disabled={disabled}
     />
   )
