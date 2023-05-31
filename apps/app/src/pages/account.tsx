@@ -5,8 +5,8 @@ import { Layout } from '@components/Layout'
 export default function AccountPage() {
   return (
     <Layout className='gap-6'>
-      <AccountDeposits className='w-full' />
-      <AccountWinnings className='w-full' />
+      <AccountDeposits />
+      <AccountWinnings />
     </Layout>
   )
 }

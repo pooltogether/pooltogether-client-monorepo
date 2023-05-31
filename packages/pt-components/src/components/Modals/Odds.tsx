@@ -29,8 +29,8 @@ export const Odds = (props: OddsProps) => {
 
   return (
     <div className='flex flex-col items-center gap-2 font-semibold'>
-      <span className='text-sm text-pt-purple-100'>Daily Chance of Winning</span>
-      <span className='text-xl text-pt-purple-50'>
+      <span className='text-xs text-pt-purple-100 md:text-sm'>Daily Chance of Winning</span>
+      <span className='text-pt-purple-50 md:text-xl'>
         {isFetchedPrizeOdds && !!prizeOdds ? (
           formShareAmount !== '0' ? (
             `1 in ${formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}`

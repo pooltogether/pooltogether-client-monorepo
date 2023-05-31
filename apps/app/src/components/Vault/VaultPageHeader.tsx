@@ -26,9 +26,9 @@ export const VaultPageHeader = (props: VaultPageHeaderProps) => {
               name: vault.name,
               logoURI: vault.logoURI
             }}
-            className='h-8 w-8'
+            className='h-6 w-6 md:h-8 md:w-8'
           />
-          <span className='text-4xl font-semibold font-averta'>{vault.name}</span>
+          <span className='text-2xl font-semibold font-averta md:text-4xl'>{vault.name}</span>
         </div>
         <NetworkBadge
           chainId={vault.chainId}
@@ -46,10 +46,10 @@ const BackButton = () => {
   return (
     <div
       onClick={() => router.push('/vaults')}
-      className='absolute left-16 flex items-center gap-2 text-pt-purple-100 cursor-pointer'
+      className='absolute top-9 left-3 flex items-center gap-2 text-pt-purple-100 cursor-pointer md:top-3 md:left-16'
     >
-      <ArrowLeftIcon className='h-4 w-4' />
-      <span className='text-xs font-medium'>Back</span>
+      <ArrowLeftIcon className='h-6 w-6 md:h-4 md:w-4' />
+      <span className='hidden text-xs font-medium md:block'>Back</span>
     </div>
   )
 }

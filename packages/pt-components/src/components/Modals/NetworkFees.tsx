@@ -14,7 +14,7 @@ export const NetworkFees = (props: NetworkFeesProps) => {
 
   return (
     <div className='flex flex-col items-center gap-2 font-semibold'>
-      <span className='text-sm text-pt-purple-100'>Estimated Network Fees</span>
+      <span className='text-xs text-pt-purple-100 md:text-sm'>Estimated Network Fees</span>
       <div className='flex flex-col text-xs'>
         {(!show || show.includes('approve')) && (
           <TXFeeEstimate

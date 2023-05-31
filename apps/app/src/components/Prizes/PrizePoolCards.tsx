@@ -11,15 +11,22 @@ export const PrizePoolCards = () => {
 
   return (
     <div
-      className={classNames('grid gap-4 p-4 rounded-lg', {
-        'grid-cols-1': numPrizePools === 1,
-        'grid-cols-2': numPrizePools % 2 === 0 && numPrizePools % 3 !== 0,
-        'grid-cols-3': numPrizePools % 3 === 0
-      })}
+      className={classNames(
+        'flex flex-col w-full items-center gap-4 rounded-lg md:grid md:w-auto md:p-4',
+        {
+          'grid-cols-1': numPrizePools === 1,
+          'grid-cols-2': numPrizePools % 2 === 0 && numPrizePools % 3 !== 0,
+          'grid-cols-3': numPrizePools % 3 === 0
+        }
+      )}
     >
       {Object.values(prizePools).map((prizePool) => {
         return (
-          <Link key={`pp-${prizePool.id}`} href={`/vaults?network=${prizePool.chainId}`}>
+          <Link
+            key={`pp-${prizePool.id}`}
+            href={`/vaults?network=${prizePool.chainId}`}
+            className='w-full max-w-sm'
+          >
             <PrizePoolCard prizePool={prizePool} />
           </Link>
         )

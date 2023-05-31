@@ -1,8 +1,11 @@
 import classNames from 'classnames'
+import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
 import { useAllUserPrizePoolWins, usePrizePools } from 'pt-hyperstructure-hooks'
+import { SubgraphPrizePoolAccount } from 'pt-types'
 import { ExternalLink, LINKS } from 'pt-ui'
 import { formatPrizePools } from '../../utils'
+import { AccountWinCards } from './AccountWinCards'
 import { AccountWinningsHeader } from './AccountWinningsHeader'
 import { AccountWinningsTable } from './AccountWinningsTable'
 
@@ -24,22 +27,43 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
     userAddress
   )
 
-  const isEmpty =
-    isFetchedWins && !!wins
-      ? Object.values(wins).every((chainWins) => chainWins.length === 0)
-      : false
+  const flattenedWins = useMemo(() => {
+    const flattenedWins: (SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number })[] =
+      []
+    for (const key in wins) {
+      const chainId = parseInt(key)
+      wins[chainId].forEach((win) => {
+        flattenedWins.push({ ...win, chainId })
+      })
+    }
+    return flattenedWins
+  }, [wins])
+
+  const isEmpty = !flattenedWins?.length
 
   if (typeof window !== 'undefined' && !!userAddress && isFetchedWins && !!wins) {
     return (
-      <div className={className}>
+      <div
+        className={classNames(
+          'w-full max-w-xl flex flex-col items-center lg:max-w-none',
+          className
+        )}
+      >
         <AccountWinningsHeader />
         {isEmpty && <NoWinsCard className='mt-4' />}
         {!isEmpty && (
           <AccountWinningsTable
-            wins={wins}
+            wins={flattenedWins}
             prizePools={prizePoolsArray}
             rounded={true}
-            className='mt-8'
+            className='hidden w-full mt-8 lg:block'
+          />
+        )}
+        {!isEmpty && (
+          <AccountWinCards
+            wins={flattenedWins}
+            prizePools={prizePoolsArray}
+            className='mt-2 md:mt-4 lg:hidden'
           />
         )}
       </div>
@@ -55,14 +79,17 @@ const NoWinsCard = (props: NoWinsCardProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('w-full p-4 bg-pt-bg-purple rounded-lg', className)}>
-      <div className='inline-flex w-full gap-3 items-center justify-center p-3 text-lg font-medium bg-pt-transparent rounded-lg'>
-        <span className='text-pt-purple-100'>You haven't won any prizes recently.</span>
+    <div className={classNames('w-full rounded-lg lg:p-4 lg:bg-pt-bg-purple', className)}>
+      <div className='flex flex-col w-full gap-2 items-center justify-center p-3 bg-pt-transparent rounded-lg lg:flex-row lg:gap-3 lg:font-medium'>
+        <span className='text-sm text-pt-purple-100 lg:text-lg'>
+          You haven't won any prizes recently.
+        </span>
         <ExternalLink
           href={LINKS.docs}
           text='Learn how PoolTogether works'
-          size='lg'
-          className='text-pt-teal'
+          size='sm'
+          className='text-pt-teal lg:text-lg'
+          iconClassName='lg:h-6 lg:w-6'
         />
       </div>
     </div>

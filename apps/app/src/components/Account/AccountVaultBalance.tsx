@@ -6,10 +6,11 @@ import { Spinner } from 'pt-ui'
 
 interface AccountVaultBalanceProps {
   vault: Vault
+  className?: string
 }
 
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
-  const { vault } = props
+  const { vault, className } = props
 
   const { address: userAddress } = useAccount()
 
@@ -24,7 +25,14 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
   }
 
   if (tokenBalance.amount > 0n) {
-    return <TokenValueAndAmount token={tokenBalance} />
+    return (
+      <TokenValueAndAmount
+        token={tokenBalance}
+        className={className}
+        valueClassName='text-sm md:text-base'
+        amountClassName='text-xs md:text-sm'
+      />
+    )
   }
 
   return <>-</>

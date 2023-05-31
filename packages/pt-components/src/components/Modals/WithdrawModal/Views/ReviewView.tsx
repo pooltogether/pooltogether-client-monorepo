@@ -51,14 +51,14 @@ const BasicWithdrawFormInput = (props: BasicWithdrawFormInputProps) => {
   const { token } = props
 
   return (
-    <div className='bg-pt-transparent p-4 rounded-lg border border-transparent'>
+    <div className='bg-pt-transparent p-3 rounded-lg border border-transparent md:p-4'>
       <div className='flex justify-between gap-6'>
-        <span className='text-2xl font-semibold bg-transparent text-pt-purple-50'>
+        <span className='text-lg font-semibold bg-transparent text-pt-purple-50 md:text-2xl'>
           {token.amount}
         </span>
         <div className='flex shrink-0 items-center gap-1'>
           <TokenIcon token={token} />
-          <span className='text-2xl font-semibold'>{token.symbol}</span>
+          <span className='text-lg font-semibold md:text-2xl'>{token.symbol}</span>
         </div>
       </div>
     </div>

@@ -21,7 +21,7 @@ export const SuccessView = (props: SuccessViewProps) => {
   return (
     <div className='flex flex-col gap-6 items-center'>
       <div className='flex flex-col gap-3 items-center'>
-        <div className='flex flex-col items-center text-xl font-medium text-center'>
+        <div className='flex flex-col items-center text-lg font-medium text-center'>
           <span className='text-pt-teal'>Success!</span>
           <span>
             You withdrew {formatNumberForDisplay(formTokenAmount)} {vault.tokenData?.symbol}
@@ -40,7 +40,7 @@ export const SuccessView = (props: SuccessViewProps) => {
           href={getBlockExplorerUrl(vault.chainId, txHash, 'tx')}
           text={`View on ${getBlockExplorerName(vault.chainId)}`}
           size='sm'
-          className='text-pt-purple-100'
+          className='text-pt-teal'
         />
       )}
       {!!goToAccount && (

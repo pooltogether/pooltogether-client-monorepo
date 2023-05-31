@@ -9,6 +9,7 @@ const defaultVaultList: VaultList = {
     patch: 0
   },
   timestamp: '2023-05-24T22:36:40.482Z',
+  logoURI: '/pooltogether-token-logo.svg',
   tokens: [
     {
       chainId: 80001,

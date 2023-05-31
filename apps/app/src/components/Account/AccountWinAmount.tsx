@@ -6,10 +6,13 @@ import { Spinner } from 'pt-ui'
 interface AccountWinAmountProps {
   prizePool: PrizePool
   amount: bigint
+  className?: string
+  valueClassName?: string
+  amountClassName?: string
 }
 
 export const AccountWinAmount = (props: AccountWinAmountProps) => {
-  const { prizePool, amount } = props
+  const { prizePool, amount, className, valueClassName, amountClassName } = props
 
   const { data: tokenData } = usePrizeTokenData(prizePool)
 
@@ -17,5 +20,12 @@ export const AccountWinAmount = (props: AccountWinAmountProps) => {
     return <Spinner />
   }
 
-  return <TokenValueAndAmount token={{ ...tokenData, amount }} />
+  return (
+    <TokenValueAndAmount
+      token={{ ...tokenData, amount }}
+      className={className}
+      valueClassName={valueClassName}
+      amountClassName={amountClassName}
+    />
+  )
 }

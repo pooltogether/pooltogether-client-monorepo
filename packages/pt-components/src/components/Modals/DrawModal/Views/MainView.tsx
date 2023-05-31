@@ -93,11 +93,11 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
   const { data: tokenData } = usePrizeTokenData(prizePool)
 
   return (
-    <div className='flex flex-col w-full gap-2 text-center'>
+    <div className='flex flex-col w-full gap-2 md:text-center'>
       {/* TODO: make sure table headers are aligned with content when scrollbar is active */}
       <div className='flex w-full text-pt-purple-100 font-semibold'>
         <span className='flex-grow'>Winner</span>
-        <span className='flex-grow'>Prize</span>
+        <span className='flex-grow text-right md:text-center'>Prize</span>
       </div>
       {!!draw && !!tokenData ? (
         <div className='flex flex-col w-full max-h-52 gap-3 overflow-y-auto'>
@@ -112,7 +112,7 @@ const DrawWinnersTable = (props: DrawWinnersTableProps) => {
                       text={shorten(prize.winner.id, { short: true }) as string}
                     />
                   </span>
-                  <span className='flex-grow whitespace-nowrap'>
+                  <span className='flex-grow text-right whitespace-nowrap md:text-center'>
                     {!!tokenData ? (
                       `${formatBigIntForDisplay(BigInt(prize.payout), tokenData.decimals)} ${
                         tokenData.symbol

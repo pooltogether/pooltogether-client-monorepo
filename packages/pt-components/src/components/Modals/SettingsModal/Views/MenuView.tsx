@@ -30,7 +30,7 @@ export const MenuView = (props: MenuViewProps) => {
         items={[
           {
             iconContent: SUPPORTED_CURRENCIES[selectedCurrency].symbol,
-            title: `${SUPPORTED_CURRENCIES[selectedCurrency].name} (${SUPPORTED_CURRENCIES[selectedCurrency].symbol})`,
+            title: 'Change Currency',
             onClick: () => setView('currency'),
             disabled: disable?.includes('currency'),
             hidden: hide?.includes('currency')
@@ -38,7 +38,7 @@ export const MenuView = (props: MenuViewProps) => {
           {
             iconContent: selectedLanguage.toUpperCase(),
             iconClassName: '!text-base font-semibold',
-            title: `${SUPPORTED_LANGUAGES[selectedLanguage].nativeName} (${SUPPORTED_LANGUAGES[selectedLanguage].name})`,
+            title: 'Change Language',
             onClick: () => setView('language'),
             disabled: disable?.includes('language'),
             hidden: hide?.includes('language')
@@ -82,7 +82,7 @@ const SettingsMenuSection = (props: SettingsMenuSectionProps) => {
 
   return (
     <div className='flex flex-col gap-4'>
-      <span className='text-2xl font-semibold text-pt-purple-50'>{title}</span>
+      <span className='text-xl font-semibold text-pt-purple-50 md:text-2xl'>{title}</span>
       {items.map((item) => {
         return (
           <SettingsMenuItem
@@ -110,7 +110,7 @@ const SettingsMenuItem = (props: SettingsMenuItemProps) => {
   return (
     <div
       className={classNames(
-        'flex gap-3 w-full rounded-lg px-8 py-4 select-none relative bg-pt-transparent hover:bg-pt-transparent/5',
+        'flex gap-3 w-full items-center rounded-lg px-8 py-4 select-none relative bg-pt-transparent hover:bg-pt-transparent/5',
         { 'cursor-pointer': !disabled, 'brightness-50': disabled },
         { hidden: hidden }
       )}

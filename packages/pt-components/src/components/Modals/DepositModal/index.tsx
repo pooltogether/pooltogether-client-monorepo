@@ -115,7 +115,9 @@ export const DepositModal = (props: DepositModalProps) => {
           </div>
         }
         onClose={handleClose}
+        label='deposit-flow'
         hideHeader={true}
+        mobileStyle='tab'
       />
     )
   }

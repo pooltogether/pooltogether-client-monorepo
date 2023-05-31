@@ -26,22 +26,22 @@ export const defaultFooterItems: FooterItem[] = [
       {
         text: 'Twitter',
         href: LINKS.twitter,
-        icon: <SocialIcon platform='twitter' className='w-6 h-auto' />
+        icon: <SocialIcon platform='twitter' className='w-6 h-auto shrink-0' />
       },
       {
         text: 'Discord',
         href: LINKS.discord,
-        icon: <SocialIcon platform='discord' className='w-6 h-auto' />
+        icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
       },
       {
         text: 'GitHub',
         href: LINKS.github,
-        icon: <SocialIcon platform='github' className='w-6 h-auto' />
+        icon: <SocialIcon platform='github' className='w-6 h-auto shrink-0' />
       },
       {
         text: 'Medium',
         href: LINKS.medium,
-        icon: <SocialIcon platform='medium' className='w-6 h-auto' />
+        icon: <SocialIcon platform='medium' className='w-6 h-auto shrink-0' />
       }
     ]
   }
@@ -65,17 +65,25 @@ export const Footer = (props: FooterProps) => {
   return (
     <FlowbiteFooter
       theme={{
-        root: { base: 'w-full flex justify-center bg-pt-purple-600 px-6 pt-12 pb-24 shadow' }
+        root: {
+          base: 'w-full flex justify-center bg-pt-purple-600 px-12 pt-12 pb-24 shadow md:px-16'
+        }
       }}
       className={classNames(className)}
       {...rest}
     >
       <div
-        className={classNames('w-full max-w-6xl md:flex md:justify-between', containerClassName)}
+        className={classNames(
+          'w-full flex max-w-6xl justify-between gap-16 text-sm flex-wrap md:text-base',
+          containerClassName
+        )}
       >
         {(items ?? defaultFooterItems).map((item) => {
           return (
-            <div key={`ft-${item.title.toLowerCase().replaceAll(' ', '-')}`} className='w-1/12'>
+            <div
+              key={`ft-${item.title.toLowerCase().replaceAll(' ', '-')}`}
+              className='w-24 grow md:w-1/12 md:last:grow-0 md:last:min-w-[80px]'
+            >
               <FlowbiteFooter.Title
                 theme={{ base: 'text-pt-teal-dark mb-6' }}
                 title={item.title}

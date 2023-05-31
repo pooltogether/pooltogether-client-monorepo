@@ -181,7 +181,7 @@ export const DepositTxButton = (props: DepositTxButtonProps) => {
     allowance < depositAmount
   ) {
     return (
-      <div className='flex flex-col w-full gap-6'>
+      <div className='flex flex-col w-full gap-4 md:gap-6'>
         <TransactionButton
           chainId={vault.chainId}
           isTxLoading={isWaitingExactApproval || isConfirmingExactApproval}

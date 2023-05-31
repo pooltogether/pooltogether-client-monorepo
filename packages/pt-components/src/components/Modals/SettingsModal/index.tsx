@@ -48,6 +48,8 @@ export const SettingsModal = (props: SettingsModalProps) => {
           setIsModalOpen(false)
           setView('menu')
         }}
+        label='settings'
+        mobileStyle='cover'
       />
     )
   }

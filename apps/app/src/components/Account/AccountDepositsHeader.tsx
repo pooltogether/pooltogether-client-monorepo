@@ -16,9 +16,9 @@ export const AccountDepositsHeader = (props: AccountDepositsHeaderProps) => {
   const { data: totalBalance, isFetched: isFetchedTotalBalance } = useUserTotalBalance()
 
   return (
-    <div className={classNames('flex flex-col items-center gap-2', className)}>
-      <span className='text-pt-purple-100'>Your Deposits</span>
-      <span className='text-3xl font-averta font-semibold'>
+    <div className={classNames('flex flex-col items-center gap-1 md:gap-2', className)}>
+      <span className='text-sm text-pt-purple-100 md:text-base'>Your Deposits</span>
+      <span className='text-2xl font-averta font-semibold md:text-3xl'>
         {!isFetchedTotalBalance && !!userAddress && <Spinner />}
         {isFetchedTotalBalance && <CurrencyValue baseValue={totalBalance} countUp={true} />}
       </span>

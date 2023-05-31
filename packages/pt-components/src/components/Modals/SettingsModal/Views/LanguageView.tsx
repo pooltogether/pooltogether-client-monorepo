@@ -14,7 +14,7 @@ export const LanguageView = (props: LanguageViewProps) => {
 
   return (
     <div className='flex flex-col items-center gap-4 px-4'>
-      <span className='text-xl font-semibold text-pt-purple-50 order-first'>
+      <span className='text-lg font-semibold text-pt-purple-50 order-first md:text-xl'>
         Customize Language
       </span>
       {languages.map((id) => {
@@ -37,7 +37,7 @@ const LanguageItem = (props: LanguageItemProps) => {
   return (
     <div
       className={classNames(
-        'w-full rounded-lg p-4 bg-pt-transparent hover:bg-pt-transparent/5 cursor-pointer select-none',
+        'w-full rounded-[6px] p-4 bg-pt-transparent hover:bg-pt-transparent/5 cursor-pointer select-none',
         { 'outline outline-2 outline-pt-teal-dark -order-1': id === selectedLanguage }
       )}
       onClick={() => {

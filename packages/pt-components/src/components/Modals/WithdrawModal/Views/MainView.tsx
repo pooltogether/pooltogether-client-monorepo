@@ -16,8 +16,9 @@ export const MainView = (props: MainViewProps) => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <span className='text-xl font-semibold text-center'>
-        Withdraw from {vault.name ?? <Spinner />} on {networkName}
+      <span className='text-lg font-semibold text-center'>
+        Withdraw from {vault.name ?? <Spinner />}{' '}
+        <span className='hidden md:inline-block'>on {networkName}</span>
       </span>
       <NetworkBadge
         chainId={vault.chainId}

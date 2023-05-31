@@ -29,11 +29,12 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
   return (
     <div
       className={classNames(
-        'flex w-full items-center justify-between px-4 py-6 text-pt-purple-100 bg-pt-bg-purple rounded-lg',
+        'flex w-full items-center justify-between px-4 py-1 text-pt-purple-100 rounded-lg',
+        'md:py-6 md:bg-pt-bg-purple',
         className
       )}
     >
-      <span>Daily Prize Odds</span>
+      <span className='text-xs md:text-base'>Daily Prize Odds</span>
       <span>
         {isFetchedPrizeOdds && !!prizeOdds ? (
           `1 in ${formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}`

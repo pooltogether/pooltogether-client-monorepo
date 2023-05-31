@@ -19,23 +19,26 @@ export const PrizePoolCard = (props: PrizePoolCardProps) => {
   const { data: prizeTokenData, isFetched: isFetchedPrizeTokenData } = usePrizeTokenData(prizePool)
 
   return (
-    <Card wrapperClassName='hover:bg-pt-purple-50/20' className='gap-16'>
+    <Card
+      wrapperClassName='hover:bg-pt-purple-50/20'
+      className='gap-3 items-center md:gap-16 md:items-start'
+    >
       <NetworkBadge
         chainId={prizePool.chainId}
         appendText='Prize Pool'
         hideBg={true}
-        className='gap-2'
+        className='gap-2 !p-0'
         iconClassName='h-8 w-8'
-        textClassName='text-2xl font-semibold'
+        textClassName='font-semibold whitespace-nowrap md:text-2xl'
       />
-      <div className='flex flex-col gap-0.5 text-pt-purple-100'>
-        <span className='text-sm uppercase'>Grand Prize</span>
+      <div className='flex flex-col gap-0.5 text-center text-pt-purple-100 md:text-start'>
+        <span className='text-xs uppercase md:text-sm'>Grand Prize</span>
         {isFetchedAllPrizeInfo && isFetchedPrizeTokenData && !!prizeTokenData ? (
           <>
-            <span className='text-4xl text-pt-teal'>
+            <span className='text-2xl text-pt-teal md:text-4xl'>
               <TokenValue token={{ ...prizeTokenData, amount: grandPrize }} hideZeroes={true} />
             </span>
-            <span className='font-light'>
+            <span className='hidden font-light md:block'>
               ≈ {formatBigIntForDisplay(grandPrize, prizeTokenData.decimals, { hideZeroes: true })}{' '}
               POOL
             </span>

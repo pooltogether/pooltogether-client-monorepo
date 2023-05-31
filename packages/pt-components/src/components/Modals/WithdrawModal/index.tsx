@@ -105,7 +105,9 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
           </div>
         }
         onClose={handleClose}
+        label='withdraw-flow'
         hideHeader={true}
+        mobileStyle='tab'
       />
     )
   }

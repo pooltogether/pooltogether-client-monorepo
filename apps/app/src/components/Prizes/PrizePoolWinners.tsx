@@ -20,9 +20,9 @@ export const PrizePoolWinners = () => {
 
   if (!!selectedPrizePool && !!draws && draws.length > 0) {
     return (
-      <div className='flex flex-col w-[36rem] gap-4 items-center px-11 py-8 bg-pt-transparent rounded-lg'>
-        <span className='text-xl font-semibold'>Recent Prize Pool Winners</span>
-        <ul className='flex flex-col w-full'>
+      <div className='flex flex-col w-full max-w-[36rem] gap-4 items-center px-6 py-8 bg-pt-transparent rounded-lg md:px-11'>
+        <span className='font-semibold md:text-xl'>Recent Prize Pool Winners</span>
+        <ul className='flex flex-col w-full max-w-[36rem] pl-2 md:pl-1'>
           {draws
             .slice(0, numDraws)
             .filter((draw) => draw.prizeClaims.length > 0)
@@ -32,7 +32,7 @@ export const PrizePoolWinners = () => {
         </ul>
         {draws.length > numDraws && (
           <span
-            className='font-semibold text-pt-purple-200 cursor-pointer'
+            className='text-pt-purple-200 cursor-pointer md:font-semibold'
             onClick={() => setNumDraws(numDraws + baseNumDraws)}
           >
             Show More
@@ -73,7 +73,9 @@ const DrawRow = (props: DrawRowProps) => {
       <span>Draw #{draw.id}</span>
       {!!tokenData && (
         <span className='inline-flex gap-2'>
-          {uniqueWallets.size} wallet{uniqueWallets.size === 1 ? '' : 's'} won{' '}
+          <span className='hidden md:block'>
+            {uniqueWallets.size} wallet{uniqueWallets.size === 1 ? '' : 's'} won{' '}
+          </span>
           <span className='text-pt-purple-50'>
             <TokenValue token={{ ...tokenData, amount: totalPrizeAmount }} />
           </span>{' '}

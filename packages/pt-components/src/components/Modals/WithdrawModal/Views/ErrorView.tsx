@@ -11,7 +11,7 @@ export const ErrorView = (props: ErrorViewProps) => {
 
   return (
     <div className='flex flex-col gap-6 items-center'>
-      <div className='flex flex-col items-center text-xl font-semibold text-center'>
+      <div className='flex flex-col items-center text-lg font-semibold text-center'>
         <span className='text-[#EA8686]'>Uh oh!</span>
         <span>Something went wrong...</span>
       </div>
@@ -20,7 +20,7 @@ export const ErrorView = (props: ErrorViewProps) => {
         fullSized={true}
         color='transparent'
         onClick={() => setModalView('main')}
-        className='mt-32'
+        className='md:mt-32'
       >
         Try Again
       </Button>
