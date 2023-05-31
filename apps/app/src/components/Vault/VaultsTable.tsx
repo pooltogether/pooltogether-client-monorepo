@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
@@ -99,9 +100,10 @@ export const VaultsTable = (props: VaultsTableProps) => {
             <VaultBadge
               vault={vault}
               onClick={() => router.push(`/vault/${vault.id}`)}
-              className='isolate'
+              className='max-w-full'
             />
-          )
+          ),
+          className: 'pr-0'
         },
         prizePower: {
           content: (
@@ -124,7 +126,15 @@ export const VaultsTable = (props: VaultsTableProps) => {
     }))
   }
 
-  return <Table data={tableData} keyPrefix='vaultsTable' rounded={true} className={className} />
+  return (
+    <Table
+      data={tableData}
+      keyPrefix='vaultsTable'
+      rounded={true}
+      className={classNames('w-full', className)}
+      gridColsClassName='grid-cols-[minmax(0,6fr)_repeat(3,minmax(0,4fr))_minmax(0,5fr)]'
+    />
+  )
 }
 
 interface SortableHeaderProps {
@@ -149,7 +159,7 @@ const SortableHeader = (props: SortableHeaderProps) => {
         onClick={() => onClick(id)}
         className='flex gap-1 items-center cursor-pointer select-none'
       >
-        <SortIcon direction={direction} className='w-4 h-auto' />
+        <SortIcon direction={direction} className='w-4 h-auto shrink-0' />
         {names[id]}
       </div>
       {append}

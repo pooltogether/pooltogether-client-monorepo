@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { VaultBadge } from 'pt-components'
@@ -64,6 +65,13 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
         : []
     }
 
-    return <Table data={tableData} keyPrefix='accountVaultsTable' className={className} {...rest} />
+    return (
+      <Table
+        data={tableData}
+        keyPrefix='accountVaultsTable'
+        className={classNames('w-full', className)}
+        {...rest}
+      />
+    )
   }
 }

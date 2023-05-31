@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { PrizePool } from 'pt-client-js'
 import { NetworkBadge } from 'pt-components'
@@ -12,7 +13,7 @@ interface AccountWinningsTableProps extends Omit<TableProps, 'data' | 'keyPrefix
 }
 
 export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
-  const { wins, prizePools, ...rest } = props
+  const { wins, prizePools, className, ...rest } = props
 
   const router = useRouter()
 
@@ -59,5 +60,12 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
       .filter((row) => !!row)
   }
 
-  return <Table data={tableData} keyPrefix='accountWinningsTable' {...rest} />
+  return (
+    <Table
+      data={tableData}
+      keyPrefix='accountWinningsTable'
+      className={classNames('w-full', className)}
+      {...rest}
+    />
+  )
 }

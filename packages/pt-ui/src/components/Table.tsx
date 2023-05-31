@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 interface TableItem {
   content: ReactNode
   position?: 'left' | 'center' | 'right'
+  className?: string
 }
 
 export interface TableData {
@@ -22,14 +23,17 @@ export interface TableProps {
   className?: string
   headerClassName?: string
   rowClassName?: string
+  gridColsClassName?: string
 }
 
 export const Table = (props: TableProps) => {
-  const { data, keyPrefix, rounded, className, headerClassName, rowClassName } = props
+  const { data, keyPrefix, rounded, className, headerClassName, rowClassName, gridColsClassName } =
+    props
 
   const columns = Object.keys(data.headers).length
 
   const getGridCols = (columns: number) => {
+    if (!!gridColsClassName) return gridColsClassName
     switch (columns) {
       case 1:
         return 'grid-cols-1'
@@ -58,7 +62,7 @@ export const Table = (props: TableProps) => {
         {/* Table Headers */}
         <div
           className={classNames(
-            'text-sm px-3 py-6 text-pt-purple-100 grid gap-3',
+            'text-sm p-6 text-pt-purple-100 grid gap-3',
             getGridCols(columns),
             headerClassName
           )}
@@ -66,7 +70,7 @@ export const Table = (props: TableProps) => {
           {Object.keys(data.headers).map((headerId) => (
             <span
               key={`${keyPrefix}-header-${headerId}`}
-              className={classNames('flex items-center px-4', {
+              className={classNames('flex items-center', {
                 'justify-center': data.headers[headerId].position === 'center',
                 'justify-end': data.headers[headerId].position === 'right'
               })}
@@ -82,7 +86,7 @@ export const Table = (props: TableProps) => {
             <div
               key={`${keyPrefix}-row-${row.id}`}
               className={classNames(
-                'grid p-3 bg-pt-transparent',
+                'grid px-6 py-3 bg-pt-transparent',
                 getGridCols(columns),
                 { 'rounded-lg': rounded },
                 rowClassName,
@@ -96,10 +100,14 @@ export const Table = (props: TableProps) => {
                 return (
                   <span
                     key={`${keyPrefix}-cell-${headerId}-${row.id}-${i}`}
-                    className={classNames('flex items-center px-4', {
-                      'justify-center': cell?.position === 'center',
-                      'justify-end': cell?.position === 'right'
-                    })}
+                    className={classNames(
+                      'flex items-center',
+                      {
+                        'justify-center': cell?.position === 'center',
+                        'justify-end': cell?.position === 'right'
+                      },
+                      cell.className
+                    )}
                   >
                     {cell?.content ?? '-'}
                   </span>
