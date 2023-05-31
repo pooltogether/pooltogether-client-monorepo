@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useCachedVaultLists, useSelectedVaultListIds, useVaultList } from 'pt-hyperstructure-hooks'
 import { VaultList } from 'pt-types'
-import { ExternalLink, Toggle } from 'pt-ui'
+import { BasicIcon, ExternalLink, Toggle } from 'pt-ui'
 import { ImportedBadge } from '../../../Badges/ImportedBadge'
 
 interface VaultListViewProps {
@@ -59,10 +59,10 @@ export const VaultListView = (props: VaultListViewProps) => {
   }
 
   return (
-    <div className='flex flex-col gap-8 px-4'>
+    <div className='flex flex-col gap-4 px-4 md:gap-8'>
       <div className='flex flex-col items-center gap-2 text-center'>
-        <span className='text-xl font-semibold'>Manage Prize Asset Lists</span>
-        <span className='text-pt-purple-50'>
+        <span className='text-lg font-semibold md:text-xl'>Manage Prize Asset Lists</span>
+        <span className='text-sm text-pt-purple-50 md:text-base'>
           Prize asset lists determine what assets are displayed throughout the app. Use caution when
           interacting with imported lists.
         </span>
@@ -74,7 +74,7 @@ export const VaultListView = (props: VaultListViewProps) => {
         />
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-4 md:mt-0'>
         <input
           {...register('src', {
             validate: {
@@ -157,12 +157,16 @@ const VaultListItem = (props: VaultListItemProps) => {
   const version = `v${vaultList.version.major}.${vaultList.version.minor}.${vaultList.version.patch}`
 
   return (
-    <div className='w-full flex items-center justify-between'>
+    <div className='w-full flex items-center justify-between gap-2'>
       <div className='flex items-center gap-2'>
-        {!!vaultList.logoURI && <img src={vaultList.logoURI} className='w-8 h-8 rounded-full' />}
+        {!!vaultList.logoURI ? (
+          <img src={vaultList.logoURI} className='w-8 h-8 rounded-full' />
+        ) : (
+          <BasicIcon content='?' size='lg' />
+        )}
         <div className='flex flex-col gap-1 text-pt-purple-50'>
           <span>
-            <span className='font-medium'>{vaultList.name}</span>{' '}
+            <span className='text-sm md:text-base md:font-medium'>{vaultList.name}</span>{' '}
             <span className='text-xs'>{version}</span>
           </span>
           <div className='flex items-center gap-2 text-pt-purple-100'>
