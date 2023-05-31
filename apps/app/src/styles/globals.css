@@ -68,5 +68,6 @@
 
   html {
     font-family: 'Inter';
+    font-feature-settings: 'calt' off;
   }
 }
