@@ -1,5 +1,5 @@
 import { PrizePool } from 'pt-client-js'
-import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen, useScreenSize } from 'pt-generic-hooks'
 import { SubgraphPrizePoolDraw } from 'pt-types'
 import { Button, Modal } from 'pt-ui'
 import { MainView } from './Views/MainView'
@@ -13,6 +13,8 @@ export const DrawModal = (props: DrawModalProps) => {
   const { draw, prizePool } = props
 
   const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.drawWinners)
+
+  const { isMobile } = useScreenSize()
 
   const handleClose = () => {
     setIsModalOpen(false)
@@ -29,8 +31,9 @@ export const DrawModal = (props: DrawModalProps) => {
         }
         onClose={handleClose}
         label='draw-info'
-        className='md:!max-w-2xl'
         mobileStyle='tab'
+        hideHeader={isMobile}
+        className='md:!max-w-2xl'
       />
     )
   }

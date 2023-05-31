@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { AnimatePresence, AnimationProps, motion, useReducedMotion } from 'framer-motion'
 import { ReactNode, useLayoutEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { SCREEN_SIZES, useScreenSize } from 'pt-generic-hooks'
+import { useScreenSize } from 'pt-generic-hooks'
 
 type MobileStyle = 'tab' | 'cover'
 
@@ -37,7 +37,7 @@ export const Modal = (props: ModalProps) => {
     }
   }, [])
 
-  const { width: screenWidth, isFetched: isFetchedScreenSize } = useScreenSize()
+  const { isDesktop, isFetched: isFetchedScreenSize } = useScreenSize()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -64,8 +64,7 @@ export const Modal = (props: ModalProps) => {
 
   const [isModalShown, setIsModalShown] = useState<boolean>(true)
 
-  if (isFetchedScreenSize && !!screenWidth) {
-    const isDesktop = screenWidth > SCREEN_SIZES.md
+  if (isFetchedScreenSize) {
     const animationProps = isDesktop
       ? animations.desktop
       : mobileStyle === 'cover'
@@ -208,6 +207,6 @@ const ModalFooter = (props: ModalFooterProps) => {
 
 const ModalTabHandle = () => {
   return (
-    <hr className='absolute top-2 left-1/2 -translate-x-1/2 w-8 rounded border-1 border-pt-purple-200' />
+    <hr className='absolute top-2 left-1/2 -translate-x-1/2 w-8 rounded border-1 border-pt-purple-200 md:hidden' />
   )
 }

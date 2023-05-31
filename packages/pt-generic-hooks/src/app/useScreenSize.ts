@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { MAX_MOBILE_SCREEN_SIZE } from '../constants/screenSizes'
 
 /**
  * Returns the current screen size in pixels
@@ -27,5 +28,10 @@ export const useScreenSize = () => {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  return { width: screenSize.width, height: screenSize.height, isFetched: !!screenSize.width }
+  const isFetched = !!screenSize.width && !!screenSize.height
+
+  const isMobile = !!screenSize.width && screenSize.width <= MAX_MOBILE_SCREEN_SIZE
+  const isDesktop = !!screenSize.width && screenSize.width > MAX_MOBILE_SCREEN_SIZE
+
+  return { ...screenSize, isMobile, isDesktop, isFetched }
 }
