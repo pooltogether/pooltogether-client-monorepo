@@ -1,8 +1,8 @@
 import { Vault } from 'pt-client-js'
-import { usePrizePools, useVaultPrizePower } from 'pt-hyperstructure-hooks'
+import { useVaultPrizePower } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface VaultPrizePowerProps {
   vault: Vault
@@ -11,8 +11,7 @@ interface VaultPrizePowerProps {
 export const VaultPrizePower = (props: VaultPrizePowerProps) => {
   const { vault } = props
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
 
   const prizePool =
     !!vault && Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)

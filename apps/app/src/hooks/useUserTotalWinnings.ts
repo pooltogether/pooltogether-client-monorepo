@@ -5,12 +5,11 @@ import { useAccount } from 'wagmi'
 import {
   NO_REFETCH,
   QUERY_KEYS,
-  useAllUserPrizePoolWins,
-  usePrizePools
+  useAllTokenPrices,
+  useAllUserPrizePoolWins
 } from 'pt-hyperstructure-hooks'
 import { getTokenPriceFromObject } from 'pt-utilities'
-import { formatPrizePools } from '../utils'
-import { useAllTokenPrices } from './useAllTokenPrices'
+import { useSupportedPrizePools } from './useSupportedPrizePools'
 
 /**
  * Returns a user's total prize winnings in ETH
@@ -19,8 +18,7 @@ import { useAllTokenPrices } from './useAllTokenPrices'
 export const useUserTotalWinnings = () => {
   const { address: userAddress } = useAccount()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
   const {
@@ -69,7 +67,7 @@ export const useUserTotalWinnings = () => {
       for (const key in totalTokensWonByChain) {
         const chainId = parseInt(key)
         const tokenDataResult = tokenDataResults.find((result) => result.data?.chainId === chainId)
-        if (!!tokenDataResult) {
+        if (!!tokenDataResult?.data) {
           const tokenData = tokenDataResult.data
           const tokenAmount = parseFloat(
             formatUnits(totalTokensWonByChain[chainId], tokenData.decimals)

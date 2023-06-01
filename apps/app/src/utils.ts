@@ -3,27 +3,7 @@ import { Chain, Config, configureChains, Connector, createConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 import { NETWORK, parseQueryParam } from 'pt-utilities'
-import { PRIZE_POOLS, RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
-
-/**
- * Returns prize pools in a format compatible with the `usePrizePools()` hook
- * @returns
- */
-export const formatPrizePools = () => {
-  return Object.keys(PRIZE_POOLS).map((strChainId) => {
-    const chainId = parseInt(strChainId)
-    const info = PRIZE_POOLS[chainId]
-    return {
-      chainId,
-      address: info.address,
-      options: {
-        prizeTokenAddress: info.prizeTokenAddress,
-        drawPeriodInSeconds: info.drawPeriodInSeconds,
-        tierShares: info.tierShares
-      }
-    }
-  })
-}
+import { RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
 
 /**
  * Returns a Wagmi config with the given networks and RPCs

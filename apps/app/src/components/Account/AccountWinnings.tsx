@@ -1,10 +1,10 @@
 import classNames from 'classnames'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'
-import { useAllUserPrizePoolWins, usePrizePools } from 'pt-hyperstructure-hooks'
+import { useAllUserPrizePoolWins } from 'pt-hyperstructure-hooks'
 import { SubgraphPrizePoolAccount } from 'pt-types'
 import { ExternalLink, LINKS } from 'pt-ui'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { AccountWinCards } from './AccountWinCards'
 import { AccountWinningsHeader } from './AccountWinningsHeader'
 import { AccountWinningsTable } from './AccountWinningsTable'
@@ -18,8 +18,7 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
   const { data: wins, isFetched: isFetchedWins } = useAllUserPrizePoolWins(

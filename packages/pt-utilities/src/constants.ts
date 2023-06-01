@@ -55,6 +55,34 @@ export const MINUTES_PER_DAY = 1_440
 export const COINGECKO_API_URL = 'https://api.coingecko.com/api/v3'
 
 /**
+ * Prize Pools
+ */
+export const PRIZE_POOLS: {
+  chainId: NETWORK
+  address: `0x${string}`
+  options: { prizeTokenAddress: `0x${string}`; drawPeriodInSeconds: number; tierShares: number }
+}[] = [
+  {
+    chainId: NETWORK.sepolia,
+    address: '0xa77D6014e77F294C3297a18363f9951b3d57Eb95',
+    options: {
+      prizeTokenAddress: '0x7cB28bB4cDbBA6F509D5b9022108138D662042Bf',
+      drawPeriodInSeconds: 43_200,
+      tierShares: 100
+    }
+  },
+  {
+    chainId: NETWORK.mumbai,
+    address: '0xA32C8f94191c9295634f0034eb2b0e2749e77974',
+    options: {
+      prizeTokenAddress: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7',
+      drawPeriodInSeconds: 43_200,
+      tierShares: 100
+    }
+  }
+]
+
+/**
  * Prize Pool Graph API URLs
  */
 export const PRIZE_POOL_GRAPH_API_URLS = Object.freeze({

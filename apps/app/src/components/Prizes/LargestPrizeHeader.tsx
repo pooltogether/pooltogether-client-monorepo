@@ -1,11 +1,10 @@
 import { NextDrawCountdown, TokenValue } from 'pt-components'
-import { useLargestGrandPrize, usePrizePools } from 'pt-hyperstructure-hooks'
+import { useLargestGrandPrize } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const LargestPrizeHeader = () => {
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
   const { data: gpData } = useLargestGrandPrize(prizePoolsArray)

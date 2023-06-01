@@ -1,9 +1,9 @@
 import { useAccount } from 'wagmi'
 import { Vault } from 'pt-client-js'
-import { usePrizeOdds, usePrizePool, useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
+import { usePrizeOdds, useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface AccountVaultOddsProps {
   vault: Vault
@@ -19,14 +19,9 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
     userAddress
   )
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const foundPrizePoolInfo = formattedPrizePoolInfo.find(
+  const prizePools = useSupportedPrizePools()
+  const prizePool = Object.values(prizePools).find(
     (prizePool) => prizePool.chainId === vault.chainId
-  )
-  const prizePool = usePrizePool(
-    foundPrizePoolInfo.chainId,
-    foundPrizePoolInfo.address,
-    foundPrizePoolInfo.options
   )
 
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = usePrizeOdds(

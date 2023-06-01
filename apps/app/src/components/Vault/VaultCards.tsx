@@ -1,9 +1,8 @@
 import classNames from 'classnames'
 import { Vault } from 'pt-client-js'
-import { usePrizePools } from 'pt-hyperstructure-hooks'
+import { useSortedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { useSortedVaults } from '@hooks/useSortedVaults'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { VaultCard } from './VaultCard'
 
 interface VaultsCardsProps {
@@ -15,8 +14,7 @@ interface VaultsCardsProps {
 export const VaultCards = (props: VaultsCardsProps) => {
   const { chainId, vaults, className } = props
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePool = Object.values(prizePools).find((prizePool) => prizePool.chainId === chainId)
 
   const { sortedVaults, isFetched } = useSortedVaults(vaults, { prizePool })

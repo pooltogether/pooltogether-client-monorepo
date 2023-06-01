@@ -1,9 +1,9 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
-import { useAllUserPrizeOdds, usePrizePools, useSelectedVaults } from 'pt-hyperstructure-hooks'
+import { useAllUserPrizeOdds, useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
 import { formatNumberForDisplay } from 'pt-utilities'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface AccountDepositsOddsProps {
   className?: string
@@ -16,8 +16,7 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
 
   const { vaults } = useSelectedVaults()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = useAllUserPrizeOdds(

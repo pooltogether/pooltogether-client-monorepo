@@ -23,7 +23,6 @@ import {
   useAllUserVaultBalances,
   useCachedVaultLists,
   usePrizeDrawWinners,
-  usePrizePools,
   useSelectedVaultListIds,
   useSelectedVaults
 } from 'pt-hyperstructure-hooks'
@@ -31,7 +30,7 @@ import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'pt-ui'
 import { isNewerVersion } from 'pt-utilities'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
-import { formatPrizePools } from '../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { drawIdAtom } from './Prizes/PrizePoolWinners'
 
 interface LayoutProps {
@@ -82,8 +81,7 @@ export const Layout = (props: LayoutProps) => {
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
   const extraFooterContent: FooterItem[] = [

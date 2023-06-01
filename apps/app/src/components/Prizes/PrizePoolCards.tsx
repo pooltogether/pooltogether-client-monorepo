@@ -1,13 +1,11 @@
 import classNames from 'classnames'
 import Link from 'next/link'
 import { PrizePoolCard } from 'pt-components'
-import { usePrizePools } from 'pt-hyperstructure-hooks'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const PrizePoolCards = () => {
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
-  const numPrizePools = formattedPrizePoolInfo.length
+  const prizePools = useSupportedPrizePools()
+  const numPrizePools = Object.keys(prizePools).length
 
   return (
     <div

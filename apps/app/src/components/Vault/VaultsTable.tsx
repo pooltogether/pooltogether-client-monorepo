@@ -3,11 +3,10 @@ import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { Vault } from 'pt-client-js'
 import { PrizePowerTooltip, SortIcon, VaultBadge } from 'pt-components'
-import { usePrizePools } from 'pt-hyperstructure-hooks'
+import { SortDirection, SortId, useSortedVaults } from 'pt-hyperstructure-hooks'
 import { Spinner, Table, TableProps } from 'pt-ui'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
-import { SortDirection, SortId, useSortedVaults } from '@hooks/useSortedVaults'
-import { formatPrizePools } from '../../utils'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { VaultButtons } from './VaultButtons'
 import { VaultPrizePower } from './VaultPrizePower'
 import { VaultTotalDeposits } from './VaultTotalDeposits'
@@ -23,8 +22,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
 
   const router = useRouter()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
   const prizePool = Object.values(prizePools).find((prizePool) => prizePool.chainId === chainId)
 
   const {

@@ -70,31 +70,6 @@ export const RPC_URLS = {
 }
 
 /**
- * Prize Pools
- */
-export const PRIZE_POOLS: {
-  [chainId: number]: {
-    address: `0x${string}`
-    prizeTokenAddress: `0x${string}`
-    drawPeriodInSeconds: number
-    tierShares: number
-  }
-} = {
-  [NETWORK.sepolia]: {
-    address: '0xa77D6014e77F294C3297a18363f9951b3d57Eb95',
-    prizeTokenAddress: '0x7cB28bB4cDbBA6F509D5b9022108138D662042Bf',
-    drawPeriodInSeconds: 43_200,
-    tierShares: 100
-  },
-  [NETWORK.mumbai]: {
-    address: '0xA32C8f94191c9295634f0034eb2b0e2749e77974',
-    prizeTokenAddress: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7',
-    drawPeriodInSeconds: 43_200,
-    tierShares: 100
-  }
-}
-
-/**
  * Default Vault Lists
  */
 export const DEFAULT_VAULT_LISTS = Object.freeze({

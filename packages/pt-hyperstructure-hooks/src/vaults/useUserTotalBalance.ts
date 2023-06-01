@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
+import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
 import {
+  useAllTokenPrices,
   useAllUserVaultBalances,
   useAllVaultExchangeRates,
   useSelectedVaults
-} from 'pt-hyperstructure-hooks'
-import { getAssetsFromShares, getTokenPriceFromObject } from 'pt-utilities'
-import { useAllTokenPrices } from './useAllTokenPrices'
+} from '..'
 
 /**
  * Returns a user's total balance in ETH
@@ -22,7 +22,7 @@ export const useUserTotalBalance = () => {
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const { data: vaultExchangeRates, isFetched: isFetchedVaultExchangeRates } =
@@ -47,7 +47,7 @@ export const useUserTotalBalance = () => {
           const exchangeRate = vaultExchangeRates[vaultId]
           if (!!exchangeRate) {
             const chainId = vaultBalances[vaultId].chainId
-            const tokenAddress = vaults.underlyingTokenAddresses.byVault[vaultId]
+            const tokenAddress = vaults.underlyingTokenAddresses?.byVault[vaultId] as `0x${string}`
             const shareBalance = vaultBalances[vaultId].amount
 
             const tokenPrice = getTokenPriceFromObject(chainId, tokenAddress, tokenPrices)

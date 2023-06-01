@@ -35,6 +35,7 @@ export * from './prizes/usePrizeTokenPrice'
 /**
  * Token Hooks
  */
+export * from './tokens/useAllTokenPrices'
 export * from './tokens/useTokenAllowances'
 export * from './tokens/useTokenBalances'
 export * from './tokens/useTokenPrices'
@@ -59,6 +60,8 @@ export * from './vaults/useAllVaultPrizePowers'
 export * from './vaults/useAllVaultShareData'
 export * from './vaults/useAllVaultTokenAddresses'
 export * from './vaults/useAllVaultTokenData'
+export * from './vaults/useSortedVaults'
+export * from './vaults/useUserTotalBalance'
 export * from './vaults/useUserVaultShareBalance'
 export * from './vaults/useUserVaultTokenBalance'
 export * from './vaults/useVault'

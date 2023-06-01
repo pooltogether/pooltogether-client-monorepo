@@ -1,5 +1,5 @@
-import { usePrizePools, useSelectedVault } from 'pt-hyperstructure-hooks'
-import { formatPrizePools } from '../utils'
+import { useSelectedVault } from 'pt-hyperstructure-hooks'
+import { useSupportedPrizePools } from './useSupportedPrizePools'
 
 /**
  * Returns currently selected Prize Pool
@@ -8,8 +8,7 @@ import { formatPrizePools } from '../utils'
 export const useSelectedPrizePool = () => {
   const { vault } = useSelectedVault()
 
-  const formattedPrizePoolInfo = formatPrizePools()
-  const prizePools = usePrizePools(formattedPrizePoolInfo)
+  const prizePools = useSupportedPrizePools()
 
   const selectedPrizePool = !!vault
     ? Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)

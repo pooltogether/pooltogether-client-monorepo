@@ -1,8 +1,8 @@
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { CurrencyValue } from 'pt-components'
+import { useUserTotalBalance } from 'pt-hyperstructure-hooks'
 import { Spinner } from 'pt-ui'
-import { useUserTotalBalance } from '@hooks/useUserTotalBalance'
 
 interface AccountDepositsHeaderProps {
   className?: string
