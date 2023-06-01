@@ -1,6 +1,5 @@
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool, TokenWithAmount, TokenWithPrice } from 'hyperstructure-client-js'
 import { useMemo } from 'react'
-import { TokenWithAmount, TokenWithPrice } from 'types'
 import { useAllPrizeInfo, usePrizeTokenPrice } from '..'
 
 /**

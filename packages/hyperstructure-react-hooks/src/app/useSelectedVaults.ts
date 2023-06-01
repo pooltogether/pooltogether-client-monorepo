@@ -1,6 +1,5 @@
-import { Vaults } from 'hyperstructure-client-js'
+import { VaultInfo, VaultList, Vaults } from 'hyperstructure-client-js'
 import { atom, useAtom } from 'jotai'
-import { VaultInfo, VaultList } from 'types'
 import { getVaultId } from 'utilities'
 import {
   useAllVaultShareData,

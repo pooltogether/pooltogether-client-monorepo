@@ -8,4 +8,9 @@ export * from './Vaults'
 /**
  * Utilities
  */
-export * as utils from 'utilities'
+export * from 'utilities'
+
+/**
+ * Types
+ */
+export * from 'types'

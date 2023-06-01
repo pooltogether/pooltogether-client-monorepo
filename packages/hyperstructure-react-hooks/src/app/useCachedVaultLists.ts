@@ -1,6 +1,6 @@
+import { VaultList } from 'hyperstructure-client-js'
 import { atom, useAtom } from 'jotai'
 import { useEffect } from 'react'
-import { VaultList } from 'types'
 import { LOCAL_STORAGE_KEYS } from '../constants'
 
 const getInitialCachedVaultLists = (): { [id: string]: VaultList } => {

@@ -1,4 +1,5 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
+import { VaultList } from 'hyperstructure-client-js'
 import {
   useCachedVaultLists,
   useSelectedVaultListIds,
@@ -6,7 +7,6 @@ import {
 } from 'hyperstructure-react-hooks'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { VaultList } from 'types'
 import { BasicIcon, ExternalLink, Toggle } from 'ui'
 import { ImportedBadge } from '../../../Badges/ImportedBadge'
 

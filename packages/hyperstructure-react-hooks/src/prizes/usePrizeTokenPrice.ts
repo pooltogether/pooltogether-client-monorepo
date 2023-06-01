@@ -1,6 +1,5 @@
 import { CURRENCY_ID } from 'generic-react-hooks'
-import { PrizePool } from 'hyperstructure-client-js'
-import { TokenWithPrice } from 'types'
+import { PrizePool, TokenWithPrice } from 'hyperstructure-client-js'
 import { getTokenPriceFromObject } from 'utilities'
 import { usePrizeTokenData, useTokenPrices } from '..'
 

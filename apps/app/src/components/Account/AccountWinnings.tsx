@@ -1,7 +1,7 @@
 import classNames from 'classnames'
+import { SubgraphPrizePoolAccount } from 'hyperstructure-client-js'
 import { useAllUserPrizePoolWins } from 'hyperstructure-react-hooks'
 import { useMemo } from 'react'
-import { SubgraphPrizePoolAccount } from 'types'
 import { ExternalLink, LINKS } from 'ui'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'

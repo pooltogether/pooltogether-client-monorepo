@@ -1,8 +1,7 @@
 import classNames from 'classnames'
 import { useCountdown } from 'generic-react-hooks'
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool, TimeUnit } from 'hyperstructure-client-js'
 import { useNextDrawTimestamps } from 'hyperstructure-react-hooks'
-import { TimeUnit } from 'types'
 import { Spinner } from 'ui'
 import { TimeDigits } from './TimeDigits'
 

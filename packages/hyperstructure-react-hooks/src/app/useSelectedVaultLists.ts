@@ -1,5 +1,5 @@
+import { VaultList } from 'hyperstructure-client-js'
 import { useMemo } from 'react'
-import { VaultList } from 'types'
 import { useCachedVaultLists, useSelectedVaultListIds } from '..'
 
 /**

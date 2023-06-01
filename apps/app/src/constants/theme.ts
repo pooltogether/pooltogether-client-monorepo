@@ -1,5 +1,5 @@
 import { darkTheme, Theme } from '@rainbow-me/rainbowkit'
-import { DeepPartial } from 'types'
+import { DeepPartial } from 'hyperstructure-client-js'
 
 // TODO: ideally the connection button and post-connection info would be resized on mobile
 /**

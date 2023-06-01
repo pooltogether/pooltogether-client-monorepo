@@ -1,4 +1,4 @@
-import { PrizeInfo, TokenWithSupply, TxOverrides } from 'types'
+import { getContract, PublicClient, WalletClient } from 'viem'
 import {
   checkPrizePoolWins,
   erc20 as erc20Abi,
@@ -7,11 +7,13 @@ import {
   getPrizePoolContributionPercentages,
   getPrizePoolId,
   getTokenInfo,
+  PrizeInfo,
   prizePool as prizePoolAbi,
+  TokenWithSupply,
+  TxOverrides,
   validateAddress,
   validateClientNetwork
-} from 'utilities'
-import { getContract, PublicClient, WalletClient } from 'viem'
+} from '.'
 
 /**
  * This class provides read and write functions to interact with a prize pool

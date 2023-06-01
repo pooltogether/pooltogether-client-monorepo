@@ -1,6 +1,5 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Token, TokenWithLogo, Vault } from 'hyperstructure-client-js'
 import { useAtomValue } from 'jotai'
-import { Token, TokenWithLogo } from 'types'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import {
   withdrawFormShareAmountAtom,

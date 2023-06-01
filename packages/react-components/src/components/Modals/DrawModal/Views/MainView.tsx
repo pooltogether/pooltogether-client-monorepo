@@ -1,6 +1,5 @@
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool, SubgraphPrizePoolDraw } from 'hyperstructure-client-js'
 import { usePrizeTokenData } from 'hyperstructure-react-hooks'
-import { SubgraphPrizePoolDraw } from 'types'
 import { ExternalLink, Spinner } from 'ui'
 import { formatBigIntForDisplay, getBlockExplorerUrl, shorten, sortByBigIntDesc } from 'utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'

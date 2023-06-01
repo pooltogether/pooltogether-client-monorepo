@@ -1,6 +1,5 @@
-import { PrizePool, Vault } from 'hyperstructure-client-js'
+import { PrizePool, Token, TokenWithLogo, Vault } from 'hyperstructure-client-js'
 import { useAtomValue } from 'jotai'
-import { Token, TokenWithLogo } from 'types'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { depositFormShareAmountAtom, depositFormTokenAmountAtom } from '../../../Form/DepositForm'
 import { TokenIcon } from '../../../Icons/TokenIcon'

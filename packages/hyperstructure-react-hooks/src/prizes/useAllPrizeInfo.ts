@@ -1,8 +1,7 @@
 import { useQueries } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizeInfo, PrizePool } from 'hyperstructure-client-js'
 import { useMemo } from 'react'
-import { PrizeInfo } from 'types'
 import { QUERY_KEYS } from '../constants'
 
 /**

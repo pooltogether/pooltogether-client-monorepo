@@ -1,7 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { PrizePool } from 'hyperstructure-client-js'
-import { TokenWithSupply } from 'types'
+import { PrizePool, TokenWithSupply } from 'hyperstructure-client-js'
 import { QUERY_KEYS } from '../constants'
 
 /**

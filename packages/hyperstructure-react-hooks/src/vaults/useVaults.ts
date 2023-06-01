@@ -1,5 +1,4 @@
-import { Vaults } from 'hyperstructure-client-js'
-import { VaultInfo } from 'types'
+import { VaultInfo, Vaults } from 'hyperstructure-client-js'
 import { usePublicClientsByChain } from '..'
 
 /**

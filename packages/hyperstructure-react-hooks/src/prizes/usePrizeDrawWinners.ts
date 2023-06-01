@@ -1,6 +1,5 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { PrizePool } from 'hyperstructure-client-js'
-import { SubgraphPrizePoolDraw } from 'types'
+import { PrizePool, SubgraphPrizePoolDraw } from 'hyperstructure-client-js'
 import { getPrizePoolHistoricalWins } from 'utilities'
 import { QUERY_KEYS } from '../constants'
 

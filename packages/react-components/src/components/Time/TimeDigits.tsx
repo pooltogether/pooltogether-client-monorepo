@@ -1,4 +1,4 @@
-import { TimeUnit } from 'types'
+import { TimeUnit } from 'hyperstructure-client-js'
 
 export interface TimeDigitsProps {
   value: number | null

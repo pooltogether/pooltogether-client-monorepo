@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { Vaults } from 'hyperstructure-client-js'
-import { TokenWithAmount } from 'types'
+import { TokenWithAmount, Vaults } from 'hyperstructure-client-js'
 import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
 

@@ -1,5 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
-import { TokenWithAmount } from 'types'
+import { TokenWithAmount, Vault } from 'hyperstructure-client-js'
 import { getAssetsFromShares } from 'utilities'
 import { useUserVaultShareBalance, useVaultExchangeRate, useVaultTokenData } from '..'
 

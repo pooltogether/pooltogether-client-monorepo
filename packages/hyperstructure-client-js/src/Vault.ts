@@ -1,4 +1,4 @@
-import { TokenWithAmount, TokenWithSupply, TxOverrides } from 'types'
+import { getContract, parseUnits, PublicClient, WalletClient } from 'viem'
 import {
   erc20 as erc20Abi,
   erc4626 as erc4626Abi,
@@ -6,10 +6,12 @@ import {
   getTokenBalances,
   getTokenInfo,
   getVaultId,
+  TokenWithAmount,
+  TokenWithSupply,
+  TxOverrides,
   validateAddress,
   validateClientNetwork
-} from 'utilities'
-import { getContract, parseUnits, PublicClient, WalletClient } from 'viem'
+} from '.'
 
 /**
  * This class provides read and write functions to interact with a vault

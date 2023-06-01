@@ -1,6 +1,5 @@
-import { PrizePool, Vault } from 'hyperstructure-client-js'
+import { CoingeckoTokenPrices, PrizePool, TokenWithAmount, Vault } from 'hyperstructure-client-js'
 import { useMemo, useState } from 'react'
-import { CoingeckoTokenPrices, TokenWithAmount } from 'types'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'

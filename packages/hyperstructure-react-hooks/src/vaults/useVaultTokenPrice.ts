@@ -1,6 +1,5 @@
 import { CURRENCY_ID } from 'generic-react-hooks'
-import { Vault } from 'hyperstructure-client-js'
-import { TokenWithPrice } from 'types'
+import { TokenWithPrice, Vault } from 'hyperstructure-client-js'
 import { getTokenPriceFromObject } from 'utilities'
 import { useTokenPrices, useVaultTokenData } from '..'
 

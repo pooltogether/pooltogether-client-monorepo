@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from 'hyperstructure-client-js'
 import { useFormContext } from 'react-hook-form'
-import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from 'types'
 import { formatBigIntForDisplay } from 'utilities'
 import { formatUnits } from 'viem'
 import { CurrencyValue } from '../Currency/CurrencyValue'

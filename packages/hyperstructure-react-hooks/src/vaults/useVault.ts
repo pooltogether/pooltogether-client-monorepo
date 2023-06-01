@@ -1,5 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
-import { VaultInfo } from 'types'
+import { Vault, VaultInfo } from 'hyperstructure-client-js'
 import { usePublicClient } from 'wagmi'
 
 /**

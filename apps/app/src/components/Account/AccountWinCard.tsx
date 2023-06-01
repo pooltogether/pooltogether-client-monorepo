@@ -1,6 +1,5 @@
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool, SubgraphPrizePoolAccount } from 'hyperstructure-client-js'
 import { NetworkIcon } from 'react-components'
-import { SubgraphPrizePoolAccount } from 'types'
 import { ExternalLink } from 'ui'
 import { getBlockExplorerUrl } from 'utilities'
 import { AccountWinAmount } from './AccountWinAmount'

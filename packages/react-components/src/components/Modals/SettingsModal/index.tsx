@@ -1,7 +1,7 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
+import { VaultList } from 'hyperstructure-client-js'
 import { ReactNode } from 'react'
-import { VaultList } from 'types'
 import { Modal } from 'ui'
 import { CurrencyView } from './Views/CurrencyView'
 import { LanguageView } from './Views/LanguageView'

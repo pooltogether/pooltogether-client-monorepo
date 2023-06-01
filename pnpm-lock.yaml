@@ -37,7 +37,6 @@ importers:
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
       tsconfig: workspace:*
-      types: workspace:*
       typescript: ^5.0.4
       ui: workspace:*
       utilities: workspace:*
@@ -71,7 +70,6 @@ importers:
       tailwind-config: link:../../packages/tailwind-config
       tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../../packages/tsconfig
-      types: link:../../packages/types
       typescript: 5.0.4
 
   apps/landing-page:
@@ -172,7 +170,6 @@ importers:
       react-dom: ^18.2.0
       tsconfig: workspace:*
       tsup: ^6.6.3
-      types: workspace:*
       typescript: ^5.0.4
       utilities: workspace:*
       viem: ^0.3.30
@@ -192,7 +189,6 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@5.0.4
-      types: link:../types
       typescript: 5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
 
@@ -215,7 +211,6 @@ importers:
       tailwindcss: ^3.3.1
       tsconfig: workspace:*
       tsup: ^6.6.3
-      types: workspace:*
       typescript: ^5.0.4
       ui: workspace:*
       utilities: workspace:*
@@ -243,7 +238,6 @@ importers:
       tailwindcss: 3.3.1_postcss@8.4.23
       tsconfig: link:../tsconfig
       tsup: 6.7.0_ysxqmvwu3gtlor2giyp77j2bti
-      types: link:../types
       typescript: 5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
 

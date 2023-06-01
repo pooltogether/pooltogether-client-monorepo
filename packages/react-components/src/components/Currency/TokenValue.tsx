@@ -1,6 +1,6 @@
+import { TokenWithAmount } from 'hyperstructure-client-js'
 import { useToken, useTokenPrices } from 'hyperstructure-react-hooks'
 import { useMemo } from 'react'
-import { TokenWithAmount } from 'types'
 import { Spinner } from 'ui'
 import { getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
