@@ -12,7 +12,7 @@ export const VaultPageButtons = (props: VaultPageButtonsProps) => {
 
   return (
     <div className={classNames('flex gap-4 items-center', className)}>
-      <DepositButton vault={vault} color='transparent' />
+      <DepositButton vault={vault} />
       <WithdrawButton vault={vault} color='transparent' />
     </div>
   )

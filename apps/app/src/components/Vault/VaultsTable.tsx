@@ -90,7 +90,7 @@ export const VaultsTable = (props: VaultsTableProps) => {
         ),
         position: 'center'
       },
-      manage: { content: <span className='mr-[18px]'>Manage</span>, position: 'right' }
+      manage: { content: <ManageHeader />, position: 'right' }
     },
     rows: sortedVaults.map((vault) => ({
       id: vault.id,
@@ -165,4 +165,8 @@ const SortableHeader = (props: SortableHeaderProps) => {
       {append}
     </div>
   )
+}
+
+const ManageHeader = () => {
+  return <span className='mr-[18px]'>Manage</span>
 }

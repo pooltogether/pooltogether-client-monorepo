@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { Vault } from 'pt-client-js'
 import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
 import { useSelectedVault } from 'pt-hyperstructure-hooks'
@@ -8,7 +9,7 @@ interface WithdrawButtonProps extends Omit<ButtonProps, 'onClick'> {
 }
 
 export const WithdrawButton = (props: WithdrawButtonProps) => {
-  const { vault, children, ...rest } = props
+  const { vault, children, className, ...rest } = props
 
   const { setIsModalOpen } = useIsModalOpen(MODAL_KEYS.withdraw)
 
@@ -20,7 +21,7 @@ export const WithdrawButton = (props: WithdrawButtonProps) => {
   }
 
   return (
-    <Button onClick={handleClick} {...rest}>
+    <Button onClick={handleClick} className={classNames('w-24', className)} {...rest}>
       {children ?? 'Withdraw'}
     </Button>
   )

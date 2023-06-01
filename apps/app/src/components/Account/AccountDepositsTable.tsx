@@ -35,7 +35,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
         token: { content: 'Token' },
         odds: { content: 'My Win Chance', position: 'center' },
         balance: { content: 'My Balance', position: 'center' },
-        manage: { content: 'Manage', position: 'center' }
+        manage: { content: <ManageHeader />, position: 'right' }
       },
       rows: !!vaultBalances
         ? sortedVaults
@@ -56,7 +56,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                     content: <AccountVaultBalance vault={vault} />,
                     position: 'center'
                   },
-                  manage: { content: <AccountVaultButtons vault={vault} />, position: 'center' }
+                  manage: { content: <AccountVaultButtons vault={vault} />, position: 'right' }
                 }
                 return { id: vault.id, cells }
               }
@@ -74,4 +74,8 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
       />
     )
   }
+}
+
+const ManageHeader = () => {
+  return <span className='w-[200px] text-center'>Manage</span>
 }
