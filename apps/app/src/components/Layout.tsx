@@ -5,29 +5,29 @@ import {
   useConnectModal
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { useAtomValue } from 'jotai'
-import Head from 'next/head'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
-import { useAccount } from 'wagmi'
-import {
-  DepositModal,
-  DrawModal,
-  SettingsModal,
-  SettingsModalView,
-  WithdrawModal
-} from 'pt-components'
-import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'pt-generic-hooks'
+import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'generic-react-hooks'
 import {
   useAllUserVaultBalances,
   useCachedVaultLists,
   usePrizeDrawWinners,
   useSelectedVaultListIds,
   useSelectedVaults
-} from 'pt-hyperstructure-hooks'
-import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'pt-ui'
-import { isNewerVersion } from 'pt-utilities'
+} from 'hyperstructure-react-hooks'
+import { useAtomValue } from 'jotai'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useState } from 'react'
+import {
+  DepositModal,
+  DrawModal,
+  SettingsModal,
+  SettingsModalView,
+  WithdrawModal
+} from 'react-components'
+import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'ui'
+import { isNewerVersion } from 'utilities'
+import { useAccount } from 'wagmi'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'

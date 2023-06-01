@@ -1,4 +1,4 @@
-import { VaultList } from 'pt-types'
+import { VaultList } from 'types'
 
 const defaultVaultList: VaultList = {
   name: 'PoolTogether Testnet Vault List',

@@ -1,6 +1,6 @@
-import { NextDrawCountdown, TokenValue } from 'pt-components'
-import { useLargestGrandPrize } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { useLargestGrandPrize } from 'hyperstructure-react-hooks'
+import { NextDrawCountdown, TokenValue } from 'react-components'
+import { Spinner } from 'ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const LargestPrizeHeader = () => {

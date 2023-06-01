@@ -1,7 +1,7 @@
 import classNames from 'classnames'
+import { CurrencyValue } from 'react-components'
+import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'
-import { CurrencyValue } from 'pt-components'
-import { Spinner } from 'pt-ui'
 import { useUserTotalWinnings } from '@hooks/useUserTotalWinnings'
 
 interface AccountWinningsHeaderProps {

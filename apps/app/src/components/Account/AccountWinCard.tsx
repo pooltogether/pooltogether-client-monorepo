@@ -1,8 +1,8 @@
-import { PrizePool } from 'pt-client-js'
-import { NetworkIcon } from 'pt-components'
-import { SubgraphPrizePoolAccount } from 'pt-types'
-import { ExternalLink } from 'pt-ui'
-import { getBlockExplorerUrl } from 'pt-utilities'
+import { PrizePool } from 'hyperstructure-client-js'
+import { NetworkIcon } from 'react-components'
+import { SubgraphPrizePoolAccount } from 'types'
+import { ExternalLink } from 'ui'
+import { getBlockExplorerUrl } from 'utilities'
 import { AccountWinAmount } from './AccountWinAmount'
 
 interface AccountWinCardProps {

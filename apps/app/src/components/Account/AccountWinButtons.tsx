@@ -1,6 +1,6 @@
-import { SubgraphPrizePoolAccount } from 'pt-types'
-import { Button, ExternalLink } from 'pt-ui'
-import { getBlockExplorerName, getBlockExplorerUrl } from 'pt-utilities'
+import { SubgraphPrizePoolAccount } from 'types'
+import { Button, ExternalLink } from 'ui'
+import { getBlockExplorerName, getBlockExplorerUrl } from 'utilities'
 
 interface AccountWinButtonsProps {
   win: SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number }

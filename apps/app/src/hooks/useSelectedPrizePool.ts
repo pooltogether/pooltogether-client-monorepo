@@ -1,4 +1,4 @@
-import { useSelectedVault } from 'pt-hyperstructure-hooks'
+import { useSelectedVault } from 'hyperstructure-react-hooks'
 import { useSupportedPrizePools } from './useSupportedPrizePools'
 
 /**

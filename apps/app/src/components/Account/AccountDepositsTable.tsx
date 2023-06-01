@@ -1,13 +1,13 @@
 import classNames from 'classnames'
-import { useRouter } from 'next/router'
-import { useAccount } from 'wagmi'
-import { VaultBadge } from 'pt-components'
 import {
   useAllUserVaultBalances,
   useSelectedVaults,
   useSortedVaults
-} from 'pt-hyperstructure-hooks'
-import { Table, TableProps } from 'pt-ui'
+} from 'hyperstructure-react-hooks'
+import { useRouter } from 'next/router'
+import { VaultBadge } from 'react-components'
+import { Table, TableProps } from 'ui'
+import { useAccount } from 'wagmi'
 import { AccountVaultBalance } from './AccountVaultBalance'
 import { AccountVaultButtons } from './AccountVaultButtons'
 import { AccountVaultOdds } from './AccountVaultOdds'

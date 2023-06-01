@@ -1,11 +1,11 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
+import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
+import { PrizePool } from 'hyperstructure-client-js'
+import { usePrizeDrawWinners, usePrizeTokenData } from 'hyperstructure-react-hooks'
 import { atom, useSetAtom } from 'jotai'
 import { useState } from 'react'
-import { PrizePool } from 'pt-client-js'
-import { TokenValue } from 'pt-components'
-import { MODAL_KEYS, useIsModalOpen } from 'pt-generic-hooks'
-import { usePrizeDrawWinners, usePrizeTokenData } from 'pt-hyperstructure-hooks'
-import { SubgraphPrizePoolDraw } from 'pt-types'
+import { TokenValue } from 'react-components'
+import { SubgraphPrizePoolDraw } from 'types'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 
 export const drawIdAtom = atom<string>('')

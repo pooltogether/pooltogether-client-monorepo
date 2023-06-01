@@ -1,0 +1,57 @@
+{
+  "name": "react-components",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist"
+  },
+  "scripts": {
+    "build": "tsup",
+    "prepare": "pnpm build",
+    "clean": "rm -rf dist"
+  },
+  "tsup": {
+    "dts": true,
+    "entry": [
+      "src/index.tsx"
+    ],
+    "format": [
+      "esm"
+    ]
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.0.16",
+    "classnames": "^2.3.2",
+    "flowbite": "^1.6.3",
+    "jotai": "^1.13.1",
+    "hyperstructure-client-js": "workspace:*",
+    "generic-react-hooks": "workspace:*",
+    "hyperstructure-react-hooks": "workspace:*",
+    "ui": "workspace:*",
+    "utilities": "workspace:*",
+    "react-hook-form": "^7.43.2",
+    "viem": "^0.3.30"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.45",
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.19",
+    "types": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-config": "workspace:*",
+    "tailwindcss": "^3.3.1",
+    "tsconfig": "workspace:*",
+    "tsup": "^6.6.3",
+    "typescript": "^5.0.4",
+    "wagmi": "^1.0.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "wagmi": "^1.0.5"
+  }
+}

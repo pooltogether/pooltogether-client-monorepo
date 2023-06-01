@@ -1,7 +1,7 @@
 import classNames from 'classnames'
-import { Vault } from 'pt-client-js'
-import { useSortedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { Vault } from 'hyperstructure-client-js'
+import { useSortedVaults } from 'hyperstructure-react-hooks'
+import { Spinner } from 'ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { VaultCard } from './VaultCard'
 

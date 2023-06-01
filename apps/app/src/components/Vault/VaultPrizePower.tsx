@@ -1,7 +1,7 @@
-import { Vault } from 'pt-client-js'
-import { useVaultPrizePower } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
-import { formatNumberForDisplay } from 'pt-utilities'
+import { Vault } from 'hyperstructure-client-js'
+import { useVaultPrizePower } from 'hyperstructure-react-hooks'
+import { Spinner } from 'ui'
+import { formatNumberForDisplay } from 'utilities'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface VaultPrizePowerProps {

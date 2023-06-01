@@ -1,8 +1,8 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
+import { Vault } from 'hyperstructure-client-js'
 import { useRouter } from 'next/router'
-import { Vault } from 'pt-client-js'
-import { NetworkBadge, TokenIcon } from 'pt-components'
+import { NetworkBadge, TokenIcon } from 'react-components'
 
 interface VaultPageHeaderProps {
   vault: Vault

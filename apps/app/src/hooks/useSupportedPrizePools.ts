@@ -1,5 +1,5 @@
-import { usePrizePools } from 'pt-hyperstructure-hooks'
-import { PRIZE_POOLS } from 'pt-utilities'
+import { usePrizePools } from 'hyperstructure-react-hooks'
+import { PRIZE_POOLS } from 'utilities'
 import { useNetworks } from './useNetworks'
 
 /**

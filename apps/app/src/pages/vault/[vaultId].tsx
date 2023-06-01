@@ -1,6 +1,6 @@
+import { useSelectedVaults } from 'hyperstructure-react-hooks'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
-import { useSelectedVaults } from 'pt-hyperstructure-hooks'
 import { Layout } from '@components/Layout'
 import { VaultPageButtons } from '@components/Vault/VaultPageButtons'
 import { VaultPageHeader } from '@components/Vault/VaultPageHeader'

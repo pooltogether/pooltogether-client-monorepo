@@ -1,8 +1,8 @@
+import { Vault } from 'hyperstructure-client-js'
+import { usePrizeOdds, useUserVaultShareBalance } from 'hyperstructure-react-hooks'
+import { Spinner } from 'ui'
+import { formatNumberForDisplay } from 'utilities'
 import { useAccount } from 'wagmi'
-import { Vault } from 'pt-client-js'
-import { usePrizeOdds, useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
-import { formatNumberForDisplay } from 'pt-utilities'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface AccountVaultOddsProps {

@@ -1,9 +1,9 @@
 import classNames from 'classnames'
+import { PrizePool } from 'hyperstructure-client-js'
 import { useRouter } from 'next/router'
-import { PrizePool } from 'pt-client-js'
-import { NetworkBadge } from 'pt-components'
-import { SubgraphPrizePoolAccount } from 'pt-types'
-import { Table, TableProps } from 'pt-ui'
+import { NetworkBadge } from 'react-components'
+import { SubgraphPrizePoolAccount } from 'types'
+import { Table, TableProps } from 'ui'
 import { AccountWinAmount } from './AccountWinAmount'
 import { AccountWinButtons } from './AccountWinButtons'
 

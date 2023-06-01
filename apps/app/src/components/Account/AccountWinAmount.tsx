@@ -1,7 +1,7 @@
-import { PrizePool } from 'pt-client-js'
-import { TokenValueAndAmount } from 'pt-components'
-import { usePrizeTokenData } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { PrizePool } from 'hyperstructure-client-js'
+import { usePrizeTokenData } from 'hyperstructure-react-hooks'
+import { TokenValueAndAmount } from 'react-components'
+import { Spinner } from 'ui'
 
 interface AccountWinAmountProps {
   prizePool: PrizePool

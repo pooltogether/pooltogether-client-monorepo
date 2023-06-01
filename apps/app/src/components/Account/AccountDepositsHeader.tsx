@@ -1,8 +1,8 @@
 import classNames from 'classnames'
+import { useUserTotalBalance } from 'hyperstructure-react-hooks'
+import { CurrencyValue } from 'react-components'
+import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'
-import { CurrencyValue } from 'pt-components'
-import { useUserTotalBalance } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
 
 interface AccountDepositsHeaderProps {
   className?: string

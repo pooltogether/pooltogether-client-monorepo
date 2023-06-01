@@ -1,8 +1,8 @@
-import { PrizePool } from 'pt-client-js'
-import { TokenValue } from 'pt-components'
-import { useAllPrizeInfo, usePrizeTokenData } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
-import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'pt-utilities'
+import { PrizePool } from 'hyperstructure-client-js'
+import { useAllPrizeInfo, usePrizeTokenData } from 'hyperstructure-react-hooks'
+import { TokenValue } from 'react-components'
+import { Spinner } from 'ui'
+import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'utilities'
 
 interface PrizesTableProps {
   prizePool: PrizePool

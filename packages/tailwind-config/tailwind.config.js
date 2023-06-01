@@ -3,8 +3,8 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: [
     'src/**/*.{js,ts,jsx,tsx}',
-    '../../packages/pt-components/**/*.{js,ts,jsx,tsx}',
-    '../../packages/pt-ui/**/*.{js,ts,jsx,tsx}'
+    '../../packages/react-components/**/*.{js,ts,jsx,tsx}',
+    '../../packages/ui/**/*.{js,ts,jsx,tsx}'
   ],
   darkMode: 'class',
   theme: {

@@ -1,8 +1,8 @@
+import { Vault } from 'hyperstructure-client-js'
+import { useUserVaultTokenBalance } from 'hyperstructure-react-hooks'
+import { TokenValueAndAmount } from 'react-components'
+import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'
-import { Vault } from 'pt-client-js'
-import { TokenValueAndAmount } from 'pt-components'
-import { useUserVaultTokenBalance } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
 
 interface AccountVaultBalanceProps {
   vault: Vault

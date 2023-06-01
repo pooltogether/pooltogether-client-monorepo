@@ -1,8 +1,8 @@
 import { connectorsForWallets, Wallet } from '@rainbow-me/rainbowkit'
+import { NETWORK, parseQueryParam } from 'utilities'
 import { Chain, Config, configureChains, Connector, createConfig } from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
-import { NETWORK, parseQueryParam } from 'pt-utilities'
 import { RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
 
 /**

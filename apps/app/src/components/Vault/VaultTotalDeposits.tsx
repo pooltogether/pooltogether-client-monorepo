@@ -1,7 +1,7 @@
-import { Vault } from 'pt-client-js'
-import { TokenValue } from 'pt-components'
-import { useVaultBalance } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
+import { Vault } from 'hyperstructure-client-js'
+import { useVaultBalance } from 'hyperstructure-react-hooks'
+import { TokenValue } from 'react-components'
+import { Spinner } from 'ui'
 
 interface VaultTotalDepositsProps {
   vault: Vault

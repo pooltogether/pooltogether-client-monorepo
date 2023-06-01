@@ -1,8 +1,8 @@
 import classNames from 'classnames'
+import { Vault } from 'hyperstructure-client-js'
+import { useUserVaultShareBalance } from 'hyperstructure-react-hooks'
+import { DepositButton, WithdrawButton } from 'react-components'
 import { useAccount } from 'wagmi'
-import { Vault } from 'pt-client-js'
-import { DepositButton, WithdrawButton } from 'pt-components'
-import { useUserVaultShareBalance } from 'pt-hyperstructure-hooks'
 
 interface VaultButtonsProps {
   vault: Vault

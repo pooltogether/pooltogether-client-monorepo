@@ -1,13 +1,13 @@
-import '../styles/globals.css'
-import 'pt-ui/styles.css'
+import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import { Flowbite } from 'pt-ui'
-import { getDefaultWallets, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit'
+import type { AppProps } from 'next/app'
+import { Flowbite } from 'ui'
+import 'ui/styles.css'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
+import { arbitrum, mainnet, optimism, polygon } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
-import type { AppProps } from 'next/app'
+import '../styles/globals.css'
 
 const { chains, provider } = configureChains(
   [mainnet, polygon, optimism, arbitrum],

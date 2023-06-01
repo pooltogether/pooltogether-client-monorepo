@@ -1,0 +1,26 @@
+{
+  "name": "hyperstructure-client-js",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": "./dist"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "pnpm build",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "utilities": "workspace:*",
+    "viem": "^0.3.30"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.45",
+    "types": "workspace:*",
+    "tsconfig": "workspace:*",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.4"
+  }
+}

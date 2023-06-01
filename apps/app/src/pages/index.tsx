@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Button } from 'pt-ui'
+import { Button } from 'ui'
 import { Layout } from '@components/Layout'
 import { LargestPrizeHeader } from '@components/Prizes/LargestPrizeHeader'
 import { PrizePoolCards } from '@components/Prizes/PrizePoolCards'

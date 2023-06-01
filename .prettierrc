@@ -9,7 +9,6 @@
   "arrowParens": "always",
   "trailingComma": "none",
   "importOrder": [
-    "^pt-",
     "^@atoms(.*)$",
     "^@components(.*)$",
     "^@constants(.*)$",

@@ -1,5 +1,5 @@
-import { Vault } from 'pt-client-js'
-import { DepositButton, WithdrawButton } from 'pt-components'
+import { Vault } from 'hyperstructure-client-js'
+import { DepositButton, WithdrawButton } from 'react-components'
 
 interface AccountVaultButtonsProps {
   vault: Vault

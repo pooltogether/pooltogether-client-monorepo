@@ -1,8 +1,8 @@
 import classNames from 'classnames'
+import { useAllUserPrizeOdds, useSelectedVaults } from 'hyperstructure-react-hooks'
+import { Spinner } from 'ui'
+import { formatNumberForDisplay } from 'utilities'
 import { useAccount } from 'wagmi'
-import { useAllUserPrizeOdds, useSelectedVaults } from 'pt-hyperstructure-hooks'
-import { Spinner } from 'pt-ui'
-import { formatNumberForDisplay } from 'pt-utilities'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface AccountDepositsOddsProps {

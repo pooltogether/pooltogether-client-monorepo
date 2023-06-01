@@ -1,10 +1,10 @@
 import classNames from 'classnames'
-import { useAccount } from 'wagmi'
 import {
   useAllUserVaultBalances,
   useSelectedVaults,
   useSortedVaults
-} from 'pt-hyperstructure-hooks'
+} from 'hyperstructure-react-hooks'
+import { useAccount } from 'wagmi'
 import { AccountVaultCard } from './AccountVaultCard'
 
 interface AccountVaultsCardsProps {

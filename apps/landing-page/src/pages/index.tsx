@@ -1,6 +1,6 @@
-import Head from 'next/head'
-import { Navbar } from 'pt-ui'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import Head from 'next/head'
+import { Navbar } from 'ui'
 
 export default function Home() {
   return (

@@ -1,5 +1,5 @@
-import { useIsTestnets } from 'pt-generic-hooks'
-import { NETWORK } from 'pt-utilities'
+import { useIsTestnets } from 'generic-react-hooks'
+import { NETWORK } from 'utilities'
 import { SUPPORTED_NETWORKS } from '@constants/config'
 
 /**
