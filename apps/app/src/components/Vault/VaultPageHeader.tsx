@@ -17,7 +17,7 @@ export const VaultPageHeader = (props: VaultPageHeaderProps) => {
   return (
     <>
       <div
-        className={classNames('w-full max-w-screen-sm flex flex-col gap-2 items-center', className)}
+        className={classNames('w-full max-w-screen-md flex flex-col gap-2 items-center', className)}
       >
         <div className='w-full flex relative justify-center items-center'>
           <BackButton />
@@ -53,7 +53,7 @@ const BackButton = () => {
   return (
     <div
       onClick={() => router.push('/vaults')}
-      className='absolute left-0 flex items-center gap-2 text-pt-purple-100 cursor-pointer md:left-4'
+      className='absolute left-0 flex items-center gap-2 text-pt-purple-100 cursor-pointer md:left-9'
     >
       <ArrowLeftIcon className='h-6 w-6 md:h-4 md:w-4' />
       <span className='hidden text-xs font-medium md:block'>Back</span>
