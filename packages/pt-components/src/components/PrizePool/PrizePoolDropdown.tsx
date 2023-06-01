@@ -1,4 +1,6 @@
-import { Dropdown, DropdownItem, DropdownProps } from 'pt-ui'
+import { useMemo } from 'react'
+import { useScreenSize } from 'pt-generic-hooks'
+import { Dropdown, DropdownItem } from 'pt-ui'
 import { NETWORK } from 'pt-utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 
@@ -6,26 +8,48 @@ export interface PrizePoolDropdownProps {
   networks: NETWORK[]
   selectedNetwork: NETWORK
   onSelect: (chainId: number) => void
-  placement?: DropdownProps['placement']
 }
 
 export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
-  const { networks, selectedNetwork, onSelect, placement } = props
+  const { networks, selectedNetwork, onSelect } = props
 
-  const dropdownItems: DropdownItem[] = networks.map((network) => {
-    return {
-      id: network.toString(),
-      content: (
-        <NetworkBadge
-          chainId={network}
-          hideBg={true}
-          className='w-full !justify-start p-2 hover:!bg-pt-purple-100/40'
-          textClassName='text-pt-purple-600'
-        />
-      ),
-      onClick: (id) => onSelect(parseInt(id))
-    }
-  })
+  const { isDesktop } = useScreenSize()
+
+  const dropdownItems: DropdownItem[] = useMemo(
+    () =>
+      networks.map((network) => {
+        if (isDesktop) {
+          return {
+            id: network.toString(),
+            content: (
+              <NetworkBadge
+                chainId={network}
+                appendText='Prize Pool'
+                hideBg={true}
+                className='w-full justify-center p-2 hover:!bg-pt-purple-100/40'
+                textClassName='text-pt-purple-600'
+              />
+            ),
+            onClick: (id) => onSelect(parseInt(id))
+          }
+        }
+
+        return {
+          id: network.toString(),
+          content: (
+            <NetworkBadge
+              chainId={network}
+              appendText='Prize Pool'
+              className='w-full justify-center py-4 border-0'
+              iconClassName='h-6 w-6'
+              textClassName='font-averta font-semibold text-pt-purple-100'
+            />
+          ),
+          onClick: (id) => onSelect(parseInt(id))
+        }
+      }),
+    [isDesktop]
+  )
 
   return (
     <Dropdown
@@ -41,12 +65,12 @@ export const PrizePoolDropdown = (props: PrizePoolDropdownProps) => {
       }
       items={dropdownItems}
       header={
-        <span className='text-sm font-semibold text-pt-purple-400 px-3 mb-2'>
+        <span className='px-3 text-sm font-semibold text-pt-purple-50 md:mb-2 md:text-pt-purple-400'>
           Switch prize pool
         </span>
       }
       inline={true}
-      placement={placement ?? 'bottom-end'}
+      placement='bottom'
     />
   )
 }
