@@ -23,7 +23,7 @@ export const VaultPageInfo = (props: VaultPageInfoProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col w-full max-w-screen-md gap-2 px-4 text-sm md:text-base',
+        'flex flex-col w-full max-w-screen-sm gap-2 px-4 text-sm md:text-base',
         className
       )}
     >
