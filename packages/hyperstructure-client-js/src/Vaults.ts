@@ -18,7 +18,7 @@ import {
 import { Vault } from './Vault'
 
 /**
- * This class provides read-only functions to fetch on-chain data from any vaults in vault list(s)
+ * This class provides read-only functions to fetch onchain data from any vaults in vault list(s)
  */
 export class Vaults {
   readonly vaults: { [vaultId: string]: Vault } = {}
@@ -33,7 +33,7 @@ export class Vaults {
     | undefined
 
   /**
-   * Creates an instance of a Vaults object with clients to query on-chain data with
+   * Creates an instance of a Vaults object with clients to query onchain data with
    * @param vaults a list of vaults
    * @param publicClients Public Viem clients for each network to create Vault objects for
    */

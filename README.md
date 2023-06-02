@@ -31,7 +31,7 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 ### External Packages
 
-- `hyperstructure-client-js`: Protocol-specific functions to easily interact with on-chain Hyperstructure data, using [Viem](https://viem.sh/).
+- `hyperstructure-client-js`: Protocol-specific functions to easily interact with onchain Hyperstructure data, using [Viem](https://viem.sh/).
 - `hyperstructure-react-hooks`: Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
 
 **Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-react-hooks)
