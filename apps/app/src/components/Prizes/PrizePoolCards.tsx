@@ -22,7 +22,7 @@ export const PrizePoolCards = () => {
         return (
           <Link
             key={`pp-${prizePool.id}`}
-            href={`/vaults?network=${prizePool.chainId}`}
+            href={`/prizes?network=${prizePool.chainId}`}
             className='w-full max-w-sm'
           >
             <PrizePoolCard prizePool={prizePool} />
