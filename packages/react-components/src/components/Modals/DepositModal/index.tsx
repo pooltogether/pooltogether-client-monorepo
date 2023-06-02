@@ -4,10 +4,10 @@ import { PrizePool } from 'hyperstructure-client-js'
 import { useSelectedVault } from 'hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import { ReactNode, useMemo, useState } from 'react'
-import { Modal, toast } from 'ui'
+import { Modal } from 'ui'
 import { formatNumberForDisplay } from 'utilities'
 import { depositFormTokenAmountAtom } from '../../Form/DepositForm'
-import { TransactionToast } from '../../Toasts/TransactionToast'
+import { createTxToast } from '../../Toasts/TransactionToast'
 import { DepositTxButton } from './DepositTxButton'
 import { ConfirmingView } from './Views/ConfirmingView'
 import { ErrorView } from './Views/ErrorView'
@@ -55,17 +55,14 @@ export const DepositModal = (props: DepositModalProps) => {
 
   const createToast = () => {
     if (!!vault && !!depositTxHash && view !== 'success' && view !== 'error') {
-      toast.custom((id) => (
-        <TransactionToast
-          id={id}
-          type='deposit'
-          vault={vault}
-          txHash={depositTxHash}
-          formattedAmount={formatNumberForDisplay(formTokenAmount)}
-          addRecentTransaction={addRecentTransaction}
-          refetchUserBalances={refetchUserBalances}
-        />
-      ))
+      createTxToast({
+        type: 'deposit',
+        vault: vault,
+        txHash: depositTxHash,
+        formattedAmount: formatNumberForDisplay(formTokenAmount),
+        addRecentTransaction: addRecentTransaction,
+        refetchUserBalances: refetchUserBalances
+      })
     }
   }
 

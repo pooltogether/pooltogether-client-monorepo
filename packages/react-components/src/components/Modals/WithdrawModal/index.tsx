@@ -3,10 +3,10 @@ import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
 import { useSelectedVault } from 'hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import { ReactNode, useState } from 'react'
-import { Modal, toast } from 'ui'
+import { Modal } from 'ui'
 import { formatNumberForDisplay } from 'utilities'
 import { withdrawFormTokenAmountAtom } from '../../Form/WithdrawForm'
-import { TransactionToast } from '../../Toasts/TransactionToast'
+import { createTxToast } from '../../Toasts/TransactionToast'
 import { ConfirmingView } from './Views/ConfirmingView'
 import { ErrorView } from './Views/ErrorView'
 import { MainView } from './Views/MainView'
@@ -46,17 +46,14 @@ export const WithdrawModal = (props: WithdrawModalProps) => {
 
   const createToast = () => {
     if (!!vault && !!withdrawTxHash && view !== 'success' && view !== 'error') {
-      toast.custom((id) => (
-        <TransactionToast
-          id={id}
-          type='withdraw'
-          vault={vault}
-          txHash={withdrawTxHash}
-          formattedAmount={formatNumberForDisplay(formTokenAmount)}
-          addRecentTransaction={addRecentTransaction}
-          refetchUserBalances={refetchUserBalances}
-        />
-      ))
+      createTxToast({
+        type: 'withdraw',
+        vault: vault,
+        txHash: withdrawTxHash,
+        formattedAmount: formatNumberForDisplay(formTokenAmount),
+        addRecentTransaction: addRecentTransaction,
+        refetchUserBalances: refetchUserBalances
+      })
     }
   }
 

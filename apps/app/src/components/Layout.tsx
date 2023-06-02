@@ -164,8 +164,7 @@ export const Layout = (props: LayoutProps) => {
 
       <DrawModal draw={selectedDraw} prizePool={selectedPrizePool} />
 
-      {/* NOTE: passing the `expand` flag while Sonner has a re-sizing toast bug - can be reverted once fixed */}
-      <Toaster expand={true} />
+      <Toaster />
 
       <main
         className={classNames(

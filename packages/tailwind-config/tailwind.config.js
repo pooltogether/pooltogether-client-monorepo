@@ -1,3 +1,4 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
 const plugin = require('tailwindcss/plugin')
 
 module.exports = {
@@ -55,6 +56,10 @@ module.exports = {
           transparent: '#F5F0FF1A'
         }
       }
+    },
+    screens: {
+      'smSonner': '601px',
+      ...defaultTheme.screens
     }
   },
   plugins: [

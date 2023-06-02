@@ -8,17 +8,25 @@ import {
   useUserVaultTokenBalance,
   useVaultBalance
 } from 'hyperstructure-react-hooks'
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Spinner, toast } from 'ui'
 import { getBlockExplorerName, getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'utilities'
 import { useAccount, useWaitForTransaction } from 'wagmi'
 import { ErrorPooly } from '../Graphics/ErrorPooly'
 import { SuccessPooly } from '../Graphics/SuccessPooly'
 
+/**
+ * Function to create original TX toast while confirming transaction
+ *
+ * This toast will then update itself on TX success or fail
+ */
+export const createTxToast = (data: TransactionToastProps) => {
+  toast(<TransactionToast {...data} />, { id: data.txHash })
+}
+
 type TransactionType = 'deposit' | 'withdraw'
 
 export interface TransactionToastProps {
-  id: string | number
   type: TransactionType
   vault: Vault
   txHash: string
@@ -28,8 +36,7 @@ export interface TransactionToastProps {
 }
 
 export const TransactionToast = (props: TransactionToastProps) => {
-  const { id, type, vault, txHash, formattedAmount, addRecentTransaction, refetchUserBalances } =
-    props
+  const { type, vault, txHash, formattedAmount, addRecentTransaction, refetchUserBalances } = props
 
   const { isLoading, isSuccess, isError } = useWaitForTransaction({
     chainId: vault.chainId,
@@ -78,22 +85,42 @@ export const TransactionToast = (props: TransactionToastProps) => {
     }
   }, [isSuccess, txHash])
 
-  return (
-    <div className='relative flex flex-col gap-2 items-center text-center'>
-      {isLoading && (
-        <ConfirmingView
-          type={type}
-          vault={vault}
-          txHash={txHash}
-          formattedAmount={formattedAmount}
-        />
-      )}
-      {!isLoading && isSuccess && (
+  if (!isLoading && isSuccess) {
+    toast(
+      <ToastLayout id={txHash}>
         <SuccessView type={type} vault={vault} txHash={txHash} formattedAmount={formattedAmount} />
-      )}
-      {!isLoading && !isSuccess && isError && (
+      </ToastLayout>,
+      { id: txHash }
+    )
+  }
+
+  if (!isLoading && !isSuccess && isError) {
+    toast(
+      <ToastLayout id={txHash}>
         <ErrorView type={type} vault={vault} txHash={txHash} />
-      )}
+      </ToastLayout>,
+      { id: txHash }
+    )
+  }
+
+  return (
+    <ToastLayout id={txHash}>
+      <ConfirmingView type={type} vault={vault} txHash={txHash} formattedAmount={formattedAmount} />
+    </ToastLayout>
+  )
+}
+
+interface ToastLayoutProps {
+  id: string | number
+  children: ReactNode
+}
+
+const ToastLayout = (props: ToastLayoutProps) => {
+  const { id, children } = props
+
+  return (
+    <div className='relative w-full flex flex-col gap-2 items-center text-center smSonner:w-80'>
+      {children}
       <XMarkIcon
         className='absolute top-0 right-0 h-3 w-3 text-pt-purple-100 cursor-pointer'
         onClick={() => toast.dismiss(id)}

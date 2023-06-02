@@ -274,7 +274,7 @@ importers:
       generic-react-hooks: workspace:*
       react: ^18.2.0
       react-countup: ^6.4.2
-      sonner: ^0.3.5
+      sonner: ^0.4.0
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
       tsconfig: workspace:*
@@ -288,7 +288,7 @@ importers:
       generic-react-hooks: link:../generic-react-hooks
       react: 18.2.0
       react-countup: 6.4.2_duavcg6prxxl5begav3y2fyxcu
-      sonner: 0.3.5_biqbaboplfbrettd7655fr4n2y
+      sonner: 0.4.0_biqbaboplfbrettd7655fr4n2y
     devDependencies:
       '@types/react': 17.0.58
       '@types/react-dom': 17.0.19
@@ -7476,10 +7476,10 @@ packages:
     dependencies:
       atomic-sleep: 1.0.0
 
-  /sonner/0.3.5_biqbaboplfbrettd7655fr4n2y:
+  /sonner/0.4.0_biqbaboplfbrettd7655fr4n2y:
     resolution:
       {
-        integrity: sha512-yIwaQ4dftMvFApuruto2t7wGyyaPRpj5qYBWYJIz4Z7uGcVn0IfqI/hWN0JyJN4izNbZFuCYZISf3fOGnvSlNQ==
+        integrity: sha512-zEU/Mzur39xYPpyQOOCmN6YQftl5v+TSmdsmWEbWf6ovnOvnHyRwR7+/6BIBbzwRa8+3v06FJlpF7J3KS4Ll9Q==
       }
     peerDependencies:
       react: ^18.0.0
