@@ -5,6 +5,9 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": "./dist"
   },
@@ -19,6 +22,7 @@
       "src/index.ts"
     ],
     "format": [
+      "cjs",
       "esm"
     ]
   },
@@ -33,6 +37,7 @@
     "types": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tsconfig": "workspace:*",
     "tsup": "^6.6.3",
     "typescript": "^5.0.4",
     "fathom-client": "^3.5.0"
@@ -42,5 +47,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "fathom-client": "^3.5.0"
-  }
+  },
+  "bundledDependencies": [
+    "utilities",
+    "types",
+    "tsconfig"
+  ]
 }

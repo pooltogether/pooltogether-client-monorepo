@@ -36,7 +36,6 @@ importers:
       react-dom: ^18.2.0
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
-      tsconfig: workspace:*
       typescript: ^5.0.4
       ui: workspace:*
       utilities: workspace:*
@@ -69,7 +68,6 @@ importers:
       postcss: 8.4.23
       tailwind-config: link:../../packages/tailwind-config
       tailwindcss: 3.3.1_postcss@8.4.23
-      tsconfig: link:../../packages/tsconfig
       typescript: 5.0.4
 
   apps/landing-page:
@@ -87,7 +85,6 @@ importers:
       react-dom: ^18.2.0
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
-      tsconfig: workspace:*
       typescript: ^5.0.4
       ui: workspace:*
     dependencies:
@@ -106,7 +103,6 @@ importers:
       postcss: 8.4.23
       tailwind-config: link:../../packages/tailwind-config
       tailwindcss: 3.3.1_postcss@8.4.23
-      tsconfig: link:../../packages/tsconfig
       typescript: 5.0.4
 
   packages/generic-react-hooks:
@@ -118,6 +114,7 @@ importers:
       jotai: ^1.13.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      tsconfig: workspace:*
       tsup: ^6.6.3
       types: workspace:*
       typescript: ^5.0.4
@@ -132,6 +129,7 @@ importers:
       fathom-client: 3.5.0
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@5.0.4
       types: link:../types
       typescript: 5.0.4
@@ -139,6 +137,7 @@ importers:
   packages/hyperstructure-client-js:
     specifiers:
       '@types/node': ^17.0.45
+      tsconfig: workspace:*
       tslib: ^2.5.0
       tsup: ^6.6.3
       types: workspace:*
@@ -150,6 +149,7 @@ importers:
       viem: 0.3.30_typescript@5.0.4
     devDependencies:
       '@types/node': 17.0.45
+      tsconfig: link:../tsconfig
       tslib: 2.5.0
       tsup: 6.7.0_typescript@5.0.4
       types: link:../types
@@ -166,6 +166,7 @@ importers:
       jotai: ^1.13.1
       react: ^18.2.0
       react-dom: ^18.2.0
+      tsconfig: workspace:*
       tsup: ^6.6.3
       typescript: ^5.0.4
       utilities: workspace:*
@@ -184,6 +185,7 @@ importers:
       '@types/react-dom': 17.0.19
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@5.0.4
       typescript: 5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
@@ -205,6 +207,7 @@ importers:
       react-hook-form: ^7.43.2
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
+      tsconfig: workspace:*
       tsup: ^6.6.3
       typescript: ^5.0.4
       ui: workspace:*
@@ -231,6 +234,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       tailwind-config: link:../tailwind-config
       tailwindcss: 3.3.1_postcss@8.4.23
+      tsconfig: link:../tsconfig
       tsup: 6.7.0_ysxqmvwu3gtlor2giyp77j2bti
       typescript: 5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
@@ -247,10 +251,12 @@ importers:
   packages/types:
     specifiers:
       '@types/node': ^17.0.45
+      tsconfig: workspace:*
       tslib: ^2.5.0
       typescript: ^5.0.4
     devDependencies:
       '@types/node': 17.0.45
+      tsconfig: link:../tsconfig
       tslib: 2.5.0
       typescript: 5.0.4
 
@@ -269,6 +275,7 @@ importers:
       sonner: ^0.4.0
       tailwind-config: workspace:*
       tailwindcss: ^3.3.1
+      tsconfig: workspace:*
       typescript: ^5.0.4
     dependencies:
       '@heroicons/react': 2.0.17_react@18.2.0
@@ -285,6 +292,7 @@ importers:
       '@types/react-dom': 17.0.19
       tailwind-config: link:../tailwind-config
       tailwindcss: 3.3.1_postcss@8.4.23
+      tsconfig: link:../tsconfig
       typescript: 5.0.4
 
   packages/utilities:
@@ -292,6 +300,7 @@ importers:
       '@types/node': ^17.0.45
       ajv: ^8.12.0
       fathom-client: ^3.5.0
+      tsconfig: workspace:*
       tslib: ^2.5.0
       types: workspace:*
       typescript: ^5.0.4
@@ -302,6 +311,7 @@ importers:
     devDependencies:
       '@types/node': 17.0.45
       fathom-client: 3.5.0
+      tsconfig: link:../tsconfig
       tslib: 2.5.0
       types: link:../types
       typescript: 5.0.4

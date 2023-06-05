@@ -5,6 +5,9 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": "./dist"
   },
@@ -29,6 +32,12 @@
     "@types/react-dom": "^17.0.19",
     "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
+    "tsconfig": "workspace:*",
     "typescript": "^5.0.4"
-  }
+  },
+  "bundledDependencies": [
+    "generic-react-hooks",
+    "tailwind-config",
+    "tsconfig"
+  ]
 }
