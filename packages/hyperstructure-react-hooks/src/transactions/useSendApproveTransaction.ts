@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useEffect } from 'react'
 import { erc20 as erc20Abi } from 'utilities'
 import { TransactionReceipt } from 'viem'

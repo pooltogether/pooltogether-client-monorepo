@@ -1,4 +1,4 @@
-import { PrizePool, TokenWithAmount, TokenWithPrice } from 'hyperstructure-client-js'
+import { PrizePool, TokenWithAmount, TokenWithPrice } from '@pooltogether/hyperstructure-client-js'
 import { useMemo } from 'react'
 import { useAllPrizeInfo, usePrizeTokenPrice } from '..'
 

@@ -1,10 +1,10 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useSendRedeemTransaction,
   useTokenBalance,
   useUserVaultShareBalance,
   useVaultBalance
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
 import { Button } from 'ui'

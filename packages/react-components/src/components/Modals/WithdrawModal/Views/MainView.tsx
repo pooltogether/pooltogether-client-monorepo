@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { Spinner } from 'ui'
 import { getNiceNetworkNameByChainId } from 'utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'

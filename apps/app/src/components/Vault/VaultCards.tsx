@@ -1,6 +1,6 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useSortedVaults } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
-import { Vault } from 'hyperstructure-client-js'
-import { useSortedVaults } from 'hyperstructure-react-hooks'
 import { Spinner } from 'ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { VaultCard } from './VaultCard'

@@ -1,6 +1,6 @@
+import { TokenWithLogo } from '@pooltogether/hyperstructure-client-js'
 import classNames from 'classnames'
 import { useCoingeckoTokenData } from 'generic-react-hooks'
-import { TokenWithLogo } from 'hyperstructure-client-js'
 import { BasicIcon, Spinner } from 'ui'
 import { COINGECKO_PLATFORMS, NETWORK } from 'utilities'
 import { TOKEN_LOGO_OVERRIDES } from '../../constants'

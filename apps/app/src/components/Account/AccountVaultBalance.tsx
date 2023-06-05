@@ -1,5 +1,5 @@
-import { Vault } from 'hyperstructure-client-js'
-import { useUserVaultTokenBalance } from 'hyperstructure-react-hooks'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useUserVaultTokenBalance } from '@pooltogether/hyperstructure-react-hooks'
 import { TokenValueAndAmount } from 'react-components'
 import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'

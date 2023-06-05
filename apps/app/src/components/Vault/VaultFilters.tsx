@@ -1,7 +1,10 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import {
+  useSelectedVaults,
+  useTokenBalancesAcrossChains
+} from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
 import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { Vault } from 'hyperstructure-client-js'
-import { useSelectedVaults, useTokenBalancesAcrossChains } from 'hyperstructure-react-hooks'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'

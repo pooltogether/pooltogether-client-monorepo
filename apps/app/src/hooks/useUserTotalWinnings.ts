@@ -1,10 +1,10 @@
-import { useQueries } from '@tanstack/react-query'
 import {
   NO_REFETCH,
   QUERY_KEYS,
   useAllTokenPrices,
   useAllUserPrizePoolWins
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
+import { useQueries } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'

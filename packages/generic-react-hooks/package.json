@@ -9,9 +9,18 @@
     ".": "./dist"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
+  },
+  "tsup": {
+    "dts": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm"
+    ]
   },
   "dependencies": {
     "jotai": "^1.13.1",
@@ -24,7 +33,7 @@
     "types": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsconfig": "workspace:*",
+    "tsup": "^6.6.3",
     "typescript": "^5.0.4",
     "fathom-client": "^3.5.0"
   },

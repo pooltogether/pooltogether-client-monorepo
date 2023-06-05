@@ -24,12 +24,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
+    "@pooltogether/hyperstructure-client-js": "workspace:*",
+    "@pooltogether/hyperstructure-react-hooks": "workspace:*",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "jotai": "^1.13.1",
-    "hyperstructure-client-js": "workspace:*",
     "generic-react-hooks": "workspace:*",
-    "hyperstructure-react-hooks": "workspace:*",
     "ui": "workspace:*",
     "utilities": "workspace:*",
     "react-hook-form": "^7.43.2",
@@ -43,7 +43,6 @@
     "react-dom": "^18.2.0",
     "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
-    "tsconfig": "workspace:*",
     "tsup": "^6.6.3",
     "typescript": "^5.0.4",
     "wagmi": "^1.0.5"

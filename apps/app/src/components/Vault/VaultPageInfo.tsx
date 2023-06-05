@@ -1,5 +1,5 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import classNames from 'classnames'
-import { Vault } from 'hyperstructure-client-js'
 import { ReactNode } from 'react'
 import { PrizePowerTooltip, WinChanceTooltip } from 'react-components'
 import { ExternalLink } from 'ui'

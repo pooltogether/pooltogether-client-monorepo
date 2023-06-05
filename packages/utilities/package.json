@@ -21,7 +21,6 @@
     "@types/node": "^17.0.45",
     "fathom-client": "^3.5.0",
     "types": "workspace:*",
-    "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   },

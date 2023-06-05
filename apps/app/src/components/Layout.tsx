@@ -1,4 +1,11 @@
 import {
+  useAllUserVaultBalances,
+  useCachedVaultLists,
+  usePrizeDrawWinners,
+  useSelectedVaultListIds,
+  useSelectedVaults
+} from '@pooltogether/hyperstructure-react-hooks'
+import {
   ConnectButton,
   useAddRecentTransaction,
   useChainModal,
@@ -6,13 +13,6 @@ import {
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'generic-react-hooks'
-import {
-  useAllUserVaultBalances,
-  useCachedVaultLists,
-  usePrizeDrawWinners,
-  useSelectedVaultListIds,
-  useSelectedVaults
-} from 'hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import Head from 'next/head'
 import Link from 'next/link'

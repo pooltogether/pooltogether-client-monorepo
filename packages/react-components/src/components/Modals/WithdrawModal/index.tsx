@@ -1,6 +1,6 @@
+import { useSelectedVault } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
 import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { useSelectedVault } from 'hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import { ReactNode, useState } from 'react'
 import { Modal } from 'ui'

@@ -1,4 +1,4 @@
-import { useSelectedVaults } from 'hyperstructure-react-hooks'
+import { useSelectedVaults } from '@pooltogether/hyperstructure-react-hooks'
 import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import { Layout } from '@components/Layout'

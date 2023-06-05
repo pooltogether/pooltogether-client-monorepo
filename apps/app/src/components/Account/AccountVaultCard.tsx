@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useRouter } from 'next/router'
 import { VaultBadge, WinChanceTooltip } from 'react-components'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'

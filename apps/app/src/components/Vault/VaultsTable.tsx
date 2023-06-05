@@ -1,6 +1,6 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { SortDirection, SortId, useSortedVaults } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
-import { Vault } from 'hyperstructure-client-js'
-import { SortDirection, SortId, useSortedVaults } from 'hyperstructure-react-hooks'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
 import { PrizePowerTooltip, SortIcon, VaultBadge } from 'react-components'

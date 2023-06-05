@@ -1,6 +1,6 @@
+import { PrizePool, SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
 import { useQueries } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { PrizePool, SubgraphPrizePoolAccount } from 'hyperstructure-client-js'
 import { useMemo } from 'react'
 import { getUserPrizePoolHistoricalWins } from 'utilities'
 import { QUERY_KEYS } from '../constants'

@@ -1,9 +1,9 @@
-import classNames from 'classnames'
 import {
   useAllUserVaultBalances,
   useSelectedVaults,
   useSortedVaults
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
+import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { AccountVaultCard } from './AccountVaultCard'
 

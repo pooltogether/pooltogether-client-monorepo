@@ -62,7 +62,7 @@ To create an instance of a `PrizePool`, you will need:
 If you'd like to use any write methods, you must also provide a [Viem wallet client](https://viem.sh/docs/clients/wallet.html).
 
 ```ts
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool } from '@pooltogether/hyperstructure-client-js'
 import { createPublicClient, createWalletClient } from 'viem'
 
 // Viem clients
@@ -94,7 +94,7 @@ To create an instance of a `Vault`, you will need:
 If you'd like to use any write methods, you must also provide a [Viem wallet client](https://viem.sh/docs/clients/wallet.html).
 
 ```ts
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { createPublicClient, createWalletClient } from 'viem'
 
 // Viem clients
@@ -127,7 +127,7 @@ To create an instance of `Vaults`, you will need:
 See the typing of a `VaultList` [here](https://github.com/pooltogether/pooltogether-client-monorepo/blob/main/packages/pt-types/src/types/vaults.ts).
 
 ```ts
-import { Vaults } from 'hyperstructure-client-js'
+import { Vaults } from '@pooltogether/hyperstructure-client-js'
 
 // VaultList
 const vaultList = {

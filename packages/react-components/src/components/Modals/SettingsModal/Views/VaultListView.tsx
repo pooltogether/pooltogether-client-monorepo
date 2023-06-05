@@ -1,10 +1,10 @@
 import { TrashIcon } from '@heroicons/react/24/outline'
-import { VaultList } from 'hyperstructure-client-js'
+import { VaultList } from '@pooltogether/hyperstructure-client-js'
 import {
   useCachedVaultLists,
   useSelectedVaultListIds,
   useVaultList
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { BasicIcon, ExternalLink, Toggle } from 'ui'

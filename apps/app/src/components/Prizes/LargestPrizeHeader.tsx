@@ -1,4 +1,4 @@
-import { useLargestGrandPrize } from 'hyperstructure-react-hooks'
+import { useLargestGrandPrize } from '@pooltogether/hyperstructure-react-hooks'
 import { NextDrawCountdown, TokenValue } from 'react-components'
 import { Spinner } from 'ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'

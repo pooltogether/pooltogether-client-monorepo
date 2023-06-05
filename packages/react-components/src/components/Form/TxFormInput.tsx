@@ -1,5 +1,9 @@
+import {
+  TokenWithAmount,
+  TokenWithLogo,
+  TokenWithPrice
+} from '@pooltogether/hyperstructure-client-js'
 import classNames from 'classnames'
-import { TokenWithAmount, TokenWithLogo, TokenWithPrice } from 'hyperstructure-client-js'
 import { useFormContext } from 'react-hook-form'
 import { formatBigIntForDisplay } from 'utilities'
 import { formatUnits } from 'viem'

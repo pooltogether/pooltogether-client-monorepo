@@ -1,5 +1,5 @@
+import { useAllUserPrizeOdds, useSelectedVaults } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
-import { useAllUserPrizeOdds, useSelectedVaults } from 'hyperstructure-react-hooks'
 import { Spinner } from 'ui'
 import { formatNumberForDisplay } from 'utilities'
 import { useAccount } from 'wagmi'

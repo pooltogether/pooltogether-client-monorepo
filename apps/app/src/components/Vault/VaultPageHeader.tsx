@@ -1,6 +1,6 @@
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import classNames from 'classnames'
-import { Vault } from 'hyperstructure-client-js'
 import { useRouter } from 'next/router'
 import { NetworkBadge, TokenIcon } from 'react-components'
 

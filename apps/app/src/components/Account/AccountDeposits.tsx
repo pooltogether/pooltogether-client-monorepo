@@ -1,7 +1,10 @@
 import { ArrowRightIcon } from '@heroicons/react/24/outline'
+import {
+  useAllUserVaultBalances,
+  useSelectedVaults
+} from '@pooltogether/hyperstructure-react-hooks'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { useAllUserVaultBalances, useSelectedVaults } from 'hyperstructure-react-hooks'
 import Link from 'next/link'
 import { Button } from 'ui'
 import { useAccount } from 'wagmi'

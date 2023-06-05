@@ -1,13 +1,13 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useSelectedVault,
   useTokenBalance,
   useUserVaultShareBalance,
   useUserVaultTokenBalance,
   useVaultBalance
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
+import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
 import { ReactNode, useEffect } from 'react'
 import { Spinner, toast } from 'ui'
 import { getBlockExplorerName, getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'utilities'

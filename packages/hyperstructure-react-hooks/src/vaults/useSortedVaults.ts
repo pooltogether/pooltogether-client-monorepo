@@ -1,4 +1,9 @@
-import { CoingeckoTokenPrices, PrizePool, TokenWithAmount, Vault } from 'hyperstructure-client-js'
+import {
+  CoingeckoTokenPrices,
+  PrizePool,
+  TokenWithAmount,
+  Vault
+} from '@pooltogether/hyperstructure-client-js'
 import { useMemo, useState } from 'react'
 import { getAssetsFromShares, getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'

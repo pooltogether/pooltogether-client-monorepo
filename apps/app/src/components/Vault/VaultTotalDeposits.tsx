@@ -1,5 +1,5 @@
-import { Vault } from 'hyperstructure-client-js'
-import { useVaultBalance } from 'hyperstructure-react-hooks'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useVaultBalance } from '@pooltogether/hyperstructure-react-hooks'
 import { TokenValue } from 'react-components'
 import { Spinner } from 'ui'
 

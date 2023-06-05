@@ -1,4 +1,4 @@
-import { VaultList } from 'hyperstructure-client-js'
+import { VaultList } from '@pooltogether/hyperstructure-client-js'
 
 const defaultVaultList: VaultList = {
   name: 'PoolTogether Testnet Vault List',

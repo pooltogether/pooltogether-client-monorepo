@@ -1,5 +1,5 @@
+import { useUserTotalBalance } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
-import { useUserTotalBalance } from 'hyperstructure-react-hooks'
 import { CurrencyValue } from 'react-components'
 import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'

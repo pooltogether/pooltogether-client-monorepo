@@ -1,4 +1,4 @@
-import { PrizePool } from 'hyperstructure-client-js'
+import { PrizePool } from '@pooltogether/hyperstructure-client-js'
 import { usePublicClient } from 'wagmi'
 import { usePublicClientsByChain } from '..'
 

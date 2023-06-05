@@ -1,6 +1,6 @@
+import { PrizePool, Vaults } from '@pooltogether/hyperstructure-client-js'
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { PrizePool, Vaults } from 'hyperstructure-client-js'
 import { populateCachePerId } from '..'
 import { QUERY_KEYS } from '../constants'
 

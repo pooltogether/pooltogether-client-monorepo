@@ -1,4 +1,4 @@
-import { PrizePool, Vault } from 'hyperstructure-client-js'
+import { PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
 import { calculateOdds } from 'utilities'
 import { useEstimatedPrizeCount, useVaultPercentageContribution, useVaultShareData } from '..'
 

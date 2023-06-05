@@ -1,5 +1,5 @@
+import { PrizePool, TokenWithPrice } from '@pooltogether/hyperstructure-client-js'
 import { CURRENCY_ID } from 'generic-react-hooks'
-import { PrizePool, TokenWithPrice } from 'hyperstructure-client-js'
 import { getTokenPriceFromObject } from 'utilities'
 import { usePrizeTokenData, useTokenPrices } from '..'
 

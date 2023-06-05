@@ -1,11 +1,11 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useTokenBalance,
   useUserVaultShareBalance,
   useVaultExchangeRate,
   useVaultSharePrice,
   useVaultTokenPrice
-} from 'hyperstructure-react-hooks'
+} from '@pooltogether/hyperstructure-react-hooks'
 import { atom, useSetAtom } from 'jotai'
 import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'

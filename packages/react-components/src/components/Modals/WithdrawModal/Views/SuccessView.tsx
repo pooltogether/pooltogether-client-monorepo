@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useAtomValue } from 'jotai'
 import { Button, ExternalLink } from 'ui'
 import { formatNumberForDisplay, getBlockExplorerName, getBlockExplorerUrl } from 'utilities'

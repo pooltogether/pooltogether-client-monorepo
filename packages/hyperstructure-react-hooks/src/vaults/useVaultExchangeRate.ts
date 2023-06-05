@@ -1,6 +1,6 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useQuery } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { Vault } from 'hyperstructure-client-js'
 import { QUERY_KEYS } from '../constants'
 
 /**

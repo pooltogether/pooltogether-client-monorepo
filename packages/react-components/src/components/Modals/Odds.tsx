@@ -1,5 +1,5 @@
-import { PrizePool, Vault } from 'hyperstructure-client-js'
-import { usePrizeOdds, useVaultShareData } from 'hyperstructure-react-hooks'
+import { PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
+import { usePrizeOdds, useVaultShareData } from '@pooltogether/hyperstructure-react-hooks'
 import { useAtomValue } from 'jotai'
 import { Spinner } from 'ui'
 import { formatNumberForDisplay } from 'utilities'

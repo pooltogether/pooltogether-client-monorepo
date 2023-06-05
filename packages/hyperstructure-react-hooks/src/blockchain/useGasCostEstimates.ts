@@ -1,5 +1,5 @@
+import { CoingeckoTokenPrices, GasCostEstimates } from '@pooltogether/hyperstructure-client-js'
 import { CURRENCY_ID, useCoingeckoSimpleTokenPrices } from 'generic-react-hooks'
-import { CoingeckoTokenPrices, GasCostEstimates } from 'hyperstructure-client-js'
 import { calculatePercentageOfBigInt, COINGECKO_NATIVE_TOKEN_IDS, NETWORK } from 'utilities'
 import { formatUnits, parseUnits } from 'viem'
 import { useGasPrices } from '..'

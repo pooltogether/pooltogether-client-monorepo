@@ -1,5 +1,8 @@
+import {
+  useSelectedVaultListIds,
+  useSelectedVaults
+} from '@pooltogether/hyperstructure-react-hooks'
 import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { useSelectedVaultListIds, useSelectedVaults } from 'hyperstructure-react-hooks'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { NetworkBadge } from 'react-components'

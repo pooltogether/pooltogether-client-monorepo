@@ -1,4 +1,4 @@
-import { SubgraphPrizePoolAccount } from 'hyperstructure-client-js'
+import { SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
 import { Button, ExternalLink } from 'ui'
 import { getBlockExplorerName, getBlockExplorerUrl } from 'utilities'
 

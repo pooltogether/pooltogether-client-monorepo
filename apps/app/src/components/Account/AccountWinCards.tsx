@@ -1,5 +1,5 @@
+import { PrizePool, SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
 import classNames from 'classnames'
-import { PrizePool, SubgraphPrizePoolAccount } from 'hyperstructure-client-js'
 import { AccountWinCard } from './AccountWinCard'
 
 interface AccountWinCardsProps {

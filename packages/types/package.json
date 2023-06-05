@@ -12,7 +12,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
-    "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   }

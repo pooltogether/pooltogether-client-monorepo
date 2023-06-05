@@ -1,5 +1,5 @@
-import { TokenWithAmount } from 'hyperstructure-client-js'
-import { useToken, useTokenPrices } from 'hyperstructure-react-hooks'
+import { TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
+import { useToken, useTokenPrices } from '@pooltogether/hyperstructure-react-hooks'
 import { useMemo } from 'react'
 import { Spinner } from 'ui'
 import { getTokenPriceFromObject } from 'utilities'

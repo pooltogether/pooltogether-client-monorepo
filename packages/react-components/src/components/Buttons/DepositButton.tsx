@@ -1,7 +1,7 @@
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useSelectedVault } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
 import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { Vault } from 'hyperstructure-client-js'
-import { useSelectedVault } from 'hyperstructure-react-hooks'
 import { Button, ButtonProps } from 'ui'
 
 interface DepositButtonProps extends Omit<ButtonProps, 'onClick'> {

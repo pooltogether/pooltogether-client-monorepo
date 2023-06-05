@@ -1,7 +1,7 @@
+import { PrizePool, TimeUnit } from '@pooltogether/hyperstructure-client-js'
+import { useNextDrawTimestamps } from '@pooltogether/hyperstructure-react-hooks'
 import classNames from 'classnames'
 import { useCountdown } from 'generic-react-hooks'
-import { PrizePool, TimeUnit } from 'hyperstructure-client-js'
-import { useNextDrawTimestamps } from 'hyperstructure-react-hooks'
 import { Spinner } from 'ui'
 import { TimeDigits } from './TimeDigits'
 

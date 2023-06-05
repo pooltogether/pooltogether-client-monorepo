@@ -1,4 +1,4 @@
-import { Vault, VaultInfo } from 'hyperstructure-client-js'
+import { Vault, VaultInfo } from '@pooltogether/hyperstructure-client-js'
 import { usePublicClient } from 'wagmi'
 
 /**

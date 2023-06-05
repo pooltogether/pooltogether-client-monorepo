@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { DepositButton, WithdrawButton } from 'react-components'
 
 interface AccountVaultButtonsProps {

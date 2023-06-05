@@ -10,12 +10,27 @@
     "forceConsistentCasingInFileNames": true,
     "inlineSources": false,
     "isolatedModules": true,
+    "module": "esnext",
     "moduleResolution": "node",
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "preserveWatchOutput": true,
     "skipLibCheck": true,
     "strict": true
+  },
+  "paths": {
+    "@pooltogether/hyperstructure-client-js": [
+      "../../packages/hyperstructure-client-js/src/index.ts"
+    ],
+    "@pooltogether/hyperstructure-react-hooks": [
+      "../../packages/hyperstructure-react-hooks/src/index.ts"
+    ],
+    "generic-react-hooks": ["../../packages/generic-react-hooks/src/index.ts"],
+    "react-components": ["../../packages/react-components/src/index.ts"],
+    "tailwind-config": ["../../packages/tailwind-config/tailwind.config.js"],
+    "types": ["../../packages/types/src/index.ts"],
+    "ui": ["../../packages/ui/src/index.ts"],
+    "utilities": ["../../packages/utilities/src/index.ts"]
   },
   "exclude": ["node_modules"]
 }

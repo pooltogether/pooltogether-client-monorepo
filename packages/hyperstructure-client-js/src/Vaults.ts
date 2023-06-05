@@ -1,4 +1,4 @@
-import { getContract, PublicClient } from 'viem'
+import { TokenWithAmount, TokenWithSupply, VaultInfo } from 'types'
 import {
   erc20 as erc20Abi,
   getTokenBalances,
@@ -9,12 +9,10 @@ import {
   getVaultId,
   getVaultsByChainId,
   getVaultUnderlyingTokenAddresses,
-  TokenWithAmount,
-  TokenWithSupply,
   validateAddress,
-  validateClientNetwork,
-  VaultInfo
-} from '.'
+  validateClientNetwork
+} from 'utilities'
+import { getContract, PublicClient } from 'viem'
 import { Vault } from './Vault'
 
 /**

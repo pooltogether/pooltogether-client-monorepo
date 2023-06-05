@@ -1,4 +1,4 @@
-import { Vault } from 'hyperstructure-client-js'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useAtomValue } from 'jotai'
 import { Button, Spinner } from 'ui'
 import { formatNumberForDisplay } from 'utilities'

@@ -1,4 +1,4 @@
-import { Token, TokenWithLogo, Vault } from 'hyperstructure-client-js'
+import { Token, TokenWithLogo, Vault } from '@pooltogether/hyperstructure-client-js'
 import { useAtomValue } from 'jotai'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import {

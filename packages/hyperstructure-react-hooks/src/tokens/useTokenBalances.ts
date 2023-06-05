@@ -1,6 +1,6 @@
+import { TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
 import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { NO_REFETCH } from 'generic-react-hooks'
-import { TokenWithAmount } from 'hyperstructure-client-js'
 import { useMemo } from 'react'
 import { getTokenBalances } from 'utilities'
 import { isAddress, PublicClient } from 'viem'
