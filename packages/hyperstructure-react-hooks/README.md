@@ -1,14 +1,49 @@
-# PoolTogether Hyperstructure React Hooks
+<p align="center">
+  <a href="https://github.com/pooltogether/pooltogether--brand-assets">
+    <img src="https://github.com/pooltogether/pooltogether--brand-assets/blob/977e03604c49c63314450b5d432fe57d34747c66/logo/pooltogether-logo--purple-gradient.png?raw=true" alt="PoolTogether Brand" style="max-width:100%;" width="200">
+  </a>
+</p>
 
-Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
+<br />
 
-![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fhyperstructure-react-hooks%2Fpackage.json&color=brightgreen)
+# 💻 &nbsp; PoolTogether Hyperstucture React Hooks Library
 
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
-![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=Viem&color=gray)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
+![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=viem&color=gray)
+![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+![npm](https://img.shields.io/npm/v/@pooltogether/hyperstructure-react-hooks)
 
-## App Hooks
+[Client Monorepo](https://github.com/pooltogether/pooltogether-client-monorepo) | [Documentation](https://dev.pooltogether.com/) | [Prize Pool Contract](https://github.com/pooltogether/v5-prize-pool) | [Vault Contract](https://github.com/pooltogether/v5-vault)
+
+# 🏆 &nbsp; Overview
+
+A library of shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
+
+Many hooks utilize `react-query` in order to prevent unecessary refetching. A `refetch` function is returned in order to manually refetch if necessary, or alternatively a `refetchInterval` may be passed initially in order to automatically refetch every N milliseconds.
+
+## 💾 &nbsp; Installation
+
+This library is available as an NPM package:
+
+```sh
+npm install @pooltogether/hyperstructure-react-hooks
+```
+
+or
+
+```sh
+pnpm install @pooltogether/hyperstructure-react-hooks
+```
+
+or
+
+```sh
+yarn add @pooltogether/hyperstructure-react-hooks
+```
+
+## 🐱‍👤 &nbsp; Available Hooks
+
+### App Hooks
 
 - `useCachedVaultLists`
 - `useSelectedVaultListIds`
@@ -17,7 +52,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useSelectedVault`
 - `useVaultList`
 
-## Blockchain Hooks
+### Blockchain Hooks
 
 - `useClientChainId`
 - `useClientChainIds`
@@ -25,7 +60,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useGasCostEstimates`
 - `useGasPrices`
 
-## Prize Pool Hooks
+### Prize Pool Hooks
 
 - `useAllPrizeInfo`
 - `useAllUserPrizeOdds`
@@ -40,7 +75,7 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `usePrizeTokenData`
 - `usePrizeTokenPrice`
 
-## Token Hooks
+### Token Hooks
 
 - `useAllTokenPrices`
 - `useTokenAllowances`
@@ -48,14 +83,14 @@ Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https
 - `useTokenPrices`
 - `useTokens`
 
-## Transaction Hooks
+### Transaction Hooks
 
 - `useSendApproveTransaction`
 - `useSendDepositTransaction`
 - `useSendRedeemTransaction`
 - `useSendWithdrawTransaction`
 
-## Vault Hooks
+### Vault Hooks
 
 - `useAllUserVaultBalances`
 - `useAllVaultBalances`

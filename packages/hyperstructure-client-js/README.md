@@ -8,11 +8,11 @@
 
 # 💻 &nbsp; PoolTogether Hyperstucture Client Library
 
-![ts](https://badgen.net/badge/-/TypeScript?icon=typescript&label&labelColor=blue&color=555555)
-![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=Viem&color=gray)
+![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
+![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=viem&color=gray)
 ![npm](https://img.shields.io/npm/v/@pooltogether/hyperstructure-client-js)
 
-[Application](https://app.pooltogether.com/) | [Prize Pool Contract](https://github.com/pooltogether/v5-prize-pool) | [Documentation](https://dev.pooltogether.com/) | [Client Monorepo](https://github.com/pooltogether/pooltogether-client-monorepo)
+[Client Monorepo](https://github.com/pooltogether/pooltogether-client-monorepo) | [Documentation](https://dev.pooltogether.com/) | [Prize Pool Contract](https://github.com/pooltogether/v5-prize-pool) | [Vault Contract](https://github.com/pooltogether/v5-vault)
 
 # 🏆 &nbsp; Overview
 
