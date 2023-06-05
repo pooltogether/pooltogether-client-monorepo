@@ -1,30 +1,40 @@
-## Getting Started
+<p align="center">
+  <a href="https://github.com/pooltogether/pooltogether--brand-assets">
+    <img src="https://github.com/pooltogether/pooltogether--brand-assets/blob/977e03604c49c63314450b5d432fe57d34747c66/logo/pooltogether-logo--purple-gradient.png?raw=true" alt="PoolTogether Brand" style="max-width:100%;" width="200">
+  </a>
+</p>
 
-First, run the development server:
+<br />
 
-```bash
-pnpm dev
-```
+# 💻 &nbsp; PoolTogether Landing Page
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![next](https://img.shields.io/static/v1?label&logo=nextdotjs&logoColor=white&message=Next.js&color=black)
+![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
+![tailwind](https://img.shields.io/static/v1?label&logo=tailwindcss&logoColor=white&message=tailwind&color=38B2AC)
+![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=apps%2Flanding-page%2Fpackage.json&color=brightgreen)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/cd2c8609-de0a-488d-9692-84c6392feebd/deploy-status)](https://app.netlify.com/sites/mvp-pt-landing-page/deploys)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+# 🏆 &nbsp; Overview
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Landing page for the PoolTogether Hyperstructure.
 
-## Learn More
+## 🏎️ &nbsp; Quickstart
 
-To learn more about Next.js, take a look at the following resources:
+### Running Development Server
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
+Run the development server through `pnpm dev`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000) on your browser to see the resulting app.
 
-## Deploy on Vercel
+### App Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
+The app follows the following structure:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- `pages` - All of the pages in the app!
+- `components` - React components that make up the contents of the pages.
+- `constants` - Constant values, references and configurations to deploy and run this app.
+
+### Environment Setup
+
+Enter any environment variables in `.env.local` for testing. A `.env.example` file is available for reference.

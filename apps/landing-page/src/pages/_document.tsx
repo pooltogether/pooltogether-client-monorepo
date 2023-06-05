@@ -1,8 +1,8 @@
 import Document, {
   DocumentContext,
   DocumentInitialProps,
-  Html,
   Head,
+  Html,
   Main,
   NextScript
 } from 'next/document'
@@ -16,8 +16,11 @@ class MyDocument extends Document {
 
   render() {
     return (
-      <Html className='bg-zinc-900 dark'>
-        <Head />
+      <Html className='bg-pt-bg-purple-darker text-gray-100 overflow-x-hidden dark'>
+        {/* TODO: add meta tags, link to manifest, etc. to head */}
+        <Head>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
         <body>
           <Main />
           <NextScript />

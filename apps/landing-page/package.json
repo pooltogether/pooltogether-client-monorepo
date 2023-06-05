@@ -5,18 +5,16 @@
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "@rainbow-me/rainbowkit": "^0.11.0",
-    "ethers": "^5.7.2",
-    "jotai": "^1.13.1",
-    "next": "latest",
+    "classnames": "^2.3.2",
+    "fathom-client": "^3.5.0",
+    "next": "13.3.0",
+    "generic-react-hooks": "workspace:*",
     "ui": "workspace:*",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "wagmi": "^0.11.6"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
@@ -27,6 +25,6 @@
     "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
     "tsconfig": "workspace:*",
-    "typescript": "^4.9.5"
+    "typescript": "^5.0.4"
   }
 }
