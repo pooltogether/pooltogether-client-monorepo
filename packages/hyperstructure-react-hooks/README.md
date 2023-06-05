@@ -12,6 +12,7 @@
 ![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=viem&color=gray)
 ![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
 ![npm](https://img.shields.io/npm/v/@pooltogether/hyperstructure-react-hooks)
+![license](https://img.shields.io/npm/l/@pooltogether/hyperstructure-react-hooks)
 
 [Client Monorepo](https://github.com/pooltogether/pooltogether-client-monorepo) | [Documentation](https://dev.pooltogether.com/) | [Prize Pool Contract](https://github.com/pooltogether/v5-prize-pool) | [Vault Contract](https://github.com/pooltogether/v5-vault)
 
