@@ -1,49 +1,60 @@
-# PoolTogether Components
+<p align="center">
+  <a href="https://github.com/pooltogether/pooltogether--brand-assets">
+    <img src="https://github.com/pooltogether/pooltogether--brand-assets/blob/977e03604c49c63314450b5d432fe57d34747c66/logo/pooltogether-logo--purple-gradient.png?raw=true" alt="PoolTogether Brand" style="max-width:100%;" width="200">
+  </a>
+</p>
 
-React component library utilizing some simpler components from the internal `ui` package, using [WAGMI](https://wagmi.sh/).
+<br />
 
+# 💻 &nbsp; PoolTogether React Components Library
+
+![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
+![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=viem&color=gray)
+![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
 ![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Freact-components%2Fpackage.json&color=brightgreen)
 
-![typescript](https://img.shields.io/static/v1?label&logo=typescript&logoColor=white&message=TypeScript&color=blue)
-![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=Viem&color=gray)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+# 🏆 &nbsp; Overview
 
-## Badge Components
+A React componponent library utilizing some simpler components from the internal `ui` package, using [WAGMI](https://wagmi.sh/).
+
+## 🐱‍👤 &nbsp; Available Components
+
+### Badge Components
 
 - `ImportedBadge`
 - `NetworkBadge`
 - `VaultBadge`
 
-## Button Components
+### Button Components
 
 - `DepositButton`
 - `WithdrawButton`
 
-## Currency Components
+### Currency Components
 
 - `CurrencyValue`
 - `TokenValue`
 - `TokenValueAndAmount`
 
-## Modals
+### Modals
 
 - `DepositModal`
 - `DrawModal`
 - `SettingsModal`
 - `WithdrawModal`
 
-## Form Components
+### Form Components
 
 - `DepositForm`
 - `WithdrawForm`
 - `TxFormInput`
 
-## Graphic Components
+### Graphic Components
 
 - `ErrorPooly`
 - `SuccessPooly`
 
-## Icon Components
+### Icon Components
 
 - `ClipboardListIcon`
 - `NetworkIcon`
@@ -51,27 +62,27 @@ React component library utilizing some simpler components from the internal `ui`
 - `SuccessIcon`
 - `TokenIcon`
 
-## Prize Pool Components
+### Prize Pool Components
 
 - `PrizePoolCard`
 - `PrizePoolDropdown`
 
-## Time Components
+### Time Components
 
 - `NextDrawCountdown`
 - `TimeDigits`
 
-## Toast Components
+### Toast Components
 
 - `TransactionToast`
 
-## Tooltip Components
+### Tooltip Components
 
 - `ExactApprovalTooltip`
 - `InfiniteApprovalTooltip`
 - `PrizePowerTooltip`
 - `WinChanceTooltip`
 
-## Transaction Components
+### Transaction Components
 
 - `TransactionButton`

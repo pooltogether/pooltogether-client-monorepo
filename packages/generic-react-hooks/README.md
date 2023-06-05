@@ -1,13 +1,24 @@
-# PoolTogether Generic React Hooks
+<p align="center">
+  <a href="https://github.com/pooltogether/pooltogether--brand-assets">
+    <img src="https://github.com/pooltogether/pooltogether--brand-assets/blob/977e03604c49c63314450b5d432fe57d34747c66/logo/pooltogether-logo--purple-gradient.png?raw=true" alt="PoolTogether Brand" style="max-width:100%;" width="200">
+  </a>
+</p>
 
-A shared React hooks library for PoolTogether.
+<br />
 
+# 💻 &nbsp; PoolTogether Generic React Hooks Library
+
+![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
+![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
 ![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fgeneric-react-hooks%2Fpackage.json&color=brightgreen)
 
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
+# 🏆 &nbsp; Overview
 
-## App Hooks
+A library of shared React hooks with minimal dependencies.
+
+## 🐱‍👤 &nbsp; Available Hooks
+
+### App Hooks
 
 - `useCountdown`
 - `useIsModalOpen`
@@ -15,15 +26,10 @@ A shared React hooks library for PoolTogether.
 - `useSelectedCurrency`
 - `useSelectedLanguage`
 
-## CoinGecko Hooks
+### CoinGecko Hooks
 
 - `useCoingeckoExchangeRates`
 - `useCoingeckoSimpleTokenPrices`
 - `useCoingeckoTokenData`
 - `useCoingeckoTokenPrices`
 - `useCoingeckoTokenPricesAcrossChains`
-
-## Constants
-
-- `currencies`
-- `languages`
