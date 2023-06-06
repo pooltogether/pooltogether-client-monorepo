@@ -20,14 +20,9 @@
     ],
     "format": [
       "esm"
-    ],
-    "noExternal": [
-      "@pooltogether/generic-react-hooks",
-      "@pooltogether/hyperstructure-client-js"
     ]
   },
   "dependencies": {
-    "@pooltogether/generic-react-hooks": "workspace:*",
     "@pooltogether/hyperstructure-client-js": "workspace:*"
   },
   "devDependencies": {

@@ -1,9 +1,9 @@
-import { CURRENCY_ID } from '@pooltogether/generic-react-hooks'
 import {
   getTokenPriceFromObject,
   PrizePool,
   TokenWithPrice
 } from '@pooltogether/hyperstructure-client-js'
+import { CURRENCY_ID } from '@shared/generic-react-hooks'
 import { usePrizeTokenData, useTokenPrices } from '..'
 
 /**

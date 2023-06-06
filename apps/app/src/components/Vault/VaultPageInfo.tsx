@@ -1,6 +1,6 @@
 import { getBlockExplorerUrl, shorten, Vault } from '@pooltogether/hyperstructure-client-js'
-import { PrizePowerTooltip, WinChanceTooltip } from '@pooltogether/react-components'
-import { ExternalLink } from '@pooltogether/ui'
+import { PrizePowerTooltip, WinChanceTooltip } from '@shared/react-components'
+import { ExternalLink } from '@shared/ui'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
 import { useAccount } from 'wagmi'

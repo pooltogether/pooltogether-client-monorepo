@@ -1,11 +1,12 @@
 {
-  "extends": "../../packages/tsconfig/nextjs.json",
+  "extends": "../../shared/tsconfig/nextjs.json",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "paths": {
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
-      "@pages/*": ["./src/pages/*"]
+      "@pages/*": ["./src/pages/*"],
+      "@shared/generic-react-hooks": ["../../shared/generic-react-hooks"]
     }
   }
 }

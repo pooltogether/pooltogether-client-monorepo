@@ -1,6 +1,6 @@
 import { formatNumberForDisplay } from '@pooltogether/hyperstructure-client-js'
 import { useAllUserPrizeOdds, useSelectedVaults } from '@pooltogether/hyperstructure-react-hooks'
-import { Spinner } from '@pooltogether/ui'
+import { Spinner } from '@shared/ui'
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'

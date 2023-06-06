@@ -1,0 +1,50 @@
+{
+  "name": "@shared/ui",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "prepare": "pnpm build",
+    "clean": "rm -rf dist"
+  },
+  "tsup": {
+    "dts": true,
+    "entry": [
+      "src/index.tsx"
+    ],
+    "format": [
+      "esm"
+    ]
+  },
+  "dependencies": {
+    "flowbite": "^1.6.3",
+    "flowbite-react": "^0.4.6",
+    "sonner": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.53",
+    "@types/react-dom": "^17.0.19",
+    "classnames": "^2.3.2",
+    "framer-motion": "^10.12.16",
+    "react": "^18.2.0",
+    "react-countup": "^6.4.2",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.1",
+    "tsup": "^6.6.3",
+    "typescript": "^5.0.4"
+  },
+  "peerDependencies": {
+    "@heroicons/react": "^2.0.16",
+    "classnames": "^2.3.2",
+    "framer-motion": "^10.12.16",
+    "react": "^18.2.0",
+    "react-countup": "^6.4.2",
+    "react-dom": "^18.2.0"
+  }
+}

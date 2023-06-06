@@ -1,6 +1,6 @@
 import { SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
 import { useAllUserPrizePoolWins } from '@pooltogether/hyperstructure-react-hooks'
-import { ExternalLink, LINKS } from '@pooltogether/ui'
+import { ExternalLink, LINKS } from '@shared/ui'
 import classNames from 'classnames'
 import { useMemo } from 'react'
 import { useAccount } from 'wagmi'

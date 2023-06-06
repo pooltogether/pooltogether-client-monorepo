@@ -1,9 +1,9 @@
-import { CURRENCY_ID, useCoingeckoTokenPrices } from '@pooltogether/generic-react-hooks'
 import {
   COINGECKO_PLATFORMS,
   CoingeckoTokenPrices,
   TESTNET_TOKEN_PRICES
 } from '@pooltogether/hyperstructure-client-js'
+import { CURRENCY_ID, useCoingeckoTokenPrices } from '@shared/generic-react-hooks'
 
 /**
  * Returns token prices

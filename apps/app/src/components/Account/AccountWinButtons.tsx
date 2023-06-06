@@ -3,7 +3,7 @@ import {
   getBlockExplorerUrl,
   SubgraphPrizePoolAccount
 } from '@pooltogether/hyperstructure-client-js'
-import { Button, ExternalLink } from '@pooltogether/ui'
+import { Button, ExternalLink } from '@shared/ui'
 
 interface AccountWinButtonsProps {
   win: SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number }

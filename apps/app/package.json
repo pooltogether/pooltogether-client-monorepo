@@ -9,11 +9,8 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
-    "@pooltogether/generic-react-hooks": "workspace:*",
     "@pooltogether/hyperstructure-client-js": "workspace:*",
     "@pooltogether/hyperstructure-react-hooks": "workspace:*",
-    "@pooltogether/react-components": "workspace:*",
-    "@pooltogether/ui": "workspace:*",
     "@rainbow-me/rainbowkit": "^1.0.0",
     "@sentry/nextjs": "^7.51.0",
     "@tanstack/react-query": "^4.24.10",
@@ -27,7 +24,6 @@
     "wagmi": "^1.0.5"
   },
   "devDependencies": {
-    "@pooltogether/tailwind-config": "workspace:*",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

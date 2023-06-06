@@ -1,6 +1,6 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useUserVaultTokenBalance } from '@pooltogether/hyperstructure-react-hooks'
-import { PrizePowerTooltip, VaultBadge } from '@pooltogether/react-components'
+import { PrizePowerTooltip, VaultBadge } from '@shared/react-components'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'

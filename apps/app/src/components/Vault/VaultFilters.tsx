@@ -1,11 +1,11 @@
-import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
 import { NETWORK, STABLECOIN_ADDRESSES, Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useSelectedVaults,
   useTokenBalancesAcrossChains
 } from '@pooltogether/hyperstructure-react-hooks'
-import { NetworkIcon } from '@pooltogether/react-components'
-import { Selection, SelectionItem } from '@pooltogether/ui'
+import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
+import { NetworkIcon } from '@shared/react-components'
+import { Selection, SelectionItem } from '@shared/ui'
 import classNames from 'classnames'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'

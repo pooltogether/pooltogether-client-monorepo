@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Default",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es2020",
+    "composite": false,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": false,
+    "isolatedModules": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "preserveWatchOutput": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "paths": {
+      "@pooltogether/hyperstructure-client-js": ["../../packages/hyperstructure-client-js/src"],
+      "@pooltogether/hyperstructure-react-hooks": ["../../packages/hyperstructure-react-hooks/src"],
+      "@shared/generic-react-hooks": ["../../shared/generic-react-hooks/src"],
+      "@shared/react-components": ["../../shared/react-components/src"],
+      "@shared/tailwind-config": ["../../shared/tailwind-config/tailwind.config.js"],
+      "@shared/types": ["../../shared/types/src"],
+      "@shared/ui": ["../../shared/ui/src"],
+      "@shared/utilities": ["../../shared/utilities/src"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

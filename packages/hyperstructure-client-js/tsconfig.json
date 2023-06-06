@@ -1,10 +1,10 @@
 {
-  "extends": "../tsconfig/base.json",
+  "extends": "../../shared/tsconfig/base.json",
   "include": ["."],
   "exclude": ["dist", "test", "node_modules"],
   "compilerOptions": {
     "lib": ["dom", "esnext"],
-    "rootDir": "./src",
+    "rootDirs": ["./src", "../../shared"],
     "outDir": "dist"
   }
 }

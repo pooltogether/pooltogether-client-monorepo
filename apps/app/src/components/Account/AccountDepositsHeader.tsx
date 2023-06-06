@@ -1,6 +1,6 @@
 import { useUserTotalBalance } from '@pooltogether/hyperstructure-react-hooks'
-import { CurrencyValue } from '@pooltogether/react-components'
-import { Spinner } from '@pooltogether/ui'
+import { CurrencyValue } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 

@@ -1,5 +1,5 @@
-import { useIsTestnets } from '@pooltogether/generic-react-hooks'
 import { NETWORK } from '@pooltogether/hyperstructure-client-js'
+import { useIsTestnets } from '@shared/generic-react-hooks'
 import { SUPPORTED_NETWORKS } from '@constants/config'
 
 /**

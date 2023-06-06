@@ -1,5 +1,5 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
-import { VaultBadge, WinChanceTooltip } from '@pooltogether/react-components'
+import { VaultBadge, WinChanceTooltip } from '@shared/react-components'
 import { useRouter } from 'next/router'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { VaultButtons } from '@components/Vault/VaultButtons'

@@ -3,8 +3,8 @@ import {
   PrizePool,
   SubgraphPrizePoolAccount
 } from '@pooltogether/hyperstructure-client-js'
-import { NetworkIcon } from '@pooltogether/react-components'
-import { ExternalLink } from '@pooltogether/ui'
+import { NetworkIcon } from '@shared/react-components'
+import { ExternalLink } from '@shared/ui'
 import { AccountWinAmount } from './AccountWinAmount'
 
 interface AccountWinCardProps {

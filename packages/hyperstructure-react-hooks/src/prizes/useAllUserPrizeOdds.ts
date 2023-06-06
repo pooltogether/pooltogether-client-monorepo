@@ -1,10 +1,10 @@
-import { NO_REFETCH } from '@pooltogether/generic-react-hooks'
 import {
   calculateOdds,
   calculateUnionProbability,
   PrizePool,
   Vaults
 } from '@pooltogether/hyperstructure-client-js'
+import { NO_REFETCH } from '@shared/generic-react-hooks'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import {

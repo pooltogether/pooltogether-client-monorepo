@@ -1,4 +1,3 @@
-import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@pooltogether/generic-react-hooks'
 import { isNewerVersion } from '@pooltogether/hyperstructure-client-js'
 import {
   useAllUserVaultBalances,
@@ -8,19 +7,20 @@ import {
   useSelectedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
 import {
-  DepositModal,
-  DrawModal,
-  SettingsModal,
-  SettingsModalView,
-  WithdrawModal
-} from '@pooltogether/react-components'
-import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from '@pooltogether/ui'
-import {
   ConnectButton,
   useAddRecentTransaction,
   useChainModal,
   useConnectModal
 } from '@rainbow-me/rainbowkit'
+import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@shared/generic-react-hooks'
+import {
+  DepositModal,
+  DrawModal,
+  SettingsModal,
+  SettingsModalView,
+  WithdrawModal
+} from '@shared/react-components'
+import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from '@shared/ui'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import Head from 'next/head'

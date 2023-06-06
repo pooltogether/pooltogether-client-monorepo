@@ -1,7 +1,7 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useUserVaultTokenBalance } from '@pooltogether/hyperstructure-react-hooks'
-import { TokenValueAndAmount } from '@pooltogether/react-components'
-import { Spinner } from '@pooltogether/ui'
+import { TokenValueAndAmount } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
 import { useAccount } from 'wagmi'
 
 interface AccountVaultBalanceProps {

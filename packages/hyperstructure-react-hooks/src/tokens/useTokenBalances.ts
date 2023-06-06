@@ -1,5 +1,5 @@
-import { NO_REFETCH } from '@pooltogether/generic-react-hooks'
 import { getTokenBalances, TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
+import { NO_REFETCH } from '@shared/generic-react-hooks'
 import { useQueries, useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { isAddress, PublicClient } from 'viem'

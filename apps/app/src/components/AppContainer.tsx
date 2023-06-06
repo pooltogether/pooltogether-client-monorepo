@@ -1,5 +1,5 @@
-import { useFathom } from '@pooltogether/generic-react-hooks'
-import { Flowbite } from '@pooltogether/ui'
+import { useFathom } from '@shared/generic-react-hooks'
+import { Flowbite } from '@shared/ui'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'

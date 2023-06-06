@@ -3,8 +3,8 @@ import {
   useSelectedVaults,
   useSortedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
-import { VaultBadge } from '@pooltogether/react-components'
-import { Table, TableProps } from '@pooltogether/ui'
+import { VaultBadge } from '@shared/react-components'
+import { Table, TableProps } from '@shared/ui'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
 import { useAccount } from 'wagmi'

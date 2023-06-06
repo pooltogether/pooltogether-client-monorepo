@@ -1,10 +1,10 @@
-import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
 import {
   useSelectedVaultListIds,
   useSelectedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
-import { NetworkBadge } from '@pooltogether/react-components'
-import { Button, Spinner } from '@pooltogether/ui'
+import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
+import { NetworkBadge } from '@shared/react-components'
+import { Button, Spinner } from '@shared/ui'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useNetworks } from '@hooks/useNetworks'

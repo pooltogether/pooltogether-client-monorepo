@@ -1,4 +1,4 @@
-import { Button } from '@pooltogether/ui'
+import { Button } from '@shared/ui'
 import Link from 'next/link'
 import { Layout } from '@components/Layout'
 import { LargestPrizeHeader } from '@components/Prizes/LargestPrizeHeader'

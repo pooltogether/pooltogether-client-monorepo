@@ -1,6 +1,6 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useUserVaultShareBalance } from '@pooltogether/hyperstructure-react-hooks'
-import { DepositButton, WithdrawButton } from '@pooltogether/react-components'
+import { DepositButton, WithdrawButton } from '@shared/react-components'
 import classNames from 'classnames'
 import { useAccount } from 'wagmi'
 

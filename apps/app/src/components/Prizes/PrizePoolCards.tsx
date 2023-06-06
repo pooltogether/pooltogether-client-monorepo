@@ -1,4 +1,4 @@
-import { PrizePoolCard } from '@pooltogether/react-components'
+import { PrizePoolCard } from '@shared/react-components'
 import classNames from 'classnames'
 import Link from 'next/link'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'

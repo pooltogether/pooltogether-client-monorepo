@@ -1,4 +1,4 @@
-const config = require("tailwind-config/tailwind.config.js");
+const config = require("../../shared/tailwind-config/tailwind.config.js");
 
 module.exports = {
   plugins: {
