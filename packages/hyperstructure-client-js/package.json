@@ -26,21 +26,18 @@
       "esm"
     ]
   },
-  "dependencies": {
+  "peerDependencies": {
+    "types": "workspace:*",
     "utilities": "workspace:*",
     "viem": "^0.3.30"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
     "types": "workspace:*",
-    "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
     "tsup": "^6.6.3",
-    "typescript": "^5.0.4"
-  },
-  "bundledDependencies": [
-    "utilities",
-    "types",
-    "tsconfig"
-  ]
+    "typescript": "^5.0.4",
+    "utilities": "workspace:*",
+    "viem": "^0.3.30"
+  }
 }
