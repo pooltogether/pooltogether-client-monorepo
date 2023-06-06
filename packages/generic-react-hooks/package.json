@@ -1,5 +1,5 @@
 {
-  "name": "generic-react-hooks",
+  "name": "@pooltogether/generic-react-hooks",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -22,35 +22,29 @@
       "src/index.ts"
     ],
     "format": [
-      "cjs",
       "esm"
     ]
   },
   "dependencies": {
-    "jotai": "^1.13.1",
-    "utilities": "workspace:*"
+    "@pooltogether/utilities": "workspace:*"
   },
   "devDependencies": {
+    "@pooltogether/types": "workspace:*",
     "@tanstack/react-query": "^4.24.10",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
-    "types": "workspace:*",
+    "jotai": "^1.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tsconfig": "workspace:*",
     "tsup": "^6.6.3",
     "typescript": "^5.0.4",
     "fathom-client": "^3.5.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": "^4.24.10",
+    "jotai": "^1.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "fathom-client": "^3.5.0"
-  },
-  "bundledDependencies": [
-    "utilities",
-    "types",
-    "tsconfig"
-  ]
+  }
 }

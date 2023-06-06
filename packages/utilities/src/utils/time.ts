@@ -1,4 +1,4 @@
-import { TimeUnit } from 'types'
+import { TimeUnit } from '@pooltogether/types'
 import {
   MINUTES_PER_DAY,
   SECONDS_PER_DAY,

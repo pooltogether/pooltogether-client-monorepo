@@ -6,10 +6,10 @@ import {
   useVaultSharePrice,
   useVaultTokenPrice
 } from '@pooltogether/hyperstructure-react-hooks'
+import { getAssetsFromShares, getSharesFromAssets } from '@pooltogether/utilities'
 import { atom, useSetAtom } from 'jotai'
 import { useEffect, useMemo } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { getAssetsFromShares, getSharesFromAssets } from 'utilities'
 import { formatUnits, parseUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import { isValidFormInput, TxFormInput, TxFormValues } from './TxFormInput'

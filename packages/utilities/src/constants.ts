@@ -1,5 +1,5 @@
+import { VaultList } from '@pooltogether/types'
 import { JSONSchemaType } from 'ajv'
-import { VaultList } from 'types'
 
 /**
  * Network IDs

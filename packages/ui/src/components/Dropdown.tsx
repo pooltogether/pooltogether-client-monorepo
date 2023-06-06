@@ -1,10 +1,10 @@
 import { ChevronDownIcon } from '@heroicons/react/24/outline'
+import { useScreenSize } from '@pooltogether/generic-react-hooks'
 import classNames from 'classnames'
 import {
   Dropdown as FlowbiteDropdown,
   DropdownProps as FlowbiteDropdownProps
 } from 'flowbite-react'
-import { useScreenSize } from 'generic-react-hooks'
 import { ReactNode, useState } from 'react'
 import { Modal } from './Modal'
 

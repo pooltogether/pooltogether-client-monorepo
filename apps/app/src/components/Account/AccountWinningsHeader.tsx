@@ -1,6 +1,6 @@
+import { CurrencyValue } from '@pooltogether/react-components'
+import { Spinner } from '@pooltogether/ui'
 import classNames from 'classnames'
-import { CurrencyValue } from 'react-components'
-import { Spinner } from 'ui'
 import { useAccount } from 'wagmi'
 import { useUserTotalWinnings } from '@hooks/useUserTotalWinnings'
 

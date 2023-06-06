@@ -1,5 +1,5 @@
-import { CURRENCY_ID, useCoingeckoTokenPrices } from 'generic-react-hooks'
-import { COINGECKO_PLATFORMS, TESTNET_TOKEN_PRICES } from 'utilities'
+import { CURRENCY_ID, useCoingeckoTokenPrices } from '@pooltogether/generic-react-hooks'
+import { COINGECKO_PLATFORMS, TESTNET_TOKEN_PRICES } from '@pooltogether/utilities'
 
 /**
  * Returns token prices

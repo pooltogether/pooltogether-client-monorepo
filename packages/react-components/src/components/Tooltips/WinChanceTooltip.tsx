@@ -1,6 +1,6 @@
 import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { Tooltip } from '@pooltogether/ui'
 import classNames from 'classnames'
-import { Tooltip } from 'ui'
 
 export interface WinChanceTooltipProps {
   iconSize?: 'sm' | 'md' | 'lg'

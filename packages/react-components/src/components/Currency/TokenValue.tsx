@@ -1,8 +1,8 @@
 import { TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
 import { useToken, useTokenPrices } from '@pooltogether/hyperstructure-react-hooks'
+import { Spinner } from '@pooltogether/ui'
+import { getTokenPriceFromObject } from '@pooltogether/utilities'
 import { useMemo } from 'react'
-import { Spinner } from 'ui'
-import { getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
 import { CurrencyValue, CurrencyValueProps } from './CurrencyValue'
 

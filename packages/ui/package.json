@@ -1,5 +1,5 @@
 {
-  "name": "ui",
+  "name": "@pooltogether/ui",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -18,26 +18,20 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
+    "@pooltogether/generic-react-hooks": "workspace:*",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.4.6",
     "framer-motion": "^10.12.16",
-    "generic-react-hooks": "workspace:*",
     "react": "^18.2.0",
     "react-countup": "^6.4.2",
     "sonner": "^0.4.0"
   },
   "devDependencies": {
+    "@pooltogether/tailwind-config": "workspace:*",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
-    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
-    "tsconfig": "workspace:*",
     "typescript": "^5.0.4"
-  },
-  "bundledDependencies": [
-    "generic-react-hooks",
-    "tailwind-config",
-    "tsconfig"
-  ]
+  }
 }

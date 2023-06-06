@@ -1,3 +1,4 @@
+import { getTokenPriceFromObject } from '@pooltogether/hyperstructure-client-js'
 import {
   NO_REFETCH,
   QUERY_KEYS,
@@ -6,7 +7,6 @@ import {
 } from '@pooltogether/hyperstructure-react-hooks'
 import { useQueries } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from './useSupportedPrizePools'

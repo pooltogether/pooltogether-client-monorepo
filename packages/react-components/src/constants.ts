@@ -1,4 +1,4 @@
-import { NETWORK } from 'utilities'
+import { NETWORK } from '@pooltogether/utilities'
 
 /**
  * Token Logo URLs

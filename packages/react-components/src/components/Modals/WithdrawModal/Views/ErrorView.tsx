@@ -1,4 +1,4 @@
-import { Button } from 'ui'
+import { Button } from '@pooltogether/ui'
 import { WithdrawModalView } from '..'
 import { ErrorPooly } from '../../../Graphics/ErrorPooly'
 

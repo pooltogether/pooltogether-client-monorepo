@@ -1,4 +1,4 @@
-import { TokenWithAmount, TokenWithSupply } from 'types'
+import { TokenWithAmount, TokenWithSupply } from '@pooltogether/types'
 import { PublicClient } from 'viem'
 import { erc20 as erc20Abi } from '../abis/erc20'
 import { getMulticallResults } from './multicall'

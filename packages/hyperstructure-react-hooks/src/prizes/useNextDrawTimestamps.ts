@@ -1,6 +1,6 @@
 import { PrizePool } from '@pooltogether/hyperstructure-client-js'
+import { sToMs } from '@pooltogether/utilities'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { sToMs } from 'utilities'
 import { useDrawPeriod } from '..'
 import { QUERY_KEYS } from '../constants'
 

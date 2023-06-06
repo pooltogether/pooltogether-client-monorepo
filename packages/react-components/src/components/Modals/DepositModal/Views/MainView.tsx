@@ -1,6 +1,6 @@
 import { PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
-import { Spinner } from 'ui'
-import { getNiceNetworkNameByChainId } from 'utilities'
+import { Spinner } from '@pooltogether/ui'
+import { getNiceNetworkNameByChainId } from '@pooltogether/utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { DepositForm } from '../../../Form/DepositForm'
 import { NetworkFees } from '../../NetworkFees'

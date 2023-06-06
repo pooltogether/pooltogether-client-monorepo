@@ -1,8 +1,8 @@
+import { useCountdown } from '@pooltogether/generic-react-hooks'
 import { PrizePool, TimeUnit } from '@pooltogether/hyperstructure-client-js'
 import { useNextDrawTimestamps } from '@pooltogether/hyperstructure-react-hooks'
+import { Spinner } from '@pooltogether/ui'
 import classNames from 'classnames'
-import { useCountdown } from 'generic-react-hooks'
-import { Spinner } from 'ui'
 import { TimeDigits } from './TimeDigits'
 
 export interface NextDrawCountdownProps {

@@ -1,4 +1,4 @@
-import { TokenWithAmount, TokenWithSupply, VaultInfo } from 'types'
+import { TokenWithAmount, TokenWithSupply, VaultInfo } from '@pooltogether/types'
 import {
   erc20 as erc20Abi,
   getTokenBalances,
@@ -11,7 +11,7 @@ import {
   getVaultUnderlyingTokenAddresses,
   validateAddress,
   validateClientNetwork
-} from 'utilities'
+} from '@pooltogether/utilities'
 import { getContract, PublicClient } from 'viem'
 import { Vault } from './Vault'
 

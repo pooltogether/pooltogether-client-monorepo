@@ -5,9 +5,9 @@ import {
   useSelectedVaultListIds,
   useVaultList
 } from '@pooltogether/hyperstructure-react-hooks'
+import { BasicIcon, ExternalLink, Toggle } from '@pooltogether/ui'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { BasicIcon, ExternalLink, Toggle } from 'ui'
 import { ImportedBadge } from '../../../Badges/ImportedBadge'
 
 interface VaultListViewProps {

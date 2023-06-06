@@ -1,5 +1,5 @@
+import { getGasPrices, sToMs } from '@pooltogether/utilities'
 import { useQuery } from '@tanstack/react-query'
-import { getGasPrices, sToMs } from 'utilities'
 import { QUERY_KEYS } from '../constants'
 
 /**

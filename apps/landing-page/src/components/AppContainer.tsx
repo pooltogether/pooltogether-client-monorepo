@@ -1,7 +1,7 @@
-import { useFathom } from 'generic-react-hooks'
+import { useFathom } from '@pooltogether/generic-react-hooks'
+import { Flowbite } from '@pooltogether/ui'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import { Flowbite } from 'ui'
 
 export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props

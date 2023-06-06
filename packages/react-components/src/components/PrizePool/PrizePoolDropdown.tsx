@@ -1,7 +1,7 @@
-import { useScreenSize } from 'generic-react-hooks'
+import { useScreenSize } from '@pooltogether/generic-react-hooks'
+import { Dropdown, DropdownItem } from '@pooltogether/ui'
+import { NETWORK } from '@pooltogether/utilities'
 import { useMemo } from 'react'
-import { Dropdown, DropdownItem } from 'ui'
-import { NETWORK } from 'utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 
 export interface PrizePoolDropdownProps {

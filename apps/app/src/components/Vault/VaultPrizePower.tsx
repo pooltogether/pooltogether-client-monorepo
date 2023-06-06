@@ -1,7 +1,6 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { formatNumberForDisplay, Vault } from '@pooltogether/hyperstructure-client-js'
 import { useVaultPrizePower } from '@pooltogether/hyperstructure-react-hooks'
-import { Spinner } from 'ui'
-import { formatNumberForDisplay } from 'utilities'
+import { Spinner } from '@pooltogether/ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface VaultPrizePowerProps {

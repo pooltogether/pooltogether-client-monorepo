@@ -1,4 +1,8 @@
-import { CoingeckoExchangeRates, CoingeckoTokenData, CoingeckoTokenPrices } from 'types'
+import {
+  CoingeckoExchangeRates,
+  CoingeckoTokenData,
+  CoingeckoTokenPrices
+} from '@pooltogether/types'
 import {
   COINGECKO_API_URL,
   COINGECKO_NATIVE_TOKEN_IDS,

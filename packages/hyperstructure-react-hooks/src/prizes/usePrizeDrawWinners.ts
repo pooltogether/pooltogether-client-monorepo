@@ -1,6 +1,6 @@
 import { PrizePool, SubgraphPrizePoolDraw } from '@pooltogether/hyperstructure-client-js'
+import { getPrizePoolHistoricalWins } from '@pooltogether/utilities'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { getPrizePoolHistoricalWins } from 'utilities'
 import { QUERY_KEYS } from '../constants'
 
 /**

@@ -1,6 +1,10 @@
+import { CoingeckoTokenData } from '@pooltogether/types'
+import {
+  COINGECKO_PLATFORM,
+  COINGECKO_PLATFORMS,
+  getCoingeckoTokenData
+} from '@pooltogether/utilities'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { CoingeckoTokenData } from 'types'
-import { COINGECKO_PLATFORM, COINGECKO_PLATFORMS, getCoingeckoTokenData } from 'utilities'
 import { QUERY_KEYS } from '../constants/keys'
 import { NO_REFETCH } from '../constants/query'
 

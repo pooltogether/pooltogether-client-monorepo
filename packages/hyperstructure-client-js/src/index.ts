@@ -8,9 +8,9 @@ export * from './Vaults'
 /**
  * Utilities
  */
-export * from 'utilities'
+export * from '@pooltogether/utilities'
 
 /**
  * Types
  */
-export * from 'types'
+export * from '@pooltogether/types'

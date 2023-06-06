@@ -1,4 +1,4 @@
-import { PoolTogetherApiGasPrices } from 'types'
+import { PoolTogetherApiGasPrices } from '@pooltogether/types'
 import { POOLTOGETHER_API_URL } from '../constants'
 
 /**

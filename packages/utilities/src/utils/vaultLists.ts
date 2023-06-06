@@ -1,5 +1,5 @@
+import { VaultList, Version } from '@pooltogether/types'
 import Ajv from 'ajv'
-import { VaultList, Version } from 'types'
 import { VAULT_LIST_SCHEMA } from '../constants'
 
 const ajv = new Ajv()

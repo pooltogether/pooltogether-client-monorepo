@@ -1,7 +1,11 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { Button, ExternalLink, Spinner } from '@pooltogether/ui'
+import {
+  formatNumberForDisplay,
+  getBlockExplorerName,
+  getBlockExplorerUrl
+} from '@pooltogether/utilities'
 import { useAtomValue } from 'jotai'
-import { Button, ExternalLink, Spinner } from 'ui'
-import { formatNumberForDisplay, getBlockExplorerName, getBlockExplorerUrl } from 'utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { depositFormTokenAmountAtom } from '../../../Form/DepositForm'
 

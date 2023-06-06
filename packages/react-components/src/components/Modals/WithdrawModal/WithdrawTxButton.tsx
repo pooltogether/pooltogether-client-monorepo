@@ -5,9 +5,9 @@ import {
   useUserVaultShareBalance,
   useVaultBalance
 } from '@pooltogether/hyperstructure-react-hooks'
+import { Button } from '@pooltogether/ui'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { Button } from 'ui'
 import { parseUnits } from 'viem'
 import { useAccount, useNetwork } from 'wagmi'
 import { WithdrawModalView } from '.'

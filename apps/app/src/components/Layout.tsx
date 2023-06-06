@@ -1,3 +1,5 @@
+import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@pooltogether/generic-react-hooks'
+import { isNewerVersion } from '@pooltogether/hyperstructure-client-js'
 import {
   useAllUserVaultBalances,
   useCachedVaultLists,
@@ -6,27 +8,25 @@ import {
   useSelectedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
 import {
+  DepositModal,
+  DrawModal,
+  SettingsModal,
+  SettingsModalView,
+  WithdrawModal
+} from '@pooltogether/react-components'
+import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from '@pooltogether/ui'
+import {
   ConnectButton,
   useAddRecentTransaction,
   useChainModal,
   useConnectModal
 } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
-import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'generic-react-hooks'
 import { useAtomValue } from 'jotai'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import {
-  DepositModal,
-  DrawModal,
-  SettingsModal,
-  SettingsModalView,
-  WithdrawModal
-} from 'react-components'
-import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'ui'
-import { isNewerVersion } from 'utilities'
 import { useAccount } from 'wagmi'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'

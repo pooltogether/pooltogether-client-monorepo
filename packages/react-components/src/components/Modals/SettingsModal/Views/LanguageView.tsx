@@ -1,6 +1,10 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
+import {
+  LANGUAGE_ID,
+  SUPPORTED_LANGUAGES,
+  useSelectedLanguage
+} from '@pooltogether/generic-react-hooks'
 import classNames from 'classnames'
-import { LANGUAGE_ID, SUPPORTED_LANGUAGES, useSelectedLanguage } from 'generic-react-hooks'
 import { SettingsModalView } from '..'
 
 interface LanguageViewProps {

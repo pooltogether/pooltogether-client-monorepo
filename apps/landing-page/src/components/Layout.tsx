@@ -1,9 +1,9 @@
+import { Footer, Navbar } from '@pooltogether/ui'
 import classNames from 'classnames'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import { Footer, Navbar } from 'ui'
 
 interface LayoutProps {
   children: ReactNode

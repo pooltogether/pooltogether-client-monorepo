@@ -7,10 +7,10 @@ import {
   useUserVaultTokenBalance,
   useVaultBalance
 } from '@pooltogether/hyperstructure-react-hooks'
+import { Button, Spinner } from '@pooltogether/ui'
+import { MAX_UINT_256 } from '@pooltogether/utilities'
 import { useAtomValue } from 'jotai'
 import { useEffect } from 'react'
-import { Button, Spinner } from 'ui'
-import { MAX_UINT_256 } from 'utilities'
 import { parseUnits } from 'viem'
 import { useAccount, useNetwork } from 'wagmi'
 import { DepositModalView } from '.'

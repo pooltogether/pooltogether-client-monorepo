@@ -1,7 +1,7 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
+import { useScreenSize } from '@pooltogether/generic-react-hooks'
 import classNames from 'classnames'
 import { AnimatePresence, AnimationProps, motion, useReducedMotion } from 'framer-motion'
-import { useScreenSize } from 'generic-react-hooks'
 import { ReactNode, useLayoutEffect, useState } from 'react'
 import ReactDOM from 'react-dom'
 

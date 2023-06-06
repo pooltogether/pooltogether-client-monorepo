@@ -1,13 +1,13 @@
 import { SparklesIcon } from '@heroicons/react/24/outline'
-import classNames from 'classnames'
 import {
   SUPPORTED_CURRENCIES,
   SUPPORTED_LANGUAGES,
   useSelectedCurrency,
   useSelectedLanguage
-} from 'generic-react-hooks'
+} from '@pooltogether/generic-react-hooks'
+import { BasicIcon, LINKS } from '@pooltogether/ui'
+import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { BasicIcon, LINKS } from 'ui'
 import { SettingsModalOption, SettingsModalView } from '..'
 import { ClipboardListIcon } from '../../../Icons/ClipboardListIcon'
 

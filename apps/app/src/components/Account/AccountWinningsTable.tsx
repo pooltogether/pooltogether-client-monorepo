@@ -1,8 +1,8 @@
 import { PrizePool, SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
+import { NetworkBadge } from '@pooltogether/react-components'
+import { Table, TableProps } from '@pooltogether/ui'
 import classNames from 'classnames'
 import { useRouter } from 'next/router'
-import { NetworkBadge } from 'react-components'
-import { Table, TableProps } from 'ui'
 import { AccountWinAmount } from './AccountWinAmount'
 import { AccountWinButtons } from './AccountWinButtons'
 

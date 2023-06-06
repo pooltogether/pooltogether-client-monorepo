@@ -1,5 +1,5 @@
+import { getTimeBreakdown, msToS, sToMs } from '@pooltogether/utilities'
 import { useEffect, useState } from 'react'
-import { getTimeBreakdown, msToS, sToMs } from 'utilities'
 
 /**
  * Returns days, hours, minutes and seconds until a given epoch timestamp

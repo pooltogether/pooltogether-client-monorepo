@@ -3,10 +3,10 @@ import {
   useAllUserVaultBalances,
   useSelectedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
+import { Button } from '@pooltogether/ui'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { Button } from 'ui'
 import { useAccount } from 'wagmi'
 import { PrizePoolCards } from '@components/Prizes/PrizePoolCards'
 import { AccountDepositsHeader } from './AccountDepositsHeader'

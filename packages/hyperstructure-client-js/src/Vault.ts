@@ -1,4 +1,4 @@
-import { TokenWithAmount, TokenWithSupply, TxOverrides } from 'types'
+import { TokenWithAmount, TokenWithSupply, TxOverrides } from '@pooltogether/types'
 import {
   erc20 as erc20Abi,
   erc4626 as erc4626Abi,
@@ -8,7 +8,7 @@ import {
   getVaultId,
   validateAddress,
   validateClientNetwork
-} from 'utilities'
+} from '@pooltogether/utilities'
 import { getContract, parseUnits, PublicClient, WalletClient } from 'viem'
 
 /**

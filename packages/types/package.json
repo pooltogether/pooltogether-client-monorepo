@@ -1,5 +1,5 @@
 {
-  "name": "types",
+  "name": "@pooltogether/types",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -15,11 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
-    "tsconfig": "workspace:*",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4"
-  },
-  "bundledDependencies": [
-    "tsconfig"
-  ]
+  }
 }

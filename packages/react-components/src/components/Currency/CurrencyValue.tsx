@@ -3,10 +3,10 @@ import {
   SUPPORTED_CURRENCIES,
   useCoingeckoExchangeRates,
   useSelectedCurrency
-} from 'generic-react-hooks'
+} from '@pooltogether/generic-react-hooks'
+import { CountUp, Spinner } from '@pooltogether/ui'
+import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from '@pooltogether/utilities'
 import { useMemo } from 'react'
-import { CountUp, Spinner } from 'ui'
-import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from 'utilities'
 
 export interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {
   baseValue: number | string

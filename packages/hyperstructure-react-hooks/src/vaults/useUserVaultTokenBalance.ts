@@ -1,5 +1,5 @@
 import { TokenWithAmount, Vault } from '@pooltogether/hyperstructure-client-js'
-import { getAssetsFromShares } from 'utilities'
+import { getAssetsFromShares } from '@pooltogether/utilities'
 import { useUserVaultShareBalance, useVaultExchangeRate, useVaultTokenData } from '..'
 
 /**

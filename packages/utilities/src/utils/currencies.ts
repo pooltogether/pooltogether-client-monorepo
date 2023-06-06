@@ -1,4 +1,4 @@
-import { CoingeckoExchangeRates } from 'types'
+import { CoingeckoExchangeRates } from '@pooltogether/types'
 import { formatCurrencyNumberForDisplay } from './formatting'
 
 /**

@@ -1,7 +1,7 @@
 import { PrizePool } from '@pooltogether/hyperstructure-client-js'
 import { useAllPrizeInfo, usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
-import { Card, Spinner } from 'ui'
-import { formatBigIntForDisplay } from 'utilities'
+import { Card, Spinner } from '@pooltogether/ui'
+import { formatBigIntForDisplay } from '@pooltogether/utilities'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 import { TokenValue } from '../Currency/TokenValue'
 

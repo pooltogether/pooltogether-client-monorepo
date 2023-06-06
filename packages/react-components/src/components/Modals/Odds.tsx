@@ -1,8 +1,8 @@
 import { PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
 import { usePrizeOdds, useVaultShareData } from '@pooltogether/hyperstructure-react-hooks'
+import { Spinner } from '@pooltogether/ui'
+import { formatNumberForDisplay } from '@pooltogether/utilities'
 import { useAtomValue } from 'jotai'
-import { Spinner } from 'ui'
-import { formatNumberForDisplay } from 'utilities'
 import { parseUnits } from 'viem'
 import { depositFormShareAmountAtom } from '../Form/DepositForm'
 

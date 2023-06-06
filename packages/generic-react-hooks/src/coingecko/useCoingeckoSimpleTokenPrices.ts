@@ -1,6 +1,6 @@
+import { CoingeckoTokenPrices } from '@pooltogether/types'
+import { getCoingeckoSimpleTokenPrices } from '@pooltogether/utilities'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { CoingeckoTokenPrices } from 'types'
-import { getCoingeckoSimpleTokenPrices } from 'utilities'
 import { CURRENCY_ID } from '../constants/currencies'
 import { QUERY_KEYS } from '../constants/keys'
 import { NO_REFETCH } from '../constants/query'

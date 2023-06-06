@@ -1,6 +1,6 @@
+import { BasicIcon } from '@pooltogether/ui'
+import { NETWORK } from '@pooltogether/utilities'
 import classNames from 'classnames'
-import { BasicIcon } from 'ui'
-import { NETWORK } from 'utilities'
 
 export interface NetworkIconProps {
   chainId: number

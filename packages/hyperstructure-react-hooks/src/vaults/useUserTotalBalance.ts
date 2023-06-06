@@ -1,5 +1,5 @@
+import { getAssetsFromShares, getTokenPriceFromObject } from '@pooltogether/utilities'
 import { useMemo } from 'react'
-import { getAssetsFromShares, getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import {

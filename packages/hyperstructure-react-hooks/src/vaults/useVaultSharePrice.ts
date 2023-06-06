@@ -1,6 +1,6 @@
+import { CURRENCY_ID } from '@pooltogether/generic-react-hooks'
 import { TokenWithPrice, Vault } from '@pooltogether/hyperstructure-client-js'
-import { CURRENCY_ID } from 'generic-react-hooks'
-import { getAssetsFromShares } from 'utilities'
+import { getAssetsFromShares } from '@pooltogether/utilities'
 import { formatEther, parseEther } from 'viem'
 import { useVaultExchangeRate, useVaultShareData, useVaultTokenPrice } from '..'
 

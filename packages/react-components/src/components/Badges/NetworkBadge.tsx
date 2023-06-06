@@ -1,5 +1,5 @@
+import { getNiceNetworkNameByChainId } from '@pooltogether/utilities'
 import classNames from 'classnames'
-import { getNiceNetworkNameByChainId } from 'utilities'
 import { NetworkIcon } from '../Icons/NetworkIcon'
 
 export interface NetworkBadgeProps {

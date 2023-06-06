@@ -89,4 +89,4 @@ export * from './constants'
 /**
  * Generic Hook Constants
  */
-export { NO_REFETCH } from 'generic-react-hooks'
+export { NO_REFETCH } from '@pooltogether/generic-react-hooks'

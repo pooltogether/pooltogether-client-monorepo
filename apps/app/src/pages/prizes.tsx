@@ -1,4 +1,4 @@
-import { ExternalLink } from 'ui'
+import { ExternalLink } from '@pooltogether/ui'
 import { Layout } from '@components/Layout'
 import { PrizePoolDisplay } from '@components/Prizes/PrizePoolDisplay'
 import { PrizePoolWinners } from '@components/Prizes/PrizePoolWinners'

@@ -1,4 +1,4 @@
-import { VaultInfo } from 'types'
+import { VaultInfo } from '@pooltogether/types'
 import { formatUnits, parseUnits, PublicClient } from 'viem'
 import { erc4626 as erc4626Abi } from '../abis/erc4626'
 import { formatStringWithPrecision } from './formatting'

@@ -1,8 +1,8 @@
+import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useSelectedVault } from '@pooltogether/hyperstructure-react-hooks'
+import { Button, ButtonProps } from '@pooltogether/ui'
 import classNames from 'classnames'
-import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
-import { Button, ButtonProps } from 'ui'
 
 interface WithdrawButtonProps extends Omit<ButtonProps, 'onClick'> {
   vault: Vault

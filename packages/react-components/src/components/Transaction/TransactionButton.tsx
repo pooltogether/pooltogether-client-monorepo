@@ -1,6 +1,6 @@
+import { Button, ButtonProps, Spinner } from '@pooltogether/ui'
+import { getNiceNetworkNameByChainId } from '@pooltogether/utilities'
 import { useEffect } from 'react'
-import { Button, ButtonProps, Spinner } from 'ui'
-import { getNiceNetworkNameByChainId } from 'utilities'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 
 export interface TransactionButtonProps extends Omit<ButtonProps, 'onClick'> {

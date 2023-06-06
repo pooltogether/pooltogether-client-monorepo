@@ -1,6 +1,6 @@
+import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@pooltogether/generic-react-hooks'
 import { PrizePool, SubgraphPrizePoolDraw } from '@pooltogether/hyperstructure-client-js'
-import { MODAL_KEYS, useIsModalOpen, useScreenSize } from 'generic-react-hooks'
-import { Button, Modal } from 'ui'
+import { Button, Modal } from '@pooltogether/ui'
 import { MainView } from './Views/MainView'
 
 export interface DrawModalProps {

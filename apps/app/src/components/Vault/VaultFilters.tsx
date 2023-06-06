@@ -1,16 +1,15 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
+import { NETWORK, STABLECOIN_ADDRESSES, Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useSelectedVaults,
   useTokenBalancesAcrossChains
 } from '@pooltogether/hyperstructure-react-hooks'
+import { NetworkIcon } from '@pooltogether/react-components'
+import { Selection, SelectionItem } from '@pooltogether/ui'
 import classNames from 'classnames'
-import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
 import { atom, useAtom, useSetAtom } from 'jotai'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo } from 'react'
-import { NetworkIcon } from 'react-components'
-import { Selection, SelectionItem } from 'ui'
-import { NETWORK, STABLECOIN_ADDRESSES } from 'utilities'
 import { useAccount } from 'wagmi'
 import { useNetworks } from '@hooks/useNetworks'
 

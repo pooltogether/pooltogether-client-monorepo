@@ -1,6 +1,9 @@
-import { SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
-import { Button, ExternalLink } from 'ui'
-import { getBlockExplorerName, getBlockExplorerUrl } from 'utilities'
+import {
+  getBlockExplorerName,
+  getBlockExplorerUrl,
+  SubgraphPrizePoolAccount
+} from '@pooltogether/hyperstructure-client-js'
+import { Button, ExternalLink } from '@pooltogether/ui'
 
 interface AccountWinButtonsProps {
   win: SubgraphPrizePoolAccount['prizesReceived'][0] & { chainId: number }

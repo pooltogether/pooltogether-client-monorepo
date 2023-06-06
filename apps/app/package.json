@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.16",
+    "@pooltogether/generic-react-hooks": "workspace:*",
     "@pooltogether/hyperstructure-client-js": "workspace:*",
     "@pooltogether/hyperstructure-react-hooks": "workspace:*",
+    "@pooltogether/react-components": "workspace:*",
+    "@pooltogether/ui": "workspace:*",
     "@rainbow-me/rainbowkit": "^1.0.0",
     "@sentry/nextjs": "^7.51.0",
     "@tanstack/react-query": "^4.24.10",
@@ -18,22 +21,18 @@
     "fathom-client": "^3.5.0",
     "jotai": "^1.13.1",
     "next": "13.3.0",
-    "react-components": "workspace:*",
-    "generic-react-hooks": "workspace:*",
-    "ui": "workspace:*",
-    "utilities": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "viem": "^0.3.30",
     "wagmi": "^1.0.5"
   },
   "devDependencies": {
+    "@pooltogether/tailwind-config": "workspace:*",
     "@types/node": "^17.0.45",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
-    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
     "typescript": "^5.0.4"
   }

@@ -1,4 +1,5 @@
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import {
   useSelectedVault,
@@ -7,10 +8,13 @@ import {
   useUserVaultTokenBalance,
   useVaultBalance
 } from '@pooltogether/hyperstructure-react-hooks'
-import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
+import { Spinner, toast } from '@pooltogether/ui'
+import {
+  getBlockExplorerName,
+  getBlockExplorerUrl,
+  getNiceNetworkNameByChainId
+} from '@pooltogether/utilities'
 import { ReactNode, useEffect } from 'react'
-import { Spinner, toast } from 'ui'
-import { getBlockExplorerName, getBlockExplorerUrl, getNiceNetworkNameByChainId } from 'utilities'
 import { useAccount, useWaitForTransaction } from 'wagmi'
 import { ErrorPooly } from '../Graphics/ErrorPooly'
 import { SuccessPooly } from '../Graphics/SuccessPooly'

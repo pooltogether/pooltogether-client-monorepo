@@ -1,8 +1,8 @@
+import { useFathom } from '@pooltogether/generic-react-hooks'
+import { Flowbite } from '@pooltogether/ui'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { useFathom } from 'generic-react-hooks'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
-import { Flowbite } from 'ui'
 import { useSentryUser } from '../hooks/useSentryUser'
 
 // React Query Client:

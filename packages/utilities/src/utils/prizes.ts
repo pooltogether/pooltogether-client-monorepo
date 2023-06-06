@@ -1,4 +1,4 @@
-import { PrizeInfo, SubgraphPrizePoolAccount, SubgraphPrizePoolDraw } from 'types'
+import { PrizeInfo, SubgraphPrizePoolAccount, SubgraphPrizePoolDraw } from '@pooltogether/types'
 import { formatUnits, getContract, PublicClient } from 'viem'
 import { prizePool as prizePoolAbi } from '../abis/prizePool'
 import { PRIZE_POOL_GRAPH_API_URLS, SECONDS_PER_DAY } from '../constants'

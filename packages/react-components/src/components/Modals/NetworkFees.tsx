@@ -1,6 +1,6 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useGasCostEstimates } from '@pooltogether/hyperstructure-react-hooks'
-import { Spinner } from 'ui'
+import { Spinner } from '@pooltogether/ui'
 import { TX_GAS_ESTIMATES } from '../../constants'
 import { CurrencyValue } from '../Currency/CurrencyValue'
 

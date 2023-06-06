@@ -1,6 +1,6 @@
+import { NO_REFETCH } from '@pooltogether/generic-react-hooks'
+import { getTokenAllowances } from '@pooltogether/utilities'
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { NO_REFETCH } from 'generic-react-hooks'
-import { getTokenAllowances } from 'utilities'
 import { isAddress } from 'viem'
 import { usePublicClient } from 'wagmi'
 import { populateCachePerId } from '..'

@@ -1,6 +1,10 @@
 import { CheckIcon } from '@heroicons/react/24/outline'
+import {
+  CURRENCY_ID,
+  SUPPORTED_CURRENCIES,
+  useSelectedCurrency
+} from '@pooltogether/generic-react-hooks'
 import classNames from 'classnames'
-import { CURRENCY_ID, SUPPORTED_CURRENCIES, useSelectedCurrency } from 'generic-react-hooks'
 import { SettingsModalView } from '..'
 
 interface CurrencyViewProps {
