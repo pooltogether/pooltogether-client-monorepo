@@ -4,8 +4,11 @@ import {
   useCoingeckoExchangeRates,
   useSelectedCurrency
 } from '@pooltogether/generic-react-hooks'
+import {
+  calculateCurrencyValue,
+  formatCurrencyNumberForDisplay
+} from '@pooltogether/hyperstructure-client-js'
 import { CountUp, Spinner } from '@pooltogether/ui'
-import { calculateCurrencyValue, formatCurrencyNumberForDisplay } from '@pooltogether/utilities'
 import { useMemo } from 'react'
 
 export interface CurrencyValueProps extends Omit<Intl.NumberFormatOptions, 'style' | 'currency'> {

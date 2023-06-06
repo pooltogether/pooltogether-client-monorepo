@@ -1,6 +1,5 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { getNiceNetworkNameByChainId, Vault } from '@pooltogether/hyperstructure-client-js'
 import { Spinner } from '@pooltogether/ui'
-import { getNiceNetworkNameByChainId } from '@pooltogether/utilities'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { WithdrawForm } from '../../../Form/WithdrawForm'
 import { NetworkFees } from '../../NetworkFees'

@@ -1,7 +1,6 @@
-import { TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
+import { formatBigIntForDisplay, TokenWithAmount } from '@pooltogether/hyperstructure-client-js'
 import { useToken } from '@pooltogether/hyperstructure-react-hooks'
 import { Spinner } from '@pooltogether/ui'
-import { formatBigIntForDisplay } from '@pooltogether/utilities'
 import classNames from 'classnames'
 import { TokenValue } from './TokenValue'
 

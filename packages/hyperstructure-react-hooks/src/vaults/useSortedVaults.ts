@@ -1,10 +1,11 @@
 import {
   CoingeckoTokenPrices,
+  getAssetsFromShares,
+  getTokenPriceFromObject,
   PrizePool,
   TokenWithAmount,
   Vault
 } from '@pooltogether/hyperstructure-client-js'
-import { getAssetsFromShares, getTokenPriceFromObject } from '@pooltogether/utilities'
 import { useMemo, useState } from 'react'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'

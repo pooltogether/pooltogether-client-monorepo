@@ -1,7 +1,7 @@
 import { MODAL_KEYS, useIsModalOpen } from '@pooltogether/generic-react-hooks'
+import { formatNumberForDisplay } from '@pooltogether/hyperstructure-client-js'
 import { useSelectedVault } from '@pooltogether/hyperstructure-react-hooks'
 import { Modal } from '@pooltogether/ui'
-import { formatNumberForDisplay } from '@pooltogether/utilities'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import { ReactNode, useState } from 'react'

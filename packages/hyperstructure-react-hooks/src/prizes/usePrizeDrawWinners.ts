@@ -1,5 +1,8 @@
-import { PrizePool, SubgraphPrizePoolDraw } from '@pooltogether/hyperstructure-client-js'
-import { getPrizePoolHistoricalWins } from '@pooltogether/utilities'
+import {
+  getPrizePoolHistoricalWins,
+  PrizePool,
+  SubgraphPrizePoolDraw
+} from '@pooltogether/hyperstructure-client-js'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { QUERY_KEYS } from '../constants'
 

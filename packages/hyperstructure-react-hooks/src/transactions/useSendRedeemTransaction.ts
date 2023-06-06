@@ -1,5 +1,4 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
-import { erc4626 as erc4626Abi } from '@pooltogether/utilities'
+import { erc4626 as erc4626Abi, Vault } from '@pooltogether/hyperstructure-client-js'
 import { useEffect } from 'react'
 import { isAddress, TransactionReceipt } from 'viem'
 import {

@@ -3,14 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "exports": {
-    ".": "./dist"
-  },
   "scripts": {
     "build": "tsup",
     "prepare": "pnpm build",
@@ -23,6 +20,9 @@
     ],
     "format": [
       "esm"
+    ],
+    "noExternal": [
+      "@pooltogether/utilities"
     ]
   },
   "dependencies": {

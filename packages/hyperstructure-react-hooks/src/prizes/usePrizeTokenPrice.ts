@@ -1,6 +1,9 @@
 import { CURRENCY_ID } from '@pooltogether/generic-react-hooks'
-import { PrizePool, TokenWithPrice } from '@pooltogether/hyperstructure-client-js'
-import { getTokenPriceFromObject } from '@pooltogether/utilities'
+import {
+  getTokenPriceFromObject,
+  PrizePool,
+  TokenWithPrice
+} from '@pooltogether/hyperstructure-client-js'
 import { usePrizeTokenData, useTokenPrices } from '..'
 
 /**
@@ -9,7 +12,10 @@ import { usePrizeTokenData, useTokenPrices } from '..'
  * @param currency optional currency (default is 'eth')
  * @returns
  */
-export const usePrizeTokenPrice = (prizePool: PrizePool, currency?: CURRENCY_ID) => {
+export const usePrizeTokenPrice = (
+  prizePool: PrizePool,
+  currency?: CURRENCY_ID
+): { data: TokenWithPrice | undefined; isFetched: boolean; refetch: () => void } => {
   const { data: prizeToken, isFetched: isFetchedPrizeToken } = usePrizeTokenData(prizePool)
 
   const {

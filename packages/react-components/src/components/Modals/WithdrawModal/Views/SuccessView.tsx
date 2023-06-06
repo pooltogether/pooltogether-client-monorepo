@@ -1,10 +1,10 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
-import { Button, ExternalLink } from '@pooltogether/ui'
 import {
   formatNumberForDisplay,
   getBlockExplorerName,
-  getBlockExplorerUrl
-} from '@pooltogether/utilities'
+  getBlockExplorerUrl,
+  Vault
+} from '@pooltogether/hyperstructure-client-js'
+import { Button, ExternalLink } from '@pooltogether/ui'
 import { useAtomValue } from 'jotai'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 import { withdrawFormTokenAmountAtom } from '../../../Form/WithdrawForm'

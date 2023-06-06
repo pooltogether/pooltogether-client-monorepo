@@ -3,7 +3,6 @@
   "include": ["."],
   "exclude": ["dist", "node_modules"],
   "compilerOptions": {
-    "module": "esnext",
     "lib": ["dom", "esnext"],
     "rootDir": "./src",
     "outDir": "dist"

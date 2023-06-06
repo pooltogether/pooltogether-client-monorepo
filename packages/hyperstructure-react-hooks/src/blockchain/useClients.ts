@@ -1,5 +1,5 @@
 import { useIsTestnets } from '@pooltogether/generic-react-hooks'
-import { NETWORK } from '@pooltogether/utilities'
+import { NETWORK } from '@pooltogether/hyperstructure-client-js'
 import { PublicClient } from 'viem'
 import { usePublicClient } from 'wagmi'
 

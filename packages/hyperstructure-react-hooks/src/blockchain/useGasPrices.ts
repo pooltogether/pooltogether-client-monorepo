@@ -1,5 +1,9 @@
-import { getGasPrices, sToMs } from '@pooltogether/utilities'
-import { useQuery } from '@tanstack/react-query'
+import {
+  getGasPrices,
+  PoolTogetherApiGasPrices,
+  sToMs
+} from '@pooltogether/hyperstructure-client-js'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { QUERY_KEYS } from '../constants'
 
 /**
@@ -8,7 +12,10 @@ import { QUERY_KEYS } from '../constants'
  * @param refetchInterval optional refetch interval in ms (default is 5000ms)
  * @returns
  */
-export const useGasPrices = (chainId: number, refetchInterval?: number) => {
+export const useGasPrices = (
+  chainId: number,
+  refetchInterval?: number
+): UseQueryResult<PoolTogetherApiGasPrices, unknown> => {
   const enabled = !!chainId
 
   return useQuery([QUERY_KEYS.gasPrices, chainId], async () => await getGasPrices(chainId), {

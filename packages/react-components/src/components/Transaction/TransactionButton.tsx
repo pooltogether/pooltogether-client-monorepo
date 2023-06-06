@@ -1,5 +1,5 @@
+import { getNiceNetworkNameByChainId } from '@pooltogether/hyperstructure-client-js'
 import { Button, ButtonProps, Spinner } from '@pooltogether/ui'
-import { getNiceNetworkNameByChainId } from '@pooltogether/utilities'
 import { useEffect } from 'react'
 import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
 

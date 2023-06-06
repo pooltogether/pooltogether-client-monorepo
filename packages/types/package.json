@@ -3,15 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "prepare": "pnpm build",
     "clean": "rm -rf dist"
+  },
+  "tsup": {
+    "dts": true,
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm"
+    ]
   },
   "devDependencies": {
     "@types/node": "^17.0.45",

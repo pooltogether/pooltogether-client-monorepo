@@ -1,4 +1,4 @@
-import { NETWORK } from '@pooltogether/utilities'
+import { NETWORK } from '@pooltogether/hyperstructure-client-js'
 
 /**
  * Token Logo URLs

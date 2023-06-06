@@ -2,8 +2,11 @@ import {
   useCoingeckoSimpleTokenPrices,
   useCoingeckoTokenPricesAcrossChains
 } from '@pooltogether/generic-react-hooks'
-import { CoingeckoTokenPrices } from '@pooltogether/hyperstructure-client-js'
-import { PRIZE_POOLS, TESTNET_TOKEN_PRICES } from '@pooltogether/utilities'
+import {
+  CoingeckoTokenPrices,
+  PRIZE_POOLS,
+  TESTNET_TOKEN_PRICES
+} from '@pooltogether/hyperstructure-client-js'
 import { useSelectedVaults } from '..'
 
 /**

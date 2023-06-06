@@ -3,14 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "exports": {
-    ".": "./dist"
-  },
   "scripts": {
     "build": "tsup",
     "prepare": "pnpm build",
@@ -23,6 +20,12 @@
     ],
     "format": [
       "esm"
+    ],
+    "noExternal": [
+      "@pooltogether/generic-react-hooks",
+      "@pooltogether/hyperstructure-client-js",
+      "@pooltogether/hyperstructure-react-hooks",
+      "@pooltogether/ui"
     ]
   },
   "dependencies": {
@@ -31,7 +34,6 @@
     "@pooltogether/hyperstructure-client-js": "workspace:*",
     "@pooltogether/hyperstructure-react-hooks": "workspace:*",
     "@pooltogether/ui": "workspace:*",
-    "@pooltogether/utilities": "workspace:*",
     "classnames": "^2.3.2",
     "flowbite": "^1.6.3",
     "react-hook-form": "^7.43.2"

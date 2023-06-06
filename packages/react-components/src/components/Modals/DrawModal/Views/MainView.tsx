@@ -1,12 +1,13 @@
-import { PrizePool, SubgraphPrizePoolDraw } from '@pooltogether/hyperstructure-client-js'
-import { usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
-import { ExternalLink, Spinner } from '@pooltogether/ui'
 import {
   formatBigIntForDisplay,
   getBlockExplorerUrl,
+  PrizePool,
   shorten,
-  sortByBigIntDesc
-} from '@pooltogether/utilities'
+  sortByBigIntDesc,
+  SubgraphPrizePoolDraw
+} from '@pooltogether/hyperstructure-client-js'
+import { usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
+import { ExternalLink, Spinner } from '@pooltogether/ui'
 import { NetworkBadge } from '../../../Badges/NetworkBadge'
 
 interface MainViewProps {

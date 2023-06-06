@@ -1,6 +1,6 @@
 import { useScreenSize } from '@pooltogether/generic-react-hooks'
+import { NETWORK } from '@pooltogether/hyperstructure-client-js'
 import { Dropdown, DropdownItem } from '@pooltogether/ui'
-import { NETWORK } from '@pooltogether/utilities'
 import { useMemo } from 'react'
 import { NetworkBadge } from '../Badges/NetworkBadge'
 

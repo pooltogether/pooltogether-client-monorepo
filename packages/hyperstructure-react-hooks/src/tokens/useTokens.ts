@@ -1,6 +1,5 @@
 import { NO_REFETCH } from '@pooltogether/generic-react-hooks'
-import { TokenWithSupply } from '@pooltogether/hyperstructure-client-js'
-import { getTokenInfo } from '@pooltogether/utilities'
+import { getTokenInfo, TokenWithSupply } from '@pooltogether/hyperstructure-client-js'
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { isAddress } from 'viem'
 import { usePublicClient } from 'wagmi'
