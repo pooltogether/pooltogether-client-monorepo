@@ -1,33 +1,38 @@
-// import ReactCountUp from 'react-countup'
+import classNames from 'classnames'
+import { animate, Easing, motion, useMotionValue, useTransform } from 'framer-motion'
+import { useEffect } from 'react'
+import { formatNumberForDisplay } from '../../utilities'
 
-export interface CountUpProps {
+export interface CountUpProps extends Intl.NumberFormatOptions {
   countTo: number
   countFrom?: number
-  decimals?: number
   duration?: number
-  delay?: number
-  preserveValue?: boolean
-  separator?: string
-  useEasing?: boolean
-  onEnd?: () => void
+  ease?: Easing
+  locale?: string
+  round?: boolean
+  hideZeroes?: boolean
   className?: string
 }
 
 export const CountUp = (props: CountUpProps) => {
-  const { countTo, countFrom, decimals, duration, preserveValue, separator, ...rest } = props
+  const { countTo, countFrom, duration, ease, className, ...rest } = props
 
-  return <>{countTo}</>
+  const count = useMotionValue(countFrom ?? 0)
+  const value = useTransform(count, (latest) => formatNumberForDisplay(latest, { ...rest }))
 
-  // TODO: disabled countup for now (build issues)
-  // return (
-  //   <ReactCountUp
-  //     start={countFrom}
-  //     end={countTo}
-  //     decimals={decimals ?? countTo > 10_000 ? 0 : 2}
-  //     duration={duration ?? 1.4}
-  //     preserveValue={preserveValue ?? true}
-  //     separator={separator ?? ','}
-  //     {...rest}
-  //   />
-  // )
+  const virtualFinalValue = formatNumberForDisplay(countTo, { ...rest })
+
+  useEffect(() => {
+    const controls = animate(count, countTo, { duration: duration ?? 1.4, ease: ease ?? 'easeOut' })
+    return controls.stop
+  }, [])
+
+  return (
+    <span className={classNames('relative inline-flex flex-col', className)}>
+      <span className='invisible h-0' aria-hidden={true}>
+        {virtualFinalValue}
+      </span>
+      <motion.span className='absolute'>{value}</motion.span>
+    </span>
+  )
 }

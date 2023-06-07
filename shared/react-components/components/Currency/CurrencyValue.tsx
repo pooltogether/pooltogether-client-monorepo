@@ -48,14 +48,19 @@ export const CurrencyValue = (props: CurrencyValueProps) => {
     }
   } else if (currencyValue > 0 && currencyValue < minValue) {
     return <>{`< ${formatCurrencyNumberForDisplay(minValue, selectedCurrency, { ...rest })}`}</>
-    // TODO: disabled countup for now (build issues)
-    // } else if (countUp) {
-    //   return (
-    //     <>
-    //       {!hideCountUpSymbol && SUPPORTED_CURRENCIES[selectedCurrency]?.symbol}
-    //       <CountUp countTo={currencyValue} decimals={decimals} />
-    //     </>
-    //   )
+  } else if (countUp) {
+    const fractionDigits = decimals ?? currencyValue > 10_000 ? 0 : 2
+    return (
+      <>
+        {!hideCountUpSymbol && SUPPORTED_CURRENCIES[selectedCurrency]?.symbol}
+        <CountUp
+          countTo={currencyValue}
+          minimumFractionDigits={fractionDigits}
+          maximumFractionDigits={fractionDigits}
+          {...rest}
+        />
+      </>
+    )
   } else {
     return <>{formatCurrencyNumberForDisplay(currencyValue, selectedCurrency, { ...rest })}</>
   }
