@@ -1,5 +1,8 @@
+import {
+  getAssetsFromShares,
+  getTokenPriceFromObject
+} from '@pooltogether/hyperstructure-client-js'
 import { useMemo } from 'react'
-import { getAssetsFromShares, getTokenPriceFromObject } from 'utilities'
 import { formatUnits } from 'viem'
 import { useAccount } from 'wagmi'
 import {

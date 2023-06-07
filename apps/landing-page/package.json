@@ -10,20 +10,22 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "fathom-client": "^3.5.0",
-    "generic-react-hooks": "workspace:*",
+    "flowbite": "1.6.5",
+    "flowbite-react": "0.4.7",
+    "framer-motion": "^10.12.16",
+    "jotai": "^1.13.1",
     "next": "13.3.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "ui": "workspace:*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
-    "tailwind-config": "workspace:*",
     "tailwindcss": "^3.3.1",
+    "tslib": "^2.5.0",
     "typescript": "^5.0.4"
   }
 }

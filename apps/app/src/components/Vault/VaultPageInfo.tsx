@@ -1,9 +1,8 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { getBlockExplorerUrl, shorten, Vault } from '@pooltogether/hyperstructure-client-js'
+import { PrizePowerTooltip, WinChanceTooltip } from '@shared/react-components'
+import { ExternalLink } from '@shared/ui'
 import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { PrizePowerTooltip, WinChanceTooltip } from 'react-components'
-import { ExternalLink } from 'ui'
-import { getBlockExplorerUrl, shorten } from 'utilities'
 import { useAccount } from 'wagmi'
 import { AccountVaultBalance } from '@components/Account/AccountVaultBalance'
 import { AccountVaultOdds } from '@components/Account/AccountVaultOdds'
@@ -102,7 +101,7 @@ const VaultInfoToken = (props: VaultInfoTokenProps) => {
       {token.symbol} |{' '}
       <ExternalLink
         href={getBlockExplorerUrl(token.chainId, token.address, 'token')}
-        text={shorten(token.address, { short: true })}
+        text={shorten(token.address, { short: true }) ?? ''}
         size='sm'
         className='text-pt-purple-200'
       />

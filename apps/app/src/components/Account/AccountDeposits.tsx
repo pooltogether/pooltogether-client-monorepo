@@ -4,9 +4,9 @@ import {
   useSelectedVaults
 } from '@pooltogether/hyperstructure-react-hooks'
 import { useConnectModal } from '@rainbow-me/rainbowkit'
+import { Button } from '@shared/ui'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { Button } from 'ui'
 import { useAccount } from 'wagmi'
 import { PrizePoolCards } from '@components/Prizes/PrizePoolCards'
 import { AccountDepositsHeader } from './AccountDepositsHeader'
@@ -27,7 +27,7 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const isEmpty =
@@ -60,6 +60,8 @@ export const AccountDeposits = (props: AccountDepositsProps) => {
       </div>
     )
   }
+
+  return <></>
 }
 
 interface NoWalletCardProps {

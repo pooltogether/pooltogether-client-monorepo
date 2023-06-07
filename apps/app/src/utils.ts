@@ -1,6 +1,14 @@
+import { NETWORK, parseQueryParam } from '@pooltogether/hyperstructure-client-js'
 import { connectorsForWallets, Wallet } from '@rainbow-me/rainbowkit'
-import { NETWORK, parseQueryParam } from 'utilities'
-import { Chain, Config, configureChains, Connector, createConfig } from 'wagmi'
+import { FallbackTransport, PublicClient } from 'viem'
+import {
+  Chain,
+  Config,
+  configureChains,
+  Connector,
+  createConfig,
+  WebSocketPublicClient
+} from 'wagmi'
 import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { publicProvider } from 'wagmi/providers/public'
 import { RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
@@ -10,13 +18,17 @@ import { RPC_URLS, WAGMI_CHAINS, WALLETS } from '@constants/config'
  * @param networks the networks to support throughout the app
  * @returns
  */
-export const createCustomWagmiConfig = (networks: NETWORK[]): Config => {
+export const createCustomWagmiConfig = (
+  networks: NETWORK[]
+): Config<PublicClient<FallbackTransport, Chain>, WebSocketPublicClient> => {
   const supportedNetworks = Object.values(WAGMI_CHAINS).filter(
     (chain) => networks.includes(chain.id) && !!RPC_URLS[chain.id]
   )
 
   const { chains, publicClient } = configureChains(supportedNetworks, [
-    jsonRpcProvider({ rpc: (chain) => ({ http: RPC_URLS[chain.id] }) }),
+    jsonRpcProvider({
+      rpc: (chain) => ({ http: RPC_URLS[chain.id as keyof typeof WAGMI_CHAINS] as string })
+    }),
     publicProvider()
   ])
 

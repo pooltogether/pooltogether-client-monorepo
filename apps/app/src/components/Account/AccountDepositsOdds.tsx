@@ -1,7 +1,7 @@
+import { formatNumberForDisplay } from '@pooltogether/hyperstructure-client-js'
 import { useAllUserPrizeOdds, useSelectedVaults } from '@pooltogether/hyperstructure-react-hooks'
+import { Spinner } from '@shared/ui'
 import classNames from 'classnames'
-import { Spinner } from 'ui'
-import { formatNumberForDisplay } from 'utilities'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
@@ -22,7 +22,7 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = useAllUserPrizeOdds(
     prizePoolsArray,
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   return (

@@ -37,34 +37,25 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 ---
 
-### External Packages
+### Packages
 
 - `hyperstructure-client-js`: Protocol-specific functions to easily interact with onchain Hyperstructure data, using [Viem](https://viem.sh/).
 - `hyperstructure-react-hooks`: Shared React hooks specific to Hyperstructure functionality, using [WAGMI](https://wagmi.sh/).
 
-**Repo Links:** [Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-client-js) | [Hyperstructure Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-react-hooks)
+**Repo Links:** [Hyperstructure Client JS](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-client-js) | [Hyperstructure React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/hyperstructure-react-hooks)
 
 ---
 
-### Internal Packages
+### Shared Library
 
+- `config`: Shared config for TypeScript, [Tailwind](https://tailwindcss.com/), etc.
 - `generic-react-hooks`: Shared React hooks.
 - `react-components`: React component library utilizing some simpler components from `ui`, using [WAGMI](https://wagmi.sh/).
 - `types`: Shared Typescript types.
-- `ui`: Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
+- `ui`: Stub React component library with [Tailwind](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
 - `utilities`: Shared Typescript utilities.
-- `tailwind-config`: Shared `tailwind` configs.
-- `tsconfig`: Shared `tsconfig.json` setups.
 
-**Repo Links:** [Generic Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/generic-react-hooks) | [Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/packages/tsconfig)
-
----
-
-### Package Notes
-
-All packages above are written in [TypeScript](https://www.typescriptlang.org/).
-
-When making changes to packages, running `pnpm i` will run the `prepare` scripts on each one, properly building them for use in the apps.
+**Repo Links:** [Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/config) |  [Generic React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/generic-react-hooks) | [React Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/utilities)
 
 ---
 

@@ -1,7 +1,7 @@
 import { PrizePool } from '@pooltogether/hyperstructure-client-js'
 import { usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
-import { TokenValueAndAmount } from 'react-components'
-import { Spinner } from 'ui'
+import { TokenValueAndAmount } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
 
 interface AccountWinAmountProps {
   prizePool: PrizePool

@@ -1,5 +1,9 @@
-import { CURRENCY_ID, useCoingeckoTokenPrices } from 'generic-react-hooks'
-import { COINGECKO_PLATFORMS, TESTNET_TOKEN_PRICES } from 'utilities'
+import {
+  COINGECKO_PLATFORMS,
+  CoingeckoTokenPrices,
+  TESTNET_TOKEN_PRICES
+} from '@pooltogether/hyperstructure-client-js'
+import { CURRENCY_ID, useCoingeckoTokenPrices } from '@shared/generic-react-hooks'
 
 /**
  * Returns token prices
@@ -12,7 +16,7 @@ export const useTokenPrices = (
   chainId: number,
   tokenAddresses: string[],
   currencies?: CURRENCY_ID[]
-) => {
+): { data: CoingeckoTokenPrices; isFetched: boolean; isFetching: boolean; refetch: () => void } => {
   const {
     data: coingeckoTokenPrices,
     isFetched: isFetchedCoingeckoTokenPrices,

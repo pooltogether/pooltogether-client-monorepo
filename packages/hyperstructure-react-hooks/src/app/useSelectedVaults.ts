@@ -1,6 +1,5 @@
-import { VaultInfo, VaultList, Vaults } from '@pooltogether/hyperstructure-client-js'
+import { getVaultId, VaultInfo, VaultList, Vaults } from '@pooltogether/hyperstructure-client-js'
 import { atom, useAtom } from 'jotai'
-import { getVaultId } from 'utilities'
 import {
   useAllVaultShareData,
   useAllVaultTokenAddresses,

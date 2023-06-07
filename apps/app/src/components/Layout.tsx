@@ -1,3 +1,4 @@
+import { isNewerVersion, PrizePool } from '@pooltogether/hyperstructure-client-js'
 import {
   useAllUserVaultBalances,
   useCachedVaultLists,
@@ -11,22 +12,21 @@ import {
   useChainModal,
   useConnectModal
 } from '@rainbow-me/rainbowkit'
-import classNames from 'classnames'
-import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from 'generic-react-hooks'
-import { useAtomValue } from 'jotai'
-import Head from 'next/head'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@shared/generic-react-hooks'
 import {
   DepositModal,
   DrawModal,
   SettingsModal,
   SettingsModalView,
   WithdrawModal
-} from 'react-components'
-import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from 'ui'
-import { isNewerVersion } from 'utilities'
+} from '@shared/react-components'
+import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from '@shared/ui'
+import classNames from 'classnames'
+import { useAtomValue } from 'jotai'
+import Head from 'next/head'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
 import { DEFAULT_VAULT_LISTS } from '@constants/config'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
@@ -57,24 +57,26 @@ export const Layout = (props: LayoutProps) => {
 
   const { vaults } = useSelectedVaults()
   const { address: userAddress } = useAccount()
-  const { refetch: refetchUserBalances } = useAllUserVaultBalances(vaults, userAddress)
+  const { refetch: refetchUserBalances } = useAllUserVaultBalances(
+    vaults,
+    userAddress as `0x${string}`
+  )
 
   const { selectedPrizePool } = useSelectedPrizePool()
-  const { data: draws } = usePrizeDrawWinners(selectedPrizePool)
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool as PrizePool)
 
   const selectedDrawId = useAtomValue(drawIdAtom)
   const selectedDraw = draws?.find((draw) => draw.id === selectedDrawId)
 
   useEffect(() => {
-    Object.keys(DEFAULT_VAULT_LISTS).forEach((key) => {
-      if (
-        !cachedVaultLists[key] ||
-        isNewerVersion(DEFAULT_VAULT_LISTS[key].version, cachedVaultLists[key].version)
-      ) {
-        cache(key, DEFAULT_VAULT_LISTS[key])
+    for (const key in DEFAULT_VAULT_LISTS) {
+      const defaultVaultList = DEFAULT_VAULT_LISTS[key as keyof typeof DEFAULT_VAULT_LISTS]
+      const cachedVaultList = cachedVaultLists[key]
+      if (!cachedVaultList || isNewerVersion(defaultVaultList.version, cachedVaultList.version)) {
+        cache(key, defaultVaultList)
         select(key, 'local')
       }
-    })
+    }
   }, [])
 
   // NOTE: This is necessary due to hydration errors otherwise.
@@ -127,6 +129,7 @@ export const Layout = (props: LayoutProps) => {
           { href: '/account', name: 'Account' }
         ]}
         activePage={router.pathname}
+        // @ts-ignore
         linksAs={Link}
         walletConnectionButton={
           <ConnectButton

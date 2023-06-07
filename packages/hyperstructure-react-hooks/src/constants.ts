@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from 'generic-react-hooks'
+import { LOCAL_STORAGE_KEYS as GENERIC_LOCAL_STORAGE_KEYS } from '@shared/generic-react-hooks'
 
 /**
  * Query keys for various hooks

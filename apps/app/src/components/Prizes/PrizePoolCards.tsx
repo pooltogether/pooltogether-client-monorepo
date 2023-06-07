@@ -1,6 +1,6 @@
+import { PrizePoolCard } from '@shared/react-components'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { PrizePoolCard } from 'react-components'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 export const PrizePoolCards = () => {

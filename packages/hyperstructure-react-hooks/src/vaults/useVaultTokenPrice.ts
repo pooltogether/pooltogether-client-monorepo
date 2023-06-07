@@ -1,6 +1,9 @@
-import { TokenWithPrice, Vault } from '@pooltogether/hyperstructure-client-js'
-import { CURRENCY_ID } from 'generic-react-hooks'
-import { getTokenPriceFromObject } from 'utilities'
+import {
+  getTokenPriceFromObject,
+  TokenWithPrice,
+  Vault
+} from '@pooltogether/hyperstructure-client-js'
+import { CURRENCY_ID } from '@shared/generic-react-hooks'
 import { useTokenPrices, useVaultTokenData } from '..'
 
 /**

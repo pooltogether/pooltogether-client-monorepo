@@ -1,6 +1,6 @@
-import { Vault } from '@pooltogether/hyperstructure-client-js'
-import { useQuery } from '@tanstack/react-query'
-import { NO_REFETCH } from 'generic-react-hooks'
+import { TokenWithAmount, Vault } from '@pooltogether/hyperstructure-client-js'
+import { NO_REFETCH } from '@shared/generic-react-hooks'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { QUERY_KEYS } from '../constants'
 
 /**
@@ -9,7 +9,10 @@ import { QUERY_KEYS } from '../constants'
  * @param refetchInterval optional automatic refetching interval in ms
  * @returns
  */
-export const useVaultBalance = (vault: Vault, refetchInterval?: number) => {
+export const useVaultBalance = (
+  vault: Vault,
+  refetchInterval?: number
+): UseQueryResult<TokenWithAmount, unknown> => {
   const queryKey = [QUERY_KEYS.vaultBalances, vault?.id]
 
   return useQuery(queryKey, async () => await vault.getTotalTokenBalance(), {

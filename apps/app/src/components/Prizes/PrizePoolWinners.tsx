@@ -1,10 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/24/outline'
 import { PrizePool, SubgraphPrizePoolDraw } from '@pooltogether/hyperstructure-client-js'
 import { usePrizeDrawWinners, usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
-import { MODAL_KEYS, useIsModalOpen } from 'generic-react-hooks'
+import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
+import { TokenValue } from '@shared/react-components'
 import { atom, useSetAtom } from 'jotai'
 import { useState } from 'react'
-import { TokenValue } from 'react-components'
 import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
 
 export const drawIdAtom = atom<string>('')
@@ -12,7 +12,7 @@ export const drawIdAtom = atom<string>('')
 export const PrizePoolWinners = () => {
   const { selectedPrizePool } = useSelectedPrizePool()
 
-  const { data: draws } = usePrizeDrawWinners(selectedPrizePool)
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool as PrizePool)
 
   const baseNumDraws = 6
   const [numDraws, setNumDraws] = useState<number>(baseNumDraws)
@@ -40,6 +40,8 @@ export const PrizePoolWinners = () => {
       </div>
     )
   }
+
+  return <></>
 }
 
 interface DrawRowProps {

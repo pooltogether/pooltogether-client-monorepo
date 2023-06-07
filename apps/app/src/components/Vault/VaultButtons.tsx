@@ -1,7 +1,7 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useUserVaultShareBalance } from '@pooltogether/hyperstructure-react-hooks'
+import { DepositButton, WithdrawButton } from '@shared/react-components'
 import classNames from 'classnames'
-import { DepositButton, WithdrawButton } from 'react-components'
 import { useAccount } from 'wagmi'
 
 interface VaultButtonsProps {
@@ -16,7 +16,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress)
+  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress as `0x${string}`)
 
   const shareBalance = vaultBalance?.amount ?? 0n
 

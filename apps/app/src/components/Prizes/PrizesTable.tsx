@@ -1,8 +1,11 @@
-import { PrizePool } from '@pooltogether/hyperstructure-client-js'
+import {
+  formatDailyCountToFrequency,
+  getPrizeTextFromFrequency,
+  PrizePool
+} from '@pooltogether/hyperstructure-client-js'
 import { useAllPrizeInfo, usePrizeTokenData } from '@pooltogether/hyperstructure-react-hooks'
-import { TokenValue } from 'react-components'
-import { Spinner } from 'ui'
-import { formatDailyCountToFrequency, getPrizeTextFromFrequency } from 'utilities'
+import { TokenValue } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
 
 interface PrizesTableProps {
   prizePool: PrizePool
@@ -20,7 +23,7 @@ export const PrizesTable = (props: PrizesTableProps) => {
         <span className='flex-grow pl-6 text-left md:pl-16'>Estimated Prize Value</span>
         <span className='flex-grow pr-6 text-right md:pr-16'>Estimated Frequency</span>
       </div>
-      {isFetchedAllPrizeInfo && isFetchedTokenData ? (
+      {isFetchedAllPrizeInfo && isFetchedTokenData && !!tokenData ? (
         <div className='flex flex-col w-full max-w-[36rem] gap-3'>
           {Object.values(allPrizeInfo)[0]
             .slice(0, -1)

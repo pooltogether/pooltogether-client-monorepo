@@ -1,4 +1,4 @@
-import { PrizeInfo, TokenWithSupply, TxOverrides } from 'types'
+import { PrizeInfo, TokenWithSupply, TxOverrides } from '@shared/types'
 import {
   checkPrizePoolWins,
   erc20 as erc20Abi,
@@ -10,7 +10,7 @@ import {
   prizePool as prizePoolAbi,
   validateAddress,
   validateClientNetwork
-} from 'utilities'
+} from '@shared/utilities'
 import { getContract, PublicClient, WalletClient } from 'viem'
 
 /**

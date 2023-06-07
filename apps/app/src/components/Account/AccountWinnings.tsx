@@ -1,8 +1,8 @@
 import { SubgraphPrizePoolAccount } from '@pooltogether/hyperstructure-client-js'
 import { useAllUserPrizePoolWins } from '@pooltogether/hyperstructure-react-hooks'
+import { ExternalLink, LINKS } from '@shared/ui'
 import classNames from 'classnames'
 import { useMemo } from 'react'
-import { ExternalLink, LINKS } from 'ui'
 import { useAccount } from 'wagmi'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 import { AccountWinCards } from './AccountWinCards'
@@ -23,7 +23,7 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
 
   const { data: wins, isFetched: isFetchedWins } = useAllUserPrizePoolWins(
     prizePoolsArray,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const flattenedWins = useMemo(() => {
@@ -68,6 +68,8 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
       </div>
     )
   }
+
+  return <></>
 }
 
 interface NoWinsCardProps {

@@ -1,7 +1,7 @@
 import { Vault } from '@pooltogether/hyperstructure-client-js'
 import { useUserVaultTokenBalance } from '@pooltogether/hyperstructure-react-hooks'
-import { TokenValueAndAmount } from 'react-components'
-import { Spinner } from 'ui'
+import { TokenValueAndAmount } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
 import { useAccount } from 'wagmi'
 
 interface AccountVaultBalanceProps {
@@ -14,7 +14,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
 
   if (!userAddress) {
     return <>-</>
