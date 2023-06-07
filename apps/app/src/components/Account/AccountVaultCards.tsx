@@ -20,7 +20,7 @@ export const AccountVaultCards = (props: AccountVaultsCardsProps) => {
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const { sortedVaults, isFetched } = useSortedVaults(Object.values(vaults.vaults), {
@@ -40,4 +40,6 @@ export const AccountVaultCards = (props: AccountVaultsCardsProps) => {
       </div>
     )
   }
+
+  return <></>
 }

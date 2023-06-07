@@ -101,7 +101,7 @@ const VaultInfoToken = (props: VaultInfoTokenProps) => {
       {token.symbol} |{' '}
       <ExternalLink
         href={getBlockExplorerUrl(token.chainId, token.address, 'token')}
-        text={shorten(token.address, { short: true })}
+        text={shorten(token.address, { short: true }) ?? ''}
         size='sm'
         className='text-pt-purple-200'
       />

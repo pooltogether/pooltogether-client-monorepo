@@ -19,7 +19,7 @@ export const VaultCard = (props: VaultCardProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
 
   return (
     <div className='flex flex-col gap-4 bg-pt-transparent rounded-lg px-3 pt-3 pb-6'>
@@ -27,7 +27,7 @@ export const VaultCard = (props: VaultCardProps) => {
         <VaultBadge vault={vault} onClick={() => router.push(`/vault/${vault.id}`)} />
       </span>
       <div className='w-full flex flex-col gap-1 px-3'>
-        {tokenBalance?.amount > 0n && (
+        {!!tokenBalance && tokenBalance.amount > 0n && (
           <div className='flex items-center justify-between'>
             <span className='text-xs text-pt-purple-200'>My Balance</span>
             <AccountVaultBalance vault={vault} className='!flex-row gap-1' />

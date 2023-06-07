@@ -23,7 +23,7 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
 
   const { data: wins, isFetched: isFetchedWins } = useAllUserPrizePoolWins(
     prizePoolsArray,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const flattenedWins = useMemo(() => {
@@ -68,6 +68,8 @@ export const AccountWinnings = (props: AccountWinningsProps) => {
       </div>
     )
   }
+
+  return <></>
 }
 
 interface NoWinsCardProps {

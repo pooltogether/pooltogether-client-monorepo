@@ -16,7 +16,7 @@ export const VaultButtons = (props: VaultButtonsProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress)
+  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress as `0x${string}`)
 
   const shareBalance = vaultBalance?.amount ?? 0n
 

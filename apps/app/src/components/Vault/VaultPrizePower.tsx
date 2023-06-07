@@ -1,4 +1,4 @@
-import { formatNumberForDisplay, Vault } from '@pooltogether/hyperstructure-client-js'
+import { formatNumberForDisplay, PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
 import { useVaultPrizePower } from '@pooltogether/hyperstructure-react-hooks'
 import { Spinner } from '@shared/ui'
 import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
@@ -15,7 +15,10 @@ export const VaultPrizePower = (props: VaultPrizePowerProps) => {
   const prizePool =
     !!vault && Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
 
-  const { data: prizePower, isFetched: isFetchedPrizePower } = useVaultPrizePower(vault, prizePool)
+  const { data: prizePower, isFetched: isFetchedPrizePower } = useVaultPrizePower(
+    vault,
+    prizePool as PrizePool
+  )
 
   if (!isFetchedPrizePower) {
     return <Spinner />
@@ -23,7 +26,7 @@ export const VaultPrizePower = (props: VaultPrizePowerProps) => {
 
   return (
     <>
-      {formatNumberForDisplay(prizePower * 100, {
+      {formatNumberForDisplay((prizePower ?? 0) * 100, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
       })}

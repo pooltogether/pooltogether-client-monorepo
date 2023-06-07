@@ -25,7 +25,7 @@ export const useUserTotalWinnings = () => {
     data: wins,
     isFetched: isFetchedWins,
     refetch: refetchWins
-  } = useAllUserPrizePoolWins(prizePoolsArray, userAddress)
+  } = useAllUserPrizePoolWins(prizePoolsArray, userAddress as `0x${string}`)
 
   const { data: tokenPrices, isFetched: isFetchedTokenPrices } = useAllTokenPrices()
 

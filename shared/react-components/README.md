@@ -11,7 +11,6 @@
 ![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
 ![viem](https://img.shields.io/static/v1?label&logo=v&logoColor=white&message=viem&color=gray)
 ![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
-![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Freact-components%2Fpackage.json&color=brightgreen)
 
 # 🏆 &nbsp; Overview
 

@@ -11,7 +11,6 @@
 ![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
 ![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
 ![tailwind](https://img.shields.io/static/v1?label&logo=tailwindcss&logoColor=white&message=tailwind&color=38B2AC)
-![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fui%2Fpackage.json&color=brightgreen)
 
 [Client Monorepo](https://github.com/pooltogether/pooltogether-client-monorepo) | [Documentation](https://dev.pooltogether.com/) | [Prize Pool Contract](https://github.com/pooltogether/v5-prize-pool) | [Vault Contract](https://github.com/pooltogether/v5-vault)
 

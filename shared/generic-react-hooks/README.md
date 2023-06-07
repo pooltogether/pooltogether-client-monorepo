@@ -10,7 +10,6 @@
 
 ![ts](https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)
 ![react](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)
-![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=packages%2Fgeneric-react-hooks%2Fpackage.json&color=brightgreen)
 
 # 🏆 &nbsp; Overview
 

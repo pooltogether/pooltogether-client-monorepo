@@ -1,4 +1,4 @@
-import { formatNumberForDisplay, Vault } from '@pooltogether/hyperstructure-client-js'
+import { formatNumberForDisplay, PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
 import { usePrizeOdds, useUserVaultShareBalance } from '@pooltogether/hyperstructure-react-hooks'
 import { Spinner } from '@shared/ui'
 import { useAccount } from 'wagmi'
@@ -15,7 +15,7 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
 
   const { data: shareBalance, isFetched: isFetchedShareBalance } = useUserVaultShareBalance(
     vault,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const prizePools = useSupportedPrizePools()
@@ -24,7 +24,7 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
   )
 
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = usePrizeOdds(
-    prizePool,
+    prizePool as PrizePool,
     vault,
     shareBalance?.amount ?? 0n
   )
@@ -37,5 +37,12 @@ export const AccountVaultOdds = (props: AccountVaultOddsProps) => {
     return <Spinner />
   }
 
-  return <>1 in {formatNumberForDisplay(prizeOdds.oneInX, { maximumSignificantDigits: 3 })}</>
+  return (
+    <>
+      1 in{' '}
+      {formatNumberForDisplay(prizeOdds?.oneInX ?? Number.MAX_SAFE_INTEGER, {
+        maximumSignificantDigits: 3
+      })}
+    </>
+  )
 }

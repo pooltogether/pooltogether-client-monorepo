@@ -1,5 +1,5 @@
 {
-  "extends": "../../shared/tsconfig/base.json",
+  "extends": "../../shared/config/base.tsconfig.json",
   "include": ["."],
   "exclude": ["dist", "test", "node_modules"],
   "compilerOptions": {

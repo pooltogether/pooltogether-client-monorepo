@@ -48,15 +48,14 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 
 ### Shared Library
 
+- `config`: Shared config for TypeScript, [Tailwind](https://tailwindcss.com/), etc.
 - `generic-react-hooks`: Shared React hooks.
 - `react-components`: React component library utilizing some simpler components from `ui`, using [WAGMI](https://wagmi.sh/).
 - `types`: Shared Typescript types.
-- `ui`: Stub React component library with [Tailwind CSS](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
+- `ui`: Stub React component library with [Tailwind](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
 - `utilities`: Shared Typescript utilities.
-- `tailwind-config`: Shared `tailwind` configs.
-- `tsconfig`: Shared `tsconfig.json` setups.
 
-**Repo Links:** [Generic React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/generic-react-hooks) | [React Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/utilities) | [Tailwind Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/tailwind-config) | [TS Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/tsconfig)
+**Repo Links:** [Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/config) |  [Generic React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/generic-react-hooks) | [React Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/utilities)
 
 ---
 

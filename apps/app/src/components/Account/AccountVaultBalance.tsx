@@ -14,7 +14,7 @@ export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
 
   const { address: userAddress } = useAccount()
 
-  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
 
   if (!userAddress) {
     return <>-</>

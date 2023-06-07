@@ -12,7 +12,7 @@ export const drawIdAtom = atom<string>('')
 export const PrizePoolWinners = () => {
   const { selectedPrizePool } = useSelectedPrizePool()
 
-  const { data: draws } = usePrizeDrawWinners(selectedPrizePool)
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool as PrizePool)
 
   const baseNumDraws = 6
   const [numDraws, setNumDraws] = useState<number>(baseNumDraws)
@@ -40,6 +40,8 @@ export const PrizePoolWinners = () => {
       </div>
     )
   }
+
+  return <></>
 }
 
 interface DrawRowProps {

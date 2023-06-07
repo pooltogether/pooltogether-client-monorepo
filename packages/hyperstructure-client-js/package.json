@@ -27,12 +27,14 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.45",
+    "fathom-client": "^3.5.0",
     "tslib": "^2.5.0",
     "tsup": "^6.6.3",
     "typescript": "^5.0.4",
     "viem": "^0.3.30"
   },
   "peerDependencies": {
+    "fathom-client": "^3.5.0",
     "viem": "^0.3.30"
   }
 }

@@ -44,7 +44,9 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
             winnings: {
               content: (
                 <AccountWinAmount
-                  prizePool={prizePools.find((prizePool) => prizePool.chainId === win.chainId)}
+                  prizePool={
+                    prizePools.find((prizePool) => prizePool.chainId === win.chainId) as PrizePool
+                  }
                   amount={BigInt(win.payout)}
                   amountClassName='text-sm'
                 />
@@ -54,9 +56,11 @@ export const AccountWinningsTable = (props: AccountWinningsTableProps) => {
             info: { content: <AccountWinButtons win={win} />, position: 'center' }
           }
           return { id: win.id, cells }
+        } else {
+          return { id: win.id, cells: {} }
         }
       })
-      .filter((row) => !!row)
+      .filter((row) => Object.keys(row.cells).length > 0)
   }
 
   return (

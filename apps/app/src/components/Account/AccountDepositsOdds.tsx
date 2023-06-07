@@ -22,7 +22,7 @@ export const AccountDepositsOdds = (props: AccountDepositsOddsProps) => {
   const { data: prizeOdds, isFetched: isFetchedPrizeOdds } = useAllUserPrizeOdds(
     prizePoolsArray,
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   return (

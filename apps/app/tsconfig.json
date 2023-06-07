@@ -1,7 +1,8 @@
 {
-  "extends": "../../shared/tsconfig/nextjs.json",
+  "extends": "../../shared/config/nextjs.tsconfig.json",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "compilerOptions": {
+    "baseUrl": ".",
     "paths": {
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
@@ -12,7 +13,9 @@
       "@pooltogether/hyperstructure-react-hooks": ["../../packages/hyperstructure-react-hooks"],
       "@shared/generic-react-hooks": ["../../shared/generic-react-hooks"],
       "@shared/react-components": ["../../shared/react-components"],
-      "@shared/ui": ["../../shared/ui"]
+      "@shared/types": ["../../shared/types"],
+      "@shared/ui": ["../../shared/ui"],
+      "@shared/utilities": ["../../shared/utilities"]
     }
   }
 }

@@ -25,7 +25,7 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
 
   const { data: vaultBalances, isFetched: isFetchedVaultBalances } = useAllUserVaultBalances(
     vaults,
-    userAddress
+    userAddress as `0x${string}`
   )
 
   const { sortedVaults, isFetched } = useSortedVaults(Object.values(vaults.vaults), {
@@ -62,9 +62,11 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
                   manage: { content: <AccountVaultButtons vault={vault} />, position: 'right' }
                 }
                 return { id: vault.id, cells }
+              } else {
+                return { id: vault.id, cells: {} }
               }
             })
-            .filter((row) => !!row)
+            .filter((row) => Object.keys(row.cells).length > 0)
         : []
     }
 
@@ -77,6 +79,8 @@ export const AccountDepositsTable = (props: AccountDepositsTableProps) => {
       />
     )
   }
+
+  return <></>
 }
 
 const ManageHeader = () => {

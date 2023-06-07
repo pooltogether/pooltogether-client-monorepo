@@ -34,7 +34,11 @@ export const VaultFilters = (props: VaultFiltersProps) => {
   const { address: userAddress } = useAccount()
 
   const { data: userTokenBalances, isFetched: isFetchedUserTokenBalances } =
-    useTokenBalancesAcrossChains(networks, userAddress, vaults.underlyingTokenAddresses?.byChain)
+    useTokenBalancesAcrossChains(
+      networks,
+      userAddress as `0x${string}`,
+      vaults.underlyingTokenAddresses?.byChain ?? {}
+    )
 
   const [filterId, setFilterId] = useAtom(filterIdAtom)
 
@@ -56,7 +60,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
     filter: (vaults: Vault[]) => Vault[] | undefined
   ) => {
     setFilterId(id)
-    const filteredVaultsArray = filter(vaults.filter((vault) => !!vault.tokenAddress))
+    const filteredVaultsArray = filter(vaults.filter((vault) => !!vault.tokenAddress)) ?? []
     const filteredVaultsByChain = formatVaultsByChain(networks, filteredVaultsArray)
     setFilteredVaults(filteredVaultsByChain)
   }
@@ -76,8 +80,9 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         onClick: () =>
           filterOnClick('userWallet', vaultsArray, (vaults) =>
             vaults.filter((vault) => {
-              const userWalletBalance =
-                userTokenBalances?.[vault.chainId]?.[vault.tokenAddress]?.amount ?? 0n
+              const userWalletBalance = !!vault.tokenAddress
+                ? userTokenBalances?.[vault.chainId]?.[vault.tokenAddress]?.amount ?? 0n
+                : 0n
               return userWalletBalance > 0n
             })
           ),
@@ -89,7 +94,9 @@ export const VaultFilters = (props: VaultFiltersProps) => {
         onClick: () =>
           filterOnClick('stablecoin', vaultsArray, (vaults) =>
             vaults.filter((vault) =>
-              STABLECOIN_ADDRESSES[vault.chainId].includes(vault.tokenAddress.toLowerCase())
+              STABLECOIN_ADDRESSES[vault.chainId as NETWORK].includes(
+                vault.tokenAddress?.toLowerCase() ?? '?'
+              )
             )
           )
       },
@@ -109,7 +116,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
 
   useEffect(() => {
     const filterItem = filterItems.find((item) => item.id === filterId)
-    !!filterItem && filterItem.onClick()
+    !!filterItem && filterItem.onClick?.()
   }, [filterItems, filterId, vaultsArray])
 
   if (router.isReady) {
@@ -136,6 +143,8 @@ export const VaultFilters = (props: VaultFiltersProps) => {
       </div>
     )
   }
+
+  return <></>
 }
 
 const formatVaultsByChain = (

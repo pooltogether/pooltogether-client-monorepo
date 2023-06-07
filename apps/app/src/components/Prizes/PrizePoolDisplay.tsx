@@ -32,17 +32,19 @@ export const PrizePoolDisplay = () => {
     const rawUrlNetwork = router.query['network']
     const chainId =
       !!rawUrlNetwork && typeof rawUrlNetwork === 'string' ? parseInt(rawUrlNetwork) : undefined
-    handleNetworkChange(chainId)
+    if (!!chainId) {
+      handleNetworkChange(chainId)
+    }
   }, [router])
 
   return (
     <>
       <PrizePoolDropdown
         networks={networks}
-        selectedNetwork={selectedPrizePool.chainId}
+        selectedNetwork={selectedPrizePool?.chainId as NETWORK}
         onSelect={handleNetworkChange}
       />
-      <Link href={`/vaults?network=${selectedPrizePool.chainId}`} passHref={true}>
+      <Link href={`/vaults?network=${selectedPrizePool?.chainId}`} passHref={true}>
         <Button>Deposit to Win</Button>
       </Link>
       {!!selectedPrizePool && <PrizesTable prizePool={selectedPrizePool} />}
