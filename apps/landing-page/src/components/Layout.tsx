@@ -1,4 +1,4 @@
-import { Footer, Navbar } from '@pooltogether/ui'
+import { Footer, Navbar } from '@shared/ui'
 import classNames from 'classnames'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -33,6 +33,7 @@ export const Layout = (props: LayoutProps) => {
           { href: '/builders', name: 'Builders' }
         ]}
         activePage={router.pathname}
+        // @ts-ignore
         linksAs={Link}
       />
 

@@ -6,7 +6,8 @@ module.exports = {
   content: [
     'src/**/*.{js,ts,jsx,tsx}',
     '../../shared/react-components/**/*.{js,ts,jsx,tsx}',
-    '../../shared/ui/**/*.{js,ts,jsx,tsx}'
+    '../../shared/ui/**/*.{js,ts,jsx,tsx}',
+    '../../node_modules/flowbite-react/lib/esm/**/*.{js,ts,jsx,tsx}'
   ],
   darkMode: 'class',
   theme: {

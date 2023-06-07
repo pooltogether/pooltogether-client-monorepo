@@ -1,5 +1,5 @@
-import { useFathom } from '@pooltogether/generic-react-hooks'
-import { Flowbite } from '@pooltogether/ui'
+import { useFathom } from '@shared/generic-react-hooks'
+import { Flowbite } from '@shared/ui'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
 
@@ -10,8 +10,9 @@ export const AppContainer = (props: AppProps) => {
 
   // Fathom Analytics
   useFathom(
-    process.env.NEXT_PUBLIC_FATHOM_SITE_ID,
+    process.env.NEXT_PUBLIC_FATHOM_SITE_ID as string,
     ['mvp-pt-app.netlify.app/'],
+    // @ts-ignore
     router.events?.on,
     router.events?.off
   )
