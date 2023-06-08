@@ -108,12 +108,13 @@ export const Layout = (props: LayoutProps) => {
             <span className='px-10 text-base'>Use PoolTogether</span>
           </Button>
         }
+        className='py-8'
         linkClassName='text-pt-purple-100 hover:text-pt-purple-300'
       />
 
       <main
         className={classNames(
-          'w-full max-w-screen-xl relative flex flex-col flex-grow items-center mx-auto px-4 py-8 mb-40 md:px-8',
+          'w-full relative flex flex-col flex-grow items-center mb-10',
           className
         )}
       >
