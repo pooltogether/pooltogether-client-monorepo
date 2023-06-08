@@ -39,7 +39,9 @@ export class Vaults {
     public allVaultInfo: VaultInfo[],
     public publicClients: { [chainId: number]: PublicClient }
   ) {
-    this.chainIds = Object.keys(publicClients).map((key) => parseInt(key))
+    this.chainIds = Object.keys(publicClients)
+      .map((key) => parseInt(key))
+      .filter((chainId) => getVaultsByChainId(chainId, allVaultInfo).length > 0)
     this.vaultAddresses = getVaultAddresses(allVaultInfo)
 
     this.chainIds.forEach((chainId) => {

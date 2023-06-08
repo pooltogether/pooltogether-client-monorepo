@@ -31,8 +31,7 @@ export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
   [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
-  [NETWORK.sepolia]: '0x7cB28bB4cDbBA6F509D5b9022108138D662042Bf',
-  [NETWORK.mumbai]: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7'
+  [NETWORK.sepolia]: '0x21925199568C8bd5623622FF31d719749f920A8D'
 })
 
 /**
@@ -64,18 +63,9 @@ export const PRIZE_POOLS: {
 }[] = [
   {
     chainId: NETWORK.sepolia,
-    address: '0xa77D6014e77F294C3297a18363f9951b3d57Eb95',
+    address: '0xC5a77bcb8cD13c5619153d46fB7379c9158a8884',
     options: {
-      prizeTokenAddress: '0x7cB28bB4cDbBA6F509D5b9022108138D662042Bf',
-      drawPeriodInSeconds: 43_200,
-      tierShares: 100
-    }
-  },
-  {
-    chainId: NETWORK.mumbai,
-    address: '0xA32C8f94191c9295634f0034eb2b0e2749e77974',
-    options: {
-      prizeTokenAddress: '0xC138A7C89C357d8FA5A9b7CE775e612b766153e7',
+      prizeTokenAddress: '0x21925199568C8bd5623622FF31d719749f920A8D',
       drawPeriodInSeconds: 43_200,
       tierShares: 100
     }
@@ -86,9 +76,7 @@ export const PRIZE_POOLS: {
  * Prize Pool Graph API URLs
  */
 export const PRIZE_POOL_GRAPH_API_URLS = Object.freeze({
-  [NETWORK.sepolia]: 'https://api.studio.thegraph.com/query/41211/v5-prize-pool-eth-sepolia/v0.0.1',
-  [NETWORK.mumbai]:
-    'https://api.thegraph.com/subgraphs/name/pooltogether/v5-polygon-mumbai-prize-pool'
+  [NETWORK.sepolia]: 'https://api.studio.thegraph.com/query/41211/v5-prize-pool-eth-sepolia/v0.0.2'
 })
 
 /**
@@ -168,19 +156,15 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
   ],
   [NETWORK.goerli]: [],
   [NETWORK.sepolia]: [
-    '0x501b79e61843b3432e5b48d59cb7e6a93185e50c', // DAI
-    '0x1977822061d8a394726803e2c2f6524a4e3e7aff', // USDC
-    '0xa577c58435e0334b5039f5e71ccb4a45641c3495' // GUSD
+    '0x4a798649f6aa23d6a3a1cab65fc0a8fa772e0a40', // DAI
+    '0x7a8f1413b44f7346eab36c4793bd54148ca916a5', // USDC
+    '0x6eba7decd74d8327fa83b7edc6cb1deaddfd8efa' // GUSD
   ],
   [NETWORK.bsc]: [],
   [NETWORK['bsc-testnet']]: [],
   [NETWORK.xdai]: [],
   [NETWORK.polygon]: [],
-  [NETWORK.mumbai]: [
-    '0x2990cf846ec4738a672273df204cd93196d98d5f', // DAI
-    '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add', // USDC
-    '0x0e3ca10c2e675ee8a93a1331d54981d99107e6e8' // GUSD
-  ],
+  [NETWORK.mumbai]: [],
   [NETWORK.optimism]: [],
   [NETWORK['optimism-goerli']]: [],
   [NETWORK.avalanche]: [],
@@ -198,20 +182,12 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, string[]> = Object.freeze({
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
   [NETWORK.sepolia]: {
-    '0x501b79e61843b3432e5b48d59cb7e6a93185e50c': { eth: 0.00052681 }, // DAI
-    '0x1977822061d8a394726803e2c2f6524a4e3e7aff': { eth: 0.0005265 }, // USDC
-    '0xa577c58435e0334b5039f5e71ccb4a45641c3495': { eth: 0.00052792 }, // GUSD
-    '0x3bd2312250c67ca96c442fe8490a27d24d70e41c': { eth: 15.450051 }, // WBTC
-    '0xa4de6eb323dd2f8a8b4d07b6b295dc57bb1de30a': { eth: 0.99838028 }, // WETH
-    '0x7cb28bb4cdbba6f509d5b9022108138d662042bf': { eth: 0.00045293 } // POOL
-  },
-  [NETWORK.mumbai]: {
-    '0x2990cf846ec4738a672273df204cd93196d98d5f': { eth: 0.00052681 }, // DAI
-    '0xa7e7dc95b2cf9311c8be9a96e8e111ccf0408add': { eth: 0.0005265 }, // USDC
-    '0x0e3ca10c2e675ee8a93a1331d54981d99107e6e8': { eth: 0.00052792 }, // GUSD
-    '0x14e8733e7f178c77ed99faa08bbf042100da4268': { eth: 15.450051 }, // WBTC
-    '0x5617889c4030db7c3fad0e4a015460e0430b454c': { eth: 0.99838028 }, // WETH
-    '0xc138a7c89c357d8fa5a9b7ce775e612b766153e7': { eth: 0.00045293 } // POOL
+    '0x4a798649f6aa23d6a3a1cab65fc0a8fa772e0a40': { eth: 0.00054086 }, // DAI
+    '0x7a8f1413b44f7346eab36c4793bd54148ca916a5': { eth: 0.00054048 }, // USDC
+    '0x6eba7decd74d8327fa83b7edc6cb1deaddfd8efa': { eth: 0.00054055 }, // GUSD
+    '0xbdaab70e7d8767e94680ad2d27b503dae01447a4': { eth: 14.381406 }, // WBTC
+    '0x07056ba1bd5d71aa743f33aa3a7bb76f08834873': { eth: 0.99951637 }, // WETH
+    '0x21925199568c8bd5623622ff31d719749f920a8d': { eth: 0.00036417 } // POOL
   }
 })
 

@@ -22,7 +22,7 @@ import { arbitrum, Chain, mainnet, optimism, polygon, polygonMumbai, sepolia } f
  */
 export const SUPPORTED_NETWORKS = Object.freeze({
   mainnets: [NETWORK.mainnet, NETWORK.polygon, NETWORK.optimism, NETWORK.arbitrum],
-  testnets: [NETWORK.sepolia, NETWORK.mumbai]
+  testnets: [NETWORK.sepolia]
 })
 
 /**

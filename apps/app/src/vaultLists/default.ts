@@ -5,75 +5,75 @@ const defaultVaultList: VaultList = {
   keywords: ['pooltogether'],
   version: {
     major: 1,
-    minor: 5,
+    minor: 6,
     patch: 0
   },
-  timestamp: '2023-05-24T22:36:40.482Z',
+  timestamp: '2023-06-08T20:17:27.154Z',
   logoURI: '/pooltogether-token-logo.svg',
   tokens: [
     {
-      chainId: 80001,
-      address: '0x51F62701bD6C96242B1fe71f95C134079Ea27486',
+      chainId: 11155111,
+      address: '0x3428e7fA4c91aFACb40B258A1ba8dBCF2FB0b4EA',
       name: 'DAI Low Yield Vault',
       decimals: 18,
       symbol: 'PTDAILYT',
       logoURI: 'https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734',
       extensions: {
         underlyingAsset: {
-          address: '0x2990cf846Ec4738A672273Df204Cd93196D98D5f',
+          address: '0x4a798649F6AA23D6a3a1cab65fc0a8fa772E0a40',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
       }
     },
     {
-      chainId: 80001,
-      address: '0x627a1De1EFAA2BA36EC51cDd962910Fd12b14fFb',
+      chainId: 11155111,
+      address: '0x8b7fBF3B9CD7AfD0fFC73Fb6EBaCfb627Ea2eBad',
       name: 'DAI High Yield Vault',
       decimals: 18,
       symbol: 'PTDAIHYT',
       logoURI: 'https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734',
       extensions: {
         underlyingAsset: {
-          address: '0x2990cf846Ec4738A672273Df204Cd93196D98D5f',
+          address: '0x4a798649F6AA23D6a3a1cab65fc0a8fa772E0a40',
           symbol: 'DAI',
           name: 'Dai Stablecoin'
         }
       }
     },
     {
-      chainId: 80001,
-      address: '0x662748F2c5D269Ac30D8d35cA1C0C2C658371187',
+      chainId: 11155111,
+      address: '0xAc3b788d614a43Dc2fD5e8DCDd896b2c44AD4E25',
       name: 'USDC Low Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCLYT',
       logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
       extensions: {
         underlyingAsset: {
-          address: '0xA7E7dc95b2cF9311C8BE9a96e8E111CCf0408ADD',
+          address: '0x7A8f1413B44F7346EAb36c4793Bd54148Ca916A5',
           symbol: 'USDC',
           name: 'USD Coin'
         }
       }
     },
     {
-      chainId: 80001,
-      address: '0x5Fa2cd94d3F68bbE1C7c2be5d555A3931339c500',
+      chainId: 11155111,
+      address: '0x366147C73E070F7C70fE6021c27081646c0a2e7d',
       name: 'USDC High Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCHYT',
       logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
       extensions: {
         underlyingAsset: {
-          address: '0xA7E7dc95b2cF9311C8BE9a96e8E111CCf0408ADD',
+          address: '0x7A8f1413B44F7346EAb36c4793Bd54148Ca916A5',
           symbol: 'USDC',
           name: 'USD Coin'
         }
       }
     },
     {
-      chainId: 80001,
-      address: '0x12032CA7c271C1ca5F272040B15D1A19145c6323',
+      chainId: 11155111,
+      address: '0x61682FBA8394970CE014bcDE8ae0eC149c29757c',
       name: 'GUSD Yield Vault',
       decimals: 2,
       symbol: 'PTGUSDT',
@@ -81,113 +81,7 @@ const defaultVaultList: VaultList = {
         'https://assets.coingecko.com/coins/images/5992/small/gemini-dollar-gusd.png?1536745278',
       extensions: {
         underlyingAsset: {
-          address: '0x0e3CA10c2E675Ee8A93A1331d54981d99107E6e8',
-          symbol: 'GUSD',
-          name: 'Gemini dollar'
-        }
-      }
-    },
-    {
-      chainId: 80001,
-      address: '0xDdAA05da72f50b83af888988977E718805163579',
-      name: 'WBTC Yield Vault',
-      decimals: 8,
-      symbol: 'PTWBTCT',
-      logoURI: 'https://etherscan.io/token/images/wbtc_28.png?v=1',
-      extensions: {
-        underlyingAsset: {
-          address: '0x14e8733e7f178c77ed99faa08BBf042100Da4268',
-          symbol: 'WBTC',
-          name: 'Wrapped BTC'
-        }
-      }
-    },
-    {
-      chainId: 80001,
-      address: '0x224060242784caB6c0E2Ec72C29F3Eac945Be7b9',
-      name: 'WETH Yield Vault',
-      decimals: 18,
-      symbol: 'PTWETHT',
-      logoURI: 'https://etherscan.io/token/images/weth_28.png',
-      extensions: {
-        underlyingAsset: {
-          address: '0x5617889c4030DB7C3FAd0e4a015460e0430b454C',
-          symbol: 'WETH',
-          name: 'Wrapped Ether'
-        }
-      }
-    },
-    {
-      chainId: 11155111,
-      address: '0x92a6e57583262bDEFBA0bf36f651F0f4a1856737',
-      name: 'DAI Low Yield Vault',
-      decimals: 18,
-      symbol: 'PTDAILYT',
-      logoURI: 'https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734',
-      extensions: {
-        underlyingAsset: {
-          address: '0x501B79e61843B3432E5B48d59CB7E6A93185e50C',
-          symbol: 'DAI',
-          name: 'Dai Stablecoin'
-        }
-      }
-    },
-    {
-      chainId: 11155111,
-      address: '0x95990dd6C8A75b8Cd0D8f424aa216FCE8963Ad13',
-      name: 'DAI High Yield Vault',
-      decimals: 18,
-      symbol: 'PTDAIHYT',
-      logoURI: 'https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734',
-      extensions: {
-        underlyingAsset: {
-          address: '0x501B79e61843B3432E5B48d59CB7E6A93185e50C',
-          symbol: 'DAI',
-          name: 'Dai Stablecoin'
-        }
-      }
-    },
-    {
-      chainId: 11155111,
-      address: '0xb7024b6b3c886519AFE27A6B19FAd4b7b916BA97',
-      name: 'USDC Low Yield Vault',
-      decimals: 6,
-      symbol: 'PTUSDCLYT',
-      logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
-      extensions: {
-        underlyingAsset: {
-          address: '0x1977822061d8a394726803e2c2F6524a4E3e7Aff',
-          symbol: 'USDC',
-          name: 'USD Coin'
-        }
-      }
-    },
-    {
-      chainId: 11155111,
-      address: '0x871506aFB4adBC21Bb497c531954e6a10313Fd8A',
-      name: 'USDC High Yield Vault',
-      decimals: 6,
-      symbol: 'PTUSDCHYT',
-      logoURI: 'https://etherscan.io/token/images/centre-usdc_28.png',
-      extensions: {
-        underlyingAsset: {
-          address: '0x1977822061d8a394726803e2c2F6524a4E3e7Aff',
-          symbol: 'USDC',
-          name: 'USD Coin'
-        }
-      }
-    },
-    {
-      chainId: 11155111,
-      address: '0x64AB9296B1C7686407085c44A971e8C090eA768b',
-      name: 'GUSD Yield Vault',
-      decimals: 2,
-      symbol: 'PTGUSDT',
-      logoURI:
-        'https://assets.coingecko.com/coins/images/5992/small/gemini-dollar-gusd.png?1536745278',
-      extensions: {
-        underlyingAsset: {
-          address: '0xa577C58435e0334B5039f5e71cCb4a45641c3495',
+          address: '0x6EBa7deCd74D8327FA83b7Edc6Cb1dEADDfD8EFA',
           symbol: 'GUSD',
           name: 'Gemini dollar'
         }
@@ -195,14 +89,14 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0x65e08197357a23bB47De4337CfBb79497E01680e',
+      address: '0xD1f46c4A4fe6f2983220271dbF13E4bBc384e551',
       name: 'WBTC Yield Vault',
       decimals: 8,
       symbol: 'PTWBTCT',
       logoURI: 'https://etherscan.io/token/images/wbtc_28.png?v=1',
       extensions: {
         underlyingAsset: {
-          address: '0x3Bd2312250C67Ca96C442fe8490A27d24D70e41C',
+          address: '0xbdaAB70E7d8767e94680AD2D27B503daE01447A4',
           symbol: 'WBTC',
           name: 'Wrapped BTC'
         }
@@ -210,14 +104,14 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0xB18E7808201b34C3BD2930b26fc9Aae5C0d365EE',
+      address: '0x06a36F610682e20BEF9F02C5A2530B1c2A36E862',
       name: 'WETH Yield Vault',
       decimals: 18,
       symbol: 'PTWETHT',
       logoURI: 'https://etherscan.io/token/images/weth_28.png',
       extensions: {
         underlyingAsset: {
-          address: '0xa4DE6Eb323dd2f8A8B4D07B6b295dC57Bb1dE30A',
+          address: '0x07056BA1bD5D71AA743F33Aa3A7BB76f08834873',
           symbol: 'WETH',
           name: 'Wrapped Ether'
         }
