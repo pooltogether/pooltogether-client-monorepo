@@ -20,7 +20,7 @@ import {
   SettingsModalView,
   WithdrawModal
 } from '@shared/react-components'
-import { defaultFooterItems, Footer, FooterItem, Navbar, Toaster } from '@shared/ui'
+import { Footer, FooterItem, LINKS, Navbar, SocialIcon, Toaster } from '@shared/ui'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import Head from 'next/head'
@@ -86,19 +86,60 @@ export const Layout = (props: LayoutProps) => {
   const prizePools = useSupportedPrizePools()
   const prizePoolsArray = Object.values(prizePools)
 
-  const extraFooterContent: FooterItem[] = [
+  const footerItems: FooterItem[] = [
+    {
+      title: 'Get Help',
+      content: [
+        { content: 'User Docs', href: LINKS.docs },
+        { content: 'FAQ', href: LINKS.faq },
+        { content: 'Developer Docs', href: LINKS.devDocs }
+      ]
+    },
+    {
+      title: 'Ecosystem',
+      content: [
+        { content: 'Extensions', href: '/extensions' },
+        { content: 'Governance', href: LINKS.governance },
+        { content: 'Security', href: LINKS.audits }
+      ]
+    },
+    {
+      title: 'Community',
+      content: [
+        {
+          content: 'Twitter',
+          href: LINKS.twitter,
+          icon: <SocialIcon platform='twitter' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'Discord',
+          href: LINKS.discord,
+          icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'GitHub',
+          href: LINKS.github,
+          icon: <SocialIcon platform='github' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'Medium',
+          href: LINKS.medium,
+          icon: <SocialIcon platform='medium' className='w-6 h-auto shrink-0' />
+        }
+      ]
+    },
     {
       title: 'Settings',
       content: [
         {
-          text: 'Change Currency',
+          content: 'Change Currency',
           onClick: () => {
             setSettingsModalView('currency')
             setIsSettingsModalOpen(true)
           }
         },
         {
-          text: 'Change Language',
+          content: 'Change Language',
           onClick: () => {
             setSettingsModalView('language')
             setIsSettingsModalOpen(true)
@@ -110,8 +151,8 @@ export const Layout = (props: LayoutProps) => {
   ]
 
   if (isBrowser) {
-    extraFooterContent[0].content.push({
-      text: `${isTestnets ? 'Disable' : 'Enable'} Testnets`,
+    footerItems[footerItems.length - 1].content.push({
+      content: `${isTestnets ? 'Disable' : 'Enable'} Testnets`,
       onClick: () => setIsTestnets(!isTestnets)
     })
   }
@@ -129,9 +170,8 @@ export const Layout = (props: LayoutProps) => {
           { href: '/account', name: 'Account' }
         ]}
         activePage={router.pathname}
-        // @ts-ignore
         linksAs={Link}
-        walletConnectionButton={
+        append={
           <ConnectButton
             showBalance={false}
             chainStatus={{ smallScreen: 'icon', largeScreen: 'full' }}
@@ -139,6 +179,7 @@ export const Layout = (props: LayoutProps) => {
           />
         }
         onClickSettings={() => setIsSettingsModalOpen(true)}
+        linkClassName='hover:text-pt-purple-200'
       />
 
       <SettingsModal
@@ -178,7 +219,12 @@ export const Layout = (props: LayoutProps) => {
         {isBrowser && router.isReady && <>{children}</>}
       </main>
 
-      <Footer items={[...defaultFooterItems, ...extraFooterContent]} />
+      <Footer
+        items={footerItems}
+        className='bg-pt-purple-600'
+        containerClassName='max-w-6xl'
+        titleClassName='text-pt-teal-dark'
+      />
     </div>
   )
 }

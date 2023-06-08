@@ -18,23 +18,15 @@ export interface NavbarLink {
 export interface NavbarProps {
   links: NavbarLink[]
   activePage: string
-  linksAs?: (props: LinkComponentProps) => JSX.Element
-  walletConnectionButton?: ReactNode
+  linksAs?: (props: LinkComponentProps) => JSX.Element | null
+  append?: ReactNode
   onClickSettings?: () => void
   className?: string
   linkClassName?: string
 }
 
 export const Navbar = (props: NavbarProps) => {
-  const {
-    links,
-    activePage,
-    linksAs,
-    walletConnectionButton,
-    onClickSettings,
-    className,
-    linkClassName
-  } = props
+  const { links, activePage, linksAs, append, onClickSettings, className, linkClassName } = props
 
   return (
     <>
@@ -60,7 +52,7 @@ export const Navbar = (props: NavbarProps) => {
 
         {/* Right Side Content */}
         <div className='flex gap-2 items-center z-20'>
-          {walletConnectionButton}
+          {append}
           {!!onClickSettings && (
             <Bars3Icon
               className='h-6 w-6 text-pt-purple-50 hover:text-pt-purple-200 cursor-pointer'
@@ -84,7 +76,7 @@ export const Navbar = (props: NavbarProps) => {
 interface NavbarLinksProps {
   links: NavbarLink[]
   activePage: string
-  Component?: (props: LinkComponentProps) => JSX.Element
+  Component?: (props: LinkComponentProps) => JSX.Element | null
   linkClassName?: string
 }
 
@@ -97,10 +89,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         const key = `nav-${i}-${link.name.toLowerCase()}`
         const isActiveLink = link.href === activePage
         const baseClassName = 'block text-base font-semibold'
-        const activeClassName = {
-          'text-pt-teal': isActiveLink,
-          'text-pt-purple-50 hover:text-pt-purple-200': !isActiveLink
-        }
+        const activeClassName = { '!text-pt-teal': isActiveLink }
 
         if (!!Component) {
           return (

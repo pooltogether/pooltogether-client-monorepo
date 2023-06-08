@@ -1,59 +1,17 @@
 import classNames from 'classnames'
 import { Footer as FlowbiteFooter, FooterProps as FlowbiteFooterProps } from 'flowbite-react'
-import { LINKS } from '../constants'
-import { SocialIcon } from './SocialIcon'
-
-export const defaultFooterItems: FooterItem[] = [
-  {
-    title: 'Get Help',
-    content: [
-      { text: 'User Docs', href: LINKS.docs },
-      { text: 'FAQ', href: LINKS.faq },
-      { text: 'Developer Docs', href: LINKS.devDocs }
-    ]
-  },
-  {
-    title: 'Ecosystem',
-    content: [
-      { text: 'Extensions', href: '/extensions' },
-      { text: 'Governance', href: LINKS.governance },
-      { text: 'Security', href: LINKS.audits }
-    ]
-  },
-  {
-    title: 'Community',
-    content: [
-      {
-        text: 'Twitter',
-        href: LINKS.twitter,
-        icon: <SocialIcon platform='twitter' className='w-6 h-auto shrink-0' />
-      },
-      {
-        text: 'Discord',
-        href: LINKS.discord,
-        icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
-      },
-      {
-        text: 'GitHub',
-        href: LINKS.github,
-        icon: <SocialIcon platform='github' className='w-6 h-auto shrink-0' />
-      },
-      {
-        text: 'Medium',
-        href: LINKS.medium,
-        icon: <SocialIcon platform='medium' className='w-6 h-auto shrink-0' />
-      }
-    ]
-  }
-]
+import { ReactNode } from 'react'
 
 export interface FooterItem {
   title: string
   content: FooterItemContentProps[]
+  className?: string
+  titleClassName?: string
+  itemClassName?: string
 }
 
 export interface FooterProps extends FlowbiteFooterProps {
-  items?: FooterItem[]
+  items: FooterItem[]
   containerClassName?: string
   titleClassName?: string
   itemClassName?: string
@@ -66,7 +24,7 @@ export const Footer = (props: FooterProps) => {
     <FlowbiteFooter
       theme={{
         root: {
-          base: 'w-full flex justify-center bg-pt-purple-600 px-12 pt-12 pb-24 shadow md:px-16'
+          base: 'w-full flex justify-center px-12 pt-12 pb-24 shadow md:px-16'
         }
       }}
       className={classNames(className)}
@@ -74,20 +32,20 @@ export const Footer = (props: FooterProps) => {
     >
       <div
         className={classNames(
-          'w-full flex max-w-6xl justify-between gap-16 text-sm flex-wrap md:text-base',
+          'w-full flex justify-between gap-16 text-sm flex-wrap md:text-base',
           containerClassName
         )}
       >
-        {(items ?? defaultFooterItems).map((item) => {
+        {items.map((item) => {
           return (
             <div
               key={`ft-${item.title.toLowerCase().replaceAll(' ', '-')}`}
-              className='w-24 grow md:w-1/12 md:last:grow-0 md:last:min-w-[80px]'
+              className={classNames('w-24 grow', item.className)}
             >
               <FlowbiteFooter.Title
-                theme={{ base: 'text-pt-teal-dark mb-6' }}
+                theme={{ base: 'mb-6' }}
                 title={item.title}
-                className={classNames(titleClassName)}
+                className={classNames(titleClassName, item.titleClassName)}
               />
               <FlowbiteFooter.LinkGroup theme={{ base: 'flex flex-col gap-6 text-pt-purple-100' }}>
                 {item.content.map((content, i) => {
@@ -95,7 +53,7 @@ export const Footer = (props: FooterProps) => {
                     <FooterItemContent
                       key={`ft-item-${item.title.toLowerCase().replaceAll(' ', '-')}-${i}`}
                       {...content}
-                      className={itemClassName}
+                      className={classNames(itemClassName, item.itemClassName)}
                     />
                   )
                 })}
@@ -109,7 +67,7 @@ export const Footer = (props: FooterProps) => {
 }
 
 interface FooterItemContentProps {
-  text: string
+  content: ReactNode
   href?: string
   icon?: JSX.Element
   onClick?: () => void
@@ -117,7 +75,7 @@ interface FooterItemContentProps {
 }
 
 const FooterItemContent = (props: FooterItemContentProps & { className?: string }) => {
-  const { text, href, icon, onClick, disabled, className } = props
+  const { content, href, icon, onClick, disabled, className } = props
 
   const baseClassName = 'flex items-center gap-2 whitespace-nowrap'
 
@@ -125,7 +83,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
     return (
       <span className={classNames(baseClassName, 'text-pt-purple-300', className)}>
         {icon}
-        {text}
+        {content}
       </span>
     )
   }
@@ -135,7 +93,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
       <FlowbiteFooter.Link theme={{ base: '' }} href={href} className={classNames(className)}>
         <span className={classNames(baseClassName)}>
           {icon}
-          {text}
+          {content}
         </span>
       </FlowbiteFooter.Link>
     )
@@ -147,7 +105,7 @@ const FooterItemContent = (props: FooterItemContentProps & { className?: string 
       onClick={onClick}
     >
       {icon}
-      {text}
+      {content}
     </span>
   )
 }

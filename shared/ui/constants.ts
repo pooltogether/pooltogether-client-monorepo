@@ -2,6 +2,10 @@
  * Links
  */
 export const LINKS = Object.freeze({
+  app: 'https://mvp-pt-app.netlify.app',
+  landingPage: 'https://mvp-pt-landing-page.netlify.app',
+  app_v4: 'https://app.pooltogether.com',
+  landingPage_v4: 'https://pooltogether.com',
   docs: 'https://docs.pooltogether.com/',
   faq: 'https://docs.pooltogether.com/welcome/faq',
   devDocs: 'https://dev.pooltogether.com/',
