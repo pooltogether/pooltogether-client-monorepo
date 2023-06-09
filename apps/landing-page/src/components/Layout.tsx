@@ -104,7 +104,7 @@ export const Layout = (props: LayoutProps) => {
         activePage={router.pathname}
         linksAs={Link}
         append={
-          <Button onClick={() => window.open(LINKS.app_v4, '_self')}>
+          <Button href={LINKS.app_v4}>
             <span className='px-10 text-base'>Use PoolTogether</span>
           </Button>
         }
