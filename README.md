@@ -55,7 +55,9 @@ All apps above are [Next.js](https://nextjs.org/) apps with [Tailwind CSS](https
 - `ui`: Stub React component library with [Tailwind](https://tailwindcss.com/) used throughout many apps, using [Flowbite](https://flowbite-react.com/).
 - `utilities`: Shared Typescript utilities.
 
-**Repo Links:** [Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/config) |  [Generic React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/generic-react-hooks) | [React Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/utilities)
+The dependencies for these libraries are picked up from the root `package.json` file of the monorepo!
+
+**Repo Links:** [Config](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/config) | [Generic React Hooks](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/generic-react-hooks) | [React Components](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/react-components) | [Types](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/types) | [UI](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/ui) | [Utilities](https://github.com/pooltogether/pooltogether-client-monorepo/tree/main/shared/utilities)
 
 ---
 
