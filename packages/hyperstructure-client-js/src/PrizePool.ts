@@ -378,14 +378,15 @@ export class PrizePool {
    * @returns
    */
   async getVaultPrizePowers(
-    vaultAddresses: `0x${string}`[]
+    vaultAddresses: `0x${string}`[],
+    numDraws: number = 7
   ): Promise<{ [vaultId: string]: number }> {
     const lastDrawId = await this.getLastDrawId()
 
     const prizePowers = await this.getVaultContributedPercentages(
       vaultAddresses,
-      lastDrawId,
-      lastDrawId + 1
+      lastDrawId > numDraws ? lastDrawId - numDraws + 1 : 1,
+      lastDrawId
     )
 
     return prizePowers

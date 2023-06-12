@@ -5,7 +5,7 @@ const defaultVaultList: VaultList = {
   keywords: ['pooltogether'],
   version: {
     major: 1,
-    minor: 6,
+    minor: 7,
     patch: 0
   },
   timestamp: '2023-06-08T20:17:27.154Z',
@@ -13,7 +13,7 @@ const defaultVaultList: VaultList = {
   tokens: [
     {
       chainId: 11155111,
-      address: '0x3428e7fA4c91aFACb40B258A1ba8dBCF2FB0b4EA',
+      address: '0x0C393C363bAE8Eebe6E1Afe4716e317CbD2E9949',
       name: 'DAI Low Yield Vault',
       decimals: 18,
       symbol: 'PTDAILYT',
@@ -28,7 +28,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0x8b7fBF3B9CD7AfD0fFC73Fb6EBaCfb627Ea2eBad',
+      address: '0x171df7a2D8547322de5BA27FD9856B04620A3562',
       name: 'DAI High Yield Vault',
       decimals: 18,
       symbol: 'PTDAIHYT',
@@ -43,7 +43,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0xAc3b788d614a43Dc2fD5e8DCDd896b2c44AD4E25',
+      address: '0xe288828FFb4087F633E17D4715103648266C0cdb',
       name: 'USDC Low Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCLYT',
@@ -58,7 +58,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0x366147C73E070F7C70fE6021c27081646c0a2e7d',
+      address: '0x0B87bF0822AFAecDEb367cfAaCcf40c0e895F3AD',
       name: 'USDC High Yield Vault',
       decimals: 6,
       symbol: 'PTUSDCHYT',
@@ -73,7 +73,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0x61682FBA8394970CE014bcDE8ae0eC149c29757c',
+      address: '0xebC5c1257A6DB56d2c3C9466A5271C5Be4FB1397',
       name: 'GUSD Yield Vault',
       decimals: 2,
       symbol: 'PTGUSDT',
@@ -89,7 +89,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0xD1f46c4A4fe6f2983220271dbF13E4bBc384e551',
+      address: '0x7Ea2e76587962c526B60492bd8342AAe859f1219',
       name: 'WBTC Yield Vault',
       decimals: 8,
       symbol: 'PTWBTCT',
@@ -104,7 +104,7 @@ const defaultVaultList: VaultList = {
     },
     {
       chainId: 11155111,
-      address: '0x06a36F610682e20BEF9F02C5A2530B1c2A36E862',
+      address: '0xD6D82beB1243A254A61ae4B3a1936Da962F947b7',
       name: 'WETH Yield Vault',
       decimals: 18,
       symbol: 'PTWETHT',

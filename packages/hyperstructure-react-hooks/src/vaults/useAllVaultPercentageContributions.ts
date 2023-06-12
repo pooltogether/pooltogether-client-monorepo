@@ -35,8 +35,8 @@ export const useAllVaultPercentageContributions = (
           const lastDrawId = await prizePool.getLastDrawId()
           const contributionPercentages = await prizePool.getVaultContributedPercentages(
             vaultIds.map((vaultId) => vaults.vaults[vaultId].address),
-            lastDrawId > numDraws ? lastDrawId - numDraws : 1,
-            lastDrawId + 1
+            lastDrawId > numDraws ? lastDrawId - numDraws + 1 : 1,
+            lastDrawId
           )
           return contributionPercentages
         },
