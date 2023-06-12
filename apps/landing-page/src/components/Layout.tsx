@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 interface LayoutProps {
   children: ReactNode
@@ -14,6 +14,17 @@ export const Layout = (props: LayoutProps) => {
   const { children, className } = props
 
   const router = useRouter()
+
+  const [scrollY, setScrollY] = useState<number>(0)
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY)
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  })
 
   const footerItems: FooterItem[] = [
     {
@@ -111,13 +122,17 @@ export const Layout = (props: LayoutProps) => {
             <span className='px-10 text-base'>Use PoolTogether</span>
           </Button>
         }
-        className='py-8'
+        sticky={true}
+        className={classNames('shadow-2xl transition-all', {
+          'py-8 border-opacity-0 shadow-transparent': scrollY === 0,
+          'py-3 border-opacity-100': scrollY > 0
+        })}
         linkClassName='text-pt-purple-100 hover:text-pt-purple-300'
       />
 
       <main
         className={classNames(
-          'w-full relative flex flex-col flex-grow items-center mb-10',
+          'w-full relative flex flex-col flex-grow items-center mt-32 mb-10',
           className
         )}
       >

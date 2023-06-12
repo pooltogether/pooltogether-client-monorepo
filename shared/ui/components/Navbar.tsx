@@ -21,19 +21,26 @@ export interface NavbarProps {
   linksAs?: (props: LinkComponentProps) => JSX.Element | null
   append?: ReactNode
   onClickSettings?: () => void
+  sticky?: boolean
   className?: string
   linkClassName?: string
 }
 
 export const Navbar = (props: NavbarProps) => {
-  const { links, activePage, linksAs, append, onClickSettings, className, linkClassName } = props
+  const { links, activePage, linksAs, append, onClickSettings, sticky, className, linkClassName } =
+    props
 
   return (
     <>
       <FlowbiteNavbar
         fluid={true}
-        theme={{ base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4 isolate' }}
-        className={classNames(className)}
+        theme={{
+          base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4 isolate z-50'
+        }}
+        className={classNames(
+          { 'fixed w-full border-b-2 border-b-pt-purple-700': sticky },
+          className
+        )}
       >
         {/* Left Side Branding */}
         <FlowbiteNavbar.Brand href='/' className='z-30'>
