@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 
 interface LayoutProps {
   children: ReactNode
@@ -15,26 +15,29 @@ export const Layout = (props: LayoutProps) => {
 
   const router = useRouter()
 
-  // NOTE: This is necessary due to hydration errors otherwise.
-  const [isBrowser, setIsBrowser] = useState(false)
-  useEffect(() => setIsBrowser(true), [])
-
   const footerItems: FooterItem[] = [
     {
       title: 'Independent Security Audits',
       content: [
-        // TODO: add images and links to audits
         {
-          content: 'TODO: codearena audit',
-          onClick: () => {
-            window.open('#')
-          }
+          content: (
+            <SecurityAuditItem
+              svgSrc='/graphics/c4Logo.svg'
+              altText='CodeArena V4 Audit'
+              href={'https://code4rena.com/reports/2021-10-pooltogether'}
+              date='November 5th, 2021'
+            />
+          )
         },
         {
-          content: 'TODO: openzeppelin audit',
-          onClick: () => {
-            window.open('#')
-          }
+          content: (
+            <SecurityAuditItem
+              svgSrc='/graphics/ozLogo.svg'
+              altText='OpenZeppelin V3 Audit'
+              href={'https://blog.openzeppelin.com/pooltogether-v3-audit'}
+              date='October 21, 2020'
+            />
+          )
         }
       ],
       className: 'grow-[2] pr-20',
@@ -118,7 +121,7 @@ export const Layout = (props: LayoutProps) => {
           className
         )}
       >
-        {isBrowser && router.isReady && <>{children}</>}
+        <>{children}</>
       </main>
 
       <Footer
@@ -127,5 +130,23 @@ export const Layout = (props: LayoutProps) => {
         titleClassName='text-pt-purple-400'
       />
     </div>
+  )
+}
+
+interface SecurityAuditItemProps {
+  svgSrc: `${string}.svg`
+  altText: string
+  href: string
+  date: string
+}
+
+const SecurityAuditItem = (props: SecurityAuditItemProps) => {
+  const { svgSrc, altText, href, date } = props
+
+  return (
+    <a href={href} target='_blank' className='flex flex-col'>
+      <img src={svgSrc} alt={altText} className='w-full' />
+      <span className='-mt-[2%] ml-[20%] text-gray-200'>{date}</span>
+    </a>
   )
 }
