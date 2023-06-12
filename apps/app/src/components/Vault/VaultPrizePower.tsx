@@ -1,17 +1,35 @@
-import { VaultInfo } from 'pt-types'
-import { formatNumberForDisplay } from 'pt-utilities'
+import { formatNumberForDisplay, PrizePool, Vault } from '@pooltogether/hyperstructure-client-js'
+import { useVaultPrizePower } from '@pooltogether/hyperstructure-react-hooks'
+import { Spinner } from '@shared/ui'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
 
 interface VaultPrizePowerProps {
-  vaultInfo: VaultInfo
+  vault: Vault
 }
 
 export const VaultPrizePower = (props: VaultPrizePowerProps) => {
-  // TODO: calculate vault prize power
-  const prizePower: number = 4.2
+  const { vault } = props
+
+  const prizePools = useSupportedPrizePools()
+
+  const prizePool =
+    !!vault && Object.values(prizePools).find((prizePool) => prizePool.chainId === vault.chainId)
+
+  const { data: prizePower, isFetched: isFetchedPrizePower } = useVaultPrizePower(
+    vault,
+    prizePool as PrizePool
+  )
+
+  if (!isFetchedPrizePower) {
+    return <Spinner />
+  }
 
   return (
-    <span className='text-2xl font-semibold text-pt-purple-400'>
-      {formatNumberForDisplay(prizePower, { minimumFractionDigits: 1, maximumFractionDigits: 1 })}
-    </span>
+    <>
+      {formatNumberForDisplay((prizePower ?? 0) * 100, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}
+    </>
   )
 }

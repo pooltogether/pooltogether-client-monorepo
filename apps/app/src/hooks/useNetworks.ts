@@ -1,6 +1,6 @@
-import { useIsTestnets } from 'pt-generic-hooks'
-import { NETWORK } from 'pt-utilities'
-import { SUPPORTED_NETWORKS } from '@constants/networks'
+import { NETWORK } from '@pooltogether/hyperstructure-client-js'
+import { useIsTestnets } from '@shared/generic-react-hooks'
+import { SUPPORTED_NETWORKS } from '@constants/config'
 
 /**
  * Returns currently selected SUPPORTED_NETWORKS

@@ -1,101 +1,30 @@
-import { darkTheme, getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { RainbowKitProvider } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { AppProps } from 'next/app'
-import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import {
-  arbitrum,
-  arbitrumGoerli,
-  goerli,
-  mainnet,
-  optimism,
-  optimismGoerli,
-  polygon,
-  polygonMumbai,
-  sepolia
-} from 'wagmi/chains'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { infuraProvider } from 'wagmi/providers/infura'
-import { publicProvider } from 'wagmi/providers/public'
-import { Flowbite } from 'pt-ui'
+import { WagmiConfig } from 'wagmi'
+import { AppContainer } from '@components/AppContainer'
+import { SUPPORTED_NETWORKS } from '@constants/config'
+import { ptRainbowTheme } from '@constants/theme'
 import '../styles/globals.css'
+import { createCustomWagmiConfig } from '../utils'
 
-// Wagmi Config:
-const { chains, provider } = configureChains(
-  // TODO: need to only include proper chains depending on testnet mode or not
-  [
-    mainnet,
-    polygon,
-    optimism,
-    arbitrum,
-    goerli,
-    sepolia,
-    polygonMumbai,
-    optimismGoerli,
-    arbitrumGoerli
-  ],
-  [
-    infuraProvider({ apiKey: process.env.INFURA_ID }),
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
-    publicProvider()
-  ]
-)
-const { connectors } = getDefaultWallets({ appName: 'PoolTogether App', chains })
-// const connectors = [
-//   new InjectedConnector({ chains }),
-//   new WalletConnectConnector({
-//     chains,
-//     options: {
-//       version: '2',
-//       qrcode: true,
-//       projectId: '358b98f0af3cd936fe09dc21064de51d'
-//     }
-//   })
-// ]
-const wagmiClient = createClient({ autoConnect: true, connectors, provider })
+// TODO: only send mainnet networks while on normal mode, only testnets on testnet mode, etc.
+const networks = [...SUPPORTED_NETWORKS.mainnets, ...SUPPORTED_NETWORKS.testnets]
 
-// React Query Client:
-const queryClient = new QueryClient()
+const wagmiConfig = createCustomWagmiConfig(networks)
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+export default function MyApp(props: AppProps) {
   return (
-    <Flowbite
-      theme={{
-        dark: true,
-        // TODO: remove this theme once button themes are fixed
-        theme: {
-          button: {
-            base: 'group flex h-min items-center justify-center p-0.5 text-center font-medium focus:ring-4 focus:z-10',
-            color: {
-              teal: 'text-pt-purple-800 bg-pt-teal hover:bg-pt-teal-dark focus:ring-pt-teal-dark',
-              purple:
-                'text-pt-purple-700 bg-pt-purple-100 hover:bg-pt-purple-200 focus:ring-pt-purple-50',
-              white: 'text-gray-900 bg-white hover:bg-gray-100 focus:ring-gray-100'
-            },
-            outline: {
-              color: {
-                teal: '!text-pt-teal hover:!text-pt-purple-800 border-pt-teal border bg-opacity-0 hover:bg-opacity-100',
-                purple:
-                  '!text-pt-purple-100 hover:!text-pt-purple-700 border-pt-purple-100 border bg-opacity-0 hover:bg-opacity-100',
-                white:
-                  '!text-white hover:!text-gray-900 border-white border bg-opacity-0 hover:bg-opacity-100'
-              },
-              on: 'flex justify-center'
-            },
-            disabled: 'cursor-not-allowed opacity-50 pointer-events-none'
-          }
-        }
-      }}
-    >
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chains} theme={darkTheme()} showRecentTransactions={true}>
-          <QueryClientProvider client={queryClient}>
-            <Component {...pageProps} />
-          </QueryClientProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </Flowbite>
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider
+        chains={networks.map((id) => ({ id }))}
+        theme={ptRainbowTheme()}
+        showRecentTransactions={true}
+        coolMode={true}
+        appInfo={{ appName: 'PoolTogether' }}
+      >
+        <AppContainer {...props} />
+      </RainbowKitProvider>
+    </WagmiConfig>
   )
 }

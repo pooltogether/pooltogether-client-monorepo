@@ -1,50 +1,39 @@
-import { BigNumber, utils } from 'ethers'
-import { CurrencyValue } from 'pt-components'
-import { useVaultExchangeRate } from 'pt-hyperstructure-hooks'
-import { VaultInfoWithBalance } from 'pt-types'
-import {
-  formatBigNumberForDisplay,
-  getAssetsFromShares,
-  getTokenPriceFromObject
-} from 'pt-utilities'
-import { useAllCoingeckoTokenPrices } from '@hooks/useAllCoingeckoTokenPrices'
-import { useVault } from '@hooks/useVaults'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useUserVaultTokenBalance } from '@pooltogether/hyperstructure-react-hooks'
+import { TokenValueAndAmount } from '@shared/react-components'
+import { Spinner } from '@shared/ui'
+import { useAccount } from 'wagmi'
 
 interface AccountVaultBalanceProps {
-  vaultInfo: VaultInfoWithBalance
+  vault: Vault
+  className?: string
 }
 
 export const AccountVaultBalance = (props: AccountVaultBalanceProps) => {
-  const { vaultInfo } = props
+  const { vault, className } = props
 
-  const { data: tokenPrices } = useAllCoingeckoTokenPrices()
-  const usdPrice = getTokenPriceFromObject(
-    vaultInfo.chainId,
-    vaultInfo.extensions.underlyingAsset.address,
-    tokenPrices
-  )
+  const { address: userAddress } = useAccount()
 
-  const vault = useVault(vaultInfo)
+  const { data: tokenBalance } = useUserVaultTokenBalance(vault, userAddress as `0x${string}`)
 
-  // const { data: vaultExchangeRate } = useVaultExchangeRate(vault)
+  if (!userAddress) {
+    return <>-</>
+  }
 
-  // TODO: remove this after vaults have proper addresses (and uncomment code above)
-  const vaultExchangeRate = utils.parseUnits('2', vaultInfo.decimals)
+  if (!tokenBalance) {
+    return <Spinner />
+  }
 
-  const shareBalance = BigNumber.from(vaultInfo.balance)
-  const tokenBalance = getAssetsFromShares(shareBalance, vaultExchangeRate, vaultInfo.decimals)
+  if (tokenBalance.amount > 0n) {
+    return (
+      <TokenValueAndAmount
+        token={tokenBalance}
+        className={className}
+        valueClassName='text-sm md:text-base'
+        amountClassName='text-xs md:text-sm'
+      />
+    )
+  }
 
-  const formattedTokenBalance = utils.formatUnits(tokenBalance, vaultInfo.decimals)
-  const usdBalance = Number(formattedTokenBalance) * usdPrice
-
-  return (
-    <div className='flex flex-col'>
-      <span className='text-lg'>
-        {formatBigNumberForDisplay(tokenBalance, vaultInfo.decimals.toString())}{' '}
-      </span>
-      <span className='text-sm'>
-        <CurrencyValue baseValue={usdBalance} hideZeroes={true} />
-      </span>
-    </div>
-  )
+  return <>-</>
 }

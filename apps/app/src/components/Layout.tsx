@@ -1,13 +1,37 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { isNewerVersion, PrizePool } from '@pooltogether/hyperstructure-client-js'
+import {
+  useAllUserVaultBalances,
+  useCachedVaultLists,
+  usePrizeDrawWinners,
+  useSelectedVaultListIds,
+  useSelectedVaults
+} from '@pooltogether/hyperstructure-react-hooks'
+import {
+  ConnectButton,
+  useAddRecentTransaction,
+  useChainModal,
+  useConnectModal
+} from '@rainbow-me/rainbowkit'
+import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@shared/generic-react-hooks'
+import {
+  DepositModal,
+  DrawModal,
+  SettingsModal,
+  SettingsModalView,
+  WithdrawModal
+} from '@shared/react-components'
+import { Footer, FooterItem, LINKS, Navbar, SocialIcon, Toaster } from '@shared/ui'
 import classNames from 'classnames'
-import { useAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
-import { SettingsModal } from 'pt-components'
-import { useIsSettingsModalOpen, useIsTestnets } from 'pt-generic-hooks'
-import { defaultFooterItems, Footer, FooterItem, Navbar } from 'pt-ui'
-import { settingsModalViewAtom } from '@atoms'
+import { useAccount } from 'wagmi'
+import { DEFAULT_VAULT_LISTS } from '@constants/config'
+import { useSelectedPrizePool } from '@hooks/useSelectedPrizePool'
+import { useSupportedPrizePools } from '@hooks/useSupportedPrizePools'
+import { drawIdAtom } from './Prizes/PrizePoolWinners'
 
 interface LayoutProps {
   children: ReactNode
@@ -19,28 +43,103 @@ export const Layout = (props: LayoutProps) => {
 
   const router = useRouter()
 
-  const { setIsSettingsModalOpen } = useIsSettingsModalOpen()
-  const [settingsModalView, setSettingsModalView] = useAtom(settingsModalViewAtom)
+  const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
+  const [settingsModalView, setSettingsModalView] = useState<SettingsModalView>('menu')
 
   const { isTestnets, setIsTestnets } = useIsTestnets()
+
+  const { openConnectModal } = useConnectModal()
+  const { openChainModal } = useChainModal()
+  const addRecentTransaction = useAddRecentTransaction()
+
+  const { cachedVaultLists, cache } = useCachedVaultLists()
+  const { select } = useSelectedVaultListIds()
+
+  const { vaults } = useSelectedVaults()
+  const { address: userAddress } = useAccount()
+  const { refetch: refetchUserBalances } = useAllUserVaultBalances(
+    vaults,
+    userAddress as `0x${string}`
+  )
+
+  const { selectedPrizePool } = useSelectedPrizePool()
+  const { data: draws } = usePrizeDrawWinners(selectedPrizePool as PrizePool)
+
+  const selectedDrawId = useAtomValue(drawIdAtom)
+  const selectedDraw = draws?.find((draw) => draw.id === selectedDrawId)
+
+  useEffect(() => {
+    for (const key in DEFAULT_VAULT_LISTS) {
+      const defaultVaultList = DEFAULT_VAULT_LISTS[key as keyof typeof DEFAULT_VAULT_LISTS]
+      const cachedVaultList = cachedVaultLists[key]
+      if (!cachedVaultList || isNewerVersion(defaultVaultList.version, cachedVaultList.version)) {
+        cache(key, defaultVaultList)
+        select(key, 'local')
+      }
+    }
+  }, [])
 
   // NOTE: This is necessary due to hydration errors otherwise.
   const [isBrowser, setIsBrowser] = useState(false)
   useEffect(() => setIsBrowser(true), [])
 
-  const extraFooterContent: FooterItem[] = [
+  const prizePools = useSupportedPrizePools()
+  const prizePoolsArray = Object.values(prizePools)
+
+  const footerItems: FooterItem[] = [
+    {
+      title: 'Get Help',
+      content: [
+        { content: 'User Docs', href: LINKS.docs },
+        { content: 'FAQ', href: LINKS.faq },
+        { content: 'Developer Docs', href: LINKS.devDocs }
+      ]
+    },
+    {
+      title: 'Ecosystem',
+      content: [
+        { content: 'Extensions', href: '/extensions' },
+        { content: 'Governance', href: LINKS.governance },
+        { content: 'Security', href: LINKS.audits }
+      ]
+    },
+    {
+      title: 'Community',
+      content: [
+        {
+          content: 'Twitter',
+          href: LINKS.twitter,
+          icon: <SocialIcon platform='twitter' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'Discord',
+          href: LINKS.discord,
+          icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'GitHub',
+          href: LINKS.github,
+          icon: <SocialIcon platform='github' className='w-6 h-auto shrink-0' />
+        },
+        {
+          content: 'Medium',
+          href: LINKS.medium,
+          icon: <SocialIcon platform='medium' className='w-6 h-auto shrink-0' />
+        }
+      ]
+    },
     {
       title: 'Settings',
       content: [
         {
-          text: 'Change Currency',
+          content: 'Change Currency',
           onClick: () => {
             setSettingsModalView('currency')
             setIsSettingsModalOpen(true)
           }
         },
         {
-          text: 'Change Language',
+          content: 'Change Language',
           onClick: () => {
             setSettingsModalView('language')
             setIsSettingsModalOpen(true)
@@ -52,8 +151,8 @@ export const Layout = (props: LayoutProps) => {
   ]
 
   if (isBrowser) {
-    extraFooterContent[0].content.push({
-      text: `${isTestnets ? 'Disable' : 'Enable'} Testnets`,
+    footerItems[footerItems.length - 1].content.push({
+      content: `${isTestnets ? 'Disable' : 'Enable'} Testnets`,
       onClick: () => setIsTestnets(!isTestnets)
     })
   }
@@ -63,37 +162,69 @@ export const Layout = (props: LayoutProps) => {
       <Head>
         <title>PoolTogether Hyperstructure App</title>
       </Head>
+
       <Navbar
+        links={[
+          { href: '/prizes', name: 'Prizes' },
+          { href: '/vaults', name: 'Vaults' },
+          { href: '/account', name: 'Account' }
+        ]}
         activePage={router.pathname}
-        walletConnectionButton={
+        linksAs={Link}
+        append={
           <ConnectButton
             showBalance={false}
-            chainStatus='icon'
-            accountStatus={{
-              smallScreen: 'avatar',
-              largeScreen: 'full'
-            }}
+            chainStatus={{ smallScreen: 'icon', largeScreen: 'full' }}
+            accountStatus='full'
           />
         }
         onClickSettings={() => setIsSettingsModalOpen(true)}
+        linkClassName='hover:text-pt-purple-200'
       />
 
       <SettingsModal
         view={settingsModalView}
         setView={setSettingsModalView}
-        disableLanguages={true}
+        localVaultLists={DEFAULT_VAULT_LISTS}
+        disable={['language']}
       />
+
+      <DepositModal
+        prizePools={prizePoolsArray}
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+        onGoToAccount={() => router.push('/account')}
+        refetchUserBalances={refetchUserBalances}
+      />
+
+      <WithdrawModal
+        openConnectModal={openConnectModal}
+        openChainModal={openChainModal}
+        addRecentTransaction={addRecentTransaction}
+        onGoToAccount={() => router.push('/account')}
+        refetchUserBalances={refetchUserBalances}
+      />
+
+      <DrawModal draw={selectedDraw} prizePool={selectedPrizePool} />
+
+      <Toaster />
 
       <main
         className={classNames(
-          'flex flex-col flex-grow items-center mx-auto w-auto max-w-screen-xl p-8',
+          'w-full max-w-screen-xl relative flex flex-col flex-grow items-center mx-auto px-4 py-8 mb-40 md:px-8',
           className
         )}
       >
-        {children}
+        {isBrowser && router.isReady && <>{children}</>}
       </main>
 
-      <Footer items={[...defaultFooterItems, ...extraFooterContent]} />
+      <Footer
+        items={footerItems}
+        className='bg-pt-purple-600'
+        containerClassName='max-w-6xl'
+        titleClassName='text-pt-teal-dark'
+      />
     </div>
   )
 }

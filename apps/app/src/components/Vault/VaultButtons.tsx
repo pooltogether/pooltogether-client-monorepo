@@ -1,21 +1,40 @@
-import { VaultInfo } from 'pt-types'
-import { Button } from 'pt-ui'
-import { DepositButton } from '@components/Deposit/DepositButton'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { useUserVaultShareBalance } from '@pooltogether/hyperstructure-react-hooks'
+import { DepositButton, WithdrawButton } from '@shared/react-components'
+import classNames from 'classnames'
+import { useAccount } from 'wagmi'
 
 interface VaultButtonsProps {
-  vaultInfo: VaultInfo
+  vault: Vault
+  fullSized?: boolean
+  inverseOrder?: boolean
+  className?: string
 }
 
 export const VaultButtons = (props: VaultButtonsProps) => {
-  const { vaultInfo } = props
+  const { vault, fullSized, inverseOrder, className } = props
+
+  const { address: userAddress } = useAccount()
+
+  const { data: vaultBalance } = useUserVaultShareBalance(vault, userAddress as `0x${string}`)
+
+  const shareBalance = vaultBalance?.amount ?? 0n
 
   return (
-    <div className='flex justify-end gap-2'>
-      <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
-      {/* TODO: re-add "Details" button once the vault-specific page exists (not MVP) */}
-      {/* <Button color='white' outline={true}>
-        Details
-      </Button> */}
+    <div className={classNames('flex items-center gap-2', className)}>
+      <DepositButton
+        vault={vault}
+        fullSized={fullSized}
+        className={inverseOrder ? 'order-2' : 'order-1'}
+      />
+      {shareBalance > 0n && (
+        <WithdrawButton
+          vault={vault}
+          fullSized={fullSized}
+          className={inverseOrder ? 'order-1' : 'order-2'}
+          color='transparent'
+        />
+      )}
     </div>
   )
 }

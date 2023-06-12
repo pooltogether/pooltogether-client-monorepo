@@ -1,18 +1,17 @@
-import { VaultInfo } from 'pt-types'
-import { DepositButton } from '@components/Deposit/DepositButton'
-import { WithdrawButton } from '@components/Withdraw/WithdrawButton'
+import { Vault } from '@pooltogether/hyperstructure-client-js'
+import { DepositButton, WithdrawButton } from '@shared/react-components'
 
 interface AccountVaultButtonsProps {
-  vaultInfo: VaultInfo
+  vault: Vault
 }
 
 export const AccountVaultButtons = (props: AccountVaultButtonsProps) => {
-  const { vaultInfo } = props
+  const { vault } = props
 
   return (
     <div className='flex justify-end gap-2'>
-      <DepositButton vaultInfo={vaultInfo}>Deposit</DepositButton>
-      <WithdrawButton vaultInfo={vaultInfo}>Withdraw</WithdrawButton>
+      <WithdrawButton vault={vault} color='transparent' />
+      <DepositButton vault={vault} />
     </div>
   )
 }
