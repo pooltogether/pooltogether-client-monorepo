@@ -34,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: check
     if: needs.check.outputs.changed == 'true'
+    working-directory: ./packages/hyperstructure-client-js
 
     steps:
       - name: Checkout repo
@@ -44,10 +45,14 @@ jobs:
           node-version: '18.x'
           registry-url: 'https://registry.npmjs.org'
 
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7.15.0
+
       - name: Install
-        run: npm i
+        run: pnpm i
 
       - name: Publish
-        run: npm publish
+        run: pnpm publish --publish-branch mvp
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_KEY }}
