@@ -34,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: check
     if: needs.check.outputs.changed == 'true'
-    working-directory: ./packages/hyperstructure-client-js
 
     steps:
       - name: Checkout repo
@@ -51,8 +50,10 @@ jobs:
 
       - name: Install
         run: pnpm i
+        working-directory: ./packages/hyperstructure-client-js
 
       - name: Publish
         run: pnpm publish --publish-branch mvp
+        working-directory: ./packages/hyperstructure-client-js
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_KEY }}
