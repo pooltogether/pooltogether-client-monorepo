@@ -12,13 +12,9 @@ export const MissionSection = (props: MissionSection) => {
     <section className={classNames('w-full relative flex', className)}>
       <object type='image/svg+xml' data='/animations/animatedSection3.svg' className='w-full' />
       <div className='absolute inset-0'>
-        <TextBanner className='mt-[12%]' />
-      </div>
-      <div className='absolute inset-0'>
-        <DeveloperBanner className='max-w-[21%] mt-[63%] ml-[4%]' />
-      </div>
-      <div className='absolute inset-0'>
-        <DeveloperCards className='h-[18.5%] max-w-[47.5%] mt-[65%] ml-[46%]' />
+        <TextBanner className='absolute w-full mt-[12%]' />
+        <DeveloperBanner className='absolute w-full max-w-[21%] mt-[63%] ml-[4%]' />
+        <DeveloperCards className='absolute w-full h-[18.5%] max-w-[47.5%] mt-[65%] ml-[46%]' />
       </div>
     </section>
   )
@@ -33,19 +29,19 @@ const TextBanner = (props: TextBannerProps) => {
 
   return (
     <div className={classNames('flex flex-col items-center gap-20 text-center', className)}>
-      <span className='text-sm text-pt-purple-100'>Why Prize Savings?</span>
+      <span className='text-clamp-sm text-pt-purple-100'>Why Prize Savings?</span>
       <div className='flex flex-col items-center gap-2 text-pt-purple-100'>
-        <span className='font-averta font-bold text-[2.5rem] leading-normal'>
+        <span className='font-averta font-bold text-clamp-4xl leading-normal'>
           <span className='text-pt-purple-400'>The Mission:</span> Financial freedom for all
         </span>
-        <span className='text-xl w-3/4'>
+        <span className='text-clamp-xl w-3/4'>
           Prize savings are a proven tool to help people save money and avoid wealth destroying
           lotteries.
         </span>
       </div>
       {/* TODO: add mission href */}
       <Button href='#'>
-        <span className='text-base'>Read Our Mission</span>
+        <span className='text-clamp-base px-[.4em] py-[.2em]'>Read Our Mission</span>
       </Button>
     </div>
   )
@@ -60,11 +56,13 @@ const DeveloperBanner = (props: DeveloperBannerProps) => {
 
   return (
     <div className={classNames('flex flex-col gap-4 text-pt-purple-100', className)}>
-      <span className='text-sm'>For Developers</span>
-      <span className='font-averta font-bold text-[2.5rem] leading-tight text-pt-purple-50'>
+      <span className='text-clamp-sm'>For Developers</span>
+      <span className='font-averta font-bold text-clamp-4xl leading-tight text-pt-purple-50'>
         Build on PoolTogether
       </span>
-      <span className='text-xl'>PoolTogether unlocks organic usage for wallets & blockchains</span>
+      <span className='text-clamp-xl'>
+        PoolTogether unlocks organic usage for wallets & blockchains
+      </span>
     </div>
   )
 }
@@ -77,10 +75,10 @@ const DeveloperCards = (props: DeveloperCardsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex justify-between', className)}>
-      <DeveloperCard type='v4Docs' className='grow max-w-[30%]' />
-      <DeveloperCard type='docs' className='grow max-w-[30%]' />
-      <DeveloperCard type='addToken' className='grow max-w-[30%]' />
+    <div className={classNames('flex justify-between gap-4', className)}>
+      <DeveloperCard type='v4Docs' className='grow' />
+      <DeveloperCard type='docs' className='grow' />
+      <DeveloperCard type='addToken' className='grow' />
     </div>
   )
 }
@@ -125,18 +123,18 @@ const DeveloperCard = (props: DeveloperCardProps) => {
   return (
     <div
       className={classNames(
-        'relative w-full h-full flex flex-col items-center gap-6 p-8 bg-pt-bg-purple-darker rounded-3xl',
+        'relative w-full h-full flex flex-col items-center gap-6 p-6 bg-pt-bg-purple-darker rounded-3xl',
         className
       )}
     >
       {!!developerCardInfo[type].tag && (
-        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-xs text-pt-purple-400 bg-[#361D60] rounded-full'>
+        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-clamp-xs text-pt-purple-400 bg-[#361D60] rounded-full'>
           {developerCardInfo[type].tag}
         </span>
       )}
-      <CodeBracketIcon className='absolute top-4 left-4 w-5 h-auto text-pt-purple-400' />
-      <object type='image/svg+xml' data={developerCardInfo[type].src} className='w-3/4 grow' />
-      <Button fullSized={true} {...developerCardInfo[type].buttonProps} />
+      <CodeBracketIcon className='absolute top-4 left-4 w-5 h-auto text-pt-purple-400 4xl:w-6' />
+      <object type='image/svg+xml' data={developerCardInfo[type].src} className='w-3/4 grow mt-2' />
+      <Button fullSized={true} {...developerCardInfo[type].buttonProps} pill={true} />
     </div>
   )
 }

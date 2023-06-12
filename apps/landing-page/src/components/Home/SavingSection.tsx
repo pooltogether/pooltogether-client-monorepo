@@ -11,10 +11,8 @@ export const SavingSection = (props: SavingSection) => {
     <section className={classNames('w-full relative flex', className)}>
       <object type='image/svg+xml' data='/animations/animatedSection2.svg' className='w-full' />
       <div className='absolute inset-0'>
-        <TextBanner className='mt-[9%]' />
-      </div>
-      <div className='absolute inset-0'>
-        <GraphicCards className='w-full max-w-[77%] mt-[25%] ml-[11%]' />
+        <TextBanner className='absolute w-full mt-[9%]' />
+        <GraphicCards className='absolute w-full max-w-[77%] mt-[25%] ml-[11%]' />
       </div>
     </section>
   )
@@ -28,7 +26,7 @@ const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('font-averta font-bold text-center text-[2.5rem]', className)}>
+    <div className={classNames('font-averta font-bold text-center text-clamp-4xl', className)}>
       PoolTogether is for <span className='text-pt-purple-400'>Saving</span> &{' '}
       <span className='text-pt-purple-400'>Winning</span>
     </div>
@@ -88,10 +86,10 @@ const GraphicCard = (props: GraphicCardProps) => {
         <object type='image/svg+xml' data={graphicCardInfo[type].src} className='w-full' />
       </div>
       <div className='flex flex-col gap-2 text-center'>
-        <span className='font-averta font-bold text-[2rem] text-pt-purple-100'>
+        <span className='font-averta font-bold text-clamp-3xl text-pt-purple-100'>
           {graphicCardInfo[type].title}
         </span>
-        <span className='text-gray-100'>{graphicCardInfo[type].description}</span>
+        <span className='text-clamp-base text-gray-100'>{graphicCardInfo[type].description}</span>
       </div>
     </div>
   )
