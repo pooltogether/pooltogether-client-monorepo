@@ -45,9 +45,9 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Install
-        run: pnpm i
+        run: npm i
 
       - name: Publish
-        run: pnpm publish --publish-branch mvp
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_KEY }}
