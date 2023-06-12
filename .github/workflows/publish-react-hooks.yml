@@ -1,4 +1,4 @@
-name: Deploy React Hooks
+name: Publish React Hooks
 on:
   push:
     branches:
@@ -25,11 +25,12 @@ jobs:
         id: check
         uses: EndBug/version-check@v2
         with:
+          file-name: ./packages/hyperstructure-react-hooks/package.json
           file-url: https://unpkg.com/@pooltogether/hyperstructure-react-hooks@latest/package.json
           static-checking: localIsNew
 
-  deploy:
-    name: Deploy new package version to NPM
+  publish:
+    name: Publish new package version to NPM
     runs-on: ubuntu-latest
     needs: check
     if: needs.check.outputs.changed == 'true'
