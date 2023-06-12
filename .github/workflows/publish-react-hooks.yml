@@ -2,7 +2,7 @@ name: Publish React Hooks
 on:
   push:
     branches:
-      - mvp
+      - main
     paths:
       - 'packages/hyperstructure-react-hooks/**'
 jobs:
@@ -53,7 +53,7 @@ jobs:
         working-directory: ./packages/hyperstructure-react-hooks
 
       - name: Publish
-        run: pnpm publish --publish-branch mvp
+        run: pnpm publish
         working-directory: ./packages/hyperstructure-react-hooks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_KEY }}
