@@ -1,5 +1,6 @@
 import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
 import classNames from 'classnames'
+import { useReducedMotion } from 'framer-motion'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -14,6 +15,8 @@ export const Layout = (props: LayoutProps) => {
   const { children, className } = props
 
   const router = useRouter()
+
+  const shouldReduceMotion = useReducedMotion()
 
   const [scrollY, setScrollY] = useState<number>(0)
 
@@ -123,7 +126,8 @@ export const Layout = (props: LayoutProps) => {
           </Button>
         }
         sticky={true}
-        className={classNames('shadow-2xl transition-all', {
+        className={classNames('shadow-2xl', {
+          'transition-all': !shouldReduceMotion,
           'py-8 border-opacity-0 shadow-transparent': scrollY === 0,
           'py-3 border-opacity-100': scrollY > 0
         })}

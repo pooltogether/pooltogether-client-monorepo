@@ -1,4 +1,6 @@
 import classNames from 'classnames'
+import { useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface SavingSection {
   className?: string
@@ -7,9 +9,25 @@ interface SavingSection {
 export const SavingSection = (props: SavingSection) => {
   const { className } = props
 
+  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
+  const shouldReduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      setIsReducedMotion(true)
+    }
+  }, [])
+
   return (
     <section className={classNames('w-full relative flex', className)}>
-      <object type='image/svg+xml' data='/animations/animatedSection2.svg' className='w-full' />
+      {isReducedMotion && <img src='/backgrounds/static/indexSection2.svg' className='w-full' />}
+      {!isReducedMotion && (
+        <object
+          type='image/svg+xml'
+          data='/backgrounds/animated/indexSection2.svg'
+          className='w-full'
+        />
+      )}
       <div className='absolute inset-0'>
         <TextBanner className='absolute w-full mt-[9%]' />
         <GraphicCards className='absolute w-full max-w-[77%] mt-[25%] ml-[11%]' />

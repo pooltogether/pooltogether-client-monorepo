@@ -1,5 +1,7 @@
 import { formatNumberForDisplay } from '@shared/utilities'
 import classNames from 'classnames'
+import { useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface HeroSection {
   className?: string
@@ -8,9 +10,25 @@ interface HeroSection {
 export const HeroSection = (props: HeroSection) => {
   const { className } = props
 
+  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
+  const shouldReduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      setIsReducedMotion(true)
+    }
+  }, [])
+
   return (
     <section className={classNames('w-full relative flex', className)}>
-      <object type='image/svg+xml' data='/animations/animatedSection1.svg' className='w-full' />
+      {isReducedMotion && <img src='/backgrounds/static/indexSection1.svg' className='w-full' />}
+      {!isReducedMotion && (
+        <object
+          type='image/svg+xml'
+          data='/backgrounds/animated/indexSection1.svg'
+          className='w-full'
+        />
+      )}
       <div className='absolute inset-0'>
         <TextBanner className='w-full max-w-[35%] mt-[6.5%] ml-[5%]' />
       </div>

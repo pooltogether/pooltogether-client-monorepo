@@ -1,5 +1,7 @@
 import { Button, ButtonProps, LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import { useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 interface MissionSection {
   className?: string
@@ -8,9 +10,25 @@ interface MissionSection {
 export const MissionSection = (props: MissionSection) => {
   const { className } = props
 
+  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
+  const shouldReduceMotion = useReducedMotion()
+
+  useEffect(() => {
+    if (shouldReduceMotion) {
+      setIsReducedMotion(true)
+    }
+  }, [])
+
   return (
     <section className={classNames('w-full relative flex', className)}>
-      <object type='image/svg+xml' data='/animations/animatedSection3.svg' className='w-full' />
+      {isReducedMotion && <img src='/backgrounds/static/indexSection3.svg' className='w-full' />}
+      {!isReducedMotion && (
+        <object
+          type='image/svg+xml'
+          data='/backgrounds/animated/indexSection3.svg'
+          className='w-full'
+        />
+      )}
       <div className='absolute inset-0'>
         <TextBanner className='absolute w-full mt-[12%]' />
         <DeveloperBanner className='absolute w-full max-w-[21%] mt-[63%] ml-[4%]' />
