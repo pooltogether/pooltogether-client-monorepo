@@ -105,6 +105,8 @@ export const Layout = (props: LayoutProps) => {
     }
   ]
 
+  const isDarkerFooterBg = router.pathname === '/' || router.pathname === '/ecosystem'
+
   return (
     <div className='flex flex-col min-h-screen'>
       <Head>
@@ -128,23 +130,24 @@ export const Layout = (props: LayoutProps) => {
         sticky={true}
         className={classNames('shadow-2xl', {
           'transition-all': !shouldReduceMotion,
-          'py-8 border-opacity-0 shadow-transparent': scrollY === 0,
+          'py-8 border-opacity-0 shadow-transparent bg-transparent': scrollY === 0,
           'py-3 border-opacity-100': scrollY > 0
         })}
         linkClassName='text-pt-purple-100 hover:text-pt-purple-300'
       />
 
       <main
-        className={classNames(
-          'w-full relative flex flex-col flex-grow items-center mt-32 mb-10',
-          className
-        )}
+        className={classNames('w-full relative flex flex-col flex-grow items-center', className)}
       >
         <>{children}</>
       </main>
 
       <Footer
         items={footerItems}
+        className={classNames({
+          'bg-pt-bg-purple-darker': isDarkerFooterBg,
+          'bg-pt-purple-800': !isDarkerFooterBg
+        })}
         containerClassName='max-w-7xl'
         titleClassName='text-pt-purple-400'
       />

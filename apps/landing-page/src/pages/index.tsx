@@ -7,7 +7,7 @@ import { Layout } from '@components/Layout'
 
 export default function HomePage() {
   return (
-    <Layout>
+    <Layout className='mt-32'>
       <HeroSection />
       <StatsSection />
       <SavingSection />

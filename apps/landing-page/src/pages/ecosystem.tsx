@@ -1,5 +1,10 @@
+import { MainSection } from '@components/Ecosystem/MainSection'
 import { Layout } from '@components/Layout'
 
 export default function EcosystemPage() {
-  return <Layout className='gap-8'>Ecosystem Page</Layout>
+  return (
+    <Layout>
+      <MainSection />
+    </Layout>
+  )
 }

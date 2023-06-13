@@ -24,7 +24,7 @@ export const Footer = (props: FooterProps) => {
     <FlowbiteFooter
       theme={{
         root: {
-          base: 'w-full flex justify-center px-12 pt-12 pb-24 shadow md:px-16'
+          base: 'w-full flex justify-center px-12 pt-12 pb-24 shadow z-40 md:px-16'
         }
       }}
       className={classNames(className)}
