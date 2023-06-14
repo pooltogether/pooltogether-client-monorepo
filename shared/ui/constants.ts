@@ -25,5 +25,7 @@ export const LINKS = Object.freeze({
   tally: 'https://www.tally.xyz/gov/pooltogether',
   treasury: 'https://info.pooltogether.com/treasury',
   dune_v4: 'https://dune.com/sarfang/PoolTogetherV4',
-  prizeCalc: 'https://prizecalc.com'
+  prizeCalc: 'https://prizecalc.com',
+  grants: 'https://poolgrants.org',
+  communityCalendar: '#' // TODO: add link to community calendar
 })

@@ -1,5 +1,5 @@
 import { LINKS } from '@shared/ui'
-import classNames from 'classnames'
+import { SimpleCard, SimpleCardProps } from '@components/SimpleCard'
 
 const helpCardInfo = {
   about: {
@@ -35,7 +35,7 @@ const helpCardInfo = {
     description: 'Chat with us on our Discord server to get help or answers to your questions.'
   }
 } satisfies {
-  [id: string]: { href: string; iconSrc: `${string}.svg`; title: string; description: string }
+  [id: string]: Omit<SimpleCardProps, 'className'>
 }
 
 interface HelpCardProps {
@@ -48,21 +48,5 @@ export const HelpCard = (props: HelpCardProps) => {
 
   const card = helpCardInfo[type]
 
-  return (
-    <a
-      href={card.href}
-      target='_blank'
-      className={classNames(
-        'flex flex-col gap-6 p-12 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl',
-        'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
-        className
-      )}
-    >
-      <div className='flex gap-3 items-center'>
-        <img src={card.iconSrc} className='w-9 h-auto text-pt-teal-dark' />
-        <span className='text-clamp-xl'>{card.title}</span>
-      </div>
-      <span className='text-clamp-base'>{card.description}</span>
-    </a>
-  )
+  return <SimpleCard {...card} className={className} />
 }

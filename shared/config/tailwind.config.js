@@ -62,6 +62,7 @@ module.exports = {
         'clamp-xs': 'clamp(.4rem, .6vw + .2rem, 1rem)',
         'clamp-sm': 'clamp(.5rem, .7vw + .25rem, 1.3rem)',
         'clamp-base': 'clamp(.6rem, .8vw + .3rem, 1.5rem)',
+        'clamp-lg': 'clamp(.7rem, .85vw + .35rem, 1.6rem)',
         'clamp-xl': 'clamp(.8rem, .95vw + .4rem, 1.8rem)',
         'clamp-2xl': 'clamp(.8rem, 1.2vw + .4rem, 2rem)',
         'clamp-3xl': 'clamp(1rem, 1.5vw + .5rem, 2.8rem)',
