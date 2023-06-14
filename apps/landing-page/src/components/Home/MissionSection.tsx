@@ -58,9 +58,8 @@ const TextBanner = (props: TextBannerProps) => {
           lotteries.
         </span>
       </div>
-      {/* TODO: add mission href */}
-      <Button href='#'>
-        <span className='text-clamp-base px-[.4em] py-[.2em]'>Read Our Mission</span>
+      <Button href='https://medium.com/pooltogether/the-power-of-no-loss-prize-savings-1f006503f64'>
+        <span className='text-clamp-base px-[.4em] py-[.2em]'>Read More</span>
       </Button>
     </div>
   )
