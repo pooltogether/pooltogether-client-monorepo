@@ -1,12 +1,7 @@
 import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
 
-type HelpCardType = 'about' | 'gettingStarted' | 'faq' | 'guides' | 'discord'
-
-const helpCardInfo: Record<
-  HelpCardType,
-  { href: string; iconSrc: `${string}.svg`; title: string; description: string }
-> = {
+const helpCardInfo = {
   about: {
     href: LINKS.docs,
     iconSrc: '/icons/infoIcon.svg',
@@ -39,10 +34,12 @@ const helpCardInfo: Record<
     title: 'Discord',
     description: 'Chat with us on our Discord server to get help or answers to your questions.'
   }
+} satisfies {
+  [id: string]: { href: string; iconSrc: `${string}.svg`; title: string; description: string }
 }
 
 interface HelpCardProps {
-  type: HelpCardType
+  type: keyof typeof helpCardInfo
   className?: string
 }
 
@@ -57,7 +54,7 @@ export const HelpCard = (props: HelpCardProps) => {
       target='_blank'
       className={classNames(
         'flex flex-col gap-6 p-12 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl',
-        'box-border border-2 border-transparent hover:border-pt-purple-100/20 hover:shadow-lg',
+        'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
         className
       )}
     >

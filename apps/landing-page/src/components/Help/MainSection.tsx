@@ -27,19 +27,20 @@ const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col items-center gap-20 text-center', className)}>
-      <div className='flex flex-col items-center text-clamp-base text-pt-purple-50'>
-        <span className='mb-4 font-averta font-bold text-clamp-4xl leading-normal'>
-          <span className='text-pt-purple-400'>Get Help</span> With PoolTogether
-        </span>
-        <span>
-          PoolTogether is an open source protocol for{' '}
-          <span className='text-pt-teal'>Prize Linked Savings</span>.
-        </span>
-        <span>
-          This page can help you learn about the protocol, how it works and how to use it.
-        </span>
-      </div>
+    <div
+      className={classNames(
+        'flex flex-col items-center text-center text-clamp-base text-pt-purple-50',
+        className
+      )}
+    >
+      <span className='mb-4 font-averta font-bold text-clamp-4xl leading-normal'>
+        <span className='text-pt-purple-400'>Get Help</span> With PoolTogether
+      </span>
+      <span>
+        PoolTogether is an open source protocol for{' '}
+        <span className='text-pt-teal'>Prize Linked Savings</span>.
+      </span>
+      <span>This page can help you learn about the protocol, how it works and how to use it.</span>
     </div>
   )
 }

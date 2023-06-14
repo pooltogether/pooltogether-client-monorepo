@@ -1,13 +1,8 @@
 import { Button, ButtonProps, LINKS } from '@shared/ui'
 import classNames from 'classnames'
 
-type DeveloperCardType = 'v4Docs' | 'docs' | 'addToken'
-
 // TODO: add all hrefs
-const developerCardInfo: Record<
-  DeveloperCardType,
-  { src: `/${string}.svg`; buttonProps: ButtonProps; tag?: string }
-> = {
+const developerCardInfo = {
   v4Docs: {
     src: '/graphics/IntegrateGraphic.svg',
     buttonProps: { href: LINKS.devDocs_v4, target: '_blank', children: 'V4 Documentation' }
@@ -28,10 +23,10 @@ const developerCardInfo: Record<
     },
     tag: 'Coming Soon!'
   }
-}
+} satisfies { [id: string]: { src: `/${string}.svg`; buttonProps: ButtonProps; tag?: string } }
 
 interface DeveloperCardProps {
-  type: DeveloperCardType
+  type: keyof typeof developerCardInfo
   className?: string
 }
 
@@ -47,7 +42,7 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
         className
       )}
     >
-      {!!card.tag && (
+      {'tag' in card && (
         <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-clamp-xs text-pt-purple-400 bg-[#361D60] rounded-full'>
           {card.tag}
         </span>

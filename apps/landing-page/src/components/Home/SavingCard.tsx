@@ -1,11 +1,6 @@
 import classNames from 'classnames'
 
-type SavingCardType = 'deposit' | 'winPrizes' | 'noLoss'
-
-const savingCardInfo: Record<
-  SavingCardType,
-  { src: `/${string}.svg`; title: string; description: string }
-> = {
+const savingCardInfo = {
   deposit: {
     src: '/graphics/DepositGraphic.svg',
     title: 'Deposit',
@@ -21,10 +16,10 @@ const savingCardInfo: Record<
     title: 'No Loss',
     description: 'No fees, withdraw any time'
   }
-}
+} satisfies { [id: string]: { src: `/${string}.svg`; title: string; description: string } }
 
 interface SavingCardProps {
-  type: SavingCardType
+  type: keyof typeof savingCardInfo
   className?: string
 }
 

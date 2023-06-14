@@ -19,5 +19,11 @@ export const LINKS = Object.freeze({
   discord: 'https://pooltogether.com/discord',
   github: 'https://github.com/pooltogether',
   medium: 'https://medium.com/pooltogether',
-  ecosystem: '#' // TODO: add ecosystem app link
+  ecosystem: 'https://mvp-pt-landing-page.netlify.app/ecosystem',
+  poolExplorer: 'https://poolexplorer.win',
+  depositDelegator: 'https://tools.pooltogether.com/delegate',
+  tally: 'https://www.tally.xyz/gov/pooltogether',
+  treasury: 'https://info.pooltogether.com/treasury',
+  dune_v4: 'https://dune.com/sarfang/PoolTogetherV4',
+  prizeCalc: 'https://prizecalc.com'
 })
