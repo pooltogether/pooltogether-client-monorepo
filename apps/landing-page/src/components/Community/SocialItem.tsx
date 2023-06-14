@@ -1,12 +1,13 @@
+import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
 
 const socialItemInfo = {
-  lens: { name: 'Lens Protocol', iconSrc: '/icons/lensIcon.svg' },
-  mirror: { name: 'Mirror', iconSrc: '/icons/mirrorIcon.svg' },
-  twitter: { name: 'Twitter', iconSrc: '/icons/twitterIcon.svg' },
-  medium: { name: 'Medium', iconSrc: '/icons/mediumIcon.svg' },
-  notion: { name: 'Notion', iconSrc: '/icons/notionIcon.svg' }
-} satisfies { [id: string]: { name: string; iconSrc: `${string}.svg` } }
+  lens: { href: LINKS.lens, name: 'Lens Protocol', iconSrc: '/icons/lensIcon.svg' },
+  mirror: { href: LINKS.mirror, name: 'Mirror', iconSrc: '/icons/mirrorIcon.svg' },
+  twitter: { href: LINKS.twitter, name: 'Twitter', iconSrc: '/icons/twitterIcon.svg' },
+  medium: { href: LINKS.medium, name: 'Medium', iconSrc: '/icons/mediumIcon.svg' },
+  notion: { href: LINKS.notion, name: 'Notion', iconSrc: '/icons/notionIcon.svg' }
+} satisfies { [id: string]: { href: string; name: string; iconSrc: `${string}.svg` } }
 
 interface SocialItemProps {
   type: keyof typeof socialItemInfo
@@ -19,9 +20,13 @@ export const SocialItem = (props: SocialItemProps) => {
   const social = socialItemInfo[type]
 
   return (
-    <div className={classNames('flex flex-col gap-6 items-center', className)}>
+    <a
+      href={social.href}
+      target='_blank'
+      className={classNames('flex flex-col gap-6 items-center', className)}
+    >
       <span className='text-clamp-lg text-pt-purple-100'>{social.name}</span>
       <img src={social.iconSrc} alt={`${social.name} Icon`} className='h-12 w-auto' />
-    </div>
+    </a>
   )
 }
