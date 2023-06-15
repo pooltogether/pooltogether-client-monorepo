@@ -62,6 +62,7 @@ const DocCard = (props: DocCardProps) => {
       target='_blank'
       className={classNames(
         'h-full flex grow gap-4 items-center justify-center px-16 py-12 bg-pt-bg-purple-darker rounded-2xl',
+        'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
         className
       )}
     >
