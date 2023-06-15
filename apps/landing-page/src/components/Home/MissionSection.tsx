@@ -22,18 +22,30 @@ export const MissionSection = (props: MissionSection) => {
 
   return (
     <section className={classNames('w-full relative flex', className)}>
-      {isReducedMotion && <img src='/backgrounds/static/indexSection3.svg' className='w-full' />}
+      {isReducedMotion && (
+        <>
+          <img src='/backgrounds/static/indexSection3.svg' className='w-full hidden md:block' />
+          <img src='/backgrounds/static/mobileIndexSection3.svg' className='w-full md:hidden' />
+        </>
+      )}
       {!isReducedMotion && (
-        <object
-          type='image/svg+xml'
-          data='/backgrounds/animated/indexSection3.svg'
-          className='w-full'
-        />
+        <>
+          <object
+            type='image/svg+xml'
+            data='/backgrounds/animated/indexSection3.svg'
+            className='w-full hidden md:block'
+          />
+          <object
+            type='image/svg+xml'
+            data='/backgrounds/static/mobileIndexSection3.svg' // TODO: swap for animated version
+            className='w-full md:hidden'
+          />
+        </>
       )}
       <div className='absolute inset-0'>
-        <TextBanner className='absolute w-full mt-[12%]' />
-        <DeveloperBanner className='absolute w-full max-w-[21%] mt-[63%] ml-[4%]' />
-        <DeveloperCards className='absolute w-full h-[18.5%] max-w-[47.5%] mt-[65%] ml-[46%]' />
+        <TextBanner className='absolute w-full h-[20.8%] md:h-auto md:mt-[12%]' />
+        <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[21.8%] mt-[148.5%] md:max-w-[21%] md:h-auto md:mt-[63%] md:ml-[4%]' />
+        <DeveloperCards className='absolute w-full max-w-[60%] h-[40.5%] mt-[279.5%] ml-[20%] md:max-w-[47.5%] md:h-[18.5%] md:mt-[65%] md:ml-[46%]' />
       </div>
     </section>
   )
@@ -47,13 +59,20 @@ const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col items-center gap-20 text-center', className)}>
-      <span className='text-clamp-sm text-pt-purple-100'>Why Prize Savings?</span>
-      <div className='flex flex-col items-center gap-2 text-pt-purple-100'>
-        <span className='font-averta font-bold text-clamp-4xl leading-normal'>
+    <div
+      className={classNames(
+        'flex flex-col gap-2 items-center justify-center text-center md:gap-20',
+        className
+      )}
+    >
+      <span className='text-clamp-base text-pt-purple-100 md:text-clamp-sm'>
+        Why Prize Savings?
+      </span>
+      <div className='flex flex-col items-center gap-2 mb-8 text-pt-purple-100 md:mb-0'>
+        <span className='font-averta font-bold text-clamp-4xl leading-tight md:leading-normal'>
           <span className='text-pt-purple-400'>The Mission:</span> Financial freedom for all
         </span>
-        <span className='text-clamp-xl w-3/4'>
+        <span className='text-clamp-xl md:w-3/4'>
           Prize savings are a proven tool to help people save money and avoid wealth destroying
           lotteries.
         </span>
@@ -73,12 +92,17 @@ const DeveloperBanner = (props: DeveloperBannerProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col gap-4 text-pt-purple-100', className)}>
-      <span className='text-clamp-sm'>For Developers</span>
+    <div
+      className={classNames(
+        'flex flex-col gap-2 justify-center p-4 text-pt-purple-100 md:gap-4 md:p-0',
+        className
+      )}
+    >
+      <span className='text-clamp-base md:text-clamp-sm'>For Developers</span>
       <span className='font-averta font-bold text-clamp-4xl leading-tight text-pt-purple-50'>
         Build on PoolTogether
       </span>
-      <span className='text-clamp-xl'>
+      <span className='text-clamp-2xl md:text-clamp-xl'>
         PoolTogether unlocks organic usage for wallets & blockchains
       </span>
     </div>
@@ -93,7 +117,9 @@ const DeveloperCards = (props: DeveloperCardsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex justify-between gap-4', className)}>
+    <div
+      className={classNames('flex flex-col gap-12 justify-between md:flex-row md:gap-4', className)}
+    >
       <DeveloperCard type='v4Docs' className='grow' />
       <DeveloperCard type='docs' className='grow' />
       <DeveloperCard type='addToken' className='grow' />

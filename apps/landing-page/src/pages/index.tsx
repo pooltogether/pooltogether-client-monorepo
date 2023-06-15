@@ -7,12 +7,14 @@ import { Layout } from '@components/Layout'
 
 export default function HomePage() {
   return (
-    <Layout className='mt-32'>
-      <HeroSection />
+    <Layout>
+      {/* TODO: this margin should be a % on mobile */}
+      <HeroSection className='mt-28 md:mt-32' />
       <StatsSection />
       <SavingSection />
-      <MissionSection />
-      <CryptoSection />
+      <MissionSection className='pt-[105%] md:pt-0' />
+      {/* TODO: this margin should be a % on mobile */}
+      <CryptoSection className='mt-32 md:mt-0' />
     </Layout>
   )
 }

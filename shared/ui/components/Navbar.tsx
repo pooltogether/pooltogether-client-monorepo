@@ -68,7 +68,7 @@ export const Navbar = (props: NavbarProps) => {
           )}
         </div>
       </FlowbiteNavbar>
-      <MobileNavbar>
+      <MobileNavbar className='z-50'>
         <NavbarLinks
           links={[{ href: '/', name: 'Home' }, ...links]}
           activePage={activePage}
@@ -135,7 +135,7 @@ const MobileNavbar = (props: MobileNavbarProps) => {
   return (
     <div
       className={classNames(
-        'fixed bottom-0 flex w-full h-[60px] justify-center items-center gap-6 z-10 md:hidden',
+        'fixed bottom-0 flex w-full h-[60px] justify-center items-center gap-6 md:hidden',
         'bg-pt-purple-600 border-t-2 border-pt-purple-500',
         className
       )}

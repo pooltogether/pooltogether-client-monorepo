@@ -30,14 +30,14 @@ export const SavingCard = (props: SavingCardProps) => {
 
   return (
     <div className={classNames('flex flex-col gap-6', className)}>
-      <div className='w-full bg-pt-bg-purple-darker rounded-3xl'>
+      <div className='w-full bg-pt-bg-purple-darker rounded-2xl md:rounded-3xl'>
         <object type='image/svg+xml' data={card.src} className='w-full' />
       </div>
-      <div className='flex flex-col gap-2 text-center'>
+      <div className='flex flex-col gap-1 text-center md:gap-2'>
         <span className='font-averta font-bold text-clamp-3xl text-pt-purple-100'>
           {card.title}
         </span>
-        <span className='text-clamp-base text-gray-100'>{card.description}</span>
+        <span className='text-clamp-xl text-gray-100 md:text-clamp-base'>{card.description}</span>
       </div>
     </div>
   )

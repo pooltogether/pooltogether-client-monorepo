@@ -59,15 +59,15 @@ module.exports = {
         }
       },
       fontSize: {
-        'clamp-xs': 'clamp(.4rem, .6vw + .2rem, 1rem)',
-        'clamp-sm': 'clamp(.5rem, .7vw + .25rem, 1.3rem)',
-        'clamp-base': 'clamp(.6rem, .8vw + .3rem, 1.5rem)',
-        'clamp-lg': 'clamp(.7rem, .85vw + .35rem, 1.6rem)',
-        'clamp-xl': 'clamp(.8rem, .95vw + .4rem, 1.8rem)',
-        'clamp-2xl': 'clamp(.8rem, 1.2vw + .4rem, 2rem)',
-        'clamp-3xl': 'clamp(1rem, 1.5vw + .5rem, 2.8rem)',
-        'clamp-4xl': 'clamp(1.5rem, 2vw + .75rem, 3.6rem)',
-        'clamp-5xl': 'clamp(2rem, 2.8vw + 1rem, 4.5rem)'
+        'clamp-xs': 'clamp(.5rem, .6vw + .2rem, 1rem)',
+        'clamp-sm': 'clamp(.6rem, .7vw + .25rem, 1.3rem)',
+        'clamp-base': 'clamp(.7rem, .8vw + .3rem, 1.5rem)',
+        'clamp-lg': 'clamp(.8rem, .85vw + .35rem, 1.6rem)',
+        'clamp-xl': 'clamp(.9rem, .95vw + .4rem, 1.8rem)',
+        'clamp-2xl': 'clamp(1rem, 1.2vw + .4rem, 2rem)',
+        'clamp-3xl': 'clamp(1.5rem, 1.5vw + .5rem, 2.8rem)',
+        'clamp-4xl': 'clamp(2rem, 2vw + .75rem, 3.6rem)',
+        'clamp-5xl': 'clamp(2.5rem, 2.8vw + 1rem, 4.5rem)'
       }
     },
     screens: {

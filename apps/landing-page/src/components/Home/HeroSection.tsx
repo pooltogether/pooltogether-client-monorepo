@@ -20,17 +20,29 @@ export const HeroSection = (props: HeroSection) => {
   }, [])
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
-      {isReducedMotion && <img src='/backgrounds/static/indexSection1.svg' className='w-full' />}
+    <section className={classNames('w-full relative flex ', className)}>
+      {isReducedMotion && (
+        <>
+          <img src='/backgrounds/static/indexSection1.svg' className='w-full hidden md:block' />
+          <img src='/backgrounds/static/mobileIndexSection1.svg' className='w-full md:hidden' />
+        </>
+      )}
       {!isReducedMotion && (
-        <object
-          type='image/svg+xml'
-          data='/backgrounds/animated/indexSection1.svg'
-          className='w-full'
-        />
+        <>
+          <object
+            type='image/svg+xml'
+            data='/backgrounds/animated/indexSection1.svg'
+            className='w-full hidden md:block'
+          />
+          <object
+            type='image/svg+xml'
+            data='/backgrounds/static/mobileIndexSection1.svg' // TODO: swap for animated version
+            className='w-full md:hidden'
+          />
+        </>
       )}
       <div className='absolute inset-0'>
-        <TextBanner className='w-full max-w-[35%] mt-[6.5%] ml-[5%]' />
+        <TextBanner className='w-full md:max-w-[35%] md:mt-[6.5%] md:ml-[5%]' />
       </div>
     </section>
   )
@@ -48,12 +60,19 @@ const TextBanner = (props: TextBannerProps) => {
   const formattedNumWallets = formatNumberForDisplay(Math.floor(numWallets / 1_000) * 1_000)
 
   return (
-    <div className={classNames('flex flex-col gap-6', className)}>
-      <h1 className='flex flex-col font-averta font-bold text-clamp-5xl leading-tight'>
-        <span className='whitespace-nowrap'>
+    <div
+      className={classNames(
+        'flex flex-col gap-2 px-4 text-center md:gap-6 md:px-0 md:text-start',
+        className
+      )}
+    >
+      <h1 className='font-averta font-bold text-clamp-5xl leading-tight md:flex md:flex-col'>
+        <span className='md:whitespace-nowrap'>
           The <span className='text-pt-purple-400'>#1 Protocol</span> for
         </span>
-        <span>Real Adoption</span>
+        <span>
+          <span className='md:hidden'> </span>Real Adoption
+        </span>
       </h1>
       <span className='text-clamp-2xl font-medium'>
         The permissionless protocol {formattedNumWallets} people are using to win by saving

@@ -43,7 +43,7 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
       )}
     >
       {'tag' in card && (
-        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-clamp-xs text-pt-purple-400 bg-[#361D60] rounded-full'>
+        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-clamp-sm text-pt-purple-400 bg-[#361D60] rounded-full md:text-clamp-xs'>
           {card.tag}
         </span>
       )}
