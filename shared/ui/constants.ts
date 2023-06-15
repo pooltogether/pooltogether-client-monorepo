@@ -30,5 +30,10 @@ export const LINKS = Object.freeze({
   communityCalendar: '#', // TODO: add link to community calendar
   lens: 'https://lenster.xyz/u/pooltogether',
   mirror: 'https://pooltogether.mirror.xyz/',
-  notion: '#' // TODO: add link to notion
+  notion: '#', // TODO: add link to notion
+  clientJs: 'https://www.npmjs.com/package/@pooltogether/hyperstructure-client-js',
+  clientJs_v4: 'https://www.npmjs.com/package/@pooltogether/v4-client-js',
+  reactHooks: 'https://www.npmjs.com/package/@pooltogether/hyperstructure-react-hooks',
+  prizeTierController: 'https://tools.pooltogether.com/prize-tier-controller',
+  brandKit: 'https://pooltogether.com/brand-assets'
 })
