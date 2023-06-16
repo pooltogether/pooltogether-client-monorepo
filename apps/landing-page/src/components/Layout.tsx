@@ -54,9 +54,9 @@ export const Layout = (props: LayoutProps) => {
           )
         }
       ],
-      className: 'grow-[2] pr-20',
-      titleClassName: 'text-right',
-      itemClassName: 'ml-auto'
+      className: 'min-w-min xl:pr-20',
+      titleClassName: 'whitespace-nowrap lg:text-right',
+      itemClassName: 'lg:ml-auto'
     },
     {
       title: 'Ecosystem',
