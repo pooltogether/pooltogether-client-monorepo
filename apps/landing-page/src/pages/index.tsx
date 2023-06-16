@@ -8,12 +8,11 @@ import { Layout } from '@components/Layout'
 export default function HomePage() {
   return (
     <Layout>
-      <HeroSection className='md:mt-32' />
+      <HeroSection className='pt-10 md:mt-32' />
       <StatsSection />
       <SavingSection />
       <MissionSection className='pt-[105%] md:pt-0' />
-      {/* TODO: this margin should be a % on mobile */}
-      <CryptoSection className='mt-32 md:mt-0' />
+      <CryptoSection className='mt-[35%] md:mt-0' />
     </Layout>
   )
 }

@@ -14,7 +14,10 @@ export const SimpleTextBanner = (props: SimpleTextBannerProps) => {
 
   return (
     <div
-      className={classNames('flex flex-col items-center text-center text-pt-purple-50', className)}
+      className={classNames(
+        'flex flex-col items-center text-center px-4 text-pt-purple-50 md:px-0',
+        className
+      )}
     >
       <span
         className={classNames(

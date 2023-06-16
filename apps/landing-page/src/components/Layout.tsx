@@ -132,11 +132,11 @@ export const Layout = (props: LayoutProps) => {
         }
         sticky={isDesktop}
         className={classNames(
-          '!px-4 sm:!px-8 py-8 bg-transparent !border-opacity-0 md:shadow-2xl',
+          '!px-4 !py-3 bg-transparent !border-opacity-0 sm:!px-8 md:shadow-2xl',
           {
             'transition-all': !shouldReduceMotion,
-            '!shadow-transparent': scrollY === 0,
-            'md:py-4 md:bg-pt-bg-purple-darker md:!border-opacity-100': scrollY > 0
+            '!shadow-transparent md:!py-8': scrollY === 0,
+            'md:!py-4 md:bg-pt-bg-purple-darker md:!border-opacity-100': scrollY > 0
           }
         )}
         linkClassName='text-xs sm:text-sm md:text-base text-pt-purple-100 hover:text-pt-purple-300'

@@ -1,7 +1,6 @@
 import { formatNumberForDisplay } from '@shared/utilities'
 import classNames from 'classnames'
-import { useReducedMotion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { SvgBackground } from '@components/SvgBackground'
 
 interface HeroSection {
   className?: string
@@ -10,39 +9,15 @@ interface HeroSection {
 export const HeroSection = (props: HeroSection) => {
   const { className } = props
 
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setIsReducedMotion(true)
-    }
-  }, [])
-
   return (
     <section className={classNames('w-full relative flex ', className)}>
-      {isReducedMotion && (
-        <>
-          <img src='/backgrounds/static/indexSection1.svg' className='w-full hidden md:block' />
-          <img src='/backgrounds/static/mobileIndexSection1.svg' className='w-full md:hidden' />
-        </>
-      )}
-      {!isReducedMotion && (
-        <>
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/animated/indexSection1.svg'
-            className='w-full hidden md:block'
-          />
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/static/mobileIndexSection1.svg' // TODO: swap for animated version
-            className='w-full md:hidden'
-          />
-        </>
-      )}
+      <SvgBackground
+        bg='indexSection1.svg'
+        smallBg='mobileIndexSection1.svg'
+        animatedBg='indexSection1.svg'
+      />
       <div className='absolute inset-0'>
-        <TextBanner className='w-full md:max-w-[35%] md:mt-[6.5%] md:ml-[5%]' />
+        <TextBanner className='w-full h-[38%] md:max-w-[35%] md:h-auto md:mt-[6.5%] md:ml-[5%]' />
       </div>
     </section>
   )
@@ -62,7 +37,7 @@ const TextBanner = (props: TextBannerProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col gap-2 px-4 text-center md:gap-6 md:px-0 md:text-start',
+        'flex flex-col gap-2 px-4 text-center justify-center md:gap-6 md:px-0 md:text-start',
         className
       )}
     >

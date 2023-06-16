@@ -1,7 +1,6 @@
 import { Button, LINKS } from '@shared/ui'
 import classNames from 'classnames'
-import { useReducedMotion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { SvgBackground } from '@components/SvgBackground'
 
 interface CryptoSection {
   className?: string
@@ -10,37 +9,13 @@ interface CryptoSection {
 export const CryptoSection = (props: CryptoSection) => {
   const { className } = props
 
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setIsReducedMotion(true)
-    }
-  }, [])
-
   return (
     <section className={classNames('w-full relative flex', className)}>
-      {isReducedMotion && (
-        <>
-          <img src='/backgrounds/static/indexSection4.svg' className='w-full hidden md:block' />
-          <img src='/backgrounds/static/mobileIndexSection4.svg' className='w-full md:hidden' />
-        </>
-      )}
-      {!isReducedMotion && (
-        <>
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/animated/indexSection4.svg'
-            className='w-full hidden md:block'
-          />
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/static/mobileIndexSection4.svg' // TODO: swap for animated version
-            className='w-full md:hidden'
-          />
-        </>
-      )}
+      <SvgBackground
+        bg='indexSection4.svg'
+        smallBg='mobileIndexSection4.svg'
+        animatedBg='indexSection4.svg'
+      />
       <div className='absolute inset-0'>
         <TextBanner className='w-full mt-[58%] md:mt-[38%]' />
       </div>

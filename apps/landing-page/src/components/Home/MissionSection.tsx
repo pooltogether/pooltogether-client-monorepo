@@ -1,7 +1,6 @@
 import { Button } from '@shared/ui'
 import classNames from 'classnames'
-import { useReducedMotion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { SvgBackground } from '@components/SvgBackground'
 import { DeveloperCard } from './DeveloperCard'
 
 interface MissionSection {
@@ -11,37 +10,13 @@ interface MissionSection {
 export const MissionSection = (props: MissionSection) => {
   const { className } = props
 
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setIsReducedMotion(true)
-    }
-  }, [])
-
   return (
     <section className={classNames('w-full relative flex', className)}>
-      {isReducedMotion && (
-        <>
-          <img src='/backgrounds/static/indexSection3.svg' className='w-full hidden md:block' />
-          <img src='/backgrounds/static/mobileIndexSection3.svg' className='w-full md:hidden' />
-        </>
-      )}
-      {!isReducedMotion && (
-        <>
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/animated/indexSection3.svg'
-            className='w-full hidden md:block'
-          />
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/static/mobileIndexSection3.svg' // TODO: swap for animated version
-            className='w-full md:hidden'
-          />
-        </>
-      )}
+      <SvgBackground
+        bg='indexSection3.svg'
+        smallBg='mobileIndexSection3.svg'
+        animatedBg='indexSection3.svg'
+      />
       <div className='absolute inset-0'>
         <TextBanner className='absolute w-full h-[20.8%] md:h-auto md:mt-[12%]' />
         <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[21.8%] mt-[148.5%] md:max-w-[21%] md:h-auto md:mt-[63%] md:ml-[4%]' />

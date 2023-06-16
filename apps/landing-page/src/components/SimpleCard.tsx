@@ -16,14 +16,14 @@ export const SimpleCard = (props: SimpleCardProps) => {
       href={href}
       target='_blank'
       className={classNames(
-        'flex flex-col gap-6 p-12 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl',
+        'flex flex-col gap-3 p-8 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl md:gap-6 md:p-12',
         'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
         className
       )}
     >
-      <div className='flex gap-3 items-center'>
-        <img src={iconSrc} className='w-9 h-auto text-pt-teal-dark' />
-        <span className='text-clamp-xl'>{title}</span>
+      <div className='flex gap-2 items-center md:gap-3'>
+        <img src={iconSrc} className='w-6 h-auto text-pt-teal-dark md:w-8' />
+        <span className='text-clamp-2xl md:text-clamp-xl'>{title}</span>
       </div>
       <span className='text-clamp-base'>{description}</span>
     </a>

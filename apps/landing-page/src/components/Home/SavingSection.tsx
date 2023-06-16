@@ -1,7 +1,6 @@
 import classNames from 'classnames'
-import { useReducedMotion } from 'framer-motion'
-import { useEffect, useState } from 'react'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
+import { SvgBackground } from '@components/SvgBackground'
 import { SavingCard } from './SavingCard'
 
 interface SavingSection {
@@ -11,37 +10,13 @@ interface SavingSection {
 export const SavingSection = (props: SavingSection) => {
   const { className } = props
 
-  const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false)
-  const shouldReduceMotion = useReducedMotion()
-
-  useEffect(() => {
-    if (shouldReduceMotion) {
-      setIsReducedMotion(true)
-    }
-  }, [])
-
   return (
     <section className={classNames('w-full relative flex', className)}>
-      {isReducedMotion && (
-        <>
-          <img src='/backgrounds/static/indexSection2.svg' className='w-full hidden md:block' />
-          <img src='/backgrounds/static/mobileIndexSection2.svg' className='w-full md:hidden' />
-        </>
-      )}
-      {!isReducedMotion && (
-        <>
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/animated/indexSection2.svg'
-            className='w-full hidden md:block'
-          />
-          <object
-            type='image/svg+xml'
-            data='/backgrounds/static/mobileIndexSection2.svg' // TODO: swap for animated version
-            className='w-full md:hidden'
-          />
-        </>
-      )}
+      <SvgBackground
+        bg='indexSection2.svg'
+        smallBg='mobileIndexSection2.svg'
+        animatedBg='indexSection2.svg'
+      />
       <div className='absolute inset-0'>
         <SimpleTextBanner
           title={
