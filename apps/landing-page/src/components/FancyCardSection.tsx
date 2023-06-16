@@ -3,20 +3,20 @@ import { EcosystemCard, ecosystemCardInfo } from './Ecosystem/EcosystemCard'
 
 type FancyCardId = keyof typeof ecosystemCardInfo | keyof typeof builderCardInfo
 
-interface FancyCardRowProps {
+interface FancyCardSectionProps {
   iconSrc: `${string}.svg`
   title: string
   cards: FancyCardId[]
 }
 
 // TODO: this isn't perfect. Looks off in large screens and doesn't have consistent height.
-export const FancyCardRow = (props: FancyCardRowProps) => {
+export const FancyCardSection = (props: FancyCardSectionProps) => {
   const { iconSrc, title, cards } = props
 
   return (
     <div className='flex flex-col gap-4 items-center'>
       <div className='flex gap-3 items-center text-pt-purple-50'>
-        <img src={iconSrc} className='h-9 w-auto text-pt-purple-300' />
+        <img src={iconSrc} className='h-6 w-auto text-pt-purple-300 md:h-8' />
         <span className='text-clamp-xl'>{title}</span>
       </div>
       <div className='w-full flex flex-wrap gap-4 justify-center'>
@@ -26,7 +26,7 @@ export const FancyCardRow = (props: FancyCardRowProps) => {
               <EcosystemCard
                 key={`${cardType}-card`}
                 type={cardType as keyof typeof ecosystemCardInfo}
-                className='w-[30%] max-w-xl'
+                className='w-[45%] min-w-[21rem] max-w-xl md:w-[30%] shrink'
               />
             )
           } else if (cardType in builderCardInfo) {
@@ -34,7 +34,7 @@ export const FancyCardRow = (props: FancyCardRowProps) => {
               <BuilderCard
                 key={`${cardType}-card`}
                 type={cardType as keyof typeof builderCardInfo}
-                className='w-[30%] max-w-xl'
+                className='w-[45%] min-w-[21rem] max-w-xl md:w-[30%]'
               />
             )
           }

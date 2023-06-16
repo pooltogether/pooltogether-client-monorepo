@@ -11,7 +11,8 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
+    // TODO: ideally we don't have magic numbers for bottom margin here
+    <section className={classNames('w-full relative flex mb-[30rem] md:mb-0', className)}>
       <SvgBackground bg='helpSection1.svg' smallBg='mobileHelpSection1.svg' />
       <div className='absolute inset-0'>
         <SimpleTextBanner
@@ -32,7 +33,7 @@ export const MainSection = (props: MainSection) => {
             </>
           }
           className='absolute w-full mt-[30%] md:mt-[15.5%]'
-          titleClassName='!text-clamp-3xl md:mb-4 md:!text-clamp-4xl'
+          titleClassName='md:mb-4'
           descriptionClassName='flex flex-col'
         />
         <HelpCards className='absolute w-full mt-[75%] md:max-w-[82%] md:h-[54%] md:mt-[27.3%] md:ml-[9%]' />

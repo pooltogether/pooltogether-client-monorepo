@@ -1,6 +1,6 @@
 import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
-import { FancyCardRow } from '@components/FancyCardRow'
+import { FancyCardSection } from '@components/FancyCardSection'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 
 interface MainSection {
@@ -84,12 +84,12 @@ const CardRows = (props: CardRowsProps) => {
 
   return (
     <div className={classNames('flex flex-col gap-16 overflow-hidden', className)}>
-      <FancyCardRow
+      <FancyCardSection
         iconSrc='/icons/codeIcon.svg'
         title='Developer Tools'
         cards={['clientJs_v4', 'prizeTierController', 'clientJs', 'reactHooks']}
       />
-      <FancyCardRow
+      <FancyCardSection
         iconSrc='/icons/landscapeIcon.svg'
         title='Designer Tools'
         cards={['brandKit']}

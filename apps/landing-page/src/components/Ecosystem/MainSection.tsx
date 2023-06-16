@@ -1,6 +1,7 @@
 import classNames from 'classnames'
-import { FancyCardRow } from '@components/FancyCardRow'
+import { FancyCardSection } from '@components/FancyCardSection'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
+import { SvgBackground } from '@components/SvgBackground'
 
 interface MainSection {
   className?: string
@@ -10,8 +11,14 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
-      <img src='/backgrounds/static/ecosystemSection1.svg' className='w-full' />
+    // TODO: ideally we don't have magic numbers for bottom margin here
+    <section
+      className={classNames(
+        'w-full relative flex mb-[105rem] sm:mb-[30rem] md:mb-[36rem] lg:mb-[26rem] 2xl:mb-0',
+        className
+      )}
+    >
+      <SvgBackground bg='ecosystemSection1.svg' smallBg='mobileEcosystemSection1.svg' />
       <div className='absolute inset-0'>
         <SimpleTextBanner
           title={
@@ -20,9 +27,10 @@ export const MainSection = (props: MainSection) => {
             </>
           }
           description={<>Check out tools and extensions for the PoolTogether protocol</>}
-          className='absolute w-full mt-[16%]'
+          className='absolute w-full mt-[28%] md:mt-[16%]'
+          descriptionClassName='px-[20%] sm:px-0'
         />
-        <CardRows className='absolute w-full h-[77%] mt-[28%]' />
+        <CardRows className='absolute w-full mt-[55%] md:h-[77%] md:mt-[28%]' />
       </div>
     </section>
   )
@@ -36,18 +44,18 @@ const CardRows = (props: CardRowsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col gap-16 overflow-hidden', className)}>
-      <FancyCardRow
+    <div className={classNames('flex flex-col gap-16', className)}>
+      <FancyCardSection
         iconSrc='/icons/addIcon.svg'
         title='Deposit & Withdraw'
         cards={['ptApp_v4', 'poolExplorer']}
       />
-      <FancyCardRow
+      <FancyCardSection
         iconSrc='/icons/puzzleIcon.svg'
         title='Extend PoolTogether'
         cards={['depositDelegator']}
       />
-      <FancyCardRow
+      <FancyCardSection
         iconSrc='/icons/presentationIcon.svg'
         title='Tools'
         cards={['treasury', 'tally', 'dune_v4', 'prizeCalc']}
