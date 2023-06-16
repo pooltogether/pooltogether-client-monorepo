@@ -1,4 +1,5 @@
 import { LINKS } from '@shared/ui'
+import classNames from 'classnames'
 import { SimpleCard, SimpleCardProps } from '@components/SimpleCard'
 
 const communityCardInfo = {
@@ -46,5 +47,5 @@ export const CommunityCard = (props: CommunityCardProps) => {
 
   const card = communityCardInfo[type]
 
-  return <SimpleCard {...card} className={className} />
+  return <SimpleCard {...card} className={classNames('max-w-sm md:max-w-none', className)} />
 }

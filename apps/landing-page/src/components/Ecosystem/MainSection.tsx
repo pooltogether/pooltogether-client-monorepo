@@ -44,7 +44,7 @@ const CardRows = (props: CardRowsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col gap-16', className)}>
+    <div className={classNames('flex flex-col gap-6 md:gap-16', className)}>
       <FancyCardSection
         iconSrc='/icons/addIcon.svg'
         title='Deposit & Withdraw'

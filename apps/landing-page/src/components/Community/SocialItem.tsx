@@ -23,10 +23,14 @@ export const SocialItem = (props: SocialItemProps) => {
     <a
       href={social.href}
       target='_blank'
-      className={classNames('flex flex-col gap-6 items-center', className)}
+      className={classNames('flex flex-col gap-3 items-center md:gap-6', className)}
     >
       <span className='text-clamp-lg text-pt-purple-100'>{social.name}</span>
-      <img src={social.iconSrc} alt={`${social.name} Icon`} className='h-12 w-auto' />
+      <img
+        src={social.iconSrc}
+        alt={`${social.name} Icon`}
+        className='h-full max-h-6 w-auto max-w-6 md:max-h-12 md:max-w-12'
+      />
     </a>
   )
 }
