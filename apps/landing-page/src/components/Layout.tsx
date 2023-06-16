@@ -1,3 +1,4 @@
+import { useScreenSize } from '@shared/generic-react-hooks'
 import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
@@ -15,6 +16,8 @@ export const Layout = (props: LayoutProps) => {
   const { children, className } = props
 
   const router = useRouter()
+
+  const { isDesktop } = useScreenSize()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -124,16 +127,20 @@ export const Layout = (props: LayoutProps) => {
         linksAs={Link}
         append={
           <Button href={LINKS.app_v4}>
-            <span className='px-10 text-base'>Use PoolTogether</span>
+            <span className='text-sm md:px-6 md:text-base'>Use PoolTogether</span>
           </Button>
         }
-        sticky={true}
-        className={classNames('shadow-2xl', {
-          'transition-all': !shouldReduceMotion,
-          'py-8 border-opacity-0 shadow-transparent bg-transparent': scrollY === 0,
-          'py-3 border-opacity-100': scrollY > 0
-        })}
-        linkClassName='text-pt-purple-100 hover:text-pt-purple-300'
+        sticky={isDesktop}
+        className={classNames(
+          '!px-4 sm:!px-8 py-8 bg-transparent !border-opacity-0 md:shadow-2xl',
+          {
+            'transition-all': !shouldReduceMotion,
+            '!shadow-transparent': scrollY === 0,
+            'md:py-4 md:bg-pt-bg-purple-darker md:!border-opacity-100': scrollY > 0
+          }
+        )}
+        linkClassName='text-xs sm:text-sm md:text-base text-pt-purple-100 hover:text-pt-purple-300'
+        mobileBottomClassName='!gap-4 sm:!gap-6'
       />
 
       <main

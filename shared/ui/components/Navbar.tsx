@@ -24,23 +24,30 @@ export interface NavbarProps {
   sticky?: boolean
   className?: string
   linkClassName?: string
+  mobileBottomClassName?: string
 }
 
 export const Navbar = (props: NavbarProps) => {
-  const { links, activePage, linksAs, append, onClickSettings, sticky, className, linkClassName } =
-    props
+  const {
+    links,
+    activePage,
+    linksAs,
+    append,
+    onClickSettings,
+    sticky,
+    className,
+    linkClassName,
+    mobileBottomClassName
+  } = props
 
   return (
     <>
       <FlowbiteNavbar
         fluid={true}
         theme={{
-          base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4 isolate z-50'
+          base: 'font-averta bg-pt-bg-purple-darker text-pt-purple-50 px-8 py-4 border-b-2 border-b-pt-purple-700 border-opacity-0 isolate z-50'
         }}
-        className={classNames(
-          { 'fixed w-full border-b-2 border-b-pt-purple-700': sticky },
-          className
-        )}
+        className={classNames({ 'fixed w-full border-opacity-100': sticky }, className)}
       >
         {/* Left Side Branding */}
         <FlowbiteNavbar.Brand href='/' className='z-30'>
@@ -68,7 +75,7 @@ export const Navbar = (props: NavbarProps) => {
           )}
         </div>
       </FlowbiteNavbar>
-      <MobileNavbar className='z-50'>
+      <MobileNavbar className={classNames('z-50', mobileBottomClassName)}>
         <NavbarLinks
           links={[{ href: '/', name: 'Home' }, ...links]}
           activePage={activePage}
