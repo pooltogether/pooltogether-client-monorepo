@@ -1,7 +1,11 @@
 import { useFathom } from '@shared/generic-react-hooks'
 import { Flowbite } from '@shared/ui'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
+
+// React Query Client:
+const queryClient = new QueryClient()
 
 export const AppContainer = (props: AppProps) => {
   const { Component, pageProps } = props
@@ -19,8 +23,10 @@ export const AppContainer = (props: AppProps) => {
 
   return (
     <Flowbite theme={{ dark: true }}>
-      <div id='modal-root' />
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <div id='modal-root' />
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </Flowbite>
   )
 }
