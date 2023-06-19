@@ -14,7 +14,7 @@ export const MainSection = (props: MainSection) => {
     // TODO: ideally we don't have magic numbers for bottom margin here
     <section
       className={classNames(
-        'w-full relative flex mb-[105rem] sm:mb-[30rem] md:mb-[36rem] lg:mb-[26rem] 2xl:mb-0',
+        'w-full relative flex mb-[80rem] sm:mb-[55rem] md:mb-[38rem] lg:mb-[26rem] 2xl:mb-0',
         className
       )}
     >

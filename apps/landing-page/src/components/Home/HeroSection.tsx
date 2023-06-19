@@ -42,12 +42,10 @@ const TextBanner = (props: TextBannerProps) => {
       )}
     >
       <h1 className='font-averta font-bold text-clamp-5xl leading-tight md:flex md:flex-col'>
-        <span className='md:whitespace-nowrap'>
+        <span className='mr-[0.5ch] md:mr-0 md:whitespace-nowrap'>
           The <span className='text-pt-purple-400'>#1 Protocol</span> for
         </span>
-        <span>
-          <span className='md:hidden'> </span>Real Adoption
-        </span>
+        <span>Real Adoption</span>
       </h1>
       <span className='text-clamp-2xl font-medium'>
         The permissionless protocol {formattedNumWallets} people are using to win by saving

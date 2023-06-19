@@ -2,6 +2,7 @@ import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
 import { FancyCardSection } from '@components/FancyCardSection'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
+import { SvgBackground } from '@components/SvgBackground'
 
 interface MainSection {
   className?: string
@@ -11,8 +12,14 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
-      <img src='/backgrounds/static/buildersSection1.svg' className='w-full' />
+    // TODO: ideally we don't have magic numbers for bottom margin here
+    <section
+      className={classNames(
+        'w-full relative flex mb-[58rem] sm:mb-[42rem] md:mb-[18rem] lg:mb-[8rem] xl:mb-0',
+        className
+      )}
+    >
+      <SvgBackground bg='buildersSection1.svg' smallBg='mobileBuildersSection1.svg' />
       <div className='absolute inset-0'>
         <SimpleTextBanner
           title={
@@ -23,10 +30,11 @@ export const MainSection = (props: MainSection) => {
           description={
             <>Join the diverse community of developers and designers building on the protocol</>
           }
-          className='absolute w-full mt-[16%]'
+          className='absolute w-full mt-[29%] md:mt-[16%]'
+          descriptionClassName='px-[10%] sm:px-0'
         />
-        <DocsCards className='absolute w-full max-w-[60%] h-[11%] mt-[25.3%] ml-[20%]' />
-        <CardRows className='absolute w-full h-[66%] mt-[44%]' />
+        <DocsCards className='absolute w-full mt-[54%] md:max-w-[60%] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
+        <CardRows className='absolute w-full mt-[95%] md:h-[66%] md:mt-[44%]' />
       </div>
     </section>
   )
@@ -40,7 +48,12 @@ const DocsCards = (props: DocsCardsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex gap-8 items-center', className)}>
+    <div
+      className={classNames(
+        'flex flex-col gap-3 items-center px-4 md:flex-row md:gap-8 md:px-0',
+        className
+      )}
+    >
       <DocCard href={LINKS.devDocs_v4} version={4} />
       <DocCard href={LINKS.devDocs} version={5} />
     </div>
@@ -61,14 +74,15 @@ const DocCard = (props: DocCardProps) => {
       href={href}
       target='_blank'
       className={classNames(
-        'h-full flex grow gap-4 items-center justify-center px-16 py-12 bg-pt-bg-purple-darker rounded-2xl',
+        'w-full max-w-sm flex gap-2 items-center p-4 bg-pt-bg-purple-darker rounded-2xl',
         'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
+        'md:w-auto md:max-w-none md:h-full md:grow md:gap-4 md:justify-center md:px-16 md:py-12',
         className
       )}
     >
-      <img src='/icons/docIcon.svg' alt='Doc Icon' className='h-12 w-auto' />
-      <div className='flex flex-col text-clamp-xl text-pt-purple-50'>
-        <span>V{version} Developer</span>
+      <img src='/icons/docIcon.svg' alt='Doc Icon' className='h-5 w-auto md:h-12' />
+      <div className='flex text-clamp-xl text-pt-purple-50 md:flex-col'>
+        <span className='mr-[.5ch] md:mr-0'>V{version} Developer</span>
         <span>Documentation</span>
       </div>
     </a>
@@ -83,9 +97,9 @@ const CardRows = (props: CardRowsProps) => {
   const { className } = props
 
   return (
-    <div className={classNames('flex flex-col gap-16 overflow-hidden', className)}>
+    <div className={classNames('flex flex-col gap-16', className)}>
       <FancyCardSection
-        iconSrc='/icons/codeIcon.svg'
+        iconSrc='/icons/smallCodeIcon.svg'
         title='Developer Tools'
         cards={['clientJs_v4', 'prizeTierController', 'clientJs', 'reactHooks']}
       />

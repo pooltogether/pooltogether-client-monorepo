@@ -22,16 +22,19 @@ export const FancyCard = (props: FancyCardProps) => {
       href={href}
       target='_blank'
       className={classNames(
-        'flex flex-col gap-4 p-6 bg-[#8247E5]/30 rounded-2xl',
+        'flex flex-col gap-3 p-6 bg-[#8247E5]/30 rounded-2xl',
         'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
+        'md:gap-4',
         'bg-[radial-gradient(farthest-corner_at_0%_5%,_#440BA0B3_0%,_#5820CFB3_100%),_radial-gradient(farthest-corner_at_0%_0%,_#634E90_50%,_#36147D_100%)]',
         className
       )}
     >
-      <div className='flex flex-col items-start'>
+      <div className='flex gap-2 items-center md:flex-col md:gap-0 md:items-start'>
         <img src={iconSrc} className='h-12 w-auto' />
-        <span className='text-clamp-xl text-pt-purple-50'>{title}</span>
-        <span className='text-clamp-xs text-pt-purple-300'>By {author}</span>
+        <div className='flex flex-col'>
+          <span className='text-clamp-xl text-pt-purple-50'>{title}</span>
+          <span className='text-clamp-xs text-pt-purple-300'>By {author}</span>
+        </div>
       </div>
       <div className='flex gap-2 items-center'>
         {tags.map((tag, i) => (
