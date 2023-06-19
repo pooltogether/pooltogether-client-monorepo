@@ -6,6 +6,7 @@
     "paths": {
       "@components/*": ["./src/components/*"],
       "@constants/*": ["./src/constants/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@pages/*": ["./src/pages/*"],
       "@pooltogether/hyperstructure-client-js": ["../../packages/hyperstructure-client-js"],
       "@pooltogether/hyperstructure-react-hooks": ["../../packages/hyperstructure-react-hooks"],

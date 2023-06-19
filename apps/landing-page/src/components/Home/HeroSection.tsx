@@ -1,6 +1,6 @@
-import { formatNumberForDisplay } from '@shared/utilities'
 import classNames from 'classnames'
 import { SvgBackground } from '@components/SvgBackground'
+import { useFormattedV4Stats } from '@hooks/useV4Stats'
 
 interface HeroSection {
   className?: string
@@ -30,9 +30,7 @@ interface TextBannerProps {
 const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
-  // TODO: get actual number of unique wallets
-  const numWallets = 56_000
-  const formattedNumWallets = formatNumberForDisplay(Math.floor(numWallets / 1_000) * 1_000)
+  const { uniqueWallets } = useFormattedV4Stats()
 
   return (
     <div
@@ -48,7 +46,7 @@ const TextBanner = (props: TextBannerProps) => {
         <span>Real Adoption</span>
       </h1>
       <span className='text-clamp-2xl font-medium'>
-        The permissionless protocol {formattedNumWallets} people are using to win by saving
+        The permissionless protocol {uniqueWallets} people are using to win by saving
       </span>
     </div>
   )
