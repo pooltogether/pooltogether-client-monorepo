@@ -2,10 +2,11 @@ import { NO_REFETCH } from '@shared/generic-react-hooks'
 import { useQuery } from '@tanstack/react-query'
 
 interface ProtocolStats {
-  totalPlayers: number
-  pool: number
-  tvl: { total: number }
-  historicalWinners: number
+  uniqueWallets: number
+  poolPrice: number
+  tvl: number
+  uniqueWinners: number
+  totalPrizes: number
 }
 
 export const useProtocolStats = () => {
@@ -14,8 +15,7 @@ export const useProtocolStats = () => {
   return useQuery(
     queryKey,
     async () => {
-      // TODO: this should be fetched through a KV cache on cloudflare
-      const results = await fetch('https://poolexplorer.xyz/stats')
+      const results = await fetch('https://protocol-stats.ncookie.workers.dev')
       const data: ProtocolStats = await results.json()
       return data
     },

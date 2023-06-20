@@ -1,18 +1,15 @@
 import { formatNumberForDisplay } from '@shared/utilities'
-import { usePrizeHistory } from './usePrizeHistory'
 import { useProtocolStats } from './useProtocolStats'
 
 export const useV4Stats = () => {
   const { data: protocolStats, isFetched: isFetchedProtocolStats } = useProtocolStats()
-  const { data: prizeHistory, isFetched: isFetchedPrizeHistory } = usePrizeHistory()
 
-  const totalPrizesAwarded = prizeHistory?.reduce((a, b) => a + parseInt(b.c ?? 0), 0)
-  const totalDeposited = protocolStats?.tvl.total
-  const uniqueWallets = protocolStats?.totalPlayers
-
-  const isFetched = isFetchedProtocolStats && isFetchedPrizeHistory
-
-  return { totalPrizesAwarded, totalDeposited, uniqueWallets, isFetched }
+  return {
+    totalPrizesAwarded: protocolStats?.totalPrizes,
+    totalDeposited: protocolStats?.tvl,
+    uniqueWallets: protocolStats?.uniqueWallets,
+    isFetched: isFetchedProtocolStats
+  }
 }
 
 export const useFormattedV4Stats = () => {
