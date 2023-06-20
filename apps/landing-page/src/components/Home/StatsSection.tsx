@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { ReactNode } from 'react'
-import { useFormattedV4Stats } from '@hooks/useV4Stats'
+import { useFormattedProtocolStats } from '@hooks/useFormattedProtocolStats'
 
 interface StatsSection {
   className?: string
@@ -9,7 +9,7 @@ interface StatsSection {
 export const StatsSection = (props: StatsSection) => {
   const { className } = props
 
-  const { totalPrizesAwarded, totalDeposited, uniqueWallets } = useFormattedV4Stats()
+  const { totalPrizes, tvl, uniqueWallets } = useFormattedProtocolStats()
 
   return (
     <section
@@ -19,8 +19,8 @@ export const StatsSection = (props: StatsSection) => {
         className
       )}
     >
-      <Stat title='Total Prizes Awarded' value={totalPrizesAwarded} />
-      <Stat title='Saved With PoolTogether' value={totalDeposited} />
+      <Stat title='Total Prizes Awarded' value={totalPrizes} />
+      <Stat title='Saved With PoolTogether' value={tvl} />
       <Stat title='Unique Wallets' value={`${uniqueWallets}+`} />
       <Stat title='Losses Ever' value='0' />
     </section>

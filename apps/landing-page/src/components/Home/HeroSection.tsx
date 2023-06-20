@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { SvgBackground } from '@components/SvgBackground'
-import { useFormattedV4Stats } from '@hooks/useV4Stats'
+import { useFormattedProtocolStats } from '@hooks/useFormattedProtocolStats'
 
 interface HeroSection {
   className?: string
@@ -30,7 +30,7 @@ interface TextBannerProps {
 const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
-  const { uniqueWallets } = useFormattedV4Stats()
+  const { uniqueWallets } = useFormattedProtocolStats()
 
   return (
     <div
