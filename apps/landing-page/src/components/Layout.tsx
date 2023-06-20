@@ -124,6 +124,7 @@ export const Layout = (props: LayoutProps) => {
           { href: '/builders', name: 'Builders' }
         ]}
         activePage={router.pathname}
+        // @ts-ignore
         linksAs={Link}
         append={
           <Button href={LINKS.app_v4}>

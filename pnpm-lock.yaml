@@ -209,20 +209,6 @@ importers:
       viem: 0.3.30_typescript@5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
 
-  packages/protocol-stats-worker:
-    specifiers:
-      '@cloudflare/workers-types': ^4.20230518.0
-      '@types/node': ^17.0.45
-      tslib: ^2.5.0
-      tsup: ^6.6.3
-      typescript: ^5.0.4
-    devDependencies:
-      '@cloudflare/workers-types': 4.20230518.0
-      '@types/node': 17.0.45
-      tslib: 2.5.0
-      tsup: 6.7.0_typescript@5.0.4
-      typescript: 5.0.4
-
 packages:
   /@adraffy/ens-normalize/1.9.0:
     resolution:
@@ -393,13 +379,6 @@ packages:
       '@babel/helper-string-parser': 7.19.4
       '@babel/helper-validator-identifier': 7.19.1
       to-fast-properties: 2.0.0
-    dev: true
-
-  /@cloudflare/workers-types/4.20230518.0:
-    resolution:
-      {
-        integrity: sha512-A0w1V+5SUawGaaPRlhFhSC/SCDT9oQG8TMoWOKFLA4qbqagELqEAFD4KySBIkeVOvCBLT1DZSYBMCxbXddl0kw==
-      }
     dev: true
 
   /@coinbase/wallet-sdk/3.6.6:

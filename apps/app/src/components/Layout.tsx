@@ -170,6 +170,7 @@ export const Layout = (props: LayoutProps) => {
           { href: '/account', name: 'Account' }
         ]}
         activePage={router.pathname}
+        // @ts-ignore
         linksAs={Link}
         append={
           <ConnectButton
