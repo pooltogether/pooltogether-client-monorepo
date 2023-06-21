@@ -14,6 +14,7 @@ import {
 } from '@rainbow-me/rainbowkit'
 import { MODAL_KEYS, useIsModalOpen, useIsTestnets } from '@shared/generic-react-hooks'
 import {
+  CaptchaModal,
   DepositModal,
   DrawModal,
   SettingsModal,
@@ -210,6 +211,8 @@ export const Layout = (props: LayoutProps) => {
       />
 
       <DrawModal draw={selectedDraw} prizePool={selectedPrizePool} />
+
+      <CaptchaModal hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39' />
 
       <Toaster />
 
