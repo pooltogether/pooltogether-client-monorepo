@@ -118,7 +118,7 @@ const ModalBackdrop = (props: ModalBackdropProps) => {
 
   return (
     <div
-      className='z-40 fixed flex inset-0 items-end justify-center bg-black/70 md:items-center'
+      className='fixed flex inset-0 items-end justify-center bg-black/70 z-[100] md:items-center'
       onClick={onClose}
       aria-label={label}
     >

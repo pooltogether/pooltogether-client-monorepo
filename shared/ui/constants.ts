@@ -16,7 +16,6 @@ export const LINKS = Object.freeze({
   governance: 'https://gov.pooltogether.com',
   audits: 'https://docs.pooltogether.com/security/audits',
   twitter: 'https://twitter.com/PoolTogether_',
-  discord: 'https://pooltogether.com/discord',
   github: 'https://github.com/pooltogether',
   medium: 'https://medium.com/pooltogether',
   ecosystem: 'https://mvp-pt-landing-page.netlify.app/ecosystem',

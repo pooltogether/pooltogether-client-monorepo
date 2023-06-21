@@ -46,6 +46,8 @@ export const Layout = (props: LayoutProps) => {
   const { setIsModalOpen: setIsSettingsModalOpen } = useIsModalOpen(MODAL_KEYS.settings)
   const [settingsModalView, setSettingsModalView] = useState<SettingsModalView>('menu')
 
+  const { setIsModalOpen: setIsCaptchaModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
+
   const { isTestnets, setIsTestnets } = useIsTestnets()
 
   const { openConnectModal } = useConnectModal()
@@ -113,7 +115,7 @@ export const Layout = (props: LayoutProps) => {
         },
         {
           content: 'Discord',
-          href: LINKS.discord,
+          onClick: () => setIsCaptchaModalOpen(true),
           icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
         },
         {

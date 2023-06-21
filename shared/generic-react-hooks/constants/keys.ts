@@ -21,6 +21,7 @@ export const LOCAL_STORAGE_KEYS = Object.freeze({
  * Modal keys
  */
 export const MODAL_KEYS = Object.freeze({
+  captcha: 'captcha',
   deposit: 'deposit',
   drawWinners: 'drawWinners',
   settings: 'settings',

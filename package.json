@@ -8,6 +8,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
+    "@hcaptcha/react-hcaptcha": "^1.8.1",
     "@heroicons/react": "^2.0.16",
     "@pooltogether/hyperstructure-client-js": "workspace:*",
     "@pooltogether/hyperstructure-react-hooks": "workspace:*",

@@ -1,4 +1,5 @@
-import { useScreenSize } from '@shared/generic-react-hooks'
+import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
+import { CaptchaModal } from '@shared/react-components'
 import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
@@ -17,6 +18,8 @@ export const Layout = (props: LayoutProps) => {
   const { children, className } = props
 
   const router = useRouter()
+
+  const { setIsModalOpen: setIsCaptchaModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
 
   const { isDesktop } = useScreenSize()
 
@@ -85,7 +88,7 @@ export const Layout = (props: LayoutProps) => {
         },
         {
           content: 'Discord',
-          href: LINKS.discord,
+          onClick: () => setIsCaptchaModalOpen(true),
           icon: <SocialIcon platform='discord' className='w-6 h-auto shrink-0' />
         },
         {
@@ -144,6 +147,8 @@ export const Layout = (props: LayoutProps) => {
         linkClassName='text-xs sm:text-sm md:text-base text-pt-purple-100 hover:text-pt-purple-300'
         mobileBottomClassName='!gap-4 sm:!gap-6'
       />
+
+      <CaptchaModal hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39' />
 
       <main
         className={classNames('w-full relative flex flex-col flex-grow items-center', className)}

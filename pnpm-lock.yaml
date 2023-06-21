@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 importers:
   .:
     specifiers:
+      '@hcaptcha/react-hcaptcha': ^1.8.1
       '@heroicons/react': ^2.0.16
       '@pooltogether/hyperstructure-client-js': workspace:*
       '@pooltogether/hyperstructure-react-hooks': workspace:*
@@ -31,6 +32,7 @@ importers:
       viem: ^0.3.30
       wagmi: ^1.0.5
     devDependencies:
+      '@hcaptcha/react-hcaptcha': 1.8.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.17_react@18.2.0
       '@pooltogether/hyperstructure-client-js': link:packages/hyperstructure-client-js
       '@pooltogether/hyperstructure-react-hooks': link:packages/hyperstructure-react-hooks
@@ -120,6 +122,7 @@ importers:
 
   apps/landing-page:
     specifiers:
+      '@hcaptcha/react-hcaptcha': ^1.8.1
       '@heroicons/react': ^2.0.16
       '@tanstack/react-query': ^4.24.10
       '@types/node': ^17.0.45
@@ -140,6 +143,7 @@ importers:
       tslib: ^2.5.0
       typescript: ^5.0.4
     dependencies:
+      '@hcaptcha/react-hcaptcha': 1.8.1_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.17_react@18.2.0
       '@tanstack/react-query': 4.29.5_biqbaboplfbrettd7655fr4n2y
       classnames: 2.3.2
@@ -1115,6 +1119,19 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       tabbable: 6.1.2
+
+  /@hcaptcha/react-hcaptcha/1.8.1_biqbaboplfbrettd7655fr4n2y:
+    resolution:
+      {
+        integrity: sha512-33tIl77HgeahiQ6R0+JPDA8cGBBv95cIVcdOcFVwiGCJhrOxyiOQetCdEUNTDS13xrkvIP29K/PrqLXXSbKl6Q==
+      }
+    peerDependencies:
+      react: '>= 16.3.0'
+      react-dom: '>= 16.3.0'
+    dependencies:
+      '@babel/runtime': 7.21.0
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
 
   /@heroicons/react/2.0.17_react@18.2.0:
     resolution:
