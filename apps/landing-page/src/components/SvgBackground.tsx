@@ -1,3 +1,4 @@
+import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
@@ -20,8 +21,9 @@ export const SvgBackground = (props: SvgBackgroundProps) => {
     }
   }, [])
 
-  const bgClassName = 'w-full hidden md:block'
-  const smallBgClassName = 'w-full md:hidden'
+  const baseClassName = 'absolute w-full -z-10'
+  const bgClassName = 'hidden md:block'
+  const smallBgClassName = 'md:hidden'
 
   const bgSrc = `/backgrounds/static/${bg}`
   const smallBgSrc = `/backgrounds/static/${smallBg}`
@@ -34,14 +36,30 @@ export const SvgBackground = (props: SvgBackgroundProps) => {
     <>
       {isReducedMotion && (
         <>
-          <img src={bgSrc} className={bgClassName} />
-          <img src={smallBgSrc} className={smallBgClassName} />
+          <object
+            type='image/svg+xml'
+            data={bgSrc}
+            className={classNames(baseClassName, bgClassName)}
+          />
+          <object
+            type='image/svg+xml'
+            data={smallBgSrc}
+            className={classNames(baseClassName, smallBgClassName)}
+          />
         </>
       )}
       {!isReducedMotion && (
         <>
-          <object type='image/svg+xml' data={animatedBgSrc} className={bgClassName} />
-          <object type='image/svg+xml' data={animatedSmallBgSrc} className={smallBgClassName} />
+          <object
+            type='image/svg+xml'
+            data={animatedBgSrc}
+            className={classNames(baseClassName, bgClassName)}
+          />
+          <object
+            type='image/svg+xml'
+            data={animatedSmallBgSrc}
+            className={classNames(baseClassName, smallBgClassName)}
+          />
         </>
       )}
     </>

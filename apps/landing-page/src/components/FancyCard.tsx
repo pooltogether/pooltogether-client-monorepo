@@ -1,5 +1,6 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
+import Image from 'next/image'
 
 export interface FancyCardProps {
   href: string
@@ -30,7 +31,7 @@ export const FancyCard = (props: FancyCardProps) => {
       )}
     >
       <div className='flex gap-2 items-center md:flex-col md:gap-0 md:items-start'>
-        <img src={iconSrc} className='h-12 w-auto' />
+        <Image src={iconSrc} width={48} height={48} alt={title} className='h-12 w-auto' />
         <div className='flex flex-col'>
           <span className='text-clamp-xl text-pt-purple-50'>{title}</span>
           <span className='text-clamp-xs text-pt-purple-300'>By {author}</span>

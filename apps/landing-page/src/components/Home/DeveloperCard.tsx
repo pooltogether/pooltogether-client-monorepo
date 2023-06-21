@@ -1,5 +1,6 @@
 import { Button, ButtonProps, LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import Image from 'next/image'
 
 // TODO: add all hrefs
 const developerCardInfo = {
@@ -47,12 +48,14 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
           {card.tag}
         </span>
       )}
-      <img
+      <Image
         src='/icons/codeIcon.svg'
+        width={333}
+        height={259}
         alt='Code'
         className='absolute top-4 left-4 w-5 h-auto text-pt-purple-400 4xl:w-6'
       />
-      <img src={card.src} className='w-3/4 grow mt-2' />
+      <Image src={card.src} width={100} height={80} alt={type} className='w-3/4 grow mt-2' />
       <Button fullSized={true} {...card.buttonProps} pill={true} />
     </div>
   )

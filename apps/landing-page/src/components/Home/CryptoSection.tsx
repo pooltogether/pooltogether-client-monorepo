@@ -10,15 +10,18 @@ export const CryptoSection = (props: CryptoSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
+    <section
+      className={classNames(
+        'relative w-full flex flex-col isolate aspect-[375/652] md:aspect-[1440/925]',
+        className
+      )}
+    >
       <SvgBackground
         bg='indexSection4.svg'
         smallBg='mobileIndexSection4.svg'
         animatedBg='indexSection4.svg'
       />
-      <div className='absolute inset-0'>
-        <TextBanner className='w-full mt-[58%] md:mt-[38%]' />
-      </div>
+      <TextBanner className='w-full mt-[58%] md:mt-[38%]' />
     </section>
   )
 }

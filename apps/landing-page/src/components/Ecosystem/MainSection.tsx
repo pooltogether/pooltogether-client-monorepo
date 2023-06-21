@@ -11,27 +11,24 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    // TODO: ideally we don't have magic numbers for bottom margin here
     <section
       className={classNames(
-        'w-full relative flex mb-[80rem] sm:mb-[55rem] md:mb-[38rem] lg:mb-[26rem] 2xl:mb-0',
+        'relative w-full flex flex-col isolate aspect-[376/667] md:aspect-[1440/1755]',
         className
       )}
     >
       <SvgBackground bg='ecosystemSection1.svg' smallBg='mobileEcosystemSection1.svg' />
-      <div className='absolute inset-0'>
-        <SimpleTextBanner
-          title={
-            <>
-              The PoolTogether <span className='text-pt-purple-400'>Ecosystem</span>
-            </>
-          }
-          description={<>Check out tools and extensions for the PoolTogether protocol</>}
-          className='absolute w-full mt-[28%] md:mt-[16%]'
-          descriptionClassName='px-[20%] sm:px-0'
-        />
-        <CardRows className='absolute w-full mt-[55%] md:h-[77%] md:mt-[28%]' />
-      </div>
+      <SimpleTextBanner
+        title={
+          <>
+            The PoolTogether <span className='text-pt-purple-400'>Ecosystem</span>
+          </>
+        }
+        description={<>Check out tools and extensions for the PoolTogether protocol</>}
+        className='absolute w-full mt-[28%] md:mt-[16%]'
+        descriptionClassName='px-[20%] sm:px-0'
+      />
+      <CardRows className='w-full mt-[55%] mb-8 md:h-[77%] md:mt-[28%]' />
     </section>
   )
 }

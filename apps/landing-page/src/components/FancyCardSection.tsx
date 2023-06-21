@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { BuilderCard, builderCardInfo } from './Builders/BuilderCard'
 import { EcosystemCard, ecosystemCardInfo } from './Ecosystem/EcosystemCard'
 
@@ -16,7 +17,13 @@ export const FancyCardSection = (props: FancyCardSectionProps) => {
   return (
     <div className='flex flex-col gap-4 items-center'>
       <div className='flex gap-3 items-center text-pt-purple-50'>
-        <img src={iconSrc} className='h-6 w-auto text-pt-purple-300 md:h-8' />
+        <Image
+          src={iconSrc}
+          width={32}
+          height={32}
+          alt={title}
+          className='h-6 w-auto text-pt-purple-300 md:h-8'
+        />
         <span className='text-clamp-xl'>{title}</span>
       </div>
       <div className='w-full flex flex-wrap gap-4 justify-center'>

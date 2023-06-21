@@ -14,23 +14,24 @@ export const MainSection = (props: MainSection) => {
   return (
     // TODO: ideally we don't have magic numbers for bottom margin here
     <section
-      className={classNames('w-full relative flex mb-[64rem] sm:mb-[34rem] md:mb-0', className)}
+      className={classNames(
+        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1460]',
+        className
+      )}
     >
       <SvgBackground bg='communitySection1.svg' smallBg='mobileCommunitySection1.svg' />
-      <div className='absolute inset-0'>
-        <SimpleTextBanner
-          title={
-            <>
-              Take a <span className='text-pt-purple-400'>dip</span> in the pool
-            </>
-          }
-          description={<>Learn about the active community around PoolTogether</>}
-          className='absolute w-full mt-[28%] md:mt-[16%]'
-          descriptionClassName='px-[20%] sm:px-0'
-        />
-        <CommunityCards className='w-full mt-[84%] md:max-w-[82%] md:h-[40%] md:mt-[34%] md:ml-[9%]' />
-        <Socials className='w-full my-32 md:max-w-[60%] md:h-[24%] md:mb-0 md:mt-[2%] md:ml-[20%]' />
-      </div>
+      <SimpleTextBanner
+        title={
+          <>
+            Take a <span className='text-pt-purple-400'>dip</span> in the pool
+          </>
+        }
+        description={<>Learn about the active community around PoolTogether</>}
+        className='absolute w-full mt-[28%] md:mt-[16%]'
+        descriptionClassName='px-[20%] sm:px-0'
+      />
+      <CommunityCards className='w-full mt-[84%] md:max-w-[82%] md:h-[40%] md:mt-[34%] md:ml-[9%]' />
+      <Socials className='w-full my-32 md:max-w-[60%] md:h-[24%] md:mb-0 md:mt-[2%] md:ml-[20%]' />
     </section>
   )
 }

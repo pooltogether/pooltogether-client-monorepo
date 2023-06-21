@@ -11,16 +11,16 @@ export const MissionSection = (props: MissionSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex', className)}>
-      <SvgBackground
-        bg='indexSection3.svg'
-        smallBg='mobileIndexSection3.svg'
-        animatedBg='indexSection3.svg'
-      />
-      <div className='absolute inset-0'>
-        <TextBanner className='absolute w-full h-[20.8%] md:h-auto md:mt-[12%]' />
-        <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[21.8%] mt-[148.5%] md:max-w-[21%] md:h-auto md:mt-[63%] md:ml-[4%]' />
-        <DeveloperCards className='absolute w-full max-w-[60%] h-[40.5%] mt-[279.5%] ml-[20%] md:max-w-[47.5%] md:h-[18.5%] md:mt-[65%] md:ml-[46%]' />
+    <section className={classNames('relative w-full flex flex-col', className)}>
+      <TextBanner className='w-full mt-[20%] mb-[10%] md:mt-[12%] md:mb-0' />
+      <div className='relative w-full flex flex-col isolate aspect-[375/1494] md:aspect-[1440/1287]'>
+        <SvgBackground
+          bg='indexSection3.svg'
+          smallBg='mobileIndexSection3.svg'
+          animatedBg='indexSection3.svg'
+        />
+        <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[25%] mt-[44%] md:max-w-[21%] md:h-auto md:mt-[63%] md:ml-[4%]' />
+        <DeveloperCards className='w-full max-w-[60%] h-[50.9%] mt-[174.8%] ml-[20%] md:max-w-[47.5%] md:h-[18.5%] md:mt-[65%] md:ml-[46%]' />
       </div>
     </section>
   )
@@ -36,7 +36,7 @@ const TextBanner = (props: TextBannerProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col gap-2 items-center justify-center text-center md:gap-20',
+        'flex flex-col gap-2 items-center justify-center text-center px-4 md:gap-20 md:px-0',
         className
       )}
     >

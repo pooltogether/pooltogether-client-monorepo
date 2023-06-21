@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import Image from 'next/image'
 
 export interface SimpleCardProps {
   href: string
@@ -22,7 +23,13 @@ export const SimpleCard = (props: SimpleCardProps) => {
       )}
     >
       <div className='flex gap-2 items-center md:gap-3'>
-        <img src={iconSrc} className='w-6 h-auto text-pt-teal-dark md:w-8' />
+        <Image
+          src={iconSrc}
+          width={32}
+          height={32}
+          alt={title}
+          className='w-6 h-auto text-pt-teal-dark md:w-8'
+        />
         <span className='text-clamp-2xl md:text-clamp-xl'>{title}</span>
       </div>
       <span className='text-clamp-base'>{description}</span>

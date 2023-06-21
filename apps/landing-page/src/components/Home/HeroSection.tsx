@@ -10,15 +10,18 @@ export const HeroSection = (props: HeroSection) => {
   const { className } = props
 
   return (
-    <section className={classNames('w-full relative flex ', className)}>
+    <section
+      className={classNames(
+        'relative w-full flex flex-col isolate aspect-[375/500] md:aspect-[1440/835]',
+        className
+      )}
+    >
       <SvgBackground
         bg='indexSection1.svg'
         smallBg='mobileIndexSection1.svg'
         animatedBg='indexSection1.svg'
       />
-      <div className='absolute inset-0'>
-        <TextBanner className='w-full h-[38%] md:max-w-[35%] md:h-auto md:mt-[6.5%] md:ml-[5%]' />
-      </div>
+      <TextBanner className='w-full h-[34%] md:max-w-[35%] md:h-auto md:mt-[6.5%] md:ml-[5%]' />
     </section>
   )
 }

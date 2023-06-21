@@ -1,5 +1,6 @@
 import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import Image from 'next/image'
 
 const socialItemInfo = {
   lens: { href: LINKS.lens, name: 'Lens Protocol', iconSrc: '/icons/lensIcon.svg' },
@@ -26,8 +27,10 @@ export const SocialItem = (props: SocialItemProps) => {
       className={classNames('flex flex-col gap-3 items-center md:gap-6', className)}
     >
       <span className='text-clamp-lg text-pt-purple-100'>{social.name}</span>
-      <img
+      <Image
         src={social.iconSrc}
+        width={48}
+        height={48}
         alt={`${social.name} Icon`}
         className='h-full max-h-6 w-auto max-w-6 md:max-h-12 md:max-w-12'
       />

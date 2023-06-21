@@ -1,5 +1,6 @@
 import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import Image from 'next/image'
 import { FancyCardSection } from '@components/FancyCardSection'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 import { SvgBackground } from '@components/SvgBackground'
@@ -12,30 +13,27 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    // TODO: ideally we don't have magic numbers for bottom margin here
     <section
       className={classNames(
-        'w-full relative flex mb-[58rem] sm:mb-[42rem] md:mb-[18rem] lg:mb-[8rem] xl:mb-0',
+        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1860]',
         className
       )}
     >
       <SvgBackground bg='buildersSection1.svg' smallBg='mobileBuildersSection1.svg' />
-      <div className='absolute inset-0'>
-        <SimpleTextBanner
-          title={
-            <>
-              <span className='text-pt-purple-400'>Build</span> on PoolTogether
-            </>
-          }
-          description={
-            <>Join the diverse community of developers and designers building on the protocol</>
-          }
-          className='absolute w-full mt-[29%] md:mt-[16%]'
-          descriptionClassName='px-[10%] sm:px-0'
-        />
-        <DocsCards className='absolute w-full mt-[54%] md:max-w-[60%] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
-        <CardRows className='absolute w-full mt-[95%] md:h-[66%] md:mt-[44%]' />
-      </div>
+      <SimpleTextBanner
+        title={
+          <>
+            <span className='text-pt-purple-400'>Build</span> on PoolTogether
+          </>
+        }
+        description={
+          <>Join the diverse community of developers and designers building on the protocol</>
+        }
+        className='absolute w-full mt-[29%] md:mt-[16%]'
+        descriptionClassName='px-[10%] sm:px-0'
+      />
+      <DocsCards className='absolute w-full mt-[54%] md:max-w-[60%] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
+      <CardRows className='w-full mt-[95%] mb-8 md:h-[66%] md:mt-[44%]' />
     </section>
   )
 }
@@ -80,7 +78,13 @@ const DocCard = (props: DocCardProps) => {
         className
       )}
     >
-      <img src='/icons/docIcon.svg' alt='Doc Icon' className='h-5 w-auto md:h-12' />
+      <Image
+        src='/icons/docIcon.svg'
+        width={48}
+        height={48}
+        alt='Doc Icon'
+        className='h-5 w-auto md:h-12'
+      />
       <div className='flex text-clamp-xl text-pt-purple-50 md:flex-col'>
         <span className='mr-[.5ch] md:mr-0'>V{version} Developer</span>
         <span>Documentation</span>

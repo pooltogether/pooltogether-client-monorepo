@@ -11,33 +11,35 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    // TODO: ideally we don't have magic numbers for bottom margin here
-    <section className={classNames('w-full relative flex mb-[30rem] md:mb-0', className)}>
+    <section
+      className={classNames(
+        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1036]',
+        className
+      )}
+    >
       <SvgBackground bg='helpSection1.svg' smallBg='mobileHelpSection1.svg' />
-      <div className='absolute inset-0'>
-        <SimpleTextBanner
-          title={
-            <>
-              <span className='text-pt-purple-400'>Get Help</span> With PoolTogether
-            </>
-          }
-          description={
-            <>
-              <span className='hidden md:block'>
-                PoolTogether is an open source protocol for{' '}
-                <span className='text-pt-teal'>Prize Linked Savings</span>.
-              </span>
-              <span>
-                This page can help you learn about the protocol, how it works and how to use it.
-              </span>
-            </>
-          }
-          className='absolute w-full mt-[30%] md:mt-[15.5%]'
-          titleClassName='md:mb-4'
-          descriptionClassName='flex flex-col'
-        />
-        <HelpCards className='absolute w-full mt-[75%] md:max-w-[82%] md:h-[54%] md:mt-[27.3%] md:ml-[9%]' />
-      </div>
+      <SimpleTextBanner
+        title={
+          <>
+            <span className='text-pt-purple-400'>Get Help</span> With PoolTogether
+          </>
+        }
+        description={
+          <>
+            <span className='hidden md:block'>
+              PoolTogether is an open source protocol for{' '}
+              <span className='text-pt-teal'>Prize Linked Savings</span>.
+            </span>
+            <span>
+              This page can help you learn about the protocol, how it works and how to use it.
+            </span>
+          </>
+        }
+        className='absolute w-full mt-[30%] md:mt-[15.5%]'
+        titleClassName='md:mb-4'
+        descriptionClassName='flex flex-col'
+      />
+      <HelpCards className='w-full mt-[75%] mb-8 md:max-w-[82%] md:h-[54%] md:mt-[27.3%] md:ml-[9%]' />
     </section>
   )
 }

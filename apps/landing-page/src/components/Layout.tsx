@@ -3,6 +3,7 @@ import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/u
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
 import Head from 'next/head'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
@@ -174,8 +175,8 @@ const SecurityAuditItem = (props: SecurityAuditItemProps) => {
   const { svgSrc, altText, href, date } = props
 
   return (
-    <a href={href} target='_blank' className='flex flex-col'>
-      <img src={svgSrc} alt={altText} className='w-full' />
+    <a href={href} target='_blank' className='relative flex flex-col'>
+      <Image src={svgSrc} alt={altText} fill={true} className='!relative' />
       <span className='-mt-[2%] ml-[20%] text-gray-200'>{date}</span>
     </a>
   )

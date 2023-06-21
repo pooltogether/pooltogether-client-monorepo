@@ -31,10 +31,10 @@ export default function HomePage(props: HomePageProps) {
 
   return (
     <Layout>
-      <HeroSection className='pt-10 md:mt-32' />
+      <HeroSection className='md:mt-[10.5rem]' />
       <StatsSection />
       <SavingSection />
-      <MissionSection className='pt-[105%] md:pt-0' />
+      <MissionSection />
       <CryptoSection className='mt-[35%] md:mt-0' />
     </Layout>
   )
