@@ -116,10 +116,6 @@ export const Layout = (props: LayoutProps) => {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Head>
-        <title>PoolTogether</title>
-      </Head>
-
       <Navbar
         links={[
           { href: '/help', name: 'Help' },

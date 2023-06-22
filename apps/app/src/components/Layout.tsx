@@ -162,10 +162,6 @@ export const Layout = (props: LayoutProps) => {
 
   return (
     <div className='flex flex-col min-h-screen'>
-      <Head>
-        <title>PoolTogether Hyperstructure App</title>
-      </Head>
-
       <Navbar
         links={[
           { href: '/prizes', name: 'Prizes' },
