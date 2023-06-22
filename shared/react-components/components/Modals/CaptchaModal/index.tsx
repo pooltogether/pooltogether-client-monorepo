@@ -1,14 +1,16 @@
 import HCaptcha from '@hcaptcha/react-hcaptcha'
 import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
 import { ExternalLink, Modal } from '@shared/ui'
-import { useEffect, useRef, useState } from 'react'
+import { ReactNode, useRef } from 'react'
 
 export interface CaptchaModalProps {
   hCaptchaSiteKey: string
+  header: ReactNode
+  onVerify: (token: string) => void | Promise<void>
 }
 
 export const CaptchaModal = (props: CaptchaModalProps) => {
-  const { hCaptchaSiteKey } = props
+  const { hCaptchaSiteKey, header, onVerify } = props
 
   const { isModalOpen, setIsModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
 
@@ -19,8 +21,14 @@ export const CaptchaModal = (props: CaptchaModalProps) => {
   if (isModalOpen && !!hCaptchaSiteKey) {
     return (
       <Modal
-        headerContent={<HeaderContent />}
-        bodyContent={<BodyContent hCaptchaSiteKey={hCaptchaSiteKey} handleClose={handleClose} />}
+        headerContent={<HeaderContent header={header} />}
+        bodyContent={
+          <BodyContent
+            hCaptchaSiteKey={hCaptchaSiteKey}
+            handleClose={handleClose}
+            onVerify={onVerify}
+          />
+        }
         footerContent={<FooterContent />}
         onClose={handleClose}
         label='discord-captcha'
@@ -34,19 +42,24 @@ export const CaptchaModal = (props: CaptchaModalProps) => {
   return <></>
 }
 
-const HeaderContent = () => {
-  return <>Join our Discord Community</>
+interface HeaderContentProps {
+  header: ReactNode
+}
+
+const HeaderContent = (props: HeaderContentProps) => {
+  const { header } = props
+
+  return <>{header}</>
 }
 
 interface BodyContentProps {
   hCaptchaSiteKey: string
   handleClose: () => void
+  onVerify: (token: string) => void | Promise<void>
 }
 
 const BodyContent = (props: BodyContentProps) => {
-  const { hCaptchaSiteKey, handleClose } = props
-
-  const [token, setToken] = useState<string>('')
+  const { hCaptchaSiteKey, handleClose, onVerify } = props
 
   const captchaRef = useRef(null)
 
@@ -55,35 +68,11 @@ const BodyContent = (props: BodyContentProps) => {
     handleClose()
   }
 
-  useEffect(() => {
-    if (!!token) {
-      const getInviteToken = async () => {
-        let bodyFormData = new FormData()
-        bodyFormData.append('h-captcha-response', token)
-        console.log('🍪 ~ bodyFormData:', bodyFormData)
-
-        const response = await fetch(
-          'https://discord-invite.pooltogether-api.workers.dev/generateInvite',
-          { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: bodyFormData }
-        )
-        console.log('🍪 ~ response:', response)
-
-        if (response.status === 200) {
-          const inviteToken = await response.json()
-          console.log('🍪 ~ inviteToken:', inviteToken)
-          // window.location.href = `https://discord.com/invite/${inviteToken}`
-        }
-      }
-
-      getInviteToken().catch((err) => console.error(err))
-    }
-  }, [token])
-
   return (
     <div className='flex flex-col items-center'>
       <HCaptcha
         sitekey={hCaptchaSiteKey}
-        onVerify={setToken}
+        onVerify={onVerify}
         onExpire={onExpire}
         ref={captchaRef}
         theme='dark'

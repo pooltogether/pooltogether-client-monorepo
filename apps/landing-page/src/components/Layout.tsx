@@ -3,7 +3,6 @@ import { CaptchaModal } from '@shared/react-components'
 import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
-import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -112,6 +111,28 @@ export const Layout = (props: LayoutProps) => {
     }
   ]
 
+  const getDiscordInvite = async (token: string) => {
+    console.log('🍪 ~ token:', token)
+
+    if (!!token) {
+      let bodyFormData = new FormData()
+      bodyFormData.append('h-captcha-response', token)
+      console.log('🍪 ~ bodyFormData:', bodyFormData)
+
+      const response = await fetch(
+        'https://discord-invite.pooltogether-api.workers.dev/generateInvite',
+        { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: bodyFormData }
+      )
+      console.log('🍪 ~ response:', response)
+
+      if (response.status === 200) {
+        const inviteToken = await response.json()
+        console.log('🍪 ~ inviteToken:', inviteToken)
+        // window.location.href = `https://discord.com/invite/${inviteToken}`
+      }
+    }
+  }
+
   const isDarkerFooterBg = router.pathname === '/' || router.pathname === '/ecosystem'
 
   return (
@@ -144,7 +165,11 @@ export const Layout = (props: LayoutProps) => {
         mobileBottomClassName='!gap-4 sm:!gap-6'
       />
 
-      <CaptchaModal hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39' />
+      <CaptchaModal
+        hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
+        header='Join our Discord Community'
+        onVerify={getDiscordInvite}
+      />
 
       <main
         className={classNames(

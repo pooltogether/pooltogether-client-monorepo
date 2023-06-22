@@ -24,7 +24,6 @@ import {
 import { Footer, FooterItem, LINKS, Navbar, SocialIcon, Toaster } from '@shared/ui'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
-import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useEffect, useState } from 'react'
@@ -208,7 +207,11 @@ export const Layout = (props: LayoutProps) => {
 
       <DrawModal draw={selectedDraw} prizePool={selectedPrizePool} />
 
-      <CaptchaModal hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39' />
+      <CaptchaModal
+        hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
+        header='Join our Discord Community'
+        onVerify={() => {}}
+      />
 
       <Toaster />
 
