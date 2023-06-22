@@ -5,7 +5,7 @@ export const handleScheduled = async (event: ScheduledEvent): Promise<boolean> =
     await updateStats(event)
     return true
   } catch (e) {
-    console.log(e)
+    console.error(e)
     return false
   }
 }

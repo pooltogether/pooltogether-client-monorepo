@@ -42,7 +42,7 @@ export const handleRequest = async (event: FetchEvent): Promise<Response> => {
       status: 400
     })
   } catch (e) {
-    console.log(e)
+    console.error(e)
 
     const errorResponse = new Response('Error', {
       ...DEFAULT_HEADERS,

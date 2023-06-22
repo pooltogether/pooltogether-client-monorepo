@@ -22,6 +22,7 @@ import {
   WithdrawModal
 } from '@shared/react-components'
 import { Footer, FooterItem, LINKS, Navbar, SocialIcon, Toaster } from '@shared/ui'
+import { getDiscordInvite } from '@shared/utilities'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import Link from 'next/link'
@@ -210,8 +211,7 @@ export const Layout = (props: LayoutProps) => {
       <CaptchaModal
         hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
         header='Join our Discord Community'
-        // TODO: need proper function to get discord invite
-        onVerify={() => {}}
+        onVerify={getDiscordInvite}
       />
 
       <Toaster />

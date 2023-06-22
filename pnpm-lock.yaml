@@ -13,6 +13,7 @@ importers:
       '@types/react': ^18.2.0
       '@types/react-dom': ^18.2.0
       ajv: ^8.12.0
+      axios: ^1.4.0
       classnames: ^2.3.2
       fathom-client: ^3.5.0
       flowbite: 1.6.5
@@ -42,6 +43,7 @@ importers:
       '@types/react': 18.2.8
       '@types/react-dom': 18.2.4
       ajv: 8.12.0
+      axios: 1.4.0
       classnames: 2.3.2
       fathom-client: 3.5.0
       flowbite: 1.6.5
@@ -56,7 +58,7 @@ importers:
       sonner: 0.4.0_biqbaboplfbrettd7655fr4n2y
       tailwindcss: 3.3.1_postcss@8.4.23
       tslib: 2.5.0
-      turbo: 1.10.3
+      turbo: 1.10.5
       typescript: 5.0.4
       viem: 0.3.30_typescript@5.0.4
       wagmi: 1.0.5_jnnxaeexwikdgzuf3lvbhe6eui
@@ -73,6 +75,7 @@ importers:
       '@types/react': ^18.2.0
       '@types/react-dom': ^18.2.0
       autoprefixer: ^10.4.13
+      axios: ^1.4.0
       classnames: ^2.3.2
       fathom-client: ^3.5.0
       flowbite: 1.6.5
@@ -97,6 +100,7 @@ importers:
       '@rainbow-me/rainbowkit': 1.0.0_xl46q462itxixahmomnsr2ko4q
       '@sentry/nextjs': 7.51.0_next@13.3.0+react@18.2.0
       '@tanstack/react-query': 4.29.5_biqbaboplfbrettd7655fr4n2y
+      axios: 1.4.0
       classnames: 2.3.2
       fathom-client: 3.5.0
       flowbite: 1.6.5
@@ -2964,7 +2968,6 @@ packages:
       {
         integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
       }
-    dev: false
 
   /atomic-sleep/1.0.0:
     resolution:
@@ -3020,7 +3023,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /balanced-match/1.0.2:
     resolution:
@@ -3363,7 +3365,6 @@ packages:
     engines: { node: '>= 0.8' }
     dependencies:
       delayed-stream: 1.0.0
-    dev: false
 
   /commander/2.20.3:
     resolution:
@@ -3513,7 +3514,6 @@ packages:
         integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
       }
     engines: { node: '>=0.4.0' }
-    dev: false
 
   /depd/2.0.0:
     resolution:
@@ -3967,7 +3967,6 @@ packages:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       mime-types: 2.1.35
-    dev: false
 
   /fraction.js/4.2.0:
     resolution:
@@ -4746,7 +4745,6 @@ packages:
         integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==
       }
     engines: { node: '>= 0.6' }
-    dev: false
 
   /mime-types/2.1.35:
     resolution:
@@ -4756,7 +4754,6 @@ packages:
     engines: { node: '>= 0.6' }
     dependencies:
       mime-db: 1.52.0
-    dev: false
 
   /mimic-fn/2.1.0:
     resolution:
@@ -5397,7 +5394,6 @@ packages:
       {
         integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==
       }
-    dev: false
 
   /punycode/2.3.0:
     resolution:
@@ -6255,10 +6251,10 @@ packages:
       - ts-node
     dev: true
 
-  /turbo-darwin-64/1.10.3:
+  /turbo-darwin-64/1.10.5:
     resolution:
       {
-        integrity: sha512-IIB9IomJGyD3EdpSscm7Ip1xVWtYb7D0x7oH3vad3gjFcjHJzDz9xZ/iw/qItFEW+wGFcLSRPd+1BNnuLM8AsA==
+        integrity: sha512-fIHu+fcW7upaZEfeneoRbZjdrcsj/NxUg7IjZZmlCjgbS9Ofl8RhRid5A1L31AUK3kkqRxzagHc4WZ5x4quBgg==
       }
     cpu: [x64]
     os: [darwin]
@@ -6266,10 +6262,10 @@ packages:
     dev: true
     optional: true
 
-  /turbo-darwin-arm64/1.10.3:
+  /turbo-darwin-arm64/1.10.5:
     resolution:
       {
-        integrity: sha512-SBNmOZU9YEB0eyNIxeeQ+Wi0Ufd+nprEVp41rgUSRXEIpXjsDjyBnKnF+sQQj3+FLb4yyi/yZQckB+55qXWEsw==
+        integrity: sha512-uv0sDWizuxVvdSjaKvWdPdX4aZ8IZeYJwTJRZwLNRxZV56/1LZD65gyQIqsSNVRHuXI199yahmB+7PMJNpZFdw==
       }
     cpu: [arm64]
     os: [darwin]
@@ -6277,10 +6273,10 @@ packages:
     dev: true
     optional: true
 
-  /turbo-linux-64/1.10.3:
+  /turbo-linux-64/1.10.5:
     resolution:
       {
-        integrity: sha512-kvAisGKE7xHJdyMxZLvg53zvHxjqPK1UVj4757PQqtx9dnjYHSc8epmivE6niPgDHon5YqImzArCjVZJYpIGHQ==
+        integrity: sha512-hI0rErgwxNmuBCNGldhJkjSbb+mT+vjfmBVKcMI/bnBmu/KU7irCrKMe5Vas280teqBrC33GgVfXndJo2cJ1DA==
       }
     cpu: [x64]
     os: [linux]
@@ -6288,10 +6284,10 @@ packages:
     dev: true
     optional: true
 
-  /turbo-linux-arm64/1.10.3:
+  /turbo-linux-arm64/1.10.5:
     resolution:
       {
-        integrity: sha512-Qgaqln0IYRgyL0SowJOi+PNxejv1I2xhzXOI+D+z4YHbgSx87ox1IsALYBlK8VRVYY8VCXl+PN12r1ioV09j7A==
+        integrity: sha512-JAygWZjTuD6e7w0KSGzy7UxYqeLIpGfZDne+4MGRc8I5VeWZ6i0HWTqhhIu2/A8AuklYcoj8LkOZxCnMOF3odQ==
       }
     cpu: [arm64]
     os: [linux]
@@ -6299,10 +6295,10 @@ packages:
     dev: true
     optional: true
 
-  /turbo-windows-64/1.10.3:
+  /turbo-windows-64/1.10.5:
     resolution:
       {
-        integrity: sha512-rbH9wManURNN8mBnN/ZdkpUuTvyVVEMiUwFUX4GVE5qmV15iHtZfDLUSGGCP2UFBazHcpNHG1OJzgc55GFFrUw==
+        integrity: sha512-6w2GOKmlWEAl6QkC4c2j2ZLTwB+RK6oIDRT2KqF1m07KkY6pebEzbPZLHuP08QV+SE0t+prAn+kn7hkHYkwM+Q==
       }
     cpu: [x64]
     os: [win32]
@@ -6310,10 +6306,10 @@ packages:
     dev: true
     optional: true
 
-  /turbo-windows-arm64/1.10.3:
+  /turbo-windows-arm64/1.10.5:
     resolution:
       {
-        integrity: sha512-ThlkqxhcGZX39CaTjsHqJnqVe+WImjX13pmjnpChz6q5HHbeRxaJSFzgrHIOt0sUUVx90W/WrNRyoIt/aafniw==
+        integrity: sha512-3eeHRJPU+5zWa/iiikoBoPlNd74Y+L9lrG6ZsDZdzUYxNRTMrZbto1Bu1UF77t10TXeT9BsZRXjquKqrA7R7tg==
       }
     cpu: [arm64]
     os: [win32]
@@ -6321,20 +6317,20 @@ packages:
     dev: true
     optional: true
 
-  /turbo/1.10.3:
+  /turbo/1.10.5:
     resolution:
       {
-        integrity: sha512-U4gKCWcKgLcCjQd4Pl8KJdfEKumpyWbzRu75A6FCj6Ctea1PIm58W6Ltw1QXKqHrl2pF9e1raAskf/h6dlrPCA==
+        integrity: sha512-4yxHTrlugJhef4eXuyrPJtrgUZWlbcwmSb8iZL/5UzNjCmx+anOm1nfW2XFrZFKy4v0+/fUlqw8LkTgGVsOKaQ==
       }
     hasBin: true
     requiresBuild: true
     optionalDependencies:
-      turbo-darwin-64: 1.10.3
-      turbo-darwin-arm64: 1.10.3
-      turbo-linux-64: 1.10.3
-      turbo-linux-arm64: 1.10.3
-      turbo-windows-64: 1.10.3
-      turbo-windows-arm64: 1.10.3
+      turbo-darwin-64: 1.10.5
+      turbo-darwin-arm64: 1.10.5
+      turbo-linux-64: 1.10.5
+      turbo-linux-arm64: 1.10.5
+      turbo-windows-64: 1.10.5
+      turbo-windows-arm64: 1.10.5
     dev: true
 
   /type-fest/0.7.1:

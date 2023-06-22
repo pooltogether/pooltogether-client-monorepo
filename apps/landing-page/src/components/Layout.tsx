@@ -1,7 +1,7 @@
 import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
 import { CaptchaModal } from '@shared/react-components'
 import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
-import axios from 'axios'
+import { getDiscordInvite } from '@shared/utilities'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
@@ -111,27 +111,6 @@ export const Layout = (props: LayoutProps) => {
       ]
     }
   ]
-
-  const getDiscordInvite = async (token: string) => {
-    if (!!token) {
-      let bodyFormData = new FormData()
-      bodyFormData.append('h-captcha-response', token)
-
-      const response = await axios({
-        method: 'post',
-        url: 'https://discord-invite.pooltogether-api.workers.dev/generateInvite',
-        data: bodyFormData,
-        headers: { 'Content-Type': 'multipart/form-data' }
-      })
-      console.log('🍪 ~ response:', response)
-
-      if (response.status === 200) {
-        const inviteToken = await response.data
-        console.log('🍪 ~ inviteToken:', inviteToken)
-        // window.location.href = `https://discord.com/invite/${inviteToken}`
-      }
-    }
-  }
 
   const isDarkerFooterBg = router.pathname === '/' || router.pathname === '/ecosystem'
 
