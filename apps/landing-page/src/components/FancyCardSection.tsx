@@ -10,7 +10,6 @@ interface FancyCardSectionProps {
   cards: FancyCardId[]
 }
 
-// TODO: this isn't perfect. Looks off in large screens and doesn't have consistent height.
 export const FancyCardSection = (props: FancyCardSectionProps) => {
   const { iconSrc, title, cards } = props
 

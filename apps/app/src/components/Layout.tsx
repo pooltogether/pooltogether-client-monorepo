@@ -210,6 +210,7 @@ export const Layout = (props: LayoutProps) => {
       <CaptchaModal
         hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
         header='Join our Discord Community'
+        // TODO: need proper function to get discord invite
         onVerify={() => {}}
       />
 
