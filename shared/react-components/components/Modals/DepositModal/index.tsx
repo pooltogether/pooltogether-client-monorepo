@@ -1,7 +1,7 @@
 import { formatNumberForDisplay, PrizePool } from '@pooltogether/hyperstructure-client-js'
 import { useSelectedVault } from '@pooltogether/hyperstructure-react-hooks'
 import { MODAL_KEYS, useIsModalOpen } from '@shared/generic-react-hooks'
-import { Modal } from '@shared/ui'
+import { LINKS, Modal } from '@shared/ui'
 import classNames from 'classnames'
 import { useAtomValue } from 'jotai'
 import { ReactNode, useMemo, useState } from 'react'
@@ -121,12 +121,18 @@ export const DepositModal = (props: DepositModalProps) => {
   return <></>
 }
 
-// TODO: add link to TOS and protocol disclaimer
 const DepositDisclaimer = () => {
   return (
     <span className='text-xs text-pt-purple-100 px-6'>
-      By clicking "Confirm Deposit", you agree to PoolTogether's Terms of Service and acknowledge
-      that you have read and understand the PoolTogether protocol disclaimer.
+      By clicking "Confirm Deposit", you agree to PoolTogether's{' '}
+      <a href={LINKS.termsOfService} target='_blank' className='text-pt-teal-dark'>
+        Terms of Service
+      </a>{' '}
+      and acknowledge that you have read and understand the PoolTogether{' '}
+      <a href={LINKS.protocolDisclaimer} target='_blank' className='text-pt-teal-dark'>
+        protocol disclaimer
+      </a>
+      .
     </span>
   )
 }

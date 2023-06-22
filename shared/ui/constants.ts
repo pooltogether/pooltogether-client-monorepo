@@ -34,5 +34,7 @@ export const LINKS = Object.freeze({
   clientJs_v4: 'https://www.npmjs.com/package/@pooltogether/v4-client-js',
   reactHooks: 'https://www.npmjs.com/package/@pooltogether/hyperstructure-react-hooks',
   prizeTierController: 'https://tools.pooltogether.com/prize-tier-controller',
-  brandKit: 'https://pooltogether.com/brand-assets'
+  brandKit: 'https://pooltogether.com/brand-assets',
+  termsOfService: 'https://mvp-pt-app.netlify.app/terms',
+  protocolDisclaimer: 'https://mvp-pt-app.netlify.app/protocol-disclaimer'
 })
