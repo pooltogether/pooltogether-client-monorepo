@@ -112,20 +112,13 @@ export const Layout = (props: LayoutProps) => {
   ]
 
   const getDiscordInvite = async (token: string) => {
-    console.log('🍪 ~ token:', token)
-
     if (!!token) {
-      let bodyFormData = new FormData()
-      bodyFormData.append('h-captcha-response', token)
-      const stringifiedBodyFormData = JSON.stringify(bodyFormData)
-      console.log('🍪 ~ stringifiedBodyFormData:', stringifiedBodyFormData)
-
       const response = await fetch(
         'https://discord-invite.pooltogether-api.workers.dev/generateInvite',
         {
           method: 'POST',
-          headers: { 'Content-Type': 'multipart/form-data' },
-          body: stringifiedBodyFormData
+          headers: { 'Content-Type': 'application/json;charset=UTF-8' },
+          body: JSON.stringify({ 'h-captcha-response': token })
         }
       )
       console.log('🍪 ~ response:', response)
