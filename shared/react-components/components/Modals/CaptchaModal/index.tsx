@@ -56,12 +56,12 @@ const BodyContent = (props: BodyContentProps) => {
   }
 
   useEffect(() => {
-    if (token) {
-      let bodyFormData = new FormData()
-      bodyFormData.append('h-captcha-response', token)
-      console.log('🍪 ~ bodyFormData:', bodyFormData)
-
+    if (!!token) {
       const getInviteToken = async () => {
+        let bodyFormData = new FormData()
+        bodyFormData.append('h-captcha-response', token)
+        console.log('🍪 ~ bodyFormData:', bodyFormData)
+
         const response = await fetch(
           'https://discord-invite.pooltogether-api.workers.dev/generateInvite',
           { method: 'POST', headers: { 'Content-Type': 'multipart/form-data' }, body: bodyFormData }
