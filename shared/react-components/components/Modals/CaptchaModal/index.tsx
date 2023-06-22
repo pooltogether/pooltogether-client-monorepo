@@ -71,7 +71,7 @@ const BodyContent = (props: BodyContentProps) => {
         if (response.status === 200) {
           const inviteToken = await response.json()
           console.log('🍪 ~ inviteToken:', inviteToken)
-          window.location.href = `https://discord.com/invite/${inviteToken}`
+          // window.location.href = `https://discord.com/invite/${inviteToken}`
         }
       }
 
