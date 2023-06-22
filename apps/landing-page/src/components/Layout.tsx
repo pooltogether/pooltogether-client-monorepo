@@ -151,7 +151,10 @@ export const Layout = (props: LayoutProps) => {
       <CaptchaModal hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39' />
 
       <main
-        className={classNames('w-full relative flex flex-col flex-grow items-center', className)}
+        className={classNames(
+          'relative w-full max-w-[1920px] flex flex-col items-center mx-auto shadow-2xl',
+          className
+        )}
       >
         <>{children}</>
       </main>
@@ -162,7 +165,7 @@ export const Layout = (props: LayoutProps) => {
           'bg-pt-bg-purple-darker': isDarkerFooterBg,
           'bg-pt-purple-800': !isDarkerFooterBg
         })}
-        containerClassName='max-w-7xl'
+        containerClassName='max-w-[1440px]'
         titleClassName='text-pt-purple-400'
       />
     </div>

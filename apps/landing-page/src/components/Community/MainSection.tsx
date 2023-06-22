@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
-import { SvgBackground } from '@components/SvgBackground'
 import { CommunityCard } from './CommunityCard'
 import { SocialItem } from './SocialItem'
 
@@ -12,14 +12,11 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    // TODO: ideally we don't have magic numbers for bottom margin here
-    <section
-      className={classNames(
-        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1460]',
-        className
-      )}
+    <Section
+      bg='communitySection1.svg'
+      smallBg='mobileCommunitySection1.svg'
+      className={classNames('aspect-[375/667] md:aspect-[1440/1460]', className)}
     >
-      <SvgBackground bg='communitySection1.svg' smallBg='mobileCommunitySection1.svg' />
       <SimpleTextBanner
         title={
           <>
@@ -27,12 +24,13 @@ export const MainSection = (props: MainSection) => {
           </>
         }
         description={<>Learn about the active community around PoolTogether</>}
-        className='absolute w-full mt-[28%] md:mt-[16%]'
-        descriptionClassName='px-[20%] sm:px-0'
+        className='absolute w-full mt-[28%] md:h-[21.8%] md:justify-end md:mt-0'
+        titleClassName='max-w-[1440px]'
+        descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <CommunityCards className='w-full mt-[84%] md:max-w-[82%] md:h-[40%] md:mt-[34%] md:ml-[9%]' />
-      <Socials className='w-full my-32 md:max-w-[60%] md:h-[24%] md:mb-0 md:mt-[2%] md:ml-[20%]' />
-    </section>
+      <CommunityCards className='w-full mt-[84%] mx-auto md:max-w-[min(82%,_1440px)] md:h-[40%] md:mt-[34%]' />
+      <Socials className='w-full my-32 md:max-w-[min(60%,_1440px)] md:h-[24%] md:mb-0 md:mt-[2%] md:ml-[20%]' />
+    </Section>
   )
 }
 
@@ -74,7 +72,7 @@ const Socials = (props: SocialsProps) => {
         className
       )}
     >
-      <span className='text-clamp-lg text-pt-purple-400'>
+      <span className='text-sm text-pt-purple-400 md:text-lg'>
         You can also find us on these platforms:
       </span>
       <div className='w-full flex flex-wrap gap-6 justify-center px-16 md:justify-between md:pb-4 md:px-0'>

@@ -24,7 +24,7 @@ export const FancyCardSection = (props: FancyCardSectionProps) => {
           alt={title}
           className='h-6 w-auto text-pt-purple-300 md:h-8'
         />
-        <span className='text-clamp-xl'>{title}</span>
+        <span className='text-sm md:text-xl'>{title}</span>
       </div>
       <div className='w-full flex flex-wrap gap-4 justify-center'>
         {cards.map((cardType) => {

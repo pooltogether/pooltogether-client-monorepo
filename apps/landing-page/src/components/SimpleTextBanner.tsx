@@ -21,13 +21,13 @@ export const SimpleTextBanner = (props: SimpleTextBannerProps) => {
     >
       <span
         className={classNames(
-          'mb-1 font-averta font-bold text-clamp-3xl leading-normal md:text-clamp-4xl',
+          'mb-1 font-averta font-bold text-2xl leading-normal md:text-[2.5rem]',
           titleClassName
         )}
       >
         <>{title}</>
       </span>
-      <span className={classNames('text-clamp-base', descriptionClassName)}>
+      <span className={classNames('text-sm md:text-base', descriptionClassName)}>
         <>{description}</>
       </span>
     </div>

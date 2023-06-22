@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
-import { SvgBackground } from '@components/SvgBackground'
 import { HelpCard } from './HelpCard'
 
 interface MainSection {
@@ -11,13 +11,11 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    <section
-      className={classNames(
-        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1036]',
-        className
-      )}
+    <Section
+      bg='helpSection1.svg'
+      smallBg='mobileHelpSection1.svg'
+      className={classNames('aspect-[375/667] md:aspect-[1440/1036]', className)}
     >
-      <SvgBackground bg='helpSection1.svg' smallBg='mobileHelpSection1.svg' />
       <SimpleTextBanner
         title={
           <>
@@ -35,12 +33,12 @@ export const MainSection = (props: MainSection) => {
             </span>
           </>
         }
-        className='absolute w-full mt-[30%] md:mt-[15.5%]'
-        titleClassName='md:mb-4'
-        descriptionClassName='flex flex-col'
+        className='absolute w-full mt-[28%] md:h-1/3 md:justify-end md:mt-0'
+        titleClassName='max-w-[1440px] md:mb-4'
+        descriptionClassName='max-w-[1440px] flex flex-col'
       />
-      <HelpCards className='w-full mt-[75%] mb-8 md:max-w-[82%] md:h-[54%] md:mt-[27.3%] md:ml-[9%]' />
-    </section>
+      <HelpCards className='w-full mt-[75%] mb-8 mx-auto md:max-w-[min(82%,_1440px)] md:h-[54%] md:mt-[27.3%] md:mb-0' />
+    </Section>
   )
 }
 

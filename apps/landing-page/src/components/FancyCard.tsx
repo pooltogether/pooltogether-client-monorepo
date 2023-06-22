@@ -33,23 +33,23 @@ export const FancyCard = (props: FancyCardProps) => {
       <div className='flex gap-2 items-center md:flex-col md:gap-0 md:items-start'>
         <Image src={iconSrc} width={48} height={48} alt={title} className='h-12 w-auto' />
         <div className='flex flex-col'>
-          <span className='text-clamp-xl text-pt-purple-50'>{title}</span>
-          <span className='text-clamp-xs text-pt-purple-300'>By {author}</span>
+          <span className='text-base text-pt-purple-50 md:text-xl'>{title}</span>
+          <span className='text-xs text-pt-purple-300'>By {author}</span>
         </div>
       </div>
       <div className='flex gap-2 items-center'>
         {tags.map((tag, i) => (
           <span
             key={`${title.toLowerCase().replace(' ', '-')}-card-tag-${i}`}
-            className='px-3 py-1 text-clamp-xs font-medium bg-pt-transparent text-pt-purple-100 rounded-lg'
+            className='px-3 py-1 text-xs font-medium bg-pt-transparent text-pt-purple-100 rounded-lg'
           >
             {tag}
           </span>
         ))}
       </div>
-      <span className='text-clamp-base text-pt-purple-100 line-clamp-2'>{description}</span>
+      <span className='text-xs text-pt-purple-100 line-clamp-2 md:text-base'>{description}</span>
       <div className='flex gap-2 items-center mt-auto ml-auto text-pt-purple-300 whitespace-nowrap'>
-        <span className='text-clamp-base'>Open {cleanURI}</span>
+        <span className='text-base'>Open {cleanURI}</span>
         <ArrowTopRightOnSquareIcon className='w-4 h-auto' />
       </div>
     </a>

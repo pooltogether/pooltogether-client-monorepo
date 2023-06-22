@@ -34,10 +34,10 @@ export const SavingCard = (props: SavingCardProps) => {
         <object type='image/svg+xml' data={card.src} className='w-full' />
       </div>
       <div className='flex flex-col gap-1 text-center md:gap-2'>
-        <span className='font-averta font-bold text-clamp-3xl text-pt-purple-100'>
+        <span className='font-averta font-bold text-2xl text-pt-purple-100 md:text-[2rem]'>
           {card.title}
         </span>
-        <span className='text-clamp-xl text-gray-100 md:text-clamp-base'>{card.description}</span>
+        <span className='text-base text-gray-100'>{card.description}</span>
       </div>
     </div>
   )

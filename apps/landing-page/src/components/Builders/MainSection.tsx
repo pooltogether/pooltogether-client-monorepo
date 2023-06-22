@@ -2,8 +2,8 @@ import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
 import Image from 'next/image'
 import { FancyCardSection } from '@components/FancyCardSection'
+import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
-import { SvgBackground } from '@components/SvgBackground'
 
 interface MainSection {
   className?: string
@@ -13,13 +13,11 @@ export const MainSection = (props: MainSection) => {
   const { className } = props
 
   return (
-    <section
-      className={classNames(
-        'relative w-full flex flex-col isolate aspect-[375/667] md:aspect-[1440/1860]',
-        className
-      )}
+    <Section
+      bg='buildersSection1.svg'
+      smallBg='mobileBuildersSection1.svg'
+      className={classNames('aspect-[375/667] md:aspect-[1440/1860]', className)}
     >
-      <SvgBackground bg='buildersSection1.svg' smallBg='mobileBuildersSection1.svg' />
       <SimpleTextBanner
         title={
           <>
@@ -29,12 +27,13 @@ export const MainSection = (props: MainSection) => {
         description={
           <>Join the diverse community of developers and designers building on the protocol</>
         }
-        className='absolute w-full mt-[29%] md:mt-[16%]'
-        descriptionClassName='px-[10%] sm:px-0'
+        className='absolute w-full mt-[28%] md:h-[17.1%] md:justify-end md:mt-0'
+        titleClassName='max-w-[1440px]'
+        descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <DocsCards className='absolute w-full mt-[54%] md:max-w-[60%] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
-      <CardRows className='w-full mt-[95%] mb-8 md:h-[66%] md:mt-[44%]' />
-    </section>
+      <DocsCards className='absolute w-full mt-[54%] md:max-w-[min(60%,_1440px)] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
+      <CardRows className='w-full max-w-[1440px] mt-[95%] mb-8 mx-auto md:h-[66%] md:mt-[44%]' />
+    </Section>
   )
 }
 
@@ -83,9 +82,9 @@ const DocCard = (props: DocCardProps) => {
         width={48}
         height={48}
         alt='Doc Icon'
-        className='h-5 w-auto md:h-12'
+        className='h-[18px] w-auto md:h-[75px]'
       />
-      <div className='flex text-clamp-xl text-pt-purple-50 md:flex-col'>
+      <div className='flex text-base text-pt-purple-50 md:flex-col md:text-xl'>
         <span className='mr-[.5ch] md:mr-0'>V{version} Developer</span>
         <span>Documentation</span>
       </div>

@@ -14,7 +14,7 @@ export const StatsSection = (props: StatsSection) => {
   return (
     <section
       className={classNames(
-        'relative w-full grid grid-cols-2 gap-6 items-center justify-between px-4 py-12',
+        'relative w-full max-w-[1440px] grid grid-cols-2 gap-6 items-center justify-between px-4 py-12',
         'md:flex md:mt-20 md:mb-10 md:px-0 md:py-0 xl:max-w-[75%]',
         className
       )}
@@ -37,10 +37,10 @@ export const Stat = (props: StatProps) => {
 
   return (
     <div className='flex flex-col grow items-center text-pt-purple-100 md:w-0'>
-      <span className='text-clamp-2xl font-averta font-bold md:text-clamp-3xl'>
+      <span className='text-lg font-averta font-bold md:text-3xl'>
         <>{value}</>
       </span>
-      <span className='text-clamp-base'>{title}</span>
+      <span className='text-center text-[13px] md:text-base'>{title}</span>
     </div>
   )
 }

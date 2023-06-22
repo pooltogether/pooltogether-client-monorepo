@@ -44,7 +44,7 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
       )}
     >
       {'tag' in card && (
-        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-clamp-sm text-pt-purple-400 bg-[#361D60] rounded-full md:text-clamp-xs'>
+        <span className='absolute top-0 -translate-y-1/2 px-3 py-0.5 text-xs text-pt-purple-400 bg-[#361D60] rounded-full'>
           {card.tag}
         </span>
       )}
@@ -56,7 +56,7 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
         className='absolute top-4 left-4 w-5 h-auto text-pt-purple-400 4xl:w-6'
       />
       <Image src={card.src} width={100} height={80} alt={type} className='w-3/4 grow mt-2' />
-      <Button fullSized={true} {...card.buttonProps} pill={true} />
+      <Button fullSized={true} {...card.buttonProps} pill={true} className='whitespace-nowrap' />
     </div>
   )
 }

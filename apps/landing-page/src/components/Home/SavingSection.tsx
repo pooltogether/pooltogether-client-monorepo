@@ -1,6 +1,6 @@
 import classNames from 'classnames'
+import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
-import { SvgBackground } from '@components/SvgBackground'
 import { SavingCard } from './SavingCard'
 
 interface SavingSection {
@@ -11,17 +11,12 @@ export const SavingSection = (props: SavingSection) => {
   const { className } = props
 
   return (
-    <section
-      className={classNames(
-        'relative w-full flex flex-col isolate aspect-[375/1408] md:aspect-[1440/953]',
-        className
-      )}
+    <Section
+      bg='indexSection2.svg'
+      smallBg='mobileIndexSection2.svg'
+      animatedBg='indexSection2.svg'
+      className={classNames('aspect-[375/1408] md:aspect-[1440/953]', className)}
     >
-      <SvgBackground
-        bg='indexSection2.svg'
-        smallBg='mobileIndexSection2.svg'
-        animatedBg='indexSection2.svg'
-      />
       <SimpleTextBanner
         title={
           <>
@@ -29,11 +24,11 @@ export const SavingSection = (props: SavingSection) => {
             <span className='text-pt-purple-400'>Winning</span>
           </>
         }
-        className='absolute w-full h-[24.9%] px-10 md:h-auto md:mt-[9%] md:px-0'
-        titleClassName='!my-auto'
+        className='w-full h-[24.9%] px-10 md:h-[25.7%] md:mt-[2%] md:px-0'
+        titleClassName='!my-auto text-[2rem]'
       />
-      <SavingCards className='w-full mt-[93.5%] h-[69.5%] md:max-w-[77%] md:h-auto md:mt-[25%] md:ml-[11%]' />
-    </section>
+      <SavingCards className='w-full h-[69.5%] md:max-w-[77%] md:h-[62.9%] md:mt-0 md:mx-auto' />
+    </Section>
   )
 }
 

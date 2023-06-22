@@ -51,11 +51,11 @@ const SimpleCardContent = (props: SimpleCardContentProps) => {
           width={32}
           height={32}
           alt={title}
-          className='w-6 h-auto text-pt-teal-dark md:w-8'
+          className='w-6 h-auto text-pt-teal-dark md:w-9'
         />
-        <span className='text-clamp-2xl md:text-clamp-xl'>{title}</span>
+        <span className='text-xl'>{title}</span>
       </div>
-      <span className='text-clamp-base'>{description}</span>
+      <span className='text-sm md:text-base'>{description}</span>
     </>
   )
 }

@@ -2,7 +2,7 @@ import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-interface SvgBackgroundProps {
+export interface SvgBackgroundProps {
   bg: `${string}.svg`
   smallBg: `${string}.svg`
   animatedBg?: `${string}.svg`
