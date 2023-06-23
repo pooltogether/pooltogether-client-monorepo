@@ -17,7 +17,7 @@ class MyDocument extends Document {
 
   render() {
     const title = 'PoolTogether'
-    const description = `The permissionless protocol for saving and winning.`
+    const description = 'The permissionless protocol for saving and winning.'
     const keywords = 'ethereum polygon avalanche prize savings win save protocol'
     const twitterHandle = '@PoolTogether_'
 
@@ -57,7 +57,7 @@ class MyDocument extends Document {
         <meta property='twitter:url' content={DOMAINS.landingPage} />
         <meta property='twitter:creator' content={twitterHandle} />
 
-        {/* TODO: add link to manifest */}
+        <link rel='manifest' href='/manifest.json' />
         <Head>
           <link rel='icon' href='/favicon.ico' />
         </Head>

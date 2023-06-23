@@ -152,7 +152,7 @@ export const Layout = (props: LayoutProps) => {
 
       <main
         className={classNames(
-          'relative w-full max-w-[1920px] flex flex-col items-center mx-auto shadow-2xl',
+          'relative w-full max-w-[1920px] flex flex-col grow items-center mx-auto shadow-2xl',
           className
         )}
       >
