@@ -12,5 +12,9 @@ module.exports = {
       config.resolve.fallback = { fs: false, net: false, tls: false }
     }
     return config;
+  },
+  i18n: {
+    locales: ['en', 'es', 'de', 'fr', 'hi', 'it', 'ko', 'pt', 'tr', 'zh'],
+    defaultLocale: 'en'
   }
 };

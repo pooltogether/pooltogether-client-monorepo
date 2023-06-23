@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 import { HelpCard } from './HelpCard'
@@ -10,6 +11,8 @@ interface MainSection {
 export const MainSection = (props: MainSection) => {
   const { className } = props
 
+  const t = useTranslations('Help')
+
   return (
     <Section
       bg='helpSection1.svg'
@@ -17,11 +20,9 @@ export const MainSection = (props: MainSection) => {
       className={classNames('aspect-[375/667] md:aspect-[1440/1036]', className)}
     >
       <SimpleTextBanner
-        title={
-          <>
-            <span className='text-pt-purple-400'>Get Help</span> With PoolTogether
-          </>
-        }
+        title={t.rich('getHelp', {
+          purple: (chunks) => <span className='text-pt-purple-400'>{chunks}</span>
+        })}
         description={
           <>
             <span className='hidden md:block'>
