@@ -13,22 +13,28 @@ export interface SimpleCardProps {
 export const SimpleCard = (props: SimpleCardProps) => {
   const { href, onClick, className, ...rest } = props
 
-  const baseClassName = classNames(
-    'flex flex-col gap-3 p-8 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl md:gap-6 md:p-12',
-    'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
-    className
-  )
+  const baseClassName =
+    'flex flex-col gap-3 p-8 bg-pt-bg-purple-darker text-pt-purple-100 rounded-2xl hover:shadow-lg md:gap-6 md:p-12'
+  const outlineClassName =
+    'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20'
 
   if (!!href) {
     return (
-      <a href={href} target='_blank' className={baseClassName}>
+      <a
+        href={href}
+        target='_blank'
+        className={classNames(baseClassName, outlineClassName, className)}
+      >
         <SimpleCardContent {...rest} />
       </a>
     )
   }
 
   return (
-    <div onClick={onClick} className={baseClassName}>
+    <div
+      onClick={onClick}
+      className={classNames(baseClassName, outlineClassName, 'cursor-pointer', className)}
+    >
       <SimpleCardContent {...rest} />
     </div>
   )

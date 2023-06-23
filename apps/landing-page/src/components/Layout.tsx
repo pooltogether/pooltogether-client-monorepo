@@ -21,7 +21,7 @@ export const Layout = (props: LayoutProps) => {
 
   const { setIsModalOpen: setIsCaptchaModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
 
-  const { isDesktop } = useScreenSize()
+  const { isMobile } = useScreenSize()
 
   const shouldReduceMotion = useReducedMotion()
 
@@ -68,12 +68,11 @@ export const Layout = (props: LayoutProps) => {
     {
       title: 'Ecosystem',
       content: [
-        // TODO: add hrefs
-        { content: 'Tools', href: '#' },
+        { content: 'Tools', href: LINKS.tools },
         { content: 'Developer Docs', href: LINKS.devDocs },
         { content: 'Security', href: LINKS.audits },
         { content: 'FAQ', href: LINKS.faq },
-        { content: 'Assets', href: '#' },
+        { content: 'Assets', href: LINKS.brandKit },
         { content: 'Governance', href: LINKS.governance },
         { content: 'User Docs', href: LINKS.docs }
       ]
@@ -131,7 +130,7 @@ export const Layout = (props: LayoutProps) => {
             <span className='text-sm md:px-6 md:text-base'>Use PoolTogether</span>
           </Button>
         }
-        sticky={isDesktop}
+        sticky={!isMobile}
         className={classNames(
           '!px-4 !py-3 bg-transparent !border-opacity-0 sm:!px-8 md:shadow-2xl',
           {

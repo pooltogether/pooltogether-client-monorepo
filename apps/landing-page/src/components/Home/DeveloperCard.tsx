@@ -2,7 +2,6 @@ import { Button, ButtonProps, LINKS } from '@shared/ui'
 import classNames from 'classnames'
 import Image from 'next/image'
 
-// TODO: add all hrefs
 const developerCardInfo = {
   v4Docs: {
     src: '/graphics/IntegrateGraphic.svg',
@@ -13,6 +12,7 @@ const developerCardInfo = {
     buttonProps: { href: LINKS.devDocs, target: '_blank', children: 'V5 Documentation' },
     tag: 'Alpha'
   },
+  // TODO: add href when not disabled
   addToken: {
     src: '/graphics/AddTokenGraphic.svg',
     buttonProps: {

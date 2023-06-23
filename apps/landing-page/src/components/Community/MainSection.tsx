@@ -38,7 +38,6 @@ interface CommunityCardsProps {
   className?: string
 }
 
-// TODO: this should be a flex element on small screens so that it can wrap nicer on tablet sizes
 const CommunityCards = (props: CommunityCardsProps) => {
   const { className } = props
 

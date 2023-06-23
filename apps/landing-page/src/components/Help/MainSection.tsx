@@ -46,7 +46,6 @@ interface HelpCardsProps {
   className?: string
 }
 
-// TODO: this should be a flex element on small screens so that it can wrap nicer on tablet sizes
 const HelpCards = (props: HelpCardsProps) => {
   const { className } = props
 

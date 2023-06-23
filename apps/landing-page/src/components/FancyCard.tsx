@@ -47,8 +47,10 @@ export const FancyCard = (props: FancyCardProps) => {
           </span>
         ))}
       </div>
-      <span className='text-xs text-pt-purple-100 line-clamp-2 md:text-base'>{description}</span>
-      <div className='flex gap-2 items-center mt-auto ml-auto text-pt-purple-300 whitespace-nowrap'>
+      <span className='min-h-[32px] text-xs text-pt-purple-100 line-clamp-2 md:min-h-[48px] md:text-base'>
+        {description}
+      </span>
+      <div className='flex gap-2 items-center ml-auto text-pt-purple-300 whitespace-nowrap'>
         <span className='text-base'>Open {cleanURI}</span>
         <ArrowTopRightOnSquareIcon className='w-4 h-auto' />
       </div>
