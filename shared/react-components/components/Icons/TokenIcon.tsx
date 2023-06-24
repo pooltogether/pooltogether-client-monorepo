@@ -30,7 +30,9 @@ export const TokenIcon = (props: TokenIconProps) => {
 
   if (token.chainId && token.address) {
     const logoOverride =
-      TOKEN_LOGO_OVERRIDES[token.chainId as NETWORK]?.[token.address.toLowerCase()]
+      TOKEN_LOGO_OVERRIDES[token.chainId as NETWORK]?.[
+        token.address.toLowerCase() as Lowercase<string>
+      ]
     if (!!logoOverride) {
       return (
         <img
