@@ -16,7 +16,7 @@ const tokenLogoUrls = Object.freeze({
  *
  * NOTE: All addresses are lowercase
  */
-export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: string]: string }> = Object.freeze({
+export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: Lowercase<string>]: string }> = {
   [NETWORK.mainnet]: {
     '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': tokenLogoUrls.usdc
   },
@@ -47,7 +47,7 @@ export const TOKEN_LOGO_OVERRIDES: Record<NETWORK, { [address: string]: string }
   [NETWORK['celo-testnet']]: {},
   [NETWORK.arbitrum]: {},
   [NETWORK['arbitrum-goerli']]: {}
-})
+}
 
 /**
  * TX Gas Amount Estimates
