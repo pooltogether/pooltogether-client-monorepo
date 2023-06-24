@@ -1,38 +1,47 @@
 import { Button, ButtonProps, LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 
-const developerCardInfo = {
-  v4Docs: {
-    src: '/graphics/IntegrateGraphic.svg',
-    buttonProps: { href: LINKS.devDocs_v4, target: '_blank', children: 'V4 Documentation' }
-  },
-  docs: {
-    src: '/graphics/YieldGraphic.svg',
-    buttonProps: { href: LINKS.devDocs, target: '_blank', children: 'V5 Documentation' },
-    tag: 'Alpha'
-  },
-  // TODO: add href when not disabled
-  addToken: {
-    src: '/graphics/AddTokenGraphic.svg',
-    buttonProps: {
-      href: '#',
-      target: '_blank',
-      color: 'transparent',
-      children: 'Add Your Token',
-      disabled: true
-    },
-    tag: 'Coming Soon!'
-  }
-} satisfies { [id: string]: { src: `/${string}.svg`; buttonProps: ButtonProps; tag?: string } }
+type DeveloperCardType = 'v4Docs' | 'docs' | 'addToken'
 
 interface DeveloperCardProps {
-  type: keyof typeof developerCardInfo
+  type: DeveloperCardType
   className?: string
 }
 
 export const DeveloperCard = (props: DeveloperCardProps) => {
   const { type, className } = props
+
+  const t = useTranslations('Home')
+  const t_common = useTranslations('Common')
+
+  const developerCardInfo: Record<
+    DeveloperCardType,
+    { src: `/${string}.svg`; buttonProps: ButtonProps; tag?: string }
+  > = {
+    v4Docs: {
+      src: '/graphics/IntegrateGraphic.svg',
+      buttonProps: { href: LINKS.devDocs_v4, target: '_blank', children: t('docs', { version: 4 }) }
+    },
+    docs: {
+      src: '/graphics/YieldGraphic.svg',
+      buttonProps: { href: LINKS.devDocs, target: '_blank', children: t('docs', { version: 5 }) },
+      tag: t_common('alpha')
+    },
+    // TODO: add href when not disabled
+    addToken: {
+      src: '/graphics/AddTokenGraphic.svg',
+      buttonProps: {
+        href: '#',
+        target: '_blank',
+        color: 'transparent',
+        children: t('addYourToken'),
+        disabled: true
+      },
+      tag: t_common('comingSoon')
+    }
+  }
 
   const card = developerCardInfo[type]
 

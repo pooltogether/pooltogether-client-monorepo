@@ -1,19 +1,33 @@
 import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
+
+export type FancyCardTag =
+  | 'ui'
+  | 'extensions'
+  | 'analytics'
+  | 'governance'
+  | 'dev'
+  | 'design'
+  | 'v4'
+  | 'v5'
 
 export interface FancyCardProps {
   href: string
   iconSrc: string
   title: string
   author: string
-  tags: string[]
+  tags: FancyCardTag[]
   description: string
   className?: string
 }
 
 export const FancyCard = (props: FancyCardProps) => {
   const { href, iconSrc, title, author, tags, description, className } = props
+
+  const t_common = useTranslations('Common')
+  const t_tags = useTranslations('Tags')
 
   const cleanupRegex = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/i
   const cleanURI = cleanupRegex.exec(href)?.[1]
@@ -34,7 +48,7 @@ export const FancyCard = (props: FancyCardProps) => {
         <Image src={iconSrc} width={48} height={48} alt={title} className='h-12 w-auto' />
         <div className='flex flex-col'>
           <span className='text-base text-pt-purple-50 md:text-xl'>{title}</span>
-          <span className='text-xs text-pt-purple-300'>By {author}</span>
+          <span className='text-xs text-pt-purple-300'>{t_common('author', { author })}</span>
         </div>
       </div>
       <div className='flex gap-2 items-center'>
@@ -43,7 +57,7 @@ export const FancyCard = (props: FancyCardProps) => {
             key={`${title.toLowerCase().replace(' ', '-')}-card-tag-${i}`}
             className='px-3 py-1 text-xs font-medium bg-pt-transparent text-pt-purple-100 rounded-lg'
           >
-            {tag}
+            {t_tags(tag)}
           </span>
         ))}
       </div>
@@ -51,7 +65,7 @@ export const FancyCard = (props: FancyCardProps) => {
         {description}
       </span>
       <div className='flex gap-2 items-center ml-auto text-pt-purple-300 whitespace-nowrap'>
-        <span className='text-base'>Open {cleanURI}</span>
+        <span className='text-base'>{t_common('openURL', { url: cleanURI })}</span>
         <ArrowTopRightOnSquareIcon className='w-4 h-auto' />
       </div>
     </a>

@@ -1,5 +1,6 @@
 import classNames from 'classnames'
 import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 import { HelpCard } from './HelpCard'
@@ -20,18 +21,13 @@ export const MainSection = (props: MainSection) => {
       className={classNames('aspect-[375/667] md:aspect-[1440/1036]', className)}
     >
       <SimpleTextBanner
-        title={t.rich('getHelp', {
-          purple: (chunks) => <span className='text-pt-purple-400'>{chunks}</span>
-        })}
+        title={t.rich('getHelp', RICH_TEXT_FORMATTING)}
         description={
           <>
             <span className='hidden md:block'>
-              PoolTogether is an open source protocol for{' '}
-              <span className='text-pt-teal'>Prize Linked Savings</span>.
+              {t.rich('prizeLinkedSavings', RICH_TEXT_FORMATTING)}
             </span>
-            <span>
-              This page can help you learn about the protocol, how it works and how to use it.
-            </span>
+            <span>{t('learnAbout')}</span>
           </>
         }
         className='absolute w-full mt-[28%] md:h-1/3 md:justify-end md:mt-0'

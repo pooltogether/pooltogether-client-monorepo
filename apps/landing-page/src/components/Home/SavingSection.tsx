@@ -1,4 +1,6 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 import { SavingCard } from './SavingCard'
@@ -10,6 +12,8 @@ interface SavingSection {
 export const SavingSection = (props: SavingSection) => {
   const { className } = props
 
+  const t = useTranslations('Home')
+
   return (
     <Section
       bg='indexSection2.svg'
@@ -18,12 +22,7 @@ export const SavingSection = (props: SavingSection) => {
       className={classNames('aspect-[375/1408] md:aspect-[1440/953]', className)}
     >
       <SimpleTextBanner
-        title={
-          <>
-            PoolTogether is for <span className='text-pt-purple-400'>Saving</span> &{' '}
-            <span className='text-pt-purple-400'>Winning</span>
-          </>
-        }
+        title={t.rich('savingAndWinning', RICH_TEXT_FORMATTING)}
         className='w-full h-[24.9%] px-10 md:h-[25.7%] md:mt-[2%] md:px-0'
         titleClassName='!my-auto text-[2rem]'
       />

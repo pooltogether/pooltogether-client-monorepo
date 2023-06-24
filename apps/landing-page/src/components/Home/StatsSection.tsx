@@ -1,4 +1,5 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import { ReactNode } from 'react'
 import { useFormattedProtocolStats } from '@hooks/useFormattedProtocolStats'
 
@@ -8,6 +9,8 @@ interface StatsSection {
 
 export const StatsSection = (props: StatsSection) => {
   const { className } = props
+
+  const t = useTranslations('Home')
 
   const { totalPrizes, tvl, uniqueWallets } = useFormattedProtocolStats()
 
@@ -19,10 +22,10 @@ export const StatsSection = (props: StatsSection) => {
         className
       )}
     >
-      <Stat title='Total Prizes Awarded' value={totalPrizes} />
-      <Stat title='Saved With PoolTogether' value={tvl} />
-      <Stat title='Unique Wallets' value={`${uniqueWallets}+`} />
-      <Stat title='Losses Ever' value='0' />
+      <Stat title={t('totalPrizesAwarded')} value={totalPrizes} />
+      <Stat title={t('savedWithPt')} value={tvl} />
+      <Stat title={t('uniqueWallets')} value={`${uniqueWallets}+`} />
+      <Stat title={t('lossesEver')} value='0' />
     </section>
   )
 }

@@ -13,13 +13,16 @@ import { Layout } from '@components/Layout'
 
 interface HomePageProps {
   protocolStats: ProtocolStats
+  messages: IntlMessages
 }
 
-export const getStaticProps: GetStaticProps<HomePageProps> = async () => {
+export const getStaticProps: GetStaticProps<HomePageProps> = async ({ locale }) => {
   const protocolStats = await getProtocolStats()
 
+  const messages: IntlMessages = (await import(`../../messages/${locale}.json`)).default
+
   return {
-    props: { protocolStats },
+    props: { protocolStats, messages },
     revalidate: SECONDS_PER_DAY
   }
 }
@@ -31,7 +34,7 @@ export default function HomePage(props: HomePageProps) {
 
   return (
     <Layout>
-      <HeroSection className='md:mt-[10.5rem]' />
+      <HeroSection className='md:mt-[5rem]' />
       <StatsSection />
       <SavingSection />
       <MissionSection />

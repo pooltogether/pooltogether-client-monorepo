@@ -1,5 +1,7 @@
 import { Button } from '@shared/ui'
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { DeveloperCard } from './DeveloperCard'
 
@@ -33,6 +35,9 @@ interface TextBannerProps {
 const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
+  const t = useTranslations('Home')
+  const t_common = useTranslations('Common')
+
   return (
     <div
       className={classNames(
@@ -40,18 +45,15 @@ const TextBanner = (props: TextBannerProps) => {
         className
       )}
     >
-      <span className='text-xs text-pt-purple-100 md:text-sm'>Why Prize Savings?</span>
+      <span className='text-xs text-pt-purple-100 md:text-sm'>{t('whyPrizeSavings')}</span>
       <div className='flex flex-col items-center gap-2 mb-8 text-pt-purple-100 md:mb-0'>
         <span className='font-averta font-bold text-[2rem] leading-tight md:text-[2.5rem] md:leading-normal'>
-          <span className='text-pt-purple-400'>The Mission:</span> Financial freedom for all
+          {t.rich('theMission', RICH_TEXT_FORMATTING)}
         </span>
-        <span className='text-base md:w-3/4 md:text-xl'>
-          Prize savings are a proven tool to help people save money and avoid wealth destroying
-          lotteries.
-        </span>
+        <span className='text-base md:w-3/4 md:text-xl'>{t('provenTool')}</span>
       </div>
       <Button href='https://medium.com/pooltogether/the-power-of-no-loss-prize-savings-1f006503f64'>
-        <span className='text-base px-[.4em] py-[.2em]'>Read More</span>
+        <span className='text-base px-[.4em] py-[.2em]'>{t_common('readMore')}</span>
       </Button>
     </div>
   )
@@ -64,6 +66,8 @@ interface DeveloperBannerProps {
 const DeveloperBanner = (props: DeveloperBannerProps) => {
   const { className } = props
 
+  const t = useTranslations('Home')
+
   return (
     <div
       className={classNames(
@@ -71,13 +75,11 @@ const DeveloperBanner = (props: DeveloperBannerProps) => {
         className
       )}
     >
-      <span className='text-xs md:text-sm'>For Developers</span>
+      <span className='text-xs md:text-sm'>{t('forDevelopers')}</span>
       <span className='font-averta font-bold text-[2rem] leading-tight text-pt-purple-50 md:text-[2.5rem]'>
-        Build on PoolTogether
+        {t('buildOnPt')}
       </span>
-      <span className='text-base md:text-xl'>
-        PoolTogether unlocks organic usage for wallets & blockchains
-      </span>
+      <span className='text-base md:text-xl'>{t('organicUsage')}</span>
     </div>
   )
 }

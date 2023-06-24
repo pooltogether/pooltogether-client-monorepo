@@ -1,30 +1,38 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 
-const savingCardInfo = {
-  deposit: {
-    src: '/graphics/DepositGraphic.svg',
-    title: 'Deposit',
-    description: 'Deposit for a chance to win'
-  },
-  winPrizes: {
-    src: '/graphics/WinPrizesGraphic.svg',
-    title: 'Win Prizes',
-    description: 'Yield from deposits fund prizes'
-  },
-  noLoss: {
-    src: '/graphics/NoLossGraphic.svg',
-    title: 'No Loss',
-    description: 'No fees, withdraw any time'
-  }
-} satisfies { [id: string]: { src: `/${string}.svg`; title: string; description: string } }
+type SavingCardType = 'deposit' | 'winPrizes' | 'noLoss'
 
 interface SavingCardProps {
-  type: keyof typeof savingCardInfo
+  type: SavingCardType
   className?: string
 }
 
 export const SavingCard = (props: SavingCardProps) => {
   const { type, className } = props
+
+  const t = useTranslations('Home')
+
+  const savingCardInfo: Record<
+    SavingCardType,
+    { src: `/${string}.svg`; title: string; description: string }
+  > = {
+    deposit: {
+      src: '/graphics/DepositGraphic.svg',
+      title: t('depositCardTitle'),
+      description: t('depositCardDescription')
+    },
+    winPrizes: {
+      src: '/graphics/WinPrizesGraphic.svg',
+      title: t('winPrizesCardTitle'),
+      description: t('winPrizesCardDescription')
+    },
+    noLoss: {
+      src: '/graphics/NoLossGraphic.svg',
+      title: t('noLossCardTitle'),
+      description: t('noLossCardDescription')
+    }
+  }
 
   const card = savingCardInfo[type]
 

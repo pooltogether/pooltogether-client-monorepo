@@ -1,4 +1,6 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
 import { CommunityCard } from './CommunityCard'
@@ -11,6 +13,8 @@ interface MainSection {
 export const MainSection = (props: MainSection) => {
   const { className } = props
 
+  const t = useTranslations('Community')
+
   return (
     <Section
       bg='communitySection1.svg'
@@ -18,12 +22,8 @@ export const MainSection = (props: MainSection) => {
       className={classNames('aspect-[375/667] md:aspect-[1440/1460]', className)}
     >
       <SimpleTextBanner
-        title={
-          <>
-            Take a <span className='text-pt-purple-400'>dip</span> in the pool
-          </>
-        }
-        description={<>Learn about the active community around PoolTogether</>}
+        title={t.rich('dipInThePool', RICH_TEXT_FORMATTING)}
+        description={t('activeCommunity')}
         className='absolute w-full mt-[28%] md:h-[21.8%] md:justify-end md:mt-0'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
@@ -64,6 +64,8 @@ interface SocialsProps {
 const Socials = (props: SocialsProps) => {
   const { className } = props
 
+  const t = useTranslations('Community')
+
   return (
     <div
       className={classNames(
@@ -71,9 +73,7 @@ const Socials = (props: SocialsProps) => {
         className
       )}
     >
-      <span className='text-sm text-pt-purple-400 md:text-lg'>
-        You can also find us on these platforms:
-      </span>
+      <span className='text-sm text-pt-purple-400 md:text-lg'>{t('otherPlatforms')}</span>
       <div className='w-full flex flex-wrap gap-6 justify-center px-16 md:justify-between md:pb-4 md:px-0'>
         <SocialItem type='lens' />
         <SocialItem type='mirror' />

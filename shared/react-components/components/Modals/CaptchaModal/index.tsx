@@ -83,7 +83,7 @@ const BodyContent = (props: BodyContentProps) => {
 
 const FooterContent = () => {
   return (
-    <span className='text-center text-xs opacity-50'>
+    <span className='text-center text-xs opacity-70'>
       This site is protected by hCaptcha and its{' '}
       <ExternalLink
         href='https://hcaptcha.com/privacy'

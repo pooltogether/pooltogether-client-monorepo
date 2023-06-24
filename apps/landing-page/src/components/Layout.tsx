@@ -1,9 +1,10 @@
 import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
 import { CaptchaModal } from '@shared/react-components'
-import { Button, Footer, FooterItem, LINKS, Navbar, SocialIcon } from '@shared/ui'
+import { Button, Footer, FooterItem, LINKS, Navbar, NavbarLink, SocialIcon } from '@shared/ui'
 import { getDiscordInvite } from '@shared/utilities'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -18,6 +19,10 @@ export const Layout = (props: LayoutProps) => {
   const { children, className } = props
 
   const router = useRouter()
+
+  const t_common = useTranslations('Common')
+  const t_nav = useTranslations('Navigation')
+  const t_footer = useTranslations('Footer')
 
   const { setIsModalOpen: setIsCaptchaModalOpen } = useIsModalOpen(MODAL_KEYS.captcha)
 
@@ -36,9 +41,16 @@ export const Layout = (props: LayoutProps) => {
     return () => window.removeEventListener('scroll', handleScroll)
   })
 
+  const navbarLinks: NavbarLink[] = [
+    { href: '/help', name: t_nav('help') },
+    { href: '/ecosystem', name: t_nav('ecosystem') },
+    { href: '/community', name: t_nav('community') },
+    { href: '/builders', name: t_nav('builders') }
+  ]
+
   const footerItems: FooterItem[] = [
     {
-      title: 'Independent Security Audits',
+      title: t_footer('audits'),
       content: [
         {
           content: (
@@ -66,19 +78,19 @@ export const Layout = (props: LayoutProps) => {
       itemClassName: 'lg:ml-auto'
     },
     {
-      title: 'Ecosystem',
+      title: t_footer('ecosystem'),
       content: [
-        { content: 'Tools', href: LINKS.tools },
-        { content: 'Developer Docs', href: LINKS.devDocs },
-        { content: 'Security', href: LINKS.audits },
-        { content: 'FAQ', href: LINKS.faq },
-        { content: 'Assets', href: LINKS.brandKit },
-        { content: 'Governance', href: LINKS.governance },
-        { content: 'User Docs', href: LINKS.docs }
+        { content: t_footer('tools'), href: LINKS.tools },
+        { content: t_footer('devDocs'), href: LINKS.devDocs },
+        { content: t_footer('security'), href: LINKS.audits },
+        { content: t_footer('faq'), href: LINKS.faq },
+        { content: t_footer('brandAssets'), href: LINKS.brandKit },
+        { content: t_footer('governance'), href: LINKS.governance },
+        { content: t_footer('userDocs'), href: LINKS.docs }
       ]
     },
     {
-      title: 'Community',
+      title: t_footer('community'),
       content: [
         {
           content: 'Twitter',
@@ -103,10 +115,19 @@ export const Layout = (props: LayoutProps) => {
       ]
     },
     {
-      title: 'Languages',
+      title: t_footer('languages'),
       content: [
         // TODO: actually add languages and language switching functionality
-        { content: 'English', onClick: () => {} }
+        { content: 'English', onClick: () => {} },
+        { content: 'Español', onClick: () => {}, disabled: true },
+        { content: 'Deutsch', onClick: () => {}, disabled: true },
+        { content: 'Français', onClick: () => {}, disabled: true },
+        { content: 'हिन्दी', onClick: () => {}, disabled: true },
+        { content: 'Italiano', onClick: () => {}, disabled: true },
+        { content: '한국어', onClick: () => {}, disabled: true },
+        { content: 'Português', onClick: () => {}, disabled: true },
+        { content: 'Türkçe', onClick: () => {}, disabled: true },
+        { content: '中文', onClick: () => {}, disabled: true }
       ]
     }
   ]
@@ -116,18 +137,13 @@ export const Layout = (props: LayoutProps) => {
   return (
     <div className='flex flex-col min-h-screen'>
       <Navbar
-        links={[
-          { href: '/help', name: 'Help' },
-          { href: '/ecosystem', name: 'Ecosystem' },
-          { href: '/community', name: 'Community' },
-          { href: '/builders', name: 'Builders' }
-        ]}
+        links={navbarLinks}
         activePage={router.pathname}
         // @ts-ignore
         linksAs={Link}
         append={
           <Button href={LINKS.app_v4}>
-            <span className='text-sm md:px-6 md:text-base'>Use PoolTogether</span>
+            <span className='text-sm md:px-6 md:text-base'>{t_nav('usePt')}</span>
           </Button>
         }
         sticky={!isMobile}
@@ -145,7 +161,7 @@ export const Layout = (props: LayoutProps) => {
 
       <CaptchaModal
         hCaptchaSiteKey='11cdabde-af7e-42cb-ba97-76e35b7f7c39'
-        header='Join our Discord Community'
+        header={t_common('joinDiscord')}
         onVerify={getDiscordInvite}
       />
 

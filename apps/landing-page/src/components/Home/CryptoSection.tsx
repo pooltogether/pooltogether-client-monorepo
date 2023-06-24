@@ -1,5 +1,6 @@
 import { Button, LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import { Section } from '@components/Section'
 
 interface CryptoSection {
@@ -28,6 +29,8 @@ interface TextBannerProps {
 const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
+  const t = useTranslations('Home')
+
   return (
     <div
       className={classNames(
@@ -36,17 +39,16 @@ const TextBanner = (props: TextBannerProps) => {
       )}
     >
       <span className='px-2 font-averta font-bold text-[2rem] leading-normal text-pt-bg-purple-darker md:px-0 md:text-[2.5rem]'>
-        Why a Crypto Protocol?
+        {t('whyCrypto')}
       </span>
       <span className='mb-2 font-averta font-bold text-[2rem] leading-normal md:mb-6 md:text-[2.5rem]'>
-        Because it's 100% Transparent & Free
+        {t('becauseCrypto')}
       </span>
       <span className='text-base text-pt-purple-100 mb-6 md:max-w-[55%] md:mb-10 md:text-xl 4xl:max-w-[50%]'>
-        Protocols automate services according to unchangeable rules. This makes prize savings more
-        transparent, fair and accessible.
+        {t('automationTransparency')}
       </span>
       <Button href={LINKS.docs} target='_blank' color='white' outline={true}>
-        <span className='text-base'>Learn how it works</span>
+        <span className='text-base'>{t('learnHowItWorks')}</span>
       </Button>
     </div>
   )

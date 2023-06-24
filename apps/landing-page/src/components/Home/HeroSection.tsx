@@ -1,4 +1,6 @@
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { useFormattedProtocolStats } from '@hooks/useFormattedProtocolStats'
 
@@ -30,6 +32,8 @@ interface TextBannerProps {
 const TextBanner = (props: TextBannerProps) => {
   const { className } = props
 
+  const t = useTranslations('Home')
+
   const { uniqueWallets } = useFormattedProtocolStats()
 
   return (
@@ -40,13 +44,16 @@ const TextBanner = (props: TextBannerProps) => {
       )}
     >
       <h1 className='font-averta font-bold text-[2.5rem] leading-tight md:flex md:flex-col md:text-[3.5rem]'>
-        <span className='mr-[0.5ch] md:mr-0 md:whitespace-nowrap'>
-          The <span className='text-pt-purple-400'>#1 Protocol</span> for
-        </span>
-        <span>Real Adoption</span>
+        {t.rich('realAdoption', {
+          ...RICH_TEXT_FORMATTING,
+          first: (chunks) => (
+            <span className='mr-[0.5ch] md:mr-0 md:whitespace-nowrap'>{chunks}</span>
+          ),
+          second: (chunks) => <span>{chunks}</span>
+        })}
       </h1>
       <span className='text-base font-medium md:text-2xl'>
-        The permissionless protocol {uniqueWallets} people are using to win by saving
+        {t('permissionlessProtocol', { users: uniqueWallets })}
       </span>
     </div>
   )

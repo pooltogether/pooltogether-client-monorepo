@@ -1,7 +1,9 @@
 import classNames from 'classnames'
-import { FancyCardSection } from '@components/FancyCardSection'
+import { useTranslations } from 'next-intl'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
+import { EcosystemCards } from './EcosystemCards'
 
 interface MainSection {
   className?: string
@@ -10,6 +12,8 @@ interface MainSection {
 export const MainSection = (props: MainSection) => {
   const { className } = props
 
+  const t = useTranslations('Ecosystem')
+
   return (
     <Section
       bg='ecosystemSection1.svg'
@@ -17,12 +21,8 @@ export const MainSection = (props: MainSection) => {
       className={classNames('aspect-[376/667] md:aspect-[1440/1755]', className)}
     >
       <SimpleTextBanner
-        title={
-          <>
-            The PoolTogether <span className='text-pt-purple-400'>Ecosystem</span>
-          </>
-        }
-        description={<>Check out tools and extensions for the PoolTogether protocol</>}
+        title={t.rich('ptEcosystem', RICH_TEXT_FORMATTING)}
+        description={t('checkOut')}
         className='absolute w-full mt-[28%] md:h-[18.2%] md:justify-end md:mt-0'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
@@ -39,21 +39,23 @@ interface CardRowsProps {
 const CardRows = (props: CardRowsProps) => {
   const { className } = props
 
+  const t = useTranslations('Ecosystem')
+
   return (
     <div className={classNames('flex flex-col gap-6 md:gap-16', className)}>
-      <FancyCardSection
+      <EcosystemCards
         iconSrc='/icons/addIcon.svg'
-        title='Deposit & Withdraw'
+        title={t('interfacesSectionTitle')}
         cards={['ptApp_v4', 'poolExplorer']}
       />
-      <FancyCardSection
+      <EcosystemCards
         iconSrc='/icons/puzzleIcon.svg'
-        title='Extend PoolTogether'
+        title={t('extensionsSectionTitle')}
         cards={['depositDelegator']}
       />
-      <FancyCardSection
+      <EcosystemCards
         iconSrc='/icons/presentationIcon.svg'
-        title='Tools'
+        title={t('toolsSectionTitle')}
         cards={['treasury', 'tally', 'dune_v4', 'prizeCalc']}
       />
     </div>

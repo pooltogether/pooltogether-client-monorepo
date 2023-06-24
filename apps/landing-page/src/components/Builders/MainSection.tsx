@@ -1,9 +1,11 @@
 import { LINKS } from '@shared/ui'
 import classNames from 'classnames'
+import { useTranslations } from 'next-intl'
 import Image from 'next/image'
-import { FancyCardSection } from '@components/FancyCardSection'
+import { RICH_TEXT_FORMATTING } from 'src/constants'
 import { Section } from '@components/Section'
 import { SimpleTextBanner } from '@components/SimpleTextBanner'
+import { BuilderCards } from './BuilderCards'
 
 interface MainSection {
   className?: string
@@ -12,6 +14,8 @@ interface MainSection {
 export const MainSection = (props: MainSection) => {
   const { className } = props
 
+  const t = useTranslations('Builders')
+
   return (
     <Section
       bg='buildersSection1.svg'
@@ -19,14 +23,8 @@ export const MainSection = (props: MainSection) => {
       className={classNames('aspect-[375/667] md:aspect-[1440/1860]', className)}
     >
       <SimpleTextBanner
-        title={
-          <>
-            <span className='text-pt-purple-400'>Build</span> on PoolTogether
-          </>
-        }
-        description={
-          <>Join the diverse community of developers and designers building on the protocol</>
-        }
+        title={t.rich('buildOnPt', RICH_TEXT_FORMATTING)}
+        description={t('joinUs')}
         className='absolute w-full mt-[28%] md:h-[17.1%] md:justify-end md:mt-0'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
@@ -66,6 +64,8 @@ interface DocCardProps {
 const DocCard = (props: DocCardProps) => {
   const { href, version, className } = props
 
+  const t = useTranslations('Builders')
+
   return (
     <a
       href={href}
@@ -85,8 +85,11 @@ const DocCard = (props: DocCardProps) => {
         className='h-[18px] w-auto md:h-[75px]'
       />
       <div className='flex text-base text-pt-purple-50 md:flex-col md:text-xl'>
-        <span className='mr-[.5ch] md:mr-0'>V{version} Developer</span>
-        <span>Documentation</span>
+        {t.rich('devDocs', {
+          version,
+          first: (chunks) => <span className='mr-[.5ch] md:mr-0'>{chunks}</span>,
+          second: (chunks) => <span>{chunks}</span>
+        })}
       </div>
     </a>
   )
@@ -99,16 +102,18 @@ interface CardRowsProps {
 const CardRows = (props: CardRowsProps) => {
   const { className } = props
 
+  const t = useTranslations('Builders')
+
   return (
     <div className={classNames('flex flex-col gap-16', className)}>
-      <FancyCardSection
+      <BuilderCards
         iconSrc='/icons/smallCodeIcon.svg'
-        title='Developer Tools'
+        title={t('devToolsSectionTitle')}
         cards={['clientJs_v4', 'prizeTierController', 'clientJs', 'reactHooks']}
       />
-      <FancyCardSection
+      <BuilderCards
         iconSrc='/icons/landscapeIcon.svg'
-        title='Designer Tools'
+        title={t('designerToolsSectionTitle')}
         cards={['brandKit']}
       />
     </div>
