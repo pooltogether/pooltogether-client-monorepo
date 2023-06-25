@@ -135,5 +135,9 @@
     "brandAssets": "Brand Assets",
     "governance": "Governance",
     "userDocs": "User Docs"
+  },
+  "Error": {
+    "404": "We couldn't find the page you're looking for.",
+    "return": "Return to the pool"
   }
 }

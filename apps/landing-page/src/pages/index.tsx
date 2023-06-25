@@ -33,7 +33,7 @@ export default function HomePage(props: HomePageProps) {
 
   return (
     <Layout>
-      <HeroSection className='md:mt-[5rem]' />
+      <HeroSection className='md:mt-20' />
       <StatsSection />
       <SavingSection />
       <MissionSection />
