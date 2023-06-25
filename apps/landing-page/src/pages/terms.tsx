@@ -1,5 +1,6 @@
 import { SECONDS_PER_DAY } from '@shared/utilities'
 import { GetStaticProps } from 'next'
+import { getMessages } from 'src/utils'
 import { Layout } from '@components/Layout'
 import { TermsOfService } from '@components/TermsOfService'
 
@@ -8,7 +9,7 @@ interface TermsPageProps {
 }
 
 export const getStaticProps: GetStaticProps<TermsPageProps> = async ({ locale }) => {
-  const messages: IntlMessages = (await import(`../../messages/${locale}.json`)).default
+  const messages = await getMessages(locale)
 
   return {
     props: { messages },

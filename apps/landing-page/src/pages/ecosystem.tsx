@@ -1,5 +1,6 @@
 import { SECONDS_PER_DAY } from '@shared/utilities'
 import { GetStaticProps } from 'next'
+import { getMessages } from 'src/utils'
 import { MainSection } from '@components/Ecosystem/MainSection'
 import { Layout } from '@components/Layout'
 
@@ -8,7 +9,7 @@ interface EcosystemPageProps {
 }
 
 export const getStaticProps: GetStaticProps<EcosystemPageProps> = async ({ locale }) => {
-  const messages: IntlMessages = (await import(`../../messages/${locale}.json`)).default
+  const messages = await getMessages(locale)
 
   return {
     props: { messages },

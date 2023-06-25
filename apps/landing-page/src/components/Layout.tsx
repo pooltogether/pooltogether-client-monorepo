@@ -1,4 +1,4 @@
-import { MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
+import { LANGUAGE_ID, MODAL_KEYS, useIsModalOpen, useScreenSize } from '@shared/generic-react-hooks'
 import { CaptchaModal } from '@shared/react-components'
 import { Button, Footer, FooterItem, LINKS, Navbar, NavbarLink, SocialIcon } from '@shared/ui'
 import { getDiscordInvite } from '@shared/utilities'
@@ -36,10 +36,15 @@ export const Layout = (props: LayoutProps) => {
     setScrollY(window.scrollY)
   }
 
+  const handleLocaleSwitch = (newLocale: LANGUAGE_ID) => {
+    const { pathname, query, asPath } = router
+    router.push({ pathname, query }, asPath, { locale: newLocale })
+  }
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  })
+  }, [])
 
   const navbarLinks: NavbarLink[] = [
     { href: '/help', name: t_nav('help') },
@@ -117,17 +122,16 @@ export const Layout = (props: LayoutProps) => {
     {
       title: t_footer('languages'),
       content: [
-        // TODO: actually add languages and language switching functionality
-        { content: 'English', onClick: () => {} },
-        { content: 'Español', onClick: () => {}, disabled: true },
-        { content: 'Deutsch', onClick: () => {}, disabled: true },
-        { content: 'Français', onClick: () => {}, disabled: true },
-        { content: 'हिन्दी', onClick: () => {}, disabled: true },
-        { content: 'Italiano', onClick: () => {}, disabled: true },
-        { content: '한국어', onClick: () => {}, disabled: true },
-        { content: 'Português', onClick: () => {}, disabled: true },
-        { content: 'Türkçe', onClick: () => {}, disabled: true },
-        { content: '中文', onClick: () => {}, disabled: true }
+        { content: 'English', onClick: () => handleLocaleSwitch('en') },
+        { content: 'Español', onClick: () => handleLocaleSwitch('es'), disabled: true },
+        { content: 'Deutsch', onClick: () => handleLocaleSwitch('de'), disabled: true },
+        { content: 'Français', onClick: () => handleLocaleSwitch('fr'), disabled: true },
+        { content: 'हिन्दी', onClick: () => handleLocaleSwitch('hi'), disabled: true },
+        { content: 'Italiano', onClick: () => handleLocaleSwitch('it'), disabled: true },
+        { content: '한국어', onClick: () => handleLocaleSwitch('ko'), disabled: true },
+        { content: 'Português', onClick: () => handleLocaleSwitch('pt') },
+        { content: 'Türkçe', onClick: () => handleLocaleSwitch('tr'), disabled: true },
+        { content: '中文', onClick: () => handleLocaleSwitch('zh'), disabled: true }
       ]
     }
   ]

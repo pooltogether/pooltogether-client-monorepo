@@ -135,6 +135,7 @@ importers:
       autoprefixer: ^10.4.13
       axios: ^1.4.0
       classnames: ^2.3.2
+      deepmerge: ^4.3.1
       fathom-client: ^3.5.0
       flowbite: 1.6.5
       flowbite-react: 0.4.7
@@ -154,6 +155,7 @@ importers:
       '@tanstack/react-query': 4.29.5_biqbaboplfbrettd7655fr4n2y
       axios: 1.4.0
       classnames: 2.3.2
+      deepmerge: 4.3.1
       fathom-client: 3.5.0
       flowbite: 1.6.5
       flowbite-react: 0.4.7_pob4ffeafvx74vtuaxxqyesgwy

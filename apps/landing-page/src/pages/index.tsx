@@ -3,7 +3,7 @@ import { useHydrateAtoms } from 'jotai/utils'
 import { GetStaticProps } from 'next'
 import { protocolStatsAtom } from 'src/serverAtoms'
 import { ProtocolStats } from 'src/types'
-import { getProtocolStats } from 'src/utils'
+import { getMessages, getProtocolStats } from 'src/utils'
 import { CryptoSection } from '@components/Home/CryptoSection'
 import { HeroSection } from '@components/Home/HeroSection'
 import { MissionSection } from '@components/Home/MissionSection'
@@ -18,8 +18,7 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async ({ locale }) => {
   const protocolStats = await getProtocolStats()
-
-  const messages: IntlMessages = (await import(`../../messages/${locale}.json`)).default
+  const messages = await getMessages(locale)
 
   return {
     props: { protocolStats, messages },
