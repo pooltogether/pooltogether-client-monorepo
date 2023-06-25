@@ -150,6 +150,7 @@ export const Layout = (props: LayoutProps) => {
             <span className='text-sm md:px-6 md:text-base'>{t_nav('usePt')}</span>
           </Button>
         }
+        onClickBrand={() => router.push('/')}
         sticky={!isMobile}
         className={classNames(
           '!px-4 !py-3 bg-transparent !border-opacity-0 sm:!px-8 md:shadow-2xl',
