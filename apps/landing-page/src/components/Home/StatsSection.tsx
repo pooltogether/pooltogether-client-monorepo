@@ -40,10 +40,10 @@ export const Stat = (props: StatProps) => {
 
   return (
     <div className='flex flex-col grow items-center text-pt-purple-100 md:w-0'>
-      <span className='text-lg font-averta font-bold md:text-3xl'>
+      <span className='text-lg font-averta font-bold md:text-xl lg:text-2xl xl:text-3xl'>
         <>{value}</>
       </span>
-      <span className='text-center text-[13px] md:text-base'>{title}</span>
+      <span className='text-center text-[13px] md:text-xs lg:text-sm xl:text-base'>{title}</span>
     </div>
   )
 }

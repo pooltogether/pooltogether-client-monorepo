@@ -18,7 +18,7 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='helpSection1.svg'
       smallBg='mobileHelpSection1.svg'
-      className={classNames('aspect-[375/667] md:aspect-[1440/1036]', className)}
+      className={classNames('aspect-[375/667] md:aspect-[1440/1036] md:overflow-hidden', className)}
     >
       <SimpleTextBanner
         title={t.rich('getHelp', RICH_TEXT_FORMATTING)}

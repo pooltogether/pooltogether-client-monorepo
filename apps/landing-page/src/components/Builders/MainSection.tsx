@@ -25,11 +25,11 @@ export const MainSection = (props: MainSection) => {
       <SimpleTextBanner
         title={t.rich('buildOnPt', RICH_TEXT_FORMATTING)}
         description={t('joinUs')}
-        className='absolute w-full mt-[28%] md:h-[17.1%] md:justify-end md:mt-0'
+        className='absolute w-full mt-[28%] md:h-[12%] md:justify-end md:mt-0 lg:h-[15%] xl:h-[17.1%]'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <DocsCards className='absolute w-full mt-[54%] md:max-w-[min(60%,_1440px)] md:h-[11%] md:mt-[25.3%] md:ml-[20%]' />
+      <DocsCards className='absolute w-full mt-[54%] md:max-w-[min(60%,_1440px)] md:h-[7.5%] md:mt-[25.3%] md:ml-[20%] lg:h-[9.5%] xl:h-[11%]' />
       <CardRows className='w-full max-w-[1440px] mt-[95%] mb-8 mx-auto md:h-[66%] md:mt-[44%]' />
     </Section>
   )
@@ -73,7 +73,8 @@ const DocCard = (props: DocCardProps) => {
       className={classNames(
         'w-full max-w-sm flex gap-2 items-center p-4 bg-pt-bg-purple-darker rounded-2xl',
         'outline outline-2 -outline-offset-2 outline-transparent hover:outline-pt-purple-100/20 hover:shadow-lg',
-        'md:w-auto md:max-w-none md:h-full md:grow md:gap-4 md:justify-center md:px-16 md:py-12',
+        'md:w-auto md:max-w-none md:h-full md:grow md:gap-4 md:justify-center md:px-8 md:py-6',
+        'xl:px-16 xl:py-12',
         className
       )}
     >
@@ -82,9 +83,9 @@ const DocCard = (props: DocCardProps) => {
         width={48}
         height={48}
         alt='Doc Icon'
-        className='h-[18px] w-auto md:h-[75px]'
+        className='h-[18px] w-auto md:h-9 lg:h-14 xl:h-[75px]'
       />
-      <div className='flex text-base text-pt-purple-50 md:flex-col md:text-xl'>
+      <div className='flex text-base text-pt-purple-50 md:flex-col lg:text-lg xl:text-xl'>
         {t.rich('devDocs', {
           version,
           first: (chunks) => <span className='mr-[.5ch] md:mr-0'>{chunks}</span>,

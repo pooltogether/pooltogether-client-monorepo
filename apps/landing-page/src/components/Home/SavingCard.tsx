@@ -37,15 +37,17 @@ export const SavingCard = (props: SavingCardProps) => {
   const card = savingCardInfo[type]
 
   return (
-    <div className={classNames('flex flex-col gap-6', className)}>
+    <div className={classNames('flex flex-col gap-6 md:gap-4 lg:gap-6', className)}>
       <div className='w-full bg-pt-bg-purple-darker rounded-2xl md:rounded-3xl'>
         <object type='image/svg+xml' data={card.src} className='w-full' />
       </div>
       <div className='flex flex-col gap-1 text-center md:gap-2'>
-        <span className='font-averta font-bold text-2xl text-pt-purple-100 md:text-[2rem]'>
+        <span className='font-averta font-bold text-2xl text-pt-purple-100 md:text-lg lg:text-2xl xl:text-[2rem]'>
           {card.title}
         </span>
-        <span className='text-base text-gray-100'>{card.description}</span>
+        <span className='text-base text-gray-100 whitespace-nowrap md:text-xs lg:text-sm xl:text-base'>
+          {card.description}
+        </span>
       </div>
     </div>
   )

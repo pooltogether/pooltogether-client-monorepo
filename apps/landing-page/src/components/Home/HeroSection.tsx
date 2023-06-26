@@ -43,7 +43,7 @@ const TextBanner = (props: TextBannerProps) => {
         className
       )}
     >
-      <h1 className='font-averta font-bold text-[2.5rem] leading-tight md:flex md:flex-col md:text-[3.5rem]'>
+      <h1 className='font-averta font-bold text-[2.5rem] !leading-tight md:flex md:flex-col md:text-3xl lg:text-[2.5rem] xl:text-[3.5rem]'>
         {t.rich('realAdoption', {
           ...RICH_TEXT_FORMATTING,
           first: (chunks) => (
@@ -52,7 +52,7 @@ const TextBanner = (props: TextBannerProps) => {
           second: (chunks) => <span>{chunks}</span>
         })}
       </h1>
-      <span className='text-base font-medium md:text-2xl'>
+      <span className='text-base font-medium md:text-sm lg:text-base xl:text-2xl'>
         {t('permissionlessProtocol', { users: uniqueWallets })}
       </span>
     </div>

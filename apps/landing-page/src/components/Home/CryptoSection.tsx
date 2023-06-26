@@ -38,17 +38,17 @@ const TextBanner = (props: TextBannerProps) => {
         className
       )}
     >
-      <span className='px-2 font-averta font-bold text-[2rem] leading-normal text-pt-bg-purple-darker md:px-0 md:text-[2.5rem]'>
+      <span className='px-2 font-averta font-bold text-[2rem] !leading-normal text-pt-bg-purple-darker md:px-0 md:text-2xl lg:text-[2rem] xl:text-[2.5rem]'>
         {t('whyCrypto')}
       </span>
-      <span className='mb-2 font-averta font-bold text-[2rem] leading-normal md:mb-6 md:text-[2.5rem]'>
+      <span className='mb-2 font-averta font-bold text-[2rem] !leading-normal md:mb-6 md:text-2xl lg:text-[2rem] xl:text-[2.5rem]'>
         {t('becauseCrypto')}
       </span>
-      <span className='text-base text-pt-purple-100 mb-6 md:max-w-[55%] md:mb-10 md:text-xl 4xl:max-w-[50%]'>
+      <span className='text-base text-pt-purple-100 mb-6 md:max-w-[55%] md:text-sm lg:mb-10 lg:text-base xl:text-xl 4xl:max-w-[50%]'>
         {t('automationTransparency')}
       </span>
       <Button href={LINKS.docs} target='_blank' color='white' outline={true}>
-        <span className='text-base'>{t('learnHowItWorks')}</span>
+        <span className='text-base md:text-xs lg:text-sm xl:text-base'>{t('learnHowItWorks')}</span>
       </Button>
     </div>
   )

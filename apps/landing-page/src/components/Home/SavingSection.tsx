@@ -26,7 +26,7 @@ export const SavingSection = (props: SavingSection) => {
         className='w-full h-[24.9%] px-10 md:h-[25.7%] md:mt-[2%] md:px-0'
         titleClassName='!my-auto text-[2rem]'
       />
-      <SavingCards className='w-full h-[69.5%] md:max-w-[77%] md:h-[62.9%] md:mt-0 md:mx-auto' />
+      <SavingCards className='w-full h-[69.5%] md:max-w-[77%] md:h-[58.5%] md:mt-0 md:mx-auto' />
     </Section>
   )
 }

@@ -44,11 +44,13 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
   }
 
   const card = developerCardInfo[type]
+  const { children: buttonChildren, ...restButtonProps } = card.buttonProps
 
   return (
     <div
       className={classNames(
-        'relative w-full h-full flex flex-col items-center gap-6 p-6 bg-pt-bg-purple-darker rounded-3xl',
+        'relative w-full h-full flex flex-col items-center gap-6 bg-pt-bg-purple-darker rounded-3xl',
+        'p-6 md:p-3 xl:p-6',
         className
       )}
     >
@@ -65,7 +67,9 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
         className='absolute top-4 left-4 w-5 h-auto text-pt-purple-400 4xl:w-6'
       />
       <Image src={card.src} width={100} height={80} alt={type} className='w-3/4 grow mt-2' />
-      <Button fullSized={true} {...card.buttonProps} pill={true} className='whitespace-nowrap' />
+      <Button fullSized={true} {...restButtonProps} pill={true} className='overflow-hidden'>
+        <span className='text-sm whitespace-nowrap md:text-xs xl:text-sm'>{buttonChildren}</span>
+      </Button>
     </div>
   )
 }

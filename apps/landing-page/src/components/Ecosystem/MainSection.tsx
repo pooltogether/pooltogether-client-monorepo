@@ -23,11 +23,11 @@ export const MainSection = (props: MainSection) => {
       <SimpleTextBanner
         title={t.rich('ptEcosystem', RICH_TEXT_FORMATTING)}
         description={t('checkOut')}
-        className='absolute w-full mt-[28%] md:h-[18.2%] md:justify-end md:mt-0'
+        className='absolute w-full mt-[28%] md:h-[10%] md:justify-end md:mt-0 lg:h-[13%] xl:h-[15.5%] 2xl:h-[18.2%]'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <CardRows className='w-full max-w-[1440px] mt-[58%] mb-8 mx-auto md:h-[77%] md:mt-[28%] md:mb-0' />
+      <CardRows className='w-full max-w-[1440px] mt-[58%] mb-8 mx-auto md:h-[77%] md:mt-[28%]' />
     </Section>
   )
 }

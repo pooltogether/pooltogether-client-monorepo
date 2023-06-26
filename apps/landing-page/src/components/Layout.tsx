@@ -147,7 +147,7 @@ export const Layout = (props: LayoutProps) => {
         linksAs={Link}
         append={
           <Button href={LINKS.app_v4}>
-            <span className='text-sm md:px-6 md:text-base'>{t_nav('usePt')}</span>
+            <span className='text-sm md:px-5 md:text-base'>{t_nav('usePt')}</span>
           </Button>
         }
         onClickBrand={() => router.push('/')}

@@ -69,11 +69,13 @@ const Socials = (props: SocialsProps) => {
   return (
     <div
       className={classNames(
-        'flex flex-col gap-6 items-center justify-center py-12 bg-pt-bg-purple-darker md:gap-12 md:py-0 md:bg-transparent',
+        'flex flex-col gap-6 items-center justify-center py-12 bg-pt-bg-purple-darker md:py-0 md:bg-transparent xl:gap-12',
         className
       )}
     >
-      <span className='text-sm text-pt-purple-400 md:text-lg'>{t('otherPlatforms')}</span>
+      <span className='text-sm text-pt-purple-400 md:text-base xl:text-lg'>
+        {t('otherPlatforms')}
+      </span>
       <div className='w-full flex flex-wrap gap-6 justify-center px-16 md:justify-between md:pb-4 md:px-0'>
         <SocialItem type='lens' />
         <SocialItem type='mirror' />

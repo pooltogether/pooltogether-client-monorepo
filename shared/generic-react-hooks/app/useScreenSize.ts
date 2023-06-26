@@ -30,8 +30,8 @@ export const useScreenSize = () => {
 
   const isFetched = !!screenSize.width && !!screenSize.height
 
-  const isMobile = !!screenSize.width && screenSize.width <= MAX_MOBILE_SCREEN_SIZE
-  const isDesktop = !!screenSize.width && screenSize.width > MAX_MOBILE_SCREEN_SIZE
+  const isMobile = !!screenSize.width && screenSize.width < MAX_MOBILE_SCREEN_SIZE
+  const isDesktop = !!screenSize.width && screenSize.width >= MAX_MOBILE_SCREEN_SIZE
 
   return { ...screenSize, isMobile, isDesktop, isFetched }
 }

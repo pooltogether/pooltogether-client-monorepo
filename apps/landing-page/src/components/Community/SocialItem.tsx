@@ -26,13 +26,13 @@ export const SocialItem = (props: SocialItemProps) => {
       target='_blank'
       className={classNames('flex flex-col gap-3 items-center md:gap-6', className)}
     >
-      <span className='text-lg text-pt-purple-100'>{social.name}</span>
+      <span className='text-lg text-pt-purple-100 md:text-base xl:text-lg'>{social.name}</span>
       <Image
         src={social.iconSrc}
         width={48}
         height={48}
         alt={`${social.name} Icon`}
-        className='h-full max-h-6 w-auto md:max-h-12'
+        className='h-full max-h-6 w-auto md:max-h-8 xl:max-h-12'
       />
     </a>
   )
