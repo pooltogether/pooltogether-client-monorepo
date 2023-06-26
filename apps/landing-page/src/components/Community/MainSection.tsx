@@ -19,7 +19,7 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='communitySection1.svg'
       smallBg='mobileCommunitySection1.svg'
-      className={classNames('aspect-[375/667] md:aspect-[1440/1410]', className)}
+      className={classNames('aspect-[375/667] md:aspect-[1600/1560]', className)}
     >
       <SimpleTextBanner
         title={t.rich('dipInThePool', RICH_TEXT_FORMATTING)}
