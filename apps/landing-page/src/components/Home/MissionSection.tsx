@@ -22,7 +22,7 @@ export const MissionSection = (props: MissionSection) => {
         className='aspect-[375/1494] md:aspect-[1440/1287]'
       >
         <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[25%] mt-[44%] md:max-w-[21%] md:h-[28.5%] md:mt-[55.7%] md:ml-[4%]' />
-        <DeveloperCards className='w-full max-w-[60%] h-[50.9%] mt-[174.8%] ml-[20%] md:max-w-[49%] md:h-[18.5%] md:mt-[65%] md:ml-[45.5%]' />
+        <DeveloperCards className='w-full max-w-[60%] h-[50.9%] mt-[174.8%] ml-[20%] md:max-w-[49%] md:h-[19%] md:mt-[64.5%] md:ml-[45.5%]' />
       </Section>
     </div>
   )

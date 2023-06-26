@@ -25,7 +25,17 @@ export const MainSection = (props: MainSection) => {
         description={
           <>
             <span className='hidden md:block'>
-              {t.rich('prizeLinkedSavings', RICH_TEXT_FORMATTING)}
+              {t.rich('prizeLinkedSavings', {
+                link: (chunks) => (
+                  <a
+                    href='https://medium.com/pooltogether/the-power-of-no-loss-prize-savings-1f006503f64'
+                    target='_blank'
+                    className='text-pt-teal'
+                  >
+                    {chunks}
+                  </a>
+                )
+              })}
             </span>
             <span>{t('learnAbout')}</span>
           </>

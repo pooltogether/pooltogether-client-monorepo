@@ -47,7 +47,7 @@
   },
   "Help": {
     "getHelp": "<purple-400>Get Help</purple-400> with PoolTogether",
-    "prizeLinkedSavings": "PoolTogether is an open source protocol for <teal>Prize Linked Savings</teal>.",
+    "prizeLinkedSavings": "PoolTogether is an open source protocol for <link>Prize Linked Savings</link>.",
     "learnAbout": "This page can help you learn about the protocol, how it works and how to use it.",
     "aboutCardTitle": "About PoolTogether",
     "aboutCardDescription": "Learn the basics of what PoolTogether is and how it works.",

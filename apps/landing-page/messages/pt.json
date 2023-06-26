@@ -47,7 +47,7 @@
   },
   "Help": {
     "getHelp": "<purple-400>Busque Ajuda</purple-400> com o PoolTogether",
-    "prizeLinkedSavings": "PoolTogether é um protocolo com codigo aberto para <teal>Poupanças com Prêmios</teal>.",
+    "prizeLinkedSavings": "PoolTogether é um protocolo com codigo aberto para <link>Poupanças com Prêmios</link>.",
     "learnAbout": "Essa página pode lhe ajudar a aprender sobre o protocolo, como funciona e como o utilizar.",
     "aboutCardTitle": "Sobre PoolTogether",
     "aboutCardDescription": "Aprenda os básicos sobre PoolTogether e como funciona.",
