@@ -24,8 +24,6 @@ class MyDocument extends Document {
     return (
       <Html className='bg-pt-bg-purple-darker text-gray-100 overflow-x-hidden dark'>
         <Head>
-          <title>{title}</title>
-
           <link rel='icon' href='/favicon.png' type='image/x-icon' />
           <link rel='apple-touch-icon' href='/apple-touch-icon.png' />
 

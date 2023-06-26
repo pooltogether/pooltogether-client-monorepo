@@ -5,6 +5,7 @@ import { getDiscordInvite } from '@shared/utilities'
 import classNames from 'classnames'
 import { useReducedMotion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -136,10 +137,25 @@ export const Layout = (props: LayoutProps) => {
     }
   ]
 
+  const pageTitles: { [href: string]: string } = {
+    '/help': t_nav('help'),
+    '/ecosystem': t_nav('ecosystem'),
+    '/community': t_nav('community'),
+    '/builders': t_nav('builders'),
+    '/terms': 'Terms Of Service',
+    '/protocol-disclaimer': 'Protocol Disclaimer'
+  }
+
+  const pageTitle = pageTitles[router.pathname]
+
   const isDarkerFooterBg = router.pathname === '/' || router.pathname === '/ecosystem'
 
   return (
     <div className='flex flex-col min-h-screen'>
+      <Head>
+        <title>{`PoolTogether${!!pageTitle ? ` | ${pageTitle}` : ''}`}</title>
+      </Head>
+
       <Navbar
         links={navbarLinks}
         activePage={router.pathname}
