@@ -9,7 +9,7 @@ interface HelpPageProps {
 }
 
 export const getStaticProps: GetStaticProps<HelpPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { messages },

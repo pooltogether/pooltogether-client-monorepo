@@ -9,7 +9,7 @@ interface CommunityPageProps {
 }
 
 export const getStaticProps: GetStaticProps<CommunityPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { messages },

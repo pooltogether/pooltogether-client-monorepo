@@ -18,7 +18,7 @@ interface HomePageProps {
 
 export const getStaticProps: GetStaticProps<HomePageProps> = async ({ locale }) => {
   const protocolStats = await getProtocolStats()
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { protocolStats, messages },

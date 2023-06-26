@@ -9,7 +9,7 @@ interface EcosystemPageProps {
 }
 
 export const getStaticProps: GetStaticProps<EcosystemPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { messages },

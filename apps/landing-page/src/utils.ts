@@ -7,13 +7,15 @@ export const getProtocolStats = async () => {
   return data
 }
 
-export const getMessages = async (locale?: string) => {
+export const getMessages = async (locale?: string, options?: { useDefault?: boolean }) => {
   const defaultMessages: IntlMessages = (await import(`../messages/en.json`)).default
 
   if (!locale) return defaultMessages
 
   const localeMessages: IntlMessages = (await import(`../messages/${locale}.json`)).default
-  const messages = deepmerge<IntlMessages>(defaultMessages, localeMessages)
+  const messages = options?.useDefault
+    ? deepmerge<IntlMessages>(defaultMessages, localeMessages)
+    : localeMessages
 
   return messages
 }

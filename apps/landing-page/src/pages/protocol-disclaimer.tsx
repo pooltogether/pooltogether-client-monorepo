@@ -9,7 +9,7 @@ interface ProtocolDisclaimerPageProps {
 }
 
 export const getStaticProps: GetStaticProps<ProtocolDisclaimerPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { messages },

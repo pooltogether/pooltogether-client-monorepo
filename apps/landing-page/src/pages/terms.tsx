@@ -9,7 +9,7 @@ interface TermsPageProps {
 }
 
 export const getStaticProps: GetStaticProps<TermsPageProps> = async ({ locale }) => {
-  const messages = await getMessages(locale)
+  const messages = await getMessages(locale, { useDefault: true })
 
   return {
     props: { messages },
