@@ -18,7 +18,7 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='helpSection1.svg'
       smallBg='mobileHelpSection1.svg'
-      className={classNames('aspect-[375/667] md:aspect-[1440/1036] md:overflow-hidden', className)}
+      className={classNames('aspect-[375/667] md:aspect-[1600/1150] md:overflow-hidden', className)}
     >
       <SimpleTextBanner
         title={t.rich('getHelp', RICH_TEXT_FORMATTING)}
@@ -40,11 +40,11 @@ export const MainSection = (props: MainSection) => {
             <span>{t('learnAbout')}</span>
           </>
         }
-        className='absolute w-full mt-[28%] md:h-1/3 md:justify-end md:mt-0'
-        titleClassName='max-w-[1440px] md:mb-4'
+        className='absolute w-full mt-[28%] md:h-[27%] md:justify-end md:mt-0'
+        titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] flex flex-col'
       />
-      <HelpCards className='w-full mt-[75%] mb-8 mx-auto md:max-w-[min(82%,_1440px)] md:h-[54%] md:mt-[27.3%] md:mb-0' />
+      <HelpCards className='w-full mt-[75%] mb-8 mx-auto md:max-w-[min(82%,_1440px)] md:h-[53%] md:mt-[23.9%] md:mb-0' />
     </Section>
   )
 }

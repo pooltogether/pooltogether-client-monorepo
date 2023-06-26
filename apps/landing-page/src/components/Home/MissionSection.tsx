@@ -14,15 +14,15 @@ export const MissionSection = (props: MissionSection) => {
 
   return (
     <div className={classNames('relative w-full flex flex-col', className)}>
-      <TextBanner className='w-full mt-[20%] mb-[10%] md:absolute md:h-[45.2%] md:mt-0 md:mb-0 md:z-10' />
+      <TextBanner className='w-full mt-[20%] mb-[10%] md:absolute md:h-[47.2%] md:mt-0 md:mb-0 md:z-10' />
       <Section
         bg='indexSection3.svg'
         smallBg='mobileIndexSection3.svg'
         animatedBg='indexSection3.svg'
-        className='aspect-[375/1494] md:aspect-[1440/1287]'
+        className='aspect-[375/1494] md:aspect-[1600/1430]'
       >
-        <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[25%] mt-[44%] md:max-w-[21%] md:h-[28.5%] md:mt-[55.7%] md:ml-[4%]' />
-        <DeveloperCards className='w-full max-w-[60%] h-[50.9%] mt-[174.8%] ml-[20%] md:max-w-[49%] md:h-[19%] md:mt-[64.5%] md:ml-[45.5%]' />
+        <DeveloperBanner className='absolute w-full max-w-[86.8%] h-[25%] mt-[44%] md:max-w-[21%] md:h-[29.2%] md:mt-[55.8%] md:ml-[4%]' />
+        <DeveloperCards className='w-full max-w-[60%] h-[50.9%] mt-[174.8%] ml-[20%] md:max-w-[47.5%] md:h-[19%] md:mt-[62.6%] md:ml-[45.5%]' />
       </Section>
     </div>
   )

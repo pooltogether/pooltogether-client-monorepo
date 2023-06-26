@@ -20,17 +20,17 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='buildersSection1.svg'
       smallBg='mobileBuildersSection1.svg'
-      className={classNames('aspect-[375/667] md:aspect-[1440/1860]', className)}
+      className={classNames('aspect-[375/667] md:aspect-[1600/2100]', className)}
     >
       <SimpleTextBanner
         title={t.rich('buildOnPt', RICH_TEXT_FORMATTING)}
         description={t('joinUs')}
-        className='absolute w-full mt-[28%] md:h-[12%] md:justify-end md:mt-0 lg:h-[15%] xl:h-[17.1%]'
+        className='absolute w-full mt-[28%] md:h-[10%] md:justify-end md:mt-0 lg:h-[12%] xl:h-[13.7%]'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <DocsCards className='absolute w-full mt-[54%] md:max-w-[min(60%,_1440px)] md:h-[7.5%] md:mt-[25.3%] md:ml-[20%] lg:h-[9.5%] xl:h-[11%]' />
-      <CardRows className='w-full max-w-[1440px] mt-[95%] mb-8 mx-auto md:h-[66%] md:mt-[44%]' />
+      <DocsCards className='absolute w-full mt-[54%] md:max-w-[min(60%,_1440px)] md:h-[7.5%] md:mt-[23.5%] md:ml-[20%] lg:h-[9.5%] xl:h-[11%]' />
+      <CardRows className='w-full max-w-[1440px] mt-[95%] mb-8 mx-auto md:mt-[44%]' />
     </Section>
   )
 }

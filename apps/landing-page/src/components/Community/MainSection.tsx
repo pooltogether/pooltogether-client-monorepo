@@ -19,17 +19,17 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='communitySection1.svg'
       smallBg='mobileCommunitySection1.svg'
-      className={classNames('aspect-[375/667] md:aspect-[1440/1460]', className)}
+      className={classNames('aspect-[375/667] md:aspect-[1440/1410]', className)}
     >
       <SimpleTextBanner
         title={t.rich('dipInThePool', RICH_TEXT_FORMATTING)}
         description={t('activeCommunity')}
-        className='absolute w-full mt-[28%] md:h-[21.8%] md:justify-end md:mt-0'
+        className='absolute w-full mt-[28%] md:h-[18.4%] md:justify-end md:mt-0'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <CommunityCards className='w-full mt-[84%] mx-auto md:max-w-[min(82%,_1440px)] md:h-[40%] md:mt-[34%]' />
-      <Socials className='w-full my-32 md:max-w-[min(60%,_1440px)] md:h-[24%] md:mb-0 md:mt-[2%] md:ml-[20%]' />
+      <CommunityCards className='w-full mt-[84%] mx-auto md:max-w-[min(82%,_1440px)] md:h-[40%] md:mt-[30.4%]' />
+      <Socials className='w-full my-32 md:max-w-[min(60%,_1440px)] md:h-[25%] md:mb-0 md:mt-[3.8%] md:ml-[20%]' />
     </Section>
   )
 }

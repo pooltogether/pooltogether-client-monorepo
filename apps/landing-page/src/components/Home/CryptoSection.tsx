@@ -15,7 +15,7 @@ export const CryptoSection = (props: CryptoSection) => {
       bg='indexSection4.svg'
       smallBg='mobileIndexSection4.svg'
       animatedBg='indexSection4.svg'
-      className={classNames('aspect-[375/652] md:aspect-[1440/925]', className)}
+      className={classNames('aspect-[375/652] md:aspect-[1600/1028]', className)}
     >
       <TextBanner className='w-full mt-[58%] md:h-full md:mt-[26.8%]' />
     </Section>

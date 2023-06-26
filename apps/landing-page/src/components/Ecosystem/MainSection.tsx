@@ -18,16 +18,16 @@ export const MainSection = (props: MainSection) => {
     <Section
       bg='ecosystemSection1.svg'
       smallBg='mobileEcosystemSection1.svg'
-      className={classNames('aspect-[376/667] md:aspect-[1440/1755]', className)}
+      className={classNames('aspect-[376/667] md:aspect-[1600/1950]', className)}
     >
       <SimpleTextBanner
         title={t.rich('ptEcosystem', RICH_TEXT_FORMATTING)}
         description={t('checkOut')}
-        className='absolute w-full mt-[28%] md:h-[10%] md:justify-end md:mt-0 lg:h-[13%] xl:h-[15.5%] 2xl:h-[18.2%]'
+        className='absolute w-full mt-[28%] md:h-[9.2%] md:justify-end md:mt-0 lg:h-[11.5%] xl:h-[13.5%] 2xl:h-[14.8%]'
         titleClassName='max-w-[1440px]'
         descriptionClassName='max-w-[1440px] px-[5%] sm:px-0'
       />
-      <CardRows className='w-full max-w-[1440px] mt-[58%] mb-8 mx-auto md:h-[77%] md:mt-[28%]' />
+      <CardRows className='w-full max-w-[1440px] mt-[58%] mb-8 mx-auto md:mt-[22%]' />
     </Section>
   )
 }

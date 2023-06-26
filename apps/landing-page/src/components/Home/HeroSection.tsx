@@ -16,10 +16,10 @@ export const HeroSection = (props: HeroSection) => {
       bg='indexSection1.svg'
       smallBg='mobileIndexSection1.svg'
       animatedBg='indexSection1.svg'
-      className={classNames('aspect-[375/500] md:aspect-[1440/835]', className)}
+      className={classNames('aspect-[375/500] md:aspect-[1600/835]', className)}
     >
       <div className='relative w-full h-full max-w-[1440px] flex flex-col mx-auto'>
-        <TextBanner className='w-full h-[34%] md:max-w-[35%] md:h-[38%] md:mt-[5.7%] md:ml-[5%]' />
+        <TextBanner className='w-full h-[34%] md:max-w-[35%] md:h-[37.9%] md:mt-[5.2%] md:ml-[5%]' />
       </div>
     </Section>
   )

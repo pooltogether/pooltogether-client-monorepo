@@ -19,14 +19,14 @@ export const SavingSection = (props: SavingSection) => {
       bg='indexSection2.svg'
       smallBg='mobileIndexSection2.svg'
       animatedBg='indexSection2.svg'
-      className={classNames('aspect-[375/1408] md:aspect-[1440/953]', className)}
+      className={classNames('aspect-[375/1408] md:aspect-[1600/1059]', className)}
     >
       <SimpleTextBanner
         title={t.rich('savingAndWinning', RICH_TEXT_FORMATTING)}
-        className='w-full h-[24.9%] px-10 md:h-[25.7%] md:mt-[2%] md:px-0'
+        className='w-full h-[24.9%] px-10 md:h-[24.6%] md:mt-[2%] md:px-0'
         titleClassName='!my-auto text-[2rem]'
       />
-      <SavingCards className='w-full h-[69.5%] md:max-w-[77%] md:h-[58.5%] md:mt-0 md:mx-auto' />
+      <SavingCards className='w-full h-[69.5%] md:max-w-[77%] md:h-[59%] md:mt-0 md:mx-auto' />
     </Section>
   )
 }
