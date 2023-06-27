@@ -31,7 +31,7 @@ export const POOL_TOKEN_ADDRESSES = Object.freeze({
   [NETWORK.mainnet]: '0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e',
   [NETWORK.polygon]: '0x25788a1a171ec66Da6502f9975a15B609fF54CF6',
   [NETWORK.optimism]: '0x395ae52bb17aef68c2888d941736a71dc6d4e125',
-  [NETWORK.sepolia]: '0x21925199568C8bd5623622FF31d719749f920A8D'
+  [NETWORK.sepolia]: '0x09f06F4BC026fB75E0064747edd49D371D20D434'
 })
 
 /**
@@ -63,10 +63,10 @@ export const PRIZE_POOLS: {
 }[] = [
   {
     chainId: NETWORK.sepolia,
-    address: '0xC5a77bcb8cD13c5619153d46fB7379c9158a8884',
+    address: '0xA377A589C1957D7777F6eDF1b7C22C911a56e90F',
     options: {
-      prizeTokenAddress: '0x21925199568C8bd5623622FF31d719749f920A8D',
-      drawPeriodInSeconds: 43_200,
+      prizeTokenAddress: '0x09f06F4BC026fB75E0064747edd49D371D20D434',
+      drawPeriodInSeconds: 3_600,
       tierShares: 100
     }
   }
@@ -76,7 +76,7 @@ export const PRIZE_POOLS: {
  * Prize Pool Graph API URLs
  */
 export const PRIZE_POOL_GRAPH_API_URLS = Object.freeze({
-  [NETWORK.sepolia]: 'https://api.studio.thegraph.com/query/41211/v5-prize-pool-eth-sepolia/v0.0.2'
+  [NETWORK.sepolia]: 'https://api.studio.thegraph.com/query/41211/v5-prize-pool-eth-sepolia/v0.0.3'
 })
 
 /**
@@ -156,9 +156,9 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, Lowercase<string>[]> = {
   ],
   [NETWORK.goerli]: [],
   [NETWORK.sepolia]: [
-    '0x4a798649f6aa23d6a3a1cab65fc0a8fa772e0a40', // DAI
-    '0x7a8f1413b44f7346eab36c4793bd54148ca916a5', // USDC
-    '0x6eba7decd74d8327fa83b7edc6cb1deaddfd8efa' // GUSD
+    '0xb20ff9fe4065cc1494dfa3a273a527a05871074f', // DAI
+    '0x59d6b2e784f45568a76b9627de97e06fc237da83', // USDC
+    '0x73b3f9fecf92b4f0eb6a20c977cbb30964858fd7' // GUSD
   ],
   [NETWORK.bsc]: [],
   [NETWORK['bsc-testnet']]: [],
@@ -182,12 +182,12 @@ export const STABLECOIN_ADDRESSES: Record<NETWORK, Lowercase<string>[]> = {
  */
 export const TESTNET_TOKEN_PRICES = Object.freeze({
   [NETWORK.sepolia]: {
-    '0x4a798649f6aa23d6a3a1cab65fc0a8fa772e0a40': { eth: 0.00054086 }, // DAI
-    '0x7a8f1413b44f7346eab36c4793bd54148ca916a5': { eth: 0.00054048 }, // USDC
-    '0x6eba7decd74d8327fa83b7edc6cb1deaddfd8efa': { eth: 0.00054055 }, // GUSD
-    '0xbdaab70e7d8767e94680ad2d27b503dae01447a4': { eth: 14.381406 }, // WBTC
-    '0x07056ba1bd5d71aa743f33aa3a7bb76f08834873': { eth: 0.99951637 }, // WETH
-    '0x21925199568c8bd5623622ff31d719749f920a8d': { eth: 0.00036417 } // POOL
+    '0xb20ff9fe4065cc1494dfa3a273a527a05871074f': { eth: 0.00054086 }, // DAI
+    '0x59d6b2e784f45568a76b9627de97e06fc237da83': { eth: 0.00054048 }, // USDC
+    '0x73b3f9fecf92b4f0eb6a20c977cbb30964858fd7': { eth: 0.00054055 }, // GUSD
+    '0xf78de71cf358a92aee3370a7a3b743bf63c257d4': { eth: 14.381406 }, // WBTC
+    '0x62739a657d3bb724694b46b35795532ec9b42b47': { eth: 0.99951637 }, // WETH
+    '0x09f06f4bc026fb75e0064747edd49d371d20d434': { eth: 0.00036417 } // POOL
   }
 })
 
