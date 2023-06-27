@@ -95,7 +95,7 @@ export const VaultFilters = (props: VaultFiltersProps) => {
           filterOnClick('stablecoin', vaultsArray, (vaults) =>
             vaults.filter((vault) =>
               STABLECOIN_ADDRESSES[vault.chainId as NETWORK].includes(
-                vault.tokenAddress?.toLowerCase() ?? '?'
+                vault.tokenAddress?.toLowerCase() as Lowercase<string> ?? '?'
               )
             )
           )
