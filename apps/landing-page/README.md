@@ -14,7 +14,7 @@
 ![version](https://img.shields.io/github/package-json/v/pooltogether/pooltogether-client-monorepo?filename=apps%2Flanding-page%2Fpackage.json&color=brightgreen)
 [![Crowdin](https://badges.crowdin.net/pooltogether-landing-page/localized.svg)](https://crowdin.com/project/pooltogether-landing-page)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/cd2c8609-de0a-488d-9692-84c6392feebd/deploy-status)](https://app.netlify.com/sites/mvp-pt-landing-page/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2487850b-b1b3-4a3d-bdd7-8e5361ba2d37/deploy-status)](https://app.netlify.com/sites/mvp-pt-landing-page/deploys)
 
 # 🏆 &nbsp; Overview
 
