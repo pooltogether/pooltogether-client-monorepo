@@ -3,9 +3,8 @@
  */
 export const DOMAINS = Object.freeze({
   app: 'https://mvp-pt-app.netlify.app',
-  landingPage: 'https://mvp-pt-landing-page.netlify.app',
+  landingPage: 'https://pooltogether.com',
   app_v4: 'https://app.pooltogether.com',
-  landingPage_v4: 'https://pooltogether.com',
   docs: 'https://docs.pooltogether.com',
   docs_v4: 'https://docs.pooltogether.com',
   devDocs: 'https://dev.pooltogether.com',
@@ -24,7 +23,7 @@ export const LINKS = Object.freeze({
   termsOfService: `${DOMAINS.app}/terms`,
   protocolDisclaimer: `${DOMAINS.app}/protocol-disclaimer`,
   ecosystem: `${DOMAINS.landingPage}/ecosystem`,
-  brandKit: `${DOMAINS.landingPage_v4}/brand-assets`, // TODO: link to specific assets instead of one page
+  brandKit: `https://www.figma.com/community/file/1212805243917604494`,
   gettingStarted: `${DOMAINS.docs}/welcome/getting-started`,
   faq: `${DOMAINS.docs}/welcome/faq`,
   guides: `${DOMAINS.docs}/pooltogether/guides`,
