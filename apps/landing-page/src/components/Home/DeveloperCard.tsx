@@ -22,11 +22,15 @@ export const DeveloperCard = (props: DeveloperCardProps) => {
   > = {
     v4Docs: {
       src: '/graphics/IntegrateGraphic.svg',
-      buttonProps: { href: LINKS.devDocs_v4, target: '_blank', children: t('docs', { version: 4 }) }
+      buttonProps: { href: LINKS.devDocs, target: '_blank', children: t('docs', { version: 4 }) }
     },
     docs: {
       src: '/graphics/YieldGraphic.svg',
-      buttonProps: { href: LINKS.devDocs, target: '_blank', children: t('docs', { version: 5 }) },
+      buttonProps: {
+        href: LINKS.devDocs_v5,
+        target: '_blank',
+        children: t('docs', { version: 5 })
+      },
       tag: t_common('alpha')
     },
     // TODO: add href when not disabled

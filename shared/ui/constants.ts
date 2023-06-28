@@ -6,9 +6,7 @@ export const DOMAINS = Object.freeze({
   landingPage: 'https://pooltogether.com',
   app_v4: 'https://app.pooltogether.com',
   docs: 'https://docs.pooltogether.com',
-  docs_v4: 'https://docs.pooltogether.com',
   devDocs: 'https://dev.pooltogether.com',
-  devDocs_v4: 'https://dev.pooltogether.com',
   governance: 'https://gov.pooltogether.com',
   poolExplorer: 'https://poolexplorer.win',
   tools: 'https://tools.pooltogether.com',
@@ -20,6 +18,7 @@ export const DOMAINS = Object.freeze({
  */
 export const LINKS = Object.freeze({
   ...DOMAINS,
+  devDocs_v5: `${DOMAINS.devDocs}/protocol/next/introduction`,
   termsOfService: `${DOMAINS.app}/terms`,
   protocolDisclaimer: `${DOMAINS.app}/protocol-disclaimer`,
   ecosystem: `${DOMAINS.landingPage}/ecosystem`,
