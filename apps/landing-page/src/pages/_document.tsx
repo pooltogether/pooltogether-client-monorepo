@@ -18,7 +18,8 @@ class MyDocument extends Document {
   render() {
     const title = 'PoolTogether'
     const description = 'The permissionless protocol for saving and winning.'
-    const keywords = 'ethereum polygon avalanche prize savings win save protocol'
+    const keywords =
+      'ethereum optimism polygon avalanche prize savings win save protocol blockchain'
     const twitterHandle = '@PoolTogether_'
 
     return (
@@ -39,7 +40,7 @@ class MyDocument extends Document {
           <meta property='og:type' content='website' />
           <meta
             property='og:image'
-            content={`${DOMAINS.landingPage}/pooltogether-facebook-share-image-1200-630@2x.png`}
+            content={`${DOMAINS.landingPage}/facebook-share-image-1200-630.png`}
           />
           <meta property='og:rich_attachment' content='true' />
           <meta property='og:image:width' content='1200' />
@@ -51,7 +52,7 @@ class MyDocument extends Document {
           <meta property='twitter:site' content={twitterHandle} />
           <meta
             property='twitter:image:src'
-            content={`${DOMAINS.landingPage}/pooltogether-twitter-share-image-1200-675@2x.png`}
+            content={`${DOMAINS.landingPage}/twitter-share-image-1200-675.png`}
           />
           <meta property='twitter:url' content={DOMAINS.landingPage} />
           <meta property='twitter:creator' content={twitterHandle} />
