@@ -3,13 +3,10 @@
  */
 export const DOMAINS = Object.freeze({
   app: 'https://mvp-pt-app.netlify.app',
-  landingPage: 'https://mvp-pt-landing-page.netlify.app',
+  landingPage: 'https://pooltogether.com',
   app_v4: 'https://app.pooltogether.com',
-  landingPage_v4: 'https://pooltogether.com',
   docs: 'https://docs.pooltogether.com',
-  docs_v4: 'https://docs.pooltogether.com',
   devDocs: 'https://dev.pooltogether.com',
-  devDocs_v4: 'https://dev.pooltogether.com',
   governance: 'https://gov.pooltogether.com',
   poolExplorer: 'https://poolexplorer.win',
   tools: 'https://tools.pooltogether.com',
@@ -21,10 +18,11 @@ export const DOMAINS = Object.freeze({
  */
 export const LINKS = Object.freeze({
   ...DOMAINS,
+  devDocs_v5: `${DOMAINS.devDocs}/protocol/next/introduction`,
   termsOfService: `${DOMAINS.app}/terms`,
   protocolDisclaimer: `${DOMAINS.app}/protocol-disclaimer`,
   ecosystem: `${DOMAINS.landingPage}/ecosystem`,
-  brandKit: `${DOMAINS.landingPage_v4}/brand-assets`, // TODO: link to specific assets instead of one page
+  brandKit: `https://www.figma.com/community/file/1212805243917604494`,
   gettingStarted: `${DOMAINS.docs}/welcome/getting-started`,
   faq: `${DOMAINS.docs}/welcome/faq`,
   guides: `${DOMAINS.docs}/pooltogether/guides`,

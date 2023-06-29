@@ -16,7 +16,7 @@ export const AppContainer = (props: AppProps) => {
   // Fathom Analytics
   useFathom(
     process.env.NEXT_PUBLIC_FATHOM_SITE_ID as string,
-    ['mvp-pt-landing-page.netlify.app/'],
+    ['pooltogether.com'],
     // @ts-ignore
     router.events?.on,
     router.events?.off
